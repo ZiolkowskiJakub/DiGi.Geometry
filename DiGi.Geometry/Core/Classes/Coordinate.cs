@@ -3,10 +3,11 @@ using System.Text.Json.Nodes;
 using DiGi.Core.Classes;
 using System.Text.Json.Serialization;
 using DiGi.Core;
+using DiGi.Geometry.Core.Interfaces;
 
 namespace DiGi.Geometry.Core.Classes
 {
-    public abstract class Coordinate : SerializableObject, IGeometry2D
+    public abstract class Coordinate : SerializableObject, IGeometry, INegatable2D
     {
         protected double[] values;
 
@@ -22,10 +23,11 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
-        public Coordinate(JsonObject jsonObject)
-            : base(jsonObject)
+        public Coordinate(JsonObject jsonObject, int length)
+            : base()
         {
-
+            values = new double[length];
+            FromJsonObject(jsonObject);
         }
 
         public Coordinate(Coordinate coordinate)

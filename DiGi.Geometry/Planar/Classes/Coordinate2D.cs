@@ -1,12 +1,13 @@
 ﻿using DiGi.Geometry.Core.Classes;
+using DiGi.Geometry.Planar.Interfaces;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public abstract class Coordinate2D : Coordinate
+    public abstract class Coordinate2D : Coordinate, IGeometry2D
     {
         public Coordinate2D(JsonObject jsonObject)
-            : base(jsonObject)
+            : base(jsonObject, 2)
         {
 
         }

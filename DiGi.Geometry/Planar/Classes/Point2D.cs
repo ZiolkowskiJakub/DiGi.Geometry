@@ -45,5 +45,25 @@ namespace DiGi.Geometry.Planar.Classes
             values[0] += vector2D[0];
             values[1] += vector2D[1];
         }
+
+        public Point2D Mid(Point2D point2D)
+        {
+            if(point2D == null)
+            {
+                return null;
+            }
+
+            return new Point2D((point2D[0] + values[0]) / 2, (point2D[1] + values[1]) / 2);
+        }
+
+        public double Distance(Point2D point2D)
+        {
+            if(point2D == null)
+            {
+                return double.NaN;
+            }
+
+            return new Vector2D(this, point2D).Length;
+        }
     }
 }
