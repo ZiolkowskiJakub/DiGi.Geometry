@@ -1,5 +1,4 @@
-﻿using DiGi.Core.Classes;
-using DiGi.Geometry.Core.Classes;
+﻿using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Planar.Classes;
 using System.Drawing;
 

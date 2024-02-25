@@ -1,4 +1,5 @@
-﻿using DiGi.Core.Interfaces;
+﻿using DiGi.Core;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -6,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class BoundingBox2D : Geometry2D, IMovable2D, IClosed2D, ISegmentable2D
+    public class BoundingBox2D : Geometry2D, IClosedSegmentable2D
     {
         private Point2D max;
         private Point2D min;
@@ -203,6 +204,94 @@ namespace DiGi.Geometry.Planar.Classes
 
             min = new Point2D(min.X - value, min.Y - value);
             max = new Point2D(max.X + value, max.Y + value);
+        }
+
+        public bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            return Query.On(point2D, this, tolerance);
+        }
+
+        public double GetLength()
+        {
+            double width = Width;
+            if(double.IsNaN(width))
+            {
+                return double.NaN;
+            }
+
+            double height = Height;
+            if (double.IsNaN(height))
+            {
+                return double.NaN;
+            }
+
+            return 2 * (width + height);
+        }
+
+        /// <summary>
+        /// boundingBox2D not outside this BoundingBox2D
+        /// </summary>
+        /// <param name="boundingBox2D">Point2D</param>
+        /// <param name="tolerance">Tolerance</param>
+        /// <returns>True if boundingBox2D On or Inside this BoundingBox2D</returns>
+        public bool InRange(BoundingBox2D boundingBox2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            if (boundingBox2D == null)
+            {
+                return false;
+            }
+
+            double max_1;
+            double min_1;
+
+            double max_2;
+            double min_2;
+
+            max_1 = Max.X + tolerance;
+            min_1 = Min.X - tolerance;
+
+            max_2 = boundingBox2D.Max.X;
+            min_2 = boundingBox2D.Min.X;
+
+            if (max_1 < min_2 || min_1 > max_2)
+            {
+                return false;
+            }
+
+            max_1 = Max.Y + tolerance;
+            min_1 = Min.Y - tolerance;
+
+            max_2 = boundingBox2D.Max.Y;
+            min_2 = boundingBox2D.Min.Y;
+
+            if (max_1 < min_2 || min_1 > max_2)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool Inside(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            if (point2D == null)
+                return false;
+
+            return point2D.X > min.X + tolerance && point2D.X < max.X - tolerance && point2D.Y < max.Y - tolerance && point2D.Y > min.Y + tolerance;
+        }
+
+        /// <summary>
+        /// Point2D On or Inside BoundingBox2D
+        /// </summary>
+        /// <param name="point2D">Point2D</param>
+        /// <param name="tolerance">Tolerance</param>
+        /// <returns>True if point2D On or Inside BoundingBox 2D</returns>
+        public bool InRange(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            if (point2D == null)
+                return false;
+
+            return Inside(point2D, tolerance) || On(point2D, tolerance);
         }
     }
 }

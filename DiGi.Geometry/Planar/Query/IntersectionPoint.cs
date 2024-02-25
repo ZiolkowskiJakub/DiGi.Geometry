@@ -107,6 +107,19 @@ namespace DiGi.Geometry.Planar
             point2D_Closest2 = new Point2D(point2D_2_Start.X + dx34 * t2, point2D_2_Start.Y + dy34 * t2);
             return point2D_Intersection;
         }
+    
+        public static Point2D IntersectionPoint(Segment2D segment2D_1, Segment2D segment2D_2, out Point2D point2D_Closest1, out Point2D point2D_Closest2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            point2D_Closest1 = null;
+            point2D_Closest2 = null;
+
+            if (segment2D_1 == null || segment2D_2 == null)
+            {
+                return null;
+            }
+
+            return IntersectionPoint(segment2D_1[0], segment2D_1[1], segment2D_2[0], segment2D_2[1], out point2D_Closest1, out point2D_Closest2, tolerance);
+        }
     }
 
 }

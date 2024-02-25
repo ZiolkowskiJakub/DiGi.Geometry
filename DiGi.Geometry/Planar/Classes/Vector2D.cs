@@ -50,7 +50,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
             set
             {
-                Vector2D vector2D = new Vector2D(this);
+                Vector2D vector2D = Unit;
                 vector2D.Scale(value);
                 values = new double[2] { vector2D[0], vector2D[1] };
             }

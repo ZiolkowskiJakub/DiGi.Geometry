@@ -1,4 +1,5 @@
-﻿using DiGi.Geometry.Planar.Classes;
+﻿using DiGi.Core;
+using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Planar.Interfaces
@@ -12,5 +13,9 @@ namespace DiGi.Geometry.Planar.Interfaces
         double Distance(Point2D point2D);
 
         Point2D ClosestPoint(Point2D point2D);
+
+        bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance);
+
+        double GetLength();
     }
 }

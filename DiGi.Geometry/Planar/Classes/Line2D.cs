@@ -128,5 +128,29 @@ namespace DiGi.Geometry.Planar.Classes
         {
             direction?.Negate();
         }
+
+        public Point2D Project(Point2D point2D)
+        {
+            if (point2D == null)
+            {
+                return null;
+            }
+
+            Point2D end = Origin;
+            end.Move(direction);
+
+            if (origin.X == end.X)
+            {
+                return new Point2D(origin.X, point2D.Y);
+            }
+
+            double m = (end.Y - origin.Y) / (end.X - origin.X);
+            double b = origin.Y - (m * origin.X);
+
+            double x = (m * point2D.Y + point2D.X - m * b) / (m * m + 1);
+            double y = (m * m * point2D.Y + m * point2D.X + b) / (m * m + 1);
+
+            return new Point2D(x, y);
+        }
     }
 }

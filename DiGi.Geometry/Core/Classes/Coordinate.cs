@@ -181,5 +181,15 @@ namespace DiGi.Geometry.Core.Classes
         {
             return !(coordinate_1 == coordinate_2);
         }
+
+        public override string ToString()
+        {
+            if (values == null)
+            {
+                return string.Empty;
+            }
+
+            return string.Format("[{0}]", string.Join(";", values));
+        }
     }
 }

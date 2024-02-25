@@ -16,5 +16,10 @@ namespace DiGi.Geometry.Planar.Classes
         {
 
         }
+
+        public Geometry2D(Geometry2D geometry2D)
+        {
+
+        }
     }
 }

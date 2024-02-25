@@ -222,6 +222,35 @@ namespace DiGi.Geometry.Planar.Classes
             return distance < tolerance;
         }
 
+        public Point2D Project(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            if (point2D == null)
+            {
+                return null;
+            }
+
+            Point2D end = End;
+
+            if (start.X == end.X)
+            {
+                return new Point2D(start.X, point2D.Y);
+            }
+
+            double m = (end.Y - start.Y) / (end.X - start.X);
+            double b = start.Y - (m * start.X);
+
+            double x = (m * point2D.Y + point2D.X - m * b) / (m * m + 1);
+            double y = (m * m * point2D.Y + m * point2D.X + b) / (m * m + 1);
+
+            Point2D result = new Point2D(x, y);
+            if(On(result, tolerance))
+            {
+                return result;
+            }
+
+            return start.Distance(result) < end.Distance(result) ? Start : end; 
+        }
+
         public void Negate()
         {
             vector?.Negate();
@@ -242,7 +271,7 @@ namespace DiGi.Geometry.Planar.Classes
             return point2D.Distance(ClosestPoint(point2D));
         }
 
-        public Point2D Intersection(Segment2D segment2D, double tolerance = Constans.Tolerance.Distance)
+        public Point2D IntersectionPoint(Segment2D segment2D, double tolerance = Constans.Tolerance.Distance)
         {
             if(segment2D == null)
             {
