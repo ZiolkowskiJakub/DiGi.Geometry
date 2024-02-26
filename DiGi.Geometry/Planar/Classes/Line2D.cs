@@ -103,7 +103,7 @@ namespace DiGi.Geometry.Planar.Classes
             return line2D.origin.Equals(origin) && line2D.direction.Equals(direction);
         }
 
-        public Point2D Intersection(Line2D line2D, double tolerance = Constans.Tolerance.Distance)
+        public Point2D IntersectionPoint(Line2D line2D, double tolerance = Constans.Tolerance.Distance)
         {
             if (line2D == null || origin == null || direction == null)
             {
@@ -117,6 +117,16 @@ namespace DiGi.Geometry.Planar.Classes
             point2D_2.Move(line2D.direction);
 
             return Query.IntersectionPoint(origin, point2D_1, line2D.origin, point2D_2, false, tolerance);
+        }
+
+        public bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            if (origin == null || direction == null || point2D == null)
+            {
+                return false;
+            }
+
+            return Distance(point2D) < tolerance;
         }
 
         public void Move(Vector2D vector2D)
@@ -151,6 +161,29 @@ namespace DiGi.Geometry.Planar.Classes
             double y = (m * m * point2D.Y + m * point2D.X + b) / (m * m + 1);
 
             return new Point2D(x, y);
+        }
+
+        public Point2D ClosestPoint(Point2D point2D)
+        {
+            if(origin == null || direction == null)
+            {
+                return null;
+            }
+
+            Point2D end = new Point2D(origin);
+            end.Move(direction);
+
+            return Query.ClosestPoint(point2D, origin, end, false);
+        }
+
+        public double Distance(Point2D point2D)
+        {
+            if(point2D == null || origin == null || direction == null)
+            {
+                return double.NaN;
+            }
+            
+            return Project(point2D).Distance(point2D);
         }
     }
 }

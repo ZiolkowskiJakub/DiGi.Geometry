@@ -2,12 +2,16 @@
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        public static bool Similar(this Point2D point2D_1, Point2D point2D_2, double tolerance = Constans.Tolerance.Distance)
+        {
+            return AlmostEquals(point2D_1, point2D_2, tolerance);
+        }
+
         public static bool Similar(this Segment2D segment2D_1, Segment2D segment2D_2, double tolerance = Constans.Tolerance.Distance)
         {
             if (segment2D_1 == segment2D_2)
