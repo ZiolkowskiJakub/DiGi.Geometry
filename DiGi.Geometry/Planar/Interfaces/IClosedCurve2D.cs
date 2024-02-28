@@ -1,10 +1,10 @@
 ﻿using DiGi.Core;
+using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Classes;
-using Microsoft.Win32.SafeHandles;
 
 namespace DiGi.Geometry.Planar.Interfaces
 {
-    public interface IClosed2D : IGeometry2D
+    public interface IClosedCurve2D : IClosedCurve, IGeometry2D
     {
         double GetArea();
 

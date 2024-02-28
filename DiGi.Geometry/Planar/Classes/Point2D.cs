@@ -1,10 +1,11 @@
 ﻿using DiGi.Core.Interfaces;
+using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Point2D : Coordinate2D, IMovable2D
+    public class Point2D : Coordinate2D, IMovable2D, IPoint
     {
         public Point2D(JsonObject jsonObject)
             : base(jsonObject)

@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class BoundingBox2D : Geometry2D, IClosedSegmentable2D
+    public class BoundingBox2D : Geometry2D
     {
         private Point2D max;
         private Point2D min;
@@ -141,12 +141,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Point2D ClosestPoint(Point2D point2D)
         {
-            return Query.ClosestPoint(point2D, this);
+            return Query.ClosestPoint(point2D, GetSegments());
         }
 
         public double Distance(Point2D point2D)
         {
-            return Query.Distance(point2D, this);
+            return Query.Distance(point2D, GetSegments());
         }
 
         public double GetArea()
@@ -208,7 +208,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
         {
-            return Query.On(point2D, this, tolerance);
+            return Query.On(point2D, GetSegments(), tolerance);
         }
 
         public double GetLength()
@@ -270,6 +270,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return true;
+        }
+
+        public bool InRange(ISegmentable2D segmentable2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            return InRange(segmentable2D.GetBoundingBox(), tolerance);
         }
 
         public bool Inside(Point2D point2D, double tolerance = Constans.Tolerance.Distance)

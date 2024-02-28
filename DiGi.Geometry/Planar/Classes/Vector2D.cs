@@ -1,10 +1,11 @@
 ﻿using DiGi.Core.Interfaces;
+using DiGi.Geometry.Core.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Vector2D : Coordinate2D
+    public class Vector2D : Coordinate2D, IVector
     {
         public Vector2D(JsonObject jsonObject)
             : base(jsonObject)

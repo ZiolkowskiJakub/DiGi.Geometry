@@ -155,7 +155,7 @@ namespace DiGi.Geometry.Planar
                 Modify.Add(point2Ds_Temp, segment2D_Temp[1], tolerance);
 
                 Point2D point2D = segment2D_Temp[0];
-                Modify.Sort(point2Ds_Temp, x => x.Distance(point2D));
+                DiGi.Core.Modify.Sort(point2Ds_Temp, x => x.Distance(point2D));
 
                 for (int j = 0; j < point2Ds_Temp.Count - 1; j++)
                 {

@@ -2,9 +2,7 @@
 using DiGi.Core.Classes;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
-using NetTopologySuite.Operation.Overlay.Snap;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 

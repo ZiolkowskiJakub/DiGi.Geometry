@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Segment2D : Geometry2D, IMovable2D, IBoundable2D, INegatable2D
+    public class Segment2D : Geometry2D, IMovable2D, IBoundable2D, INegatable2D, ICurve2D
     {
         private Point2D start;
         private Vector2D vector;

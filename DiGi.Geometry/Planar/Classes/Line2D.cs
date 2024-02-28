@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Line2D : Geometry2D, IMovable2D, INegatable2D
+    public class Line2D : Geometry2D, IMovable2D, INegatable2D, ICurve2D
     {
         [JsonInclude, JsonPropertyName("Direction")]
         private Vector2D direction;
