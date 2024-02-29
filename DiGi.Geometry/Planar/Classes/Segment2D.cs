@@ -256,6 +256,16 @@ namespace DiGi.Geometry.Planar.Classes
             vector?.Negate();
         }
 
+        public bool Collinear(Segment2D segment2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            if (segment2D?.vector == null || vector == null)
+            {
+                return false;
+            }
+
+            return System.Math.Abs(System.Math.Abs(vector * segment2D.vector) - (Length * segment2D.Length)) <= tolerance;
+        }
+
         public Point2D ClosestPoint(Point2D point2D)
         {
             return Query.ClosestPoint(point2D, start, End, true);

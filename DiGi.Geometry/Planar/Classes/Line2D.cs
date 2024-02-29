@@ -1,6 +1,8 @@
 ﻿using DiGi.Core;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
+using NetTopologySuite.Algorithm;
+using System.Numerics;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
@@ -174,6 +176,16 @@ namespace DiGi.Geometry.Planar.Classes
             end.Move(direction);
 
             return Query.ClosestPoint(point2D, origin, end, false);
+        }
+
+        public bool Collinear(Line2D line2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            if (line2D?.Direction == null || direction == null)
+            {
+                return false;
+            }
+
+            return System.Math.Abs(System.Math.Abs(direction * line2D.direction) - 1) <= tolerance;
         }
 
         public double Distance(Point2D point2D)
