@@ -1,5 +1,4 @@
-﻿using DiGi.Geometry.Planar.Interfaces;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using DiGi.Core.Classes;
 using System.Text.Json.Serialization;
 using DiGi.Core;
@@ -7,7 +6,7 @@ using DiGi.Geometry.Core.Interfaces;
 
 namespace DiGi.Geometry.Core.Classes
 {
-    public abstract class Coordinate : SerializableObject, IGeometry, INegatable2D
+    public abstract class Coordinate : SerializableObject, IGeometry, IInvertible
     {
         protected double[] values;
 
@@ -63,7 +62,7 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
-        public void Negate()
+        public void Inverse()
         {
             if (values == null)
             {

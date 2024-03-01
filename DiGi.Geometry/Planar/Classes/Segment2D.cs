@@ -1,12 +1,13 @@
 ﻿using DiGi.Core;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Segment2D : Geometry2D, IMovable2D, IBoundable2D, INegatable2D, ICurve2D
+    public class Segment2D : Geometry2D, ISegmentable2D, ILinear2D
     {
         private Point2D start;
         private Vector2D vector;
@@ -19,7 +20,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Segment2D(Point2D start, Point2D end)
         {
-            if(start != null && end != null)
+            if (start != null && end != null)
             {
                 this.start = start?.Clone<Point2D>();
                 vector = new Vector2D(start, end);
@@ -27,7 +28,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         public Segment2D(Segment2D segment2D)
-            :this(segment2D?.start, segment2D?.vector)
+            : this(segment2D?.start, segment2D?.vector)
         {
 
         }
@@ -94,7 +95,6 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonPropertyName("Start")]
-        
         public Point2D Start
         {
             get
@@ -107,7 +107,7 @@ namespace DiGi.Geometry.Planar.Classes
                 start = value?.Clone<Point2D>();
             }
         }
-        
+
         [JsonPropertyName("Vector")]
         public Vector2D Vector
         {
@@ -175,6 +175,26 @@ namespace DiGi.Geometry.Planar.Classes
             return new Line2D(Start, Vector);
         }
 
+        public Point2D ClosestPoint(Point2D point2D)
+        {
+            return Query.ClosestPoint(point2D, start, End, true);
+        }
+
+        public bool Collinear(ILinear2D linear2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            return Query.Collinear(this, linear2D, tolerance);
+        }
+
+        public double Distance(Point2D point2D)
+        {
+            if (point2D == null)
+            {
+                return double.NaN;
+            }
+
+            return point2D.Distance(ClosestPoint(point2D));
+        }
+
         public override bool Equals(object obj)
         {
             Segment2D segment2D = obj as Segment2D;
@@ -196,9 +216,34 @@ namespace DiGi.Geometry.Planar.Classes
             return new BoundingBox2D(start, End);
         }
 
+        public List<Point2D> GetPoints()
+        {
+            return new List<Point2D>() { Start, End };
+        }
+
+        public List<Segment2D> GetSegments()
+        {
+            return new List<Segment2D> { new Segment2D(this) };
+        }
+
+        public Point2D IntersectionPoint(Segment2D segment2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            if (segment2D == null)
+            {
+                return null;
+            }
+
+            return Query.IntersectionPoint(start, End, segment2D.start, segment2D.End, true, tolerance);
+        }
+
+        public void Inverse()
+        {
+            vector?.Inverse();
+        }
+
         public Point2D Mid()
         {
-            if(start == null || vector == null)
+            if (start == null || vector == null)
             {
                 return null;
             }
@@ -214,7 +259,7 @@ namespace DiGi.Geometry.Planar.Classes
         public bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
         {
             double distance = Distance(point2D);
-            if(double.IsNaN(distance))
+            if (double.IsNaN(distance))
             {
                 return false;
             }
@@ -243,52 +288,12 @@ namespace DiGi.Geometry.Planar.Classes
             double y = (m * m * point2D.Y + m * point2D.X + b) / (m * m + 1);
 
             Point2D result = new Point2D(x, y);
-            if(On(result, tolerance))
+            if (On(result, tolerance))
             {
                 return result;
             }
 
-            return start.Distance(result) < end.Distance(result) ? Start : end; 
-        }
-
-        public void Negate()
-        {
-            vector?.Negate();
-        }
-
-        public bool Collinear(Segment2D segment2D, double tolerance = Constans.Tolerance.Distance)
-        {
-            if (segment2D?.vector == null || vector == null)
-            {
-                return false;
-            }
-
-            return System.Math.Abs(System.Math.Abs(vector * segment2D.vector) - (Length * segment2D.Length)) <= tolerance;
-        }
-
-        public Point2D ClosestPoint(Point2D point2D)
-        {
-            return Query.ClosestPoint(point2D, start, End, true);
-        }
-
-        public double Distance(Point2D point2D)
-        {
-            if(point2D == null)
-            {
-                return double.NaN;
-            }
-
-            return point2D.Distance(ClosestPoint(point2D));
-        }
-
-        public Point2D IntersectionPoint(Segment2D segment2D, double tolerance = Constans.Tolerance.Distance)
-        {
-            if(segment2D == null)
-            {
-                return null;
-            }
-
-            return Query.IntersectionPoint(start, End, segment2D.start, segment2D.End, true, tolerance);
+            return start.Distance(result) < end.Distance(result) ? Start : end;
         }
     }
 }

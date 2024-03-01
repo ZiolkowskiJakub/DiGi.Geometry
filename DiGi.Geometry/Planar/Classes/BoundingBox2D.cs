@@ -23,6 +23,13 @@ namespace DiGi.Geometry.Planar.Classes
             min = Query.Min(point2Ds, out max);
         }
 
+        public BoundingBox2D(IEnumerable<Point2D> point2Ds, double offset)
+        {
+            min = Query.Min(point2Ds, out max);
+
+            Offset(offset);
+        }
+
         public BoundingBox2D(Point2D point2D_1, Point2D point2D_2)
         {
             min = Query.Min(new Point2D[] { point2D_1, point2D_2 }, out max);
@@ -171,6 +178,23 @@ namespace DiGi.Geometry.Planar.Classes
             return min?.Mid(max);
         }
 
+        public double GetLength()
+        {
+            double width = Width;
+            if (double.IsNaN(width))
+            {
+                return double.NaN;
+            }
+
+            double height = Height;
+            if (double.IsNaN(height))
+            {
+                return double.NaN;
+            }
+
+            return 2 * (width + height);
+        }
+
         public List<Point2D> GetPoints()
         {
             double height = Height;
@@ -187,45 +211,6 @@ namespace DiGi.Geometry.Planar.Classes
             List<Point2D> points = GetPoints();
 
             return new List<Segment2D>() { new Segment2D(points[0], points[1]), new Segment2D(points[1], points[2]), new Segment2D(points[2], points[3]), new Segment2D(points[3], points[0]) };
-        }
-
-        public void Move(Vector2D vector2D)
-        {
-            max?.Move(vector2D);
-            min?.Move(vector2D);
-        }
-
-        public void Offset(double value)
-        {
-            if(double.IsNaN(value) || min == null || max == null)
-            {
-                return;
-            }
-
-            min = new Point2D(min.X - value, min.Y - value);
-            max = new Point2D(max.X + value, max.Y + value);
-        }
-
-        public bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
-        {
-            return Query.On(point2D, GetSegments(), tolerance);
-        }
-
-        public double GetLength()
-        {
-            double width = Width;
-            if(double.IsNaN(width))
-            {
-                return double.NaN;
-            }
-
-            double height = Height;
-            if (double.IsNaN(height))
-            {
-                return double.NaN;
-            }
-
-            return 2 * (width + height);
         }
 
         /// <summary>
@@ -277,14 +262,6 @@ namespace DiGi.Geometry.Planar.Classes
             return InRange(segmentable2D.GetBoundingBox(), tolerance);
         }
 
-        public bool Inside(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
-        {
-            if (point2D == null)
-                return false;
-
-            return point2D.X > min.X + tolerance && point2D.X < max.X - tolerance && point2D.Y < max.Y - tolerance && point2D.Y > min.Y + tolerance;
-        }
-
         /// <summary>
         /// Point2D On or Inside BoundingBox2D
         /// </summary>
@@ -297,6 +274,36 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
 
             return Inside(point2D, tolerance) || On(point2D, tolerance);
+        }
+
+        public bool Inside(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            if (point2D == null)
+                return false;
+
+            return point2D.X > min.X + tolerance && point2D.X < max.X - tolerance && point2D.Y < max.Y - tolerance && point2D.Y > min.Y + tolerance;
+        }
+
+        public void Move(Vector2D vector2D)
+        {
+            max?.Move(vector2D);
+            min?.Move(vector2D);
+        }
+
+        public void Offset(double value)
+        {
+            if(double.IsNaN(value) || min == null || max == null)
+            {
+                return;
+            }
+
+            min = new Point2D(min.X - value, min.Y - value);
+            max = new Point2D(max.X + value, max.Y + value);
+        }
+
+        public bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            return Query.On(point2D, GetSegments(), tolerance);
         }
     }
 }

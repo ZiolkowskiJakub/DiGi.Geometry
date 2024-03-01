@@ -11,10 +11,10 @@ namespace DiGi.Geometry.Planar
         {
             return IntersectionPoints(segment2Ds_1, segment2Ds_2, int.MaxValue, tolerance);
         }
-        
+
         public static List<Point2D> IntersectionPoints(this ISegmentable2D segmentable2D, IEnumerable<Segment2D> segment2Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(segmentable2D == null || segment2Ds == null)
+            if (segmentable2D == null || segment2Ds == null)
             {
                 return null;
             }
@@ -32,9 +32,9 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(segmentable2D_1.GetSegments(), segmentable2D_2.GetSegments(), tolerace);
         }
 
-        public static List<Point2D> IntersectionPoints<T>(this ISegmentable2D segmentable2D, IEnumerable<ISegmentable2D> segmentable2Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
+        public static List<Point2D> IntersectionPoints<T>(this ISegmentable2D segmentable2D, IEnumerable<ISegmentable2D> segmentable2Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
-            if(segmentable2D == null || segmentable2Ds == null)
+            if (segmentable2D == null || segmentable2Ds == null)
             {
                 return null;
             }
@@ -44,19 +44,19 @@ namespace DiGi.Geometry.Planar
 
         public static List<Point2D> IntersectionPoints(this IEnumerable<Segment2D> segment2Ds_1, IEnumerable<Segment2D> segment2Ds_2, int maxCount, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(segment2Ds_1 == null || segment2Ds_2 == null || maxCount < 1)
+            if (segment2Ds_1 == null || segment2Ds_2 == null || maxCount < 1)
             {
                 return null;
             }
 
             int count_1 = segment2Ds_1.Count();
-            if(count_1 == 0)
+            if (count_1 == 0)
             {
                 return null;
             }
 
             int count_2 = segment2Ds_2.Count();
-            if(count_2 == 0)
+            if (count_2 == 0)
             {
                 return null;
             }
@@ -65,7 +65,7 @@ namespace DiGi.Geometry.Planar
             for (int i = 0; i < count_1; i++)
             {
                 Segment2D segment2D_1 = segment2Ds_1.ElementAt(i);
-                if(segment2D_1 == null)
+                if (segment2D_1 == null)
                 {
                     continue;
                 }
@@ -73,19 +73,19 @@ namespace DiGi.Geometry.Planar
                 for (int j = 0; j < count_2; j++)
                 {
                     Segment2D segment2D_2 = segment2Ds_2.ElementAt(j);
-                    if(segment2D_2 == null)
+                    if (segment2D_2 == null)
                     {
                         continue;
                     }
 
                     Point2D point2D = segment2D_1.IntersectionPoint(segment2D_2, tolerance);
-                    if(point2D == null)
+                    if (point2D == null)
                     {
                         continue;
                     }
 
                     result.Add(point2D);
-                    if(result.Count >= maxCount)
+                    if (result.Count >= maxCount)
                     {
                         return result;
                     }
@@ -113,6 +113,17 @@ namespace DiGi.Geometry.Planar
                 }
 
                 segment2Ds.AddRange(segment2Ds_Temp);
+            }
+
+            return IntersectionPoints(point2D, vector2D, segment2Ds, keepDirection, removeCollinear, sort, selfIntersection, out intersectionSegment2Ds, tolerance);
+        }
+
+        public static List<Point2D> IntersectionPoints(this Point2D point2D, Vector2D vector2D, IEnumerable<Segment2D> segment2Ds, bool keepDirection, bool removeCollinear, bool sort, bool selfIntersection, out List<Segment2D> intersectionSegment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            intersectionSegment2Ds = null;
+            if (point2D == null || vector2D == null || segment2Ds == null)
+            {
+                return null;
             }
 
             Dictionary<Point2D, Segment2D> dictionary = new Dictionary<Point2D, Segment2D>();
@@ -178,6 +189,14 @@ namespace DiGi.Geometry.Planar
             return new List<Point2D>(dictionary.Keys);
         }
 
+        /// <summary>
+        /// Returns intersection points between line and segmentable2D
+        /// </summary>
+        /// <param name="line2D">Line2D to be intersected</param>
+        /// <param name="segmentable2Ds">Segmentable2D to be intersected</param>
+        /// <param name="intersectionSegment2Ds">Segmentable2D segments intersected by line</param>
+        /// <param name="tolerance">Tolerance</param>
+        /// <returns>Intersection Points</returns>
         public static List<Point2D> IntersectionPoints(this Line2D line2D, IEnumerable<ISegmentable2D> segmentable2Ds, out List<Segment2D> intersectionSegment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             intersectionSegment2Ds = null;
@@ -198,6 +217,34 @@ namespace DiGi.Geometry.Planar
             }
 
             return IntersectionPoints(line2D.Origin, line2D.Direction, segmentable2Ds, false, true, false, true, out List<Segment2D> intersectionSegment2Ds, tolerance);
+        }
+
+        public static List<Point2D> IntersectionPoints(this Line2D line2D, ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (line2D == null)
+            {
+                return null;
+            }
+
+            List<Segment2D> segment2Ds = segmentable2D?.GetSegments();
+            if (segment2Ds == null)
+            {
+                return null;
+            }
+
+            List<Point2D> result = new List<Point2D>();
+            foreach(Segment2D segment2D in segment2Ds)
+            {
+                Point2D point2D = line2D.IntersectionPoint(segment2D, tolerance);
+                if(point2D == null)
+                {
+                    continue;
+                }
+
+                result.Add(point2D, tolerance);
+            }
+
+            return result;
         }
     }
 

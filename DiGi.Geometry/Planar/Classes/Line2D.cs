@@ -1,23 +1,33 @@
 ﻿using DiGi.Core;
 using DiGi.Core.Interfaces;
+using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
-using NetTopologySuite.Algorithm;
 using System.Numerics;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Line2D : Geometry2D, IMovable2D, INegatable2D, ICurve2D
+    public class Line2D : Geometry2D, ILinear2D
     {
         [JsonInclude, JsonPropertyName("Direction")]
         private Vector2D direction;
 
         [JsonInclude, JsonPropertyName("Origin")]
         private Point2D origin;
+        
         public Line2D(Point2D origin, Vector2D direction)
         {
             this.origin = origin?.Clone<Point2D>();
             this.direction = direction?.Unit;
+        }
+
+        public Line2D(Line2D line2D)
+        {
+            if(line2D != null)
+            {
+                origin = line2D.Origin;
+                direction = line2D.Direction;
+            }
         }
 
         [JsonIgnore]
@@ -121,6 +131,25 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.IntersectionPoint(origin, point2D_1, line2D.origin, point2D_2, false, tolerance);
         }
 
+        public Point2D IntersectionPoint(Segment2D segment2D, double tolerance = Constans.Tolerance.Distance)
+        {
+            if (segment2D == null || origin == null || direction == null)
+            {
+                return null;
+            }
+
+            Point2D point2D = Origin;
+            point2D.Move(direction);
+
+            Point2D result = Query.IntersectionPoint(origin, point2D, segment2D.Start, segment2D.End, false, tolerance);
+            if(!segment2D.On(result))
+            {
+                return null;
+            }
+
+            return result;
+        }
+
         public bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
         {
             if (origin == null || direction == null || point2D == null)
@@ -136,9 +165,9 @@ namespace DiGi.Geometry.Planar.Classes
             origin?.Move(vector2D);
         }
 
-        public void Negate()
+        public void Inverse()
         {
-            direction?.Negate();
+            direction?.Inverse();
         }
 
         public Point2D Project(Point2D point2D)
@@ -178,14 +207,9 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.ClosestPoint(point2D, origin, end, false);
         }
 
-        public bool Collinear(Line2D line2D, double tolerance = Constans.Tolerance.Distance)
+        public bool Collinear(ILinear2D linear2D, double tolerance = Constans.Tolerance.Distance)
         {
-            if (line2D?.Direction == null || direction == null)
-            {
-                return false;
-            }
-
-            return System.Math.Abs(System.Math.Abs(direction * line2D.direction) - 1) <= tolerance;
+            return Query.Collinear(this, linear2D, tolerance);
         }
 
         public double Distance(Point2D point2D)

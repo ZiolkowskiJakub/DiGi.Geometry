@@ -2,5 +2,8 @@
 {
     public interface IClosedCurve : ICurve
     {
+        double Length { get; }
+
+        double GetArea();
     }
 }

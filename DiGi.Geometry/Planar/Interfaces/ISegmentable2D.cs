@@ -1,10 +1,11 @@
 ﻿using DiGi.Core;
+using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Planar.Interfaces
 {
-    public interface ISegmentable2D : IMovable2D, ICurve2D, IBoundable2D
+    public interface ISegmentable2D : IMovable2D, ICurve2D, IBoundable2D, IInvertible
     {
         List<Segment2D> GetSegments();
 
@@ -16,6 +17,6 @@ namespace DiGi.Geometry.Planar.Interfaces
 
         bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance);
 
-        double GetLength();
+        double Length { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DiGi.Core;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -88,27 +89,37 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.On(point2D, this, tolerance);
         }
 
-        public double GetLength()
+        [JsonIgnore]
+        public double Length
         {
-            List<Segment2D> segment2Ds = GetSegments();
-            if (segment2Ds == null)
+            get
             {
-                return double.NaN;
-            }
-
-            double result = 0;
-            for (int i = 0; i < segment2Ds.Count; i++)
-            {
-                Segment2D segment2D = segment2Ds[i];
-                if (segment2D == null)
+                List<Segment2D> segment2Ds = GetSegments();
+                if (segment2Ds == null)
                 {
-                    continue;
+                    return double.NaN;
                 }
 
-                result += segment2D.Length;
+                double result = 0;
+                for (int i = 0; i < segment2Ds.Count; i++)
+                {
+                    Segment2D segment2D = segment2Ds[i];
+                    if (segment2D == null)
+                    {
+                        continue;
+                    }
+
+                    result += segment2D.Length;
+                }
+
+                return result;
             }
 
-            return result;
+        }
+
+        public void Inverse()
+        {
+            points?.Reverse();
         }
     }
 }

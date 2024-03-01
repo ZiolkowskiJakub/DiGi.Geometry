@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
+using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Core.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -138,6 +139,21 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return System.Math.Abs(System.Math.Abs(this * vector2D) - (Length * vector2D.Length)) <= tolerance;
+        }
+
+        public Vector2D GetPerpendicular(Orientation orientation = Orientation.Clockwise)
+        {
+            switch (orientation)
+            {
+                case Orientation.Clockwise:
+                    return new Vector2D(values[1], -values[0]);
+
+                case Orientation.CounterClockwise:
+                    return new Vector2D(-values[1], values[0]);
+
+                default:
+                    return null;
+            }
         }
 
         public double DotProduct(Vector2D vector2D)

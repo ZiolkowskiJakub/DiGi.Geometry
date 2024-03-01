@@ -1,8 +1,10 @@
 ﻿using DiGi.Core;
 using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -104,6 +106,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return result;
+        }
+
+        public override ISerializableObject Clone()
+        {
+            return new IntersectionResult2D(this);
         }
 
     }

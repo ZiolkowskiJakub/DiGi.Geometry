@@ -5,7 +5,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public abstract class Polygon2D : Segmentable2D, IClosedSegmentable2D
+    public class Polygon2D : Segmentable2D, IClosedSegmentable2D
     {
         public Polygon2D(JsonObject jsonObject)
             : base(jsonObject)
