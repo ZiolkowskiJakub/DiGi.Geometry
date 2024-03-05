@@ -4,7 +4,6 @@ using DiGi.Core;
 using DiGi.Geometry.Core.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
-using System.Drawing;
 using System.Linq;
 
 namespace DiGi.Geometry.Core.Classes

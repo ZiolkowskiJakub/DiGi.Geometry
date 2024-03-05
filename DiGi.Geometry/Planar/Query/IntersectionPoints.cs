@@ -267,16 +267,16 @@ namespace DiGi.Geometry.Planar
 
             List<Point2D> result = new List<Point2D>();
 
-            if (Math.Abs(det) < tolerance)
+            if (System.Math.Abs(det) < tolerance)
             {
                 t = -b / (2 * a);
                 result.Add(new Point2D(point2D_1.X + t * dx, point2D_1.Y + t * dy));
                 return result;
             }
 
-            t = (double)((-b + Math.Sqrt(det)) / (2 * a));
+            t = (double)((-b + System.Math.Sqrt(det)) / (2 * a));
             result.Add(new Point2D(point2D_1.X + t * dx, point2D_1.Y + t * dy));
-            t = (double)((-b - Math.Sqrt(det)) / (2 * a));
+            t = (double)((-b - System.Math.Sqrt(det)) / (2 * a));
             result.Add(new Point2D(point2D_1.X + t * dx, point2D_1.Y + t * dy));
 
             return result;

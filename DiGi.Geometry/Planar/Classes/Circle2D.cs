@@ -1,11 +1,10 @@
-﻿using DiGi.Core;
-using DiGi.Geometry.Planar.Interfaces;
+﻿using DiGi.Geometry.Planar.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Circle2D : Geometry2D, IClosedCurve2D, IBoundable2D, IMovable2D
+    public class Circle2D : Geometry2D, IClosedCurve2D, IBoundable2D, IMovable2D, ITransformable2D
     {
         private Point2D center;
         private double radius;
@@ -122,6 +121,16 @@ namespace DiGi.Geometry.Planar.Classes
         public BoundingBox2D GetBoundingBox()
         {
             return new BoundingBox2D(new Point2D(center[0] - radius, center[1] - radius), new Point2D(center[0] + radius, center[1] + radius));
+        }
+
+        public bool Transform(Transform2D transform)
+        {
+            if(transform == null || center == null)
+            {
+                return false;
+            }
+
+            return center.Transform(transform);
         }
     }
 }

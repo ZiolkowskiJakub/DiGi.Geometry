@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
+using DiGi.Math.Classes;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes

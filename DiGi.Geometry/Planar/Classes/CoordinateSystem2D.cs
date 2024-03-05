@@ -1,11 +1,11 @@
-﻿using DiGi.Core;
-using DiGi.Core.Classes;
+﻿using DiGi.Core.Classes;
+using DiGi.Geometry.Planar.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class CoordinateSystem2D : SerializableObject
+    public class CoordinateSystem2D : SerializableObject, IMovable2D, ITransformable2D
     {
         [JsonInclude, JsonPropertyName("Origin")]
         private Point2D origin;
@@ -75,6 +75,41 @@ namespace DiGi.Geometry.Planar.Classes
             {
                 return origin == null ? null : new Point2D(origin);
             }
+        }
+
+        public void Move(Vector2D vector2D)
+        {
+            if(origin == null || vector2D == null)
+            {
+                return;
+            }
+
+            origin.Move(vector2D);
+        }
+
+        public bool Transform(Transform2D transform)
+        {
+            if(transform == null || origin == null || axisX == null || axisY == null)
+            {
+                return false;
+            }
+
+            if(!origin.Transform(transform))
+            {
+                return false;
+            }
+
+            if (!axisX.Transform(transform))
+            {
+                return false;
+            }
+
+            if (!axisY.Transform(transform))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

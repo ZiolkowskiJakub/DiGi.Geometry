@@ -1,5 +1,4 @@
-﻿using DiGi.Geometry.Core.Interfaces;
-using DiGi.Geometry.Planar.Classes;
+﻿using DiGi.Geometry.Planar.Classes;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 

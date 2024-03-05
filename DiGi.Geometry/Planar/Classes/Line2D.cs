@@ -1,8 +1,6 @@
 ﻿using DiGi.Core;
 using DiGi.Core.Interfaces;
-using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
-using System.Numerics;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes

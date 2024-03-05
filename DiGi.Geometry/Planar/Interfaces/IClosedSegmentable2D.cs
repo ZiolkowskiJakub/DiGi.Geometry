@@ -1,6 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
-
-namespace DiGi.Geometry.Planar.Interfaces
+﻿namespace DiGi.Geometry.Planar.Interfaces
 {
     public interface IClosedSegmentable2D : IClosedCurve2D, ISegmentable2D
     {

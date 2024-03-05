@@ -17,6 +17,9 @@
     <Reference Include="DiGi.Core">
       <HintPath>..\..\DiGi.Core\bin\DiGi.Core.dll</HintPath>
     </Reference>
+    <Reference Include="DiGi.Math">
+      <HintPath>..\..\DiGi.Math\bin\DiGi.Math.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

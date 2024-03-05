@@ -3,6 +3,7 @@ using DiGi.Core.Classes;
 using System.Text.Json.Serialization;
 using DiGi.Core;
 using DiGi.Geometry.Core.Interfaces;
+using DiGi.Math.Classes;
 
 namespace DiGi.Geometry.Core.Classes
 {
@@ -189,6 +190,33 @@ namespace DiGi.Geometry.Core.Classes
             }
 
             return string.Format("[{0}]", string.Join(";", values));
+        }
+
+        [JsonIgnore]
+        public Matrix ArgumentedMatrix
+        {
+            get
+            {
+                if(values == null)
+                {
+                    return null;
+                }
+
+                int length = values.Length;
+
+                double[,] values_Temp = new double[length + 1, 1];
+                for (int i = 0; i < length; i++)
+                {
+                    values_Temp[i, 0] = values[i];
+                }
+
+                values_Temp[length, 0] = 1;
+
+                return new Matrix(values_Temp);
+
+
+                //return new Matrix(new double[,] { { coordinates[0] }, { coordinates[1] }, { coordinates[2] }, { 1 } });
+            }
         }
     }
 }
