@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static Vector2D ToDiGi(this System.Drawing.Size size)
+        public static Vector2D ToDiGi(this Size size)
         {
             return new Vector2D(size.Width, size.Height);
         }

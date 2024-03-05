@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool Collinear(this ILinear2D linear2D_1, ILinear2D linear2D_2, double tolerance = Constans.Tolerance.Distance)
+        public static bool Collinear(this ILinear2D linear2D_1, ILinear2D linear2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             Vector2D direction_1 = linear2D_1?.Direction;
             if(direction_1 == null)

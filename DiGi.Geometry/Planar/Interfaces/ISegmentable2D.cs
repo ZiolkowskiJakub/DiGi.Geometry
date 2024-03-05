@@ -15,7 +15,7 @@ namespace DiGi.Geometry.Planar.Interfaces
 
         Point2D ClosestPoint(Point2D point2D);
 
-        bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance);
+        bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 
         double Length { get; }
     }

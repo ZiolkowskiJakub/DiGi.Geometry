@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool AlmostEquals(this Point2D point2D_1, Point2D point2D_2, double tolerance = Constans.Tolerance.Distance)
+        public static bool AlmostEquals(this Point2D point2D_1, Point2D point2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(point2D_1 == point2D_2)
             {

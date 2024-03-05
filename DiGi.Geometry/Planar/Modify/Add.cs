@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Modify
     {
-        public static bool Add(this List<Point2D> point2Ds, Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        public static bool Add(this List<Point2D> point2Ds, Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2Ds == null || point2D == null)
             {

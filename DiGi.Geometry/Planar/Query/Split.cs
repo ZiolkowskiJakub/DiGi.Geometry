@@ -14,7 +14,7 @@ namespace DiGi.Geometry.Planar
         /// <returns>List Segment2D</returns>
         /// <param name="segment2Ds">Segments2Ds</param>
         /// <param name="tolerance">tolerance</param>
-        public static List<Segment2D> Split(this IEnumerable<Segment2D> segment2Ds, double tolerance = Constans.Tolerance.Distance)
+        public static List<Segment2D> Split(this IEnumerable<Segment2D> segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2Ds == null)
                 return null;

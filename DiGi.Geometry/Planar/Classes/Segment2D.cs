@@ -180,7 +180,7 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.ClosestPoint(point2D, start, End, true);
         }
 
-        public bool Collinear(ILinear2D linear2D, double tolerance = Constans.Tolerance.Distance)
+        public bool Collinear(ILinear2D linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Query.Collinear(this, linear2D, tolerance);
         }
@@ -226,7 +226,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new List<Segment2D> { new Segment2D(this) };
         }
 
-        public Point2D IntersectionPoint(Segment2D segment2D, double tolerance = Constans.Tolerance.Distance)
+        public Point2D IntersectionPoint(Segment2D segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2D == null)
             {
@@ -256,7 +256,7 @@ namespace DiGi.Geometry.Planar.Classes
             start?.Move(vector2D);
         }
 
-        public bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             double distance = Distance(point2D);
             if (double.IsNaN(distance))
@@ -267,7 +267,7 @@ namespace DiGi.Geometry.Planar.Classes
             return distance < tolerance;
         }
 
-        public Point2D Project(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        public Point2D Project(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null)
             {

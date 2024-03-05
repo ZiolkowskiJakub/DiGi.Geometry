@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static IntersectionResult2D IntersectionResult2D(this Segment2D segment2D_1, Segment2D segment2D_2, double tolerance = Constans.Tolerance.Distance)
+        public static IntersectionResult2D IntersectionResult2D(this Segment2D segment2D_1, Segment2D segment2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(segment2D_1 == null || segment2D_2 == null)
             {
@@ -66,7 +66,7 @@ namespace DiGi.Geometry.Planar
             return null;
         }
 
-        public static IntersectionResult2D IntersectionResult2D(this Line2D line2D_1, Line2D line2D_2, double tolerance = Constans.Tolerance.Distance)
+        public static IntersectionResult2D IntersectionResult2D(this Line2D line2D_1, Line2D line2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (line2D_1 == null || line2D_2 == null)
             {
@@ -88,7 +88,7 @@ namespace DiGi.Geometry.Planar
 
         }
 
-        public static IntersectionResult2D IntersectionResult2D(this Segment2D segment2D, IEnumerable<Segment2D> segment2Ds, double tolerance = Constans.Tolerance.Distance)
+        public static IntersectionResult2D IntersectionResult2D(this Segment2D segment2D, IEnumerable<Segment2D> segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(segment2D == null || segment2Ds == null)
             {
@@ -145,7 +145,7 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
-        public  static IntersectionResult2D IntersectionResult2D(this IEnumerable<Segment2D> segment2Ds_1, IEnumerable<Segment2D> segment2Ds_2, double tolerance = Constans.Tolerance.Distance)
+        public  static IntersectionResult2D IntersectionResult2D(this IEnumerable<Segment2D> segment2Ds_1, IEnumerable<Segment2D> segment2Ds_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(segment2Ds_1 == null || segment2Ds_2 == null)
             {
@@ -207,7 +207,7 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
-        public static IntersectionResult2D IntersectionResult2D(this ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, double tolerance = Constans.Tolerance.Distance)
+        public static IntersectionResult2D IntersectionResult2D(this ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(segmentable2D_1 == null || segmentable2D_2 == null)
             {

@@ -219,7 +219,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="boundingBox2D">Point2D</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns>True if boundingBox2D On or Inside this BoundingBox2D</returns>
-        public bool InRange(BoundingBox2D boundingBox2D, double tolerance = Constans.Tolerance.Distance)
+        public bool InRange(BoundingBox2D boundingBox2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (boundingBox2D == null)
             {
@@ -257,7 +257,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool InRange(ISegmentable2D segmentable2D, double tolerance = Constans.Tolerance.Distance)
+        public bool InRange(ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return InRange(segmentable2D.GetBoundingBox(), tolerance);
         }
@@ -268,7 +268,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="point2D">Point2D</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns>True if point2D On or Inside BoundingBox 2D</returns>
-        public bool InRange(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        public bool InRange(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null)
                 return false;
@@ -276,7 +276,7 @@ namespace DiGi.Geometry.Planar.Classes
             return Inside(point2D, tolerance) || On(point2D, tolerance);
         }
 
-        public bool Inside(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        public bool Inside(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null)
                 return false;
@@ -301,7 +301,7 @@ namespace DiGi.Geometry.Planar.Classes
             max = new Point2D(max.X + value, max.Y + value);
         }
 
-        public bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Query.On(point2D, GetSegments(), tolerance);
         }

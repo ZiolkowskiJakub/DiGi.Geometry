@@ -8,12 +8,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool On(this Point2D point2D, ISegmentable2D segmentable2D, double tolerance = Constans.Tolerance.Distance)
+        public static bool On(this Point2D point2D, ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return On(point2D, segmentable2D?.GetSegments(), tolerance);
         }
 
-        public static bool On(this Point2D point2D, IEnumerable<Segment2D> segment2Ds, double tolerance = Constans.Tolerance.Distance)
+        public static bool On(this Point2D point2D, IEnumerable<Segment2D> segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(point2D == null || segment2Ds == null)
             {
@@ -36,7 +36,7 @@ namespace DiGi.Geometry.Planar
             return false;
         }
 
-        public static bool On<T>(this Point2D point2D, IEnumerable<T> segmentable2Ds, double tolerance = Constans.Tolerance.Distance) where T: ISegmentable2D
+        public static bool On<T>(this Point2D point2D, IEnumerable<T> segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
         {
             if(point2D == null || segmentable2Ds == null || segmentable2Ds.Count() == 0)
             {

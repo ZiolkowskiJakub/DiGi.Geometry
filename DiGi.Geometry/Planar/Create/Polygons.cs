@@ -10,7 +10,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static List<Polygon> Polygons(this IEnumerable<Segment2D> segment2Ds, double tolerance = Constans.Tolerance.Distance)
+        public static List<Polygon> Polygons(this IEnumerable<Segment2D> segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2Ds == null)
             {
@@ -37,7 +37,7 @@ namespace DiGi.Geometry.Planar
             return Polygons(geometries, tolerance);
         }
 
-        public static List<Polygon> Polygons(this IEnumerable<NetTopologySuite.Geometries.Geometry> geometries, double tolerance = Constans.Tolerance.Distance)
+        public static List<Polygon> Polygons(this IEnumerable<NetTopologySuite.Geometries.Geometry> geometries, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (geometries == null)
             {

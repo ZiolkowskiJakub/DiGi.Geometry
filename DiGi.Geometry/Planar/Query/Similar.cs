@@ -7,12 +7,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool Similar(this Point2D point2D_1, Point2D point2D_2, double tolerance = Constans.Tolerance.Distance)
+        public static bool Similar(this Point2D point2D_1, Point2D point2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return AlmostEquals(point2D_1, point2D_2, tolerance);
         }
 
-        public static bool Similar(this Segment2D segment2D_1, Segment2D segment2D_2, double tolerance = Constans.Tolerance.Distance)
+        public static bool Similar(this Segment2D segment2D_1, Segment2D segment2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2D_1 == segment2D_2)
             {
@@ -27,7 +27,7 @@ namespace DiGi.Geometry.Planar
             return (segment2D_1[0].AlmostEquals(segment2D_2[0], tolerance) && segment2D_1[1].AlmostEquals(segment2D_2[1], tolerance)) || (segment2D_1[0].AlmostEquals(segment2D_2[1], tolerance) && segment2D_1[1].AlmostEquals(segment2D_2[0], tolerance));
         }
 
-        public static bool Similar(this ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, double tolerance = Constans.Tolerance.Distance)
+        public static bool Similar(this ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D_1 == segmentable2D_2)
             {

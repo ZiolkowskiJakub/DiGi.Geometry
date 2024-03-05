@@ -79,7 +79,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public bool InRange(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        public bool InRange(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(point2D == null || center == null || double.IsNaN(radius))
             {
@@ -89,7 +89,7 @@ namespace DiGi.Geometry.Planar.Classes
             return center.Distance(point2D) < radius + tolerance;
         }
 
-        public bool Inside(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        public bool Inside(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null || center == null || double.IsNaN(radius))
             {
@@ -99,7 +99,7 @@ namespace DiGi.Geometry.Planar.Classes
             return center.Distance(point2D) < radius - tolerance;
         }
 
-        public bool On(Point2D point2D, double tolerance = Constans.Tolerance.Distance)
+        public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null || center == null || double.IsNaN(radius))
             {
