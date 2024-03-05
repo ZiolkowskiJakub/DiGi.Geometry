@@ -16,7 +16,7 @@ namespace DiGi.Geometry.Planar
             return new Point2D(pointF.X, pointF.Y);
         }
 
-        public static Point2D ToDiGi(this Coordinate coordinate)
+        public static Point2D ToDiGi(this NetTopologySuite.Geometries.Coordinate coordinate)
         {
             return new Point2D(coordinate[0], coordinate[1]);
         }

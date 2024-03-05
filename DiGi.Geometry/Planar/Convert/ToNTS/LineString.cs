@@ -16,5 +16,16 @@ namespace DiGi.Geometry.Planar
 
             return new LineString(coordinates.ToArray());
         }
+
+        public static LineString ToNTS_LineString(this Segment2D segment2D)
+        {
+            List<Coordinate> coordinates = segment2D?.GetPoints()?.ToNTS();
+            if (coordinates == null)
+            {
+                return null;
+            }
+
+            return new LineString(coordinates.ToArray());
+        }
     }
 }

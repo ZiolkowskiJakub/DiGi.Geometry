@@ -1,5 +1,6 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -246,6 +247,146 @@ namespace DiGi.Geometry.Planar
 
             return result;
         }
-    }
 
+        public static List<Point2D> IntersectionPoints(double x, double y, double radius, Point2D point2D_1, Point2D point2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            double dx, dy, a, b, c, det, t;
+
+            dx = point2D_2.X - point2D_1.X;
+            dy = point2D_2.Y - point2D_1.Y;
+
+            a = dx * dx + dy * dy;
+            b = 2 * (dx * (point2D_1.X - x) + dy * (point2D_1.Y - y));
+            c = (point2D_1.X - x) * (point2D_1.X - x) + (point2D_1.Y - y) * (point2D_1.Y - y) - radius * radius;
+
+            det = b * b - 4 * a * c;
+            if ((a <= tolerance) || (det < 0))
+            {
+                return null;
+            }
+
+            List<Point2D> result = new List<Point2D>();
+
+            if (Math.Abs(det) < tolerance)
+            {
+                t = -b / (2 * a);
+                result.Add(new Point2D(point2D_1.X + t * dx, point2D_1.Y + t * dy));
+                return result;
+            }
+
+            t = (double)((-b + Math.Sqrt(det)) / (2 * a));
+            result.Add(new Point2D(point2D_1.X + t * dx, point2D_1.Y + t * dy));
+            t = (double)((-b - Math.Sqrt(det)) / (2 * a));
+            result.Add(new Point2D(point2D_1.X + t * dx, point2D_1.Y + t * dy));
+
+            return result;
+        }
+    
+        public static List<Point2D> IntersectionPoints(this Circle2D circle2D, Line2D line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(circle2D == null || line2D == null)
+            {
+                return null;
+            }
+
+            Point2D center = circle2D.Center;
+            if(center == null)
+            {
+                return null;
+            }
+
+            double radius = circle2D.Radius;
+
+            Point2D point2D_1 = line2D.Origin;
+            if(point2D_1 == null)
+            {
+                return null;
+            }
+
+            Point2D point2D_2 = new Point2D(point2D_1);
+            if (point2D_1 == null)
+            {
+                return null;
+            }
+
+            point2D_2.Move(line2D.Direction);
+
+            return IntersectionPoints(center.X, center.Y, radius, point2D_1, point2D_2, tolerance);
+        }
+
+        public static List<Point2D> IntersectionPoints(this Circle2D circle2D, Segment2D segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (circle2D == null || segment2D == null)
+            {
+                return null;
+            }
+
+            Point2D center = circle2D.Center;
+            if (center == null)
+            {
+                return null;
+            }
+
+            double radius = circle2D.Radius;
+
+            Point2D point2D_1 = segment2D.Start;
+            if (point2D_1 == null)
+            {
+                return null;
+            }
+
+            Point2D point2D_2 = segment2D.End;
+            if (point2D_2 == null)
+            {
+                return null;
+            }
+
+            List<Point2D> result = IntersectionPoints(center.X, center.Y, radius, point2D_1, point2D_2, tolerance);
+            if(result == null)
+            {
+                return result;
+            }
+
+            for (int i = result.Count - 1; i >= 0; i--)
+            {
+                if (!segment2D.On(result[i], tolerance))
+                {
+                    result.RemoveAt(i);
+                }
+            }
+
+            return result;
+        }
+
+        public static List<Point2D> IntersectionPoints(this Circle2D circle2D, ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(circle2D == null || segmentable2D == null)
+            {
+                return null;
+            }
+
+            List<Segment2D> segment2Ds = segmentable2D.GetSegments();
+            if(segment2Ds == null)
+            {
+                return null;
+            }
+
+            List<Point2D> result = new List<Point2D>();
+            foreach(Segment2D segment2D in segment2Ds)
+            {
+                List<Point2D> point2Ds = IntersectionPoints(circle2D, segment2D, tolerance);
+                if(point2Ds == null)
+                {
+                    continue;
+                }
+
+                for (int i = 0; i < point2Ds.Count; i++)
+                {
+                    result.Add(point2Ds[i], tolerance);
+                }
+            }
+
+            return result;
+        }
+    }
 }
