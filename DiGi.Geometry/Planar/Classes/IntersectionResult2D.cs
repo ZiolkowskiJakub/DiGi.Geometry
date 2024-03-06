@@ -107,6 +107,11 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
+        public bool Contains<T>() where T: IGeometry2D
+        {
+            return geometry2Ds != null && geometry2Ds.Find(x => x is T) != null;
+        }
+
         public override ISerializableObject Clone()
         {
             return new IntersectionResult2D(this);

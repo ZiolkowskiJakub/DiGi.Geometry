@@ -1,5 +1,7 @@
-﻿using DiGi.Geometry.Planar.Interfaces;
+﻿using DiGi.Core.Interfaces;
+using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
@@ -27,6 +29,11 @@ namespace DiGi.Geometry.Planar.Classes
             : base(point2Ds)
         {
 
+        }
+
+        public override ISerializableObject Clone()
+        {
+            return new Polygon2D(this);
         }
 
         public virtual double GetArea()

@@ -1,11 +1,13 @@
-﻿using DiGi.Geometry.Core.Classes;
+﻿using DiGi.Core.Interfaces;
+using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Mesh2D : Mesh<Point2D>, IGeometry2D, IBoundable2D, IMovable2D
+    public class Mesh2D : Mesh<Point2D>, IGeometry2D, IBoundable2D, ICollectable2D
     {
         public Mesh2D(JsonObject jsonObject)
             :base(jsonObject)
@@ -23,6 +25,11 @@ namespace DiGi.Geometry.Planar.Classes
             : base(points, indexes)
         {
 
+        }
+
+        public override ISerializableObject Clone()
+        {
+            return new Mesh2D(this);
         }
 
         public BoundingBox2D GetBoundingBox()
@@ -95,17 +102,34 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
-        public void Move(Vector2D vector2D)
+        public bool Move(Vector2D vector2D)
         {
-            if(points == null)
+            if(points == null || vector2D == null)
             {
-                return;
+                return false;
             }
 
             for(int i=0; i < points.Count; i++)
             {
-                points[i].Move(vector2D);
+                points[i]?.Move(vector2D);
             }
+
+            return true;
+        }
+
+        public bool Transform(Transform2D transform)
+        {
+            if(transform == null || points == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                points[i]?.Transform(transform);
+            }
+
+            return true;
         }
     }
 }

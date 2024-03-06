@@ -2,8 +2,8 @@
 
 namespace DiGi.Geometry.Planar.Interfaces
 {
-    public interface IMovable2D : IGeometry2D
+    public interface IMovable2D
     {
-        void Move(Vector2D vector2D);
+        bool Move(Vector2D vector2D);
     }
 }

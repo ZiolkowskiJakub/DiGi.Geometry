@@ -99,7 +99,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public override ISerializableObject Clone()
         {
-            return new Line2D(Origin, Direction);
+            return new Line2D(this);
         }
 
         public override bool Equals(object obj)
@@ -158,9 +158,15 @@ namespace DiGi.Geometry.Planar.Classes
             return Distance(point2D) < tolerance;
         }
 
-        public void Move(Vector2D vector2D)
+        public override bool Move(Vector2D vector2D)
         {
-            origin?.Move(vector2D);
+            if(vector2D == null || origin == null)
+            {
+                return false;
+            }
+
+            origin.Move(vector2D);
+            return true;
         }
 
         public void Inverse()
@@ -218,6 +224,25 @@ namespace DiGi.Geometry.Planar.Classes
             }
             
             return Project(point2D).Distance(point2D);
+        }
+
+        public override bool Transform(Transform2D transform)
+        {
+            if(transform == null || origin == null || direction == null)
+            {
+                return false;
+            }
+
+            Point2D point2D = new Point2D(origin);
+            point2D.Move(direction);
+
+            origin.Transform(transform);
+
+            point2D.Transform(transform);
+            direction = new Vector2D(origin, point2D);
+            direction.Normalize();
+
+            return true;
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Math.Classes;
+using System.Linq;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public abstract class Coordinate2D : Coordinate, IGeometry2D, ITransformable2D
+    public abstract class Coordinate2D : Coordinate, ICollectable2D, ITransformable2D
     {
         public Coordinate2D(JsonObject jsonObject)
             : base(jsonObject, 2)
@@ -75,6 +76,11 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool Transform(Transform2D transform)
         {
+            if(values == null || values.Length < 2)
+            {
+                return false;
+            }
+            
             Matrix3D matrix3D = transform?.Matrix3D;
             if (matrix3D == null)
             {
@@ -89,6 +95,18 @@ namespace DiGi.Geometry.Planar.Classes
 
             values[0] = matrix[0, 0];
             values[1] = matrix[1, 0];
+            return true;
+        }
+
+        public bool Move(Vector2D vector2D)
+        {
+            if (vector2D == null || values == null || values.Length < 2)
+            {
+                return false;
+            }
+
+            values[0] += vector2D[0];
+            values[1] += vector2D[1];
             return true;
         }
     }

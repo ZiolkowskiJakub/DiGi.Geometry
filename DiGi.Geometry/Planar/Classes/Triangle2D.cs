@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DiGi.Core.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
@@ -32,6 +33,11 @@ namespace DiGi.Geometry.Planar.Classes
             : base(new Point2D[] { point2D_1, point2D_2, point2D_3 })
         {
 
+        }
+
+        public override ISerializableObject Clone()
+        {
+            return new Triangle2D(this);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
+using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -6,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class BoundingBox2D : Geometry2D, IMovable2D
+    public class BoundingBox2D : Geometry2D
     {
         private Point2D max;
         private Point2D min;
@@ -205,6 +206,31 @@ namespace DiGi.Geometry.Planar.Classes
             return new List<Point2D>() { new Point2D(min), new Point2D(min.X, min.Y + height), new Point2D(max), new Point2D(max.X, max.Y - height) };
         }
 
+        public Point2D GetPoint(Corner corner)
+        {
+            if (corner == Corner.Undefined)
+            {
+                return null;
+            }
+
+            switch (corner)
+            {
+                case Corner.BottomLeft:
+                    return new Point2D(min);
+
+                case Corner.BottomRight:
+                    return new Point2D(max.X, max.Y - Height);
+
+                case Corner.TopLeft:
+                    return new Point2D(min.X, min.Y + Height);
+
+                case Corner.TopRight:
+                    return new Point2D(max);
+            }
+
+            return null;
+        }
+
         public List<Segment2D> GetSegments()
         {
             List<Point2D> points = GetPoints();
@@ -283,10 +309,16 @@ namespace DiGi.Geometry.Planar.Classes
             return point2D.X > min.X + tolerance && point2D.X < max.X - tolerance && point2D.Y < max.Y - tolerance && point2D.Y > min.Y + tolerance;
         }
 
-        public void Move(Vector2D vector2D)
+        public override bool Move(Vector2D vector2D)
         {
-            max?.Move(vector2D);
-            min?.Move(vector2D);
+            if(vector2D == null || max == null || min == null)
+            {
+                return false;
+            }
+
+            max.Move(vector2D);
+            min.Move(vector2D);
+            return true;
         }
 
         public void Offset(double value)
@@ -303,6 +335,25 @@ namespace DiGi.Geometry.Planar.Classes
         public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Query.On(point2D, GetSegments(), tolerance);
+        }
+
+        public override bool Transform(Transform2D transform)
+        {
+            if(transform == null || min == null || max == null)
+            {
+                return false;
+            }
+
+            min.Transform(transform);
+            max.Transform(transform); 
+            return true;
+        }
+
+        public Segment2D[] GetDiagonals()
+        {
+            List<Point2D> points = GetPoints();
+
+            return new Segment2D[] { new Segment2D(points[0], points[2]), new Segment2D(points[1], points[3]) };
         }
     }
 }

@@ -60,17 +60,34 @@ namespace DiGi.Geometry.Planar.Classes
 
         public abstract List<Segment2D> GetSegments();
         
-        public void Move(Vector2D vector2D)
+        public override bool Move(Vector2D vector2D)
         {
             if(points == null || vector2D == null)
             {
-                return;
+                return false;
             }
 
             for(int i=0; i < points.Count; i++)
             {
-                points[i].Move(vector2D);
+                points[i]?.Move(vector2D);
             }
+
+            return true;
+        }
+
+        public override bool Transform(Transform2D transform)
+        {
+            if (points == null || transform == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                points[i]?.Transform(transform);
+            }
+
+            return true;
         }
 
         public BoundingBox2D GetBoundingBox()

@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -7,22 +8,14 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class CoordinateSystem2D : SerializableObject, IMovable2D, ITransformable2D
     {
-        [JsonInclude, JsonPropertyName("Origin")]
-        private Point2D origin;
-
         [JsonInclude, JsonPropertyName("AxisX")]
         private Vector2D axisX;
 
         [JsonInclude, JsonPropertyName("AxisY")]
         private Vector2D axisY;
 
-        internal CoordinateSystem2D(Point2D origin, Vector2D axisX, Vector2D axisY)
-        {
-            this.origin = origin == null ? null : new Point2D(origin);
-            this.axisX = axisX == null ? null : new Vector2D(axisX);
-            this.axisY = axisY == null ? null : new Vector2D(axisY);
-        }
-
+        [JsonInclude, JsonPropertyName("Origin")]
+        private Point2D origin;
         public CoordinateSystem2D(Point2D origin)
         {
             this.origin = origin == null ? null : new Point2D(origin);
@@ -45,7 +38,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public CoordinateSystem2D(CoordinateSystem2D coordinateSystem2D)
         {
-            if(coordinateSystem2D != null)
+            if (coordinateSystem2D != null)
             {
                 origin = coordinateSystem2D.Origin;
                 axisX = coordinateSystem2D.AxisX;
@@ -53,6 +46,13 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        internal CoordinateSystem2D(Point2D origin, Vector2D axisX, Vector2D axisY)
+        {
+            this.origin = origin == null ? null : new Point2D(origin);
+            this.axisX = axisX == null ? null : new Vector2D(axisX);
+            this.axisY = axisY == null ? null : new Vector2D(axisY);
+        }
+        
         public Vector2D AxisX
         {
             get
@@ -77,14 +77,20 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public void Move(Vector2D vector2D)
+        public override ISerializableObject Clone()
+        {
+            return new CoordinateSystem2D(this);
+        }
+
+        public bool Move(Vector2D vector2D)
         {
             if(origin == null || vector2D == null)
             {
-                return;
+                return false;
             }
 
             origin.Move(vector2D);
+            return true;
         }
 
         public bool Transform(Transform2D transform)
@@ -94,20 +100,21 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            if(!origin.Transform(transform))
-            {
-                return false;
-            }
+            Point2D point2D_X = new Point2D(origin);
+            point2D_X.Move(axisX);
 
-            if (!axisX.Transform(transform))
-            {
-                return false;
-            }
+            Point2D point2D_Y = new Point2D(origin);
+            point2D_Y.Move(axisY);
 
-            if (!axisY.Transform(transform))
-            {
-                return false;
-            }
+            origin.Transform(transform);
+
+            point2D_X.Transform(transform);
+            axisX = new Vector2D(origin, point2D_X);
+            axisX.Normalize();
+
+            point2D_Y.Transform(transform);
+            axisY = new Vector2D(origin, point2D_Y);
+            axisY.Normalize();
 
             return true;
         }

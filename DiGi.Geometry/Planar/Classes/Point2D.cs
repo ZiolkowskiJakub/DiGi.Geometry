@@ -37,17 +37,6 @@ namespace DiGi.Geometry.Planar.Classes
             return new Point2D(values);
         }
 
-        public void Move(Vector2D vector2D)
-        {
-            if(vector2D == null)
-            {
-                return;
-            }
-
-            values[0] += vector2D[0];
-            values[1] += vector2D[1];
-        }
-
         public Point2D Mid(Point2D point2D)
         {
             if(point2D == null)

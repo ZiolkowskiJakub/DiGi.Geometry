@@ -12,6 +12,12 @@ namespace DiGi.Geometry.Planar.Classes
         private Point2D start;
         private Vector2D vector;
 
+        public Segment2D(double x_1, double y_1, double x_2, double y_2)
+        {
+            start = new Point2D(x_1, y_1);
+            vector = new Vector2D(start, new Point2D(x_2, y_2));
+        }
+        
         public Segment2D(Point2D start, Vector2D vector)
         {
             this.start = start?.Clone<Point2D>();
@@ -172,7 +178,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public override ISerializableObject Clone()
         {
-            return new Line2D(Start, Vector);
+            return new Segment2D(this);
         }
 
         public Point2D ClosestPoint(Point2D point2D)
@@ -251,9 +257,15 @@ namespace DiGi.Geometry.Planar.Classes
             return start.Mid(End);
         }
 
-        public void Move(Vector2D vector2D)
+        public override bool Move(Vector2D vector2D)
         {
-            start?.Move(vector2D);
+            if(vector2D == null || start == null)
+            {
+                return false;
+            }
+
+            start.Move(vector2D);
+            return true;
         }
 
         public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -294,6 +306,22 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return start.Distance(result) < end.Distance(result) ? Start : end;
+        }
+
+        public override bool Transform(Transform2D transform)
+        {
+            if (transform == null || start == null || vector == null)
+            {
+                return false;
+            }
+
+            Point2D end = End;  
+
+            start.Transform(transform);
+            end.Transform(transform);
+
+            vector = new Vector2D(start, end);
+            return true;
         }
     }
 }

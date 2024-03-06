@@ -120,7 +120,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public override ISerializableObject Clone()
         {
-            return new Vector2D(values);
+            return new Vector2D(this);
         }
 
         public void Normalize()

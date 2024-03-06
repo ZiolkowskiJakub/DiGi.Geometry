@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using DiGi.Core.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public abstract class Polyline2D : Segmentable2D
+    public class Polyline2D : Segmentable2D
     {
         public Polyline2D(JsonObject jsonObject)
             : base(jsonObject)
@@ -31,6 +32,11 @@ namespace DiGi.Geometry.Planar.Classes
         public override List<Segment2D> GetSegments()
         {
             return Create.Segment2Ds(points, false);
+        }
+
+        public override ISerializableObject Clone()
+        {
+            return new Polyline2D(this);
         }
     }
 }

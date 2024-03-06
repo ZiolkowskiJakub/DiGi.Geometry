@@ -1,6 +1,7 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DiGi.Geometry.Planar
 {
@@ -9,9 +10,20 @@ namespace DiGi.Geometry.Planar
         public static Polygon2D ToDiGi(this LinearRing linearRing)
         {
             List<Point2D> point2Ds = linearRing?.Coordinates?.ToDiGi();
-            if(point2Ds == null || point2Ds.Count < 3)
+            if(point2Ds == null)
             {
                 return null;
+            }
+
+            int count = point2Ds.Count;
+            if(count < 3)
+            {
+                return null;
+            }
+
+            if (point2Ds[0] == point2Ds[count - 1])
+            {
+                point2Ds.RemoveAt(count - 1);
             }
 
             return new Polygon2D(point2Ds);
