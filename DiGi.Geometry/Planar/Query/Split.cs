@@ -1,4 +1,5 @@
 ﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -174,5 +175,27 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+
+        public static List<Segment2D> Split(this ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            List<Segment2D> segment2Ds = segmentable2D?.GetSegments();
+            if(segment2Ds == null)
+            {
+                return null;
+            }
+
+            return Split(segment2Ds, tolerance);
+        }
+
+        public static List<Segment2D> Split<T>(this IEnumerable<T> segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
+        {
+            List<Segment2D> segment2Ds = segmentable2Ds?.Segments();
+            if (segment2Ds == null)
+            {
+                return null;
+            }
+
+            return Split(segment2Ds, tolerance);
+        }
     }
 }

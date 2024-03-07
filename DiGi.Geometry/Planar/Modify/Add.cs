@@ -1,5 +1,4 @@
 ﻿using DiGi.Geometry.Planar.Classes;
-using System;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Planar

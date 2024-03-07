@@ -21,7 +21,7 @@ namespace DiGi.Geometry.Planar.Classes
         public Segment2D(Point2D start, Vector2D vector)
         {
             this.start = start?.Clone<Point2D>();
-            this.vector = vector?.Unit;
+            this.vector = vector?.Clone<Vector2D>();
         }
 
         public Segment2D(Point2D start, Point2D end)

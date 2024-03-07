@@ -1,7 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
@@ -99,6 +98,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return !On(point2D, tolerance);
+        }
+
+        public Point2D GetCentroid()
+        {
+            return Query.Centroid(points);
         }
     }
 }

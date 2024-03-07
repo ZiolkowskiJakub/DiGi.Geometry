@@ -1,5 +1,4 @@
-﻿using DiGi.Core;
-using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;

@@ -3,7 +3,6 @@ using DiGi.Core.Classes;
 using DiGi.Math.Classes;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using System.Runtime.CompilerServices;
 
 namespace DiGi.Geometry.Planar.Classes
 {

@@ -1,6 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
-
-namespace DiGi.Geometry.Core.Interfaces
+﻿namespace DiGi.Geometry.Core.Interfaces
 {
     public interface ITransformable : IGeometry
     {

@@ -1,4 +1,5 @@
 ﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -68,6 +69,30 @@ namespace DiGi.Geometry.Planar
 
             max = new Point2D(x_Max, y_Max);
             return new Point2D(x_Min, y_Min);
+        }
+
+        public static Point2D Min(this ISegmentable2D segmentable2D, out Point2D max)
+        {
+            max = null;
+
+            if(segmentable2D == null)
+            {
+                return null;
+            }
+
+            return Min(segmentable2D.GetPoints(), out max);
+        }
+
+        public static Point2D Min<T>(this IEnumerable<T> segmentable2Ds, out Point2D max) where T : ISegmentable2D
+        {
+            max = null;
+
+            if (segmentable2Ds == null)
+            {
+                return null;
+            }
+
+            return Min(segmentable2Ds.Points(), out max);
         }
     }
 

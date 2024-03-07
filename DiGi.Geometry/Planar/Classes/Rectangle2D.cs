@@ -1,6 +1,5 @@
 ﻿using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
-using System;
 using System.Text.Json.Nodes;
 using DiGi.Geometry.Core.Enums;
 using System.Text.Json.Serialization;
@@ -344,6 +343,24 @@ namespace DiGi.Geometry.Planar.Classes
             width = vector3D_Width.Length;
 
             return true;
+        }
+
+        public Point2D GetCentroid()
+        {
+            Point2D result = Origin;
+            if(result == null)
+            {
+                return result;
+            }
+
+            Vector2D vector2D = (width * WidthDirection / 2) + (height * heightDirection / 2);
+            if(vector2D == null)
+            {
+                return null;
+            }
+
+            result.Move(vector2D);
+            return result;
         }
     }
 }
