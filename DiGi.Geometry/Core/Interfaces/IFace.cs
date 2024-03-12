@@ -4,6 +4,7 @@ namespace DiGi.Geometry.Core.Interfaces
 {
     public interface IFace : ISurface
     {
+        double GetArea();
     }
 
     public interface IFace<T> : IFace where T : IClosedCurve

@@ -323,7 +323,7 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.On(point2D, this, tolerance);
         }
 
-        public override bool Transform(Transform2D transform)
+        public override bool Transform(ITransform2D transform)
         {
             if(transform == null || origin == null || double.IsNaN(width) || double.IsNaN(height) || heightDirection == null)
             {

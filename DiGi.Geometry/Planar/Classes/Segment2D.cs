@@ -308,7 +308,7 @@ namespace DiGi.Geometry.Planar.Classes
             return start.Distance(result) < end.Distance(result) ? Start : end;
         }
 
-        public override bool Transform(Transform2D transform)
+        public override bool Transform(ITransform2D transform)
         {
             if (transform == null || start == null || vector == null)
             {

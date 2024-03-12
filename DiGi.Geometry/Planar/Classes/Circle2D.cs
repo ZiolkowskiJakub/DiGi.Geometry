@@ -130,7 +130,7 @@ namespace DiGi.Geometry.Planar.Classes
             return System.Math.Abs(center.Distance(point2D) - radius) <= tolerance;
         }
         
-        public override bool Transform(Transform2D transform)
+        public override bool Transform(ITransform2D transform)
         {
             if(transform == null || center == null || double.IsNaN(radius))
             {

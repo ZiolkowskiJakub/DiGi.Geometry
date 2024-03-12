@@ -1,5 +1,4 @@
 ﻿using DiGi.Geometry.Planar.Classes;
-using DiGi.Math.Classes;
 
 namespace DiGi.Geometry.Planar
 {

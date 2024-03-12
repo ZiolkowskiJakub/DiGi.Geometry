@@ -1,4 +1,5 @@
-﻿using DiGi.Geometry.Planar.Classes;
+﻿using DiGi.Geometry.Core.Enums;
+using DiGi.Geometry.Planar.Classes;
 
 namespace DiGi.Geometry.Planar
 {
@@ -41,6 +42,25 @@ namespace DiGi.Geometry.Planar
             }
 
             return vector2D * length;
+        }
+
+        public static Vector2D Vector2D(Alignment alignment)
+        {
+            if (alignment == Alignment.Undefined)
+            {
+                return null;
+            }
+
+            switch (alignment)
+            {
+                case Alignment.Vertical:
+                    return new Vector2D(1, 0);
+
+                case Alignment.Horizontal:
+                    return new Vector2D(0, 1);
+            }
+
+            return null;
         }
     }
 

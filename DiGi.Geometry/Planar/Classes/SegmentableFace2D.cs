@@ -86,6 +86,35 @@ namespace DiGi.Geometry.Planar.Classes
             return new SegmentableFace2D(this);
         }
 
+        public double GetArea()
+        {
+            if(externalCurve == null)
+            {
+                return double.NaN;
+            }
+
+            double result = externalCurve.GetArea();
+            if(double.IsNaN(result) || result == 0)
+            {
+                return result;
+            }
+
+            if(internalCurves != null && internalCurves.Count != 0)
+            {
+                for(int i=0; i < internalCurves.Count; i++)
+                {
+                    if (internalCurves[i] == null)
+                    {
+                        continue;
+                    }
+
+                    result -= internalCurves[i].GetArea();
+                }
+            }
+
+            return result;
+        }
+
         public override bool Move(Vector2D vector2D)
         {
             if(vector2D == null || externalCurve == null)
@@ -106,7 +135,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public override bool Transform(Transform2D transform)
+        public override bool Transform(ITransform2D transform)
         {
             if (transform == null || externalCurve == null)
             {

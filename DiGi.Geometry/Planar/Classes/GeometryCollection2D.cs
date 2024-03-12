@@ -39,7 +39,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool Transform(Transform2D transform)
+        public bool Transform(ITransform2D transform)
         {
             if (transform == null)
             {

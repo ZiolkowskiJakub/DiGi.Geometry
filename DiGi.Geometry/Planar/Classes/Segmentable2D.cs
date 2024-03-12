@@ -75,7 +75,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public override bool Transform(Transform2D transform)
+        public override bool Transform(ITransform2D transform)
         {
             if (points == null || transform == null)
             {

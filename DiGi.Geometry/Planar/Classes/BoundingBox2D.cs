@@ -337,7 +337,7 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.On(point2D, GetSegments(), tolerance);
         }
 
-        public override bool Transform(Transform2D transform)
+        public override bool Transform(ITransform2D transform)
         {
             if(transform == null || min == null || max == null)
             {

@@ -73,28 +73,48 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public bool Transform(Transform2D transform)
+        public bool Transform(ITransform2D transform)
         {
-            if(values == null || values.Length < 2)
-            {
-                return false;
-            }
-            
-            Matrix3D matrix3D = transform?.Matrix3D;
-            if (matrix3D == null)
+            if(transform == null || values == null || values.Length < 2)
             {
                 return false;
             }
 
-            Matrix matrix = matrix3D * ArgumentedMatrix;
-            if (matrix == null)
+            if(transform is Transform2D)
             {
-                return false;
+                Matrix3D matrix3D = ((Transform2D)transform)?.Matrix3D;
+                if (matrix3D == null)
+                {
+                    return false;
+                }
+
+                Matrix matrix = matrix3D * ArgumentedMatrix;
+                if (matrix == null)
+                {
+                    return false;
+                }
+
+                values[0] = matrix[0, 0];
+                values[1] = matrix[1, 0];
+                return true;
             }
 
-            values[0] = matrix[0, 0];
-            values[1] = matrix[1, 0];
-            return true;
+            if(transform is TransformGroup2D)
+            {
+                foreach(ITransform2D transform_Temp in (TransformGroup2D)transform)
+                {
+                    if(transform_Temp == null)
+                    {
+                        continue;
+                    }
+
+                    Transform(transform_Temp);
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         public bool Move(Vector2D vector2D)

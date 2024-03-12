@@ -226,7 +226,7 @@ namespace DiGi.Geometry.Planar.Classes
             return Project(point2D).Distance(point2D);
         }
 
-        public override bool Transform(Transform2D transform)
+        public override bool Transform(ITransform2D transform)
         {
             if(transform == null || origin == null || direction == null)
             {

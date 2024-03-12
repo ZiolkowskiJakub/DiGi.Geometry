@@ -24,6 +24,6 @@ namespace DiGi.Geometry.Planar.Classes
 
         public abstract bool Move(Vector2D vector2D);
 
-        public abstract bool Transform(Transform2D transform);
+        public abstract bool Transform(ITransform2D transform);
     }
 }

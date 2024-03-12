@@ -2,7 +2,7 @@
 
 namespace DiGi.Geometry.Planar.Interfaces
 {
-    public interface ITransformable2D : ITransformable<ITransform2D>
+    public interface ITransform2D : ITransform
     {
 
     }
