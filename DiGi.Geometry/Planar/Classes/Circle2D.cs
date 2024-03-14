@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
+using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -78,7 +79,12 @@ namespace DiGi.Geometry.Planar.Classes
                 radius = value;
             }
         }
-        
+
+        public override ISerializableObject Clone()
+        {
+            return new Circle2D(this);
+        }
+
         public double GetArea()
         {
             return System.Math.PI * radius * radius;
@@ -87,6 +93,16 @@ namespace DiGi.Geometry.Planar.Classes
         public BoundingBox2D GetBoundingBox()
         {
             return new BoundingBox2D(new Point2D(center[0] - radius, center[1] - radius), new Point2D(center[0] + radius, center[1] + radius));
+        }
+
+        public Point2D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (center == null)
+            {
+                return null;
+            }
+
+            return new Point2D(center);
         }
 
         public bool InRange(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -147,11 +163,6 @@ namespace DiGi.Geometry.Planar.Classes
             radius = new Vector2D(center, point2D).Length;
 
             return true;
-        }
-
-        public override ISerializableObject Clone()
-        {
-            return new Circle2D(this);
         }
     }
 }

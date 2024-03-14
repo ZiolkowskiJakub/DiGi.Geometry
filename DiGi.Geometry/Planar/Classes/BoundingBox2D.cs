@@ -334,7 +334,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            return Query.On(point2D, GetSegments(), tolerance);
+            return Query.On(GetSegments(), point2D,tolerance);
         }
 
         public override bool Transform(ITransform2D transform)

@@ -102,7 +102,7 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
-                return origin;
+                return origin == null ? null : new Point2D(origin);
             }
             set
             {
@@ -320,7 +320,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            return Query.On(point2D, this, tolerance);
+            return Query.On(this, point2D, tolerance);
         }
 
         public override bool Transform(ITransform2D transform)
@@ -361,6 +361,11 @@ namespace DiGi.Geometry.Planar.Classes
 
             result.Move(vector2D);
             return result;
+        }
+
+        public Point2D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            return GetCentroid();
         }
     }
 }

@@ -30,6 +30,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         }
 
+        public Polygon2D(IClosedSegmentable2D closedSegmentable2D)
+            : base(closedSegmentable2D?.GetPoints())
+        {
+
+        }
+
         public override ISerializableObject Clone()
         {
             return new Polygon2D(this);
@@ -103,6 +109,16 @@ namespace DiGi.Geometry.Planar.Classes
         public Point2D GetCentroid()
         {
             return Query.Centroid(points);
+        }
+
+        public virtual Point2D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(points == null)
+            {
+                return null;
+            }
+
+            return Query.InternalPoint(points, tolerance);
         }
     }
 }
