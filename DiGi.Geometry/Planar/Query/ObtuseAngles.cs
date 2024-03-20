@@ -7,9 +7,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<bool> ObtuseAngles(this IClosedSegmentable2D closedSegmentable2D)
+        public static List<bool> ObtuseAngles(this IPolygonal2D polygonal2D)
         {
-            List<double> determinats = Determinants(closedSegmentable2D);
+            List<double> determinats = Determinants(polygonal2D);
             if (determinats == null)
             {
                 return null;
@@ -22,7 +22,7 @@ namespace DiGi.Geometry.Planar
                 return result;
             }
 
-            List<Point2D> point2Ds = closedSegmentable2D.GetPoints();
+            List<Point2D> point2Ds = polygonal2D.GetPoints();
             if (point2Ds == null)
             {
                 return null;

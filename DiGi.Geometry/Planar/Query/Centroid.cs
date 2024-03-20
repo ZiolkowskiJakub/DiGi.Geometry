@@ -55,9 +55,9 @@ namespace DiGi.Geometry.Planar
             return new Point2D(x / area, y / area);
         }
 
-        public static Point2D Centroid(this IClosedSegmentable2D closedSegmentable2D)
+        public static Point2D Centroid(this IPolygonal2D polygonal2D)
         {
-            return Centroid(closedSegmentable2D?.GetPoints());
+            return Centroid(polygonal2D?.GetPoints());
         }
     }
 }

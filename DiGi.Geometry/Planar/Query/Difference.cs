@@ -8,26 +8,26 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<SegmentableFace2D> Difference(this SegmentableFace2D segmentableFace2D_1, SegmentableFace2D segmentableFace2D_2)
+        public static List<PolygonalFace2D> Difference(this PolygonalFace2D polygonalFace2D_1, PolygonalFace2D polygonalFace2D_2)
         {
-            if(segmentableFace2D_1 == null || segmentableFace2D_2 == null)
+            if(polygonalFace2D_1 == null || polygonalFace2D_2 == null)
             {
                 return null;
             }
 
-            Polygon polygon_1 = segmentableFace2D_1.ToNTS();
+            Polygon polygon_1 = polygonalFace2D_1.ToNTS();
             if(polygon_1 == null)
             {
                 return null;
             }
 
-            Polygon polygon_2 = segmentableFace2D_2.ToNTS();
+            Polygon polygon_2 = polygonalFace2D_2.ToNTS();
             if(polygon_2 == null)
             {
                 return null;
             }
 
-            List<SegmentableFace2D> result = new List<SegmentableFace2D>();
+            List<PolygonalFace2D> result = new List<PolygonalFace2D>();
 
             if (polygon_1.EqualsTopologically(polygon_2))
             {
@@ -71,18 +71,18 @@ namespace DiGi.Geometry.Planar
             {
                 if (geometry_Temp is Polygon)
                 {
-                    SegmentableFace2D segmentableFace2D = ((Polygon)geometry_Temp).ToDiGi();
-                    if (segmentableFace2D != null)
+                    PolygonalFace2D polygonalFace2D = ((Polygon)geometry_Temp).ToDiGi();
+                    if (polygonalFace2D != null)
                     {
-                        result.Add(segmentableFace2D);
+                        result.Add(polygonalFace2D);
                     }
                 }
                 else if (geometry_Temp is MultiPolygon)
                 {
-                    List<SegmentableFace2D> segmentableFace2Ds = ((MultiPolygon)geometry_Temp).ToDiGi_SegmentableFace2Ds();
-                    if (segmentableFace2Ds != null && segmentableFace2Ds.Count > 0)
+                    List<PolygonalFace2D> polygonalFace2Ds = ((MultiPolygon)geometry_Temp).ToDiGi_PolygonalFace2Ds();
+                    if (polygonalFace2Ds != null && polygonalFace2Ds.Count > 0)
                     {
-                        result.AddRange(segmentableFace2Ds);
+                        result.AddRange(polygonalFace2Ds);
                     }
                 }
                 else if (geometry_Temp is LinearRing)
@@ -90,7 +90,7 @@ namespace DiGi.Geometry.Planar
                     Polygon2D polygon2D = ((LinearRing)geometry_Temp).ToDiGi();
                     if (polygon2D != null)
                     {
-                        result.Add(new SegmentableFace2D(polygon2D));
+                        result.Add(new PolygonalFace2D(polygon2D));
                     }
                 }
             }

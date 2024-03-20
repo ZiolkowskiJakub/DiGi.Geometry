@@ -1,11 +1,12 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
+using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Polygon2D : Segmentable2D, IClosedSegmentable2D
+    public class Polygon2D : Segmentable2D, IPolygonal2D
     {
         public Polygon2D(JsonObject jsonObject)
             : base(jsonObject)
@@ -30,8 +31,8 @@ namespace DiGi.Geometry.Planar.Classes
 
         }
 
-        public Polygon2D(IClosedSegmentable2D closedSegmentable2D)
-            : base(closedSegmentable2D?.GetPoints())
+        public Polygon2D(IPolygonal2D polygonal2D)
+            : base(polygonal2D?.GetPoints())
         {
 
         }
@@ -119,6 +120,44 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return Query.InternalPoint(points, tolerance);
+        }
+
+        public virtual List<Triangle2D> Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        {
+            if(points == null || points.Count < 3)
+            {
+                return null;
+            }
+
+            if(points.Count == 3)
+            {
+                return new List<Triangle2D>() { new Triangle2D(new Point2D(points[0]), new Point2D(points[1]), new Point2D(points[2])) };
+            }
+
+            if (points.Count == 4)
+            {
+                return new List<Triangle2D>() { new Triangle2D(new Point2D(points[0]), new Point2D(points[1]), new Point2D(points[2])), new Triangle2D(new Point2D(points[2]), new Point2D(points[3]), new Point2D(points[0])) };
+            }
+
+            List<Polygon> polygons = Query.Triangulate(this.ToNTS_Polygon(), tolerance);
+            if(polygons == null)
+            {
+                return null;
+            }
+
+            List<Triangle2D> result = new List<Triangle2D>();
+            foreach (Polygon polygon in polygons)
+            {
+                Coordinate[] coordinates = polygon?.Coordinates;
+                if (coordinates == null || coordinates.Length != 4)
+                {
+                    continue;
+                }
+
+                result.Add(new Triangle2D(coordinates[0].ToDiGi(), coordinates[1].ToDiGi(), coordinates[2].ToDiGi()));
+            }
+
+            return result;
         }
     }
 }

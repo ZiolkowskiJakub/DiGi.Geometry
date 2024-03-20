@@ -39,5 +39,16 @@ namespace DiGi.Geometry.Planar.Classes
         {
             return new Triangle2D(this);
         }
+
+        public override List<Triangle2D> Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        {
+            List<Point2D> point2Ds = GetPoints();
+            if (point2Ds != null || point2Ds.Count != 3)
+            {
+                return null;
+            }
+
+            return new List<Triangle2D>() { new Triangle2D(point2Ds[0], point2Ds[1], point2Ds[2]) };
+        }
     }
 }

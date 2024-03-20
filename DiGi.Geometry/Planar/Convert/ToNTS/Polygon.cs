@@ -7,15 +7,15 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static Polygon ToNTS(this ISegmentableFace2D segmentableFace2D)
+        public static Polygon ToNTS(this IPolygonalFace2D polygonalFace2D)
         {
-            LinearRing linearRing_ExternalEdge = segmentableFace2D?.ExternalCurve?.ToNTS();
+            LinearRing linearRing_ExternalEdge = polygonalFace2D?.ExternalEdge?.ToNTS();
             if (linearRing_ExternalEdge == null)
             {
                 return null;
             }
 
-            List<LinearRing> linearRings_InternalEdges = segmentableFace2D.InternalCurves?.ConvertAll(x => x.ToNTS());
+            List<LinearRing> linearRings_InternalEdges = polygonalFace2D.InternalEdges?.ConvertAll(x => x.ToNTS());
 
             LinearRing[] linearRingsArray_InternalEdges = null;
             if (linearRings_InternalEdges != null && linearRings_InternalEdges.Count > 0)

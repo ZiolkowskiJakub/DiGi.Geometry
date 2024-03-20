@@ -7,9 +7,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<double> Determinants(this IClosedSegmentable2D closedSegmentable2D)
+        public static List<double> Determinants(this IPolygonal2D polygonal2D)
         {
-            return Determinants(closedSegmentable2D?.GetPoints());
+            return Determinants(polygonal2D?.GetPoints());
         }
 
         public static List<double> Determinants(this IEnumerable<Point2D> point2Ds)

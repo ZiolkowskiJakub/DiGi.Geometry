@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static SegmentableFace2D ToDiGi(this Polygon polygon)
+        public static PolygonalFace2D ToDiGi(this Polygon polygon)
         {
             if (polygon == null || polygon.IsEmpty)
             {
@@ -19,13 +19,13 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Polygon2D externalCurve = linearRing.ToDiGi();
-            if(externalCurve == null)
+            Polygon2D externalEdge = linearRing.ToDiGi();
+            if(externalEdge == null)
             {
                 return null;
             }
 
-            List<Polygon2D> internalCurves = new List<Polygon2D>();
+            List<Polygon2D> internalEdges = new List<Polygon2D>();
 
             LineString[] lineStrings = polygon.InteriorRings;
             if (lineStrings != null && lineStrings.Length > 0)
@@ -44,11 +44,11 @@ namespace DiGi.Geometry.Planar
                         continue;
                     }
 
-                    internalCurves.Add(polygon2D_Temp);
+                    internalEdges.Add(polygon2D_Temp);
                 }
             }
 
-            return new SegmentableFace2D(externalCurve, internalCurves);
+            return new PolygonalFace2D(externalEdge, internalEdges);
         }
     }
 }

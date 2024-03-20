@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static List<SegmentableFace2D> SegmentableFace2Ds(this IEnumerable<Segment2D> segment2Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<PolygonalFace2D> PolygonalFace2Ds(this IEnumerable<Segment2D> segment2Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(segment2Ds == null || segment2Ds.Count() < 3)
             {
@@ -21,29 +21,29 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<SegmentableFace2D> result = new List<SegmentableFace2D>();
+            List<PolygonalFace2D> result = new List<PolygonalFace2D>();
             foreach(Polygon polygon in polygons)
             {
-                SegmentableFace2D segmentableFace2D = polygon?.ToDiGi();
-                if (segmentableFace2D == null)
+                PolygonalFace2D polygonalFace2D = polygon?.ToDiGi();
+                if (polygonalFace2D == null)
                 {
                     continue;
                 }
 
-                result.Add(segmentableFace2D);
+                result.Add(polygonalFace2D);
             }
 
             return result;
         }
 
-        public static List<SegmentableFace2D> SegmentableFace2Ds(this IEnumerable<IClosedSegmentable2D> closedSegmentable2Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<PolygonalFace2D> PolygonalFace2Ds(this IEnumerable<IPolygonal2D> polygonal2Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(closedSegmentable2Ds == null)
+            if(polygonal2Ds == null)
             {
                 return null;
             }
 
-            return SegmentableFace2Ds(closedSegmentable2Ds.Segments(), tolerace);
+            return PolygonalFace2Ds(polygonal2Ds.Segments(), tolerace);
         }
     }
 

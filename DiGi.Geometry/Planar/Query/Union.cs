@@ -9,17 +9,17 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<SegmentableFace2D> Union(this IEnumerable<SegmentableFace2D> segmentableFace2Ds)
+        public static List<PolygonalFace2D> Union(this IEnumerable<PolygonalFace2D> polygonalFace2Ds)
         {
-            if (segmentableFace2Ds == null)
+            if (polygonalFace2Ds == null)
             {
                 return null;
             }
 
             List<Polygon> polygons = new List<Polygon>();
-            foreach (SegmentableFace2D segmentableFace2D in segmentableFace2Ds)
+            foreach (PolygonalFace2D polygonalFace2D in polygonalFace2Ds)
             {
-                Polygon polygon = segmentableFace2D?.ToNTS();
+                Polygon polygon = polygonalFace2D?.ToNTS();
                 if (polygon == null)
                 {
                     continue;
@@ -35,7 +35,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<SegmentableFace2D> result = new List<SegmentableFace2D>();
+            List<PolygonalFace2D> result = new List<PolygonalFace2D>();
             for(int i=0; i < polygons.Count; i++)
             {
                 result.Add(polygons[i].ToDiGi());
@@ -44,14 +44,14 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<SegmentableFace2D> Union(this SegmentableFace2D segmentableFace2D_1, SegmentableFace2D segmentableFace2D_2)
+        public static List<PolygonalFace2D> Union(this PolygonalFace2D polygonalFace2D_1, PolygonalFace2D polygonalFace2D_2)
         {
-            if(segmentableFace2D_1 == null || segmentableFace2D_2 == null)
+            if(polygonalFace2D_1 == null || polygonalFace2D_2 == null)
             {
                 return null;
             }
 
-            return Union(new SegmentableFace2D[] { segmentableFace2D_1, segmentableFace2D_2 });
+            return Union(new PolygonalFace2D[] { polygonalFace2D_1, polygonalFace2D_2 });
         }
 
         public static List<Polygon> Union(this IEnumerable<Polygon> polygons)
@@ -140,13 +140,13 @@ namespace DiGi.Geometry.Planar
 
             for(int i = 0; i < polygons.Count; i++)
             {
-                IClosedSegmentable2D closedSegmentable2D = polygons[i]?.ToDiGi()?.ExternalCurve;
-                if(closedSegmentable2D == null)
+                IPolygonal2D polygonal2D = polygons[i]?.ToDiGi()?.ExternalEdge;
+                if(polygonal2D == null)
                 {
                     continue;
                 }
 
-                result.Add(new Polygon2D(closedSegmentable2D));
+                result.Add(new Polygon2D(polygonal2D));
             }
 
             return result;

@@ -2,20 +2,19 @@
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static LinearRing ToNTS(this IClosedSegmentable2D closedSegmentable2D)
+        public static LinearRing ToNTS(this IPolygonal2D polygonal2D)
         {
-            if(closedSegmentable2D == null)
+            if(polygonal2D == null)
             {
                 return null;
             }
 
-            List<Point2D> point2Ds = closedSegmentable2D.GetPoints();
+            List<Point2D> point2Ds = polygonal2D.GetPoints();
             if(point2Ds == null || point2Ds.Count < 3)
             {
                 return null;

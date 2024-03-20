@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Enums;
+using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -7,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class BoundingBox2D : Geometry2D
+    public class BoundingBox2D : Geometry2D, IBoundingBox
     {
         private Point2D max;
         private Point2D min;

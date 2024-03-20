@@ -7,7 +7,7 @@ using DiGi.Core.Interfaces;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Rectangle2D : Geometry2D, IClosedSegmentable2D
+    public class Rectangle2D : Geometry2D, IPolygonal2D
     {
         [JsonInclude, JsonPropertyName("Height")]
         private double height;
@@ -366,6 +366,17 @@ namespace DiGi.Geometry.Planar.Classes
         public Point2D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return GetCentroid();
+        }
+
+        public List<Triangle2D> Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        {
+            List<Point2D> point2Ds = GetPoints();
+            if(point2Ds != null || point2Ds.Count != 4)
+            {
+                return null;
+            }
+
+            return new List<Triangle2D>() { new Triangle2D(point2Ds[0], point2Ds[1], point2Ds[2]), new Triangle2D(point2Ds[2], point2Ds[3], point2Ds[0]) };
         }
     }
 }

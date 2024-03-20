@@ -17,40 +17,40 @@ namespace DiGi.Geometry.Planar
             return !Concave(point2Ds);
         }
 
-        public static bool Convex(this IClosedSegmentable2D closedSegmentable2D)
+        public static bool Convex(this IPolygonal2D polygonal2D)
         {
-            return Convex(closedSegmentable2D?.GetPoints());
+            return Convex(polygonal2D?.GetPoints());
         }
 
-        public static bool Convex(this SegmentableFace2D segmentableFace2D, bool externalCurve = true, bool internalCurves = true)
+        public static bool Convex(this PolygonalFace2D polygonalFace2D, bool externalEdge = true, bool internalEdges = true)
         {
-            if (segmentableFace2D == null)
+            if (polygonalFace2D == null)
             {
                 return false;
             }
 
-            if(externalCurve)
+            if(externalEdge)
             {
-                IClosedSegmentable2D closedSegmentable2D = segmentableFace2D.ExternalCurve;
-                if(closedSegmentable2D == null)
+                IPolygonal2D polygonal2D = polygonalFace2D.ExternalEdge;
+                if(polygonal2D == null)
                 {
                     return false;
                 }
 
-                if(!closedSegmentable2D.Convex())
+                if(!polygonal2D.Convex())
                 {
                     return false;
                 }
             }
 
-            if(internalCurves)
+            if(internalEdges)
             {
-                List<IClosedSegmentable2D> closedSegmentable2Ds = segmentableFace2D.InternalCurves;
-                if(closedSegmentable2Ds != null)
+                List<IPolygonal2D> polygonal2Ds = polygonalFace2D.InternalEdges;
+                if(polygonal2Ds != null)
                 {
-                    for(int i =0; i < closedSegmentable2Ds.Count; i++)
+                    for(int i =0; i < polygonal2Ds.Count; i++)
                     {
-                        if (!closedSegmentable2Ds[i].Convex())
+                        if (!polygonal2Ds[i].Convex())
                         {
                             return false;
                         }

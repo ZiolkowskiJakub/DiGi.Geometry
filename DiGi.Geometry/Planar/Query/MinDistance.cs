@@ -6,12 +6,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static double MaxDistance(this IEnumerable<Point2D> point2Ds)
+        public static double MinDistance(this IEnumerable<Point2D> point2Ds)
         {
-            return MaxDistance(point2Ds, out Point2D point2D_1, out Point2D point2D_2);
+            return MinDistance(point2Ds, out Point2D point2D_1, out Point2D point2D_2);
         }
 
-        public static double MaxDistance(this IEnumerable<Point2D> point2Ds, out Point2D point2D_1, out Point2D point2D_2)
+        public static double MinDistance(this IEnumerable<Point2D> point2Ds, out Point2D point2D_1, out Point2D point2D_2)
         {
             point2D_1 = null;
             point2D_2 = null;
@@ -34,7 +34,7 @@ namespace DiGi.Geometry.Planar
                 return 0;
             }
 
-            double result = double.MinValue;
+            double result = double.MaxValue;
             for (int i = 0; i < count - 1; i++)
             {
                 Point2D point2D_Temp_1 = point2Ds.ElementAt(i);
@@ -42,7 +42,7 @@ namespace DiGi.Geometry.Planar
                 {
                     Point2D point2D_Temp_2 = point2Ds.ElementAt(j);
                     double distance_Temp = point2D_Temp_1.Distance(point2D_Temp_2);
-                    if (distance_Temp > result)
+                    if (distance_Temp < result)
                     {
                         result = distance_Temp;
                         point2D_1 = point2D_Temp_1;
@@ -51,7 +51,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            if(result == double.MinValue)
+            if(result == double.MaxValue)
             {
                 result = double.NaN;
             }

@@ -17,12 +17,6 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            //if (segmentable2Ds.Count() == 1)
-            //{
-            //    ISegmentable2D segmentable2D = segmentable2Ds.ElementAt(0);
-            //    return new List<Polyline2D>() { new Polyline2D(segmentable2D.GetPoints(), segmentable2D is IClosedSegmentable2D) };
-            //}
-
             List<Segment2D> segment2Ds = null;
             if (split)
             {

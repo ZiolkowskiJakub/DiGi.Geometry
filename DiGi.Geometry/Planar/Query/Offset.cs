@@ -95,36 +95,36 @@ namespace DiGi.Geometry.Planar
             return new Triangle2D(point2Ds[0], point2Ds[1], point2Ds[2]);
         }
 
-        public static List<IClosedSegmentable2D> Offset(this IClosedSegmentable2D closedSegmentable2D, double offset)
+        public static List<IPolygonal2D> Offset(this IPolygonal2D polygonal2D, double offset)
         {
-            if(closedSegmentable2D == null)
+            if(polygonal2D == null)
             {
                 return null;
             }
 
-            if(closedSegmentable2D is Rectangle2D)
+            if(polygonal2D is Rectangle2D)
             {
-                IClosedSegmentable2D closedSegmentable2d_Temp = ((Rectangle2D)(object)closedSegmentable2D).Offset(offset);
-                return closedSegmentable2d_Temp != null ? new List<IClosedSegmentable2D> { closedSegmentable2d_Temp } : null;
+                IPolygonal2D polygonal2D_Temp = ((Rectangle2D)(object)polygonal2D).Offset(offset);
+                return polygonal2D_Temp != null ? new List<IPolygonal2D> { polygonal2D_Temp } : null;
             }
 
-            if (closedSegmentable2D is Triangle2D)
+            if (polygonal2D is Triangle2D)
             {
-                IClosedSegmentable2D closedSegmentable2d_Temp = ((Triangle2D)(object)closedSegmentable2D).Offset(offset);
-                return closedSegmentable2d_Temp != null ? new List<IClosedSegmentable2D> { closedSegmentable2d_Temp } : null;
+                IPolygonal2D polygonal2D_Temp = ((Triangle2D)(object)polygonal2D).Offset(offset);
+                return polygonal2D_Temp != null ? new List<IPolygonal2D> { polygonal2D_Temp } : null;
             }
 
-            if (closedSegmentable2D is Polygon2D)
+            if (polygonal2D is Polygon2D)
             {
-                List<Polygon2D> polygon2Ds = ((Polygon2D)(object)closedSegmentable2D).Offset(offset);
+                List<Polygon2D> polygon2Ds = ((Polygon2D)(object)polygonal2D).Offset(offset);
                 if(polygon2Ds != null)
                 {
-                    List<IClosedSegmentable2D> result = new List<IClosedSegmentable2D>();
+                    List<IPolygonal2D> result = new List<IPolygonal2D>();
                     for (int i = 0; i < polygon2Ds.Count; i++)
                     {
-                        if (polygon2Ds[i] is IClosedSegmentable2D)
+                        if (polygon2Ds[i] is IPolygonal2D)
                         {
-                            result.Add((IClosedSegmentable2D)(object)(polygon2Ds[i]));
+                            result.Add((IPolygonal2D)(object)(polygon2Ds[i]));
                         }
                     }
 

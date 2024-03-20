@@ -32,19 +32,19 @@ namespace DiGi.Geometry.Planar
                 if(segment2Ds != null && segment2Ds.Count > 2)
                 {
                     segment2Ds = Query.Split(segment2Ds, tolerance);
-                    List<SegmentableFace2D> segmentableFace2Ds = SegmentableFace2Ds(segment2Ds, tolerance);
-                    if(segmentableFace2Ds != null && segmentableFace2Ds.Count != 0)
+                    List<PolygonalFace2D> polygonalFace2Ds = PolygonalFace2Ds(segment2Ds, tolerance);
+                    if(polygonalFace2Ds != null && polygonalFace2Ds.Count != 0)
                     {
-                        foreach(SegmentableFace2D segmentableFace2D in segmentableFace2Ds)
+                        foreach(PolygonalFace2D polygonalFace2D in polygonalFace2Ds)
                         {
-                            List<IClosedSegmentable2D> closedSegmentable2Ds = segmentableFace2D.Curves;
-                            if(closedSegmentable2Ds != null)
+                            List<IPolygonal2D> polygonal2Ds = polygonalFace2D.Edges;
+                            if(polygonal2Ds != null)
                             {
-                                foreach(IClosedSegmentable2D closedSegmentable2D in closedSegmentable2Ds)
+                                foreach(IPolygonal2D polygonal2D in polygonal2Ds)
                                 {
-                                    if(closedSegmentable2D != null)
+                                    if(polygonal2D != null)
                                     {
-                                        result.Add(new Polygon2D(closedSegmentable2D.GetPoints()));
+                                        result.Add(new Polygon2D(polygonal2D.GetPoints()));
                                     }
                                 }
                             }

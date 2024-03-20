@@ -39,27 +39,27 @@ namespace DiGi.Geometry.Planar
 
             List<Polygon2D> result = new List<Polygon2D>();
 
-            List<SegmentableFace2D> segmentableFace2Ds = Create.SegmentableFace2Ds(segment2Ds, tolerance);
-            if (segmentableFace2Ds == null || segmentableFace2Ds.Count == 0)
+            List<PolygonalFace2D> polygonalFace2Ds = Create.PolygonalFace2Ds(segment2Ds, tolerance);
+            if (polygonalFace2Ds == null || polygonalFace2Ds.Count == 0)
             {
                 return result;
             }
 
-            segmentableFace2Ds = segmentableFace2Ds.Union();
-            if (segmentableFace2Ds == null || segmentableFace2Ds.Count == 0)
+            polygonalFace2Ds = polygonalFace2Ds.Union();
+            if (polygonalFace2Ds == null || polygonalFace2Ds.Count == 0)
             {
                 return result;
             }
 
-            for (int i = 0; i < segmentableFace2Ds.Count; i++)
+            for (int i = 0; i < polygonalFace2Ds.Count; i++)
             {
-                IClosedSegmentable2D closedSegmentable2D = segmentableFace2Ds[i]?.ExternalCurve;
-                if (closedSegmentable2D == null)
+                IPolygonal2D polygonal2D = polygonalFace2Ds[i]?.ExternalEdge;
+                if (polygonal2D == null)
                 {
                     continue;
                 }
 
-                result.Add(new Polygon2D(closedSegmentable2D));
+                result.Add(new Polygon2D(polygonal2D));
             }
 
             return result;

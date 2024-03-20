@@ -73,14 +73,14 @@ namespace DiGi.Geometry.Planar
             return Core.Enums.Orientation.Undefined;
         }
 
-        public static Orientation Orientation(this IClosedSegmentable2D closedSegmentable2D)
+        public static Orientation Orientation(this IPolygonal2D polygonal2D)
         {
-            if (closedSegmentable2D == null)
+            if (polygonal2D == null)
             {
                 return Core.Enums.Orientation.Undefined;
             }
 
-            List<Point2D> point2Ds = closedSegmentable2D?.GetPoints();
+            List<Point2D> point2Ds = polygonal2D?.GetPoints();
             if(point2Ds == null || point2Ds.Count < 3)
             {
                 return Core.Enums.Orientation.Undefined;

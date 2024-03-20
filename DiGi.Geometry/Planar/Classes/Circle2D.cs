@@ -1,6 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
-using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 

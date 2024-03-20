@@ -24,14 +24,14 @@ namespace DiGi.Geometry.Planar
                 return new Point(coordinate);
             }
 
-            if (sAMGeometry2D is IClosedSegmentable2D)
+            if (sAMGeometry2D is IPolygonal2D)
             {
-                return ToNTS((IClosedSegmentable2D)sAMGeometry2D);
+                return ToNTS((IPolygonal2D)sAMGeometry2D);
             }
 
-            if(sAMGeometry2D is ISegmentableFace2D)
+            if(sAMGeometry2D is IPolygonalFace2D)
             {
-                return ToNTS((ISegmentableFace2D)sAMGeometry2D);
+                return ToNTS((IPolygonalFace2D)sAMGeometry2D);
             }
 
             if (sAMGeometry2D is Segment2D)
