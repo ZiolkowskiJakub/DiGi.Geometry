@@ -55,5 +55,18 @@ namespace DiGi.Geometry.Planar.Classes
 
             return new Vector2D(this, point2D).Length;
         }
+
+        public Point2D GetMoved(Vector2D vector3D)
+        {
+            if (vector3D == null)
+            {
+                return null;
+            }
+
+            Point2D result = new Point2D(this);
+            result.Move(vector3D);
+
+            return result;
+        }
     }
 }

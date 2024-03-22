@@ -234,5 +234,13 @@ namespace DiGi.Geometry.Planar.Classes
 
             //return result;
         }
+
+        public Vector2D GetInversed()
+        {
+            Vector2D result = new Vector2D(this);
+            result.Inverse();
+
+            return result;
+        }
     }
 }

@@ -26,6 +26,24 @@ namespace DiGi.Geometry.Planar
             return (segment2D_1[0].AlmostEquals(segment2D_2[0], tolerance) && segment2D_1[1].AlmostEquals(segment2D_2[1], tolerance)) || (segment2D_1[0].AlmostEquals(segment2D_2[1], tolerance) && segment2D_1[1].AlmostEquals(segment2D_2[0], tolerance));
         }
 
+        public static bool Similar(this Vector2D vector2D_1, Vector2D vector2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (vector2D_1 == vector2D_2)
+            {
+                return true;
+            }
+
+            if (vector2D_1 == null || vector2D_2 == null)
+            {
+                return false;
+            }
+
+            Vector2D vector2D_3 = new Vector2D(vector2D_2);
+            vector2D_3.Inverse();
+
+            return vector2D_1.AlmostEqual(vector2D_2, tolerance) || vector2D_1.AlmostEqual(vector2D_3, tolerance);
+        }
+
         public static bool Similar(this ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D_1 == segmentable2D_2)

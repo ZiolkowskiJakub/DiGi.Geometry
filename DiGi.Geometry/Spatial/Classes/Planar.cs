@@ -1,13 +1,11 @@
-﻿using DiGi.Core.Interfaces;
-using DiGi.Geometry.Planar.Interfaces;
+﻿using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
-using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public abstract class PlanarGeometry<T> : Geometry3D, IPlanarGeometry<T> where T : IGeometry2D
+    public abstract class Planar<T> : Geometry3D, IPlanar<T> where T : IGeometry2D
     {
         [JsonInclude, JsonPropertyName("Plane")]
         protected Plane plane;
@@ -15,29 +13,29 @@ namespace DiGi.Geometry.Spatial.Classes
         [JsonInclude, JsonPropertyName("Geometry2D")]
         protected T geometry2D; 
 
-        public PlanarGeometry(Plane plane)
+        public Planar(Plane plane)
             : base()
         {
             this.plane = plane == null ? null : new Plane(plane);
         }
 
-        public PlanarGeometry(JsonObject jsonObject)
+        public Planar(JsonObject jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public PlanarGeometry(PlanarGeometry<T> planarGeometry)
-            : base(planarGeometry)
+        public Planar(Planar<T> planar)
+            : base(planar)
         {
-            if(planarGeometry != null)
+            if(planar != null)
             {
-                plane = DiGi.Core.Query.Clone(planarGeometry.plane);
+                plane = DiGi.Core.Query.Clone(planar.plane);
                 geometry2D = DiGi.Core.Query.Clone(geometry2D);
             }
         }
 
-        public PlanarGeometry(Plane plane, T geometry2D)
+        public Planar(Plane plane, T geometry2D)
             : base()
         {
             this.plane = plane == null ? null : new Plane(plane);

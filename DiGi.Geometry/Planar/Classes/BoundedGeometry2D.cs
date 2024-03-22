@@ -79,12 +79,12 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
-                return DiGi.Core.Query.Clone<T>(boundable);
+                return DiGi.Core.Query.Clone(boundable);
             }
 
             set
             {
-                boundable = DiGi.Core.Query.Clone<T>(value);
+                boundable = DiGi.Core.Query.Clone(value);
                 if (boundable != null)
                 {
                     boundingBox = boundable?.GetBoundingBox();

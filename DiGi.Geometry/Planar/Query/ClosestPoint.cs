@@ -44,6 +44,11 @@ namespace DiGi.Geometry.Planar
             return ClosestPoint(point2D, segmentable2D?.GetSegments(), out double distance);
         }
 
+        public static Point2D ClosestPoint(this Point2D point2D, ISegmentable2D segmentable2D, out double distance)
+        {
+            return ClosestPoint(point2D, segmentable2D?.GetSegments(), out distance);
+        }
+
         public static Point2D ClosestPoint(this Point2D point2D, IEnumerable<Segment2D> segment2Ds, out double distance)
         {
             distance = double.NaN;

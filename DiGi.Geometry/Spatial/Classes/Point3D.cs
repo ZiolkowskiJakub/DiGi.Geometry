@@ -36,6 +36,29 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Point3D(values);
         }
 
+        public double Distance(Point3D point3D)
+        {
+            if (point3D == null)
+            {
+                return double.NaN;
+            }
+
+            return new Vector3D(this, point3D).Length;
+        }
+
+        public Point3D GetMoved(Vector3D vector3D)
+        {
+            if (vector3D == null)
+            {
+                return null;
+            }
+
+            Point3D result = new Point3D(this);
+            result.Move(vector3D);
+
+            return result;
+        }
+
         public Point3D Mid(Point3D point3D)
         {
             if(point3D == null)
@@ -44,16 +67,6 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             return new Point3D((point3D[0] + values[0]) / 2, (point3D[1] + values[1]) / 2, (point3D[2] + values[2]) / 2);
-        }
-
-        public double Distance(Point3D point3D)
-        {
-            if(point3D == null)
-            {
-                return double.NaN;
-            }
-
-            return new Vector3D(this, point3D).Length;
         }
     }
 }

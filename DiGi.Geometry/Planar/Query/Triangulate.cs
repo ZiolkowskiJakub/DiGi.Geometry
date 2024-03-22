@@ -1,6 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
-using DiGi.Math.Classes;
-using NetTopologySuite.Geometries;
+﻿using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Prepared;
 using NetTopologySuite.Triangulate;
 using System.Collections.Generic;

@@ -27,6 +27,14 @@
                     return new Classes.Vector3D(0, 0, 1);
                 }
             }
+
+            public static Classes.Vector3D Zero
+            {
+                get
+                {
+                    return new Classes.Vector3D(0, 0, 0);
+                }
+            }
         }
     }
 }
