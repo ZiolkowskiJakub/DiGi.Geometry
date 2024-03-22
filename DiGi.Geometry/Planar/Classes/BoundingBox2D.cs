@@ -8,10 +8,13 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class BoundingBox2D : Geometry2D, IBoundingBox
+    public class BoundingBox2D : Geometry2D, IBoundingBox<Point2D>
     {
-        private Point2D max;
+        [JsonInclude, JsonPropertyName("Min")]
         private Point2D min;
+
+        [JsonInclude, JsonPropertyName("Max")]
+        private Point2D max;
 
         public BoundingBox2D(JsonObject jsonObject)
             : base(jsonObject)
@@ -66,6 +69,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        [JsonIgnore]
         public Point2D Max
         {
             get
@@ -87,6 +91,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        [JsonIgnore]
         public Point2D Min
         {
             get
@@ -135,7 +140,9 @@ namespace DiGi.Geometry.Planar.Classes
         public bool Add(Point2D point2D)
         {
             if (point2D == null)
+            {
                 return false;
+            }
 
             max = Query.Max(max, point2D);
             min = Query.Min(min, point2D);

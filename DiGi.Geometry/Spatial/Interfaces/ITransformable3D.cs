@@ -2,7 +2,8 @@
 
 namespace DiGi.Geometry.Spatial.Interfaces
 {
-    public interface IGeometry3D : IGeometry, IMovable3D
+    public interface ITransformable3D : ITransformable<ITransform3D>
     {
+
     }
 }

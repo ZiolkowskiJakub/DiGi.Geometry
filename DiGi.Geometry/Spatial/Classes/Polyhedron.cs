@@ -1,23 +1,16 @@
 ﻿using DiGi.Core.Interfaces;
-using DiGi.Geometry.Spatial.Interfaces;
 using System;
-using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class Polyhedron : IGeometry3D
+    public class Polyhedron : Geometry3D
     {
         public ISerializableObject Clone()
         {
             throw new NotImplementedException();
         }
 
-        public bool FromJsonObject(JsonObject jsonObject)
-        {
-            throw new NotImplementedException();
-        }
-
-        public JsonObject ToJsonObject()
+        public override bool Move(Vector3D vector3D)
         {
             throw new NotImplementedException();
         }

@@ -1,5 +1,4 @@
 ﻿using DiGi.Core.Interfaces;
-using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Core.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
