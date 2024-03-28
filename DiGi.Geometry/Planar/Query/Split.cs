@@ -82,7 +82,7 @@ namespace DiGi.Geometry.Planar
 
                     if (point2Ds_Intersection.Count == 0)
                     {
-                        Point2D point2D_Intersection = Query.IntersectionPoint(segment2D_1, segment2D_2, out point2D_Closest1, out point2D_Closest2, tolerance);
+                        Point2D point2D_Intersection = IntersectionPoint(segment2D_1, segment2D_2, out point2D_Closest1, out point2D_Closest2, tolerance);
                         if (point2D_Intersection == null)
                         {
                             continue;
@@ -107,7 +107,7 @@ namespace DiGi.Geometry.Planar
 
                     foreach (Point2D point2D_Intersection in point2Ds_Intersection)
                     {
-                        Point2D point2D_Intersection_Temp = point2Ds.Find(x => point2D_Intersection.AlmostEquals(x, tolerance));
+                        Point2D point2D_Intersection_Temp = point2Ds.Find(x => AlmostEquals(point2D_Intersection, x, tolerance));
                         if (point2D_Intersection_Temp == null)
                         {
                             point2D_Intersection_Temp = point2D_Intersection;
@@ -162,7 +162,7 @@ namespace DiGi.Geometry.Planar
                     Point2D point2D_1 = point2Ds_Temp[j];
                     Point2D point2D_2 = point2Ds_Temp[j + 1];
 
-                    Segment2D segment2D = result.Find(x => (x[0].AlmostEquals(point2D_1, tolerance) && x[1].AlmostEquals(point2D_2, tolerance)) || (x[1].AlmostEquals(point2D_1, tolerance) && x[0].AlmostEquals(point2D_2, tolerance)));
+                    Segment2D segment2D = result.Find(x => (AlmostEquals(x[0], point2D_1, tolerance) && AlmostEquals(x[1], point2D_2, tolerance)) || (AlmostEquals(x[1], point2D_1, tolerance) && AlmostEquals(x[0], point2D_2, tolerance)));
                     if (segment2D != null)
                     {
                         continue;

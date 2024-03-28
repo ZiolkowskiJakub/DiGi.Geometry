@@ -69,11 +69,11 @@ namespace DiGi.Geometry.Planar.Classes
                     return result;
                 }
 
-                foreach(IPolygonal2D internalEdge in internalEdges)
+                for (int i = 0; i < internalEdges.Count; i++)
                 {
-                    if(internalEdge != null)
+                    if (internalEdges[i] != null)
                     {
-                        result.Add(DiGi.Core.Query.Clone(internalEdge));
+                        result.Add(DiGi.Core.Query.Clone(internalEdges[i]));
                     }
                 }
 
@@ -84,6 +84,74 @@ namespace DiGi.Geometry.Planar.Classes
         public override ISerializableObject Clone()
         {
             return new PolygonalFace2D(this);
+        }
+
+        public Point2D ClosestPoint(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(point2D == null || externalEdge == null)
+            {
+                return null;
+            }
+
+            if(Inside(point2D, tolerance))
+            {
+                return new Point2D(point2D);
+            }
+
+            if(externalEdge.On(point2D, tolerance))
+            {
+                return new Point2D(point2D);
+            }
+
+            if(internalEdges != null)
+            {
+                for(int i =0; i < internalEdges.Count; i++)
+                {
+                    if (internalEdges[i] != null && internalEdges[i].On(point2D, tolerance))
+                    {
+                        return new Point2D(point2D);
+                    }
+                }
+            }
+
+            double distance = double.NaN;
+
+            Point2D result = externalEdge.ClosestPoint(point2D);
+            if(result != null)
+            {
+                distance = result.Distance(point2D);
+                if (distance < tolerance)
+                {
+                    return result;
+                }
+            }
+
+            if(internalEdges != null)
+            {
+                for (int i = 0; i < internalEdges.Count; i++)
+                {
+                    Point2D point2D_Temp = internalEdges[i]?.ClosestPoint(point2D);
+                    if(point2D_Temp == null)
+                    {
+                        continue;
+                    }
+
+                    double distance_Temp = point2D_Temp.Distance(point2D);
+
+                    if (double.IsNaN(distance) || distance_Temp < distance)
+                    {
+                        distance = distance_Temp;
+                        result = point2D_Temp;
+                    }
+
+                    if(distance < tolerance)
+                    {
+                        return result;
+                    }
+                }
+            }
+
+            return result;
         }
 
         public double GetArea()
@@ -113,6 +181,119 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return result;
+        }
+
+        public BoundingBox2D GetBoundingBox()
+        {
+            return externalEdge?.GetBoundingBox();
+        }
+
+        public Point2D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (externalEdge == null)
+            {
+                return null;
+            }
+
+            if (internalEdges == null || internalEdges.Count == 0)
+            {
+                return externalEdge.GetInternalPoint(tolerance);
+            }
+
+            Point2D result = externalEdge.GetCentroid();
+            if (Inside(result, tolerance))
+            {
+                return result;
+            }
+
+            List<Point2D> point2Ds = externalEdge.GetPoints();
+            if (point2Ds == null || point2Ds.Count == 0)
+            {
+                return null;
+            }
+
+
+            for (int i = 0; i < internalEdges.Count; i++)
+            {
+                List<Point2D> point2Ds_Internal = internalEdges[i]?.GetPoints();
+                if (point2Ds_Internal != null && point2Ds_Internal.Count > 0)
+                {
+                    point2Ds.AddRange(point2Ds_Internal);
+                }
+            }
+
+            int count = point2Ds.Count;
+            for (int i = 0; i < count - 2; i++)
+            {
+                for (int j = 1; j < count - 1; j++)
+                {
+                    Point2D point2D = point2Ds[i].Mid(point2Ds[j]);
+                    if (Inside(point2D, tolerance))
+                    {
+                        return point2D;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public bool InRange(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(point2D == null || externalEdge == null)
+            {
+                return false;
+            }
+
+            if(Inside(point2D, tolerance))
+            {
+                return true;
+            }
+
+            bool result = externalEdge.On(point2D, tolerance);
+            if(internalEdges == null || internalEdges.Count == 0)
+            {
+                return result;
+            }
+
+            for (int i = 0; i < internalEdges.Count; i++)
+            {
+                if (internalEdges[i] != null && internalEdges[i].On(point2D, tolerance))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool Inside(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (point2D == null || externalEdge == null)
+            {
+                return false;
+            }
+
+            bool result = externalEdge.Inside(point2D, tolerance);
+            if(!result)
+            {
+                return result;
+            }
+
+            if (internalEdges == null || internalEdges.Count == 0)
+            {
+                return result;
+            }
+
+            for (int i = 0; i < internalEdges.Count; i++)
+            {
+                if (internalEdges[i] != null && internalEdges[i].Inside(point2D, tolerance))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public override bool Move(Vector2D vector2D)

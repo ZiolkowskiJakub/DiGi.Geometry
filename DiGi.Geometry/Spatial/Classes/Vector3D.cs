@@ -22,7 +22,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public Vector3D(Point3D start, Point3D end)
             : base()
         {
-            values = new double[2] { double.NaN, double.NaN };
+            values = new double[3] { double.NaN, double.NaN, double.NaN };
             if(start != null && end != null)
             {
                 values[0] = end[0] - start[0];

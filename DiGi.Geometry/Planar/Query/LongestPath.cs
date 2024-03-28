@@ -64,10 +64,10 @@ namespace DiGi.Geometry.Planar
                     List<Segment2D> segment2Ds_Connected = segment2Ds.Connect(point2D_Start_Temp, PointConnectMethod.Projection, tolerance);
                     if (segment2Ds_Connected != null)
                     {
-                        Point2D point2D = segment2Ds_Connected.Find(x => x[0].AlmostEquals(point2D_Start_Temp, tolerance))?[0];
+                        Point2D point2D = segment2Ds_Connected.Find(x => AlmostEquals(x[0], point2D_Start_Temp, tolerance))?[0];
                         if (point2D == null)
                         {
-                            point2D = segment2Ds_Connected.Find(x => x[1].AlmostEquals(point2D_Start_Temp, tolerance))?[1];
+                            point2D = segment2Ds_Connected.Find(x => AlmostEquals(x[1], point2D_Start_Temp, tolerance))?[1];
                         }
 
                         if (point2D == null)
@@ -175,7 +175,7 @@ namespace DiGi.Geometry.Planar
 
                 foreach (Point2D point2D_Unique in point2Ds_Unique)
                 {
-                    if (point2D_Unique.AlmostEquals(point2D))
+                    if (AlmostEquals(point2D_Unique, point2D))
                     {
                         point2D = point2D_Unique;
                         break;
@@ -187,7 +187,7 @@ namespace DiGi.Geometry.Planar
 
             foreach (Point2D point2D_Unique in point2Ds_Unique)
             {
-                if (point2D_Unique.AlmostEquals(point2D_End))
+                if (AlmostEquals(point2D_Unique, point2D_End))
                 {
                     point2D_End = point2D_Unique;
                     break;

@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Transform2D(Matrix3D matrix3D)
         {
-            this.matrix3D = matrix3D;
+            this.matrix3D = matrix3D == null ? null : new Matrix3D(matrix3D);
         }
 
         public Transform2D(JsonObject jsonObject)
@@ -24,7 +24,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Transform2D(Transform2D transform2D)
         {
-            matrix3D = new Matrix3D(transform2D.matrix3D);
+            matrix3D = transform2D?.matrix3D == null ? null : new Matrix3D(transform2D.matrix3D);
         }
 
         [JsonIgnore]
@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
-                return new Matrix3D(matrix3D);
+                return matrix3D == null ? null : new Matrix3D(matrix3D);
             }
         }
 
@@ -50,6 +50,14 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        public static Transform2D operator *(Transform2D transform2D_1, Transform2D transform2D_2)
+        {
+            if (transform2D_1 == null || transform2D_2 == null)
+                return null;
+
+            return new Transform2D(transform2D_1.matrix3D * transform2D_2.matrix3D);
+        }
+
         public void Inverse()
         {
             matrix3D?.Inverse();
@@ -58,14 +66,6 @@ namespace DiGi.Geometry.Planar.Classes
         public void Transpose()
         {
             matrix3D?.Transpose();
-        }
-
-        public static Transform2D operator *(Transform2D transform2D_1, Transform2D transform2D_2)
-        {
-            if (transform2D_1 == null || transform2D_2 == null)
-                return null;
-
-            return new Transform2D(transform2D_1.matrix3D * transform2D_2.matrix3D);
         }
     }
 }

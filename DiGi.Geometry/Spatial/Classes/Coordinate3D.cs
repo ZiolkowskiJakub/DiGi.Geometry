@@ -1,10 +1,11 @@
 ﻿using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
+using DiGi.Math.Classes;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public abstract class Coordinate3D : Coordinate, IGeometry3D
+    public abstract class Coordinate3D : Coordinate, IGeometry3D, ITransformable3D
     {
         public Coordinate3D(JsonObject jsonObject)
             : base(jsonObject, 3)
@@ -98,6 +99,51 @@ namespace DiGi.Geometry.Spatial.Classes
             values[1] += vector3D[1];
             values[2] += vector3D[2];
             return true;
+        }
+
+        public bool Transform(ITransform3D transform)
+        {
+            if (transform == null || values == null || values.Length < 2)
+            {
+                return false;
+            }
+
+            if (transform is Transform3D)
+            {
+                Matrix4D matrix4D = ((Transform3D)transform)?.Matrix4D;
+                if (matrix4D == null)
+                {
+                    return false;
+                }
+
+                Matrix matrix = matrix4D * ArgumentedMatrix;
+                if (matrix == null)
+                {
+                    return false;
+                }
+
+                values[0] = matrix[0, 0];
+                values[1] = matrix[1, 0];
+                values[2] = matrix[2, 0];
+                return true;
+            }
+
+            if (transform is TransformGroup3D)
+            {
+                foreach (ITransform3D transform_Temp in (TransformGroup3D)transform)
+                {
+                    if (transform_Temp == null)
+                    {
+                        continue;
+                    }
+
+                    Transform(transform_Temp);
+                }
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Segment2D> result = segment2Ds.FindAll(x => x != null && (x[0].AlmostEquals(point2D, tolerance) || x[1].AlmostEquals(point2D, tolerance)));
+            List<Segment2D> result = segment2Ds.FindAll(x => x != null && (Query.AlmostEquals(x[0], point2D, tolerance) || Query.AlmostEquals(x[1], point2D, tolerance)));
             if (result != null && result.Count > 0)
             {
                 return result;

@@ -205,7 +205,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool Coplanar(Plane plane, double tolerance = Tolerance.Distance)
         {
-            return normal.AlmostEqual(plane.normal, tolerance) || normal.AlmostEqual(-plane.normal, tolerance);
+            return normal.AlmostEquals(plane.normal, tolerance) || normal.AlmostEquals(-plane.normal, tolerance);
         }
 
         public double Distance(Point3D point3D)

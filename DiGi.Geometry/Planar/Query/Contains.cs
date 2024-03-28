@@ -14,7 +14,7 @@ namespace DiGi.Geometry.Planar
 
             foreach (Point2D poin2D_Temp in point2Ds)
             {
-                if (poin2D_Temp != null && poin2D_Temp.AlmostEquals(point2D, tolerance))
+                if (poin2D_Temp != null && AlmostEquals(poin2D_Temp, point2D, tolerance))
                 {
                     return true;
                 }

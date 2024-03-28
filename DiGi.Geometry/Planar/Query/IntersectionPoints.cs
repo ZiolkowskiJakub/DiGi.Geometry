@@ -160,7 +160,7 @@ namespace DiGi.Geometry.Planar
                 {
                     if (keepDirection)
                     {
-                        if (!vector2D.Unit.AlmostEqual(new Vector2D(point2D_closest_1, point2D_closest_2).Unit, tolerance))
+                        if (!vector2D.Unit.AlmostEquals(new Vector2D(point2D_closest_1, point2D_closest_2).Unit, tolerance))
                         {
                             continue;
                         }

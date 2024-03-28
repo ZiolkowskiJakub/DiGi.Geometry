@@ -290,9 +290,58 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        public bool InRange(Segment2D segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (min == null || max == null || segment2D == null)
+            {
+                return false;
+            }
+
+            if (InRange(segment2D[0], tolerance) || InRange(segment2D[1], tolerance))
+            {
+                return true;
+            }
+
+            List<Segment2D> segment2Ds = GetSegments();
+            if(segment2Ds == null || segment2Ds.Count == 0)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < segment2Ds.Count; i++)
+            {
+                Point2D point2D = segment2Ds[i].IntersectionPoint(segment2D, tolerance);
+                if(point2D != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public bool InRange(ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            return InRange(segmentable2D.GetBoundingBox(), tolerance);
+            if (min == null || max == null)
+            {
+                return false;
+            }
+
+            List<Segment2D> segment2Ds = segmentable2D?.GetSegments();
+            if (segment2Ds == null || segment2Ds.Count == 0)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < segment2Ds.Count; i++)
+            {
+                if (InRange(segment2Ds[i], tolerance))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -315,6 +364,30 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
 
             return point2D.X > min.X + tolerance && point2D.X < max.X - tolerance && point2D.Y < max.Y - tolerance && point2D.Y > min.Y + tolerance;
+        }
+
+        public bool Inside(ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(min == null || max == null)
+            {
+                return false;
+            }
+
+            List<Point2D> point2Ds = segmentable2D?.GetPoints();
+            if(point2Ds == null || point2Ds.Count == 0)
+            {
+                return false;
+            }
+
+            for(int i =0; i < point2Ds.Count; i++)
+            {
+                if (!Inside(point2Ds[i], tolerance))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public override bool Move(Vector2D vector2D)

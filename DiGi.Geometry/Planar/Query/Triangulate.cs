@@ -123,7 +123,7 @@ namespace DiGi.Geometry.Planar
 
                 foreach (Polygon polygon_Intersection in polygons_Intersection)
                 {
-                    if (DiGi.Core.Query.AlmostEqual(polygon_Temp.Area, polygon_Intersection.Area, tolerance))
+                    if (DiGi.Core.Query.AlmostEquals(polygon_Temp.Area, polygon_Intersection.Area, tolerance))
                     {
                         result.Add(polygon_Intersection);
                         continue;

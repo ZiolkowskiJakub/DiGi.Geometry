@@ -31,7 +31,7 @@ namespace DiGi.Geometry.Planar
                 }
 
                 int index_1 = -1;
-                index_1 = point2Ds.FindIndex(x => x.AlmostEquals(point2Ds_Triangle[0], tolerance));
+                index_1 = point2Ds.FindIndex(x => Query.AlmostEquals(x, point2Ds_Triangle[0], tolerance));
                 if (index_1 == -1)
                 {
                     index_1 = point2Ds.Count;
@@ -39,7 +39,7 @@ namespace DiGi.Geometry.Planar
                 }
 
                 int index_2 = -1;
-                index_2 = point2Ds.FindIndex(x => x.AlmostEquals(point2Ds_Triangle[1], tolerance));
+                index_2 = point2Ds.FindIndex(x => Query.AlmostEquals(x, point2Ds_Triangle[1], tolerance));
                 if (index_2 == -1)
                 {
                     index_2 = point2Ds.Count;
@@ -47,7 +47,7 @@ namespace DiGi.Geometry.Planar
                 }
 
                 int index_3 = -1;
-                index_3 = point2Ds.FindIndex(x => x.AlmostEquals(point2Ds_Triangle[2], tolerance));
+                index_3 = point2Ds.FindIndex(x => Query.AlmostEquals(x, point2Ds_Triangle[2], tolerance));
                 if (index_3 == -1)
                 {
                     index_3 = point2Ds.Count;

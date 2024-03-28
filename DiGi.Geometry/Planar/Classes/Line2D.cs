@@ -82,19 +82,19 @@ namespace DiGi.Geometry.Planar.Classes
             return (!line2D_1.origin.Equals(line2D_2.direction)) || (!line2D_1.origin.Equals(line2D_2.direction));
         }
 
-        public static bool operator ==(Line2D segment2D_1, Line2D segment2D_2)
+        public static bool operator ==(Line2D line2D_1, Line2D line2D_2)
         {
-            if (ReferenceEquals(segment2D_1, null) && ReferenceEquals(segment2D_2, null))
+            if (ReferenceEquals(line2D_1, null) && ReferenceEquals(line2D_2, null))
             {
                 return true;
             }
 
-            if (ReferenceEquals(segment2D_1, null) || ReferenceEquals(segment2D_2, null))
+            if (ReferenceEquals(line2D_1, null) || ReferenceEquals(line2D_2, null))
             {
                 return false;
             }
 
-            return segment2D_1.origin.Equals(segment2D_2.origin) && segment2D_1.direction.Equals(segment2D_2.direction);
+            return line2D_1.origin.Equals(line2D_2.origin) && line2D_1.direction.Equals(line2D_2.direction);
         }
 
         public override ISerializableObject Clone()

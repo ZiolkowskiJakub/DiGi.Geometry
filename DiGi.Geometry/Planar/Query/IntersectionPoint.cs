@@ -1,4 +1,7 @@
 ﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Interfaces;
+using System.ComponentModel.Design;
+using System.Runtime.CompilerServices;
 
 namespace DiGi.Geometry.Planar
 {
@@ -107,7 +110,7 @@ namespace DiGi.Geometry.Planar
             point2D_Closest2 = new Point2D(point2D_2_Start.X + dx34 * t2, point2D_2_Start.Y + dy34 * t2);
             return point2D_Intersection;
         }
-    
+
         public static Point2D IntersectionPoint(Segment2D segment2D_1, Segment2D segment2D_2, out Point2D point2D_Closest1, out Point2D point2D_Closest2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             point2D_Closest1 = null;
@@ -120,6 +123,61 @@ namespace DiGi.Geometry.Planar
 
             return IntersectionPoint(segment2D_1[0], segment2D_1[1], segment2D_2[0], segment2D_2[1], out point2D_Closest1, out point2D_Closest2, tolerance);
         }
-    }
 
+        public static Point2D IntersectionPoint(this ILinear2D linear2D_1, ILinear2D linear2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+
+            if (linear2D_1 == null || linear2D_2 == null)
+            {
+                return null;
+            }
+
+            Point2D point2D_1_1 = null;
+            Point2D point2D_1_2 = null;
+            if (linear2D_1 is Segment2D)
+            {
+                point2D_1_1 = ((Segment2D)linear2D_1).Start;
+                point2D_1_2 = ((Segment2D)linear2D_1).End;
+            }
+            else if (linear2D_1 is Line2D)
+            {
+                point2D_1_1 = ((Line2D)linear2D_1).Origin;
+                point2D_1_2 = point2D_1_1.GetMoved(((Line2D)linear2D_1).Direction);
+            }
+            else
+            {
+                throw new System.NotImplementedException();
+            }
+
+            Point2D point2D_2_1 = null;
+            Point2D point2D_2_2 = null;
+            if (linear2D_2 is Segment2D)
+            {
+                point2D_2_1 = ((Segment2D)linear2D_2).Start;
+                point2D_2_2 = ((Segment2D)linear2D_2).End;
+            }
+            else if (linear2D_2 is Line2D)
+            {
+                point2D_2_1 = ((Line2D)linear2D_2).Origin;
+                point2D_2_2 = point2D_2_1.GetMoved(((Line2D)linear2D_2).Direction);
+            }
+            else
+            {
+                throw new System.NotImplementedException();
+            }
+
+            Point2D result = IntersectionPoint(point2D_1_1, point2D_1_2, point2D_2_1, point2D_2_2, out Point2D point2D_Closest1, out Point2D point2D_Closest2, tolerance);
+            if (result == null)
+            {
+                return null;
+            }
+
+            if (linear2D_1.On(result, tolerance) && linear2D_2.On(result, tolerance))
+            {
+                return result;
+            }
+
+            return null;
+        }
+    }
 }

@@ -1,5 +1,8 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
+using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Interfaces;
+using NetTopologySuite.Mathematics;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -164,7 +167,7 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
-        public  static IntersectionResult2D IntersectionResult2D(this IEnumerable<Segment2D> segment2Ds_1, IEnumerable<Segment2D> segment2Ds_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D IntersectionResult2D(this IEnumerable<Segment2D> segment2Ds_1, IEnumerable<Segment2D> segment2Ds_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(segment2Ds_1 == null || segment2Ds_2 == null)
             {
@@ -434,6 +437,115 @@ namespace DiGi.Geometry.Planar
             for (int i = 0; i < segment2Ds_Intersection.Count; i++)
             {
                 geometry2Ds.Add(segment2Ds_Intersection[i]);
+            }
+
+            return new IntersectionResult2D(geometry2Ds);
+        }
+    
+        public static IntersectionResult2D IntersectionResult2D(this PolygonalFace2D polygonalFace2D, ILinear2D linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(polygonalFace2D == null || linear2D == null)
+            {
+                return null;
+            }
+
+            BoundingBox2D boundingBox2D = polygonalFace2D.GetBoundingBox();
+            if(boundingBox2D == null)
+            {
+                return null;
+            }
+
+            if(!boundingBox2D.InRange(linear2D as dynamic, tolerance))
+            {
+                return new IntersectionResult2D();
+            }
+
+            List<IPolygonal2D> edges = polygonalFace2D.Edges;
+
+            List<Point2D> point2Ds = new List<Point2D>();
+            for (int i = 0; i < edges.Count; i++)
+            {
+                List<Segment2D> segment2Ds = edges[i]?.GetSegments();
+                if (segment2Ds == null)
+                {
+                    continue;
+                }
+
+                foreach (Segment2D segment2D in segment2Ds)
+                {
+                    if (segment2D == null)
+                    {
+                        continue;
+                    }
+
+                    Point2D point2D = null;
+
+                    point2D = segment2D[0];
+                    if (linear2D.On(point2D, tolerance))
+                    {
+                        DiGi.Core.Modify.Add(point2Ds, point2D, x => x.Distance(point2D) < tolerance);
+                    }
+
+                    point2D = segment2D[1];
+                    if (linear2D.On(point2D, tolerance))
+                    {
+                        DiGi.Core.Modify.Add(point2Ds, point2D, x => x.Distance(point2D) < tolerance);
+                    }
+
+                    point2D = linear2D.IntersectionPoint(segment2D, tolerance);
+                    if (point2D != null)
+                    {
+                        DiGi.Core.Modify.Add(point2Ds, point2D, x => x.Distance(point2D) < tolerance);
+                    }
+                }
+            }
+
+            if (point2Ds == null || point2Ds.Count == 0)
+            {
+                return new IntersectionResult2D();
+            }
+
+            if (point2Ds.Count == 1)
+            {
+                return new IntersectionResult2D(point2Ds[0]);
+            }
+
+            Query.ExtremePoints(point2Ds, out Point2D point2D_1, out Point2D point2D_2);
+
+            point2Ds.Sort((x, y) => x.Distance(point2D_1).CompareTo(y.Distance(point2D_1)));
+
+            List<IGeometry2D> geometry2Ds = new List<IGeometry2D>();
+
+            int count = point2Ds.Count;
+
+            List<bool> bools = new List<bool>();
+            for (int i = 0; i < count - 1; i++)
+            {
+                bool @bool = polygonalFace2D.InRange(point2Ds[i].Mid(point2Ds[i + 1]), tolerance);
+                bools.Add(@bool);
+
+                if (@bool)
+                {
+                    geometry2Ds.Add(new Segment2D(point2Ds[i], point2Ds[i + 1]));
+                }
+            }
+
+            if (!bools[0])
+            {
+                geometry2Ds.Add(point2Ds[0]);
+            }
+
+            for (int i = 0; i < bools.Count - 1; i++)
+            {
+                if (!bools[i] && !bools[i + 1])
+                {
+                    geometry2Ds.Add(point2Ds[i + 1]);
+                }
+            }
+
+            if (!bools[count - 2])
+            {
+                geometry2Ds.Add(point2Ds[count - 1]);
             }
 
             return new IntersectionResult2D(geometry2Ds);

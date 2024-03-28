@@ -42,12 +42,12 @@ namespace DiGi.Geometry.Planar
             Segment2D segment2D_Height = new Segment2D(point2D_1_Height, point2D_2_Height);
             Segment2D segment2D_Width = new Segment2D(point2D_1_Width, point2D_2_Width);
 
-            if (!segment2D_Height.Direction.AlmostEqual(direction_Height))
+            if (!segment2D_Height.Direction.AlmostEquals(direction_Height))
             {
                 segment2D_Height.Inverse();
             }
 
-            if (!segment2D_Width.Direction.AlmostEqual(direction_Width))
+            if (!segment2D_Width.Direction.AlmostEquals(direction_Width))
             {
                 segment2D_Width.Inverse();
             }
@@ -98,13 +98,13 @@ namespace DiGi.Geometry.Planar
                     }
 
                     double area_Temp = rectangle_Temp.GetArea();
-                    if (DiGi.Core.Query.AlmostEqual(area_Temp, area, tolerance))
+                    if (DiGi.Core.Query.AlmostEquals(area_Temp, area, tolerance))
                     {
                         List<Point2D> point2Ds_1 = result.GetPoints();
                         List<Point2D> point2Ds_2 = rectangle_Temp.GetPoints();
 
-                        int count_1 = point2Ds_1.Count(x => point2Ds_ConvexHull.Find(y => y.AlmostEquals(x, tolerance)) != null);
-                        int count_2 = point2Ds_2.Count(x => point2Ds_ConvexHull.Find(y => y.AlmostEquals(x, tolerance)) != null);
+                        int count_1 = point2Ds_1.Count(x => point2Ds_ConvexHull.Find(y => Query.AlmostEquals(y, x, tolerance)) != null);
+                        int count_2 = point2Ds_2.Count(x => point2Ds_ConvexHull.Find(y => Query.AlmostEquals(y, x, tolerance)) != null);
 
                         if (count_2 > count_1)
                         {

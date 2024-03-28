@@ -130,7 +130,7 @@ namespace DiGi.Geometry.Planar
             foreach (Edge<Point2D> edge in edges)
             {
                 point2Ds.Add(edge.Source);
-                int index = segment2Ds.FindIndex(x => (x[0].AlmostEquals(edge.Source, tolerance) && x[1].AlmostEquals(edge.Target, tolerance)) || (x[1].AlmostEquals(edge.Source, tolerance) && x[0].AlmostEquals(edge.Target, tolerance)));
+                int index = segment2Ds.FindIndex(x => (Query.AlmostEquals(x[0], edge.Source, tolerance) && Query.AlmostEquals(x[1], edge.Target, tolerance)) || (Query.AlmostEquals(x[1], edge.Source, tolerance) && Query.AlmostEquals(x[0], edge.Target, tolerance)));
                 if (index != -1)
                 {
                     segment2Ds.RemoveAt(index);

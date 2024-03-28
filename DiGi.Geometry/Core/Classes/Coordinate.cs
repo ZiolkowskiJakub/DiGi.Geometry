@@ -117,7 +117,7 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
-        public bool AlmostEqual(Coordinate coordinate, double tolerance = Constans.Tolerance.Distance)
+        public bool AlmostEquals(Coordinate coordinate, double tolerance = Constans.Tolerance.Distance)
         {
             if (this == coordinate)
             {
@@ -137,7 +137,7 @@ namespace DiGi.Geometry.Core.Classes
 
             for (int i = 0; i < values.Length; i++)
             {
-                if (Query.AlmostEqual( this.values[i], values[i], tolerance))
+                if (Query.AlmostEquals( this.values[i], values[i], tolerance))
                 {
                     return false;
                 }

@@ -158,7 +158,12 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public BoundingBox3D GetBoundingBox()
         {
-            throw new System.NotImplementedException();
+            if(start == null || vector == null)
+            {
+                return null;
+            }
+
+            return new BoundingBox3D(start, End);
         }
 
         public List<Point3D> GetPoints()

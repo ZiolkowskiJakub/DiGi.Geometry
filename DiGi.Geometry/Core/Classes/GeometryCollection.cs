@@ -63,7 +63,7 @@ namespace DiGi.Geometry.Core.Classes
             
             result[Constans.Serialization.PropertyName.Type] = Query.FullTypeName(GetType());
             
-            result["Values"] = DiGi.Core.Convert.ToJson<T>(this);
+            result["Values"] = Convert.ToJson<T>(this);
 
             return result;
         }
