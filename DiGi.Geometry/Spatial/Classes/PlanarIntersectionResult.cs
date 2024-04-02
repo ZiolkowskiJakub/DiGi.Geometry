@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class PlanarIntersectionResult : SerializableObject, IIntersectionResult
+    public class PlanarIntersectionResult : SerializableObject, IIntersectionResult3D
     {
         [JsonInclude, JsonPropertyName("Plane")]
         private Plane plane;
@@ -122,11 +122,11 @@ namespace DiGi.Geometry.Spatial.Classes
             List<T> result = new List<T>();
             for (int i = 0; i < geometry2Ds.Count; i++)
             {
-                IPlanar planar = Query.Convert(plane, geometry2Ds[i] as dynamic);
+                IGeometry3D geometry3D = Query.Convert(plane, geometry2Ds[i] as dynamic);
                 
-                if (planar is T)
+                if (geometry3D is T)
                 {
-                    result.Add((T)planar);
+                    result.Add((T)geometry3D);
                 }
             }
 

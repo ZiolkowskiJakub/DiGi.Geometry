@@ -160,7 +160,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            return geometry2D.InRange(plane.Convert(point3D));
+            return geometry2D.InRange(plane.Convert(point3D), tolerance);
         }
 
         public bool Inside(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -175,7 +175,22 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            return geometry2D.InRange(plane.Convert(point3D));
+            return geometry2D.Inside(plane.Convert(point3D), tolerance);
+        }
+
+        public bool OnEdge(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (point3D == null || plane == null || geometry2D == null)
+            {
+                return false;
+            }
+
+            if (!plane.On(point3D, tolerance))
+            {
+                return false;
+            }
+
+            return geometry2D.OnEdge(plane.Convert(point3D), tolerance);
         }
     }
 }

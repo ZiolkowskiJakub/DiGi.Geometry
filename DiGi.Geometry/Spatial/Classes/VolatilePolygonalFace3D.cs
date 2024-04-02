@@ -1,13 +1,13 @@
-﻿using DiGi.Core.Classes;
-using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class VolatilePolygonalFace3D : VolatileObject<PolygonalFace3D>
+    public class VolatilePolygonalFace3D : VolatileBoundable3D<PolygonalFace3D>
     {
-        private BoundingBox3D boundingBox;
-        private Point3D internalPoint;
+        private Dictionary<double, Point3D> internalPoints;
         public VolatilePolygonalFace3D(JsonObject jsonObject)
             : base(jsonObject)
         {
@@ -21,39 +21,35 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         public VolatilePolygonalFace3D(VolatilePolygonalFace3D volatilePolygonalFace3D)
-            : base(volatilePolygonalFace3D)
+            : base(volatilePolygonalFace3D as VolatileBoundable3D<PolygonalFace3D>)
         {
-            if(volatilePolygonalFace3D != null)
+            if (volatilePolygonalFace3D != null)
             {
-                internalPoint = volatilePolygonalFace3D.internalPoint == null ? null : new Point3D(volatilePolygonalFace3D.internalPoint);
-                boundingBox = volatilePolygonalFace3D.boundingBox == null ? null : new BoundingBox3D(volatilePolygonalFace3D.boundingBox);
+                if (volatilePolygonalFace3D.internalPoints != null)
+                {
+                    internalPoints = new Dictionary<double, Point3D>();
+                    foreach (KeyValuePair<double, Point3D> keyValuePair in volatilePolygonalFace3D.internalPoints)
+                    {
+                        internalPoints[keyValuePair.Key] = DiGi.Core.Query.Clone(keyValuePair.Value);
+                    }
+                }
             }
         }
 
-        public BoundingBox3D BoundingBox
+        public Point3D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            get
+            if (internalPoints == null)
             {
-                if (boundingBox == null)
-                {
-                    boundingBox = @object.GetBoundingBox();
-                }
-
-                return boundingBox == null ? null : new BoundingBox3D(boundingBox);
+                internalPoints = new Dictionary<double, Point3D>();
             }
-        }
 
-        public Point3D InternalPoint
-        {
-            get
+            if (!internalPoints.TryGetValue(tolerance, out Point3D result))
             {
-                if (internalPoint == null)
-                {
-                    internalPoint = @object.GetInternalPoint();
-                }
-
-                return internalPoint == null ? null : new Point3D(internalPoint);
+                result = @object.GetInternalPoint(tolerance);
+                internalPoints[tolerance] = result;
             }
+
+            return DiGi.Core.Query.Clone(result);
         }
 
         public static implicit operator VolatilePolygonalFace3D(PolygonalFace3D polygonalFace3D)

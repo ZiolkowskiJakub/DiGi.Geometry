@@ -2,6 +2,7 @@
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
+using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -290,6 +291,36 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        public bool InRange(Line2D line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(min == null || max == null || line2D == null)
+            {
+                return false;
+            }
+
+            List<Point2D> point2Ds = GetPoints();
+            if(point2Ds == null || point2Ds.Count == 0)
+            {
+                return false;
+            }
+
+            for(int i =0; i < point2Ds.Count; i++)
+            {
+                Point2D point2D = line2D.Project(point2Ds[i]);
+                if(point2D == null)
+                {
+                    continue;
+                }
+
+                if(InRange(point2D, tolerance))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public bool InRange(Segment2D segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min == null || max == null || segment2D == null)
@@ -297,21 +328,21 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            if (InRange(segment2D[0], tolerance) || InRange(segment2D[1], tolerance))
-            {
-                return true;
-            }
-
-            List<Segment2D> segment2Ds = GetSegments();
-            if(segment2Ds == null || segment2Ds.Count == 0)
+            List<Point2D> point2Ds = GetPoints();
+            if (point2Ds == null || point2Ds.Count == 0)
             {
                 return false;
             }
 
-            for (int i = 0; i < segment2Ds.Count; i++)
+            for (int i = 0; i < point2Ds.Count; i++)
             {
-                Point2D point2D = segment2Ds[i].IntersectionPoint(segment2D, tolerance);
-                if(point2D != null)
+                Point2D point2D = segment2D.Project(point2Ds[i], tolerance);
+                if (point2D == null)
+                {
+                    continue;
+                }
+
+                if (InRange(point2D, tolerance))
                 {
                     return true;
                 }

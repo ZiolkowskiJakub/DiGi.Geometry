@@ -1,11 +1,12 @@
-﻿using DiGi.Core.Classes;
-using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Interfaces;
+using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class VolatileBoundable2D<T> : VolatileObject<T> where T : IBoundable2D
+    public class VolatileBoundable2D<T> : VolatileGeometry<T> where T : IBoundable2D
     {
         private BoundingBox2D boundingBox;
 
@@ -30,6 +31,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        [JsonIgnore]
         public BoundingBox2D BoundingBox
         {
             get
@@ -41,6 +43,16 @@ namespace DiGi.Geometry.Planar.Classes
 
                 return boundingBox == null ? null : new BoundingBox2D(boundingBox);
             }
+        }
+
+        public static implicit operator VolatileBoundable2D<T>(T boundable2D)
+        {
+            if (boundable2D == null)
+            {
+                return default;
+            }
+
+            return new VolatileBoundable2D<T>(boundable2D);
         }
 
         public override ISerializableObject Clone()

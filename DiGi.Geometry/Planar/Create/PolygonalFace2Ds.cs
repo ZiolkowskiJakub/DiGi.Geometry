@@ -8,14 +8,14 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static List<PolygonalFace2D> PolygonalFace2Ds(this IEnumerable<Segment2D> segment2Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<PolygonalFace2D> PolygonalFace2Ds(this IEnumerable<Segment2D> segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(segment2Ds == null || segment2Ds.Count() < 3)
             {
                 return null;
             }
 
-            List<Polygon> polygons = Polygons(segment2Ds, tolerace);
+            List<Polygon> polygons = Polygons(segment2Ds, tolerance);
             if(polygons == null)
             {
                 return null;

@@ -31,7 +31,7 @@ namespace DiGi.Geometry.Spatial.Classes
             if(planar != null)
             {
                 plane = DiGi.Core.Query.Clone(planar.plane);
-                geometry2D = DiGi.Core.Query.Clone(geometry2D);
+                geometry2D = DiGi.Core.Query.Clone(planar.geometry2D);
             }
         }
 

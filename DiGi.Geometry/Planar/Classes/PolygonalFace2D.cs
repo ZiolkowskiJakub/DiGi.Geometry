@@ -287,7 +287,36 @@ namespace DiGi.Geometry.Planar.Classes
 
             for (int i = 0; i < internalEdges.Count; i++)
             {
-                if (internalEdges[i] != null && internalEdges[i].Inside(point2D, tolerance))
+                if (internalEdges[i] != null && internalEdges[i].InRange(point2D, tolerance))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool OnEdge(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (point2D == null || externalEdge == null)
+            {
+                return false;
+            }
+
+            bool result = externalEdge.On(point2D, tolerance);
+            if(result)
+            {
+                return result;
+            }
+
+            if (internalEdges == null || internalEdges.Count == 0)
+            {
+                return result;
+            }
+
+            for (int i = 0; i < internalEdges.Count; i++)
+            {
+                if (internalEdges[i] != null && internalEdges[i].On(point2D, tolerance))
                 {
                     return false;
                 }

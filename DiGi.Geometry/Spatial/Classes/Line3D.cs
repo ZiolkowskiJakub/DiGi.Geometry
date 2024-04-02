@@ -29,6 +29,12 @@ namespace DiGi.Geometry.Spatial.Classes
             this.direction = direction?.Unit;
         }
 
+        public Line3D(Point3D point3D_1, Point3D point3D_2)
+        {
+            origin = DiGi.Core.Query.Clone(point3D_1);
+            direction = new Vector3D(point3D_1, point3D_2).Unit;
+        }
+
         public Line3D(JsonObject jsonObject)
             : base(jsonObject)
         {

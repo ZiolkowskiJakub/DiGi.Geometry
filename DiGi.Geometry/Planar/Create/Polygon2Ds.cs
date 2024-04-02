@@ -1,6 +1,8 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
+using NetTopologySuite.Geometries;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DiGi.Geometry.Planar
 {
@@ -51,6 +53,34 @@ namespace DiGi.Geometry.Planar
                         }
                     }
                 }
+            }
+
+            return result;
+        }
+
+        public static List<Polygon2D> Polygon2Ds(this IEnumerable<Segment2D> segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (segment2Ds == null || segment2Ds.Count() < 3)
+            {
+                return null;
+            }
+
+            List<Polygon> polygons = Polygons(segment2Ds, tolerance);
+            if (polygons == null)
+            {
+                return null;
+            }
+
+            List<Polygon2D> result = new List<Polygon2D>();
+            foreach (Polygon polygon in polygons)
+            {
+                List<Polygon2D> polygon2Ds = polygon?.ToDiGi_Polygon2Ds();
+                if (polygon2Ds == null)
+                {
+                    continue;
+                }
+
+                result.AddRange(polygon2Ds);
             }
 
             return result;

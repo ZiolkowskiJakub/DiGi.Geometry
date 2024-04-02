@@ -14,7 +14,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            IntersectionResult2D intersectionResult2D = IntersectionResult2D(line2D, polygonal2D, tolerance);
+            IntersectionResult2D intersectionResult2D = IntersectionResult2D(polygonal2D, line2D, tolerance);
             if(intersectionResult2D == null || !intersectionResult2D.Intersect)
             {
                 return null;

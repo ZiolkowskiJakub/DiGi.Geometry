@@ -404,8 +404,32 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            max = Query.Max(max, point3D);
-            min = Query.Min(min, point3D);
+            max = new Point3D(Query.Max(max, point3D));
+            min = new Point3D(Query.Min(min, point3D));
+            return true;
+        }
+
+        public bool Add(BoundingBox3D boundingBox3D)
+        {
+            if(boundingBox3D == null)
+            {
+                return false;
+            }
+
+            Point3D min = boundingBox3D.Min;
+            if(min == null)
+            {
+                return false;
+            }
+
+            Point3D max = boundingBox3D.Max;
+            if (max == null)
+            {
+                return false;
+            }
+
+            Add(min);
+            Add(max);
             return true;
         }
 

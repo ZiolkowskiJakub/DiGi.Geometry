@@ -89,5 +89,34 @@ namespace DiGi.Geometry.Spatial
             return true;
 
         }
+    
+        public static bool On(this Plane plane, Vector3D vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(plane == null || vector3D == null)
+            {
+                return false;
+            }
+
+            Point3D point3D_1 = plane.Origin;
+            if(point3D_1 == null)
+            {
+                return false;
+            }
+
+            Point3D point3D_2 = point3D_1.GetMoved(vector3D);
+            if(point3D_2 == null)
+            {
+                return false;
+            }
+
+            Point3D point3D_Temp =  plane.Project(point3D_2);
+            if(point3D_Temp == null)
+            {
+                return false;
+            }
+
+            return System.Math.Abs(point3D_1.Distance(point3D_2) - point3D_1.Distance(point3D_Temp)) < tolerance;
+
+        }
     }
 }

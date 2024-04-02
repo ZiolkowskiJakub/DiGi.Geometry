@@ -183,15 +183,22 @@ namespace DiGi.Geometry.Spatial
 
         public static Vector3D Normal(this Point3D point3D_1, Point3D point3D_2, Point3D point3D_3)
         {
-            return new Vector3D(point3D_1, point3D_2).CrossProduct(new Vector3D(point3D_1, point3D_3));
+            if(point3D_1 == null || point3D_2 == null || point3D_3 == null)
+            {
+                return null;
+            }
+
+            return new Vector3D(point3D_1, point3D_2).CrossProduct(new Vector3D(point3D_1, point3D_3))?.Unit;
         }
 
         public static Vector3D Normal(this Vector3D axisX, Vector3D axisY)
         {
             if (axisX == null || axisY == null)
+            {
                 return null;
+            }
 
-            return axisX.CrossProduct(axisY);
+            return axisX.CrossProduct(axisY)?.Unit;
         }
     }
 
