@@ -45,7 +45,9 @@ namespace DiGi.Geometry.Spatial
         public static Vector3D Normal(this IEnumerable<Point3D> point3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3Ds == null || point3Ds.Collinear(tolerance))
+            {
                 return null;
+            }
 
             int count = point3Ds.Count();
 

@@ -78,5 +78,28 @@ namespace DiGi.Geometry.Spatial
 
             return new Polyhedron(polygonalFace3Ds);
         }
+
+        public static Polyhedron Polyhedron(this BoundingBox3D boundingBox3D)
+        {
+            if (boundingBox3D == null)
+            {
+                return null;
+            }
+
+            List<Polygon3D> polygon3Ds = Polygon3Ds(boundingBox3D);
+            if (polygon3Ds == null || polygon3Ds.Count < 3)
+            {
+                return null;
+            }
+
+
+            List<PolygonalFace3D> polygonalFace3Ds = new List<PolygonalFace3D>();
+            for(int i =0; i < polygon3Ds.Count; i++)
+            {
+                polygonalFace3Ds.Add(PolygonalFace3D(polygon3Ds[i]));
+            }
+
+            return new Polyhedron(polygonalFace3Ds);
+        }
     }
 }

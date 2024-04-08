@@ -1,6 +1,5 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
-using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -91,6 +90,11 @@ namespace DiGi.Geometry.Spatial.Classes
         public override ISerializableObject Clone()
         {
             return new PlanarIntersectionResult(this);
+        }
+
+        public bool Contains<T>() where T : IGeometry2D
+        {
+            return geometry2Ds != null && geometry2Ds.Find(x => x is T) != null;
         }
 
         public List<T> GetGeometry2Ds<T>() where T : IGeometry2D

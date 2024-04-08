@@ -36,6 +36,10 @@ namespace DiGi.Geometry.Planar.Classes
             {
                 Close();
             }
+            else
+            {
+                Open();
+            }
         }
 
         public override List<Segment2D> GetSegments()

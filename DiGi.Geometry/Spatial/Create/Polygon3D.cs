@@ -140,5 +140,15 @@ namespace DiGi.Geometry.Spatial
 
             return new Polygon3D(plane, point2Ds);
         }
+
+        public static Polygon3D Polygon3D(Plane plane, params Point2D[] point2Ds)
+        {
+            if(plane == null || point2Ds == null || point2Ds.Length < 3)
+            {
+                return null;
+            }
+
+            return new Polygon3D(plane, point2Ds);
+        }
     }
 }

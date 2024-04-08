@@ -1,5 +1,6 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
+using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -447,8 +448,27 @@ namespace DiGi.Geometry.Planar
             }
 
             List<IPolygonal2D> edges = polygonalFace2D.Edges;
+            if(edges == null)
+            {
+                return null;
+            }
 
             List<Point2D> point2Ds = new List<Point2D>();
+            if(linear2D is ISegmentable2D)
+            {
+                List<Point2D> point2Ds_Segmentable2D = ((ISegmentable2D)linear2D).GetPoints();
+                if (point2Ds_Segmentable2D != null)
+                {
+                    for (int i = 0; i < point2Ds_Segmentable2D.Count; i++)
+                    {
+                        if(polygonalFace2D.Inside(point2Ds_Segmentable2D[i], tolerance))
+                        {
+                            point2Ds.Add(point2Ds_Segmentable2D[i]);
+                        }
+                    }
+                }
+            }
+            
             for (int i = 0; i < edges.Count; i++)
             {
                 List<Segment2D> segment2Ds = edges[i]?.GetSegments();
@@ -532,6 +552,69 @@ namespace DiGi.Geometry.Planar
             if (!bools[count - 2])
             {
                 geometry2Ds.Add(point2Ds[count - 1]);
+            }
+
+            return new IntersectionResult2D(geometry2Ds);
+        }
+
+        public static IntersectionResult2D IntersectionResult2D(this PolygonalFace2D polygonalFace2D_1, PolygonalFace2D polygonalFace2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(polygonalFace2D_1 == null || polygonalFace2D_2 == null)
+            {
+                return null;
+            }
+
+            Polygon polygon_1 = Convert.ToNTS(polygonalFace2D_1);
+            if (polygon_1 == null)
+            {
+                return null;
+            }
+
+            Polygon polygon_2 = Convert.ToNTS(polygonalFace2D_2);
+            if (polygon_2 == null)
+            {
+                return null;
+            }
+
+            NetTopologySuite.Geometries.Geometry geometry = null;
+            try
+            {
+                geometry = polygon_1.Intersection(polygon_2);
+            }
+            catch
+            {
+                return null;
+            }
+
+            List<NetTopologySuite.Geometries.Geometry> geometries = geometry is GeometryCollection ? ((GeometryCollection)geometry).Geometries?.ToList() : new List<NetTopologySuite.Geometries.Geometry>() { geometry };
+            if (geometries == null || geometries.Count == 0)
+            {
+                return new IntersectionResult2D();
+            }
+
+            List<IGeometry2D> geometry2Ds = new List<IGeometry2D>();
+            foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in geometries)
+            {
+                if (geometry_Temp is MultiPolygon)
+                {
+                    geometry2Ds.AddRange(((MultiPolygon)geometry_Temp).ToDiGi_PolygonalFace2Ds());
+                }
+                else if (geometry_Temp is Polygon)
+                {
+                    PolygonalFace2D polygonalFace2D = ((Polygon)geometry_Temp).ToDiGi();
+                    if (polygonalFace2D != null)
+                    {
+                        geometry2Ds.Add(polygonalFace2D);
+                    }
+                }
+                else if (geometry_Temp is LineString)
+                {
+                    geometry2Ds.Add(((LineString)geometry_Temp).ToDiGi());
+                }
+                else if (geometry_Temp is LinearRing)
+                {
+                    geometry2Ds.Add(((LinearRing)geometry_Temp).ToDiGi());
+                }
             }
 
             return new IntersectionResult2D(geometry2Ds);

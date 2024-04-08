@@ -1,7 +1,5 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
-using System.ComponentModel.Design;
-using System.Runtime.CompilerServices;
 
 namespace DiGi.Geometry.Planar
 {

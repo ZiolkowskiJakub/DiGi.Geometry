@@ -1,5 +1,4 @@
-﻿using DiGi.Core.Classes;
-using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Text.Json.Nodes;

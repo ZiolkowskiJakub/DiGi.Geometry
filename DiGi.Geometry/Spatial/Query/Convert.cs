@@ -288,6 +288,28 @@ namespace DiGi.Geometry.Spatial
             return Convert(plane, polygonal3D as dynamic);
         }
 
+        public static Polyline3D Convert(this Plane plane, Polyline2D polyline2D)
+        {
+            if(plane == null || polyline2D == null)
+            {
+                return null;
+            }
+
+            List<Point2D> point2Ds = polyline2D.GetPoints();
+            if(point2Ds == null)
+            {
+                return null;
+            }
+
+            List<Point3D> point3Ds = new List<Point3D>();
+            for(int i =0; i < point2Ds.Count; i++)
+            {
+                point3Ds.Add(plane.Convert(point2Ds[i]));
+            }
+
+            return new Polyline3D(point3Ds);
+        }
+
         public static PolygonalFace2D Convert(this Plane plane, PolygonalFace3D polygonalFace3D)
         {
             if(plane == null || polygonalFace3D == null)

@@ -98,6 +98,47 @@ namespace DiGi.Geometry.Planar
         {
             return ClosestPoint(point2D, segmentable2Ds, out double distance);
         }
+
+        public static Point2D ClosestPoint(this Point2D point2D, IEnumerable<Point2D> point2Ds, out double distance)
+        {
+            distance = double.NaN;
+            if(point2D == null || point2Ds == null)
+            {
+                return null;
+            }
+
+            distance = double.MaxValue;
+            Point2D result = null;
+
+            foreach(Point2D point2D_Temp in point2Ds)
+            {
+                if(point2D_Temp == null)
+                {
+                    continue;
+                }
+
+                double distance_Temp = point2D.Distance(point2D_Temp); 
+                if(distance_Temp > distance)
+                {
+                    continue;
+                }
+
+                distance = distance_Temp;
+                result = point2D_Temp;
+            }
+
+            if(distance == double.MaxValue)
+            {
+                distance = double.NaN;
+            }
+
+            return result;
+        }
+
+        public static Point2D ClosestPoint(this Point2D point2D, IEnumerable<Point2D> point2Ds)
+        {
+            return ClosestPoint(point2D, point2Ds, out double distance);
+        }
     }
 
 }

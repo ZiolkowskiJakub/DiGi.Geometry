@@ -1,6 +1,4 @@
-﻿using DiGi.Core;
-using DiGi.Geometry.Planar;
-using DiGi.Geometry.Planar.Classes;
+﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
@@ -356,10 +354,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            List<PolygonalFace2D> polygonalFace2Ds = new List<PolygonalFace2D>();
-            List<Segment2D> segment2Ds = new List<Segment2D>();
-            List<Point2D> point2Ds = new List<Point2D>();
-
+            List<IGeometry2D> geometry2Ds = new List<IGeometry2D>();
             for (int i = 0; i < count; i++)
             {
                 PlanarIntersectionResult planarIntersectionResult = PlanarIntersectionResult(plane, polyhedron[i], tolerance);
@@ -368,146 +363,32 @@ namespace DiGi.Geometry.Spatial
                     continue;
                 }
 
-                foreach (IGeometry2D geometry2D in planarIntersectionResult.GetGeometry2Ds<IGeometry2D>())
-                {
-                    if (geometry2D is Point2D)
-                    {
-                        Point2D point2D = (Point2D)geometry2D;
-                        DiGi.Core.Modify.Add(point2Ds, point2D, x => point2D.Similar(x, tolerance));
-                    }
-                    else if (geometry2D is Segment2D)
-                    {
-                        Segment2D segment2D = (Segment2D)geometry2D;
-                        DiGi.Core.Modify.Add(segment2Ds, segment2D, x => segment2D.Similar(x, tolerance));
-                    }
-                    else if (geometry2D is PolygonalFace2D)
-                    {
-                        polygonalFace2Ds.Add((PolygonalFace2D)geometry2D);
-                    }
-                }
-
+                geometry2Ds.AddRange(planarIntersectionResult.GetGeometry2Ds<IGeometry2D>());
             }
 
-            List<IGeometry2D> geometry2Ds = new List<IGeometry2D>();
-
-            if (polygonalFace2Ds != null && polygonalFace2Ds.Count != 0)
+            geometry2Ds = Planar.Create.Geometry2Ds(geometry2Ds, tolerance);
+            if(geometry2Ds == null || geometry2Ds.Count == 0)
             {
-                geometry2Ds.AddRange(polygonalFace2Ds);
-            }
-
-            if (segment2Ds != null && segment2Ds.Count != 0)
-            {
-                if (polygonalFace2Ds != null && polygonalFace2Ds.Count != 0)
-                {
-                    List<Segment2D> segment2Ds_PolgonalFace2D = polygonalFace2Ds.Segment2Ds();
-                    if (segment2Ds_PolgonalFace2D != null)
-                    {
-                        segment2Ds.AddRange(segment2Ds_PolgonalFace2D);
-                    }
-                }
-
-                segment2Ds = segment2Ds.Split(tolerance);
-
-                if (segment2Ds != null && segment2Ds.Count != 0)
-                {
-                    if (polygonalFace2Ds != null && polygonalFace2Ds.Count != 0)
-                    {
-                        foreach (PolygonalFace2D polygonalFace2D in polygonalFace2Ds)
-                        {
-                            for (int i = segment2Ds.Count - 1; i >= 0; i--)
-                            {
-                                if (polygonalFace2D.OnEdge(segment2Ds[i].Mid(), tolerance))
-                                {
-                                    segment2Ds.RemoveAt(i);
-                                }
-                            }
-
-                            if (segment2Ds.Count == 0)
-                            {
-                                break;
-                            }
-                        }
-                    }
-
-                    if (segment2Ds != null && segment2Ds.Count != 0)
-                    {
-                        List<Polygon2D> polygon2Ds = segment2Ds.Polygon2Ds(tolerance);
-                        if (polygon2Ds != null)
-                        {
-                            geometry2Ds.AddRange(polygon2Ds);
-
-                            List<Segment2D> segment2Ds_Polygon2D = polygon2Ds.Segments();
-                            foreach (Segment2D segment2D_Polygon2D in segment2Ds_Polygon2D)
-                            {
-                                Point2D point2D_Polygon2D = segment2D_Polygon2D.Mid();
-                                for (int i = segment2Ds.Count - 1; i >= 0; i--)
-                                {
-                                    if (segment2Ds[i].On(point2D_Polygon2D, tolerance))
-                                    {
-                                        segment2Ds.RemoveAt(i);
-                                        break;
-                                    }
-                                }
-
-                                if (segment2Ds.Count == 0)
-                                {
-                                    break;
-                                }
-                            }
-                        }
-
-                        geometry2Ds.AddRange(segment2Ds);
-                    }
-                }
-            }
-
-            if (point2Ds != null && point2Ds.Count != 0)
-            {
-                if (polygonalFace2Ds != null && polygonalFace2Ds.Count != 0)
-                {
-                    for (int i = 0; i < polygonalFace2Ds.Count; i++)
-                    {
-                        for (int j = point2Ds.Count - 1; j >= 0; j--)
-                        {
-                            if (polygonalFace2Ds[i].OnEdge(point2Ds[j], tolerance))
-                            {
-                                point2Ds.RemoveAt(j);
-                            }
-                        }
-
-                        if (point2Ds.Count == 0)
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                if (point2Ds != null && point2Ds.Count != 0)
-                {
-                    if (segment2Ds != null && segment2Ds.Count != 0)
-                    {
-                        for (int i = 0; i < segment2Ds.Count; i++)
-                        {
-                            for (int j = point2Ds.Count - 1; j >= 0; j--)
-                            {
-                                if (segment2Ds[i].On(point2Ds[j], tolerance))
-                                {
-                                    point2Ds.RemoveAt(j);
-                                }
-                            }
-
-                            if (point2Ds.Count == 0)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                geometry2Ds.AddRange(point2Ds);
+                return new PlanarIntersectionResult(plane);
             }
 
             return new PlanarIntersectionResult(plane, geometry2Ds);
+        }
+
+        public static PlanarIntersectionResult PlanarIntersectionResult(this Plane plane, BoundingBox3D boundingBox3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (plane == null || boundingBox3D == null)
+            {
+                return null;
+            }
+
+            Polyhedron polyhedron = Polyhedron(boundingBox3D);
+            if(polyhedron == null)
+            {
+                return null;
+            }
+
+            return PlanarIntersectionResult(plane, polyhedron, tolerance);
         }
 
         public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D, Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -708,6 +589,204 @@ namespace DiGi.Geometry.Spatial
 
             return PlanarIntersectionResult(polygonalFace3D, linear3D, tolerance);
 
+        }
+    
+        public static PlanarIntersectionResult PlanarIntersectionResult(this VolatilePolygonalFace3D volatilePolygonalFace3D_1, VolatilePolygonalFace3D volatilePolygonalFace3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(volatilePolygonalFace3D_1 == null || volatilePolygonalFace3D_2 == null)
+            {
+                return null;
+            }
+
+            BoundingBox3D boundingBox3D_1 = volatilePolygonalFace3D_1.BoundingBox;
+            if(boundingBox3D_1 == null)
+            {
+                return null;
+            }
+
+            BoundingBox3D boundingBox3D_2 = volatilePolygonalFace3D_2.BoundingBox;
+            if (boundingBox3D_2 == null)
+            {
+                return null;
+            }
+
+            if(!boundingBox3D_1.InRange(boundingBox3D_2, tolerance))
+            {
+                return new PlanarIntersectionResult(volatilePolygonalFace3D_1.Geometry?.Plane);
+            }
+
+            return PlanarIntersectionResult(volatilePolygonalFace3D_1.Geometry, volatilePolygonalFace3D_2.Geometry, tolerance);
+        }
+
+        public static PlanarIntersectionResult PlanarIntersectionResult(this VolatilePolygonalFace3D volatilePolygonalFace3D, IEnumerable<VolatilePolygonalFace3D> volatilePolygonalFace3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (volatilePolygonalFace3D == null || volatilePolygonalFace3Ds == null)
+            {
+                return null;
+            }
+
+            Plane plane = volatilePolygonalFace3D.Geometry?.Plane;
+            if (plane == null)
+            {
+                return null;
+            }
+
+            List<IGeometry2D> geometry2Ds = new List<IGeometry2D>();
+            foreach (VolatilePolygonalFace3D volatilePolygonalFace3D_Temp in volatilePolygonalFace3Ds)
+            {
+                BoundingBox3D boundingBox3D = volatilePolygonalFace3D_Temp?.BoundingBox;
+                if (boundingBox3D == null)
+                {
+                    continue;
+                }
+
+                if (!boundingBox3D.InRange(plane, tolerance))
+                {
+                    continue;
+                }
+
+                PlanarIntersectionResult planarIntersectionResult = PlanarIntersectionResult(volatilePolygonalFace3D, volatilePolygonalFace3D_Temp, tolerance);
+                if(planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+                {
+                    continue;
+                }
+
+                geometry2Ds.AddRange(planarIntersectionResult.GetGeometry2Ds<IGeometry2D>());
+            }
+
+            geometry2Ds = Planar.Create.Geometry2Ds(geometry2Ds);
+            if (geometry2Ds == null || geometry2Ds.Count == 0)
+            {
+                return new PlanarIntersectionResult(plane);
+            }
+
+            return new PlanarIntersectionResult(plane, geometry2Ds);
+        }
+
+        public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D_1, PolygonalFace3D polygonalFace3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(polygonalFace3D_1 == null || polygonalFace3D_2 == null)
+            {
+                return null;
+            }
+
+            Plane plane_PolygonalFace3D_1 = polygonalFace3D_1.Plane;
+            if (plane_PolygonalFace3D_1 == null)
+            {
+                return null;
+            }
+
+            Plane plane_PolygonalFace3D_2 = polygonalFace3D_2.Plane;
+            if (plane_PolygonalFace3D_2 == null)
+            {
+                return null;
+            }
+
+            if (plane_PolygonalFace3D_1.Coplanar(plane_PolygonalFace3D_2, tolerance))
+            {
+                if (plane_PolygonalFace3D_1.Distance(plane_PolygonalFace3D_2.Origin) < tolerance)
+                {
+                    PolygonalFace2D polygonalFace2D_1 = polygonalFace3D_1.Geometry2D;
+                    PolygonalFace2D polygonalFace2D_2 = plane_PolygonalFace3D_1.Convert(polygonalFace3D_2);
+
+                    IntersectionResult2D intersectionResult2D = Planar.Create.IntersectionResult2D(polygonalFace2D_1, polygonalFace2D_2, tolerance);
+                    if(intersectionResult2D != null && intersectionResult2D.Intersect)
+                    {
+                        return new PlanarIntersectionResult(plane_PolygonalFace3D_1, intersectionResult2D.GetGeometry2Ds<IGeometry2D>());
+                    }
+                }
+
+                return new PlanarIntersectionResult(plane_PolygonalFace3D_1);
+            }
+
+            PlanarIntersectionResult planarIntersectionResult = PlanarIntersectionResult(plane_PolygonalFace3D_1, plane_PolygonalFace3D_2, tolerance);
+            if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+            {
+                return new PlanarIntersectionResult(plane_PolygonalFace3D_1);
+            }
+
+            Line3D line3D = planarIntersectionResult.GetGeometry3Ds<Line3D>()?.FirstOrDefault();
+            if (line3D == null)
+            {
+                return new PlanarIntersectionResult(plane_PolygonalFace3D_1);
+            }
+
+            planarIntersectionResult = PlanarIntersectionResult(polygonalFace3D_2, line3D, tolerance);
+            if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+            {
+                return new PlanarIntersectionResult(plane_PolygonalFace3D_1);
+            }
+
+            List<IGeometry2D> geometry2Ds = new List<IGeometry2D>();
+            foreach (IGeometry3D geometry3D in planarIntersectionResult.GetGeometry3Ds<IGeometry3D>())
+            {
+                planarIntersectionResult = null;
+                
+                if (geometry3D is Point3D)
+                {
+                    planarIntersectionResult = PlanarIntersectionResult(polygonalFace3D_1, (Point3D)geometry3D, tolerance);
+                }
+                else if (geometry3D is Segment3D)
+                {
+                    planarIntersectionResult = PlanarIntersectionResult(polygonalFace3D_1, (ILinear3D)geometry3D, tolerance);
+                }
+
+                if (planarIntersectionResult != null && planarIntersectionResult.Intersect)
+                {
+                    geometry2Ds.AddRange(planarIntersectionResult.GetGeometry2Ds<IGeometry2D>());
+                }
+            }
+
+            return new PlanarIntersectionResult(plane_PolygonalFace3D_1, geometry2Ds);
+        }
+
+        public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D, IEnumerable<VolatilePolygonalFace3D> volatilePolygonalFace3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(polygonalFace3D == null || volatilePolygonalFace3Ds == null)
+            {
+                return null;
+            }
+
+            return PlanarIntersectionResult((VolatilePolygonalFace3D)polygonalFace3D, volatilePolygonalFace3Ds, tolerance);
+        }
+
+        public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D, IEnumerable<PolygonalFace3D> polygonalFace3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(polygonalFace3D == null || polygonalFace3Ds == null)
+            {
+                return null;
+            }
+
+            List<VolatilePolygonalFace3D> volatilePolygonalFace3Ds = new List<VolatilePolygonalFace3D>();
+            foreach(PolygonalFace3D polygonalFace3D_Temp in polygonalFace3Ds)
+            {
+                volatilePolygonalFace3Ds.Add(polygonalFace3D_Temp);
+            }
+
+            return PlanarIntersectionResult(polygonalFace3D, volatilePolygonalFace3Ds);
+        }
+
+        public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D, Polyhedron polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(polygonalFace3D == null || polyhedron == null)
+            {
+                return null;
+            }
+
+            List<VolatilePolygonalFace3D> volatilePolygonalFace3Ds = new List<VolatilePolygonalFace3D>(); 
+            for (int i =0; i < polyhedron.Count; i++)
+            {
+                VolatilePolygonalFace3D volatilePolygonalFace3D = polyhedron[i];
+                if(volatilePolygonalFace3D == null)
+                {
+                    continue;
+                }
+
+                volatilePolygonalFace3Ds.Add(volatilePolygonalFace3D);
+
+            }
+
+            return PlanarIntersectionResult(polygonalFace3D, volatilePolygonalFace3Ds, tolerance);
         }
     }
 }

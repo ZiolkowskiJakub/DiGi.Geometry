@@ -59,6 +59,16 @@ namespace DiGi.Geometry.Planar
 
             return new PolygonalFace2D(externalEdge, internalEdges_Inside);
         }
+
+        public static PolygonalFace2D PolygonalFace2D(params Point2D[] points)
+        {
+            if(points == null || points.Length < 3)
+            {
+                return null;
+            }
+
+            return new PolygonalFace2D(new Polygon2D(points));
+        }
     }
 
 }

@@ -56,28 +56,106 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            List<Point2D> point2Ds = null;
-
-            point2Ds = segmentable2D_1.GetPoints();
-            foreach (Point2D point2D in point2Ds)
+            if(segmentable2D_1 is Segment2D && segmentable2D_2 is Segment2D)
             {
+                return Similar((Segment2D)segmentable2D_1, (Segment2D)segmentable2D_2, tolerance);
+            }
+
+            List<Point2D> point2Ds_1 = segmentable2D_1.GetPoints();
+            List<Point2D> point2Ds_2 = segmentable2D_2.GetPoints();
+            if(point2Ds_1.Count == 2 && point2Ds_2.Count == 2)
+            {
+                return Similar(new Segment2D(point2Ds_1[0], point2Ds_1[1]), new Segment2D(point2Ds_2[0], point2Ds_2[1]), tolerance);
+            }
+
+            if((point2Ds_1 == null || point2Ds_1.Count == 0) && (point2Ds_2 == null || point2Ds_2.Count == 0))
+            {
+                return true;
+            }
+
+            if (point2Ds_1 == null || point2Ds_1.Count == 0 || point2Ds_2 == null || point2Ds_2.Count == 0)
+            {
+                return false;
+            }
+
+            if (point2Ds_1.Count == point2Ds_2.Count)
+            {
+                bool similar = true;
+                for (int i = 0; i < point2Ds_2.Count; i++)
+                {
+                    similar = Similar(point2Ds_1[i], point2Ds_2[i], tolerance);
+                    if(!similar)
+                    {
+                        break;
+                    }
+                }
+
+                if(similar)
+                {
+                    return true;
+                }
+            }
+
+            List<Segment2D> segment2Ds = segmentable2D_1.GetSegments();
+            segment2Ds.AddRange(segmentable2D_2.GetSegments());
+
+            segment2Ds = segment2Ds.Split(tolerance);
+
+            foreach(Segment2D segment2D in segment2Ds)
+            {
+                Point2D point2D = segment2D.Mid();
+
+                if(!segmentable2D_1.On(point2D, tolerance))
+                {
+                    return false;
+                }
+
                 if (!segmentable2D_2.On(point2D, tolerance))
                 {
                     return false;
                 }
-            }
 
-
-            point2Ds = segmentable2D_2.GetPoints();
-            foreach (Point2D point2D in point2Ds)
-            {
-                if (!segmentable2D_1.On(point2D, tolerance))
-                {
-                    return false;
-                }
             }
 
             return true;
+
+        }
+
+        public static bool Similar(this IPolygonalFace2D polygonalFace2D_1, IPolygonalFace2D polygonalFace2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(polygonalFace2D_1 == null && polygonalFace2D_2 == null)
+            {
+                return true;
+            }
+
+            if(polygonalFace2D_1 == null || polygonalFace2D_2 == null)
+            {
+                return false;
+            }
+
+            List<IPolygonal2D> internalEdges_1 = polygonalFace2D_1.InternalEdges;
+            internalEdges_1?.RemoveAll(x => x == null);
+            List<IPolygonal2D> internalEdges_2 = polygonalFace2D_2.InternalEdges;
+            internalEdges_2?.RemoveAll(x => x == null);
+
+            if(internalEdges_1 != null && internalEdges_2 != null)
+            {
+                if(internalEdges_1.Count != internalEdges_2.Count)
+                {
+                    return false;
+                }
+
+                for(int i=0; i < internalEdges_1.Count; i++)
+                {
+                    bool result = Similar(internalEdges_1[i], internalEdges_2[i], tolerance);
+                    if (!result)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return Similar(polygonalFace2D_1.ExternalEdge, polygonalFace2D_2.ExternalEdge, tolerance);
         }
     }
 }

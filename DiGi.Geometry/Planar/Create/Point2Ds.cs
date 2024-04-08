@@ -1,6 +1,5 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
-using System;
 
 namespace DiGi.Geometry.Planar
 {
@@ -23,13 +22,13 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Random random = new Random();
+            System.Random random = new System.Random();
 
             List<Point2D> result = new List<Point2D>();
             for (int i = 0; i < count; i++)
             {
-                double x = DiGi.Core.Query.NextDouble(random, x_min, x_max);
-                double y = DiGi.Core.Query.NextDouble(random, y_min, y_max);
+                double x = DiGi.Core.Query.Random(random, x_min, x_max);
+                double y = DiGi.Core.Query.Random(random, y_min, y_max);
 
                 result.Add(new Point2D(x, y));
             }

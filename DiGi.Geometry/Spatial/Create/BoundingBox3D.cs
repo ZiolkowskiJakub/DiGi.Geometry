@@ -1,4 +1,5 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+﻿using DiGi.Core.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Spatial
@@ -33,6 +34,16 @@ namespace DiGi.Geometry.Spatial
             }
 
             return result;
+        }
+
+        public static BoundingBox3D BoundingBox3D(Range<double> x, Range<double> y, Range<double> z)
+        {
+            if(x == null || y == null || z == null)
+            {
+                return null;
+            }
+
+            return new BoundingBox3D(new Point3D(x.Min, y.Min, z.Min), new Point3D(x.Max, y.Max, z.Max));
         }
     }
 }

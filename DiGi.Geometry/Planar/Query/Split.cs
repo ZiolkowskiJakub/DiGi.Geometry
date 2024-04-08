@@ -175,7 +175,6 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-
         public static List<Segment2D> Split(this ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             List<Segment2D> segment2Ds = segmentable2D?.GetSegments();
@@ -196,6 +195,55 @@ namespace DiGi.Geometry.Planar
             }
 
             return Split(segment2Ds, tolerance);
+        }
+
+        public static List<PolygonalFace2D> Split<T>(this PolygonalFace2D polygonalFace2D, IEnumerable<T> segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
+        {
+            if(polygonalFace2D == null || segmentable2Ds == null)
+            {
+                return null;
+            }
+
+            List<IPolygonal2D> polygonal2Ds = polygonalFace2D.Edges;
+            if (polygonal2Ds == null || polygonal2Ds.Count == 0)
+            {
+                return null;
+            }
+
+            List<ISegmentable2D> segmentable2Ds_Temp = new List<ISegmentable2D>();
+            foreach(T segmentable2D in segmentable2Ds)
+            {
+                segmentable2Ds_Temp.Add(segmentable2D);
+            }
+            segmentable2Ds_Temp.AddRange(polygonal2Ds);
+
+            List<Segment2D> segment2Ds = segmentable2Ds_Temp.Split(tolerance);
+
+            List<PolygonalFace2D> result = Create.PolygonalFace2Ds(segment2Ds);
+            if(result == null || result.Count == 0)
+            {
+                return result;
+            }
+
+            BoundingBox2D boundingBox2D = polygonalFace2D.GetBoundingBox();
+
+            for (int i = result.Count - 1; i >= 0; i--)
+            {
+                Point2D point2D = result[i]?.GetInternalPoint(tolerance);
+                if(point2D == null || !boundingBox2D.InRange(point2D, tolerance))
+                {
+                    result.RemoveAt(i);
+                    continue;
+                }
+
+                if(!polygonalFace2D.InRange(point2D, tolerance))
+                {
+                    result.RemoveAt(i);
+                    continue;
+                }
+            }
+
+            return result;
         }
     }
 }
