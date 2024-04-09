@@ -84,5 +84,75 @@ namespace DiGi.Geometry.Spatial
 
             return IntersectionResult3D((VolatilePolyhedron)polyhedron, linear3D, tolerance);
         }
+
+        public static IntersectionResult3D IntersectionResult3D(this BoundingBox3D boundingBox3D, ILinear3D linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(boundingBox3D == null || linear3D == null)
+            {
+                return null;
+            }
+
+            VolatilePolyhedron volatilePolyhedron = Polyhedron(boundingBox3D);
+            if(volatilePolyhedron == null)
+            {
+                return null;
+            }
+
+            return IntersectionResult3D(volatilePolyhedron, linear3D, tolerance);
+        }
+
+        public static IntersectionResult3D IntersectionResult3D(this BoundingBox3D boundingBox3D, Point3D point3D, Vector3D direction, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(boundingBox3D == null || direction == null || point3D == null)
+            {
+                return null;
+            }
+
+            IntersectionResult3D intersectionResult3D = IntersectionResult3D(boundingBox3D, new Line3D(point3D, direction), tolerance);
+            if(intersectionResult3D == null)
+            {
+                return null;
+            }
+
+            if(!intersectionResult3D.Intersect)
+            {
+                return intersectionResult3D;
+            }
+
+            Vector3D unit = direction.Unit;
+
+            List<IGeometry3D> geometry3Ds = new List<IGeometry3D>();
+            foreach(IGeometry3D geometry3D in intersectionResult3D.GetGeometry3Ds<IGeometry3D>())
+            {
+                if(geometry3D is Point3D)
+                {
+                    Vector3D unit_Temp = new Vector3D(point3D, (Point3D)geometry3D).Unit;
+                    if(unit.AlmostEquals(unit_Temp))
+                    {
+                        geometry3Ds.Add(geometry3D);
+                    }
+                }
+                else if(geometry3D is Segment3D)
+                {
+                    Segment3D segment3D = (Segment3D)geometry3D;
+                    Vector3D unit_Temp = new Vector3D(point3D, segment3D[0]).Unit;
+                    if (unit.AlmostEquals(unit_Temp))
+                    {
+                        geometry3Ds.Add(new Segment3D(point3D, segment3D[0]));
+                    }
+                    else
+                    {
+                        geometry3Ds.Add(new Segment3D(point3D, segment3D[1]));
+                    }
+                }
+            }
+
+            if(geometry3Ds == null || geometry3Ds.Count == 0)
+            {
+                return new IntersectionResult3D();
+            }
+
+            return new IntersectionResult3D(geometry3Ds);
+        }
     }
 }
