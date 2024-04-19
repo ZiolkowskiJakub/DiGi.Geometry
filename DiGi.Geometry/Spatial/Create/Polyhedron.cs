@@ -58,7 +58,7 @@ namespace DiGi.Geometry.Spatial
 
                     };
 
-                    Plane plane_Temp = Create.Plane(point3Ds[0], point3Ds[1], point3Ds[2]);
+                    Plane plane_Temp = Plane(point3Ds[0], point3Ds[1], point3Ds[2]);
 
                     List<Point2D> point2Ds = new List<Point2D>();
                     for(int i = 0; i < point3Ds.Count; i++)
