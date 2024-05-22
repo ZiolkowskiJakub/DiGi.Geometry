@@ -2,6 +2,7 @@
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DiGi.Geometry.Spatial
 {
@@ -97,6 +98,16 @@ namespace DiGi.Geometry.Spatial
             for(int i =0; i < polygon3Ds.Count; i++)
             {
                 polygonalFace3Ds.Add(PolygonalFace3D(polygon3Ds[i]));
+            }
+
+            return new Polyhedron(polygonalFace3Ds);
+        }
+
+        public static Polyhedron Polyhedron(this IEnumerable<PolygonalFace3D> polygonalFace3Ds)
+        {
+            if(polygonalFace3Ds  == null || polygonalFace3Ds.Count() < 4)
+            {
+                return null;
             }
 
             return new Polyhedron(polygonalFace3Ds);
