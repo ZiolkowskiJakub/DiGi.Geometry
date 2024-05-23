@@ -207,7 +207,7 @@ namespace DiGi.Geometry.Spatial.Classes
             values[0] = values[0] / length;
             values[1] = values[1] / length;
         }
-        
+
         /// <summary>
         /// Project input Vector onto this Vector
         /// </summary>

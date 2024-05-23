@@ -192,6 +192,16 @@ namespace DiGi.Geometry.Spatial.Classes
             throw new System.NotImplementedException();
         }
 
+        public Point3D Mid()
+        {
+            if (start == null || vector == null)
+            {
+                return null;
+            }
+
+            return start.Mid(End);
+        }
+
         public override bool Move(Vector3D vector3D)
         {
             if(start == null || vector3D == null)

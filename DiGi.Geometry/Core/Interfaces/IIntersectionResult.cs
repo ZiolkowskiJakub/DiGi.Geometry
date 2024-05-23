@@ -2,7 +2,7 @@
 
 namespace DiGi.Geometry.Core.Interfaces
 {
-    public interface IIntersectionResult : ISerializableObject
+    public interface IIntersectionResult : ISerializableResult
     {
         bool Intersect { get; }
     }

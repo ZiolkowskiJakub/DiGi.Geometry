@@ -343,6 +343,27 @@ namespace DiGi.Geometry.Spatial
 
             return new PolygonalFace2D(externalEdge, internalEdges);
         }
+
+        public static IGeometry3D Convert(this Plane plane, IGeometry2D geometry2D)
+        {
+            if(plane == null || geometry2D == null)
+            {
+                return null;
+            }
+
+            return Convert(plane, geometry2D as dynamic);
+        }
+
+        public static IGeometry2D Convert(IPlanar planar)
+        {
+            Plane plane = planar?.Plane;
+            if(plane == null)
+            {
+                return null;
+            }
+
+            return Convert(plane, planar as dynamic);
+        }
     }
 
 }

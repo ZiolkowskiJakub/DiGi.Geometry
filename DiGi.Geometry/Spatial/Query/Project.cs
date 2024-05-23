@@ -1,4 +1,6 @@
 ﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Interfaces;
+using System.Collections.Generic;
 
 namespace DiGi.Geometry.Spatial
 {
@@ -14,74 +16,40 @@ namespace DiGi.Geometry.Spatial
             return plane.ClosestPoint(point3D);
         }
 
-        public static Segment3D Project(this Plane plane, Segment3D segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static T Project<T>(this Plane plane, IGeometry3D geometry3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IGeometry3D
         {
-            if(plane == null || segment3D == null)
+            if(geometry3D == null || plane == null)
             {
-                return null;
+                return default;
             }
 
-            Point3D point3D_1 =  plane.ClosestPoint(segment3D[0]);
-            if(point3D_1 == null)
+            if(geometry3D is Point3D)
             {
-                return null;
+                if(typeof(T).IsAssignableFrom(typeof(Point3D)))
+                {
+                    Point3D point3D = Project(plane, (Point3D)geometry3D);
+                    if(point3D != null)
+                    {
+                        return (T)(object)point3D;
+                    }
+                }
+
+                return default;
             }
 
-            Point3D point3D_2 = plane.ClosestPoint(segment3D[1]);
-            if (point3D_2 == null)
+            ProjectionResult projectionResult = Create.ProjectionResult(plane, geometry3D, tolerance);
+            if(projectionResult == null)
             {
-                return null;
+                return default;
             }
 
-            if(point3D_1.Distance(point3D_2) < tolerance)
+            List<T> ts = projectionResult.GetGeometry3Ds<T>();
+            if(ts == null || ts.Count == 0)
             {
-                return null;
+                return default;
             }
 
-            return new Segment3D(point3D_1, point3D_2);
-        }
-
-        public static Vector3D Project(this Plane plane, Vector3D vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if (plane == null || vector3D == null)
-            {
-                return null;
-            }
-
-            Vector3D normal = plane.Normal;
-
-            Vector3D result = vector3D - vector3D.DotProduct(normal) * normal;
-
-            double length = result.Length;
-
-            if(double.IsNaN(length) || length < tolerance)
-            {
-                return null;
-            }
-
-            return result;
-        }
-
-        public static Line3D Project(this Plane plane, Line3D line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if (plane == null || line3D == null)
-            {
-                return null;
-            }
-
-            Point3D origin = Project(plane, line3D.Origin);
-            if(origin == null)
-            {
-                return null;
-            }
-
-            Vector3D direction = Project(plane, line3D.Direction, tolerance);
-            if(direction == null)
-            {
-                return null;
-            }
-
-            return new Line3D(origin, direction);
+            return ts[0];
         }
     }
 

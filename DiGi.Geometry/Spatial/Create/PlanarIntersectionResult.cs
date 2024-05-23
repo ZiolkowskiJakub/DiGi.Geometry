@@ -46,10 +46,10 @@ namespace DiGi.Geometry.Spatial
             {
                 if (System.Math.Min(plane.Distance(segment3D[0]), plane.Distance(segment3D[1])) < tolerance)
                 {
-                    Segment3D segment3D_Project = plane.Project(segment3D);
-                    if(segment3D_Project != null)
+                    ProjectionResult projectionResult = ProjectionResult(plane, segment3D, tolerance);
+                    if(projectionResult != null && projectionResult.Contains<Segment2D>())
                     {
-                        return new PlanarIntersectionResult(plane, plane.Convert(segment3D_Project));
+                        return new PlanarIntersectionResult(plane, projectionResult.GetGeometry2Ds<Segment2D>());
                     }
                 }
 
@@ -92,10 +92,10 @@ namespace DiGi.Geometry.Spatial
             {
                 if (plane.Distance(point3D) < tolerance)
                 {
-                    Line3D line3D = plane.Project(new Line3D(point3D, vector3D));
-                    if(line3D != null)
+                    ProjectionResult projectionResult = ProjectionResult(plane, new Line3D(point3D, vector3D));
+                    if(projectionResult != null && projectionResult.Contains<Line2D>())
                     {
-                        return new PlanarIntersectionResult(plane, plane.Convert(line3D));
+                        return new PlanarIntersectionResult(plane, projectionResult.GetGeometry2Ds<Line2D>());
                     }
                 }
 
