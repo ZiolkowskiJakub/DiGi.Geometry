@@ -34,6 +34,14 @@ namespace DiGi.Geometry.Spatial.Classes
             Offset(offset);
         }
 
+        public BoundingBox3D(Point3D point3D, double offset)
+        {
+            min = point3D == null ? null : new Point3D(point3D);
+            max = point3D == null ? null : new Point3D(point3D);
+
+            Offset(offset);
+        }
+
         public BoundingBox3D(BoundingBox3D boundingBox3D)
             : base(boundingBox3D)
         {
