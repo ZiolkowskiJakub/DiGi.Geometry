@@ -1,4 +1,5 @@
-﻿using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
@@ -47,6 +48,15 @@ namespace DiGi.Geometry.Planar.Classes
                 max = new Point2D(boundingBox2D.max);
             }
 
+        }
+
+        public BoundingBox2D(Range<double> x, Range<double> y)
+        {
+            if(x != null && y != null)
+            {
+                min = new Point2D(x.Min, y.Min);
+                max = new Point2D(x.Max, y.Max);
+            }
         }
 
         public BoundingBox2D(double x, double y, double width, double height)
