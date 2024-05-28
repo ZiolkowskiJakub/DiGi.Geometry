@@ -344,6 +344,16 @@ namespace DiGi.Geometry.Spatial
             return new PolygonalFace2D(externalEdge, internalEdges);
         }
 
+        public static PolygonalFace3D Convert(this Plane plane, PolygonalFace2D polygonalFace2D)
+        {
+            if (plane == null || polygonalFace2D == null)
+            {
+                return null;
+            }
+
+            return new PolygonalFace3D(plane, polygonalFace2D);
+        }
+
         public static IGeometry3D Convert(this Plane plane, IGeometry2D geometry2D)
         {
             if(plane == null || geometry2D == null)
