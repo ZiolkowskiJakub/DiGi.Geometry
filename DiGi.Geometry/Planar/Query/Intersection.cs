@@ -3,6 +3,7 @@ using NetTopologySuite.Geometries.Utilities;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 using System.Linq;
+using DiGi.Geometry.Planar.Interfaces;
 
 namespace DiGi.Geometry.Planar
 {
@@ -93,6 +94,60 @@ namespace DiGi.Geometry.Planar
                         result.Add(new PolygonalFace2D(polygon2D));
                     }
                 }
+            }
+
+            return result;
+        }
+
+        public static List<X> Intersection<T, X>(this IEnumerable<T> polygon2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: IPolygonal2D where X: IPolygonal2D
+        {
+            if(polygon2Ds == null)
+            {
+                return null;
+            }
+
+            List<Segment2D> segment2Ds = new List<Segment2D>();
+            foreach(IPolygonal2D polygonal2D in polygon2Ds)
+            {
+                List<Segment2D> segment2Ds_Temp = polygonal2D?.GetSegments();
+                if(segment2Ds_Temp == null || segment2Ds_Temp.Count == 0)
+                {
+                    continue;
+                }
+
+                segment2Ds.AddRange(segment2Ds_Temp);
+            }
+
+            List<Polygon2D> polygon2Ds_Temp = Create.Polygon2Ds(segment2Ds, tolerance);
+            if(polygon2Ds_Temp == null || polygon2Ds_Temp.Count == 0)
+            {
+                return null;
+            }
+
+
+            List<X> result = new List<X>();
+            foreach(Polygon2D polygon2D in polygon2Ds_Temp)
+            {
+                X x = default;
+                if(polygon2D is X)
+                {
+                    x = (X)(object)polygon2D;
+                }
+                else
+                {
+                    IPolygonal2D polygonal2D = Create.Polygonal2D(polygon2D, tolerance);
+                    if (polygonal2D is X)
+                    {
+                        x = (X)(object)polygonal2D;
+                    }
+                }
+
+                if(x == null) 
+                {
+                    continue;
+                }
+
+                result.Add(x);
             }
 
             return result;
