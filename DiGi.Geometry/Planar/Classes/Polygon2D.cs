@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
+using NetTopologySuite.Triangulate;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
@@ -54,21 +55,31 @@ namespace DiGi.Geometry.Planar.Classes
         
         public bool InRange(ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            List<Point2D> point2Ds = segmentable2D?.GetPoints();
-            if (point2Ds == null || point2Ds.Count == 0)
+            List<Segment2D> segment2Ds_1 = segmentable2D?.GetSegments();
+            if(segment2Ds_1 == null)
             {
                 return false;
             }
 
-            foreach (Point2D point in point2Ds)
+            List<Segment2D> segment2Ds_2 = GetSegments();
+            if(segment2Ds_2 == null)
             {
-                if (!InRange(point, tolerance))
+                return false;
+            }
+            
+            for(int i = 0; i < segment2Ds_1.Count; i++)
+            {
+                for (int j = 0; j < segment2Ds_2.Count; j++)
                 {
-                    return false;
+                    IntersectionResult2D intersectionResult2D = Create.IntersectionResult2D(segment2Ds_1[i], segment2Ds_2[j], tolerance);
+                    if(intersectionResult2D != null && intersectionResult2D.Intersect)
+                    {
+                        return true;
+                    }
                 }
             }
 
-            return true;
+            return false;
         }
 
         public bool InRange(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
