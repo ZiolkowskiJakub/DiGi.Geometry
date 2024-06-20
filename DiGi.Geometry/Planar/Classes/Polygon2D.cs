@@ -1,7 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
-using NetTopologySuite.Triangulate;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 

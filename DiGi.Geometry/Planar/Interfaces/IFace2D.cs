@@ -3,7 +3,7 @@ using DiGi.Geometry.Planar.Classes;
 
 namespace DiGi.Geometry.Planar.Interfaces
 {
-    public interface IFace2D : IFace, IGeometry2D, IBoundable2D
+    public interface IFace2D : IFace, IGeometry2D, IBoundable2D, ISurface2D
     {
         Point2D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 
