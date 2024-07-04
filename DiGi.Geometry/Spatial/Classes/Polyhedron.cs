@@ -39,10 +39,10 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             if (volatilePolygonalFaces != null && volatilePolygonalFaces.Count() >= 4)
             {
-                this.polygonalFaces = new List<VolatilePolygonalFace3D>();
+                polygonalFaces = new List<VolatilePolygonalFace3D>();
                 foreach (VolatilePolygonalFace3D volatilePolygonalFace3D in polygonalFaces)
                 {
-                    this.polygonalFaces.Add(new VolatilePolygonalFace3D(volatilePolygonalFace3D));
+                    polygonalFaces.Add(new VolatilePolygonalFace3D(volatilePolygonalFace3D));
                 }
             }
         }

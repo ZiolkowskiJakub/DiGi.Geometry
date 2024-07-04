@@ -3,7 +3,7 @@ using DiGi.Geometry.Spatial.Classes;
 
 namespace DiGi.Geometry.Spatial.Interfaces
 {
-    public interface IFace3D : IFace, IGeometry3D, IBoundable3D
+    public interface IFace3D : IFace, IGeometry3D, IBoundable3D, ISurface3D, IPlanar
     {
         Point3D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 

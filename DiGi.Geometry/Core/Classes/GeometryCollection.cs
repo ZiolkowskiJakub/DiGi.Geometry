@@ -1,31 +1,37 @@
 ﻿using DiGi.Core;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Core.Classes
 {
-    public abstract class GeometryCollection<T> : Collection<T>, IGeometryCollection<T> where T : ICollectable
+    public abstract class GeometryCollection<T> : SerializableObjectCollection<T>, IGeometryCollection<T> where T : ICollectable
     {
         public GeometryCollection() 
         { 
         }
 
         public GeometryCollection(IEnumerable<T> collectables)
-            :base(collectables == null ? new List<T>() : collectables.ToList())
+            :base(collectables)
         {
 
         }
 
         public GeometryCollection(JsonObject jsonObject)
+            : base(jsonObject) 
         {
-            FromJsonObject(jsonObject);
+
         }
 
-        public ISerializableObject Clone()
+        public GeometryCollection(GeometryCollection<T> geometryCollection)
+            : base(geometryCollection)
+        {
+
+        }
+
+        public override ISerializableObject Clone()
         {
             JsonObject jsonObject = ToJsonObject();
             if (jsonObject == null)
@@ -34,38 +40,6 @@ namespace DiGi.Geometry.Core.Classes
             }
 
             return Create.SerializableObject<ISerializableObject>(jsonObject);
-        }
-
-        public bool FromJsonObject(JsonObject jsonObject)
-        {
-            if(jsonObject == null)
-            {
-                return false;
-            }
-
-            if(jsonObject.ContainsKey("Values"))
-            {
-                JsonNode jsonNode = jsonObject["Values"];
-
-                foreach (JsonObject jsonObject_Value in jsonObject["Values"].AsArray())
-                {
-                    T value = Create.SerializableObject<T>(jsonObject_Value);
-                    Add(value);
-                }
-            }
-
-            return true;
-        }
-
-        public JsonObject ToJsonObject()
-        {
-            JsonObject result = new JsonObject();
-            
-            result[Constans.Serialization.PropertyName.Type] = Query.FullTypeName(GetType());
-            
-            result["Values"] = Convert.ToJson<T>(this);
-
-            return result;
         }
     }
 }

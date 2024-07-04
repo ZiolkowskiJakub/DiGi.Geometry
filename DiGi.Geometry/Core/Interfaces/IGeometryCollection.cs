@@ -1,14 +1,13 @@
-﻿
-using System.Collections;
+﻿using System.Collections.Generic;
 
 namespace DiGi.Geometry.Core.Interfaces
 {
-    public interface IGeometryCollection : IGeometry, ICollection
+    public interface IGeometryCollection : IGeometry
     {
 
     }
 
-    public interface IGeometryCollection<T> : IGeometryCollection where T : ICollectable
+    public interface IGeometryCollection<T> : IGeometryCollection, ICollection<T> where T : ICollectable
     {
 
     }
