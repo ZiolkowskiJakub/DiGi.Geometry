@@ -14,7 +14,7 @@ namespace DiGi.Geometry.Core.Classes
         {
             get
             {
-                return Query.Clone(@object);
+                return DiGi.Core.Query.Clone(@object);
             }
         }
 

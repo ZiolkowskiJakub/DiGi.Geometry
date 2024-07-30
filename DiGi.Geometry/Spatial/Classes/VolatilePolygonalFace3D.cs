@@ -6,7 +6,9 @@ namespace DiGi.Geometry.Spatial.Classes
 {
     public class VolatilePolygonalFace3D : VolatileBoundable3D<PolygonalFace3D>
     {
-        private Dictionary<double, Point3D> internalPoints;
+        private Dictionary<double, Point3D> internalPoints = null;
+        private double? area = null;
+
         public VolatilePolygonalFace3D(JsonObject jsonObject)
             : base(jsonObject)
         {
@@ -49,6 +51,17 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             return DiGi.Core.Query.Clone(result);
+        }
+
+        public double GetArea()
+        {
+            if(area != null && area.HasValue)
+            {
+                return area.Value;
+            }
+
+            area = @object.GetArea();
+            return area.Value;
         }
 
         public static implicit operator VolatilePolygonalFace3D(PolygonalFace3D polygonalFace3D)

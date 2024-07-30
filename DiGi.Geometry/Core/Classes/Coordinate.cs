@@ -113,7 +113,7 @@ namespace DiGi.Geometry.Core.Classes
 
             for (int i = 0; i < values.Length; i++)
             {
-                values[i] = Query.Round(values[i], tolerance); 
+                values[i] = DiGi.Core.Query.Round(values[i], tolerance); 
             }
         }
 
@@ -137,7 +137,7 @@ namespace DiGi.Geometry.Core.Classes
 
             for (int i = 0; i < values.Length; i++)
             {
-                if (Query.AlmostEquals( this.values[i], values[i], tolerance))
+                if (DiGi.Core.Query.AlmostEquals( this.values[i], values[i], tolerance))
                 {
                     return false;
                 }

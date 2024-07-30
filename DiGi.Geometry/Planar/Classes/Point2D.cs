@@ -5,7 +5,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Point2D : Coordinate2D, IMovable2D, IPoint
+    public class Point2D : Coordinate2D, IMovable2D, IPoint<Point2D>
     {
         public Point2D(JsonObject jsonObject)
             : base(jsonObject)

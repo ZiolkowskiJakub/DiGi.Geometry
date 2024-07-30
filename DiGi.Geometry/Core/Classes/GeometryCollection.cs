@@ -39,7 +39,7 @@ namespace DiGi.Geometry.Core.Classes
                 return null;
             }
 
-            return Create.SerializableObject<ISerializableObject>(jsonObject);
+            return DiGi.Core.Create.SerializableObject<ISerializableObject>(jsonObject);
         }
     }
 }

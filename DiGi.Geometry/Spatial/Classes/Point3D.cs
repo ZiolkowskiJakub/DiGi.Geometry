@@ -5,7 +5,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class Point3D : Coordinate3D, IMovable3D, IPoint
+    public class Point3D : Coordinate3D, IMovable3D, IPoint<Point3D>
     {
         public Point3D(JsonObject jsonObject)
             : base(jsonObject)
