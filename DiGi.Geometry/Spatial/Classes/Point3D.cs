@@ -68,5 +68,31 @@ namespace DiGi.Geometry.Spatial.Classes
 
             return new Point3D((point3D[0] + values[0]) / 2, (point3D[1] + values[1]) / 2, (point3D[2] + values[2]) / 2);
         }
+
+        public bool InDistance(Point3D point3D, double distance, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (point3D == null)
+            {
+                return false;
+            }
+
+            if (System.Math.Abs(X - point3D.X) > distance + tolerance)
+            {
+                return false;
+            }
+
+            if (System.Math.Abs(Y - point3D.Y) > distance + tolerance)
+            {
+                return false;
+            }
+
+            if (System.Math.Abs(Z - point3D.Z) > distance + tolerance)
+            {
+                return false;
+            }
+
+            return Distance(point3D) < distance - tolerance;
+
+        }
     }
 }

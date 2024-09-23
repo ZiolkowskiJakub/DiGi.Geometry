@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace DiGi.Geometry.Core.Classes
 {
-    public abstract class Mesh<T> : SerializableObject, IMesh where T: IPoint
+    public abstract class Mesh<T> : SerializableObject, IMesh where T: IPoint<T>
     {
         [JsonInclude, JsonPropertyName("Indexes")]
         protected List<int[]> indexes;

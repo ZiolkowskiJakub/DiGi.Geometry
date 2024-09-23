@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
+using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -6,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class Segment3D : Geometry3D, ISegmentable3D, ILinear3D
+    public class Segment3D : Geometry3D, ISegmentable3D, ILinear3D, ISegment<Point3D>
     {
         private Point3D start;
         private Vector3D vector;

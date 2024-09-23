@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Polygon2D : Segmentable2D, IPolygonal2D
+    public class Polygon2D : Segmentable2D, IPolygon2D
     {
         public Polygon2D(JsonObject jsonObject)
             : base(jsonObject)

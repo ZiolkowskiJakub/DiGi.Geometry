@@ -1,5 +1,6 @@
 ﻿using DiGi.Core;
 using DiGi.Core.Interfaces;
+using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -7,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Segment2D : Geometry2D, ISegmentable2D, ILinear2D
+    public class Segment2D : Geometry2D, ISegmentable2D, ILinear2D, ISegment<Point2D>
     {
         private Point2D start;
         private Vector2D vector;

@@ -68,5 +68,26 @@ namespace DiGi.Geometry.Planar.Classes
 
             return result;
         }
+
+        public bool InDistance(Point2D point2D, double distance, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(point2D == null)
+            {
+                return false;
+            }
+
+            if (System.Math.Abs(X - point2D.X) > distance + tolerance)
+            {
+                return false;
+            }
+
+            if (System.Math.Abs(Y - point2D.Y) > distance + tolerance)
+            {
+                return false;
+            }
+
+            return Distance(point2D) < distance - tolerance;
+
+        }
     }
 }
