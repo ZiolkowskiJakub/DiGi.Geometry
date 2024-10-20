@@ -1,8 +1,6 @@
-﻿
-using DiGi.Geometry.Core.Interfaces;
+﻿using DiGi.Geometry.Core.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using static DiGi.Core.Constans;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
@@ -203,7 +201,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Point3D(point3D.X - (normal.X * factor), point3D.Y - (normal.Y * factor), point3D.Z - (normal.Z * factor));
         }
 
-        public bool Coplanar(Plane plane, double tolerance = Tolerance.Distance)
+        public bool Coplanar(Plane plane, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return normal.AlmostEquals(plane.normal, tolerance) || normal.AlmostEquals(-plane.normal, tolerance);
         }

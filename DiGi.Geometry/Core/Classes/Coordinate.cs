@@ -117,7 +117,7 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
-        public bool AlmostEquals(Coordinate coordinate, double tolerance = Constans.Tolerance.Distance)
+        public bool AlmostEquals(Coordinate coordinate, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (this == coordinate)
             {

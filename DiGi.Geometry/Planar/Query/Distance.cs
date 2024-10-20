@@ -2,7 +2,6 @@
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using static DiGi.Core.Constans;
 
 namespace DiGi.Geometry.Planar
 {
@@ -40,7 +39,7 @@ namespace DiGi.Geometry.Planar
             return Distance(point2D, segmentable2Ds, out Point2D closetPoint2D);
         }
 
-        public static double Distance(ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, out Point2D point2D_Closest1, out Point2D point2D_Closest2, double tolerance = Tolerance.Distance)
+        public static double Distance(ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, out Point2D point2D_Closest1, out Point2D point2D_Closest2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             point2D_Closest1 = null;
             point2D_Closest2 = null;
