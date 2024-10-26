@@ -225,5 +225,10 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             geometry2D.Inverse();
         }
+
+        public double GetPerimeter()
+        {
+            return Length;
+        }
     }
 }

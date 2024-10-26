@@ -136,6 +136,11 @@ namespace DiGi.Geometry.Planar
             return Rectangle2D(point2Ds, tolerance);
         }
 
+        public static Rectangle2D Rectangle2D(this ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            return Rectangle2D(segmentable2D?.GetPoints(), tolerance);
+        }
+
         public static Rectangle2D Rectangle2D(this Rectangle2D rectangle2D_1, Rectangle2D rectangle2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (rectangle2D_1 == null || rectangle2D_2 == null)

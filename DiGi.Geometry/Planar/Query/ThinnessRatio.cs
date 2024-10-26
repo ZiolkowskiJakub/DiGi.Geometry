@@ -1,18 +1,29 @@
-﻿using DiGi.Geometry.Planar.Classes;
-using DiGi.Math.Classes;
+﻿using DiGi.Geometry.Planar.Interfaces;
 
 namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool ThinnessRatio(this PolynomialEquation polynomialEquation, Point2D point2D, double tolerance = 0)
+        public static double ThinnessRatio(this IPolygonal2D polygonal2D)
         {
-            if (polynomialEquation == null || point2D == null)
-                return false;
+            if(polygonal2D == null)
+            {
+                return double.NaN;
+            }
 
-            double y = polynomialEquation.Evaluate(point2D.X);
+            double area = polygonal2D.GetArea();
+            if(double.IsNaN(area))
+            {
+                return double.NaN;
+            }
 
-            return point2D.Y > y - tolerance;
+            double perimeter = polygonal2D.GetPerimeter();
+            if(double.IsNaN(perimeter))
+            {
+                return double.NaN;
+            }
+
+            return Core.Query.ThinnessRatio(area, perimeter);
         }
     }
 }

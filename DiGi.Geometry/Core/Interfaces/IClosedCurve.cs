@@ -2,7 +2,7 @@
 {
     public interface IClosedCurve : ICurve
     {
-        double Length { get; }
+        double GetPerimeter();
 
         double GetArea();
     }

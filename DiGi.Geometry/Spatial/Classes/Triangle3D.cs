@@ -148,6 +148,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return points[0].Mid(points[1]).Mid(points[2]);
         }
 
+        public double GetPerimeter()
+        {
+            return Length;
+        }
+
         public List<Point3D> GetPoints()
         {
             return DiGi.Core.Query.Clone(points)?.ToList();

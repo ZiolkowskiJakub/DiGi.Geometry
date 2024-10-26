@@ -163,5 +163,10 @@ namespace DiGi.Geometry.Planar.Classes
 
             return true;
         }
+
+        public double GetPerimeter()
+        {
+            return Length;
+        }
     }
 }

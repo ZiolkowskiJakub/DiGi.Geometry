@@ -378,5 +378,10 @@ namespace DiGi.Geometry.Planar.Classes
 
             return new List<Triangle2D>() { new Triangle2D(point2Ds[0], point2Ds[1], point2Ds[2]), new Triangle2D(point2Ds[2], point2Ds[3], point2Ds[0]) };
         }
+
+        public double GetPerimeter()
+        {
+            return Length;
+        }
     }
 }
