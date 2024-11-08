@@ -141,6 +141,17 @@ namespace DiGi.Geometry.Planar
             return Rectangle2D(segmentable2D?.GetPoints(), tolerance);
         }
 
+        public static Rectangle2D Rectangle2D(this IPolygonalFace2D polygonalFace2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            IPolygonal2D polygonal2D = polygonalFace2D?.ExternalEdge;
+            if(polygonal2D == null)
+            {
+                return null;
+            }
+
+            return Rectangle2D(polygonal2D, tolerance);
+        }
+
         public static Rectangle2D Rectangle2D(this Rectangle2D rectangle2D_1, Rectangle2D rectangle2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (rectangle2D_1 == null || rectangle2D_2 == null)

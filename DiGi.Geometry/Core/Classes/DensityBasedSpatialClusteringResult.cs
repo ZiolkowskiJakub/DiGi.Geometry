@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Core.Classes
 {
-    public class DensityBasedSpatialClusteringResult<T> : Result where T: IPoint<T>
+    public class DensityBasedSpatialClusteringResult<T> : SerializableResult where T: IPoint<T>
     {
         [JsonInclude, JsonPropertyName("Tolerance")]
         private double tolerance;

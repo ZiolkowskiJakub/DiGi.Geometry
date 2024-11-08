@@ -59,5 +59,16 @@ namespace DiGi.Geometry.Planar
         {
             return Centroid(polygonal2D?.GetPoints());
         }
+
+        public static Point2D Centroid(this IPolygonalFace2D polygonalFace2D)
+        {
+            IPolygonal2D polygonal2D = polygonalFace2D?.ExternalEdge;
+            if(polygonal2D == null)
+            {
+                return null;
+            }
+
+            return Centroid(polygonal2D);
+        }
     }
 }
