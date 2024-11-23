@@ -354,6 +354,11 @@ namespace DiGi.Geometry.Spatial
             return new PolygonalFace3D(plane, polygonalFace2D);
         }
 
+        public static IPolygonal2D Convert(Plane plane, BoundingBox2D boundingBox2D)
+        {
+            return null;
+        }
+
         public static IGeometry3D Convert(this Plane plane, IGeometry2D geometry2D)
         {
             if(plane == null || geometry2D == null)
