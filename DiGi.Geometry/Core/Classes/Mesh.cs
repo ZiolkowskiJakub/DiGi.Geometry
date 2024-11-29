@@ -56,7 +56,7 @@ namespace DiGi.Geometry.Core.Classes
                     continue;
                 }
 
-                if (vertices[0] >= count || vertices[1] >= count || vertices[2] >= 2)
+                if (vertices[0] >= count || vertices[1] >= count || vertices[2] >= count)
                 {
                     continue;
                 }
@@ -130,6 +130,13 @@ namespace DiGi.Geometry.Core.Classes
             }
 
             return result;
+        }
+
+        public int[] GetIndexes(int index)
+        {
+            int[] indexes_Triangle = indexes[index];
+
+            return new int[] { indexes_Triangle[0], indexes_Triangle[1], indexes_Triangle[2] };
         }
     }
 }

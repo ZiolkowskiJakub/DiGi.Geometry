@@ -1,4 +1,6 @@
 ﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Interfaces;
+using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -58,6 +60,56 @@ namespace DiGi.Geometry.Planar
             }
 
             return new Mesh2D(point2Ds, indexes);
+        }
+
+        public static Mesh2D Mesh2D(this IPolygonalFace2D polygonalFace2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            IPolygonal2D externalEdge = polygonalFace2D?.ExternalEdge;
+            if(externalEdge == null)
+            {
+                return null;
+            }
+
+            List<IPolygonal2D> internalEdges = polygonalFace2D.InternalEdges;
+            if(internalEdges == null || internalEdges.Count == 0)
+            {
+                List<Point2D> point2Ds = externalEdge.GetPoints();
+                if(point2Ds == null || point2Ds.Count < 3)
+                {
+                    return null;
+                }
+
+                if (point2Ds.Count == 3)
+                {
+                    return new Mesh2D(point2Ds, new List<int[]> { new int[] { 0, 1, 2 } });
+                }
+
+                if(point2Ds.Count == 4)
+                {
+                    return new Mesh2D(point2Ds, new List<int[]> { new int[] { 0, 1, 2 } , new int[] { 2, 3 ,0 } });
+                }
+            }
+
+            List<Polygon> polygons = polygonalFace2D.ToNTS()?.Triangulate(tolerance);
+            if(polygons == null)
+            {
+                return null;
+            }
+
+            List<Triangle2D> triangle2Ds = new List<Triangle2D>();
+            foreach(Polygon polygon in polygons)
+            {
+                List<Point2D> point2Ds = polygon?.ExteriorRing?.ToDiGi()?.GetPoints();
+                if(point2Ds == null || point2Ds.Count < 3)
+                {
+                    continue;
+                }
+
+                triangle2Ds.Add(new Triangle2D(point2Ds[0], point2Ds[1], point2Ds[2]));
+            }
+
+            return Mesh2D(triangle2Ds, tolerance);
+
         }
     }
 
