@@ -137,6 +137,42 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        [JsonIgnore]
+        public Point2D TopLeft
+        {
+            get
+            {
+                return new Point2D(min.X, max.Y);
+            }
+        }
+
+        [JsonIgnore]
+        public Point2D TopRight
+        {
+            get
+            {
+                return new Point2D(max);
+            }
+        }
+
+        [JsonIgnore]
+        public Point2D BottomLeft
+        {
+            get
+            {
+                return new Point2D(min);
+            }
+        }
+
+        [JsonIgnore]
+        public Point2D BottomRight
+        {
+            get
+            {
+                return new Point2D(max.X, min.Y);
+            }
+        }
+
         public bool Add(BoundingBox2D boundingBox2D)
         {
             if (boundingBox2D == null)
@@ -215,13 +251,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public List<Point2D> GetPoints()
         {
-            double height = Height;
-            if (double.IsNaN(height))
-            {
-                return null;
-            }
-
-            return new List<Point2D>() { new Point2D(min), new Point2D(min.X, min.Y + height), new Point2D(max), new Point2D(max.X, max.Y - height) };
+            return new List<Point2D>() { BottomLeft, TopLeft, TopRight, BottomRight };
         }
 
         public Point2D GetPoint(Corner corner)
@@ -234,16 +264,16 @@ namespace DiGi.Geometry.Planar.Classes
             switch (corner)
             {
                 case Corner.BottomLeft:
-                    return new Point2D(min);
+                    return BottomLeft;
 
                 case Corner.BottomRight:
-                    return new Point2D(max.X, max.Y - Height);
+                    return BottomRight;
 
                 case Corner.TopLeft:
-                    return new Point2D(min.X, min.Y + Height);
+                    return TopLeft;
 
                 case Corner.TopRight:
-                    return new Point2D(max);
+                    return TopRight;
             }
 
             return null;
