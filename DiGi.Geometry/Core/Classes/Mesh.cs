@@ -138,5 +138,51 @@ namespace DiGi.Geometry.Core.Classes
 
             return new int[] { indexes_Triangle[0], indexes_Triangle[1], indexes_Triangle[2] };
         }
+
+        public HashSet<int> GetConnectedIndexes(int index)
+        {
+            if(indexes == null || index < 0)
+            {
+                return null;
+            }
+
+            HashSet<int> result = new HashSet<int>();
+            foreach (int[] indexes_Temp in indexes)
+            {
+                if(indexes_Temp.Contains(index))
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if(indexes_Temp[0] != index)
+                        {
+                            result.Add(indexes_Temp[0]);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public HashSet<T> GetConnectedPoints(int index)
+        {
+            HashSet<int> indexes_Temp = GetConnectedIndexes(index);
+            if(indexes_Temp == null)
+            {
+                return null;
+            }
+
+            HashSet<T> result = new HashSet<T>();
+            foreach(int index_Temp in indexes_Temp)
+            {
+                T t = points[index_Temp];
+                if(t != null)
+                {
+                    result.Add(t.Clone<T>());
+                }
+            }
+
+            return result;
+        }
     }
 }
