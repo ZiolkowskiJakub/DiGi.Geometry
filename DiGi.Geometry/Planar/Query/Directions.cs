@@ -44,5 +44,34 @@ namespace DiGi.Geometry.Planar
 
             return dictionary.Values.ToList();
         }
+
+        public static void Directions(this Core.Enums.Corner corner, out Vector2D heightDirection, out Vector2D widthDirection)
+        {
+            widthDirection = null;
+            heightDirection = null;
+
+            switch (corner)
+            {
+                case Core.Enums.Corner.BottomLeft:
+                    widthDirection = new Vector2D(1, 0);
+                    heightDirection = new Vector2D(0, 1);
+                    return;
+
+                case Core.Enums.Corner.TopLeft:
+                    widthDirection = new Vector2D(1, 0);
+                    heightDirection = new Vector2D(0, -1);
+                    return;
+
+                case Core.Enums.Corner.BottomRight:
+                    widthDirection = new Vector2D(-1, 0);
+                    heightDirection = new Vector2D(0, 1);
+                    return;
+
+                case Core.Enums.Corner.TopRight:
+                    widthDirection = new Vector2D(-1, 0);
+                    heightDirection = new Vector2D(0, -1);
+                    return;
+            }
+        }
     }
 }
