@@ -3,7 +3,7 @@ using DiGi.Geometry.Spatial.Classes;
 
 namespace DiGi.Geometry.Spatial.Interfaces
 {
-    public interface IClosedCurve3D : IClosedCurve, IGeometry3D
+    public interface IClosedCurve3D : IClosedCurve, IGeometry3D, ICurve3D
     {
         Point3D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 

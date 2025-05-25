@@ -80,6 +80,16 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Vector3D(point3D.X, point3D.Y, point3D.Z);
         }
 
+        public static implicit operator Vector3D((double x, double y, double z) @object)
+        {
+            return new Vector3D(@object.x, @object.y, @object.z);
+        }
+
+        public static implicit operator Vector3D((Point3D start, Point3D end) @object)
+        {
+            return new Vector3D(@object.start, @object.end);
+        }
+
         public static Vector3D operator -(Vector3D vector3D_1, Vector3D vector3D_2)
         {
             return new Vector3D(vector3D_1.values[0] - vector3D_2.values[0], vector3D_1.values[1] - vector3D_2.values[1], vector3D_1.values[2] - vector3D_2.values[2]);

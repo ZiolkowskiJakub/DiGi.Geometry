@@ -31,24 +31,19 @@ namespace DiGi.Geometry.Planar.Classes
 
         }
 
+        public static implicit operator Point2D((double x, double y) @object)
+        {
+            return new Point2D(@object.x, @object.y);
+        }
+
         public override ISerializableObject Clone()
         {
             return new Point2D(values);
         }
 
-        public Point2D Mid(Point2D point2D)
-        {
-            if(point2D == null)
-            {
-                return null;
-            }
-
-            return new Point2D((point2D[0] + values[0]) / 2, (point2D[1] + values[1]) / 2);
-        }
-
         public double Distance(Point2D point2D)
         {
-            if(point2D == null)
+            if (point2D == null)
             {
                 return double.NaN;
             }
@@ -71,7 +66,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool InDistance(Point2D point2D, double distance, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point2D == null)
+            if (point2D == null)
             {
                 return false;
             }
@@ -88,6 +83,16 @@ namespace DiGi.Geometry.Planar.Classes
 
             return Distance(point2D) < distance - tolerance;
 
+        }
+
+        public Point2D Mid(Point2D point2D)
+        {
+            if(point2D == null)
+            {
+                return null;
+            }
+
+            return new Point2D((point2D[0] + values[0]) / 2, (point2D[1] + values[1]) / 2);
         }
     }
 }

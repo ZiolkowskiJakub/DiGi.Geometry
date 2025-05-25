@@ -233,10 +233,10 @@ namespace DiGi.Geometry.Planar
             }
 
             List<Point2D> result = new List<Point2D>();
-            foreach(Segment2D segment2D in segment2Ds)
+            foreach (Segment2D segment2D in segment2Ds)
             {
                 Point2D point2D = line2D.IntersectionPoint(segment2D, tolerance);
-                if(point2D == null)
+                if (point2D == null)
                 {
                     continue;
                 }
@@ -280,16 +280,16 @@ namespace DiGi.Geometry.Planar
 
             return result;
         }
-    
+
         public static List<Point2D> IntersectionPoints(this Circle2D circle2D, Line2D line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(circle2D == null || line2D == null)
+            if (circle2D == null || line2D == null)
             {
                 return null;
             }
 
             Point2D center = circle2D.Center;
-            if(center == null)
+            if (center == null)
             {
                 return null;
             }
@@ -297,7 +297,7 @@ namespace DiGi.Geometry.Planar
             double radius = circle2D.Radius;
 
             Point2D point2D_1 = line2D.Origin;
-            if(point2D_1 == null)
+            if (point2D_1 == null)
             {
                 return null;
             }
@@ -341,7 +341,7 @@ namespace DiGi.Geometry.Planar
             }
 
             List<Point2D> result = IntersectionPoints(center.X, center.Y, radius, point2D_1, point2D_2, tolerance);
-            if(result == null)
+            if (result == null)
             {
                 return result;
             }
@@ -359,22 +359,156 @@ namespace DiGi.Geometry.Planar
 
         public static List<Point2D> IntersectionPoints(this Circle2D circle2D, ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(circle2D == null || segmentable2D == null)
+            if (circle2D == null || segmentable2D == null)
             {
                 return null;
             }
 
             List<Segment2D> segment2Ds = segmentable2D.GetSegments();
-            if(segment2Ds == null)
+            if (segment2Ds == null)
             {
                 return null;
             }
 
             List<Point2D> result = new List<Point2D>();
-            foreach(Segment2D segment2D in segment2Ds)
+            foreach (Segment2D segment2D in segment2Ds)
             {
                 List<Point2D> point2Ds = IntersectionPoints(circle2D, segment2D, tolerance);
-                if(point2Ds == null)
+                if (point2Ds == null)
+                {
+                    continue;
+                }
+
+                for (int i = 0; i < point2Ds.Count; i++)
+                {
+                    result.Add(point2Ds[i], tolerance);
+                }
+            }
+
+            return result;
+        }
+
+        public static List<Point2D> IntersectionPoints(this Ellipse2D ellipse2D, Segment2D segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            // Translate points to ellipse-centered coordinates
+            double dx0 = segment2D[0].X - ellipse2D.Center.X;
+            double dy0 = segment2D[0].Y - ellipse2D.Center.Y;
+            double dx1 = segment2D[1].X - ellipse2D.Center.X;
+            double dy1 = segment2D[1].Y - ellipse2D.Center.Y;
+
+            // Rotate into ellipse-aligned coordinates
+            double ux = ellipse2D.Direction.X;
+            double uy = ellipse2D.Direction.Y;
+            double vx = -uy;
+            double vy = ux;
+
+            double x0 = dx0 * ux + dy0 * uy;
+            double y0 = dx0 * vx + dy0 * vy;
+            double x1 = dx1 * ux + dy1 * uy;
+            double y1 = dx1 * vx + dy1 * vy;
+
+            double dx = x1 - x0;
+            double dy = y1 - y0;
+
+            // Coefficients for the quadratic equation At^2 + Bt + C = 0
+            double A = (dx * dx) / (ellipse2D.A * ellipse2D.A) + (dy * dy) / (ellipse2D.B * ellipse2D.B);
+            double Bcoef = 2 * ((x0 * dx) / (ellipse2D.A * ellipse2D.A) + (y0 * dy) / (ellipse2D.B * ellipse2D.B));
+            double C = (x0 * x0) / (ellipse2D.A * ellipse2D.A) + (y0 * y0) / (ellipse2D.B * ellipse2D.B) - 1;
+
+            double discriminant = Bcoef * Bcoef - 4 * A * C;
+
+            List<Point2D> results = new List<Point2D>();
+
+            if (discriminant < tolerance)
+            {
+                return results; // no intersection
+            }
+
+            double sqrtDisc = System.Math.Sqrt(discriminant);
+            double t1 = (-Bcoef - sqrtDisc) / (2 * A);
+            double t2 = (-Bcoef + sqrtDisc) / (2 * A);
+
+            foreach (var t in new[] { t1, t2 })
+            {
+                if (t >= -tolerance && t <= 1 + tolerance)
+                {
+                    double x = segment2D[0].X + t * (segment2D[1].X - segment2D[0].X);
+                    double y = segment2D[0].Y + t * (segment2D[1].Y - segment2D[0].Y);
+                    results.Add((x, y));
+                }
+            }
+
+            return results;
+        }
+
+        public static List<Point2D> IntersectionPoints(this Ellipse2D ellipse2D, Line2D line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            // Translate points to ellipse-centered coordinates
+            double dx0 = line2D.Origin.X - ellipse2D.Center.X;
+            double dy0 = line2D.Origin.Y - ellipse2D.Center.Y;
+            double dx1 = line2D.Origin.X - ellipse2D.Center.X;
+            double dy1 = line2D.Origin.Y - ellipse2D.Center.Y;
+
+            // Rotate into ellipse-aligned coordinates
+            double ux = ellipse2D.Direction.X;
+            double uy = ellipse2D.Direction.Y;
+            double vx = -uy;
+            double vy = ux;
+
+            double x0 = dx0 * ux + dy0 * uy;
+            double y0 = dx0 * vx + dy0 * vy;
+            double x1 = dx1 * ux + dy1 * uy;
+            double y1 = dx1 * vx + dy1 * vy;
+
+            double dx = x1 - x0;
+            double dy = y1 - y0;
+
+            // Coefficients for the quadratic equation At^2 + Bt + C = 0
+            double A = (dx * dx) / (ellipse2D.A * ellipse2D.A) + (dy * dy) / (ellipse2D.B * ellipse2D.B);
+            double Bcoef = 2 * ((x0 * dx) / (ellipse2D.A * ellipse2D.A) + (y0 * dy) / (ellipse2D.B * ellipse2D.B));
+            double C = (x0 * x0) / (ellipse2D.A * ellipse2D.A) + (y0 * y0) / (ellipse2D.B * ellipse2D.B) - 1;
+
+            double discriminant = Bcoef * Bcoef - 4 * A * C;
+
+            List<Point2D> results = new List<Point2D>();
+
+            if (discriminant < tolerance)
+            {
+                return results; // no intersection
+            }
+
+            double sqrtDisc = System.Math.Sqrt(discriminant);
+            double t1 = (-Bcoef - sqrtDisc) / (2 * A);
+            double t2 = (-Bcoef + sqrtDisc) / (2 * A);
+
+            foreach (var t in new[] { t1, t2 })
+            {
+                double x = line2D.Origin.X + t * (line2D.Origin.X - line2D.Origin.X);
+                double y = line2D.Origin.Y + t * (line2D.Origin.Y - line2D.Origin.Y);
+                results.Add((x, y));
+            }
+
+            return results;
+        }
+
+        public static List<Point2D> IntersectionPoints(this Ellipse2D ellipse2D, ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (ellipse2D == null || segmentable2D == null)
+            {
+                return null;
+            }
+
+            List<Segment2D> segment2Ds = segmentable2D.GetSegments();
+            if (segment2Ds == null)
+            {
+                return null;
+            }
+
+            List<Point2D> result = new List<Point2D>();
+            foreach (Segment2D segment2D in segment2Ds)
+            {
+                List<Point2D> point2Ds = IntersectionPoints(ellipse2D, segment2D, tolerance);
+                if (point2Ds == null)
                 {
                     continue;
                 }

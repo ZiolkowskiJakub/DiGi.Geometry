@@ -2,6 +2,7 @@
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
+using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -251,6 +252,26 @@ namespace DiGi.Geometry.Spatial
             }
 
             return new ProjectionResult(plane, geometry2Ds);
+        }
+
+        public static ProjectionResult ProjectionResult(this Plane plane, Ellipse3D ellipse3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(plane == null || ellipse3D == null)
+            {
+                return null;
+            }
+
+            Vector3D ellipse3D_Normal = ellipse3D.Plane?.Normal;
+
+            if (Query.Parallel(plane.Normal, ellipse3D_Normal, tolerance))
+            {
+                Point3D center = plane.Project(ellipse3D.Center);
+                Vector3D direction = plane.Project(ellipse3D.Direction);
+
+                return new ProjectionResult(plane, new Ellipse2D(plane.Convert(center), ellipse3D.A, ellipse3D.B, plane.Convert(direction)));
+            }
+
+            throw new System.NotImplementedException();
         }
 
         public static ProjectionResult ProjectionResult(this Plane plane, PolygonalFace3D polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)

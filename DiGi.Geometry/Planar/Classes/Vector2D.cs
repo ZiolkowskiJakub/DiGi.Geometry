@@ -78,6 +78,16 @@ namespace DiGi.Geometry.Planar.Classes
             return new Vector2D(point2D.X, point2D.Y);
         }
 
+        public static implicit operator Vector2D((double x, double y) @object)
+        {
+            return new Vector2D(@object.x, @object.y);
+        }
+
+        public static implicit operator Vector2D((Point2D start, Point2D end) @object)
+        {
+            return new Vector2D(@object.start, @object.end);
+        }
+
         public static Vector2D operator -(Vector2D vector2D_1, Vector2D vector2D_2)
         {
             return new Vector2D(vector2D_1.values[0] - vector2D_2.values[0], vector2D_1.values[1] - vector2D_2.values[1]);
@@ -117,18 +127,41 @@ namespace DiGi.Geometry.Planar.Classes
         {
             return vector2D_1?.values[0] == vector2D_2?.values[0] && vector2D_1?.values[1] == vector2D_2?.values[1];
         }
+        
+        /// <summary>
+        /// Calculate the dot product as an angle
+        /// Source: https://wiki.unity3d.com/index.php/3d_Math_functions
+        /// </summary>
+        /// <param name="vector2D">Vector2D</param>
+        /// <returns>Angle in radians</returns>
+        public double Angle(Vector2D vector2D)
+        {
+            //Get the dot product
+            double dotProduct = Unit.DotProduct(vector2D.Unit);
+
+            //Clamp to prevent NaN error. Shouldn't need this in the first place, but there could be a rounding error issue.
+            if (dotProduct < -1)
+            {
+                dotProduct = -1;
+            }
+            else if (dotProduct > 1)
+            {
+                dotProduct = 1;
+            }
+
+            //Calculate the angle. The output is in radians
+            return System.Math.Acos(dotProduct);
+
+            //double result = System.Math.Acos(DotProduct(vector2D) / (Length * vector2D.Length));
+            //if (double.IsNaN(result))
+            //    result = 0;
+
+            //return result;
+        }
 
         public override ISerializableObject Clone()
         {
             return new Vector2D(this);
-        }
-
-        public void Normalize()
-        {
-            double length = Length;
-
-            values[0] = values[0] / length;
-            values[1] = values[1] / length;
         }
 
         public bool Collinear(Vector2D vector2D, double tolerance = DiGi.Core.Constans.Tolerance.Angle)
@@ -139,6 +172,24 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return System.Math.Abs(System.Math.Abs(this * vector2D) - (Length * vector2D.Length)) <= tolerance;
+        }
+
+        public double DotProduct(Vector2D vector2D)
+        {
+            if (vector2D == null)
+            {
+                return double.NaN;
+            }
+
+            return (values[0] * vector2D.values[0]) + (values[1] * vector2D.values[1]);
+        }
+
+        public Vector2D GetInversed()
+        {
+            Vector2D result = new Vector2D(this);
+            result.Inverse();
+
+            return result;
         }
 
         public Vector2D GetPerpendicular(Orientation orientation = Orientation.Clockwise)
@@ -156,16 +207,14 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public double DotProduct(Vector2D vector2D)
+        public void Normalize()
         {
-            if(vector2D == null)
-            {
-                return double.NaN;
-            }
+            double length = Length;
 
-            return (values[0] * vector2D.values[0]) + (values[1] * vector2D.values[1]);
+            values[0] = values[0] / length;
+            values[1] = values[1] / length;
         }
-
+        
         public Point2D Project(Point2D point2D)
         {
             if (point2D == null)
@@ -205,41 +254,6 @@ namespace DiGi.Geometry.Planar.Classes
 
             Vector2D result = new Vector2D(this);
             result.Scale(vector2D.DotProduct(this) / DotProduct(this));
-            return result;
-        }
-
-        //Calculate the dot product as an angle
-        //Source: https://wiki.unity3d.com/index.php/3d_Math_functions
-        public double Angle(Vector2D vector2D)
-        {
-            //Get the dot product
-            double dotProduct = Unit.DotProduct(vector2D.Unit);
-
-            //Clamp to prevent NaN error. Shouldn't need this in the first place, but there could be a rounding error issue.
-            if (dotProduct < -1)
-            {
-                dotProduct = -1;
-            }
-            else if (dotProduct > 1)
-            {
-                dotProduct = 1;
-            }
-
-            //Calculate the angle. The output is in radians
-            return System.Math.Acos(dotProduct);
-
-            //double result = System.Math.Acos(DotProduct(vector2D) / (Length * vector2D.Length));
-            //if (double.IsNaN(result))
-            //    result = 0;
-
-            //return result;
-        }
-
-        public Vector2D GetInversed()
-        {
-            Vector2D result = new Vector2D(this);
-            result.Inverse();
-
             return result;
         }
     }

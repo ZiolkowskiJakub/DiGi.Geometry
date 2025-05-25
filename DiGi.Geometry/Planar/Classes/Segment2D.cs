@@ -147,6 +147,16 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        public static implicit operator Segment2D(((double x, double y), (double x, double y)) @object)
+        {
+            return new Segment2D(new Point2D(@object.Item1.x, @object.Item1.y), new Point2D(@object.Item2.x, @object.Item2.y));
+        }
+
+        public static implicit operator Segment2D((Point2D start, Point2D end) @object)
+        {
+            return new Segment2D(@object.start, @object.end);
+        }
+
         public static bool operator !=(Segment2D segment2D_1, Segment2D segment2D_2)
         {
             if (ReferenceEquals(segment2D_1, null) && ReferenceEquals(segment2D_2, null))

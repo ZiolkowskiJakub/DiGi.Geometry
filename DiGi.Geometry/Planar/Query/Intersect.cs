@@ -1,6 +1,7 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 using DiGi.Geometry.Planar.Interfaces;
+using DiGi.Geometry.Spatial.Classes;
 
 namespace DiGi.Geometry.Planar
 {
@@ -8,7 +9,10 @@ namespace DiGi.Geometry.Planar
     {
         public static bool Intersect(this ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            return Intersect(segmentable2D_1 as VolatileBoundable2D<ISegmentable2D>, segmentable2D_2 as VolatileBoundable2D<ISegmentable2D>);
+            VolatileBoundable2D<ISegmentable2D> volatileBoundable2D_1 = segmentable2D_1 == null ? null : new VolatileBoundable2D<ISegmentable2D>(segmentable2D_1);
+            VolatileBoundable2D<ISegmentable2D> volatileBoundable2D_2 = segmentable2D_2 == null ? null : new VolatileBoundable2D<ISegmentable2D>(segmentable2D_2);
+
+            return Intersect(volatileBoundable2D_1, volatileBoundable2D_2, tolerance);
         }
 
         public static bool Intersect(this VolatileBoundable2D<ISegmentable2D> volatileBoundable2D_1, VolatileBoundable2D<ISegmentable2D> volatileBoundable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -30,7 +34,7 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            if(boundingBox2D_1.InRange(boundingBox2D_2, tolerance))
+            if(!boundingBox2D_1.InRange(boundingBox2D_2, tolerance))
             {
                 return false;
             }

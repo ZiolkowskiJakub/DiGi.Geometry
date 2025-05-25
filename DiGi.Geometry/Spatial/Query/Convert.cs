@@ -354,6 +354,16 @@ namespace DiGi.Geometry.Spatial
             return new PolygonalFace3D(plane, polygonalFace2D);
         }
 
+        public static Ellipse3D Convert(this Plane plane, Ellipse2D ellipse2D)
+        {
+            if (plane == null || ellipse2D == null)
+            {
+                return null;
+            }
+
+            return new Ellipse3D(plane, ellipse2D);
+        }
+
         public static IPolygonal2D Convert(Plane plane, BoundingBox2D boundingBox2D)
         {
             return null;

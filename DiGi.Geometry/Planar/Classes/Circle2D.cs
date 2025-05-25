@@ -18,7 +18,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Circle2D(Point2D center, double radius)
         {
-            this.center = center;
+            this.center = DiGi.Core.Query.Clone(center);
             this.radius = radius;
         }
 
@@ -29,15 +29,18 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Circle2D(Circle2D circle2D)
         {
-            center = new Point2D(circle2D.center);
-            radius = circle2D.radius;
+            if(circle2D != null)
+            {
+                center = DiGi.Core.Query.Clone(circle2D.center);
+                radius = circle2D.radius;
+            }
         }
 
         public Point2D Center
         {
             get
             {
-                return new Point2D(center);
+                return center == null ? null : new Point2D(center);
             }
             set
             {

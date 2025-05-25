@@ -31,6 +31,11 @@ namespace DiGi.Geometry.Spatial.Classes
 
         }
 
+        public static implicit operator Point3D((double x, double y, double z) @object)
+        {
+            return new Point3D(@object.x, @object.y, @object.z);
+        }
+
         public override ISerializableObject Clone()
         {
             return new Point3D(values);
@@ -59,16 +64,6 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
-        public Point3D Mid(Point3D point3D)
-        {
-            if(point3D == null)
-            {
-                return null;
-            }
-
-            return new Point3D((point3D[0] + values[0]) / 2, (point3D[1] + values[1]) / 2, (point3D[2] + values[2]) / 2);
-        }
-
         public bool InDistance(Point3D point3D, double distance, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null)
@@ -93,6 +88,16 @@ namespace DiGi.Geometry.Spatial.Classes
 
             return Distance(point3D) < distance - tolerance;
 
+        }
+
+        public Point3D Mid(Point3D point3D)
+        {
+            if(point3D == null)
+            {
+                return null;
+            }
+
+            return new Point3D((point3D[0] + values[0]) / 2, (point3D[1] + values[1]) / 2, (point3D[2] + values[2]) / 2);
         }
     }
 }
