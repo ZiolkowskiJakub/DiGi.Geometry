@@ -134,7 +134,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public static bool operator ==(Vector3D vector3D_1, Vector3D vector3D_2)
         {
-            return vector3D_1?.values[0] == vector3D_2?.values[0] && vector3D_1?.values[1] == vector3D_2?.values[1];
+            return vector3D_1?.values[0] == vector3D_2?.values[0] && vector3D_1?.values[1] == vector3D_2?.values[1] && vector3D_1?.values[2] == vector3D_2?.values[2];
         }
 
         //Calculate the dot product as an angle
