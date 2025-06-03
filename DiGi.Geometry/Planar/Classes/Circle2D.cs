@@ -7,7 +7,10 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class Circle2D : Geometry2D, IEllipse2D, IBoundable2D
     {
+        [JsonInclude, JsonPropertyName("Center")]
         private Point2D center;
+
+        [JsonInclude, JsonPropertyName("Radius")]
         private double radius;
 
         public Circle2D(JsonObject jsonObject)
@@ -36,6 +39,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        [JsonIgnore]
         public Point2D Center
         {
             get
@@ -70,6 +74,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        [JsonIgnore]
         public double Radius
         {
             get
@@ -105,6 +110,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return new Point2D(center);
+        }
+
+        public double GetPerimeter()
+        {
+            return Length;
         }
 
         public bool InRange(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -165,11 +175,6 @@ namespace DiGi.Geometry.Planar.Classes
             radius = new Vector2D(center, point2D).Length;
 
             return true;
-        }
-
-        public double GetPerimeter()
-        {
-            return Length;
         }
     }
 }

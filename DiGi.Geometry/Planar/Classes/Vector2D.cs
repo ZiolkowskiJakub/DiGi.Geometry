@@ -48,13 +48,22 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
-                return System.Math.Sqrt((values[0] * values[0]) + (values[1] * values[1]));
+                return System.Math.Sqrt(SquaredLength);
             }
             set
             {
                 Vector2D vector2D = Unit;
                 vector2D.Scale(value);
                 values = new double[2] { vector2D[0], vector2D[1] };
+            }
+        }
+
+        [JsonIgnore]
+        public double SquaredLength
+        {
+            get
+            {
+                return (values[0] * values[0]) + (values[1] * values[1]);
             }
         }
 

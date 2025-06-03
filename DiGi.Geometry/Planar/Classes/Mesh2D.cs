@@ -42,6 +42,55 @@ namespace DiGi.Geometry.Planar.Classes
             return new BoundingBox2D(points);
         }
 
+        public List<Segment2D> GetSegements()
+        {
+            if (points == null || indexes == null)
+            {
+                return null;
+            }
+
+            int count = TrianglesCount;
+            if (count == -1)
+            {
+                return null;
+            }
+
+            List<Segment2D> result = new List<Segment2D>();
+
+            Dictionary<int, HashSet<int>> dictionary = new Dictionary<int, HashSet<int>>();
+            for (int i = 0; i < count; i++)
+            {
+                List<int> indexes_Triangle = new List<int>(indexes[i]);
+                indexes_Triangle.Add(indexes_Triangle.First());
+
+                for (int j = 0; j < indexes_Triangle.Count - 1; j++)
+                {
+                    int index_1 = System.Math.Max(indexes_Triangle[j], indexes_Triangle[j + 1]);
+                    int index_2 = System.Math.Min(indexes_Triangle[j], indexes_Triangle[j + 1]);
+
+                    if (dictionary.TryGetValue(index_1, out HashSet<int> indexes_Index) && indexes_Index != null)
+                    {
+                        if (indexes_Index.Contains(index_2))
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (indexes_Index == null)
+                    {
+                        indexes_Index = new HashSet<int>();
+                        dictionary[index_1] = indexes_Index;
+                    }
+
+                    indexes_Index.Add(index_2);
+
+                    result.Add(new Segment2D(points[indexes_Triangle[j]], points[indexes_Triangle[j + 1]]));
+                }
+            }
+
+            return result;
+        }
+
         public Triangle2D GetTriangle(int index)
         {
             if (points == null || indexes == null)
@@ -101,56 +150,7 @@ namespace DiGi.Geometry.Planar.Classes
 
             return result;
         }
-
-        public List<Segment2D> GetSegements()
-        {
-            if (points == null || indexes == null)
-            {
-                return null;
-            }
-
-            int count = TrianglesCount;
-            if (count == -1)
-            {
-                return null;
-            }
-
-            List<Segment2D> result = new List<Segment2D>();
-            
-            Dictionary<int, HashSet<int>> dictionary = new Dictionary<int, HashSet<int>>();
-            for (int i = 0; i < count; i++)
-            {
-                List<int> indexes_Triangle = new List<int>(indexes[i]);
-                indexes_Triangle.Add(indexes_Triangle.First());
-
-                for (int j = 0; j < indexes_Triangle.Count - 1; j++)
-                {
-                    int index_1 = System.Math.Max(indexes_Triangle[j], indexes_Triangle[j + 1]);
-                    int index_2 = System.Math.Min(indexes_Triangle[j], indexes_Triangle[j + 1]);
-
-                    if(dictionary.TryGetValue(index_1, out HashSet<int> indexes_Index) && indexes_Index != null)
-                    {
-                        if(indexes_Index.Contains(index_2))
-                        {
-                            continue;
-                        }
-                    }
-
-                    if(indexes_Index == null)
-                    {
-                        indexes_Index = new HashSet<int>();
-                        dictionary[index_1] = indexes_Index;
-                    }
-
-                    indexes_Index.Add(index_2);
-
-                    result.Add(new Segment2D(points[indexes_Triangle[j]], points[indexes_Triangle[j + 1]]));
-                }
-            }
-
-            return result;
-        }
-
+        
         public bool Move(Vector2D vector2D)
         {
             if(points == null || vector2D == null)

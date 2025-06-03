@@ -101,6 +101,15 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        [JsonIgnore]
+        public double SquaredLength
+        {
+            get
+            {
+                return vector.SquaredLength;
+            }
+        }
+
         [JsonPropertyName("Start")]
         public Point2D Start
         {
