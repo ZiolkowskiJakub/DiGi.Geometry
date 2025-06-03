@@ -1,9 +1,5 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
-using DiGi.Geometry.Spatial.Classes;
-using DiGi.Geometry.Spatial.Interfaces;
-using DiGi.Math.Classes;
-using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 

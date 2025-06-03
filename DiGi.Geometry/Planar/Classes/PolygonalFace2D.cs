@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
+using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -36,24 +37,6 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonIgnore]
-        public IPolygonal2D ExternalEdge
-        {
-            get
-            {
-                return DiGi.Core.Query.Clone(externalEdge);
-            }
-        }
-
-        [JsonIgnore]
-        public List<IPolygonal2D> InternalEdges
-        {
-            get
-            {
-                return DiGi.Core.Query.Clone(internalEdges);
-            }
-        }
-
-        [JsonIgnore]
         public List<IPolygonal2D> Edges
         {
             get
@@ -81,6 +64,23 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        [JsonIgnore]
+        public IPolygonal2D ExternalEdge
+        {
+            get
+            {
+                return DiGi.Core.Query.Clone(externalEdge);
+            }
+        }
+
+        [JsonIgnore]
+        public List<IPolygonal2D> InternalEdges
+        {
+            get
+            {
+                return DiGi.Core.Query.Clone(internalEdges);
+            }
+        }
         public override ISerializableObject Clone()
         {
             return new PolygonalFace2D(this);
@@ -296,6 +296,26 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        public override bool Move(Vector2D vector2D)
+        {
+            if (vector2D == null || externalEdge == null)
+            {
+                return false;
+            }
+
+            externalEdge.Move(vector2D);
+
+            if (internalEdges != null && internalEdges.Count != 0)
+            {
+                for (int i = 0; i < internalEdges.Count; i++)
+                {
+                    internalEdges[i]?.Move(vector2D);
+                }
+            }
+
+            return true;
+        }
+
         public bool OnEdge(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null || externalEdge == null)
@@ -324,27 +344,7 @@ namespace DiGi.Geometry.Planar.Classes
 
             return true;
         }
-
-        public override bool Move(Vector2D vector2D)
-        {
-            if(vector2D == null || externalEdge == null)
-            {
-                return false;
-            }
-
-            externalEdge.Move(vector2D);
-
-            if (internalEdges != null && internalEdges.Count != 0)
-            {
-                for (int i = 0; i < internalEdges.Count; i++)
-                {
-                    internalEdges[i]?.Move(vector2D);
-                }
-            }
-
-            return true;
-        }
-
+        
         public override bool Transform(ITransform2D transform)
         {
             if (transform == null || externalEdge == null)
@@ -363,6 +363,39 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return true;
+        }
+
+        public virtual List<Triangle2D> Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        {
+            if(externalEdge == null)
+            {
+                return null;
+            }
+
+            if(internalEdges == null || internalEdges.Count == 0)
+            {
+                return externalEdge.Triangulate(tolerance);
+            }
+
+            List<Polygon> polygons = Query.Triangulate(this.ToNTS(), tolerance);
+            if (polygons == null)
+            {
+                return null;
+            }
+
+            List<Triangle2D> result = new List<Triangle2D>();
+            foreach (Polygon polygon in polygons)
+            {
+                Coordinate[] coordinates = polygon?.Coordinates;
+                if (coordinates == null || coordinates.Length != 4)
+                {
+                    continue;
+                }
+
+                result.Add(new Triangle2D(coordinates[0].ToDiGi(), coordinates[1].ToDiGi(), coordinates[2].ToDiGi()));
+            }
+
+            return result;
         }
     }
 }

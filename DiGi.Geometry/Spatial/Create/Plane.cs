@@ -56,6 +56,16 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
+        public static Plane Plane(Point3D origin)
+        {
+            if(origin == null)
+            {
+                return null;
+            }
+
+            return new Plane(Constans.Plane.WorldZ, origin);
+        }
+
         public static Plane Plane(double value, int dimensionIndex)
         {
             Plane result = null;

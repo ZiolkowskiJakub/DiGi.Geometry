@@ -1,12 +1,13 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class Ellipse3D : Planar<Ellipse2D>, IClosedCurve3D
+    public class Ellipse3D : Planar<Ellipse2D>, IEllipse3D
     {
         public Ellipse3D(JsonObject jsonObject)
             : base(jsonObject)
@@ -24,20 +25,6 @@ namespace DiGi.Geometry.Spatial.Classes
             : base(ellipse3D)
         {
 
-        }
-
-        public override ISerializableObject Clone()
-        {
-            return new Ellipse3D(this);
-        }
-
-        [JsonIgnore]
-        public Point3D Center
-        {
-            get
-            {
-                return plane?.Convert(geometry2D?.Center);
-            }
         }
 
         [JsonIgnore]
@@ -69,22 +56,53 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
+        public Point3D Center
+        {
+            get
+            {
+                return plane?.Convert(geometry2D?.Center);
+            }
+        }
+
+        [JsonIgnore]
         public Vector3D Direction
         {
             get
             {
-                return plane?.Convert(geometry2D?.Direction);
+                return plane?.Convert(geometry2D?.DirectionA);
             }
         }
 
-        public Point3D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public override ISerializableObject Clone()
         {
-            if (plane == null || geometry2D == null)
+            return new Ellipse3D(this);
+        }
+        
+        public double GetArea()
+        {
+            if (geometry2D == null)
+            {
+                return double.NaN;
+            }
+
+            return geometry2D.GetArea();
+        }
+
+        public BoundingBox3D GetBoundingBox()
+        {
+            List<Point2D> point2Ds = Geometry2D?.GetBoundingBox()?.GetPoints();
+            if (point2Ds == null || point2Ds.Count == 0)
             {
                 return null;
             }
 
-            return plane.Convert(geometry2D.GetInternalPoint());
+            Plane plane = Plane;
+            if(plane == null)
+            {
+                return null;
+            }
+
+            return new BoundingBox3D(point2Ds.ConvertAll(x => plane.Convert(x)));
         }
 
         public Point3D[] GetFocalPoints()
@@ -110,19 +128,19 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
-        public double GetArea()
+        public Point3D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(geometry2D == null)
+            if (plane == null || geometry2D == null)
             {
-                return double.NaN;
+                return null;
             }
 
-            return geometry2D.GetArea();
+            return plane.Convert(geometry2D.GetInternalPoint());
         }
-
-        public void Inverse()
+        
+        public double GetPerimeter()
         {
-            geometry2D.Inverse();
+            return geometry2D.GetPerimeter();
         }
 
         public bool InRange(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -135,9 +153,9 @@ namespace DiGi.Geometry.Spatial.Classes
             throw new System.NotImplementedException();
         }
 
-        public double GetPerimeter()
+        public void Inverse()
         {
-            return geometry2D.GetPerimeter();
+            geometry2D.Inverse();
         }
     }
 }

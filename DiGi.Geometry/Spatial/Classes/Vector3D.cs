@@ -191,6 +191,15 @@ namespace DiGi.Geometry.Spatial.Classes
             return (values[0] * vector3D.values[0]) + (values[1] * vector3D.values[1]) + (values[2] * vector3D.values[2]);
         }
 
+        public Vector3D GetAbs()
+        {
+            Vector3D result = new Vector3D(this);
+
+            result.Abs();
+
+            return result;
+        }
+
         public Vector3D GetInversed()
         {
             Vector3D result = new Vector3D(this);
@@ -216,6 +225,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             values[0] = values[0] / length;
             values[1] = values[1] / length;
+            values[2] = values[2] / length;
         }
 
         /// <summary>

@@ -51,6 +51,15 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Vector3D(this, point3D).Length;
         }
 
+        public Point3D GetAbs()
+        {
+            Point3D result = new Point3D(this);
+
+            result.Abs();
+
+            return result;
+        }
+
         public Point3D GetMoved(Vector3D vector3D)
         {
             if (vector3D == null)
@@ -98,6 +107,21 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             return new Point3D((point3D[0] + values[0]) / 2, (point3D[1] + values[1]) / 2, (point3D[2] + values[2]) / 2);
+        }
+
+        public static Point3D operator -(Point3D point3D, Vector3D vector2D)
+        {
+            return new Point3D(point3D.values[0] - vector2D[0], point3D.values[1] - vector2D[1], point3D.values[2] - vector2D[2]);
+        }
+
+        public static Vector3D operator -(Point3D point3D_1, Point3D point3D_2)
+        {
+            return new Vector3D(point3D_1.values[0] - point3D_2[0], point3D_1.values[1] - point3D_2[1], point3D_1.values[2] - point3D_2[2]);
+        }
+
+        public static Point3D operator +(Point3D point3D, Vector3D vector3D)
+        {
+            return new Point3D(point3D.values[0] + vector3D[0], point3D.values[1] + vector3D[1], point3D.values[2] + vector3D[2]);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Circle2D : Geometry2D, IClosedCurve2D, IBoundable2D
+    public class Circle2D : Geometry2D, IEllipse2D, IBoundable2D
     {
         private Point2D center;
         private double radius;

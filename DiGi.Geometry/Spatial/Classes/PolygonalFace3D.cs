@@ -192,5 +192,27 @@ namespace DiGi.Geometry.Spatial.Classes
 
             return geometry2D.OnEdge(plane.Convert(point3D), tolerance);
         }
+
+        public List<Triangle3D> Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        {
+            if (plane == null)
+            {
+                return null;
+            }
+
+            List<Triangle2D> triangle2Ds = geometry2D?.Triangulate(tolerance);
+            if (triangle2Ds == null)
+            {
+                return null;
+            }
+
+            List<Triangle3D> result = new List<Triangle3D>();
+            for (int i = 0; i < triangle2Ds.Count; i++)
+            {
+                result.Add(plane.Convert(triangle2Ds[i]));
+            }
+
+            return result;
+        }
     }
 }

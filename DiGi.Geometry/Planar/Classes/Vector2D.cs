@@ -184,6 +184,15 @@ namespace DiGi.Geometry.Planar.Classes
             return (values[0] * vector2D.values[0]) + (values[1] * vector2D.values[1]);
         }
 
+        public Vector2D GetAbs()
+        {
+            Vector2D result = new Vector2D(this);
+
+            result.Abs();
+
+            return result;
+        }
+
         public Vector2D GetInversed()
         {
             Vector2D result = new Vector2D(this);

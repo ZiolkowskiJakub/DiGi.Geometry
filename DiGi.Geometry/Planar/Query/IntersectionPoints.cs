@@ -397,8 +397,8 @@ namespace DiGi.Geometry.Planar
             double dy1 = segment2D[1].Y - ellipse2D.Center.Y;
 
             // Rotate into ellipse-aligned coordinates
-            double ux = ellipse2D.Direction.X;
-            double uy = ellipse2D.Direction.Y;
+            double ux = ellipse2D.DirectionA.X;
+            double uy = ellipse2D.DirectionA.Y;
             double vx = -uy;
             double vy = ux;
 
@@ -450,8 +450,8 @@ namespace DiGi.Geometry.Planar
             double dy1 = line2D.Origin.Y - ellipse2D.Center.Y;
 
             // Rotate into ellipse-aligned coordinates
-            double ux = ellipse2D.Direction.X;
-            double uy = ellipse2D.Direction.Y;
+            double ux = ellipse2D.DirectionA.X;
+            double uy = ellipse2D.DirectionA.Y;
             double vx = -uy;
             double vy = ux;
 

@@ -103,6 +103,33 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Line3D(this);
         }
 
+        public Point3D ClosestPoint(Point3D point3D)
+        {
+            return Project(point3D);
+        }
+
+        public bool Collinear(ILinear3D linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public double Distance(Point3D point3D)
+        {
+            if (point3D == null)
+            {
+                return double.NaN;
+            }
+
+            Point3D point3D_Project = Project(point3D);
+            if (point3D_Project == null)
+            {
+                return double.NaN;
+            }
+
+
+            return point3D_Project.Distance(point3D);
+        }
+
         public override bool Equals(object obj)
         {
             Line3D line3D = obj as Line3D;
@@ -138,6 +165,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
+        public void Inverse()
+        {
+            direction?.Inverse();
+        }
+
         public override bool Move(Vector3D vector3D)
         {
             if (vector3D == null || origin == null)
@@ -148,34 +180,7 @@ namespace DiGi.Geometry.Spatial.Classes
             origin.Move(vector3D);
             return true;
         }
-
-        public Point3D ClosestPoint(Point3D point3D)
-        {
-            return Project(point3D);
-        }
-
-        public double Distance(Point3D point3D)
-        {
-            if(point3D == null)
-            {
-                return double.NaN;
-            }
-
-            Point3D point3D_Project = Project(point3D);
-            if(point3D_Project == null)
-            {
-                return double.NaN;
-            }
-
-
-            return point3D_Project.Distance(point3D);
-        }
-
-        public bool Collinear(ILinear3D linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         public bool On(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null)
@@ -192,12 +197,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             return point3D_Project.Distance(point3D) < tolerance;
         }
-
-        public void Inverse()
-        {
-            direction?.Inverse();
-        }
-
+        
         public Point3D Project(Point3D point3D)
         {
             if(point3D == null || direction == null || origin == null)

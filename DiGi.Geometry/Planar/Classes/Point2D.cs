@@ -36,6 +36,16 @@ namespace DiGi.Geometry.Planar.Classes
             return new Point2D(@object.x, @object.y);
         }
 
+        public static Point2D operator -(Point2D point2D, Vector2D vector2D)
+        {
+            return new Point2D(point2D.values[0] - vector2D[0], point2D.values[1] - vector2D[1]);
+        }
+
+        public static Point2D operator +(Point2D point2D, Vector2D vector2D)
+        {
+            return new Point2D(point2D.values[0] + vector2D[0], point2D.values[1] + vector2D[1]);
+        }
+
         public override ISerializableObject Clone()
         {
             return new Point2D(values);
@@ -51,6 +61,15 @@ namespace DiGi.Geometry.Planar.Classes
             return new Vector2D(this, point2D).Length;
         }
 
+        public Point2D GetAbs()
+        {
+            Point2D result = new Point2D(this);
+
+            result.Abs();
+
+            return result;
+        }
+
         public Point2D GetMoved(Vector2D vector3D)
         {
             if (vector3D == null)
@@ -63,7 +82,7 @@ namespace DiGi.Geometry.Planar.Classes
 
             return result;
         }
-
+        
         public bool InDistance(Point2D point2D, double distance, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null)

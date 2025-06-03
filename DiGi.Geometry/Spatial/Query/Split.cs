@@ -138,7 +138,7 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            List<VolatilePolygonalFace3D> volatilePolygonalFace3Ds = new List<VolatilePolygonalFace3D>();
+            List<PolygonalFace3D> volatilePolygonalFace3Ds = new List<PolygonalFace3D>();
             for (int i = 0; i < tuples.Count; i++)
             {
                 Tuple<VolatilePolygonalFace3D, List<VolatilePolygonalFace3D>> tuple = tuples[i];
@@ -146,7 +146,10 @@ namespace DiGi.Geometry.Spatial
                 List<VolatilePolygonalFace3D> volatilePolygonalFace3Ds_Temp = Split(tuple.Item1, tuple.Item2, tolerance);
                 if(volatilePolygonalFace3Ds_Temp != null && volatilePolygonalFace3Ds_Temp.Count != 0)
                 {
-                    volatilePolygonalFace3Ds.AddRange(volatilePolygonalFace3Ds_Temp);
+                    foreach(VolatilePolygonalFace3D volatilePolygonalFace3D_Temp in volatilePolygonalFace3Ds_Temp)
+                    {
+                        volatilePolygonalFace3Ds.Add(volatilePolygonalFace3D_Temp);
+                    }
                 }
             }
 

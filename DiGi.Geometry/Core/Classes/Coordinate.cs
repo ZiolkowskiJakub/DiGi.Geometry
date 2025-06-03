@@ -191,6 +191,14 @@ namespace DiGi.Geometry.Core.Classes
             return string.Format("[{0}]", string.Join(";", values));
         }
 
+        public void Abs()
+        {
+            for(int i = 0; i < values.Length; i++)
+            {
+                values[i] = System.Math.Abs(values[i]);
+            }
+        }
+
         [JsonIgnore]
         public Matrix ArgumentedMatrix
         {

@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Ellipse2D : Geometry2D, IClosedCurve2D, IBoundable2D
+    public class Ellipse2D : Geometry2D, IEllipse2D, IBoundable2D
     {
         [JsonInclude, JsonPropertyName("A")]
         private double a;
@@ -18,8 +18,9 @@ namespace DiGi.Geometry.Planar.Classes
         [JsonInclude, JsonPropertyName("Center")]
         private Point2D center;
 
-        [JsonInclude, JsonPropertyName("Direction")]
-        private Vector2D direction;
+        [JsonInclude, JsonPropertyName("DirectionA")]
+        private Vector2D directionA;
+        
         public Ellipse2D(JsonObject jsonObject)
             : base(jsonObject)
         {
@@ -29,9 +30,9 @@ namespace DiGi.Geometry.Planar.Classes
         public Ellipse2D(Point2D center, double a, double b)
         {
             this.center = DiGi.Core.Query.Clone(center);
-            this.a = System.Math.Max(a, b);
-            this.b = System.Math.Min(a, b);
-            direction = Constans.Vector2D.WorldX;
+            this.a = a;
+            this.b = b;
+            directionA = Constans.Vector2D.WorldX;
         }
 
         public Ellipse2D(Ellipse2D ellipse2D)
@@ -41,16 +42,16 @@ namespace DiGi.Geometry.Planar.Classes
                 center = ellipse2D.Center;
                 a = ellipse2D.a;
                 b = ellipse2D.b;
-                direction = ellipse2D.Direction;
+                directionA = ellipse2D.DirectionA;
             }
         }
 
-        public Ellipse2D(Point2D center, double a, double b, Vector2D direction)
+        public Ellipse2D(Point2D center, double a, double b, Vector2D directionA)
         {
             this.center = DiGi.Core.Query.Clone(center);
-            this.a = System.Math.Max(a, b);
-            this.b = System.Math.Min(a, b);
-            this.direction = DiGi.Core.Query.Clone(direction).Unit;
+            this.a = a;
+            this.b = b;
+            this.directionA = DiGi.Core.Query.Clone(directionA).Unit;
         }
 
         [JsonIgnore]
@@ -63,8 +64,7 @@ namespace DiGi.Geometry.Planar.Classes
 
             set
             {
-                a = System.Math.Max(value, b);
-                b = System.Math.Min(value, b);
+                a = value;
             }
         }
 
@@ -78,8 +78,7 @@ namespace DiGi.Geometry.Planar.Classes
 
             set
             {
-                a = System.Math.Max(value, a);
-                b = System.Math.Min(value, a);
+                b = value;
             }
         }
 
@@ -107,16 +106,25 @@ namespace DiGi.Geometry.Planar.Classes
         }
         
         [JsonIgnore]
-        public Vector2D Direction
+        public Vector2D DirectionA
         {
             get
             {
-                return direction?.Clone<Vector2D>();
+                return directionA?.Clone<Vector2D>();
             }
 
             set
             {
-                direction = value?.Clone<Vector2D>();
+                directionA = value?.Clone<Vector2D>();
+            }
+        }
+
+        [JsonIgnore]
+        public Vector2D DirectionB
+        {
+            get
+            {
+                return directionA?.GetPerpendicular().Clone<Vector2D>();
             }
         }
 
@@ -142,7 +150,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return true;
             }
 
-            return (!ellipse2D_1.center.Equals(ellipse2D_2.center)) || (!ellipse2D_1.direction.Equals(ellipse2D_2.direction) || ellipse2D_1.a != ellipse2D_2.a || ellipse2D_1.b != ellipse2D_2.b);
+            return (!ellipse2D_1.center.Equals(ellipse2D_2.center)) || (!ellipse2D_1.directionA.Equals(ellipse2D_2.directionA) || ellipse2D_1.a != ellipse2D_2.a || ellipse2D_1.b != ellipse2D_2.b);
         }
 
         public static bool operator ==(Ellipse2D ellipse2D_1, Ellipse2D ellipse2D_2)
@@ -157,7 +165,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            return (ellipse2D_1.center.Equals(ellipse2D_2.center)) && (ellipse2D_1.direction.Equals(ellipse2D_2.direction) && ellipse2D_1.a == ellipse2D_2.a && ellipse2D_1.b == ellipse2D_2.b);
+            return (ellipse2D_1.center.Equals(ellipse2D_2.center)) && (ellipse2D_1.directionA.Equals(ellipse2D_2.directionA) && ellipse2D_1.a == ellipse2D_2.a && ellipse2D_1.b == ellipse2D_2.b);
         }
 
         public override ISerializableObject Clone()
@@ -184,7 +192,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            return center == ellipse2D.center && direction == ellipse2D.direction && a == ellipse2D.a && b == ellipse2D.b;
+            return center == ellipse2D.center && directionA == ellipse2D.directionA && a == ellipse2D.a && b == ellipse2D.b;
         }
 
         public double GetArea()
@@ -195,8 +203,8 @@ namespace DiGi.Geometry.Planar.Classes
         public BoundingBox2D GetBoundingBox()
         {
             // Unit vectors of major and minor axes
-            double ux = Direction.X;
-            double uy = Direction.Y;
+            double ux = DirectionA.X;
+            double uy = DirectionA.Y;
             double vx = -uy;
             double vy = ux;
 
@@ -226,12 +234,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Point2D[] GetFocalPoints()
         {
-            if(direction == null || double.IsNaN(a) || double.IsNaN(b))
+            if(directionA == null || double.IsNaN(a) || double.IsNaN(b))
             {
                 return null;
             }
 
-            Vector2D vector2D = direction * C;
+            Vector2D vector2D = (a > b ? directionA : DirectionB ) * C;
 
             return new Point2D[] { center.GetMoved(vector2D), center.GetMoved(vector2D.GetInversed()) };
         }
@@ -254,7 +262,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Point2D GetPoint(Vector2D vector2D)
         {
-            if(vector2D == null || direction == null || center == null)
+            if(vector2D == null || directionA == null || center == null)
             {
                 return null;
             }
@@ -262,14 +270,16 @@ namespace DiGi.Geometry.Planar.Classes
             // Normalize input direction vector
             double len = System.Math.Sqrt(vector2D.X * vector2D.X + vector2D.Y * vector2D.Y);
             if (len == 0)
+            {
                 return null;
+            }
 
             double dx = vector2D.X / len;
             double dy = vector2D.Y / len;
 
             // Rotate direction into ellipse-aligned coordinates
-            double ux = direction.X;
-            double uy = direction.Y;
+            double ux = directionA.X;
+            double uy = directionA.Y;
             double vx = -uy;
             double vy = ux;
 
@@ -294,8 +304,8 @@ namespace DiGi.Geometry.Planar.Classes
             double dy = point2D.Y - Center.Y;
 
             // Create perpendicular vector (minor axis direction)
-            double majorX = Direction.X;
-            double majorY = Direction.Y;
+            double majorX = DirectionA.X;
+            double majorY = DirectionA.Y;
             double minorX = -majorY;
             double minorY = majorX;
 
@@ -313,7 +323,7 @@ namespace DiGi.Geometry.Planar.Classes
         
         public void Inverse()
         {
-            direction?.Inverse();
+            directionA?.Inverse();
         }
 
         public override bool Move(Vector2D vector2D)
@@ -333,8 +343,8 @@ namespace DiGi.Geometry.Planar.Classes
             double dy = point2D.Y - Center.Y;
 
             // Major axis direction (u) and minor axis direction (v)
-            double ux = Direction.X;
-            double uy = Direction.Y;
+            double ux = DirectionA.X;
+            double uy = DirectionA.Y;
             double vx = -uy;
             double vy = ux;
 
@@ -374,8 +384,8 @@ namespace DiGi.Geometry.Planar.Classes
             double py = point2D.Y - center.Y;
 
             // Build orthonormal basis: major (u) and minor (v) axes
-            double ux = direction.X;
-            double uy = direction.Y;
+            double ux = directionA.X;
+            double uy = directionA.Y;
             double vx = -uy;
             double vy = ux;
 
@@ -425,19 +435,19 @@ namespace DiGi.Geometry.Planar.Classes
         
         public override bool Transform(ITransform2D transform)
         {
-            if(transform == null || center == null || direction == null)
+            if(transform == null || center == null || directionA == null)
             {
                 return false;
             }
 
             Point2D point2D = new Point2D(center);
-            point2D.Move(direction);
+            point2D.Move(directionA);
 
             center.Transform(transform);
 
             point2D.Transform(transform);
-            direction = new Vector2D(center, point2D);
-            direction.Normalize();
+            directionA = new Vector2D(center, point2D);
+            directionA.Normalize();
 
             return true;
         }
