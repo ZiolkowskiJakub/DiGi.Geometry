@@ -1,13 +1,14 @@
 ﻿using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static Mesh3D Mesh3D(Ellipsoid ellipsoid, int stacks, int slices)
+        public static Mesh3D Mesh3D(this Ellipsoid ellipsoid, int stacks, int slices)
         {
-            if(ellipsoid == null)
+            if (ellipsoid == null)
             {
                 return null;
             }
@@ -91,6 +92,71 @@ namespace DiGi.Geometry.Spatial
             }
 
             return new Mesh3D(point3Ds, indices);
+        }
+
+        public static Mesh3D Mesh3D(this IEnumerable<Triangle3D> triangle3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (triangle3Ds == null || triangle3Ds.Count() == 0)
+            {
+                return null;
+            }
+
+            List<Point3D> point3Ds = new List<Point3D>();
+            List<int[]> indexes = new List<int[]>();
+            foreach (Triangle3D triangle3D in triangle3Ds)
+            {
+                List<Point3D> point3D_Triangle3D = triangle3D?.GetPoints();
+                if (point3D_Triangle3D == null || point3D_Triangle3D.Count() != 3)
+                {
+                    continue;
+                }
+
+                int[] indexes_Triangle3D = new int[3];
+                for (int i = 0; i < point3D_Triangle3D.Count; i++)
+                {
+                    Point3D point3D = point3D_Triangle3D[i];
+
+                    int index = point3Ds.FindIndex(x => x.AlmostEquals(point3D, tolerance));
+                    if (index == -1)
+                    {
+                        index = point3Ds.Count;
+                        point3Ds.Add(point3D);
+                    }
+                    else
+                    {
+                        point3Ds[index] = point3Ds[index].Mid(point3D);
+                    }
+
+                    indexes_Triangle3D[i] = index;
+                }
+
+                indexes.Add(indexes_Triangle3D);
+            }
+
+            return new Mesh3D(point3Ds, indexes);
+        }
+
+        public static Mesh3D Mesh3D(this Polyhedron polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            List<PolygonalFace3D> polygonalFace3Ds = polyhedron?.PolygonalFaces;
+            if (polygonalFace3Ds == null || polygonalFace3Ds.Count == 0)
+            {
+                return null;
+            }
+
+            List<Triangle3D> triangle3Ds = new List<Triangle3D>();
+            foreach (PolygonalFace3D polygonalFace3D in polygonalFace3Ds)
+            {
+                List<Triangle3D> triangle3Ds_PolygonalFace3D = polygonalFace3D?.Triangulate(tolerance);
+                if (triangle3Ds_PolygonalFace3D != null && triangle3Ds_PolygonalFace3D.Count == 0)
+                {
+                    continue;
+                }
+
+                triangle3Ds.AddRange(triangle3Ds_PolygonalFace3D);
+            }
+
+            return Mesh3D(triangle3Ds, tolerance);
         }
     }
 }

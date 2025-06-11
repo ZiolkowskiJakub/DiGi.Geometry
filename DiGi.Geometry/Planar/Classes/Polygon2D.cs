@@ -47,6 +47,26 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.Area(points);
         }
 
+        public Point2D GetCentroid()
+        {
+            return Query.Centroid(points);
+        }
+
+        public virtual Point2D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (points == null)
+            {
+                return null;
+            }
+
+            return Query.InternalPoint(points, tolerance);
+        }
+
+        public double GetPerimeter()
+        {
+            return Length;
+        }
+
         public override List<Segment2D> GetSegments()
         {
             return Create.Segment2Ds(points, true);
@@ -116,22 +136,7 @@ namespace DiGi.Geometry.Planar.Classes
 
             return !On(point2D, tolerance);
         }
-
-        public Point2D GetCentroid()
-        {
-            return Query.Centroid(points);
-        }
-
-        public virtual Point2D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if(points == null)
-            {
-                return null;
-            }
-
-            return Query.InternalPoint(points, tolerance);
-        }
-
+        
         public virtual List<Triangle2D> Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
             if(points == null || points.Count < 3)
@@ -168,11 +173,6 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return result;
-        }
-
-        public double GetPerimeter()
-        {
-            return Length;
         }
     }
 }

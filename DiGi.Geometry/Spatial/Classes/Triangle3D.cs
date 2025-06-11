@@ -39,6 +39,22 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
+        public Triangle2D Geometry2D
+        {
+            get
+            {
+                Plane plane = Plane;
+                if (plane == null)
+                {
+                    return null;
+                }
+
+                return new Triangle2D(plane.Convert(points[0]), plane.Convert(points[1]), plane.Convert(points[2]));
+
+            }
+        }
+
+        [JsonIgnore]
         public double Length
         {
             get
@@ -51,29 +67,22 @@ namespace DiGi.Geometry.Spatial.Classes
                 return points[0].Distance(points[1]) + points[1].Distance(points[2]) + points[2].Distance(points[0]);
             }
         }
-
-        [JsonIgnore]
-        public Triangle2D Geometry2D
-        {
-            get
-            {
-                Plane plane = Plane;
-                if(plane == null)
-                {
-                    return null;
-                }
-
-                return new Triangle2D(plane.Convert(points[0]), plane.Convert(points[1]), plane.Convert(points[2]));
-
-            }
-        }
-
+        
         [JsonIgnore]
         public Plane Plane
         {
             get
             {
                 return Create.Plane(points[0], points[1], points[2]);
+            }
+        }
+
+        [JsonIgnore]
+        public Point3D this[int index]
+        {
+            get
+            {
+                return DiGi.Core.Query.Clone(points[index]);
             }
         }
 
