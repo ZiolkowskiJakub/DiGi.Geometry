@@ -197,7 +197,7 @@ namespace DiGi.Geometry.Planar
             return Split(segment2Ds, tolerance);
         }
 
-        public static List<PolygonalFace2D> Split<T>(this PolygonalFace2D polygonalFace2D, IEnumerable<T> segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
+        public static List<IPolygonalFace2D> Split<T>(this IPolygonalFace2D polygonalFace2D, IEnumerable<T> segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
             if(polygonalFace2D == null || segmentable2Ds == null)
             {
@@ -219,7 +219,7 @@ namespace DiGi.Geometry.Planar
 
             List<Segment2D> segment2Ds = segmentable2Ds_Temp.Split(tolerance);
 
-            List<PolygonalFace2D> result = Create.PolygonalFace2Ds(segment2Ds);
+            List<IPolygonalFace2D> result = Create.PolygonalFace2Ds(segment2Ds);
             if(result == null || result.Count == 0)
             {
                 return result;

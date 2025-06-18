@@ -219,7 +219,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane_1, plane_1.Convert(new Line3D(orgin, tangent)));
         }
 
-        public static PlanarIntersectionResult PlanarIntersectionResult(this Plane plane, PolygonalFace3D polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult PlanarIntersectionResult(this Plane plane, IPolygonalFace3D polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(plane == null || polygonalFace3D == null)
             {
@@ -236,7 +236,7 @@ namespace DiGi.Geometry.Spatial
             {
                 if(plane.Distance(plane_PolygonalFace3D.Origin) < tolerance)
                 {
-                    PolygonalFace2D polygonalFace2D_Temp = plane.Convert(polygonalFace3D);
+                    IPolygonalFace2D polygonalFace2D_Temp = plane.Convert(polygonalFace3D);
                     if(polygonalFace2D_Temp != null)
                     {
                         return new PlanarIntersectionResult(plane, polygonalFace2D_Temp);
@@ -299,48 +299,6 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult PlanarIntersectionResult(this Plane plane, VolatilePolygonalFace3D volatilePolygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if(plane == null || volatilePolygonalFace3D == null)
-            {
-                return null;
-            }
-
-            BoundingBox3D boundingBox3D = volatilePolygonalFace3D.BoundingBox;
-            if(boundingBox3D == null)
-            {
-                return null;
-            }
-
-            if(!boundingBox3D.InRange(plane, tolerance))
-            {
-                return new PlanarIntersectionResult(plane);
-            }
-
-            return PlanarIntersectionResult(plane, volatilePolygonalFace3D.Geometry, tolerance);
-        }
-
-        public static PlanarIntersectionResult PlanarIntersectionResult(this Plane plane, VolatilePolyhedron volatilePolyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if (plane == null || volatilePolyhedron == null)
-            {
-                return null;
-            }
-
-            BoundingBox3D boundingBox3D = volatilePolyhedron.BoundingBox;
-            if (boundingBox3D == null)
-            {
-                return null;
-            }
-
-            if (!boundingBox3D.InRange(plane, tolerance))
-            {
-                return new PlanarIntersectionResult(plane);
-            }
-
-            return PlanarIntersectionResult(plane, volatilePolyhedron.Geometry, tolerance);
-        }
-
         public static PlanarIntersectionResult PlanarIntersectionResult(this Plane plane, Polyhedron polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (plane == null || polyhedron == null)
@@ -391,7 +349,7 @@ namespace DiGi.Geometry.Spatial
             return PlanarIntersectionResult(plane, polyhedron, tolerance);
         }
 
-        public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D, Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult PlanarIntersectionResult(this IPolygonalFace3D polygonalFace3D, Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polygonalFace3D == null || point3D == null)
             {
@@ -412,7 +370,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, plane.Convert(point3D));
         }
 
-        public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D, ILinear3D linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult PlanarIntersectionResult(this IPolygonalFace3D polygonalFace3D, ILinear3D linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (polygonalFace3D == null || linear3D == null)
             {
@@ -442,14 +400,13 @@ namespace DiGi.Geometry.Spatial
                 return new PlanarIntersectionResult(plane);
             }
 
-            PolygonalFace2D polygonalFace2D = plane.Convert(polygonalFace3D);
+            IPolygonalFace2D polygonalFace2D = plane.Convert(polygonalFace3D);
             if(polygonalFace2D == null)
             {
                 return null;
             }
 
-            VolatileBoundable2D<PolygonalFace2D> volatileBoundable2D = new VolatileBoundable2D<PolygonalFace2D>(polygonalFace2D);
-            BoundingBox2D boundingBox2D = volatileBoundable2D.BoundingBox;
+            BoundingBox2D boundingBox2D = polygonalFace2D.GetBoundingBox();
 
             List<IGeometry2D> geometry2Ds = new List<IGeometry2D>();
             foreach (IGeometry2D geometry2D in geometry2Ds_Plane)
@@ -469,7 +426,7 @@ namespace DiGi.Geometry.Spatial
 
                 if(geometry2D is ILinear2D)
                 {
-                    IntersectionResult2D intersectionResult2D = Planar.Create.IntersectionResult2D(volatileBoundable2D, (ILinear2D)geometry2D, tolerance);
+                    IntersectionResult2D intersectionResult2D = Planar.Create.IntersectionResult2D(polygonalFace2D, (ILinear2D)geometry2D, tolerance);
                     if(intersectionResult2D != null && intersectionResult2D.Intersect)
                     {
                         geometry2Ds.AddRange(intersectionResult2D.GetGeometry2Ds<IGeometry2D>());
@@ -487,7 +444,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D, ISegmentable3D segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult PlanarIntersectionResult(this IPolygonalFace3D polygonalFace3D, ISegmentable3D segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (polygonalFace3D == null || segmentable3D == null)
             {
@@ -517,14 +474,13 @@ namespace DiGi.Geometry.Spatial
                 return new PlanarIntersectionResult(plane);
             }
 
-            PolygonalFace2D polygonalFace2D = plane.Convert(polygonalFace3D);
+            IPolygonalFace2D polygonalFace2D = plane.Convert(polygonalFace3D);
             if (polygonalFace2D == null)
             {
                 return null;
             }
 
-            VolatileBoundable2D<PolygonalFace2D> volatileBoundable2D = new VolatileBoundable2D<PolygonalFace2D>(polygonalFace2D);
-            BoundingBox2D boundingBox2D = volatileBoundable2D.BoundingBox;
+            BoundingBox2D boundingBox2D = polygonalFace2D.GetBoundingBox();
 
             List<IGeometry2D> geometry2Ds = new List<IGeometry2D>();
             foreach (IGeometry2D geometry2D in geometry2Ds_Plane)
@@ -544,7 +500,7 @@ namespace DiGi.Geometry.Spatial
 
                 if (geometry2D is Segment2D)
                 {
-                    IntersectionResult2D intersectionResult2D = Planar.Create.IntersectionResult2D(volatileBoundable2D, (Segment2D)geometry2D, tolerance);
+                    IntersectionResult2D intersectionResult2D = Planar.Create.IntersectionResult2D(polygonalFace2D, (Segment2D)geometry2D, tolerance);
                     if (intersectionResult2D != null && intersectionResult2D.Intersect)
                     {
                         geometry2Ds.AddRange(intersectionResult2D.GetGeometry2Ds<IGeometry2D>());
@@ -561,80 +517,24 @@ namespace DiGi.Geometry.Spatial
 
             return new PlanarIntersectionResult(plane, geometry2Ds);
         }
-    
-        public static PlanarIntersectionResult PlanarIntersectionResult(this VolatilePolygonalFace3D volatilePolygonalFace3D, ILinear3D linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+
+        public static PlanarIntersectionResult PlanarIntersectionResult(this IPolygonalFace3D polygonalFace3D, IEnumerable<IPolygonalFace3D> polygonalFace3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(volatilePolygonalFace3D == null || linear3D == null)
+            if (polygonalFace3D == null || polygonalFace3Ds == null)
             {
                 return null;
             }
 
-            BoundingBox3D boundingBox3D_Temp = volatilePolygonalFace3D.BoundingBox;
-            if (boundingBox3D_Temp == null)
-            {
-                return null;
-            }
-
-            PolygonalFace3D polygonalFace3D = volatilePolygonalFace3D.Geometry;
-            if(polygonalFace3D == null)
-            {
-                return null;
-            }
-
-            if (!boundingBox3D_Temp.InRange(linear3D as dynamic, tolerance))
-            {
-                return new PlanarIntersectionResult(polygonalFace3D.Plane);
-            }
-
-
-            return PlanarIntersectionResult(polygonalFace3D, linear3D, tolerance);
-
-        }
-    
-        public static PlanarIntersectionResult PlanarIntersectionResult(this VolatilePolygonalFace3D volatilePolygonalFace3D_1, VolatilePolygonalFace3D volatilePolygonalFace3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if(volatilePolygonalFace3D_1 == null || volatilePolygonalFace3D_2 == null)
-            {
-                return null;
-            }
-
-            BoundingBox3D boundingBox3D_1 = volatilePolygonalFace3D_1.BoundingBox;
-            if(boundingBox3D_1 == null)
-            {
-                return null;
-            }
-
-            BoundingBox3D boundingBox3D_2 = volatilePolygonalFace3D_2.BoundingBox;
-            if (boundingBox3D_2 == null)
-            {
-                return null;
-            }
-
-            if(!boundingBox3D_1.InRange(boundingBox3D_2, tolerance))
-            {
-                return new PlanarIntersectionResult(volatilePolygonalFace3D_1.Geometry?.Plane);
-            }
-
-            return PlanarIntersectionResult(volatilePolygonalFace3D_1.Geometry, volatilePolygonalFace3D_2.Geometry, tolerance);
-        }
-
-        public static PlanarIntersectionResult PlanarIntersectionResult(this VolatilePolygonalFace3D volatilePolygonalFace3D, IEnumerable<VolatilePolygonalFace3D> volatilePolygonalFace3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if (volatilePolygonalFace3D == null || volatilePolygonalFace3Ds == null)
-            {
-                return null;
-            }
-
-            Plane plane = volatilePolygonalFace3D.Geometry?.Plane;
+            Plane plane = polygonalFace3D.Plane;
             if (plane == null)
             {
                 return null;
             }
 
             List<IGeometry2D> geometry2Ds = new List<IGeometry2D>();
-            foreach (VolatilePolygonalFace3D volatilePolygonalFace3D_Temp in volatilePolygonalFace3Ds)
+            foreach (IPolygonalFace3D volatilePolygonalFace3D_Temp in polygonalFace3Ds)
             {
-                BoundingBox3D boundingBox3D = volatilePolygonalFace3D_Temp?.BoundingBox;
+                BoundingBox3D boundingBox3D = volatilePolygonalFace3D_Temp?.GetBoundingBox();
                 if (boundingBox3D == null)
                 {
                     continue;
@@ -645,7 +545,7 @@ namespace DiGi.Geometry.Spatial
                     continue;
                 }
 
-                PlanarIntersectionResult planarIntersectionResult = PlanarIntersectionResult(volatilePolygonalFace3D, volatilePolygonalFace3D_Temp, tolerance);
+                PlanarIntersectionResult planarIntersectionResult = PlanarIntersectionResult(polygonalFace3D, volatilePolygonalFace3D_Temp, tolerance);
                 if(planarIntersectionResult == null || !planarIntersectionResult.Intersect)
                 {
                     continue;
@@ -663,7 +563,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D_1, PolygonalFace3D polygonalFace3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult PlanarIntersectionResult(this IPolygonalFace3D polygonalFace3D_1, IPolygonalFace3D polygonalFace3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polygonalFace3D_1 == null || polygonalFace3D_2 == null)
             {
@@ -686,8 +586,8 @@ namespace DiGi.Geometry.Spatial
             {
                 if (plane_PolygonalFace3D_1.Distance(plane_PolygonalFace3D_2.Origin) < tolerance)
                 {
-                    PolygonalFace2D polygonalFace2D_1 = polygonalFace3D_1.Geometry2D;
-                    PolygonalFace2D polygonalFace2D_2 = plane_PolygonalFace3D_1.Convert(polygonalFace3D_2);
+                    IPolygonalFace2D polygonalFace2D_1 = polygonalFace3D_1.Geometry2D;
+                    IPolygonalFace2D polygonalFace2D_2 = plane_PolygonalFace3D_1.Convert(polygonalFace3D_2);
 
                     IntersectionResult2D intersectionResult2D = Planar.Create.IntersectionResult2D(polygonalFace2D_1, polygonalFace2D_2, tolerance);
                     if(intersectionResult2D != null && intersectionResult2D.Intersect)
@@ -740,53 +640,27 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane_PolygonalFace3D_1, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D, IEnumerable<VolatilePolygonalFace3D> volatilePolygonalFace3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if(polygonalFace3D == null || volatilePolygonalFace3Ds == null)
-            {
-                return null;
-            }
-
-            return PlanarIntersectionResult((VolatilePolygonalFace3D)polygonalFace3D, volatilePolygonalFace3Ds, tolerance);
-        }
-
-        public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D, IEnumerable<PolygonalFace3D> polygonalFace3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if(polygonalFace3D == null || polygonalFace3Ds == null)
-            {
-                return null;
-            }
-
-            List<VolatilePolygonalFace3D> volatilePolygonalFace3Ds = new List<VolatilePolygonalFace3D>();
-            foreach(PolygonalFace3D polygonalFace3D_Temp in polygonalFace3Ds)
-            {
-                volatilePolygonalFace3Ds.Add(polygonalFace3D_Temp);
-            }
-
-            return PlanarIntersectionResult(polygonalFace3D, volatilePolygonalFace3Ds);
-        }
-
-        public static PlanarIntersectionResult PlanarIntersectionResult(this PolygonalFace3D polygonalFace3D, Polyhedron polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult PlanarIntersectionResult(this IPolygonalFace3D polygonalFace3D, Polyhedron polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polygonalFace3D == null || polyhedron == null)
             {
                 return null;
             }
 
-            List<VolatilePolygonalFace3D> volatilePolygonalFace3Ds = new List<VolatilePolygonalFace3D>(); 
+            List<IPolygonalFace3D> polygonalFace3Ds = new List<IPolygonalFace3D>(); 
             for (int i =0; i < polyhedron.Count; i++)
             {
-                VolatilePolygonalFace3D volatilePolygonalFace3D = polyhedron[i];
+                IPolygonalFace3D volatilePolygonalFace3D = polyhedron[i];
                 if(volatilePolygonalFace3D == null)
                 {
                     continue;
                 }
 
-                volatilePolygonalFace3Ds.Add(volatilePolygonalFace3D);
+                polygonalFace3Ds.Add(volatilePolygonalFace3D);
 
             }
 
-            return PlanarIntersectionResult(polygonalFace3D, volatilePolygonalFace3Ds, tolerance);
+            return PlanarIntersectionResult(polygonalFace3D, polygonalFace3Ds, tolerance);
         }
     }
 }

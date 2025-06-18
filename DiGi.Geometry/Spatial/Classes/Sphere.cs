@@ -1,7 +1,6 @@
 ﻿using DiGi.Core;
 using DiGi.Geometry.Spatial.Interfaces;
-using NetTopologySuite.Utilities;
-using System.Numerics;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -103,6 +102,40 @@ namespace DiGi.Geometry.Spatial.Classes
             return distanceSquared <= effectiveRadiusSquared;
         }
 
+        public bool Inside(ISegmentable3D segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            List<Point3D> point3Ds = segmentable3D?.GetPoints();
+            if(point3Ds == null || point3Ds.Count == 0)
+            {
+                return false;
+            }
+
+            foreach(Point3D point3D in point3Ds)
+            {
+                if(!Inside(point3D, tolerance))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool Inside(IPolygonalFace3D polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            return Inside(polygonalFace3D?.ExternalEdge, tolerance);
+        }
+
+        public override bool Move(Vector3D vector3D)
+        {
+            if (vector3D == null || center == null)
+            {
+                return false;
+            }
+
+            return center.Move(vector3D);
+        }
+
         public bool On(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             double dx = point3D.X - center.X;
@@ -113,16 +146,6 @@ namespace DiGi.Geometry.Spatial.Classes
             double radiusSquared = radius * radius;
 
             return System.Math.Abs(distanceSquared - radiusSquared) <= tolerance;
-        }
-
-        public override bool Move(Vector3D vector3D)
-        {
-            if(vector3D == null || center == null)
-            {
-                return false;
-            }
-
-            return center.Move(vector3D);
         }
     }
 }

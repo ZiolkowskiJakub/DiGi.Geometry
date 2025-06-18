@@ -97,6 +97,16 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        [JsonIgnore]
+        public double SquaredLength
+        {
+            get
+            {
+                return vector.SquaredLength;
+            }
+        }
+
+
         [JsonPropertyName("Start")]
         public Point3D Start
         {

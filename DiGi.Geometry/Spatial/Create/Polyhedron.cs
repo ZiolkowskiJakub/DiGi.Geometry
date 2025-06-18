@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static Polyhedron Polyhedron(this PolygonalFace3D polygonalFace3D, Vector3D vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Polyhedron Polyhedron(this IPolygonalFace3D polygonalFace3D, Vector3D vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polygonalFace3D == null || vector3D == null)
             {
@@ -37,8 +37,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            List<PolygonalFace3D> polygonalFace3Ds = new List<PolygonalFace3D>();
-            polygonalFace3Ds.Add(polygonalFace3D);
+            List<IPolygonalFace3D> polygonalFace3Ds = new List<IPolygonalFace3D>() { polygonalFace3D };
 
             foreach (IPolygonal3D edge in edges)
             {
@@ -50,6 +49,17 @@ namespace DiGi.Geometry.Spatial
 
                 foreach(Segment3D segment3D in segment3Ds)
                 {
+                    if(segment3D == null)
+                    {
+                        continue;
+                    }
+
+                    double squareLength = segment3D.SquaredLength;
+                    if(double.IsNaN(squareLength) || squareLength == 0)
+                    {
+                        continue;
+                    }
+
                     List<Point3D> point3Ds = new List<Point3D>()
                     {
                         segment3D[0],
@@ -73,7 +83,7 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            polygonalFace3D = new PolygonalFace3D(polygonalFace3D);
+            polygonalFace3D = DiGi.Core.Query.Clone(polygonalFace3D);
             polygonalFace3D.Move(vector3D);
             polygonalFace3Ds.Add(polygonalFace3D);
 
@@ -103,7 +113,7 @@ namespace DiGi.Geometry.Spatial
             return new Polyhedron(polygonalFace3Ds);
         }
 
-        public static Polyhedron Polyhedron(this IEnumerable<PolygonalFace3D> polygonalFace3Ds)
+        public static Polyhedron Polyhedron(this IEnumerable<IPolygonalFace3D> polygonalFace3Ds)
         {
             if(polygonalFace3Ds  == null || polygonalFace3Ds.Count() < 4)
             {

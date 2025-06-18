@@ -39,7 +39,7 @@ namespace DiGi.Geometry.Planar
 
             List<Polygon2D> result = new List<Polygon2D>();
 
-            List<PolygonalFace2D> polygonalFace2Ds = Create.PolygonalFace2Ds(segment2Ds, tolerance);
+            List<IPolygonalFace2D> polygonalFace2Ds = Create.PolygonalFace2Ds(segment2Ds, tolerance);
             if (polygonalFace2Ds == null || polygonalFace2Ds.Count == 0)
             {
                 return result;

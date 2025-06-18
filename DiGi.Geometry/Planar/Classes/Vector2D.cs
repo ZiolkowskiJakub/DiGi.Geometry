@@ -227,10 +227,10 @@ namespace DiGi.Geometry.Planar.Classes
 
         public void Normalize()
         {
-            double length = Length;
+            double squaredLength = SquaredLength;
 
-            values[0] = values[0] / length;
-            values[1] = values[1] / length;
+            values[0] = values[0] / squaredLength;
+            values[1] = values[1] / squaredLength;
         }
         
         public Point2D Project(Point2D point2D)

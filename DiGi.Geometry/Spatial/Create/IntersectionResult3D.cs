@@ -6,14 +6,14 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static IntersectionResult3D IntersectionResult3D(this VolatilePolyhedron volatilePolyhedron, ILinear3D linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult3D IntersectionResult3D(this Polyhedron polyhedron, ILinear3D linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(volatilePolyhedron == null || linear3D == null)
+            if(polyhedron == null || linear3D == null)
             {
                 return null;
             }
 
-            BoundingBox3D boundingBox3D = volatilePolyhedron.BoundingBox;
+            BoundingBox3D boundingBox3D = polyhedron.GetBoundingBox();
             if(boundingBox3D == null)
             {
                 return null;
@@ -22,12 +22,6 @@ namespace DiGi.Geometry.Spatial
             if (!boundingBox3D.InRange(linear3D as dynamic, tolerance))
             {
                 return new IntersectionResult3D();
-            }
-
-            Polyhedron polyhedron = volatilePolyhedron.Geometry;
-            if(polyhedron == null)
-            {
-                return null;
             }
 
             List<Point3D> point3Ds = new List<Point3D>();
@@ -75,16 +69,6 @@ namespace DiGi.Geometry.Spatial
             return new IntersectionResult3D(geometry3Ds);
         }
 
-        public static IntersectionResult3D IntersectionResult3D(this Polyhedron polyhedron, ILinear3D linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if(polyhedron == null || linear3D == null)
-            {
-                return null;
-            }
-
-            return IntersectionResult3D((VolatilePolyhedron)polyhedron, linear3D, tolerance);
-        }
-
         public static IntersectionResult3D IntersectionResult3D(this BoundingBox3D boundingBox3D, ILinear3D linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(boundingBox3D == null || linear3D == null)
@@ -92,13 +76,13 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            VolatilePolyhedron volatilePolyhedron = Polyhedron(boundingBox3D);
-            if(volatilePolyhedron == null)
+            Polyhedron polyhedron = Polyhedron(boundingBox3D);
+            if(polyhedron == null)
             {
                 return null;
             }
 
-            return IntersectionResult3D(volatilePolyhedron, linear3D, tolerance);
+            return IntersectionResult3D(polyhedron, linear3D, tolerance);
         }
 
         public static IntersectionResult3D IntersectionResult3D(this BoundingBox3D boundingBox3D, Point3D point3D, Vector3D direction, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -151,6 +135,69 @@ namespace DiGi.Geometry.Spatial
             {
                 return new IntersectionResult3D();
             }
+
+            return new IntersectionResult3D(geometry3Ds);
+        }
+
+        public static IntersectionResult3D IntersectionResult3D(this Sphere sphere, Segment3D segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            Vector3D d = segment3D.End - segment3D.Start;
+            Vector3D f = segment3D.Start - sphere.Center;
+
+            double a = d.DotProduct(d);
+            double b = 2 * f.DotProduct(d);
+            double c = f.DotProduct(f) - sphere.Radius * sphere.Radius;
+
+            double discriminant = b * b - 4 * a * c;
+
+            if (discriminant < - tolerance)
+            {
+                return new IntersectionResult3D();
+            }
+
+            discriminant = System.Math.Sqrt(discriminant);
+            double t1 = (-b - discriminant) / (2 * a);
+            double t2 = (-b + discriminant) / (2 * a);
+
+            List<IGeometry3D> geometry3Ds = new List<IGeometry3D>();
+            if (t1 >= - tolerance && t1 <= 1 + tolerance)
+            {
+                geometry3Ds.Add(segment3D.Start + t1 * d);
+            }
+
+            if (t2 >= - tolerance && t2 <= 1 + tolerance)
+            {
+                geometry3Ds.Add(segment3D.Start + t2 * d);
+            }
+
+            return new IntersectionResult3D(geometry3Ds);
+        }
+
+        public static IntersectionResult3D IntersectionResult3D(this Sphere sphere, Line3D line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            Vector3D d = line3D.Direction;
+            Vector3D f = line3D.Origin - sphere.Center;
+
+            double a = d.DotProduct(d);
+            double b = 2 * f.DotProduct(d);
+            double c = f.DotProduct(f) - sphere.Radius * sphere.Radius;
+
+            double discriminant = b * b - 4 * a * c;
+
+            if (discriminant < -tolerance)
+            {
+                return new IntersectionResult3D();
+            }
+
+            discriminant = System.Math.Sqrt(discriminant);
+            double t1 = (-b - discriminant) / (2 * a);
+            double t2 = (-b + discriminant) / (2 * a);
+
+            List<IGeometry3D> geometry3Ds = new List<IGeometry3D>() 
+            { 
+                line3D.Origin + t1 * d, 
+                line3D.Origin + t2 * d 
+            };
 
             return new IntersectionResult3D(geometry3Ds);
         }

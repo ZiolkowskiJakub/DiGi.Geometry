@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<PolygonalFace2D> Union(this IEnumerable<PolygonalFace2D> polygonalFace2Ds)
+        public static List<IPolygonalFace2D> Union(this IEnumerable<IPolygonalFace2D> polygonalFace2Ds)
         {
             if (polygonalFace2Ds == null)
             {
@@ -35,7 +35,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<PolygonalFace2D> result = new List<PolygonalFace2D>();
+            List<IPolygonalFace2D> result = new List<IPolygonalFace2D>();
             for(int i=0; i < polygons.Count; i++)
             {
                 result.Add(polygons[i].ToDiGi());
@@ -44,14 +44,14 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<PolygonalFace2D> Union(this PolygonalFace2D polygonalFace2D_1, PolygonalFace2D polygonalFace2D_2)
+        public static List<IPolygonalFace2D> Union(this IPolygonalFace2D polygonalFace2D_1, IPolygonalFace2D polygonalFace2D_2)
         {
             if(polygonalFace2D_1 == null || polygonalFace2D_2 == null)
             {
                 return null;
             }
 
-            return Union(new PolygonalFace2D[] { polygonalFace2D_1, polygonalFace2D_2 });
+            return Union(new IPolygonalFace2D[] { polygonalFace2D_1, polygonalFace2D_2 });
         }
 
         public static List<Polygon> Union(this IEnumerable<Polygon> polygons)

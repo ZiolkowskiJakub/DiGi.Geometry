@@ -48,13 +48,22 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                return System.Math.Sqrt((values[0] * values[0]) + (values[1] * values[1]) + (values[2] * values[2]));
+                return System.Math.Sqrt(SquaredLength);
             }
             set
             {
                 Vector3D vector3D = Unit;
                 vector3D.Scale(value);
                 values = new double[3] { vector3D[0], vector3D[1], vector3D[2] };
+            }
+        }
+
+        [JsonIgnore]
+        public double SquaredLength
+        {
+            get
+            {
+                return (values[0] * values[0]) + (values[1] * values[1]) + (values[2] * values[2]);
             }
         }
 

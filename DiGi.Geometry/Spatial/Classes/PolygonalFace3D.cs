@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class PolygonalFace3D : Planar<PolygonalFace2D>, IPolygonalFace3D
+    public class PolygonalFace3D : Planar<IPolygonalFace2D>, IPolygonalFace3D
     {
         public PolygonalFace3D(JsonObject jsonObject)
             : base(jsonObject)
@@ -16,7 +16,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         }
 
-        public PolygonalFace3D(Plane plane, PolygonalFace2D polygonalFace2D)
+        public PolygonalFace3D(Plane plane, IPolygonalFace2D polygonalFace2D)
             : base(plane, polygonalFace2D)
         {
 

@@ -16,7 +16,7 @@ namespace DiGi.Geometry.Planar
 
             segment2Ds = segment2Ds.Split(tolerance);
 
-            List<PolygonalFace2D> polygonalFace2Ds = Create.PolygonalFace2Ds(segment2Ds, tolerance);
+            List<IPolygonalFace2D> polygonalFace2Ds = Create.PolygonalFace2Ds(segment2Ds, tolerance);
             if (polygonalFace2Ds == null)
             {
                 return null;

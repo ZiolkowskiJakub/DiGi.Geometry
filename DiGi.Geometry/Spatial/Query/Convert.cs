@@ -310,6 +310,16 @@ namespace DiGi.Geometry.Spatial
             return new Polyline3D(point3Ds);
         }
 
+        public static IPolygonalFace2D Convert(this Plane plane, IPolygonalFace3D polygonalFace3D)
+        {
+            return Convert(plane, polygonalFace3D as PolygonalFace3D);
+        }
+
+        public static IPolygonalFace3D Convert(this Plane plane, IPolygonalFace2D polygonalFace3D)
+        {
+            return Convert(plane, polygonalFace3D as PolygonalFace2D);
+        }
+
         public static PolygonalFace2D Convert(this Plane plane, PolygonalFace3D polygonalFace3D)
         {
             if(plane == null || polygonalFace3D == null)

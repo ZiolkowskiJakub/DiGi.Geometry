@@ -12,6 +12,8 @@ namespace DiGi.Geometry.Spatial.Interfaces
         public bool InRange(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 
         public bool Inside(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
+
+        bool OnEdge(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
     }
 
     public interface IFace3D<T> : IFace3D, IFace<T> where T : IClosedCurve3D

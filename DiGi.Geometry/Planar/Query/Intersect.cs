@@ -8,26 +8,18 @@ namespace DiGi.Geometry.Planar
     {
         public static bool Intersect(this ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            VolatileBoundable2D<ISegmentable2D> volatileBoundable2D_1 = segmentable2D_1 == null ? null : new VolatileBoundable2D<ISegmentable2D>(segmentable2D_1);
-            VolatileBoundable2D<ISegmentable2D> volatileBoundable2D_2 = segmentable2D_2 == null ? null : new VolatileBoundable2D<ISegmentable2D>(segmentable2D_2);
-
-            return Intersect(volatileBoundable2D_1, volatileBoundable2D_2, tolerance);
-        }
-
-        public static bool Intersect(this VolatileBoundable2D<ISegmentable2D> volatileBoundable2D_1, VolatileBoundable2D<ISegmentable2D> volatileBoundable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if(volatileBoundable2D_1 == null || volatileBoundable2D_2 == null)
+            if(segmentable2D_1 == null || segmentable2D_2 == null)
             {
                 return false;
             }
 
-            BoundingBox2D boundingBox2D_1 = volatileBoundable2D_1.BoundingBox;
+            BoundingBox2D boundingBox2D_1 = segmentable2D_1.GetBoundingBox();
             if(boundingBox2D_1 == null)
             {
                 return false;
             }
 
-            BoundingBox2D boundingBox2D_2 = volatileBoundable2D_2.BoundingBox;
+            BoundingBox2D boundingBox2D_2 = segmentable2D_2.GetBoundingBox();
             if (boundingBox2D_2 == null)
             {
                 return false;
@@ -38,13 +30,8 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            ISegmentable2D segmentable2D = volatileBoundable2D_1.Geometry;
-            if(segmentable2D == null)
-            {
-                return false;
-            }
 
-            List<Segment2D> segment2Ds = volatileBoundable2D_2.Geometry?.GetSegments();
+            List<Segment2D> segment2Ds = segmentable2D_2.GetSegments();
             if(segment2Ds == null || segment2Ds.Count == 0) 
             {
                 return false;
@@ -52,7 +39,7 @@ namespace DiGi.Geometry.Planar
 
             foreach(Segment2D segment2D in segment2Ds)
             {
-                if(Intersect(volatileBoundable2D_1, segment2D, tolerance))
+                if(Intersect(segmentable2D_1, segment2D, tolerance))
                 {
                     return true;
                 }
@@ -61,14 +48,14 @@ namespace DiGi.Geometry.Planar
             return false;
         }
 
-        public static bool Intersect(this VolatileBoundable2D<ISegmentable2D> volatileBoundable2D, Segment2D segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool Intersect(this ISegmentable2D segmentable2D, Segment2D segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(volatileBoundable2D == null || segment2D == null)
+            if(segmentable2D == null || segment2D == null)
             {
                 return false;
             }
 
-            BoundingBox2D boundingBox2D = volatileBoundable2D.BoundingBox;
+            BoundingBox2D boundingBox2D = segmentable2D.GetBoundingBox();
             if(boundingBox2D == null)
             {
                 return false;
@@ -79,7 +66,7 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            List<Segment2D> segment2Ds = volatileBoundable2D.Geometry?.GetSegments();
+            List<Segment2D> segment2Ds = segmentable2D?.GetSegments();
             if(segment2Ds == null || segment2Ds.Count == 0)
             {
                 return false;

@@ -1,4 +1,5 @@
 ﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -138,14 +139,14 @@ namespace DiGi.Geometry.Spatial
 
         public static Mesh3D Mesh3D(this Polyhedron polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            List<PolygonalFace3D> polygonalFace3Ds = polyhedron?.PolygonalFaces;
+            List<IPolygonalFace3D> polygonalFace3Ds = polyhedron?.PolygonalFaces;
             if (polygonalFace3Ds == null || polygonalFace3Ds.Count == 0)
             {
                 return null;
             }
 
             List<Triangle3D> triangle3Ds = new List<Triangle3D>();
-            foreach (PolygonalFace3D polygonalFace3D in polygonalFace3Ds)
+            foreach (IPolygonalFace3D polygonalFace3D in polygonalFace3Ds)
             {
                 List<Triangle3D> triangle3Ds_PolygonalFace3D = polygonalFace3D?.Triangulate(tolerance);
                 if (triangle3Ds_PolygonalFace3D != null && triangle3Ds_PolygonalFace3D.Count == 0)

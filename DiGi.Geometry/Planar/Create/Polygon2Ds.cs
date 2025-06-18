@@ -34,10 +34,10 @@ namespace DiGi.Geometry.Planar
                 if(segment2Ds != null && segment2Ds.Count > 2)
                 {
                     segment2Ds = Query.Split(segment2Ds, tolerance);
-                    List<PolygonalFace2D> polygonalFace2Ds = PolygonalFace2Ds(segment2Ds, tolerance);
+                    List<IPolygonalFace2D> polygonalFace2Ds = PolygonalFace2Ds(segment2Ds, tolerance);
                     if(polygonalFace2Ds != null && polygonalFace2Ds.Count != 0)
                     {
-                        foreach(PolygonalFace2D polygonalFace2D in polygonalFace2Ds)
+                        foreach(IPolygonalFace2D polygonalFace2D in polygonalFace2Ds)
                         {
                             List<IPolygonal2D> polygonal2Ds = polygonalFace2D.Edges;
                             if(polygonal2Ds != null)

@@ -440,7 +440,7 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
     
-        public static IntersectionResult2D IntersectionResult2D(this PolygonalFace2D polygonalFace2D, ILinear2D linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D IntersectionResult2D(this IPolygonalFace2D polygonalFace2D, ILinear2D linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polygonalFace2D == null || linear2D == null)
             {
@@ -557,7 +557,7 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
-        public static IntersectionResult2D IntersectionResult2D(this PolygonalFace2D polygonalFace2D_1, PolygonalFace2D polygonalFace2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D IntersectionResult2D(this IPolygonalFace2D polygonalFace2D_1, IPolygonalFace2D polygonalFace2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polygonalFace2D_1 == null || polygonalFace2D_2 == null)
             {
@@ -620,74 +620,6 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
-        public static IntersectionResult2D IntersectionResult2D(this VolatileBoundable2D<PolygonalFace2D> volatileBoundable2D, ILinear2D linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if (volatileBoundable2D == null || linear2D == null)
-            {
-                return null;
-            }
-
-            BoundingBox2D boundingBox2D = volatileBoundable2D.BoundingBox;
-            if (boundingBox2D == null)
-            {
-                return null;
-            }
-
-            if (!boundingBox2D.InRange(linear2D as dynamic, tolerance))
-            {
-                return new IntersectionResult2D();
-            }
-
-            return IntersectionResult2D(volatileBoundable2D.Geometry, linear2D, tolerance);
-        }
-
-        public static IntersectionResult2D IntersectionResult2D<X, Y>(this VolatileBoundable2D<X> volatileBoundable2D_1, VolatileBoundable2D<Y> volatileBoundable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where X: ISegmentable2D where Y: ISegmentable2D
-        {
-            if(volatileBoundable2D_1 == null || volatileBoundable2D_2 == null)
-            {
-                return null;
-            }
-
-            BoundingBox2D boundingBox2D_1 = volatileBoundable2D_1.BoundingBox;
-            if(boundingBox2D_1 == null)
-            {
-                return null;
-            }
-
-            BoundingBox2D boundingBox2D_2 = volatileBoundable2D_2.BoundingBox;
-            if(boundingBox2D_2 == null)
-            {
-                return null;
-            }
-
-            if(!boundingBox2D_1.InRange(boundingBox2D_2, tolerance))
-            {
-                return new IntersectionResult2D();
-            }
-
-            return IntersectionResult2D(volatileBoundable2D_1.Geometry, volatileBoundable2D_2.Geometry, tolerance);
-        }
-
-        public static IntersectionResult2D IntersectionResult2D<T>(this VolatileBoundable2D<T> volatileBoundable2D, Line2D line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
-        {
-            if(volatileBoundable2D == null || line2D == null)
-            {
-                return null;
-            }
-
-            BoundingBox2D boundingBox2D = volatileBoundable2D.BoundingBox;
-            if(boundingBox2D == null)
-            {
-                return null;
-            }
-
-            if(!boundingBox2D.InRange(line2D, tolerance))
-            {
-                return new IntersectionResult2D();
-            }
-
-            return IntersectionResult2D(volatileBoundable2D.Geometry, line2D, tolerance);
-        }
     }
 
 }

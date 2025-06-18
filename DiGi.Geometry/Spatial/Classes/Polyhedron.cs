@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class Polyhedron : Polyhedron<PolygonalFace3D>
+    public class Polyhedron : Polyhedron<IPolygonalFace3D>
     {
         public Polyhedron(Polyhedron polyhedron)
             :base(polyhedron)
@@ -22,7 +22,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         }
 
-        internal Polyhedron(IEnumerable<PolygonalFace3D> polygonalFaces)
+        internal Polyhedron(IEnumerable<IPolygonalFace3D> polygonalFaces)
             :base(polygonalFaces)
         {
 
@@ -179,7 +179,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             for (int i = 0; i < polygonalFaces.Count; i++)
             {
-                PolygonalFace3D polygonalFace3D = polygonalFaces[i];
+                IPolygonalFace3D polygonalFace3D = polygonalFaces[i];
                 polygonalFace3D.Move(vector3D);
 
                 polygonalFaces[i] = polygonalFace3D;
@@ -208,7 +208,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     continue;
                 }
 
-                PolygonalFace3D polygonalFace3D = polygonalFaces[i];
+                IPolygonalFace3D polygonalFace3D = polygonalFaces[i];
                 if (polygonalFace3D == null)
                 {
                     continue;
@@ -243,7 +243,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     continue;
                 }
 
-                PolygonalFace3D polygonalFace3D = polygonalFaces[i];
+                IPolygonalFace3D polygonalFace3D = polygonalFaces[i];
                 if (polygonalFace3D == null)
                 {
                     continue;
