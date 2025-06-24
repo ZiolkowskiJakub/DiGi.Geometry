@@ -200,7 +200,11 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public void Inverse()
         {
-            throw new System.NotImplementedException();
+            Point3D end = End;
+
+            vector.Inverse();
+
+            start = end;
         }
 
         public Point3D Mid()

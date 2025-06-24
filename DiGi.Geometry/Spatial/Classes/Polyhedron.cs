@@ -70,12 +70,18 @@ namespace DiGi.Geometry.Spatial.Classes
 
             int count = polygonalFaces.Count;
 
+            Dictionary<int, Point3D> dictionary = new Dictionary<int, Point3D>();
+            for (int i = 0; i < count; i++)
+            {
+                dictionary[i] = polygonalFaces[i].GetInternalPoint(tolerance);
+            }
+
             for (int i = 0; i < count - 1; i++)
             {
                 for (int j = i + 1; j < count - 2; j++)
                 {
-                    Point3D point3D_1 = polygonalFaces[i].GetInternalPoint(tolerance);
-                    Point3D point3D_2 = polygonalFaces[j].GetInternalPoint(tolerance);
+                    Point3D point3D_1 = dictionary[i];
+                    Point3D point3D_2 = dictionary[j];
 
                     IntersectionResult3D planarIntersectionResult = Create.IntersectionResult3D(this, new Line3D(point3D_1, point3D_2), tolerance);
                     if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
@@ -149,7 +155,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     continue;
                 }
 
-                return point3Ds.Count % 2 != 0;
+                return point3Ds.Count % 2 == 0;
             }
 
             return false;
