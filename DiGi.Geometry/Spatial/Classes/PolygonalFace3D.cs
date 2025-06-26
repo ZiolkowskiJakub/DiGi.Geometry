@@ -22,6 +22,12 @@ namespace DiGi.Geometry.Spatial.Classes
 
         }
 
+        public PolygonalFace3D(IPolygonal3D externalEdge)
+            : base(externalEdge?.Plane, externalEdge == null ? null : new PolygonalFace2D(externalEdge?.Plane?.Convert(externalEdge)))
+        {
+
+        }
+
         public PolygonalFace3D(PolygonalFace3D polygonalFace3D)
             : base(polygonalFace3D)
         {

@@ -43,7 +43,7 @@ namespace DiGi.Geometry.Planar.Classes
         public override List<Triangle2D> Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
             List<Point2D> point2Ds = GetPoints();
-            if (point2Ds != null || point2Ds.Count != 3)
+            if (point2Ds == null || point2Ds.Count != 3)
             {
                 return null;
             }

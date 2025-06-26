@@ -77,10 +77,10 @@ namespace DiGi.Geometry.Spatial
                     int v4 = nextStackStart + j;
 
                     // Triangle 1
-                    indices.Add(new int[] { v1, v3, v2 });
+                    indices.Add(new int[] { v1, v2, v3 });
 
                     // Triangle 2
-                    indices.Add(new int[] { v1, v4, v3 });
+                    indices.Add(new int[] { v1, v3, v4 });
                 }
             }
 
@@ -158,6 +158,16 @@ namespace DiGi.Geometry.Spatial
             }
 
             return Mesh3D(triangle3Ds, tolerance);
+        }
+
+        public static Mesh3D Mesh3D(this IPolygonalFace3D polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (polygonalFace3D == null)
+            {
+                return null;
+            }
+
+            return Mesh3D(polygonalFace3D?.Triangulate(tolerance), tolerance);
         }
     }
 }
