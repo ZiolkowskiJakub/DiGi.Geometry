@@ -1,5 +1,7 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
+using NetTopologySuite.Algorithm;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -127,6 +129,36 @@ namespace DiGi.Geometry.Planar.Classes
             return center.Distance(point2D) < radius + tolerance;
         }
 
+        public bool InRange(ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            List<Point2D> point2Ds = segmentable2D?.GetPoints();
+            if(point2Ds == null || point2Ds.Count == 0)
+            {
+                return false;
+            }
+
+            foreach(Point2D point2D in point2Ds)
+            {
+                if(InRange(point2D, tolerance))
+                {
+                    return true;
+                }
+            }
+
+            Point2D point2D_Closest = segmentable2D.ClosestPoint(center);
+            if(InRange(point2D_Closest, tolerance))
+            {
+                return true;
+            }
+
+            if(segmentable2D is IClosedCurve2D && ((IClosedCurve2D)segmentable2D).Inside(center, tolerance))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public bool Inside(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null || center == null || double.IsNaN(radius))
@@ -135,6 +167,25 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return center.Distance(point2D) < radius - tolerance;
+        }
+
+        public bool Inside(ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            List<Point2D> point2Ds = segmentable2D?.GetPoints();
+            if (point2Ds == null || point2Ds.Count == 0)
+            {
+                return false;
+            }
+
+            foreach (Point2D point2D in point2Ds)
+            {
+                if (!Inside(point2D, tolerance))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public override bool Move(Vector2D vector2D)

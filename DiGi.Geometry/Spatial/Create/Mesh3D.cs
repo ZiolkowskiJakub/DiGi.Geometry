@@ -95,6 +95,21 @@ namespace DiGi.Geometry.Spatial
             return new Mesh3D(point3Ds, indices);
         }
 
+        public static Mesh3D Mesh3D(this Ellipsoid ellipsoid, double angleFactor)
+        {
+            if(ellipsoid == null)
+            {
+                return null;
+            }
+
+            double factor = angleFactor % System.Math.PI;
+
+            int stacks = (int)(System.Math.PI / factor);
+            int slices = (int)(2 * System.Math.PI / factor);
+
+            return Mesh3D(ellipsoid, stacks, slices);
+        }
+
         public static Mesh3D Mesh3D(this IEnumerable<Triangle3D> triangle3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (triangle3Ds == null || triangle3Ds.Count() == 0)
