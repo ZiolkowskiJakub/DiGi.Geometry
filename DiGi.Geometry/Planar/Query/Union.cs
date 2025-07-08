@@ -74,7 +74,14 @@ namespace DiGi.Geometry.Planar
             NetTopologySuite.Geometries.Geometry geometry = new MultiPolygon(polygons.ToArray());
             if (!geometry.IsValid)
             {
-                geometry = GeometryFixer.Fix(geometry);
+                try
+                {
+                    geometry = GeometryFixer.Fix(geometry);
+                }
+                catch
+                {
+                    return null;
+                }
             }
 
             try
