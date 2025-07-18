@@ -1,5 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
-using DiGi.Geometry.Planar.Interfaces;
+﻿using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System;

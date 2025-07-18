@@ -86,6 +86,42 @@ namespace DiGi.Geometry.Spatial
 
             return result;
         }
+
+        public static Point3D ClosestPoint(this Point3D point3D, IEnumerable<Point3D> point3Ds, out double distance)
+        {
+            distance = double.NaN;
+            if (point3D == null || point3Ds == null)
+            {
+                return null;
+            }
+
+            distance = double.MaxValue;
+            Point3D result = null;
+
+            foreach (Point3D point3D_Temp in point3Ds)
+            {
+                if (point3D_Temp == null)
+                {
+                    continue;
+                }
+
+                double distance_Temp = point3D.Distance(point3D_Temp);
+                if (distance_Temp > distance)
+                {
+                    continue;
+                }
+
+                distance = distance_Temp;
+                result = point3D_Temp;
+            }
+
+            if (distance == double.MaxValue)
+            {
+                distance = double.NaN;
+            }
+
+            return result;
+        }
     }
 
 }

@@ -1,5 +1,4 @@
-﻿using DiGi.Core;
-using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Linq;

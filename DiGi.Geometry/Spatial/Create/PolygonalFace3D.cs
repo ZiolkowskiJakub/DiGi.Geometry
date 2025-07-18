@@ -2,7 +2,6 @@
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Spatial
