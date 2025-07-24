@@ -48,6 +48,16 @@ namespace DiGi.Geometry.Spatial.Classes
 
                 return matrix4D[row, column];
             }
+
+            set
+            {
+                if (matrix4D == null || row >= 4 || column >= 4)
+                {
+                    return;
+                }
+
+                matrix4D[row, column] = value;
+            }
         }
 
         public static Transform3D operator *(Transform3D transform3D_1, Transform3D transform3D_2)
