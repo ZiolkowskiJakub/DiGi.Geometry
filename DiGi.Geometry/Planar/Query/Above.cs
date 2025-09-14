@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool Above(this PolynomialEquation polynomialEquation, Point2D point2D, double tolerance = 0)
+        public static bool Above(this PolynomialEquation? polynomialEquation, Point2D? point2D, double tolerance = 0)
         {
             if (polynomialEquation == null || point2D == null)
                 return false;

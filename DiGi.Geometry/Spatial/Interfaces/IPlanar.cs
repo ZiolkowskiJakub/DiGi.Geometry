@@ -5,11 +5,11 @@ namespace DiGi.Geometry.Spatial.Interfaces
 {
     public interface IPlanar : IGeometry3D
     {
-        Plane Plane { get; }
+        Plane? Plane { get; }
     }
 
     public interface IPlanar<T> : IPlanar where T : IGeometry2D
     {
-        T Geometry2D { get; }
+        T? Geometry2D { get; }
     }
 }

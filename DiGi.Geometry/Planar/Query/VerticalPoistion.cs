@@ -7,23 +7,28 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static VerticalPosition VerticalPosition(this ISegmentable2D segmentable2D, Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static VerticalPosition VerticalPosition(this ISegmentable2D? segmentable2D, Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D == null || point2D == null)
             {
                 return Core.Enums.VerticalPosition.Undefined;
             }
 
-            List<Segment2D> segment2Ds = segmentable2D.GetSegments();
+            List<Segment2D>? segment2Ds = segmentable2D.GetSegments();
             if (segment2Ds == null || segment2Ds.Count == 0)
             {
                 return Core.Enums.VerticalPosition.Undefined;
             }
 
-            List<VerticalPosition> verticalPositions = new List<VerticalPosition>();
-            foreach (Segment2D segment2D in segmentable2D.GetSegments())
+            List<VerticalPosition> verticalPositions = [];
+
+            List<Segment2D>? segment2Ds_Temp = segmentable2D.GetSegments();
+            if(segment2Ds_Temp != null)
             {
-                verticalPositions.Add(VerticalPosition(segment2D, point2D, tolerance));
+                foreach (Segment2D segment2D in segment2Ds_Temp)
+                {
+                    verticalPositions.Add(VerticalPosition(segment2D, point2D, tolerance));
+                }
             }
 
             if (verticalPositions.TrueForAll(x => x == Core.Enums.VerticalPosition.Undefined))
@@ -51,14 +56,14 @@ namespace DiGi.Geometry.Planar
             return Core.Enums.VerticalPosition.Inside;
         }
 
-        public static VerticalPosition VerticalPosition(this Segment2D segment2D, Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static VerticalPosition VerticalPosition(this Segment2D? segment2D, Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(segment2D == null || point2D == null)
             {
                 return Core.Enums.VerticalPosition.Undefined;
             }
 
-            BoundingBox2D boundingBox2D = segment2D.GetBoundingBox();
+            BoundingBox2D? boundingBox2D = segment2D.GetBoundingBox();
             if(boundingBox2D == null)
             {
                 return Core.Enums.VerticalPosition.Undefined;
@@ -69,13 +74,13 @@ namespace DiGi.Geometry.Planar
                 return Core.Enums.VerticalPosition.Undefined;
             }
 
-            SegmentableTraceResult2D segmentableTraceResult2D = Create.SegmentableTraceResult2D(point2D, Constans.Vector2D.WorldY, new Segment2D[] { segment2D }, tolerance);
+            SegmentableTraceResult2D? segmentableTraceResult2D = Create.SegmentableTraceResult2D(point2D, Constans.Vector2D.WorldY, [segment2D], tolerance);
             if(segmentableTraceResult2D == null)
             {
                 return Core.Enums.VerticalPosition.Undefined;
             }
 
-            Vector2D vector2D = segmentableTraceResult2D.Vector2D;
+            Vector2D? vector2D = segmentableTraceResult2D.Vector2D;
             if(vector2D == null)
             {
                 return Core.Enums.VerticalPosition.Below;

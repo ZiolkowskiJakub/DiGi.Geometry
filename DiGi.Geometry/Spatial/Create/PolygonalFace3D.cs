@@ -8,20 +8,20 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static PolygonalFace3D PolygonalFace3D<T>(this Planar<T> planar) where T : IPolygonal2D
+        public static PolygonalFace3D? PolygonalFace3D<T>(this Planar<T>? planar) where T : IPolygonal2D
         {
             if(planar == null)
             {
                 return null;
             }
 
-            Plane plane = planar.Plane;
+            Plane? plane = planar.Plane;
             if(plane == null)
             {
                 return null;
             }
 
-            T polygonal2D = planar.Geometry2D;
+            T? polygonal2D = planar.Geometry2D;
             if(polygonal2D == null)
             {
                 return null;
@@ -30,7 +30,7 @@ namespace DiGi.Geometry.Spatial
             return new PolygonalFace3D(plane, new PolygonalFace2D(polygonal2D));
         }
 
-        public static PolygonalFace3D PolygonalFace3D(Plane plane, params Point2D[] points)
+        public static PolygonalFace3D? PolygonalFace3D(Plane? plane, params Point2D[]? points)
         {
             if(plane == null || points == null || points.Length < 3)
             {
@@ -40,23 +40,23 @@ namespace DiGi.Geometry.Spatial
             return new PolygonalFace3D(plane, Planar.Create.PolygonalFace2D(points));
         }
 
-        public static PolygonalFace3D PolygonalFace3D(IPolygonal3D externalEdge, IEnumerable<IPolygonal3D> internalEdges = null, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PolygonalFace3D? PolygonalFace3D(IPolygonal3D? externalEdge, IEnumerable<IPolygonal3D>? internalEdges = null, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            Plane plane = externalEdge?.Plane;
+            Plane? plane = externalEdge?.Plane;
             if(plane == null)
             {
                 return null;
             }
 
-            IPolygonal2D externalEdge2D = plane.Convert(externalEdge);
+            IPolygonal2D? externalEdge2D = plane.Convert(externalEdge);
 
-            List<IPolygonal2D> internalEdge2Ds = null;
+            List<IPolygonal2D>? internalEdge2Ds = null;
             if(internalEdges != null)
             {
-                internalEdge2Ds = new List<IPolygonal2D>();
+                internalEdge2Ds = [];
                 foreach (IPolygonal3D internalEdge in internalEdges)
                 {
-                    IPolygonal2D internalEdge2D = plane.Convert(plane.Project<IPolygonal3D>(internalEdge));
+                    IPolygonal2D? internalEdge2D = plane.Convert(plane.Project<IPolygonal3D>(internalEdge));
                     if (internalEdge2D == null)
                     {
                         continue;
@@ -66,7 +66,7 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            PolygonalFace2D polygonalFace2D = Planar.Create.PolygonalFace2D(externalEdge2D, internalEdge2Ds, tolerance);
+            PolygonalFace2D? polygonalFace2D = Planar.Create.PolygonalFace2D(externalEdge2D, internalEdge2Ds, tolerance);
             if(polygonalFace2D == null)
             {
                 return null;

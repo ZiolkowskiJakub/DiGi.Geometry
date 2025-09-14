@@ -6,9 +6,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static Polyline2D ToDiGi(this LineString linearString)
+        public static Polyline2D? ToDiGi(this LineString? linearString)
         {
-            List<Point2D> point2Ds = linearString?.Coordinates?.ToDiGi();
+            List<Point2D>? point2Ds = linearString?.Coordinates?.ToDiGi();
             if(point2Ds == null)
             {
                 return null;

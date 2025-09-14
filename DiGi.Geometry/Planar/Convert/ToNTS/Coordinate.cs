@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static Coordinate ToNTS(this Point2D point2D)
+        public static Coordinate? ToNTS(this Point2D? point2D)
         {
             if (point2D == null)
             {
@@ -15,7 +15,7 @@ namespace DiGi.Geometry.Planar
             return new Coordinate(point2D.X, point2D.Y);
         }
 
-        public static Coordinate ToNTS(this Point2D point2D, double tolerance)
+        public static Coordinate? ToNTS(this Point2D? point2D, double tolerance)
         {
             if (point2D == null)
             {

@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static Point2D ClosestPoint(this Point2D point2D, Point2D point2D_1, Point2D point2D_2, bool bounded)
+        public static Point2D? ClosestPoint(this Point2D? point2D, Point2D? point2D_1, Point2D? point2D_2, bool bounded)
         {
             if(point2D == null || point2D_1 == null || point2D_2 == null)
             {
@@ -39,17 +39,17 @@ namespace DiGi.Geometry.Planar
             return new Point2D(point2D_1.X + parameter * c, point2D_1.Y + parameter * d);
         }
 
-        public static Point2D ClosestPoint(this Point2D point2D, ISegmentable2D segmentable2D)
+        public static Point2D? ClosestPoint(this Point2D? point2D, ISegmentable2D segmentable2D)
         {
-            return ClosestPoint(point2D, segmentable2D?.GetSegments(), out double distance);
+            return ClosestPoint(point2D, segmentable2D?.GetSegments(), out _);
         }
 
-        public static Point2D ClosestPoint(this Point2D point2D, ISegmentable2D segmentable2D, out double distance)
+        public static Point2D? ClosestPoint(this Point2D? point2D, ISegmentable2D? segmentable2D, out double distance)
         {
             return ClosestPoint(point2D, segmentable2D?.GetSegments(), out distance);
         }
 
-        public static Point2D ClosestPoint(this Point2D point2D, IEnumerable<Segment2D> segment2Ds, out double distance)
+        public static Point2D? ClosestPoint(this Point2D? point2D, IEnumerable<Segment2D>? segment2Ds, out double distance)
         {
             distance = double.NaN;
             if(point2D == null || segment2Ds == null)
@@ -58,10 +58,10 @@ namespace DiGi.Geometry.Planar
             }
 
             distance = double.MaxValue;
-            Point2D result = null;
+            Point2D? result = null;
             foreach(Segment2D segment2D in segment2Ds)
             {
-                Point2D point2D_Closest = segment2D?.ClosestPoint(point2D);
+                Point2D? point2D_Closest = segment2D?.ClosestPoint(point2D);
                 if(point2D_Closest == null)
                 {
                     continue;
@@ -78,12 +78,12 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static Point2D ClosestPoint(this Point2D point2D, IEnumerable<Segment2D> segment2Ds)
+        public static Point2D? ClosestPoint(this Point2D? point2D, IEnumerable<Segment2D>? segment2Ds)
         {
-            return ClosestPoint(point2D, segment2Ds, out double distance);
+            return ClosestPoint(point2D, segment2Ds, out _);
         }
 
-        public static Point2D ClosestPoint<T>(this Point2D point2D, IEnumerable<T> segmentable2Ds, out double distance) where T: ISegmentable2D
+        public static Point2D? ClosestPoint<T>(this Point2D? point2D, IEnumerable<T>? segmentable2Ds, out double distance) where T: ISegmentable2D
         {
             distance = double.NaN;
             if(point2D == null || segmentable2Ds == null || segmentable2Ds.Count() == 0)
@@ -94,12 +94,12 @@ namespace DiGi.Geometry.Planar
             return ClosestPoint(point2D, segmentable2Ds?.Segments());
         }
 
-        public static Point2D ClosestPoint<T>(this Point2D point2D, IEnumerable<T> segmentable2Ds) where T: ISegmentable2D
+        public static Point2D? ClosestPoint<T>(this Point2D? point2D, IEnumerable<T>? segmentable2Ds) where T: ISegmentable2D
         {
-            return ClosestPoint(point2D, segmentable2Ds, out double distance);
+            return ClosestPoint(point2D, segmentable2Ds, out _);
         }
 
-        public static Point2D ClosestPoint(this Point2D point2D, IEnumerable<Point2D> point2Ds, out double distance)
+        public static Point2D? ClosestPoint(this Point2D? point2D, IEnumerable<Point2D>? point2Ds, out double distance)
         {
             distance = double.NaN;
             if(point2D == null || point2Ds == null)
@@ -108,7 +108,7 @@ namespace DiGi.Geometry.Planar
             }
 
             distance = double.MaxValue;
-            Point2D result = null;
+            Point2D? result = null;
 
             foreach(Point2D point2D_Temp in point2Ds)
             {
@@ -135,9 +135,9 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static Point2D ClosestPoint(this Point2D point2D, IEnumerable<Point2D> point2Ds)
+        public static Point2D? ClosestPoint(this Point2D? point2D, IEnumerable<Point2D>? point2Ds)
         {
-            return ClosestPoint(point2D, point2Ds, out double distance);
+            return ClosestPoint(point2D, point2Ds, out _);
         }
     }
 

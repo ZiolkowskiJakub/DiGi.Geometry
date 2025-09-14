@@ -8,9 +8,13 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static Orientation Orientation(this Point2D point2D_1, Point2D point2D_2, Point2D point2D_3)
+        public static Orientation Orientation(this Point2D? point2D_1, Point2D? point2D_2, Point2D? point2D_3)
         {
             double determinant = Determinant(point2D_1, point2D_2, point2D_3);
+            if(double.IsNaN(determinant))
+            {
+                return Core.Enums.Orientation.Undefined;
+            }
 
             if (determinant == 0)
             {
@@ -39,7 +43,7 @@ namespace DiGi.Geometry.Planar
                 return Core.Enums.Orientation.Undefined;
             }
 
-            List<Point2D> point2Ds_Temp = new List<Point2D>(point2Ds);
+            List<Point2D> point2Ds_Temp = [.. point2Ds];
             if (point2Ds_Temp == null || point2Ds_Temp.Count < 3)
             {
                 return Core.Enums.Orientation.Undefined;
@@ -47,12 +51,12 @@ namespace DiGi.Geometry.Planar
 
             if (convexHull)
             {
-                List<Point2D> point2Ds_ConvexHull = ConvexHull(point2Ds);
+                List<Point2D>? point2Ds_ConvexHull = ConvexHull(point2Ds);
 
                 //ConvexHull may have different orientation so needs to remove unnecessary points from existing point2Ds
                 if (point2Ds_ConvexHull != null && point2Ds_ConvexHull.Count > 0)
                 {
-                    List<Point2D> point2Ds_ConvexHull_Temp = new List<Point2D>(point2Ds);
+                    List<Point2D> point2Ds_ConvexHull_Temp = [.. point2Ds];
                     point2Ds_ConvexHull_Temp.RemoveAll(x => point2Ds_ConvexHull.Contains(x));
                     point2Ds_Temp.RemoveAll(x => point2Ds_ConvexHull_Temp.Contains(x));
                 }
@@ -73,14 +77,14 @@ namespace DiGi.Geometry.Planar
             return Core.Enums.Orientation.Undefined;
         }
 
-        public static Orientation Orientation(this IPolygonal2D polygonal2D)
+        public static Orientation Orientation(this IPolygonal2D? polygonal2D)
         {
             if (polygonal2D == null)
             {
                 return Core.Enums.Orientation.Undefined;
             }
 
-            List<Point2D> point2Ds = polygonal2D?.GetPoints();
+            List<Point2D>? point2Ds = polygonal2D?.GetPoints();
             if(point2Ds == null || point2Ds.Count < 3)
             {
                 return Core.Enums.Orientation.Undefined;

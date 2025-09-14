@@ -4,7 +4,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Convert
     {
-        public static CoordinateSystem3D ToDiGi(this Plane plane)
+        public static CoordinateSystem3D? ToDiGi(this Plane? plane)
         {
             if(plane == null)
             {

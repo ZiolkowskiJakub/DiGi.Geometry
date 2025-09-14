@@ -9,26 +9,26 @@ namespace DiGi.Geometry.Spatial.Classes
     public class Transform3D : SerializableObject, ITransform3D
     {
         [JsonInclude, JsonPropertyName("Matrix4D")]
-        private Matrix4D matrix4D;
+        private readonly Matrix4D? matrix4D;
 
-        public Transform3D(Matrix4D matrix4D)
+        public Transform3D(Matrix4D? matrix4D)
         {
             this.matrix4D = matrix4D;
         }
 
-        public Transform3D(JsonObject jsonObject)
+        public Transform3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public Transform3D(Transform3D transform3D)
+        public Transform3D(Transform3D? transform3D)
         {
             matrix4D = transform3D?.matrix4D == null ? null : new Matrix4D(transform3D.matrix4D);
         }
 
         [JsonIgnore]
-        public Matrix4D Matrix4D
+        public Matrix4D? Matrix4D
         {
             get
             {
@@ -60,10 +60,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public static Transform3D operator *(Transform3D transform3D_1, Transform3D transform3D_2)
+        public static Transform3D? operator *(Transform3D? transform3D_1, Transform3D? transform3D_2)
         {
             if (transform3D_1 == null || transform3D_2 == null)
+            {
                 return null;
+            }
 
             return new Transform3D(transform3D_1.matrix4D * transform3D_2.matrix4D);
         }

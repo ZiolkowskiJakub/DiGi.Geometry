@@ -10,7 +10,7 @@ namespace DiGi.Geometry.Planar
         /// </summary>
         /// <param name="angle">angle to X axis counted counterclockwise [rad]</param>
         /// <returns>Unit Vector2D</returns>
-        public static Vector2D Vector2D(double angle)
+        public static Vector2D? Vector2D(double angle)
         {
             if (double.IsNaN(angle) || double.IsInfinity(angle))
             {
@@ -28,14 +28,14 @@ namespace DiGi.Geometry.Planar
             return new Vector2D(System.Math.Cos(xAngle), System.Math.Cos(yAngle));
         }
 
-        public static Vector2D Vector2D(double angle, double length)
+        public static Vector2D? Vector2D(double angle, double length)
         {
             if (double.IsNaN(length) || double.IsInfinity(length))
             {
                 return null;
             }
 
-            Vector2D vector2D = Vector2D(angle);
+            Vector2D? vector2D = Vector2D(angle);
             if (vector2D == null)
             {
                 return null;
@@ -44,7 +44,7 @@ namespace DiGi.Geometry.Planar
             return vector2D * length;
         }
 
-        public static Vector2D Vector2D(Alignment alignment)
+        public static Vector2D? Vector2D(Alignment alignment)
         {
             if (alignment == Alignment.Undefined)
             {
@@ -58,6 +58,12 @@ namespace DiGi.Geometry.Planar
 
                 case Alignment.Horizontal:
                     return new Vector2D(0, 1);
+
+                case Alignment.Undefined:
+                    break;
+
+                default:
+                    break;
             }
 
             return null;

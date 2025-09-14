@@ -8,40 +8,40 @@ namespace DiGi.Geometry.Spatial.Classes
 {
     public class Mesh3D : Mesh<Point3D>, IGeometry3D, IBoundable3D, ICollectable3D
     {
-        public Mesh3D(JsonObject jsonObject)
+        public Mesh3D(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public Mesh3D(Mesh3D mesh3D)
+        public Mesh3D(Mesh3D? mesh3D)
             :base(mesh3D)
         {
 
         }
 
-        public Mesh3D(IEnumerable<Point3D> points, IEnumerable<int[]> indexes)
+        public Mesh3D(IEnumerable<Point3D>? points, IEnumerable<int[]>? indexes)
             : base(points, indexes)
         {
 
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Mesh3D(this);
         }
 
-        public BoundingBox3D GetBoundingBox()
+        public BoundingBox3D? GetBoundingBox()
         {
             if(points == null)
             {
                 return null;
             }
 
-            return new BoundingBox3D(points);
+            return new (points);
         }
 
-        public Triangle3D GetTriangle(int index)
+        public Triangle3D? GetTriangle(int index)
         {
             if (points == null || indexes == null)
             {
@@ -71,10 +71,10 @@ namespace DiGi.Geometry.Spatial.Classes
                 return null;
             }
 
-            return new Triangle3D(points[index_1], points[index_2], points[index_3]);
+            return new (points[index_1], points[index_2], points[index_3]);
         }
 
-        public List<Triangle3D> GetTriangles()
+        public List<Triangle3D>? GetTriangles()
         {
             if (points == null || indexes == null)
             {
@@ -87,7 +87,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return null;
             }
 
-            List<Triangle3D> result = new List<Triangle3D>();
+            List<Triangle3D> result = [];
             if (count == 0)
             {
                 return result;
@@ -95,13 +95,19 @@ namespace DiGi.Geometry.Spatial.Classes
 
             for (int i = 0; i < TrianglesCount; i++)
             {
-                result.Add(GetTriangle(i));
+                Triangle3D? triangle3D = GetTriangle(i);
+                if(triangle3D is null)
+                {
+                    continue;
+                }
+
+                result.Add(triangle3D);
             }
 
             return result;
         }
 
-        public bool Move(Vector3D vector2D)
+        public bool Move(Vector3D? vector2D)
         {
             if(points == null || vector2D == null)
             {
@@ -116,7 +122,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
-        public bool Transform(ITransform3D transform)
+        public bool Transform(ITransform3D? transform)
         {
             if(transform == null || points == null)
             {

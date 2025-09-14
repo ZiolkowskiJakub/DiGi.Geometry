@@ -5,9 +5,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static List<Point2D> Point2Ds(this BoundingBox2D boundingBox2D, int count)
+        public static List<Point2D>? Point2Ds(this BoundingBox2D? boundingBox2D, int count)
         {
-            if (count == -1)
+            if (count == -1 || boundingBox2D is null)
             {
                 return null;
             }
@@ -15,16 +15,16 @@ namespace DiGi.Geometry.Planar
             return Point2Ds(boundingBox2D.Min.X, boundingBox2D.Min.Y, boundingBox2D.Max.X, boundingBox2D.Max.Y, count);
         }
 
-        public static List<Point2D> Point2Ds(double x_min, double y_min, double x_max, double y_max, int count)
+        public static List<Point2D>? Point2Ds(double x_min, double y_min, double x_max, double y_max, int count)
         {
             if (count == -1)
             {
                 return null;
             }
 
-            System.Random random = new System.Random();
+            System.Random random = new();
 
-            List<Point2D> result = new List<Point2D>();
+            List<Point2D> result = [];
             for (int i = 0; i < count; i++)
             {
                 double x = DiGi.Core.Query.Random(random, x_min, x_max);
@@ -36,7 +36,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Point2D> Point2Ds(params double[] values)
+        public static List<Point2D>? Point2Ds(params double[]? values)
         {
             if (values == null)
             {
@@ -49,8 +49,8 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Point2D> result = new List<Point2D>();
-            for (int i = 0; i < length; i = i + 2)
+            List<Point2D> result = [];
+            for (int i = 0; i < length; i += 2)
             {
                 result.Add(new Point2D(values[i], values[i + 1]));
             }

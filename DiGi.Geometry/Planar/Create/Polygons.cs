@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static List<Polygon> Polygons(this IEnumerable<Segment2D> segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Polygon>? Polygons(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2Ds == null)
             {
@@ -18,13 +18,13 @@ namespace DiGi.Geometry.Planar
 
             if (segment2Ds.Count() == 0)
             {
-                return new List<Polygon>();
+                return [];
             }
 
-            List<NetTopologySuite.Geometries.Geometry> geometries = new List<NetTopologySuite.Geometries.Geometry>();
+            List<NetTopologySuite.Geometries.Geometry> geometries = [];
             foreach(Segment2D segment2D in segment2Ds)
             {
-                NetTopologySuite.Geometries.Geometry geometry = segment2D.ToNTS_LineString();
+                NetTopologySuite.Geometries.Geometry? geometry = segment2D.ToNTS_LineString();
                 if(geometry == null)
                 {
                     continue;
@@ -36,21 +36,21 @@ namespace DiGi.Geometry.Planar
             return Polygons(geometries, tolerance);
         }
 
-        public static List<Polygon> Polygons(this IEnumerable<NetTopologySuite.Geometries.Geometry> geometries, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Polygon>? Polygons(this IEnumerable<NetTopologySuite.Geometries.Geometry>? geometries, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (geometries == null)
             {
                 return null;
             }
 
-            List<Polygon> result = new List<Polygon>();
+            List<Polygon> result = [];
 
             if (geometries.Count() == 0)
             {
                 return result;
             }
 
-            List<NetTopologySuite.Geometries.Geometry> geometries_Temp = new List<NetTopologySuite.Geometries.Geometry>();
+            List<NetTopologySuite.Geometries.Geometry> geometries_Temp = [];
             foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in geometries)
             {
                 if (geometry_Temp == null || !geometry_Temp.IsValid)
@@ -66,16 +66,16 @@ namespace DiGi.Geometry.Planar
                 return result;
             }
 
-            GeometryNoder geometryNoder = new GeometryNoder(new PrecisionModel(1 / tolerance));
+            GeometryNoder geometryNoder = new (new PrecisionModel(1 / tolerance));
 
-            List<LineString> lineStrings = geometryNoder.Node(geometries_Temp).ToList();
+            List<LineString> lineStrings = [.. geometryNoder.Node(geometries_Temp)];
             if (lineStrings == null || lineStrings.Count == 0)
             {
                 return result;
             }
 
-            Polygonizer polygonizer = new Polygonizer(false);
-            polygonizer.Add(lineStrings.ToArray());
+            Polygonizer polygonizer = new (false);
+            polygonizer.Add([.. lineStrings]);
 
             IEnumerable<NetTopologySuite.Geometries.Geometry> geometries_Result = polygonizer.GetPolygons();
             if (geometries_Result == null)
@@ -92,7 +92,7 @@ namespace DiGi.Geometry.Planar
 
             foreach (NetTopologySuite.Geometries.Geometry geometry in geometries_Result)
             {
-                Polygon polygon = geometry as Polygon;
+                Polygon? polygon = geometry as Polygon;
                 if (polygon == null)
                 {
                     continue;

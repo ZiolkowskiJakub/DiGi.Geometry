@@ -9,20 +9,20 @@ namespace DiGi.Geometry.Spatial.Classes
     public class CoordinateSystem3D : Geometry3D, ICoordinateSystem3D
     {
         [JsonInclude, JsonPropertyName("AxisY")]
-        private Vector3D axisY;
+        private readonly Vector3D? axisY;
 
         [JsonInclude, JsonPropertyName("AxisZ")]
-        private Vector3D axisZ;
+        private readonly Vector3D? axisZ;
 
         [JsonInclude, JsonPropertyName("Origin")]
-        private Point3D origin;
+        private Point3D? origin;
 
-        public CoordinateSystem3D(JsonObject jsonObject)
+        public CoordinateSystem3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
-        public CoordinateSystem3D(CoordinateSystem3D coordinateSystem3D)
+        public CoordinateSystem3D(CoordinateSystem3D? coordinateSystem3D)
         {
             if (coordinateSystem3D != null)
             {
@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public CoordinateSystem3D(CoordinateSystem3D coordinateSystem3D, Point3D origin)
+        public CoordinateSystem3D(CoordinateSystem3D? coordinateSystem3D, Point3D? origin)
         {
             if (coordinateSystem3D != null)
             {
@@ -46,7 +46,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public CoordinateSystem3D(Point3D origin, Vector3D axisZ)
+        public CoordinateSystem3D(Point3D? origin, Vector3D? axisZ)
         {
             if (axisZ != null)
             {
@@ -60,11 +60,11 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public CoordinateSystem3D(Point3D origin, Vector3D axisX, Vector3D axisY)
+        public CoordinateSystem3D(Point3D? origin, Vector3D? axisX, Vector3D? axisY)
         {
             this.origin = origin == null ? null : new Point3D(origin);
 
-            this.axisY = axisY == null ? null : axisY.Unit;
+            this.axisY = axisY?.Unit;
 
             if (axisX != null && this.axisY != null)
             {
@@ -73,7 +73,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Vector3D AxisX
+        public Vector3D? AxisX
         {
             get
             {
@@ -82,7 +82,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Vector3D AxisY
+        public Vector3D? AxisY
         {
             get
             {
@@ -91,7 +91,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Vector3D AxisZ
+        public Vector3D? AxisZ
         {
             get
             {
@@ -100,7 +100,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Point3D Origin
+        public Point3D? Origin
         {
             get
             {
@@ -112,20 +112,26 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public Point3D ClosestPoint(Point3D point3D)
+        public Point3D? ClosestPoint(Point3D? point3D)
         {
-            if (point3D == null)
+            if (point3D is null || origin is null || axisZ is null)
             {
                 return null;
             }
 
-            double factor = ((Vector3D)point3D).DotProduct(axisZ) - axisZ.DotProduct((Vector3D)origin);
+            double factor = ((Vector3D)point3D!).DotProduct(axisZ) - axisZ.DotProduct((Vector3D)origin!);
             return new Point3D(point3D.X - (axisZ.X * factor), point3D.Y - (axisZ.Y * factor), point3D.Z - (axisZ.Z * factor));
         }
 
-        public double Distance(Point3D point3D)
+        public double Distance(Point3D? point3D)
         {
-            return ClosestPoint(point3D).Distance(point3D);
+            Point3D? closestPoint = ClosestPoint(point3D);
+            if(closestPoint is null)
+            {
+                return double.NaN;
+            }
+
+            return closestPoint.Distance(point3D);
         }
 
         public void Inverse()
@@ -134,7 +140,7 @@ namespace DiGi.Geometry.Spatial.Classes
             axisY?.Inverse();
         }
 
-        public override bool Move(Vector3D vector3D)
+        public override bool Move(Vector3D? vector3D)
         {
             if (vector3D == null || origin == null)
             {

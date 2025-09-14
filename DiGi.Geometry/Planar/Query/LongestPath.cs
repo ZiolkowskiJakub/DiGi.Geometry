@@ -19,18 +19,18 @@ namespace DiGi.Geometry.Planar
         /// <param name="point2D_Start">Point to start from. If null then Method will find points with the longest paths</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns>List of Point2Ds representing the longest path</returns>
-        public static List<Point2D> LongestPath(this IEnumerable<ISegmentable2D> segmentable2Ds, Point2D point2D_Start = null, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? LongestPath(this IEnumerable<ISegmentable2D>? segmentable2Ds, Point2D? point2D_Start = null, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2Ds == null)
             {
                 return null;
             }
 
-            HashSet<Point2D> point2Ds_Unique = new HashSet<Point2D>();
-            List<Segment2D> segment2Ds = new List<Segment2D>();
+            HashSet<Point2D> point2Ds_Unique = [];
+            List<Segment2D>? segment2Ds = [];
             foreach (ISegmentable2D segmentable2D in segmentable2Ds)
             {
-                List<Segment2D> segment2Ds_Temp = segmentable2D?.GetSegments();
+                List<Segment2D>? segment2Ds_Temp = segmentable2D?.GetSegments();
                 if (segment2Ds_Temp == null || segment2Ds_Temp.Count == 0)
                 {
                     continue;
@@ -42,7 +42,7 @@ namespace DiGi.Geometry.Planar
                     segment2Ds.Add(segment2Ds_Temp[i]);
                 }
 
-                segmentable2D.GetPoints()?.ForEach(x => point2Ds_Unique.Add(x));
+                segmentable2D?.GetPoints()?.ForEach(x => point2Ds_Unique.Add(x));
             }
 
             segment2Ds = segment2Ds?.Split(tolerance);
@@ -51,25 +51,20 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            AdjacencyGraph<Point2D, Edge<Point2D>> adjacencyGraph = null;
+            AdjacencyGraph<Point2D, Edge<Point2D>>? adjacencyGraph = null;
 
             IEnumerable<Edge<Point2D>> edges;
 
-            List<Point2D> point2Ds = new List<Point2D>();
+            List<Point2D> point2Ds = [];
             if (point2D_Start != null)
             {
                 Point2D point2D_Start_Temp = point2D_Start;
                 if (point2D_Start_Temp != null)
                 {
-                    List<Segment2D> segment2Ds_Connected = segment2Ds.Connect(point2D_Start_Temp, PointConnectMethod.Projection, tolerance);
+                    List<Segment2D>? segment2Ds_Connected = segment2Ds.Connect(point2D_Start_Temp, PointConnectMethod.Projection, tolerance);
                     if (segment2Ds_Connected != null)
                     {
-                        Point2D point2D = segment2Ds_Connected.Find(x => AlmostEquals(x[0], point2D_Start_Temp, tolerance))?[0];
-                        if (point2D == null)
-                        {
-                            point2D = segment2Ds_Connected.Find(x => AlmostEquals(x[1], point2D_Start_Temp, tolerance))?[1];
-                        }
-
+                        Point2D? point2D = (segment2Ds_Connected.Find(x => AlmostEquals(x[0], point2D_Start_Temp, tolerance))?[0]) ?? (segment2Ds_Connected.Find(x => AlmostEquals(x[1], point2D_Start_Temp, tolerance))?[1]);
                         if (point2D == null)
                         {
                             return null;
@@ -79,13 +74,26 @@ namespace DiGi.Geometry.Planar
                     }
                 }
 
+                if(point2D_Start_Temp is null)
+                {
+                    return null;
+                }
+
                 point2Ds.Add(point2D_Start_Temp);
 
                 adjacencyGraph = Create.AdjacencyGraph(segment2Ds, tolerance);
+                if (adjacencyGraph == null)
+                {
+                    return null;
+                }
             }
             else
             {
                 adjacencyGraph = Create.AdjacencyGraph(segment2Ds, tolerance);
+                if (adjacencyGraph == null)
+                {
+                    return null;
+                }
 
                 IEnumerable<Point2D> point2Ds_All = adjacencyGraph.Vertices;
                 if (point2Ds_All == null || point2Ds_All.Count() == 0)
@@ -109,21 +117,21 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            List<System.Tuple<double, Point2D, Point2D>> tuples = Enumerable.Repeat<System.Tuple<double, Point2D, Point2D>>(null, point2Ds.Count).ToList();
-            Parallel.For(0, point2Ds.Count, (int i) =>
+            List<System.Tuple<double, Point2D, Point2D>?> tuples = [.. Enumerable.Repeat<System.Tuple<double, Point2D, Point2D>?>(null, point2Ds.Count)];
+            Parallel.For(0, point2Ds.Count, i =>
             {
                 Point2D point2D = point2Ds[i];
 
-                AStarShortestPathAlgorithm<Point2D, Edge<Point2D>> aStarShortestPathAlgorithm_Temp = new AStarShortestPathAlgorithm<Point2D, Edge<Point2D>>(adjacencyGraph, edge => edge.Source.Distance(edge.Target), point2D_Temp => point2D.Distance(point2D_Temp));
+                AStarShortestPathAlgorithm<Point2D, Edge<Point2D>> starShortestPathAlgorithm_Temp = new(adjacencyGraph, edge => edge.Source.Distance(edge.Target), point2D_Temp => point2D.Distance(point2D_Temp));
 
-                VertexDistanceRecorderObserver<Point2D, Edge<Point2D>> vertexDistanceRecorderObserver = new VertexDistanceRecorderObserver<Point2D, Edge<Point2D>>(edge => edge.Source.Distance(edge.Target));
-                vertexDistanceRecorderObserver.Attach(aStarShortestPathAlgorithm_Temp);
+                VertexDistanceRecorderObserver<Point2D, Edge<Point2D>> vertexDistanceRecorderObserver = new(edge => edge.Source.Distance(edge.Target));
+                vertexDistanceRecorderObserver.Attach(starShortestPathAlgorithm_Temp);
 
-                aStarShortestPathAlgorithm_Temp.Compute(point2D);
+                starShortestPathAlgorithm_Temp.Compute(point2D);
 
                 double distance = double.MinValue;
 
-                List<string> values = new List<string>();
+                List<string> values = [];
                 foreach (KeyValuePair<Point2D, double> keyValuePair in vertexDistanceRecorderObserver.Distances)
                 {
                     if (keyValuePair.Value > distance)
@@ -134,26 +142,28 @@ namespace DiGi.Geometry.Planar
                 }
             });
 
+            tuples.RemoveAll(x => x == null || x.Item2 == null || x.Item3 == null);
+
             if (tuples.Count > 1)
             {
-                tuples.Sort((x, y) => y.Item1.CompareTo(x.Item1));
+                tuples.Sort((x, y) => y!.Item1.CompareTo(x!.Item1));
             }
 
             if (point2D_Start == null)
             {
-                point2D_Start = tuples[0].Item2;
+                point2D_Start = tuples[0]?.Item2;
             }
 
-            Point2D point2D_End = tuples[0].Item3;
+            Point2D? point2D_End = tuples[0]?.Item3;
 
             if (point2D_Start == null || point2D_End == null)
             {
                 return null;
             }
 
-            AStarShortestPathAlgorithm<Point2D, Edge<Point2D>> aStarShortestPathAlgorithm = new AStarShortestPathAlgorithm<Point2D, Edge<Point2D>>(adjacencyGraph, edge => edge.Source.Distance(edge.Target), point2D_Temp => point2D_Start.Distance(point2D_Temp));
+            AStarShortestPathAlgorithm<Point2D, Edge<Point2D>> aStarShortestPathAlgorithm = new(adjacencyGraph, edge => edge.Source.Distance(edge.Target), point2D_Temp => point2D_Start.Distance(point2D_Temp));
 
-            VertexPredecessorRecorderObserver<Point2D, Edge<Point2D>> vertexPredecessorRecorderObserver = new VertexPredecessorRecorderObserver<Point2D, Edge<Point2D>>();
+            VertexPredecessorRecorderObserver<Point2D, Edge<Point2D>> vertexPredecessorRecorderObserver = new();
             vertexPredecessorRecorderObserver.Attach(aStarShortestPathAlgorithm);
 
             aStarShortestPathAlgorithm.Compute(point2D_Start);
@@ -163,7 +173,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Point2D> result = new List<Point2D>();
+            List<Point2D> result = [];
             if (edges.Count() == 0)
             {
                 return result;

@@ -6,20 +6,20 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static Point2D InternalPoint(IEnumerable<Point2D> point2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Point2D? InternalPoint(IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2Ds == null || point2Ds.Count() < 3)
             {
                 return null;
             }
 
-            Point2D result = Centroid(point2Ds);
+            Point2D? result = Centroid(point2Ds);
             if(result == null)
             {
                 return null;
             }
 
-            List<Segment2D> segment2Ds = Create.Segment2Ds(point2Ds, true);
+            List<Segment2D>? segment2Ds = Create.Segment2Ds(point2Ds, true);
             if(segment2Ds == null)
             {
                 return null;
@@ -30,7 +30,7 @@ namespace DiGi.Geometry.Planar
                 return result;
             }
 
-            List<Point2D> point2Ds_List = new List<Point2D>(point2Ds);
+            List<Point2D> point2Ds_List = [.. point2Ds];
             point2Ds_List.Add(point2Ds_List[0]);
             point2Ds_List.Add(point2Ds_List[1]);
 
@@ -46,7 +46,7 @@ namespace DiGi.Geometry.Planar
                         Point2D point2D_2 = point2Ds_List[j];
                         Point2D point2D_3 = point2Ds_List[k];
 
-                        Segment2D segment2D = new Segment2D(point2D_1, point2D_3);
+                        Segment2D segment2D = new(point2D_1, point2D_3);
                         if (segment2D.On(point2D_2, tolerance))
                         {
                             continue;

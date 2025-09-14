@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Modify
     {
-        public static bool Orient(this IPolygonal2D polygonal2D, Orientation orientation)
+        public static bool Orient(this IPolygonal2D? polygonal2D, Orientation orientation)
         {
             if(polygonal2D == null || orientation == Orientation.Undefined || orientation == Orientation.Collinear)
             {
@@ -25,7 +25,7 @@ namespace DiGi.Geometry.Planar
             return true;
         }
 
-        public static bool Orient(List<Point2D> point2Ds, Orientation orientation)
+        public static bool Orient(List<Point2D>? point2Ds, Orientation orientation)
         {
             if (point2Ds == null || point2Ds.Count < 3 || orientation == Orientation.Collinear)
             {
@@ -37,7 +37,12 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            List<Orientation> orienations = Query.Orientations(point2Ds);
+            List<Orientation>? orienations = Query.Orientations(point2Ds);
+            if(orienations is null)
+            {
+                return false;
+            }
+
             if (orienations.Count(x => x == orientation) > (orienations.Count / 2))
             {
                 return false;

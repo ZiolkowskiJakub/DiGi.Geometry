@@ -6,9 +6,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static Polygon2D ToDiGi(this LinearRing linearRing)
+        public static Polygon2D? ToDiGi(this LinearRing? linearRing)
         {
-            List<Point2D> point2Ds = linearRing?.Coordinates?.ToDiGi();
+            List<Point2D>? point2Ds = linearRing?.Coordinates?.ToDiGi();
             if(point2Ds == null)
             {
                 return null;

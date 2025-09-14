@@ -7,33 +7,42 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Vector2D> Directions(this IEnumerable<ISegmentable2D> segmentable2Ds)
+        public static List<Vector2D>? Directions(this IEnumerable<ISegmentable2D>? segmentable2Ds)
         {
             if (segmentable2Ds == null)
             {
                 return null;
             }
 
-            Dictionary<double, Vector2D> dictionary = new Dictionary<double, Vector2D>();
+            Dictionary<double, Vector2D> dictionary = [];
             if (segmentable2Ds.Count() == 0)
             {
-                return new List<Vector2D>();
+                return [];
             }
 
             Vector2D vector2D_Y = Constans.Vector2D.WorldY;
 
             foreach (ISegmentable2D segmentable2D in segmentable2Ds)
             {
-                List<Segment2D> segment2Ds = segmentable2D.GetSegments();
+                List<Segment2D>? segment2Ds = segmentable2D.GetSegments();
+                if(segment2Ds is null)
+                {
+                    continue;
+                }
+
                 foreach (Segment2D segment2D in segment2Ds)
                 {
-                    Vector2D vector2D = segment2D.Vector;
+                    Vector2D? vector2D = segment2D.Vector;
+                    if(vector2D is null)
+                    {
+                        continue;
+                    }
+
                     double angle = vector2D.Angle(vector2D_Y);
 
-                    Vector2D vector2D_Temp;
-                    if (dictionary.TryGetValue(angle, out vector2D_Temp))
+                    if (dictionary.TryGetValue(angle, out Vector2D vector2D_Temp) && vector2D_Temp is not null)
                     {
-                        dictionary[angle] = vector2D + vector2D_Temp;
+                        dictionary[angle] = (vector2D + vector2D_Temp)!;
                     }
                     else
                     {
@@ -42,10 +51,10 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            return dictionary.Values.ToList();
+            return [.. dictionary.Values];
         }
 
-        public static void Directions(this Core.Enums.Corner corner, out Vector2D heightDirection, out Vector2D widthDirection)
+        public static void Directions(this Core.Enums.Corner corner, out Vector2D? heightDirection, out Vector2D? widthDirection)
         {
             widthDirection = null;
             heightDirection = null;

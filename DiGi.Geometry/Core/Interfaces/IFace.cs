@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Core.Interfaces
 
     public interface IFace<T> : IFace where T : IClosedCurve
     {
-        T ExternalEdge { get; }
-        List<T> InternalEdges { get; }
+        T? ExternalEdge { get; }
+        List<T>? InternalEdges { get; }
     }
 }

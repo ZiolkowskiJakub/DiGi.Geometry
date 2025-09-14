@@ -9,18 +9,18 @@ namespace DiGi.Geometry.Spatial.Classes
     public class Sphere : Geometry3D, IEllipsoid
     {
         [JsonInclude, JsonPropertyName("Center")]
-        private Point3D center;
+        private readonly Point3D? center;
 
         [JsonInclude, JsonPropertyName("Radius")]
-        private double radius;
+        private readonly double radius;
 
-        public Sphere(Point3D center, double radius)
+        public Sphere(Point3D? center, double radius)
         {
             this.center = center;
             this.radius = radius;
         }
 
-        public Sphere(Sphere sphere)
+        public Sphere(Sphere? sphere)
             : base(sphere)
         {
             if(sphere != null)
@@ -30,14 +30,14 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public Sphere(JsonObject jsonObject)
+        public Sphere(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public Point3D Center
+        public Point3D? Center
         {
             get 
             { 
@@ -46,7 +46,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Vector3D Extent
+        public Vector3D? Extent
         {
             get
             {
@@ -63,20 +63,29 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public BoundingBox3D GetBoundingBox()
+        public BoundingBox3D? GetBoundingBox()
         {
-            if(center == null || double.IsNaN(radius))
+            if(center is null || double.IsNaN(radius))
             {
                 return null;
             }
 
-            Vector3D extent = Extent;
+            Vector3D? extent = Extent;
+            if (extent is null)
+            {
+                return null;
+            }
 
-            return new BoundingBox3D(center - extent, center + extent);
+            return new BoundingBox3D((center - extent)!, (center + extent)!);
         }
 
-        public Point3D GetPoint(double theta, double phi)
+        public Point3D? GetPoint(double theta, double phi)
         {
+            if (center is null || double.IsNaN(radius))
+            {
+                return null;
+            }
+
             double x = radius * System.Math.Sin(phi) * System.Math.Cos(theta);
             double y = radius * System.Math.Sin(phi) * System.Math.Sin(theta);
             double z = radius * System.Math.Cos(phi); 
@@ -89,8 +98,13 @@ namespace DiGi.Geometry.Spatial.Classes
             return (4.0 / 3.0) * System.Math.PI * radius * radius * radius;
         }
 
-        public bool Inside(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
+            if(point3D is null || center is null)
+            {
+                return false;
+            }
+
             double dx = point3D.X - center.X;
             double dy = point3D.Y - center.Y;
             double dz = point3D.Z - center.Z;
@@ -102,9 +116,9 @@ namespace DiGi.Geometry.Spatial.Classes
             return distanceSquared <= effectiveRadiusSquared;
         }
 
-        public bool Inside(ISegmentable3D segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            List<Point3D> point3Ds = segmentable3D?.GetPoints();
+            List<Point3D>? point3Ds = segmentable3D?.GetPoints();
             if(point3Ds == null || point3Ds.Count == 0)
             {
                 return false;
@@ -121,12 +135,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
-        public bool Inside(IPolygonalFace3D polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(IPolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Inside(polygonalFace3D?.ExternalEdge, tolerance);
         }
 
-        public override bool Move(Vector3D vector3D)
+        public override bool Move(Vector3D? vector3D)
         {
             if (vector3D == null || center == null)
             {
@@ -136,8 +150,13 @@ namespace DiGi.Geometry.Spatial.Classes
             return center.Move(vector3D);
         }
 
-        public bool On(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
+            if (point3D is null || center is null)
+            {
+                return false;
+            }
+
             double dx = point3D.X - center.X;
             double dy = point3D.Y - center.Y;
             double dz = point3D.Z - center.Z;

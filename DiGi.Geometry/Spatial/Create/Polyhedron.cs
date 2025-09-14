@@ -8,14 +8,14 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static Polyhedron Polyhedron(this IPolygonalFace3D polygonalFace3D, Vector3D vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Polyhedron? Polyhedron(this IPolygonalFace3D? polygonalFace3D, Vector3D? vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polygonalFace3D == null || vector3D == null)
             {
                 return null;
             }
 
-            Plane plane = polygonalFace3D.Plane;
+            Plane? plane = polygonalFace3D.Plane;
             if(plane == null)
             {
                 return null;
@@ -31,17 +31,17 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            List<IPolygonal3D> edges = polygonalFace3D.Edges;
+            List<IPolygonal3D>? edges = polygonalFace3D.Edges;
             if(edges == null || edges.Count == 0)
             {
                 return null;
             }
 
-            List<IPolygonalFace3D> polygonalFace3Ds = new List<IPolygonalFace3D>() { polygonalFace3D };
+            List<IPolygonalFace3D> polygonalFace3Ds = [polygonalFace3D];
 
             foreach (IPolygonal3D edge in edges)
             {
-                List<Segment3D> segment3Ds = edge?.GetSegments();
+                List<Segment3D>? segment3Ds = edge?.GetSegments();
                 if(segment3Ds == null)
                 {
                     continue;
@@ -60,62 +60,92 @@ namespace DiGi.Geometry.Spatial
                         continue;
                     }
 
-                    List<Point3D> point3Ds = new List<Point3D>()
+                    Point3D? point3D_2 = segment3D[1]?.GetMoved(vector3D);
+                    if(point3D_2 is null)
                     {
-                        segment3D[0],
-                        segment3D[1],
-                        segment3D[1].GetMoved(vector3D),
-                        segment3D[0].GetMoved(vector3D),
-
-                    };
-
-                    Plane plane_Temp = Plane(point3Ds[0], point3Ds[1], point3Ds[2]);
-
-                    List<Point2D> point2Ds = new List<Point2D>();
-                    for(int i = 0; i < point3Ds.Count; i++)
-                    {
-                        point2Ds.Add(plane_Temp.Convert(point3Ds[i]));
+                        continue;
                     }
 
-                    PolygonalFace2D polygonalFace2D = new PolygonalFace2D(new Polygon2D(point2Ds));
+                    Point3D? point3D_3 = segment3D[0]?.GetMoved(vector3D);
+                    if (point3D_3 is null)
+                    {
+                        continue;
+                    }
+
+                    List<Point3D> point3Ds =
+                    [
+                        segment3D[0],
+                        segment3D[1],
+                        point3D_2,
+                        point3D_3,
+
+                    ];
+
+                    Plane? plane_Temp = Plane(point3Ds[0], point3Ds[1], point3Ds[2]);
+                    if (plane_Temp is null)
+                    {
+                        continue;
+                    }
+
+                    List<Point2D> point2Ds = [];
+                    for(int i = 0; i < point3Ds.Count; i++)
+                    {
+                        Point2D? point2D = plane_Temp.Convert(point3Ds[i]);
+                        if(point2D is null)
+                        {
+                            continue;
+                        }
+
+                        point2Ds.Add(point2D);
+                    }
+
+                    PolygonalFace2D polygonalFace2D = new (new Polygon2D(point2Ds));
 
                     polygonalFace3Ds.Add(new PolygonalFace3D(plane_Temp, polygonalFace2D));
                 }
             }
 
-            polygonalFace3D = DiGi.Core.Query.Clone(polygonalFace3D);
-            polygonalFace3D.Move(vector3D);
-            polygonalFace3Ds.Add(polygonalFace3D);
+            IPolygonalFace3D? polygonalFace3D_Temp = DiGi.Core.Query.Clone(polygonalFace3D);
+            if(polygonalFace3D_Temp is not null)
+            {
+                polygonalFace3D_Temp.Move(vector3D);
+                polygonalFace3Ds.Add(polygonalFace3D_Temp);
+            }
 
             return new Polyhedron(polygonalFace3Ds);
         }
 
-        public static Polyhedron Polyhedron(this BoundingBox3D boundingBox3D)
+        public static Polyhedron? Polyhedron(this BoundingBox3D? boundingBox3D)
         {
             if (boundingBox3D == null)
             {
                 return null;
             }
 
-            List<Polygon3D> polygon3Ds = Polygon3Ds(boundingBox3D);
+            List<Polygon3D>? polygon3Ds = Polygon3Ds(boundingBox3D);
             if (polygon3Ds == null || polygon3Ds.Count < 3)
             {
                 return null;
             }
 
-
-            List<PolygonalFace3D> polygonalFace3Ds = new List<PolygonalFace3D>();
+            List<PolygonalFace3D> polygonalFace3Ds = [];
             for(int i =0; i < polygon3Ds.Count; i++)
             {
-                polygonalFace3Ds.Add(PolygonalFace3D(polygon3Ds[i]));
+                PolygonalFace3D? polygonalFace3D = polygon3Ds[i]?.PolygonalFace3D();
+                if(polygonalFace3D is null)
+                {
+                    continue;
+                }
+
+                polygonalFace3Ds.Add(polygonalFace3D);
             }
 
             return new Polyhedron(polygonalFace3Ds);
         }
 
-        public static Polyhedron Polyhedron(this IEnumerable<IPolygonalFace3D> polygonalFace3Ds)
+        public static Polyhedron? Polyhedron(this IEnumerable<IPolygonalFace3D>? polygonalFace3Ds)
         {
-            if(polygonalFace3Ds  == null || polygonalFace3Ds.Count() < 4)
+            if(polygonalFace3Ds is null || polygonalFace3Ds.Count() < 4)
             {
                 return null;
             }

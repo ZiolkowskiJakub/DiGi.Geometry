@@ -1,6 +1,7 @@
 ﻿using DiGi.Core;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -16,18 +17,18 @@ namespace DiGi.Geometry.Planar.Classes
         private double b;
 
         [JsonInclude, JsonPropertyName("Center")]
-        private Point2D center;
+        private Point2D? center;
 
         [JsonInclude, JsonPropertyName("DirectionA")]
-        private Vector2D directionA;
+        private Vector2D? directionA;
         
-        public Ellipse2D(JsonObject jsonObject)
+        public Ellipse2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public Ellipse2D(Point2D center, double a, double b)
+        public Ellipse2D(Point2D? center, double a, double b)
         {
             this.center = DiGi.Core.Query.Clone(center);
             this.a = a;
@@ -35,9 +36,9 @@ namespace DiGi.Geometry.Planar.Classes
             directionA = Constans.Vector2D.WorldX;
         }
 
-        public Ellipse2D(Ellipse2D ellipse2D)
+        public Ellipse2D(Ellipse2D? ellipse2D)
         {
-            if(ellipse2D != null)
+            if(ellipse2D is not null)
             {
                 center = ellipse2D.Center;
                 a = ellipse2D.a;
@@ -46,12 +47,12 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public Ellipse2D(Point2D center, double a, double b, Vector2D directionA)
+        public Ellipse2D(Point2D? center, double a, double b, Vector2D? directionA)
         {
             this.center = DiGi.Core.Query.Clone(center);
             this.a = a;
             this.b = b;
-            this.directionA = DiGi.Core.Query.Clone(directionA).Unit;
+            this.directionA = DiGi.Core.Query.Clone(directionA)?.Unit;
         }
 
         [JsonIgnore]
@@ -92,7 +93,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonIgnore]
-        public Point2D Center
+        public Point2D? Center
         {
             get
             {
@@ -106,7 +107,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
         
         [JsonIgnore]
-        public Vector2D DirectionA
+        public Vector2D? DirectionA
         {
             get
             {
@@ -120,7 +121,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonIgnore]
-        public Vector2D DirectionB
+        public Vector2D? DirectionB
         {
             get
             {
@@ -128,7 +129,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public static explicit operator Ellipse2D(Circle2D circle2D)
+        public static explicit operator Ellipse2D?(Circle2D? circle2D)
         {
             if (circle2D == null)
             {
@@ -138,55 +139,45 @@ namespace DiGi.Geometry.Planar.Classes
             return new Ellipse2D(circle2D.Center, circle2D.Radius, circle2D.Radius);
         }
 
-        public static bool operator !=(Ellipse2D ellipse2D_1, Ellipse2D ellipse2D_2)
+        public static bool operator !=(Ellipse2D? ellipse2D_1, Ellipse2D? ellipse2D_2)
         {
-            if (ReferenceEquals(ellipse2D_1, null) && ReferenceEquals(ellipse2D_2, null))
-            {
-                return false;
-            }
+            return !(ellipse2D_1 == ellipse2D_2);
+        }
 
-            if (ReferenceEquals(ellipse2D_1, null) || ReferenceEquals(ellipse2D_2, null))
+        public static bool operator ==(Ellipse2D? ellipse2D_1, Ellipse2D? ellipse2D_2)
+        {
+            if (ellipse2D_1 is null && ellipse2D_2 is null)
             {
                 return true;
             }
 
-            return (!ellipse2D_1.center.Equals(ellipse2D_2.center)) || (!ellipse2D_1.directionA.Equals(ellipse2D_2.directionA) || ellipse2D_1.a != ellipse2D_2.a || ellipse2D_1.b != ellipse2D_2.b);
-        }
-
-        public static bool operator ==(Ellipse2D ellipse2D_1, Ellipse2D ellipse2D_2)
-        {
-            if (ReferenceEquals(ellipse2D_1, null) && ReferenceEquals(ellipse2D_2, null))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(ellipse2D_1, null) || ReferenceEquals(ellipse2D_2, null))
+            if (ellipse2D_1 is null || ellipse2D_2 is null)
             {
                 return false;
             }
 
-            return (ellipse2D_1.center.Equals(ellipse2D_2.center)) && (ellipse2D_1.directionA.Equals(ellipse2D_2.directionA) && ellipse2D_1.a == ellipse2D_2.a && ellipse2D_1.b == ellipse2D_2.b);
+            return ellipse2D_1.center == ellipse2D_2.center && ellipse2D_1.directionA == ellipse2D_2.directionA && ellipse2D_1.a == ellipse2D_2.a && ellipse2D_1.b == ellipse2D_2.b;
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Ellipse2D(this);
         }
 
-        public double Distance(Point2D point2D)
+        public double Distance(Point2D? point2D)
         {
-            Point2D point2D_Project = Project(point2D);
+            Point2D? point2D_Project = Project(point2D);
             if (point2D_Project == null)
             {
                 return double.NaN;
             }
 
-            return point2D.Distance(point2D_Project);
+            return point2D!.Distance(point2D_Project);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            Ellipse2D ellipse2D = obj as Ellipse2D;
+            Ellipse2D? ellipse2D = obj as Ellipse2D;
             if (ellipse2D == null)
             {
                 return false;
@@ -200,11 +191,16 @@ namespace DiGi.Geometry.Planar.Classes
             return System.Math.PI * a * b;
         }
 
-        public BoundingBox2D GetBoundingBox()
+        public BoundingBox2D? GetBoundingBox()
         {
+            if(directionA is null || center is null)
+            {
+                return null;
+            }
+
             // Unit vectors of major and minor axes
-            double ux = DirectionA.X;
-            double uy = DirectionA.Y;
+            double ux = directionA.X;
+            double uy = directionA.Y;
             double vx = -uy;
             double vy = ux;
 
@@ -213,12 +209,12 @@ namespace DiGi.Geometry.Planar.Classes
             double dy = System.Math.Sqrt(System.Math.Pow(A * uy, 2) + System.Math.Pow(B * vy, 2));
 
             // Bounding box
-            double minX = Center.X - dx;
-            double maxX = Center.X + dx;
-            double minY = Center.Y - dy;
-            double maxY = Center.Y + dy;
+            double minX = center.X - dx;
+            double maxX = center.X + dx;
+            double minY = center.Y - dy;
+            double maxY = center.Y + dy;
 
-            return new BoundingBox2D(new Point2D(minX, minY), new Point2D(maxX, maxY));
+            return new (new Point2D(minX, minY), new Point2D(maxX, maxY));
         }
 
         public double GetFocalLength()
@@ -232,19 +228,45 @@ namespace DiGi.Geometry.Planar.Classes
             return c * c;
         }
 
-        public Point2D[] GetFocalPoints()
+        public Point2D[]? GetFocalPoints()
         {
-            if(directionA == null || double.IsNaN(a) || double.IsNaN(b))
+            if(directionA == null || center is null || double.IsNaN(a) || double.IsNaN(b))
             {
                 return null;
             }
 
-            Vector2D vector2D = (a > b ? directionA : DirectionB ) * C;
+            Vector2D? vector2D = (a > b ? directionA : DirectionB ) * C;
+            if(vector2D is null)
+            {
+                return null;
+            }
 
-            return new Point2D[] { center.GetMoved(vector2D), center.GetMoved(vector2D.GetInversed()) };
+            Point2D? point2D_1 = center.GetMoved(vector2D);
+            if(point2D_1 is null)
+            {
+                return null;
+            }
+
+            Point2D? point2D_2 = center.GetMoved(vector2D.GetInversed());
+            if(point2D_2 is null)
+            {
+                return null;
+            }
+
+            return [ point2D_1, point2D_2];
         }
-        
-        public Point2D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+
+        public override int GetHashCode()
+        {
+            int hashCode = -203223210;
+            hashCode = hashCode * -1521134295 + a.GetHashCode();
+            hashCode = hashCode * -1521134295 + b.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Point2D?>.Default.GetHashCode(center);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Vector2D?>.Default.GetHashCode(directionA);
+            return hashCode;
+        }
+
+        public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (center == null)
             {
@@ -260,7 +282,7 @@ namespace DiGi.Geometry.Planar.Classes
             return System.Math.PI * (a + b) * (1 + (3 * h) / (10 + System.Math.Sqrt(4 - 3 * h)));
         }
 
-        public Point2D GetPoint(Vector2D vector2D)
+        public Point2D? GetPoint(Vector2D? vector2D)
         {
             if(vector2D == null || directionA == null || center == null)
             {
@@ -298,14 +320,19 @@ namespace DiGi.Geometry.Planar.Classes
             return new Point2D(xGlobal, yGlobal);
         }
         
-        public bool InRange(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            double dx = point2D.X - Center.X;
-            double dy = point2D.Y - Center.Y;
+            if(point2D is null || center is null || directionA is null)
+            {
+                return false;
+            }
+
+            double dx = point2D.X - center.X;
+            double dy = point2D.Y - center.Y;
 
             // Create perpendicular vector (minor axis direction)
-            double majorX = DirectionA.X;
-            double majorY = DirectionA.Y;
+            double majorX = directionA.X;
+            double majorY = directionA.Y;
             double minorX = -majorY;
             double minorY = majorX;
 
@@ -316,7 +343,7 @@ namespace DiGi.Geometry.Planar.Classes
             return (xr / a) * (xr / a) + (yr / b) * (yr / b) <= 1.0 + tolerance;
         }
 
-        public bool Inside(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return InRange(point2D, -tolerance);
         }
@@ -326,7 +353,7 @@ namespace DiGi.Geometry.Planar.Classes
             directionA?.Inverse();
         }
 
-        public override bool Move(Vector2D vector2D)
+        public override bool Move(Vector2D? vector2D)
         {
             if (vector2D == null || center == null)
             {
@@ -337,14 +364,19 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            double dx = point2D.X - Center.X;
-            double dy = point2D.Y - Center.Y;
+            if(point2D is null || center is null || directionA is null)
+            {
+                return false;
+            }
+
+            double dx = point2D.X - center.X;
+            double dy = point2D.Y - center.Y;
 
             // Major axis direction (u) and minor axis direction (v)
-            double ux = DirectionA.X;
-            double uy = DirectionA.Y;
+            double ux = directionA.X;
+            double uy = directionA.Y;
             double vx = -uy;
             double vy = ux;
 
@@ -358,23 +390,23 @@ namespace DiGi.Geometry.Planar.Classes
             return System.Math.Abs(value - 1.0) <= tolerance;
         }
 
-        public Point2D Project(Point2D point2D)
+        public Point2D? Project(Point2D? point2D)
         {
             if(point2D == null || center == null)
             {
                 return null;
             }
 
-            Vector2D vector2D = (center, point2D);
+            Vector2D vector2D = new (center, point2D);
 
             vector2D.Scale(System.Math.Max(a, b) * 2);
 
             return Query.IntersectionPoints(this, new Segment2D(center, vector2D), 0)?.FirstOrDefault();
         }
 
-        public Point2D Project(Point2D point2D, double tolerance)
+        public Point2D? Project(Point2D? point2D, double tolerance)
         {
-            if(point2D == null)
+            if(point2D is null || center is null || directionA is null)
             {
                 return null;
             }
@@ -427,26 +459,26 @@ namespace DiGi.Geometry.Planar.Classes
             double pry = yr / normProj;
 
             // Map back to global coordinates
-            double gx = prx * ux + pry * vx + Center.X;
-            double gy = prx * uy + pry * vy + Center.Y;
+            double gx = prx * ux + pry * vx + center.X;
+            double gy = prx * uy + pry * vy + center.Y;
 
             return new Point2D(gx, gy);
         }
         
-        public override bool Transform(ITransform2D transform)
+        public override bool Transform(ITransform2D? transform)
         {
-            if(transform == null || center == null || directionA == null)
+            if(transform == null || center == null || directionA is null)
             {
                 return false;
             }
 
-            Point2D point2D = new Point2D(center);
+            Point2D point2D = new (center);
             point2D.Move(directionA);
 
             center.Transform(transform);
 
             point2D.Transform(transform);
-            directionA = new Vector2D(center, point2D);
+            directionA = new (center, point2D);
             directionA.Normalize();
 
             return true;

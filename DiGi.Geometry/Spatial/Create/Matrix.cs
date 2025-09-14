@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static Math.Classes.Matrix Matrix(this IEnumerable<Vector3D> vector3Ds)
+        public static Math.Classes.Matrix? Matrix(this IEnumerable<Vector3D>? vector3Ds)
         {
             if (vector3Ds == null)
             {
@@ -15,7 +15,7 @@ namespace DiGi.Geometry.Spatial
 
             int count = vector3Ds.Count();
 
-            Math.Classes.Matrix matrix = new Math.Classes.Matrix(count, 3);
+            Math.Classes.Matrix matrix = new(count, 3);
             for (int i = 0; i < count; i++)
             {
                 Vector3D vector3D = vector3Ds.ElementAt(i);
@@ -27,7 +27,7 @@ namespace DiGi.Geometry.Spatial
             return matrix;
         }
 
-        public static Math.Classes.Matrix Matrix(this IEnumerable<Point3D> point3Ds)
+        public static Math.Classes.Matrix? Matrix(this IEnumerable<Point3D>? point3Ds)
         {
             if (point3Ds == null)
             {
@@ -36,7 +36,7 @@ namespace DiGi.Geometry.Spatial
 
             int count = point3Ds.Count();
 
-            Math.Classes.Matrix matrix = new Math.Classes.Matrix(count, 3);
+            Math.Classes.Matrix matrix = new(count, 3);
             for (int i = 0; i < count - 1; i++)
             {
                 Point3D point3D = point3Ds.ElementAt(i);

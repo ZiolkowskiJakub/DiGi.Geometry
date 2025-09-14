@@ -10,45 +10,45 @@ namespace DiGi.Geometry.Spatial.Classes
 {
     public class PolygonalFace3D : Planar<IPolygonalFace2D>, IPolygonalFace3D
     {
-        public PolygonalFace3D(JsonObject jsonObject)
+        public PolygonalFace3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public PolygonalFace3D(Plane plane, IPolygonalFace2D polygonalFace2D)
+        public PolygonalFace3D(Plane? plane, IPolygonalFace2D? polygonalFace2D)
             : base(plane, polygonalFace2D)
         {
 
         }
 
-        public PolygonalFace3D(IPolygonal3D externalEdge)
+        public PolygonalFace3D(IPolygonal3D? externalEdge)
             : base(externalEdge?.Plane, externalEdge == null ? null : new PolygonalFace2D(externalEdge?.Plane?.Convert(externalEdge)))
         {
 
         }
 
-        public PolygonalFace3D(PolygonalFace3D polygonalFace3D)
+        public PolygonalFace3D(PolygonalFace3D? polygonalFace3D)
             : base(polygonalFace3D)
         {
 
         }
 
         [JsonIgnore]
-        public List<IPolygonal3D> Edges
+        public List<IPolygonal3D>? Edges
         {
             get
             {
 
-                IPolygonal3D externalEdge = ExternalEdge;
+                IPolygonal3D? externalEdge = ExternalEdge;
                 if (externalEdge == null)
                 {
                     return null;
                 }
 
-                List<IPolygonal3D> result = new List<IPolygonal3D>() { externalEdge };
+                List<IPolygonal3D> result = [externalEdge];
 
-                List<IPolygonal3D> internalEdges = InternalEdges;
+                List<IPolygonal3D>? internalEdges = InternalEdges;
                 if (internalEdges == null || internalEdges.Count == 0)
                 {
                     return result;
@@ -67,7 +67,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public IPolygonal3D ExternalEdge
+        public IPolygonal3D? ExternalEdge
         {
             get
             {
@@ -76,7 +76,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     return null;
                 }
 
-                IPolygonal2D polygonal2D = geometry2D.ExternalEdge;
+                IPolygonal2D? polygonal2D = geometry2D.ExternalEdge;
                 if (polygonal2D == null)
                 {
                     return null;
@@ -87,7 +87,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public List<IPolygonal3D> InternalEdges
+        public List<IPolygonal3D>? InternalEdges
         {
             get
             {
@@ -96,35 +96,41 @@ namespace DiGi.Geometry.Spatial.Classes
                     return null;
                 }
 
-                List<IPolygonal2D> polygonal2Ds = geometry2D.InternalEdges;
+                List<IPolygonal2D>? polygonal2Ds = geometry2D.InternalEdges;
                 if (polygonal2Ds == null)
                 {
                     return null;
                 }
 
-                List<IPolygonal3D> result = new List<IPolygonal3D>();
-                for(int i=0; i < polygonal2Ds.Count; i++)
+                List<IPolygonal3D> result = [];
+                for (int i = 0; i < polygonal2Ds.Count; i++)
                 {
-                    result.Add(plane.Convert(polygonal2Ds[i]));
+                    IPolygonal3D? polygonal3D = plane.Convert(polygonal2Ds[i]);
+                    if(polygonal3D is null)
+                    {
+                        continue;
+                    }
+
+                    result.Add(polygonal3D);
                 }
 
                 return result;
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new PolygonalFace3D(this);
         }
 
-        public Point3D ClosestPoint(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D? ClosestPoint(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || plane == null || geometry2D == null)
             {
                 return null;
             }
 
-            Point2D point2D = plane.Convert(plane.Project(point3D));
+            Point2D? point2D = plane.Convert(plane.Project(point3D));
             if (point2D == null)
             {
                 return null;
@@ -144,17 +150,17 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.GetArea();
         }
 
-        public BoundingBox3D GetBoundingBox()
+        public BoundingBox3D? GetBoundingBox()
         {
             return ExternalEdge?.GetBoundingBox();
         }
 
-        public Point3D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return plane?.Convert(geometry2D?.GetInternalPoint(tolerance));
         }
 
-        public bool InRange(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(point3D == null || plane == null || geometry2D == null)
             {
@@ -169,7 +175,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.InRange(plane.Convert(point3D), tolerance);
         }
 
-        public bool Inside(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || plane == null || geometry2D == null)
             {
@@ -184,7 +190,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.Inside(plane.Convert(point3D), tolerance);
         }
 
-        public bool OnEdge(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool OnEdge(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || plane == null || geometry2D == null)
             {
@@ -199,23 +205,29 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.OnEdge(plane.Convert(point3D), tolerance);
         }
 
-        public List<Triangle3D> Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
             if (plane == null)
             {
                 return null;
             }
 
-            List<Triangle2D> triangle2Ds = geometry2D?.Triangulate(tolerance);
+            List<Triangle2D>? triangle2Ds = geometry2D?.Triangulate(tolerance);
             if (triangle2Ds == null)
             {
                 return null;
             }
 
-            List<Triangle3D> result = new List<Triangle3D>();
+            List<Triangle3D>? result = [];
             for (int i = 0; i < triangle2Ds.Count; i++)
             {
-                result.Add(plane.Convert(triangle2Ds[i]));
+                Triangle3D? triangle3D = plane.Convert(triangle2Ds[i]);
+                if (triangle3D is null)
+                {
+                    continue;
+                }
+
+                result.Add(triangle3D);
             }
 
             return result;

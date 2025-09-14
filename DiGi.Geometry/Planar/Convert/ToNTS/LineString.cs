@@ -6,26 +6,26 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static LineString ToNTS(this Polyline2D polyline2D)
+        public static LineString? ToNTS(this Polyline2D? polyline2D)
         {
-            List<Coordinate> coordinates = polyline2D?.GetPoints()?.ToNTS();
+            List<Coordinate>? coordinates = polyline2D?.GetPoints()?.ToNTS();
             if(coordinates == null)
             {
                 return null;
             }
 
-            return new LineString(coordinates.ToArray());
+            return new LineString([.. coordinates]);
         }
 
-        public static LineString ToNTS_LineString(this Segment2D segment2D)
+        public static LineString? ToNTS_LineString(this Segment2D? segment2D)
         {
-            List<Coordinate> coordinates = segment2D?.GetPoints()?.ToNTS();
+            List<Coordinate>? coordinates = segment2D?.GetPoints()?.ToNTS();
             if (coordinates == null)
             {
                 return null;
             }
 
-            return new LineString(coordinates.ToArray());
+            return new LineString([.. coordinates]);
         }
     }
 }

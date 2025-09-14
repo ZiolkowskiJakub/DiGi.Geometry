@@ -6,22 +6,22 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static Point3D Min(this IEnumerable<Point3D> point3Ds)
+        public static Point3D? Min(this IEnumerable<Point3D?>? point3Ds)
         {
-            return Min(point3Ds, out Point3D max);
+            return Min(point3Ds, out _);
         }
 
-        public static Point3D Min(this Point3D point3D_1, Point3D point3D_2)
+        public static Point3D? Min(this Point3D? point3D_1, Point3D? point3D_2)
         {
             if(point3D_1 == null || point3D_2 == null)
             {
                 return null;
             }
 
-            return Min(new Point3D[] { point3D_1, point3D_2 }, out Point3D max);
+            return Min([point3D_1, point3D_2], out _);
         }
 
-        public static Point3D Min(this IEnumerable<Point3D> point3Ds, out Point3D max)
+        public static Point3D? Min(this IEnumerable<Point3D?>? point3Ds, out Point3D? max)
         {
             max = null;
             if(point3Ds == null || point3Ds.Count() == 0)
@@ -35,7 +35,7 @@ namespace DiGi.Geometry.Spatial
             double y_Max = double.MinValue;
             double z_Min = double.MaxValue;
             double z_Max = double.MinValue;
-            foreach (Point3D point3D in point3Ds)
+            foreach (Point3D? point3D in point3Ds)
             {
                 if(point3D == null)
                 {

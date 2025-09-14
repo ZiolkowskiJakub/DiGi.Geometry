@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool Inside(this IEnumerable<Point2D> point2Ds, Point2D point2D)
+        public static bool Inside(this IEnumerable<Point2D>? point2Ds, Point2D? point2D)
         {
             if (point2Ds == null || point2D == null)
             {
@@ -54,8 +54,13 @@ namespace DiGi.Geometry.Planar
         /// <param name="point2D_2">Triangle point 2</param>
         /// <param name="point2D_3">Triangle point 3</param>
         /// <returns>True in point2D is inside triangle created by trheer points (point2D_1, point2D_2, point2D_3)</returns>
-        public static bool Inside(this Point2D point2D, Point2D point2D_1, Point2D point2D_2, Point2D point2D_3)
+        public static bool Inside(this Point2D? point2D, Point2D? point2D_1, Point2D? point2D_2, Point2D? point2D_3)
         {
+            if(point2D is null || point2D_1 is null || point2D_2 is null || point2D_3 is null)
+            {
+                return false;
+            }
+
             // Compute vectors
             double v0x = point2D_3.X - point2D_1.X, v0y = point2D_3.Y - point2D_1.Y;
             double v1x = point2D_2.X - point2D_1.X, v1y = point2D_2.Y - point2D_1.Y;

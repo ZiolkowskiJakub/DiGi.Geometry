@@ -8,24 +8,24 @@ namespace DiGi.Geometry.Spatial.Classes
     public abstract class Planar<T> : Geometry3D, IPlanar<T> where T : IGeometry2D
     {
         [JsonInclude, JsonPropertyName("Plane")]
-        protected Plane plane;
+        protected Plane? plane;
 
         [JsonInclude, JsonPropertyName("Geometry2D")]
-        protected T geometry2D; 
+        protected T? geometry2D; 
 
-        public Planar(Plane plane)
+        public Planar(Plane? plane)
             : base()
         {
-            this.plane = plane == null ? null : new Plane(plane);
+            this.plane = plane == null ? null : new (plane);
         }
 
-        public Planar(JsonObject jsonObject)
+        public Planar(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public Planar(Planar<T> planar)
+        public Planar(Planar<T>? planar)
             : base(planar)
         {
             if(planar != null)
@@ -35,15 +35,15 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public Planar(Plane plane, T geometry2D)
+        public Planar(Plane? plane, T? geometry2D)
             : base()
         {
-            this.plane = plane == null ? null : new Plane(plane);
+            this.plane = plane == null ? null : new (plane);
             this.geometry2D = DiGi.Core.Query.Clone(geometry2D);
         }
 
         [JsonIgnore]
-        public T Geometry2D
+        public T? Geometry2D
         {
             get
             {
@@ -52,15 +52,15 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Plane Plane
+        public Plane? Plane
         {
             get
             {
-                return plane == null ? null : new Plane(plane);
+                return plane == null ? null : new (plane);
             }
         }
 
-        public override bool Move(Vector3D vector3D)
+        public override bool Move(Vector3D? vector3D)
         {
             if(vector3D == null || plane == null)
             {

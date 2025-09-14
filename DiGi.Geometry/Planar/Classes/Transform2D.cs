@@ -9,26 +9,26 @@ namespace DiGi.Geometry.Planar.Classes
     public class Transform2D : SerializableObject, ITransform2D
     {
         [JsonInclude, JsonPropertyName("Matrix3D")]
-        private Matrix3D matrix3D;
+        private readonly Matrix3D? matrix3D;
 
-        public Transform2D(Matrix3D matrix3D)
+        public Transform2D(Matrix3D? matrix3D)
         {
             this.matrix3D = matrix3D == null ? null : new Matrix3D(matrix3D);
         }
 
-        public Transform2D(JsonObject jsonObject)
+        public Transform2D(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public Transform2D(Transform2D transform2D)
+        public Transform2D(Transform2D? transform2D)
         {
             matrix3D = transform2D?.matrix3D == null ? null : new Matrix3D(transform2D.matrix3D);
         }
 
         [JsonIgnore]
-        public Matrix3D Matrix3D
+        public Matrix3D? Matrix3D
         {
             get
             {
@@ -50,10 +50,12 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public static Transform2D operator *(Transform2D transform2D_1, Transform2D transform2D_2)
+        public static Transform2D? operator *(Transform2D? transform2D_1, Transform2D? transform2D_2)
         {
             if (transform2D_1 == null || transform2D_2 == null)
+            {
                 return null;
+            }
 
             return new Transform2D(transform2D_1.matrix3D * transform2D_2.matrix3D);
         }

@@ -14,28 +14,36 @@ namespace DiGi.Geometry.Planar
         /// <returns>List Segment2D</returns>
         /// <param name="segment2Ds">Segments2Ds</param>
         /// <param name="tolerance">tolerance</param>
-        public static List<Segment2D> Split(this IEnumerable<Segment2D> segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Segment2D>? Split(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2Ds == null)
+            {
                 return null;
+            }
 
-            List<Tuple<BoundingBox2D, Segment2D>> tuples = new List<Tuple<BoundingBox2D, Segment2D>>();
-            List<Point2D> point2Ds = new List<Point2D>();
+            List<Tuple<BoundingBox2D, Segment2D>> tuples = [];
+            List<Point2D> point2Ds = [];
             foreach (Segment2D segment2D in segment2Ds)
             {
-                if (segment2D == null || segment2D.Length < tolerance)
+                BoundingBox2D? boundingBox2D = segment2D?.GetBoundingBox();
+                if(boundingBox2D is null)
                 {
                     continue;
                 }
 
-                tuples.Add(new Tuple<BoundingBox2D, Segment2D>(segment2D.GetBoundingBox(), segment2D));
-                Modify.Add(point2Ds, segment2D[0], tolerance);
-                Modify.Add(point2Ds, segment2D[1], tolerance);
+                if (segment2D!.Length < tolerance)
+                {
+                    continue;
+                }
+
+                tuples.Add(new Tuple<BoundingBox2D, Segment2D>(boundingBox2D, segment2D));
+                Modify.Add(point2Ds!, segment2D[0], tolerance);
+                Modify.Add(point2Ds!, segment2D[1], tolerance);
             }
 
             int count = tuples.Count();
 
-            List<List<Point2D>> point2DsList = Enumerable.Repeat<List<Point2D>>(null, count).ToList();
+            List<List<Point2D>?> point2DsList = [.. Enumerable.Repeat<List<Point2D>?>(null, count)];
             for (int i = 0; i < count - 1; i++)
             {
                 BoundingBox2D boundingBox2D_1 = tuples[i].Item1;
@@ -55,34 +63,32 @@ namespace DiGi.Geometry.Planar
                         continue;
                     }
 
-                    Point2D point2D_Closest1;
-                    Point2D point2D_Closest2;
 
-                    List<Point2D> point2Ds_Intersection = new List<Point2D>();
+                    List<Point2D> point2Ds_Intersection = [];
 
                     if (segment2D_1.On(segment2D_2[0], tolerance))
                     {
-                        point2Ds_Intersection.Add(segment2D_2[0]);
+                        point2Ds_Intersection.Add(segment2D_2[0]!);
                     }
 
                     if (segment2D_2.On(segment2D_1[0], tolerance))
                     {
-                        point2Ds_Intersection.Add(segment2D_1[0]);
+                        point2Ds_Intersection.Add(segment2D_1[0]!);
                     }
 
                     if (segment2D_1.On(segment2D_2[1], tolerance))
                     {
-                        point2Ds_Intersection.Add(segment2D_2[1]);
+                        point2Ds_Intersection.Add(segment2D_2[1]!);
                     }
 
                     if (segment2D_2.On(segment2D_1[1], tolerance))
                     {
-                        point2Ds_Intersection.Add(segment2D_1[1]);
+                        point2Ds_Intersection.Add(segment2D_1[1]!);
                     }
 
                     if (point2Ds_Intersection.Count == 0)
                     {
-                        Point2D point2D_Intersection = IntersectionPoint(segment2D_1, segment2D_2, out point2D_Closest1, out point2D_Closest2, tolerance);
+                        Point2D? point2D_Intersection = IntersectionPoint(segment2D_1, segment2D_2, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, tolerance);
                         if (point2D_Intersection == null)
                         {
                             continue;
@@ -111,50 +117,50 @@ namespace DiGi.Geometry.Planar
                         if (point2D_Intersection_Temp == null)
                         {
                             point2D_Intersection_Temp = point2D_Intersection;
-                            Modify.Add(point2Ds, point2D_Intersection_Temp, tolerance);
+                            Modify.Add(point2Ds!, point2D_Intersection_Temp, tolerance);
                         }
 
                         if (point2D_Intersection_Temp.Distance(segment2D_1.Start) > tolerance && point2D_Intersection_Temp.Distance(segment2D_1.End) > tolerance)
                         {
                             if (point2DsList[i] == null)
                             {
-                                point2DsList[i] = new List<Point2D>();
+                                point2DsList[i] = [];
                             }
 
-                            Modify.Add(point2DsList[i], point2D_Intersection_Temp, tolerance);
+                            Modify.Add(point2DsList[i]!, point2D_Intersection_Temp, tolerance);
                         }
 
                         if (point2D_Intersection_Temp.Distance(segment2D_2.Start) > tolerance && point2D_Intersection_Temp.Distance(segment2D_2.End) > tolerance)
                         {
                             if (point2DsList[j] == null)
                             {
-                                point2DsList[j] = new List<Point2D>();
+                                point2DsList[j] = [];
                             }
 
-                            Modify.Add(point2DsList[j], point2D_Intersection_Temp, tolerance);
+                            Modify.Add(point2DsList[j]!, point2D_Intersection_Temp, tolerance);
                         }
                     }
                 }
             }
 
-            List<Segment2D> result = new List<Segment2D>();
+            List<Segment2D> result = [];
             for (int i = 0; i < count; i++)
             {
                 Segment2D segment2D_Temp = tuples[i].Item2;
                 if (result.Find(x => x.Similar(segment2D_Temp, tolerance)) != null)
                     continue;
 
-                List<Point2D> point2Ds_Temp = point2DsList[i];
+                List<Point2D>? point2Ds_Temp = point2DsList[i];
                 if (point2Ds_Temp == null || point2Ds_Temp.Count == 0)
                 {
                     result.Add(segment2D_Temp);
                     continue;
                 }
 
-                Modify.Add(point2Ds_Temp, segment2D_Temp[0], tolerance);
-                Modify.Add(point2Ds_Temp, segment2D_Temp[1], tolerance);
+                Modify.Add(point2Ds_Temp!, segment2D_Temp[0], tolerance);
+                Modify.Add(point2Ds_Temp!, segment2D_Temp[1], tolerance);
 
-                Point2D point2D = segment2D_Temp[0];
+                Point2D? point2D = segment2D_Temp[0];
                 DiGi.Core.Modify.Sort(point2Ds_Temp, x => x.Distance(point2D));
 
                 for (int j = 0; j < point2Ds_Temp.Count - 1; j++)
@@ -175,9 +181,9 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Segment2D> Split(this ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Segment2D>? Split(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            List<Segment2D> segment2Ds = segmentable2D?.GetSegments();
+            List<Segment2D>? segment2Ds = segmentable2D?.GetSegments();
             if(segment2Ds == null)
             {
                 return null;
@@ -186,9 +192,9 @@ namespace DiGi.Geometry.Planar
             return Split(segment2Ds, tolerance);
         }
 
-        public static List<Segment2D> Split<T>(this IEnumerable<T> segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
+        public static List<Segment2D>? Split<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
         {
-            List<Segment2D> segment2Ds = segmentable2Ds?.Segments();
+            List<Segment2D>? segment2Ds = segmentable2Ds?.Segments();
             if (segment2Ds == null)
             {
                 return null;
@@ -197,39 +203,43 @@ namespace DiGi.Geometry.Planar
             return Split(segment2Ds, tolerance);
         }
 
-        public static List<IPolygonalFace2D> Split<T>(this IPolygonalFace2D polygonalFace2D, IEnumerable<T> segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
+        public static List<IPolygonalFace2D>? Split<T>(this IPolygonalFace2D? polygonalFace2D, IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
             if(polygonalFace2D == null || segmentable2Ds == null)
             {
                 return null;
             }
 
-            List<IPolygonal2D> polygonal2Ds = polygonalFace2D.Edges;
-            if (polygonal2Ds == null || polygonal2Ds.Count == 0)
+            List<IPolygonal2D>? polygonal2Ds = polygonalFace2D.Edges;
+            if (polygonal2Ds is null || polygonal2Ds.Count == 0)
             {
                 return null;
             }
 
-            List<ISegmentable2D> segmentable2Ds_Temp = new List<ISegmentable2D>();
+            BoundingBox2D? boundingBox2D = polygonalFace2D.GetBoundingBox();
+            if (boundingBox2D is null)
+            {
+                return null;
+            }
+
+            List<ISegmentable2D> segmentable2Ds_Temp = [];
             foreach(T segmentable2D in segmentable2Ds)
             {
                 segmentable2Ds_Temp.Add(segmentable2D);
             }
             segmentable2Ds_Temp.AddRange(polygonal2Ds);
 
-            List<Segment2D> segment2Ds = segmentable2Ds_Temp.Split(tolerance);
+            List<Segment2D>? segment2Ds = segmentable2Ds_Temp.Split(tolerance);
 
-            List<IPolygonalFace2D> result = Create.PolygonalFace2Ds(segment2Ds);
+            List<IPolygonalFace2D>? result = Create.PolygonalFace2Ds(segment2Ds);
             if(result == null || result.Count == 0)
             {
                 return result;
             }
 
-            BoundingBox2D boundingBox2D = polygonalFace2D.GetBoundingBox();
-
             for (int i = result.Count - 1; i >= 0; i--)
             {
-                Point2D point2D = result[i]?.GetInternalPoint(tolerance);
+                Point2D? point2D = result[i]?.GetInternalPoint(tolerance);
                 if(point2D == null || !boundingBox2D.InRange(point2D, tolerance))
                 {
                     result.RemoveAt(i);

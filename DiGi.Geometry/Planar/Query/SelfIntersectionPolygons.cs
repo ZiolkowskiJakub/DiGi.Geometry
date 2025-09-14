@@ -6,9 +6,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Polygon2D> SelfIntersectionPolygons(this IPolygonal2D polygonal2D, double maxLength, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Polygon2D>? SelfIntersectionPolygons(this IPolygonal2D? polygonal2D, double maxLength, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            List<Segment2D> segment2Ds = SelfIntersectionSegments(polygonal2D, maxLength, tolerance);
+            List<Segment2D>? segment2Ds = SelfIntersectionSegments(polygonal2D, maxLength, tolerance);
             if (segment2Ds == null || segment2Ds.Count < 2)
             {
                 return null;
@@ -16,18 +16,22 @@ namespace DiGi.Geometry.Planar
 
             segment2Ds = segment2Ds.Split(tolerance);
 
-            List<IPolygonalFace2D> polygonalFace2Ds = Create.PolygonalFace2Ds(segment2Ds, tolerance);
+            List<IPolygonalFace2D>? polygonalFace2Ds = Create.PolygonalFace2Ds(segment2Ds, tolerance);
             if (polygonalFace2Ds == null)
             {
                 return null;
             }
 
-            BoundingBox2D boundingBox2D = polygonal2D.GetBoundingBox();
+            BoundingBox2D? boundingBox2D = polygonal2D?.GetBoundingBox();
+            if(boundingBox2D is null)
+            {
+                return null;
+            }
 
-            List<Polygon2D> result = new List<Polygon2D>();
+            List<Polygon2D> result = [];
             for(int i = 0; i < polygonalFace2Ds.Count; i++)
             {
-                List<IPolygonal2D> polygonal2Ds = polygonalFace2Ds[i]?.Edges;
+                List<IPolygonal2D>? polygonal2Ds = polygonalFace2Ds[i]?.Edges;
                 if(polygonal2Ds == null)
                 {
                     continue;
@@ -41,18 +45,18 @@ namespace DiGi.Geometry.Planar
                         continue;
                     }
 
-                    Point2D point2D = polygonal2D_Temp.GetInternalPoint();
+                    Point2D? point2D = polygonal2D_Temp.GetInternalPoint();
                     if(!boundingBox2D.Inside(point2D, tolerance))
                     {
                         continue;
                     }
 
-                    if(!polygonal2D.Inside(point2D, tolerance))
+                    if(!polygonal2D!.Inside(point2D, tolerance))
                     {
                         continue;
                     }
 
-                    result.Add(new Polygon2D(polygonal2D_Temp));
+                    result.Add(new (polygonal2D_Temp));
                 }
             }
 

@@ -9,18 +9,18 @@ namespace DiGi.Geometry.Planar.Classes
     public class Circle2D : Geometry2D, IEllipse2D, IBoundable2D
     {
         [JsonInclude, JsonPropertyName("Center")]
-        private Point2D center;
+        private Point2D? center;
 
         [JsonInclude, JsonPropertyName("Radius")]
         private double radius;
 
-        public Circle2D(JsonObject jsonObject)
+        public Circle2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public Circle2D(Point2D center, double radius)
+        public Circle2D(Point2D? center, double radius)
         {
             this.center = DiGi.Core.Query.Clone(center);
             this.radius = radius;
@@ -31,9 +31,9 @@ namespace DiGi.Geometry.Planar.Classes
 
         }
 
-        public Circle2D(Circle2D circle2D)
+        public Circle2D(Circle2D? circle2D)
         {
-            if(circle2D != null)
+            if (circle2D != null)
             {
                 center = DiGi.Core.Query.Clone(circle2D.center);
                 radius = circle2D.radius;
@@ -41,7 +41,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonIgnore]
-        public Point2D Center
+        public Point2D? Center
         {
             get
             {
@@ -88,7 +88,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Circle2D(this);
         }
@@ -98,12 +98,17 @@ namespace DiGi.Geometry.Planar.Classes
             return System.Math.PI * radius * radius;
         }
 
-        public BoundingBox2D GetBoundingBox()
+        public BoundingBox2D? GetBoundingBox()
         {
+            if (center == null)
+            {
+                return null;
+            }
+
             return new BoundingBox2D(new Point2D(center[0] - radius, center[1] - radius), new Point2D(center[0] + radius, center[1] + radius));
         }
 
-        public Point2D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (center == null)
             {
@@ -118,9 +123,9 @@ namespace DiGi.Geometry.Planar.Classes
             return Length;
         }
 
-        public bool InRange(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point2D == null || center == null || double.IsNaN(radius))
+            if (point2D == null || center == null || double.IsNaN(radius))
             {
                 return false;
             }
@@ -128,29 +133,34 @@ namespace DiGi.Geometry.Planar.Classes
             return center.Distance(point2D) < radius + tolerance;
         }
 
-        public bool InRange(ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            List<Point2D> point2Ds = segmentable2D?.GetPoints();
-            if(point2Ds == null || point2Ds.Count == 0)
+            if (segmentable2D == null || center == null)
             {
                 return false;
             }
 
-            foreach(Point2D point2D in point2Ds)
+            List<Point2D>? point2Ds = segmentable2D.GetPoints();
+            if (point2Ds == null || point2Ds.Count == 0)
             {
-                if(InRange(point2D, tolerance))
+                return false;
+            }
+
+            foreach (Point2D point2D in point2Ds)
+            {
+                if (InRange(point2D, tolerance))
                 {
                     return true;
                 }
             }
 
-            Point2D point2D_Closest = segmentable2D.ClosestPoint(center);
-            if(InRange(point2D_Closest, tolerance))
+            Point2D? point2D_Closest = segmentable2D.ClosestPoint(center);
+            if (InRange(point2D_Closest, tolerance))
             {
                 return true;
             }
 
-            if(segmentable2D is IClosedCurve2D && ((IClosedCurve2D)segmentable2D).Inside(center, tolerance))
+            if (segmentable2D is IClosedCurve2D closedCurve2D && closedCurve2D.Inside(center, tolerance))
             {
                 return true;
             }
@@ -158,7 +168,7 @@ namespace DiGi.Geometry.Planar.Classes
             return false;
         }
 
-        public bool Inside(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null || center == null || double.IsNaN(radius))
             {
@@ -168,9 +178,9 @@ namespace DiGi.Geometry.Planar.Classes
             return center.Distance(point2D) < radius - tolerance;
         }
 
-        public bool Inside(ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            List<Point2D> point2Ds = segmentable2D?.GetPoints();
+            List<Point2D>? point2Ds = segmentable2D?.GetPoints();
             if (point2Ds == null || point2Ds.Count == 0)
             {
                 return false;
@@ -187,9 +197,9 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public override bool Move(Vector2D vector2D)
+        public override bool Move(Vector2D? vector2D)
         {
-            if (vector2D == null || center == null)
+            if (vector2D is null || center == null)
             {
                 return false;
             }
@@ -198,7 +208,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null || center == null || double.IsNaN(radius))
             {
@@ -207,15 +217,15 @@ namespace DiGi.Geometry.Planar.Classes
 
             return System.Math.Abs(center.Distance(point2D) - radius) <= tolerance;
         }
-        
-        public override bool Transform(ITransform2D transform)
+
+        public override bool Transform(ITransform2D? transform)
         {
-            if(transform == null || center == null || double.IsNaN(radius))
+            if (transform == null || center == null || double.IsNaN(radius))
             {
                 return false;
             }
 
-            Point2D point2D = new Point2D(center);
+            Point2D point2D = new(center);
             point2D.Move(new Vector2D(1, 1) * radius);
 
             center.Transform(transform);

@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public abstract class Coordinate2D : Coordinate, ICollectable2D, ITransformable2D
     {
-        public Coordinate2D(JsonObject jsonObject)
+        public Coordinate2D(JsonObject? jsonObject)
             : base(jsonObject, 2)
         {
 
@@ -19,7 +19,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         }
 
-        public Coordinate2D(double[] values)
+        public Coordinate2D(double[]? values)
             : base()
         {
             this.values = new double[2];
@@ -35,7 +35,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public Coordinate2D(Coordinate2D coordinate2D)
+        public Coordinate2D(Coordinate2D? coordinate2D)
             :base(coordinate2D)
         {
 
@@ -73,22 +73,22 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public bool Transform(ITransform2D transform)
+        public bool Transform(ITransform2D? transform)
         {
             if(transform == null || values == null || values.Length < 2)
             {
                 return false;
             }
 
-            if(transform is Transform2D)
+            if(transform is Transform2D transform2D)
             {
-                Matrix3D matrix3D = ((Transform2D)transform)?.Matrix3D;
+                Matrix3D? matrix3D = transform2D?.Matrix3D;
                 if (matrix3D == null)
                 {
                     return false;
                 }
 
-                Matrix matrix = matrix3D * ArgumentedMatrix;
+                Matrix? matrix = matrix3D * ArgumentedMatrix;
                 if (matrix == null)
                 {
                     return false;
@@ -99,9 +99,9 @@ namespace DiGi.Geometry.Planar.Classes
                 return true;
             }
 
-            if(transform is TransformGroup2D)
+            if(transform is TransformGroup2D transformGroup2D)
             {
-                foreach(ITransform2D transform_Temp in (TransformGroup2D)transform)
+                foreach(ITransform2D transform_Temp in transformGroup2D)
                 {
                     if(transform_Temp == null)
                     {
@@ -117,9 +117,9 @@ namespace DiGi.Geometry.Planar.Classes
             return false;
         }
 
-        public bool Move(Vector2D vector2D)
+        public bool Move(Vector2D? vector2D)
         {
-            if (vector2D == null || values == null || values.Length < 2)
+            if (vector2D is null || values == null || values.Length < 2)
             {
                 return false;
             }

@@ -9,6 +9,6 @@ namespace DiGi.Geometry.Core.Interfaces
 
     public interface ICoordinateSystem<TPoint> : ICoordinateSystem where TPoint : IPoint
     {
-        TPoint Origin { get; }
+        TPoint? Origin { get; }
     }
 }

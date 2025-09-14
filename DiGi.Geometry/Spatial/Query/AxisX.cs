@@ -4,7 +4,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static Vector3D AxisX(this Vector3D normal)
+        public static Vector3D? AxisX(this Vector3D? normal)
         {
             if (normal == null)
             {
@@ -19,14 +19,14 @@ namespace DiGi.Geometry.Spatial
             return new Vector3D(normal.Y, -normal.X, 0).Unit;
         }
 
-        public static Vector3D AxisX(this Vector3D normal, Vector3D axisY)
+        public static Vector3D? AxisX(this Vector3D? normal, Vector3D? axisY)
         {
             if (normal == null || axisY == null)
             {
                 return null;
             }
 
-            return axisY.CrossProduct(normal).Unit;
+            return axisY.CrossProduct(normal)?.Unit;
         }
     }
 

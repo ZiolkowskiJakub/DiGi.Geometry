@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
     {
         public static RectangleF? ToDrawing(this BoundingBox2D boundingBox2D)
         {
-            Point2D min = boundingBox2D?.Min;
+            Point2D? min = boundingBox2D?.Min;
             if(min == null)
             {
                 return null;
@@ -16,8 +16,8 @@ namespace DiGi.Geometry.Planar
             return new RectangleF(
                 System.Convert.ToSingle(min.X), 
                 System.Convert.ToSingle(min.Y), 
-                System.Convert.ToSingle(boundingBox2D.Width), 
-                System.Convert.ToSingle(boundingBox2D.Height));
+                System.Convert.ToSingle(boundingBox2D!.Width), 
+                System.Convert.ToSingle(boundingBox2D!.Height));
         }
     }
 }

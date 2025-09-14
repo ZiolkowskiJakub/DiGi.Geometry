@@ -4,22 +4,44 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static Segment2D Extend(this Segment2D segment2D, double distance, bool extendStart = true, bool extendEnd = true)
+        public static Segment2D? Extend(this Segment2D? segment2D, double distance, bool extendStart = true, bool extendEnd = true)
         {
             if(segment2D == null)
             {
                 return null;
             }
 
-            if(!extendStart && !extendEnd)
+            Point2D? start = segment2D.Start;
+            if (start is null)
             {
-                return new Segment2D(segment2D);
+                return null;
             }
 
-            Point2D start = segment2D.Start;
-            Point2D end = segment2D.End;
 
-            Vector2D vector2D = segment2D.Direction * distance;
+            Point2D? end = segment2D.End;
+            if (end is null)
+            {
+                return null;
+            }
+
+
+            if (!extendStart && !extendEnd)
+            {
+                return new (segment2D);
+            }
+
+            Vector2D? direction = segment2D.Direction;
+            if (direction is null) 
+            {
+                return null;
+            }
+
+            Vector2D? vector2D = segment2D.Direction * distance;
+            if(vector2D is null)
+            {
+                return null;
+            }
+
             if(extendEnd)
             {
                 end.Move(vector2D);
@@ -31,7 +53,7 @@ namespace DiGi.Geometry.Planar
                 start.Move(vector2D);
             }
 
-            return new Segment2D(start, end);
+            return new (start, end);
         }
     }
 }

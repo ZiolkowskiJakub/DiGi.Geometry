@@ -6,12 +6,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static double MinDistance(this IEnumerable<Point2D> point2Ds)
+        public static double MinDistance(this IEnumerable<Point2D>? point2Ds)
         {
-            return MinDistance(point2Ds, out Point2D point2D_1, out Point2D point2D_2);
+            return MinDistance(point2Ds, out _, out _);
         }
 
-        public static double MinDistance(this IEnumerable<Point2D> point2Ds, out Point2D point2D_1, out Point2D point2D_2)
+        public static double MinDistance(this IEnumerable<Point2D>? point2Ds, out Point2D? point2D_1, out Point2D? point2D_2)
         {
             point2D_1 = null;
             point2D_2 = null;

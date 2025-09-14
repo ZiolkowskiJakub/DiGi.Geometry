@@ -6,14 +6,14 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static BoundingBox3D BoundingBox3D(this IEnumerable<BoundingBox3D> boundingBox3Ds)
+        public static BoundingBox3D? BoundingBox3D(this IEnumerable<BoundingBox3D>? boundingBox3Ds)
         {
             if(boundingBox3Ds == null)
             {
                 return null;
             }
 
-            BoundingBox3D result = null; 
+            BoundingBox3D? result = null; 
             foreach(BoundingBox3D boundingBox3D in boundingBox3Ds)
             {
                 if(boundingBox3D == null)
@@ -36,7 +36,7 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
-        public static BoundingBox3D BoundingBox3D(Range<double> x, Range<double> y, Range<double> z)
+        public static BoundingBox3D? BoundingBox3D(Range<double>? x, Range<double>? y, Range<double>? z)
         {
             if(x == null || y == null || z == null)
             {

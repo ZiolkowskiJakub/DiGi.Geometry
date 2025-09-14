@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Object.Spatial.Interfaces
 
     }
 
-    public interface IGeometry3DObject<T> : IGeometry3DObject where T : IGeometry3D
+    public interface IGeometry3DObject<TGeometry3D> : IGeometry3DObject where TGeometry3D : IGeometry3D
     {
 
     }

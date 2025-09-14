@@ -8,8 +8,8 @@ namespace DiGi.Geometry.Object.Core.Interfaces
 
     }
 
-    public interface IGeometryObject<T> : IGeometryObject where T : IGeometry
+    public interface IGeometryObject<TGeometry> : IGeometryObject where TGeometry : IGeometry
     {
-        T Geometry { get; } 
+        TGeometry? Geometry { get; } 
     }
 }

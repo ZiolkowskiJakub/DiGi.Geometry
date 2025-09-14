@@ -13,10 +13,10 @@ namespace DiGi.Geometry.Planar.Classes
         private double height;
 
         [JsonInclude, JsonPropertyName("HeightDirection")]
-        private Vector2D heightDirection;
+        private Vector2D? heightDirection;
 
         [JsonInclude, JsonPropertyName("Origin")]
-        private Point2D origin;
+        private Point2D? origin;
 
         [JsonInclude, JsonPropertyName("Width")]
         private double width;
@@ -29,39 +29,45 @@ namespace DiGi.Geometry.Planar.Classes
             heightDirection = Constans.Vector2D.WorldY;
         }
 
-        public Rectangle2D(Point2D origin, double width, double height)
+        public Rectangle2D(Point2D? origin, double width, double height)
         {
-            this.origin = origin;
+            this.origin = DiGi.Core.Query.Clone(origin);
             this.width = width;
             this.height = height;
             heightDirection = Constans.Vector2D.WorldY;
         }
 
-        public Rectangle2D(BoundingBox2D boundingBox2D)
+        public Rectangle2D(BoundingBox2D? boundingBox2D)
         {
-            origin = boundingBox2D.GetPoint(Corner.BottomLeft);
-            width = boundingBox2D.Width;
-            height = boundingBox2D.Height;
-            heightDirection = Constans.Vector2D.WorldY;
+            if(boundingBox2D is not null)
+            {
+                origin = boundingBox2D.GetPoint(Corner.BottomLeft);
+                width = boundingBox2D.Width;
+                height = boundingBox2D.Height;
+                heightDirection = Constans.Vector2D.WorldY;
+            }
         }
 
-        public Rectangle2D(Point2D origin, double width, double height, Vector2D heightDirection)
+        public Rectangle2D(Point2D? origin, double width, double height, Vector2D? heightDirection)
         {
-            this.origin = origin;
+            this.origin = DiGi.Core.Query.Clone(origin);
             this.width = width;
             this.height = height;
-            this.heightDirection = heightDirection.Unit;
+            this.heightDirection = heightDirection?.Unit;
         }
 
-        public Rectangle2D(Rectangle2D rectangle2D)
+        public Rectangle2D(Rectangle2D? rectangle2D)
         {
-            origin = new Point2D(rectangle2D.origin);
-            width = rectangle2D.width;
-            height = rectangle2D.height;
-            heightDirection = new Vector2D(rectangle2D.heightDirection);
+            if (rectangle2D is not null)
+            {
+                origin = DiGi.Core.Query.Clone(rectangle2D.origin);
+                width = rectangle2D.width;
+                height = rectangle2D.height;
+                heightDirection = DiGi.Core.Query.Clone(rectangle2D.heightDirection);
+            }
         }
 
-        public Rectangle2D(JsonObject jsonObject)
+        public Rectangle2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
@@ -80,7 +86,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonIgnore]
-        public Vector2D HeightDirection
+        public Vector2D? HeightDirection
         {
             get
             {
@@ -98,15 +104,15 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonIgnore]
-        public Point2D Origin
+        public Point2D? Origin
         {
             get
             {
-                return origin == null ? null : new Point2D(origin);
+                return DiGi.Core.Query.Clone(origin);
             }
             set
             {
-                origin = new Point2D(value);
+                origin = DiGi.Core.Query.Clone(value);
             }
         }
 
@@ -124,7 +130,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonIgnore]
-        public Vector2D WidthDirection
+        public Vector2D? WidthDirection
         {
             get
             {
@@ -132,9 +138,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public static explicit operator Polygon2D(Rectangle2D rectangle2D)
+        public static explicit operator Polygon2D?(Rectangle2D? rectangle2D)
         {
-            List<Point2D> point2Ds = rectangle2D?.GetPoints();
+            List<Point2D>? point2Ds = rectangle2D?.GetPoints();
             if (point2Ds == null || point2Ds.Count < 3)
             {
                 return null;
@@ -144,7 +150,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds);
         }
 
-        public static explicit operator Rectangle2D(BoundingBox2D boundingBox2D)
+        public static explicit operator Rectangle2D?(BoundingBox2D? boundingBox2D)
         {
             if (boundingBox2D == null)
             {
@@ -154,17 +160,17 @@ namespace DiGi.Geometry.Planar.Classes
             return new Rectangle2D(boundingBox2D);
         }
         
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Rectangle2D(this);
         }
 
-        public Point2D ClosestPoint(Point2D point2D)
+        public Point2D? ClosestPoint(Point2D? point2D)
         {
             return Query.ClosestPoint(point2D, this);
         }
 
-        public double Distance(Point2D point2D)
+        public double Distance(Point2D? point2D)
         {
             return Query.Distance(point2D, this);
         }
@@ -174,66 +180,112 @@ namespace DiGi.Geometry.Planar.Classes
             return height * width;
         }
 
-        public BoundingBox2D GetBoundingBox()
+        public BoundingBox2D? GetBoundingBox()
         {
             return new BoundingBox2D(GetPoints());
         }
 
-        public Segment2D[] GetDiagonals()
+        public Point2D? GetCentroid()
         {
-            List<Point2D> points = GetPoints();
+            Point2D? result = Origin;
+            if (result == null)
+            {
+                return result;
+            }
 
-            return new Segment2D[] { new Segment2D(points[0], points[2]), new Segment2D(points[1], points[3]) };
+            Vector2D? vector2D = (width * WidthDirection / 2) + (height * heightDirection / 2);
+            if (vector2D == null)
+            {
+                return null;
+            }
+
+            result.Move(vector2D);
+            return result;
         }
 
-        public List<Point2D> GetPoints()
+        public Segment2D[]? GetDiagonals()
         {
-            List<Point2D> points = new List<Point2D>();
-            points.Add(new Point2D(origin));
+            List<Point2D>? points = GetPoints();
+            if(points is null)
+            {
+                return null;
+            }
 
-            Point2D point2D = null;
+            return [new Segment2D(points[0], points[2]), new Segment2D(points[1], points[3])];
+        }
 
-            Vector2D heightVector = height * heightDirection;
+        public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            return GetCentroid();
+        }
 
-            point2D = new Point2D(origin);
+        public double GetPerimeter()
+        {
+            return Length;
+        }
+
+        public List<Point2D>? GetPoints()
+        {
+            if(origin is null)
+            {
+                return null;
+            }
+
+            List<Point2D> points = [new Point2D(origin)];
+            Vector2D? heightVector = height * heightDirection;
+            if (heightVector is null)
+            {
+                return null;
+            }
+
+            Point2D? point2D = new (origin);
             point2D.Move(heightVector);
             points.Add(point2D);
 
-            Vector2D widthDirection = WidthDirection;
-            Vector2D widthVector = width * widthDirection;
+            Vector2D? widthDirection = WidthDirection;
+            Vector2D? widthVector = width * widthDirection;
+            if (widthVector is null) 
+            {
+                return null;
+            }
 
             point2D = new Point2D(point2D);
             point2D.Move(widthVector);
             points.Add(point2D);
 
             point2D = new Point2D(point2D);
-            heightVector.Inverse();
+            heightVector?.Inverse();
             point2D.Move(heightVector);
             points.Add(point2D);
 
             return points;
         }
 
-        public List<Segment2D> GetSegments()
+        public List<Segment2D>? GetSegments()
         {
-            List<Point2D> points = GetPoints();
+            List<Point2D>? points = GetPoints();
+            if(points is null)
+            {
+                return null;
+            }
 
-            List<Segment2D> segments = new List<Segment2D>();
-            segments.Add(new Segment2D(points[0], points[1]));
-            segments.Add(new Segment2D(points[1], points[2]));
-            segments.Add(new Segment2D(points[2], points[3]));
-            segments.Add(new Segment2D(points[3], points[0]));
-            return segments;
+            return
+            [
+                new Segment2D(points[0], points[1]),
+                new Segment2D(points[1], points[2]),
+                new Segment2D(points[2], points[3]),
+                new Segment2D(points[3], points[0]),
+            ];
         }
 
-        public bool InRange(ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D == null)
             {
                 return false;
             }
 
-            List<Point2D> point2Ds = GetPoints();
+            List<Point2D>? point2Ds = GetPoints();
             if (point2Ds == null || point2Ds.Count < 2)
             {
                 return false;
@@ -242,14 +294,14 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).InRange(segmentable2D, tolerance);
         }
 
-        public bool InRange(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null)
             {
                 return false;
             }
 
-            List<Point2D> point2Ds = GetPoints();
+            List<Point2D>? point2Ds = GetPoints();
             if (point2Ds == null || point2Ds.Count < 2)
             {
                 return false;
@@ -258,14 +310,14 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).InRange(point2D, tolerance);
         }
 
-        public bool Inside(ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D == null)
             {
                 return false;
             }
 
-            List<Point2D> point2Ds = GetPoints();
+            List<Point2D>? point2Ds = GetPoints();
             if (point2Ds == null || point2Ds.Count < 2)
             {
                 return false;
@@ -274,14 +326,14 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).Inside(segmentable2D, tolerance);
         }
 
-        public bool Inside(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null)
             {
                 return false;
             }
 
-            List<Point2D> point2Ds = GetPoints();
+            List<Point2D>? point2Ds = GetPoints();
             if (point2Ds == null || point2Ds.Count < 2)
             {
                 return false;
@@ -292,9 +344,13 @@ namespace DiGi.Geometry.Planar.Classes
 
         public void Inverse()
         {
-            Point2D point2D = new Point2D(origin);
+            Point2D? point2D = DiGi.Core.Query.Clone(origin);
+            if(point2D is null)
+            {
+                return;
+            }
 
-            Vector2D vector2D;
+            Vector2D? vector2D;
 
             vector2D = WidthDirection * width;
             point2D.Move(vector2D);
@@ -304,10 +360,10 @@ namespace DiGi.Geometry.Planar.Classes
 
             origin = point2D;
 
-            heightDirection.Inverse();
+            heightDirection?.Inverse();
         }
 
-        public override bool Move(Vector2D vector2D)
+        public override bool Move(Vector2D? vector2D)
         {
             if(origin == null || vector2D == null)
             {
@@ -318,20 +374,29 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Query.On(this, point2D, tolerance);
         }
 
-        public override bool Transform(ITransform2D transform)
+        public override bool Transform(ITransform2D? transform)
         {
             if(transform == null || origin == null || double.IsNaN(width) || double.IsNaN(height) || heightDirection == null)
             {
                 return false;
             }
 
-            Vector2D vector3D_Width = WidthDirection * width;
-            Vector2D vector3D_Height = heightDirection * height;
+            Vector2D? vector3D_Width = WidthDirection * width;
+            if(vector3D_Width == null)
+            {
+                return false;
+            }
+
+            Vector2D? vector3D_Height = heightDirection * height;
+            if(vector3D_Height == null)
+            {
+                return false;
+            }
 
             vector3D_Width.Transform(transform);
             vector3D_Height.Transform(transform);
@@ -344,44 +409,15 @@ namespace DiGi.Geometry.Planar.Classes
 
             return true;
         }
-
-        public Point2D GetCentroid()
+        public List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
-            Point2D result = Origin;
-            if(result == null)
-            {
-                return result;
-            }
-
-            Vector2D vector2D = (width * WidthDirection / 2) + (height * heightDirection / 2);
-            if(vector2D == null)
+            List<Point2D>? point2Ds = GetPoints();
+            if(point2Ds == null || point2Ds.Count != 4)
             {
                 return null;
             }
 
-            result.Move(vector2D);
-            return result;
-        }
-
-        public Point2D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            return GetCentroid();
-        }
-
-        public List<Triangle2D> Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
-        {
-            List<Point2D> point2Ds = GetPoints();
-            if(point2Ds != null || point2Ds.Count != 4)
-            {
-                return null;
-            }
-
-            return new List<Triangle2D>() { new Triangle2D(point2Ds[0], point2Ds[1], point2Ds[2]), new Triangle2D(point2Ds[2], point2Ds[3], point2Ds[0]) };
-        }
-
-        public double GetPerimeter()
-        {
-            return Length;
+            return [new Triangle2D(point2Ds[0], point2Ds[1], point2Ds[2]), new Triangle2D(point2Ds[2], point2Ds[3], point2Ds[0])];
         }
     }
 }

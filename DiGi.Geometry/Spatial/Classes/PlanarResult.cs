@@ -1,4 +1,5 @@
-﻿using DiGi.Core.Classes;
+﻿using DiGi.Core;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
@@ -11,51 +12,51 @@ namespace DiGi.Geometry.Spatial.Classes
     public abstract class PlanarResult : SerializableObject, ISerializableResult
     {
         [JsonInclude, JsonPropertyName("Geometry2Ds")]
-        private List<IGeometry2D> geometry2Ds;
+        private readonly List<IGeometry2D>? geometry2Ds;
 
         [JsonInclude, JsonPropertyName("Plane")]
-        private Plane plane;
+        private readonly Plane? plane;
         public PlanarResult()
             : base()
         {
 
         }
 
-        public PlanarResult(Plane plane)
+        public PlanarResult(Plane? plane)
             : base()
         {
-            this.plane = plane == null ? null : new Plane(plane);
+            this.plane = plane == null ? null : new (plane);
         }
 
-        public PlanarResult(JsonObject jsonObject)
+        public PlanarResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public PlanarResult(PlanarResult planarResult)
+        public PlanarResult(PlanarResult? planarResult)
             : base()
         {
             if(planarResult != null)
             {
-                geometry2Ds = DiGi.Core.Query.Clone(planarResult.geometry2Ds);
+                geometry2Ds = DiGi.Core.Query.Clone(planarResult.geometry2Ds)?.FilterNulls();
                 plane = planarResult.plane == null ? null : new Plane(planarResult.plane);
             }
         }
 
-        public PlanarResult(Plane plane, IEnumerable<IGeometry2D> geometry2Ds)
+        public PlanarResult(Plane? plane, IEnumerable<IGeometry2D>? geometry2Ds)
         {
             this.plane = plane == null ? null : new Plane(plane);
-            this.geometry2Ds = DiGi.Core.Query.Clone(geometry2Ds);
+            this.geometry2Ds = DiGi.Core.Query.Clone(geometry2Ds)?.FilterNulls();
 
         }
 
-        public PlanarResult(Plane plane, IGeometry2D geometry2D)
+        public PlanarResult(Plane? plane, IGeometry2D? geometry2D)
         {
-            this.plane = plane == null ? null : new Plane(plane);
+            this.plane = plane == null ? null : new (plane);
             if(geometry2D != null)
             {
-                geometry2Ds = new List<IGeometry2D>() { DiGi.Core.Query.Clone(geometry2D) };
+                geometry2Ds = [DiGi.Core.Query.Clone(geometry2D)];
             }
         }
 
@@ -69,7 +70,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Plane Plane
+        public Plane? Plane
         {
             get
             {
@@ -82,40 +83,46 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2Ds != null && geometry2Ds.Find(x => x is T) != null;
         }
 
-        public List<T> GetGeometry2Ds<T>() where T : IGeometry2D
+        public List<T>? GetGeometry2Ds<T>() where T : IGeometry2D
         {
             if (geometry2Ds == null)
             {
                 return null;
             }
 
-            List<T> result = new List<T>();
+            List<T> result = [];
             for (int i = 0; i < geometry2Ds.Count; i++)
             {
-                if (geometry2Ds[i] is T)
+                if (geometry2Ds[i] is T t)
                 {
-                    result.Add((T)geometry2Ds[i].Clone());
+                    T? t_Temp = DiGi.Core.Query.Clone(t);
+                    if(t_Temp == null)
+                    {
+                        continue;
+                    }
+
+                    result.Add(t_Temp);
                 }
             }
 
             return result;
         }
 
-        public List<T> GetGeometry3Ds<T>() where T : IGeometry3D
+        public List<T>? GetGeometry3Ds<T>() where T : IGeometry3D
         {
             if (geometry2Ds == null)
             {
                 return null;
             }
 
-            List<T> result = new List<T>();
+            List<T> result = [];
             for (int i = 0; i < geometry2Ds.Count; i++)
             {
                 IGeometry3D geometry3D = Query.Convert(plane, geometry2Ds[i] as dynamic);
                 
-                if (geometry3D is T)
+                if (geometry3D is T t)
                 {
-                    result.Add((T)geometry3D);
+                    result.Add(t);
                 }
             }
 

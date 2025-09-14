@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static Point2D Point(this IEnumerable<Point2D> point2Ds, double parameter)
+        public static Point2D? Point(this IEnumerable<Point2D>? point2Ds, double parameter)
         {
             if(point2Ds == null || double.IsNaN(parameter))
             {
@@ -19,7 +19,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<double> lengths = new List<double>();
+            List<double> lengths = [];
             double length = 0;
             for (int i = 1; i < count; i++)
             {
@@ -39,7 +39,7 @@ namespace DiGi.Geometry.Planar
 
             double value = length * parameter;
 
-            Point2D result = null;
+            Point2D? result = null;
 
             int index = 0;
             while(value > 0)
@@ -59,10 +59,12 @@ namespace DiGi.Geometry.Planar
                 Point2D point2D_1 = point2Ds.ElementAt(index);
                 Point2D point2D_2 = point2Ds.ElementAt(index + 1);
 
-                Vector2D vector2D = new Vector2D(point2D_1, point2D_2);
-                vector2D.Length = value;
-                
-                result = new Point2D(point2D_1);
+                Vector2D vector2D = new(point2D_1, point2D_2)
+                {
+                    Length = value
+                };
+
+                result = new (point2D_1);
                 result.Move(vector2D);
 
                 value = value_Temp;

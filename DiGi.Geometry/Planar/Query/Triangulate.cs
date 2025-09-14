@@ -7,16 +7,16 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Polygon> Triangulate(this Polygon polygon, double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        public static List<Polygon>? Triangulate(this Polygon? polygon, double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
             if (polygon == null)
             {
                 return null;
             }
 
-            GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(1 / tolerance));
+            GeometryFactory geometryFactory = new(new PrecisionModel(1 / tolerance));
 
-            GeometryCollection geometryCollection = null;
+            GeometryCollection? geometryCollection;
 
             if (polygon.Holes != null && polygon.Holes.Length != 0)
             {
@@ -26,18 +26,13 @@ namespace DiGi.Geometry.Planar
 
                 envelope = new Envelope(envelope.MinX - buffer, envelope.MaxX + buffer, envelope.MinY - buffer, envelope.MaxY + buffer);
 
-                NetTopologySuite.Geometries.Geometry geometry = geometryFactory.CreateGeometryCollection(new[] { polygon, geometryFactory.ToGeometry(envelope) });
-                if (geometry == null)
-                {
-                    geometry = polygon;
-                }
-
+                NetTopologySuite.Geometries.Geometry geometry = (NetTopologySuite.Geometries.Geometry?)geometryFactory.CreateGeometryCollection([polygon, geometryFactory.ToGeometry(envelope)]) ?? polygon;
                 if (geometry == null)
                 {
                     return null;
                 }
 
-                ConformingDelaunayTriangulationBuilder conformingDelaunayTriangulationBuilder = new ConformingDelaunayTriangulationBuilder();
+                ConformingDelaunayTriangulationBuilder conformingDelaunayTriangulationBuilder = new ();
 
                 conformingDelaunayTriangulationBuilder.SetSites(geometry);
                 conformingDelaunayTriangulationBuilder.Constraints = geometry;
@@ -48,7 +43,7 @@ namespace DiGi.Geometry.Planar
                     return null;
                 }
 
-                List<NetTopologySuite.Geometries.Geometry> geometries_Temp = new List<NetTopologySuite.Geometries.Geometry>();
+                List<NetTopologySuite.Geometries.Geometry> geometries_Temp = [];
 
                 IPreparedGeometry preparedGeometry = PreparedGeometryFactory.Prepare(geometry);
 
@@ -62,7 +57,7 @@ namespace DiGi.Geometry.Planar
 
                 geometry = geometryFactory.BuildGeometry(geometries_Temp);
 
-                geometryCollection = geometry is GeometryCollection ? (GeometryCollection)geometry : new GeometryCollection(new NetTopologySuite.Geometries.Geometry[] { geometry }, geometryFactory);
+                geometryCollection = geometry is GeometryCollection geometryCollection_Temp ? geometryCollection_Temp : new GeometryCollection([geometry], geometryFactory);
             }
             else
             {
@@ -74,10 +69,10 @@ namespace DiGi.Geometry.Planar
 
                 if (coordinates.Length == 3)
                 {
-                    return new List<Polygon>() { polygon };
+                    return [polygon];
                 }
 
-                DelaunayTriangulationBuilder delaunayTriangulationBuilder = new DelaunayTriangulationBuilder();
+                DelaunayTriangulationBuilder delaunayTriangulationBuilder = new ();
                 delaunayTriangulationBuilder.SetSites(polygon);
 
                 geometryCollection = delaunayTriangulationBuilder.GetTriangles(geometryFactory);
@@ -88,11 +83,11 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Polygon> polygons = new List<Polygon>();
+            List<Polygon> polygons = [];
             foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in geometryCollection.Geometries)
             {
-                Polygon polygon_Temp = geometry_Temp as Polygon;
-                if (polygon == null)
+                Polygon? polygon_Temp = geometry_Temp as Polygon;
+                if (polygon_Temp == null)
                 {
                     continue;
                 }
@@ -100,23 +95,23 @@ namespace DiGi.Geometry.Planar
                 polygons.Add(polygon_Temp);
             }
 
-            List<Polygon> result = new List<Polygon>();
+            List<Polygon> result = [];
             foreach (Polygon polygon_Temp in polygons)
             {
                 NetTopologySuite.Geometries.Geometry geometry_Intersection = polygon.Intersection(polygon_Temp);
 
-                List<Polygon> polygons_Intersection = new List<Polygon>();
-                if (geometry_Intersection is Polygon)
+                List<Polygon> polygons_Intersection = [];
+                if (geometry_Intersection is Polygon polygon_Temp_Temp)
                 {
-                    polygons_Intersection.Add((Polygon)geometry_Intersection);
+                    polygons_Intersection.Add(polygon_Temp_Temp);
                 }
-                else if (geometry_Intersection is GeometryCollection)
+                else if (geometry_Intersection is GeometryCollection geometryCollection_Temp)
                 {
-                    foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in (GeometryCollection)geometry_Intersection)
+                    foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in geometryCollection_Temp)
                     {
-                        if (geometry_Temp is Polygon)
+                        if (geometry_Temp is Polygon polygon_Temp_Temp_Temp)
                         {
-                            polygons_Intersection.Add((Polygon)geometry_Temp);
+                            polygons_Intersection.Add(polygon_Temp_Temp_Temp);
                         }
                     }
                 }
@@ -129,7 +124,7 @@ namespace DiGi.Geometry.Planar
                         continue;
                     }
 
-                    List<Polygon> polygons_Temp_Temp = Triangulate(polygon_Intersection, tolerance);
+                    List<Polygon>? polygons_Temp_Temp = Triangulate(polygon_Intersection, tolerance);
                     if (polygons_Temp_Temp == null || polygons_Temp_Temp.Count == 0)
                     {
                         continue;

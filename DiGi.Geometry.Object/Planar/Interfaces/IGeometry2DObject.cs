@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Object.Planar.Interfaces
     {
     }
 
-    public interface IGeometry2DObject<T> : IGeometry2DObject where T : IGeometry2D
+    public interface IGeometry2DObject<TGeometry2D> : IGeometry2DObject where TGeometry2D : IGeometry2D
     {
     }
 }

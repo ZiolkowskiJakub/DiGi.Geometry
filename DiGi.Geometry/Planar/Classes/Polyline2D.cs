@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class Polyline2D : Segmentable2D
     {
-        public Polyline2D(JsonObject jsonObject)
+        public Polyline2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -17,19 +17,19 @@ namespace DiGi.Geometry.Planar.Classes
 
         }
 
-        public Polyline2D(Polyline2D polyline2D)
+        public Polyline2D(Polyline2D? polyline2D)
             : base(polyline2D)
         {
 
         }
 
-        public Polyline2D(IEnumerable<Point2D> point2Ds)
+        public Polyline2D(IEnumerable<Point2D>? point2Ds)
             :base(point2Ds)
         {
 
         }
 
-        public Polyline2D(IEnumerable<Point2D> point2Ds, bool close)
+        public Polyline2D(IEnumerable<Point2D>? point2Ds, bool close)
             : base(point2Ds)
         {
             if (close)
@@ -42,12 +42,12 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public override List<Segment2D> GetSegments()
+        public override List<Segment2D>? GetSegments()
         {
             return Create.Segment2Ds(points, false);
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Polyline2D(this);
         }

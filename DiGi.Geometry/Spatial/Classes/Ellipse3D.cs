@@ -9,19 +9,19 @@ namespace DiGi.Geometry.Spatial.Classes
 {
     public class Ellipse3D : Planar<Ellipse2D>, IEllipse3D
     {
-        public Ellipse3D(JsonObject jsonObject)
+        public Ellipse3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public Ellipse3D(Plane plane, Ellipse2D ellipse2D)
+        public Ellipse3D(Plane? plane, Ellipse2D? ellipse2D)
             : base(plane, ellipse2D)
         {
 
         }
 
-        public Ellipse3D(Ellipse3D ellipse3D)
+        public Ellipse3D(Ellipse3D? ellipse3D)
             : base(ellipse3D)
         {
 
@@ -32,11 +32,21 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
+                if(geometry2D is null)
+                {
+                    return double.NaN;
+                }
+
                 return geometry2D.A;
             }
 
             set
             {
+                if (geometry2D is null)
+                {
+                    return;
+                }
+
                 geometry2D.A = value;
             }
         }
@@ -46,17 +56,27 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
+                if (geometry2D is null)
+                {
+                    return double.NaN;
+                }
+
                 return geometry2D.B;
             }
 
             set
             {
+                if (geometry2D is null)
+                {
+                    return;
+                }
+
                 geometry2D.B = value;
             }
         }
 
         [JsonIgnore]
-        public Point3D Center
+        public Point3D? Center
         {
             get
             {
@@ -65,7 +85,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Vector3D Direction
+        public Vector3D? Direction
         {
             get
             {
@@ -73,7 +93,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Ellipse3D(this);
         }
@@ -88,15 +108,15 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.GetArea();
         }
 
-        public BoundingBox3D GetBoundingBox()
+        public BoundingBox3D? GetBoundingBox()
         {
-            List<Point2D> point2Ds = Geometry2D?.GetBoundingBox()?.GetPoints();
+            List<Point2D>? point2Ds = Geometry2D?.GetBoundingBox()?.GetPoints();
             if (point2Ds == null || point2Ds.Count == 0)
             {
                 return null;
             }
 
-            Plane plane = Plane;
+            Plane? plane = Plane;
             if(plane == null)
             {
                 return null;
@@ -105,30 +125,32 @@ namespace DiGi.Geometry.Spatial.Classes
             return new BoundingBox3D(point2Ds.ConvertAll(x => plane.Convert(x)));
         }
 
-        public Point3D[] GetFocalPoints()
+        public Point3D[]? GetFocalPoints()
         {
             if (plane == null || geometry2D == null)
             {
                 return null;
             }
 
-            Point2D[] point2Ds = geometry2D.GetFocalPoints();
+            Point2D[]? point2Ds = geometry2D.GetFocalPoints();
             if (point2Ds == null)
             {
                 return null;
             }
 
-
             Point3D[] result = new Point3D[point2Ds.Length];
             for (int i = 0; i < point2Ds.Length; i++)
             {
-                result[i] = plane.Convert(point2Ds[i]);
+                if(plane.Convert(point2Ds[i]) is Point3D point3D)
+                {
+                    result[i] = point3D;
+                }
             }
 
             return result;
         }
 
-        public Point3D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (plane == null || geometry2D == null)
             {
@@ -140,21 +162,31 @@ namespace DiGi.Geometry.Spatial.Classes
         
         public double GetPerimeter()
         {
+            if(geometry2D is null)
+            {
+                return double.NaN;
+            }
+
             return geometry2D.GetPerimeter();
         }
 
-        public bool InRange(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool Inside(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             throw new System.NotImplementedException();
         }
 
         public void Inverse()
         {
+            if (geometry2D is null)
+            {
+                return;
+            }
+
             geometry2D.Inverse();
         }
     }

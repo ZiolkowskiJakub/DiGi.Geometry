@@ -13,37 +13,37 @@ namespace DiGi.Geometry.Spatial.Classes
 
         }
 
-        public ProjectionResult(Plane plane)
+        public ProjectionResult(Plane? plane)
             : base(plane)
         {
 
         }
 
-        public ProjectionResult(JsonObject jsonObject)
+        public ProjectionResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ProjectionResult(ProjectionResult projectionResult)
+        public ProjectionResult(ProjectionResult? projectionResult)
             : base(projectionResult)
         {
 
         }
 
-        public ProjectionResult(Plane plane, IEnumerable<IGeometry2D> geometry2Ds)
+        public ProjectionResult(Plane? plane, IEnumerable<IGeometry2D>? geometry2Ds)
             : base(plane, geometry2Ds)
         {
 
         }
 
-        public ProjectionResult(Plane plane, IGeometry2D geometry2D)
+        public ProjectionResult(Plane? plane, IGeometry2D? geometry2D)
             : base(plane, geometry2D)
         {
 
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new ProjectionResult(this);
         }

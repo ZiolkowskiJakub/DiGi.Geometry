@@ -4,7 +4,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static Ellipsoid Ellipsoid(Point3D focalPoint_1, Point3D focalPoint_2, double b, double c, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Ellipsoid? Ellipsoid(Point3D? focalPoint_1, Point3D? focalPoint_2, double b, double c, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(focalPoint_1 == null || focalPoint_2 == null || double.IsNaN(b) || double.IsNaN(c))
             {
@@ -24,11 +24,15 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D axisX = new Vector3D(focalPoint_2, focalPoint_1).Unit;
-            
-            Vector3D axisY = axisX.Similar(Constans.Vector3D.WorldZ, tolerance) ? axisX.CrossProduct(Constans.Vector3D.WorldY).Unit : axisX.CrossProduct(Constans.Vector3D.WorldZ).Unit;
+            Vector3D? axisX = new Vector3D(focalPoint_2, focalPoint_1)?.Unit;
+            if(axisX == null)
+            {
+                return null;
+            }
 
-            Plane plane = new Plane(focalPoint_1.Mid(focalPoint_2), axisX, axisY);
+            Vector3D? axisY = axisX.Similar(Constans.Vector3D.WorldZ, tolerance) ? axisX.CrossProduct(Constans.Vector3D.WorldY)?.Unit : axisX.CrossProduct(Constans.Vector3D.WorldZ)?.Unit;
+
+            Plane plane = new (focalPoint_1.Mid(focalPoint_2), axisX, axisY);
 
             return new Ellipsoid(plane, a, b, c);
         }

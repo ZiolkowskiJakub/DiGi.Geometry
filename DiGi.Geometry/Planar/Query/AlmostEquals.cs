@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool AlmostEquals(this Point2D point2D_1, Point2D point2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool AlmostEquals(this Point2D? point2D_1, Point2D? point2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(point2D_1 == point2D_2)
             {
@@ -21,7 +21,7 @@ namespace DiGi.Geometry.Planar
             return point2D_1.Distance(point2D_2) <= tolerance;
         }
 
-        public static bool AlmostEquals(this ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool AlmostEquals(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(segmentable2D_1 == segmentable2D_2)
             {
@@ -38,8 +38,8 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            List<Point2D> point2Ds_1 = segmentable2D_1.GetPoints();
-            List<Point2D> point2Ds_2 = segmentable2D_2.GetPoints();
+            List<Point2D>? point2Ds_1 = segmentable2D_1.GetPoints();
+            List<Point2D>? point2Ds_2 = segmentable2D_2.GetPoints();
 
             if((point2Ds_1 == null || point2Ds_1.Count == 0) && (point2Ds_2 == null || point2Ds_2.Count == 0))
             {

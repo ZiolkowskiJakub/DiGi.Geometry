@@ -12,46 +12,47 @@ namespace DiGi.Geometry.Planar.Classes
     public class IntersectionResult2D : SerializableObject, IIntersectionResult
     {
         [JsonInclude, JsonPropertyName("Geometry2Ds")]
-        private List<IGeometry2D> geometry2Ds;
+        private readonly List<IGeometry2D>? geometry2Ds;
 
         public IntersectionResult2D()
         {
             
         }
         
-        public IntersectionResult2D(JsonObject jsonObject)
+        public IntersectionResult2D(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public IntersectionResult2D(IntersectionResult2D intersectionResult2D)
+        public IntersectionResult2D(IntersectionResult2D? intersectionResult2D)
             : this(intersectionResult2D?.geometry2Ds)
         {
 
         }
 
-        internal IntersectionResult2D(IGeometry2D geometry2D)
+        internal IntersectionResult2D(IGeometry2D? geometry2D)
         {
             if(geometry2D != null)
             {
-                geometry2Ds = new List<IGeometry2D>() { geometry2D.Clone<IGeometry2D>() };
+                geometry2Ds = [geometry2D.Clone<IGeometry2D>()];
             }
         }
 
-        internal IntersectionResult2D(IEnumerable<IGeometry2D> geometry2Ds)
+        internal IntersectionResult2D(IEnumerable<IGeometry2D>? geometry2Ds)
         {
             if(geometry2Ds != null)
             {
-                this.geometry2Ds = new List<IGeometry2D>();
+                this.geometry2Ds = [];
                 foreach(IGeometry2D geometry2D in geometry2Ds)
                 {
-                    if(geometry2D == null)
+                    IGeometry2D? geometry2D_Temp = geometry2D?.Clone<IGeometry2D>();
+                    if (geometry2D_Temp == null)
                     {
                         continue;
                     }
 
-                    this.geometry2Ds.Add(geometry2D.Clone<IGeometry2D>());
+                    this.geometry2Ds.Add(geometry2D_Temp);
                 }
             }
         }
@@ -75,7 +76,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonIgnore]
-        public IGeometry2D this[int index]
+        public IGeometry2D? this[int index]
         {
             get
             {
@@ -88,19 +89,25 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public List<T> GetGeometry2Ds<T>() where T : IGeometry2D
+        public List<T>? GetGeometry2Ds<T>() where T : IGeometry2D
         {
             if(geometry2Ds == null)
             {
                 return null;
             }
 
-            List<T> result = new List<T>();
+            List<T> result = [];
             for (int i =0; i < geometry2Ds.Count; i++)
             {
-                if (geometry2Ds[i] is T)
+                if (geometry2Ds[i] is T t)
                 {
-                    result.Add((T)geometry2Ds[i].Clone());
+                    T? t_Temp = t.Clone<T>();
+                    if(t_Temp is null)
+                    {
+                        continue;
+                    }
+
+                    result.Add(t_Temp);
                 }
             }
 
@@ -112,7 +119,7 @@ namespace DiGi.Geometry.Planar.Classes
             return geometry2Ds != null && geometry2Ds.Find(x => x is T) != null;
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new IntersectionResult2D(this);
         }

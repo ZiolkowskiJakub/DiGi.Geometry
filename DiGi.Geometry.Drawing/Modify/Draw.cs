@@ -9,20 +9,20 @@ namespace DiGi.Geometry.Drawing
 {
     public static partial class Modify
     {
-        public static void Draw(this Graphics graphics, Segment2D segment2D, Pen pen)
+        public static void Draw(this Graphics? graphics, Segment2D? segment2D, Pen? pen)
         {
             if(graphics == null || segment2D == null || pen == null)
             {
                 return;
             }
 
-            PointF? start = Convert.ToDrawing(segment2D.Start);
+            PointF? start = Convert.ToDrawing(segment2D?.Start);
             if(start == null || !start.HasValue)
             {
                 return;
             }
 
-            PointF? end = Convert.ToDrawing(segment2D.End);
+            PointF? end = Convert.ToDrawing(segment2D?.End);
             if (end == null || !end.HasValue)
             {
                 return;
@@ -31,14 +31,14 @@ namespace DiGi.Geometry.Drawing
             graphics.DrawLine(pen, start.Value, end.Value);
         }
 
-        public static void Draw(this Graphics graphics, IPolygonal2D polygonal2D, Pen pen, bool fill)
+        public static void Draw(this Graphics? graphics, IPolygonal2D? polygonal2D, Pen? pen, bool fill)
         {
             if(graphics == null || pen == null || polygonal2D == null)
             {
                 return;
             }
 
-            List<Point2D> point2Ds = polygonal2D?.GetPoints();
+            List<Point2D>? point2Ds = polygonal2D?.GetPoints();
             if(point2Ds == null || point2Ds.Count == 0)
             {
                 return;
@@ -46,7 +46,7 @@ namespace DiGi.Geometry.Drawing
 
             point2Ds.Add(point2Ds.First());
 
-            List<PointF> pointFs = new List<PointF>();
+            List<PointF> pointFs = [];
             for(int i =0; i < point2Ds.Count; i++)
             {
                 PointF? pointF = Convert.ToDrawing(point2Ds[i]);
@@ -60,10 +60,9 @@ namespace DiGi.Geometry.Drawing
 
             if(fill)
             {
-                using (SolidBrush solidBrush = new SolidBrush(pen.Color))
-                {
-                    graphics.FillPolygon(solidBrush, pointFs.ToArray());
-                }
+                using SolidBrush solidBrush = new(pen.Color);
+
+                graphics.FillPolygon(solidBrush, pointFs.ToArray());
             }
             else
             {
@@ -71,14 +70,14 @@ namespace DiGi.Geometry.Drawing
             }
         }
 
-        public static void Draw(this Graphics graphics, BoundingBox2D boundingBox2D, Pen pen, bool fill)
+        public static void Draw(this Graphics? graphics, BoundingBox2D? boundingBox2D, Pen? pen, bool fill)
         {
             if (graphics == null || pen == null || boundingBox2D == null)
             {
                 return;
             }
 
-            List<Point2D> point2Ds = boundingBox2D?.GetPoints();
+            List<Point2D>? point2Ds = boundingBox2D?.GetPoints();
             if (point2Ds == null || point2Ds.Count == 0)
             {
                 return;
@@ -86,7 +85,7 @@ namespace DiGi.Geometry.Drawing
 
             point2Ds.Add(point2Ds.First());
 
-            List<PointF> pointFs = new List<PointF>();
+            List<PointF> pointFs = [];
             for (int i = 0; i < point2Ds.Count; i++)
             {
                 PointF? pointF = Convert.ToDrawing(point2Ds[i]);
@@ -100,10 +99,9 @@ namespace DiGi.Geometry.Drawing
 
             if (fill)
             {
-                using (SolidBrush solidBrush = new SolidBrush(pen.Color))
-                {
-                    graphics.FillPolygon(solidBrush, pointFs.ToArray());
-                }
+                using SolidBrush solidBrush = new(pen.Color);
+
+                graphics.FillPolygon(solidBrush, pointFs.ToArray());
             }
             else
             {
@@ -111,7 +109,7 @@ namespace DiGi.Geometry.Drawing
             }
         }
 
-        public static void Draw(this Graphics graphics, Point2D point2D, Pen pen, bool fill)
+        public static void Draw(this Graphics? graphics, Point2D? point2D, Pen? pen, bool fill)
         {
             if (graphics == null || pen == null || point2D == null)
             {
@@ -120,10 +118,9 @@ namespace DiGi.Geometry.Drawing
 
             if(fill)
             {
-                using (SolidBrush solidBrush = new SolidBrush(pen.Color))
-                {
-                    graphics.FillEllipse(solidBrush, System.Convert.ToSingle(point2D.X), System.Convert.ToSingle(point2D.Y), pen.Width, pen.Width);
-                }
+                using SolidBrush solidBrush = new(pen.Color);
+
+                graphics.FillEllipse(solidBrush, System.Convert.ToSingle(point2D.X), System.Convert.ToSingle(point2D.Y), pen.Width, pen.Width);
             }
             else
             {
@@ -131,14 +128,14 @@ namespace DiGi.Geometry.Drawing
             }
         }
 
-        public static void Draw(this Graphics graphics, IPolygonalFace2D polygonalFace2D, Pen pen, bool fill)
+        public static void Draw(this Graphics? graphics, IPolygonalFace2D? polygonalFace2D, Pen? pen, bool fill)
         {
             if(graphics == null || pen == null || polygonalFace2D == null)
             {
                 return;
             }
 
-            Mesh2D mesh2D = Create.Mesh2D(polygonalFace2D);
+            Mesh2D? mesh2D = Create.Mesh2D(polygonalFace2D);
             if(mesh2D == null)
             {
                 return;
@@ -147,7 +144,7 @@ namespace DiGi.Geometry.Drawing
             Draw(graphics, mesh2D, pen, fill);
         }
 
-        public static void Draw(this Graphics graphics, Mesh2D mesh2D, Pen pen, bool fill)
+        public static void Draw(this Graphics? graphics, Mesh2D? mesh2D, Pen? pen, bool fill)
         {
             if (graphics == null || pen == null || mesh2D == null)
             {
@@ -156,7 +153,7 @@ namespace DiGi.Geometry.Drawing
 
             if(fill)
             {
-                List<Triangle2D> triangle2Ds = mesh2D.GetTriangles();
+                List<Triangle2D>? triangle2Ds = mesh2D.GetTriangles();
                 if(triangle2Ds == null)
                 {
                     return;
@@ -169,7 +166,7 @@ namespace DiGi.Geometry.Drawing
             }
             else
             {
-                List<Segment2D> segment2Ds = mesh2D.GetSegements();
+                List<Segment2D>? segment2Ds = mesh2D.GetSegements();
                 if (segment2Ds == null)
                 {
                     return;
@@ -182,27 +179,27 @@ namespace DiGi.Geometry.Drawing
             }
         }
 
-        public static void Draw(this Graphics graphics, Segment2D segment2D, DiGi.Core.Drawing.Classes.Pen pen)
+        public static void Draw(this Graphics? graphics, Segment2D? segment2D, DiGi.Core.Drawing.Classes.Pen pen)
         {
             Draw(graphics, segment2D, DiGi.Core.Drawing.Convert.ToDrawing(pen));
         }
 
-        public static void Draw(this Graphics graphics, DiGi.Core.Drawing.Classes.Pen pen, IPolygonal2D polygonal2D, bool fill)
+        public static void Draw(this Graphics? graphics, DiGi.Core.Drawing.Classes.Pen? pen, IPolygonal2D polygonal2D, bool fill)
         {
             Draw(graphics, polygonal2D, DiGi.Core.Drawing.Convert.ToDrawing(pen), fill);
         }
 
-        public static void Draw(this Graphics graphics, Point2D point2D, DiGi.Core.Drawing.Classes.Pen pen, bool fill)
+        public static void Draw(this Graphics? graphics, Point2D? point2D, DiGi.Core.Drawing.Classes.Pen? pen, bool fill)
         {
             Draw(graphics, point2D, DiGi.Core.Drawing.Convert.ToDrawing(pen), fill);
         }
 
-        public static void Draw(this Graphics graphics, Mesh2D mesh2D, DiGi.Core.Drawing.Classes.Pen pen, bool fill)
+        public static void Draw(this Graphics? graphics, Mesh2D? mesh2D, DiGi.Core.Drawing.Classes.Pen? pen, bool fill)
         {
             Draw(graphics, mesh2D, DiGi.Core.Drawing.Convert.ToDrawing(pen), fill);
         }
 
-        public static void Draw(this Graphics graphics, BoundingBox2D boundingBox2D, DiGi.Core.Drawing.Classes.Pen pen, bool fill)
+        public static void Draw(this Graphics? graphics, BoundingBox2D? boundingBox2D, DiGi.Core.Drawing.Classes.Pen pen, bool fill)
         {
             Draw(graphics, boundingBox2D, DiGi.Core.Drawing.Convert.ToDrawing(pen), fill);
         }

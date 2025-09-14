@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static List<Polygon2D> ToDiGi_Polygon2Ds(this Polygon polygon)
+        public static List<Polygon2D>? ToDiGi_Polygon2Ds(this Polygon? polygon)
         {
             if(polygon == null)
             {
@@ -19,7 +19,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Polygon2D> result = new List<Polygon2D>();
+            List<Polygon2D> result = [];
             result.Add(new Polygon2D(lineString.Coordinates.ToDiGi()));
 
             LineString[] lineStrings = polygon.InteriorRings;

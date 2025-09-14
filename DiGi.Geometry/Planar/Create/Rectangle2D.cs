@@ -1,4 +1,5 @@
-﻿using DiGi.Geometry.Planar.Classes;
+﻿using DiGi.Core;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,91 +8,98 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static Rectangle2D Rectangle2D(this IEnumerable<Point2D> point2Ds, Vector2D direction)
+        public static Rectangle2D? Rectangle2D(this IEnumerable<Point2D>? point2Ds, Vector2D? direction)
         {
             if (point2Ds == null || direction == null || point2Ds.Count() < 2)
             {
                 return null;
             }
 
-            Vector2D direction_Height = new Vector2D(direction);
+            Vector2D? direction_Height = new (direction);
             direction_Height = direction_Height.Unit;
-            Vector2D direction_Width = direction_Height.GetPerpendicular();
+            Vector2D? direction_Width = direction_Height?.GetPerpendicular();
 
-            List<Point2D> point2Ds_Height = new List<Point2D>();
-            List<Point2D> point2Ds_Width = new List<Point2D>();
+            List<Point2D> point2Ds_Height = [];
+            List<Point2D> point2Ds_Width = [];
 
             foreach (Point2D point2D in point2Ds)
             {
-                point2Ds_Height.Add(direction_Height.Project(point2D));
-                point2Ds_Width.Add(direction_Width.Project(point2D));
+                if(direction_Height?.Project(point2D) is Point2D point2D_Height)
+                {
+                    point2Ds_Height.Add(point2D_Height);
+                }
+
+                if (direction_Width?.Project(point2D) is Point2D point2D_Width)
+                {
+                    point2Ds_Width.Add(point2D_Width);
+                }
             }
 
-            double height = Query.MaxDistance(point2Ds_Height, out Point2D point2D_1_Height, out Point2D point2D_2_Height);
+            double height = Query.MaxDistance(point2Ds_Height, out Point2D? point2D_1_Height, out Point2D? point2D_2_Height);
             if (point2D_1_Height == null || point2D_2_Height == null)
             {
                 return null;
             }
 
-            double width = Query.MaxDistance(point2Ds_Width, out Point2D point2D_1_Width, out Point2D point2D_2_Width);
+            double width = Query.MaxDistance(point2Ds_Width, out Point2D? point2D_1_Width, out Point2D? point2D_2_Width);
             if (point2D_1_Width == null || point2D_2_Width == null)
             {
                 return null;
             }
 
-            Segment2D segment2D_Height = new Segment2D(point2D_1_Height, point2D_2_Height);
-            Segment2D segment2D_Width = new Segment2D(point2D_1_Width, point2D_2_Width);
+            Segment2D segment2D_Height = new (point2D_1_Height, point2D_2_Height);
+            Segment2D segment2D_Width = new (point2D_1_Width, point2D_2_Width);
 
-            if (!segment2D_Height.Direction.AlmostEquals(direction_Height))
+            if (segment2D_Height.Direction is Vector2D direction_Height_Temp && !direction_Height_Temp.AlmostEquals(direction_Height))
             {
                 segment2D_Height.Inverse();
             }
 
-            if (!segment2D_Width.Direction.AlmostEquals(direction_Width))
+            if (segment2D_Width.Direction is Vector2D direction_Width_Temp && !direction_Width_Temp.AlmostEquals(direction_Width))
             {
                 segment2D_Width.Inverse();
             }
 
-            Point2D point2D_Temp = segment2D_Height[0];
+            Point2D? point2D_Temp = segment2D_Height[0];
             segment2D_Height.Start = segment2D_Width[0];
             segment2D_Width.Start = point2D_Temp;
 
-            Point2D point2D_Intersection = ((Line2D)segment2D_Height).IntersectionPoint((Line2D)segment2D_Width);
+            Point2D? point2D_Intersection = ((Line2D?)segment2D_Height)?.IntersectionPoint((Line2D?)segment2D_Width);
             if (point2D_Intersection == null)
             {
                 return null;
             }
 
-            return new Rectangle2D(point2D_Intersection, width, height, direction_Height);
+            return new (point2D_Intersection, width, height, direction_Height);
         }
 
-        public static Rectangle2D Rectangle2D(this IEnumerable<Point2D> point2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Rectangle2D? Rectangle2D(this IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2Ds == null || point2Ds.Count() <= 2)
             {
                 return null;
             }
 
-            List<Point2D> point2Ds_ConvexHull = Query.ConvexHull(point2Ds);
+            List<Point2D>? point2Ds_ConvexHull = Query.ConvexHull(point2Ds);
             if (point2Ds_ConvexHull == null || point2Ds_ConvexHull.Count < 2)
             {
                 return null;
             }
 
             double area = double.MaxValue;
-            Rectangle2D result = null;
+            Rectangle2D? result = null;
 
             Vector2D vector2D = Constans.Vector2D.WorldY;
 
-            HashSet<double> angleHashSet = new HashSet<double>();
+            HashSet<double> angleHashSet = [];
             for (int i = 0; i < point2Ds_ConvexHull.Count - 1; i++)
             {
-                Vector2D direction = new Vector2D(point2Ds_ConvexHull[i], point2Ds_ConvexHull[i + 1]);
+                Vector2D direction = new (point2Ds_ConvexHull[i], point2Ds_ConvexHull[i + 1]);
                 double angle = direction.Angle(vector2D);
                 if (!angleHashSet.Contains(angle))
                 {
                     angleHashSet.Add(angle);
-                    Rectangle2D rectangle_Temp = Rectangle2D(point2Ds_ConvexHull, direction);
+                    Rectangle2D? rectangle_Temp = Rectangle2D(point2Ds_ConvexHull, direction);
                     if (rectangle_Temp == null)
                     {
                         continue;
@@ -100,8 +108,8 @@ namespace DiGi.Geometry.Planar
                     double area_Temp = rectangle_Temp.GetArea();
                     if (DiGi.Core.Query.AlmostEquals(area_Temp, area, tolerance))
                     {
-                        List<Point2D> point2Ds_1 = result.GetPoints();
-                        List<Point2D> point2Ds_2 = rectangle_Temp.GetPoints();
+                        List<Point2D>? point2Ds_1 = result?.GetPoints();
+                        List<Point2D>? point2Ds_2 = rectangle_Temp?.GetPoints();
 
                         int count_1 = point2Ds_1.Count(x => point2Ds_ConvexHull.Find(y => Query.AlmostEquals(y, x, tolerance)) != null);
                         int count_2 = point2Ds_2.Count(x => point2Ds_ConvexHull.Find(y => Query.AlmostEquals(y, x, tolerance)) != null);
@@ -123,27 +131,25 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static Rectangle2D Rectangle2D(this IEnumerable<ISegmentable2D> segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Rectangle2D? Rectangle2D(this IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if (segmentable2Ds == null)
+            List<Point2D>? point2Ds = segmentable2Ds?.Points()?.FilterNulls();
+            if(point2Ds is null)
             {
                 return null;
             }
 
-            List<Point2D> point2Ds = segmentable2Ds.Points();
-
-
             return Rectangle2D(point2Ds, tolerance);
         }
 
-        public static Rectangle2D Rectangle2D(this ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Rectangle2D? Rectangle2D(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Rectangle2D(segmentable2D?.GetPoints(), tolerance);
         }
 
-        public static Rectangle2D Rectangle2D(this IPolygonalFace2D polygonalFace2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Rectangle2D? Rectangle2D(this IPolygonalFace2D? polygonalFace2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            IPolygonal2D polygonal2D = polygonalFace2D?.ExternalEdge;
+            IPolygonal2D? polygonal2D = polygonalFace2D?.ExternalEdge;
             if(polygonal2D == null)
             {
                 return null;
@@ -152,15 +158,15 @@ namespace DiGi.Geometry.Planar
             return Rectangle2D(polygonal2D, tolerance);
         }
 
-        public static Rectangle2D Rectangle2D(this Rectangle2D rectangle2D_1, Rectangle2D rectangle2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Rectangle2D? Rectangle2D(this Rectangle2D? rectangle2D_1, Rectangle2D? rectangle2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (rectangle2D_1 == null || rectangle2D_2 == null)
             {
                 return null;
             }
 
-            List<Point2D> point2Ds = rectangle2D_1.GetPoints();
-            point2Ds.AddRange(rectangle2D_2.GetPoints());
+            List<Point2D>? point2Ds = rectangle2D_1.GetPoints();
+            point2Ds?.AddRange(rectangle2D_2.GetPoints());
 
             return Rectangle2D(point2Ds, tolerance);
         }

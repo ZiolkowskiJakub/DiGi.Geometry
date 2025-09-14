@@ -12,15 +12,15 @@ namespace DiGi.Geometry.Core.Classes
     public class DensityBasedSpatialClusteringResult<T> : SerializableResult where T: IPoint<T>
     {
         [JsonInclude, JsonPropertyName("Tolerance")]
-        private double tolerance;
+        private readonly double tolerance;
 
         [JsonInclude, JsonPropertyName("PointCount")]
-        private int pointCount;
+        private readonly int pointCount;
 
         [JsonInclude, JsonPropertyName("Dictionary")]
-        private Dictionary<T, int> dictionary;
+        private Dictionary<T, int>? dictionary;
 
-        public DensityBasedSpatialClusteringResult(double tolerance, int pointCount, Dictionary<T, int> dictionary)
+        public DensityBasedSpatialClusteringResult(double tolerance, int pointCount, Dictionary<T, int>? dictionary)
         {
             this.tolerance = tolerance;
             this.pointCount = pointCount;
@@ -47,7 +47,7 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         [JsonIgnore]
-        public Dictionary<T, int> Dictionary
+        public Dictionary<T, int>? Dictionary
         {
             get
             {
@@ -56,10 +56,13 @@ namespace DiGi.Geometry.Core.Classes
                     return null;
                 }
 
-                Dictionary<T, int> result = new Dictionary<T, int>();
+                Dictionary<T, int> result = [];
                 foreach (KeyValuePair<T, int> keyValuePair in dictionary)
                 {
-                    result[keyValuePair.Key.Clone<T>()] = keyValuePair.Value;
+                    if(keyValuePair.Key.Clone<T>() is T t)
+                    {
+                        result[t] = keyValuePair.Value;
+                    }
                 }
 
                 return result;
@@ -71,24 +74,28 @@ namespace DiGi.Geometry.Core.Classes
                 if(value == null)
                 {
                     dictionary = null;
+                    return;
                 }
 
-                dictionary = new Dictionary<T, int>();
+                dictionary = [];
                 foreach (KeyValuePair<T, int> keyValuePair in value)
                 {
-                    dictionary[keyValuePair.Key.Clone<T>()] = keyValuePair.Value;
+                    if (keyValuePair.Key.Clone<T>() is T t)
+                    {
+                        dictionary[t] = keyValuePair.Value;
+                    }
                 }
             }
         }
 
-        public HashSet<int> GetIndexes()
+        public HashSet<int>? GetIndexes()
         {
             if(dictionary == null)
             {
                 return null;
             }
 
-            HashSet<int> result = new HashSet<int>();
+            HashSet<int> result = [];
             foreach(int index in dictionary.Values)
             {
                 result.Add(index);
@@ -115,14 +122,14 @@ namespace DiGi.Geometry.Core.Classes
             return false;
         }
 
-        public List<T> GetPoints(int index)
+        public List<T>? GetPoints(int index)
         {
             if (dictionary == null)
             {
                 return null;
             }
 
-            List<T> result = new List<T>();
+            List<T> result = [];
             foreach (KeyValuePair<T, int> keyValuePair in dictionary)
             {
                 if(keyValuePair.Value == index)
@@ -134,9 +141,9 @@ namespace DiGi.Geometry.Core.Classes
             return result;
         }
 
-        public T GetPoint(int index, Func<IEnumerable<T>, T> func = null)
+        public T? GetPoint(int index, Func<IEnumerable<T>, T>? func = null)
         {
-            List<T> points = GetPoints(index);
+            List<T>? points = GetPoints(index);
             if(points == null || points.Count == 0)
             {
                 return default;
@@ -151,7 +158,7 @@ namespace DiGi.Geometry.Core.Classes
             return point.Clone<T>();
         }
 
-        public virtual ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new DensityBasedSpatialClusteringResult<T>(this);
         }

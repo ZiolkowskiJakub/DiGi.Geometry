@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Orientation> Orientations(this IEnumerable<Point2D> point2Ds)
+        public static List<Orientation>? Orientations(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null)
             {
@@ -20,10 +20,10 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Orientation> result = new List<Orientation>()
-            {
+            List<Orientation> result =
+            [
                 Orientation(point2Ds.ElementAt(count - 1), point2Ds.ElementAt(0), point2Ds.ElementAt(1))
-            };
+            ];
 
             for (int i = 1; i < count - 1; i++)
             {

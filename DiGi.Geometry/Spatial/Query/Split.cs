@@ -8,62 +8,65 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static List<IPolygonalFace3D> Split(this IPolygonalFace3D polygonalFace3D, IEnumerable<IPolygonalFace3D> polygonalFace3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<IPolygonalFace3D>? Split(this IPolygonalFace3D? polygonalFace3D, IEnumerable<IPolygonalFace3D>? polygonalFace3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (polygonalFace3D == null || polygonalFace3Ds == null)
             {
                 return null;
             }
 
-            PlanarIntersectionResult planarIntersectionResult = Create.PlanarIntersectionResult(polygonalFace3D, polygonalFace3Ds, tolerance);
+            PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(polygonalFace3D, polygonalFace3Ds, tolerance);
             if(planarIntersectionResult == null || !planarIntersectionResult.Intersect)
             {
-                return new List<IPolygonalFace3D>() { DiGi.Core.Query.Clone(polygonalFace3D) };
+                return [DiGi.Core.Query.Clone(polygonalFace3D)];
             }
 
-            List<ISegmentable2D> segmentable2Ds = new List<ISegmentable2D>();
-            foreach(IGeometry2D geometry2D in planarIntersectionResult.GetGeometry2Ds<IGeometry2D>())
+            List<ISegmentable2D> segmentable2Ds = [];
+
+            List<IGeometry2D>? geometry2Ds = planarIntersectionResult.GetGeometry2Ds<IGeometry2D>();
+            if(geometry2Ds != null)
             {
-                if(geometry2D is ISegmentable2D)
+                foreach (IGeometry2D geometry2D in geometry2Ds)
                 {
-                    segmentable2Ds.Add((ISegmentable2D)geometry2D);
-                }
-                else if(geometry2D is IPolygonalFace2D)
-                {
-                    IPolygonalFace2D polygonalFace2D_Temp = (IPolygonalFace2D)geometry2D;
-
-                    IPolygonal2D externalEdge = polygonalFace2D_Temp.ExternalEdge;
-                    if(externalEdge != null)
+                    if (geometry2D is ISegmentable2D segmentable2D)
                     {
-                        segmentable2Ds.Add(externalEdge);
+                        segmentable2Ds.Add(segmentable2D);
                     }
-
-                    List<IPolygonal2D> internalEdges = polygonalFace2D_Temp.InternalEdges;
-                    if(internalEdges != null)
+                    else if (geometry2D is IPolygonalFace2D polygonalFace2D_Temp)
                     {
-                        segmentable2Ds.AddRange(internalEdges);
+                        IPolygonal2D? externalEdge = polygonalFace2D_Temp.ExternalEdge;
+                        if (externalEdge != null)
+                        {
+                            segmentable2Ds.Add(externalEdge);
+                        }
+
+                        List<IPolygonal2D>? internalEdges = polygonalFace2D_Temp.InternalEdges;
+                        if (internalEdges != null)
+                        {
+                            segmentable2Ds.AddRange(internalEdges);
+                        }
                     }
                 }
             }
 
             if(segmentable2Ds.Count == 0)
             {
-                return new List<IPolygonalFace3D>() { DiGi.Core.Query.Clone(polygonalFace3D) };
+                return [DiGi.Core.Query.Clone(polygonalFace3D)];
             }
 
-            Plane plane = polygonalFace3D.Plane;
+            Plane? plane = polygonalFace3D.Plane;
             if(plane == null)
             {
                 return null;
             }
 
-            List<IPolygonalFace2D> polygonalFace2Ds = Planar.Query.Split(polygonalFace3D.Geometry2D, segmentable2Ds, tolerance);
+            List<IPolygonalFace2D>? polygonalFace2Ds = Planar.Query.Split(polygonalFace3D?.Geometry2D, segmentable2Ds, tolerance);
             if(polygonalFace2Ds == null || polygonalFace2Ds.Count == 0)
             {
                 return null;
             }
 
-            List<IPolygonalFace3D> result = new List<IPolygonalFace3D>();
+            List<IPolygonalFace3D> result = [];
             for(int i =0; i < polygonalFace2Ds.Count; i++)
             {
                 result.Add(new PolygonalFace3D(plane, polygonalFace2Ds[i]));
@@ -72,7 +75,7 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
-        public static Polyhedron Split(this Polyhedron polyhedron, IEnumerable<Polyhedron> polyhedrons, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Polyhedron? Split(this Polyhedron? polyhedron, IEnumerable<Polyhedron>? polyhedrons, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polyhedron == null || polyhedrons == null)
             {
@@ -87,16 +90,16 @@ namespace DiGi.Geometry.Spatial
                 return DiGi.Core.Query.Clone(polyhedron);
             }
 
-            List<Tuple<IPolygonalFace3D, List<IPolygonalFace3D>>> tuples = new List<Tuple<IPolygonalFace3D, List<IPolygonalFace3D>>>();
+            List<Tuple<IPolygonalFace3D, List<IPolygonalFace3D>>> tuples = [];
             for (int i = 0; i < count; i++)
             {
-                IPolygonalFace3D polygonalFace3D = polyhedron[i];
+                IPolygonalFace3D? polygonalFace3D = polyhedron[i];
                 if (polygonalFace3D == null)
                 {
                     continue;
                 }
 
-                tuples.Add(new Tuple<IPolygonalFace3D, List<IPolygonalFace3D>>(polygonalFace3D, new List<IPolygonalFace3D>()));
+                tuples.Add(new Tuple<IPolygonalFace3D, List<IPolygonalFace3D>>(polygonalFace3D, []));
             }
 
             foreach (Polyhedron polyhedron_Temp in polyhedrons)
@@ -114,13 +117,17 @@ namespace DiGi.Geometry.Spatial
 
                 for (int i = 0; i < count; i++)
                 {
-                    IPolygonalFace3D polygonalFace3D = polyhedron_Temp[i];
+                    IPolygonalFace3D? polygonalFace3D = polyhedron_Temp[i];
                     if (polygonalFace3D == null)
                     {
                         continue;
                     }
 
-                    BoundingBox3D boundingBox3D = polygonalFace3D.GetBoundingBox();
+                    BoundingBox3D? boundingBox3D = polygonalFace3D.GetBoundingBox();
+                    if(boundingBox3D is null)
+                    {
+                        continue;
+                    }
 
                     for(int j = 0; j < tuples.Count; j++)
                     {
@@ -132,12 +139,12 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            List<IPolygonalFace3D> polygonalFace3Ds = new List<IPolygonalFace3D>();
+            List<IPolygonalFace3D> polygonalFace3Ds = [];
             for (int i = 0; i < tuples.Count; i++)
             {
                 Tuple<IPolygonalFace3D, List<IPolygonalFace3D>> tuple = tuples[i];
 
-                List<IPolygonalFace3D> polygonalFace3Ds_Temp = Split(tuple.Item1, tuple.Item2, tolerance);
+                List<IPolygonalFace3D>? polygonalFace3Ds_Temp = Split(tuple.Item1, tuple.Item2, tolerance);
                 if(polygonalFace3Ds_Temp != null && polygonalFace3Ds_Temp.Count != 0)
                 {
                     foreach(IPolygonalFace3D polygonalFace3D_Temp in polygonalFace3Ds_Temp)

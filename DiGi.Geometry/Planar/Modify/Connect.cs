@@ -14,7 +14,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="pointConnectMethod">Point Connect Method</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns>List of the segments connected to given Point2D</returns>
-        public static List<Segment2D> Connect(this List<Segment2D> segment2Ds, Point2D point2D, PointConnectMethod pointConnectMethod = PointConnectMethod.Projection, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Segment2D>? Connect(this List<Segment2D>? segment2Ds, Point2D? point2D, PointConnectMethod pointConnectMethod = PointConnectMethod.Projection, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2Ds == null || point2D == null || segment2Ds.Count == 0 || pointConnectMethod == PointConnectMethod.Undefined)
             {
@@ -27,16 +27,13 @@ namespace DiGi.Geometry.Planar
                 return result;
             }
 
-            if (result == null)
-            {
-                result = new List<Segment2D>();
-            }
+            result ??= [];
 
-            Segment2D segment2D = null;
-            Point2D point2D_Project = null;
+            Segment2D? segment2D = null;
+            Point2D? point2D_Project = null;
 
             double distance = double.MaxValue;
-            List<int> indexes = new List<int>();
+            List<int> indexes = [];
 
             for (int i = 0; i < segment2Ds.Count; i++)
             {
@@ -51,13 +48,13 @@ namespace DiGi.Geometry.Planar
                 {
                     point2D_Project = segment2D.Project(point2D);
 
-                    Segment2D segment2D_Temp = null;
+                    Segment2D? segment2D_Temp = null;
 
-                    segment2D_Temp = new Segment2D(segment2D[0], point2D_Project);
+                    segment2D_Temp = new (segment2D[0], point2D_Project);
                     result.Add(segment2D_Temp);
                     segment2Ds[i] = segment2D_Temp;
 
-                    segment2D_Temp = new Segment2D(point2D_Project, segment2D[1]);
+                    segment2D_Temp = new (point2D_Project, segment2D[1]);
                     result.Add(segment2D_Temp);
 
                     if (i == segment2Ds.Count - 1)
@@ -98,25 +95,25 @@ namespace DiGi.Geometry.Planar
                 switch (pointConnectMethod)
                 {
                     case PointConnectMethod.Ends:
-                        result.Add(new Segment2D(point2D, segment2D[0]));
-                        result.Add(new Segment2D(point2D, segment2D[1]));
+                        result.Add(new (point2D, segment2D[0]));
+                        result.Add(new (point2D, segment2D[1]));
                         segment2Ds.AddRange(result);
                         break;
 
                     case PointConnectMethod.Projection:
-                        Segment2D segment2D_Temp = null;
+                        Segment2D? segment2D_Temp = null;
 
                         point2D_Project = segment2D.Project(point2D);
                         if (!segment2D.On(point2D_Project, tolerance))
                         {
-                            segment2D_Temp = segment2D[0].Distance(point2D_Project) > segment2D[1].Distance(point2D_Project) ? new Segment2D(point2D_Project, segment2D[1]) : new Segment2D(segment2D[0], point2D_Project);
+                            segment2D_Temp = segment2D[0]!.Distance(point2D_Project) > segment2D[1]!.Distance(point2D_Project) ? new Segment2D(point2D_Project, segment2D[1]) : new Segment2D(segment2D[0], point2D_Project);
                         }
                         else
                         {
-                            segment2D_Temp = new Segment2D(segment2D[0], point2D_Project);
+                            segment2D_Temp = new (segment2D[0], point2D_Project);
                             segment2Ds[index] = segment2D_Temp;
 
-                            segment2D_Temp = new Segment2D(point2D_Project, segment2D[1]);
+                            segment2D_Temp = new (point2D_Project, segment2D[1]);
                         }
 
                         if (index == segment2Ds.Count - 1)
@@ -128,7 +125,7 @@ namespace DiGi.Geometry.Planar
                             segment2Ds.Insert(index + 1, segment2D_Temp);
                         }
 
-                        segment2D_Temp = new Segment2D(point2D, point2D_Project);
+                        segment2D_Temp = new (point2D, point2D_Project);
                         result.Add(segment2D_Temp);
                         segment2Ds.Add(segment2D_Temp);
                         break;

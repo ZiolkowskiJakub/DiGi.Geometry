@@ -3,6 +3,7 @@ using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -10,44 +11,44 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class Segment2D : Geometry2D, ISegmentable2D, ILinear2D, ISegment<Point2D>
     {
-        private Point2D start;
-        private Vector2D vector;
+        private Point2D? start;
+        private Vector2D? vector;
 
         public Segment2D(double x_1, double y_1, double x_2, double y_2)
         {
-            start = new Point2D(x_1, y_1);
-            vector = new Vector2D(start, new Point2D(x_2, y_2));
+            start = new (x_1, y_1);
+            vector = new (start, new Point2D(x_2, y_2));
         }
         
-        public Segment2D(Point2D start, Vector2D vector)
+        public Segment2D(Point2D? start, Vector2D? vector)
         {
             this.start = start?.Clone<Point2D>();
             this.vector = vector?.Clone<Vector2D>();
         }
 
-        public Segment2D(Point2D start, Point2D end)
+        public Segment2D(Point2D? start, Point2D? end)
         {
             if (start != null && end != null)
             {
                 this.start = start?.Clone<Point2D>();
-                vector = new Vector2D(start, end);
+                vector = new (start, end);
             }
         }
 
-        public Segment2D(Segment2D segment2D)
+        public Segment2D(Segment2D? segment2D)
             : this(segment2D?.start, segment2D?.vector)
         {
 
         }
 
-        public Segment2D(JsonObject jsonObject)
+        public Segment2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public Vector2D Direction
+        public Vector2D? Direction
         {
             get
             {
@@ -61,16 +62,16 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonIgnore]
-        public Point2D End
+        public Point2D? End
         {
             get
             {
-                if (vector == null || start == null)
+                if (vector is null || start == null)
                 {
                     return null;
                 }
 
-                Point2D result = new Point2D(start);
+                Point2D result = new (start);
                 result.Move(vector);
 
                 return result;
@@ -92,6 +93,11 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
+                if (vector is null)
+                {
+                    return double.NaN;
+                }
+
                 return vector.Length;
             }
 
@@ -106,12 +112,17 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
+                if(vector is null)
+                {
+                    return double.NaN;
+                }
+
                 return vector.SquaredLength;
             }
         }
 
         [JsonPropertyName("Start")]
-        public Point2D Start
+        public Point2D? Start
         {
             get
             {
@@ -125,7 +136,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonPropertyName("Vector")]
-        public Vector2D Vector
+        public Vector2D? Vector
         {
             get
             {
@@ -138,80 +149,70 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public Point2D this[int index]
+        public Point2D? this[int index]
         {
             get
             {
-                switch (index)
+                return index switch
                 {
-                    case 0:
-                        return Start;
-
-                    case 1:
-                        return End;
-
-                    default:
-                        return null;
-                }
+                    0 => Start,
+                    1 => End,
+                    _ => null,
+                };
             }
         }
 
-        public static implicit operator Segment2D(((double x, double y), (double x, double y)) @object)
+        public static implicit operator Segment2D?(((double x, double y), (double x, double y)) @object)
         {
             return new Segment2D(new Point2D(@object.Item1.x, @object.Item1.y), new Point2D(@object.Item2.x, @object.Item2.y));
         }
 
-        public static implicit operator Segment2D((Point2D start, Point2D end) @object)
+        public static implicit operator Segment2D?((Point2D? start, Point2D? end) @object)
         {
             return new Segment2D(@object.start, @object.end);
         }
 
-        public static bool operator !=(Segment2D segment2D_1, Segment2D segment2D_2)
+        public static bool operator !=(Segment2D? segment2D_1, Segment2D? segment2D_2)
         {
-            if (ReferenceEquals(segment2D_1, null) && ReferenceEquals(segment2D_2, null))
-            {
-                return false;
-            }
+            return !(segment2D_1 == segment2D_2);
+        }
 
-            if (ReferenceEquals(segment2D_1, null) || ReferenceEquals(segment2D_2, null))
+        public static bool operator ==(Segment2D? segment2D_1, Segment2D? segment2D_2)
+        {
+            if (segment2D_1 is null && segment2D_2 is null)
             {
                 return true;
             }
 
-            return (!segment2D_1.start.Equals(segment2D_2.start)) || (!segment2D_1.vector.Equals(segment2D_2.vector));
-        }
-
-        public static bool operator ==(Segment2D segment2D_1, Segment2D segment2D_2)
-        {
-            if (ReferenceEquals(segment2D_1, null) && ReferenceEquals(segment2D_2, null))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(segment2D_1, null) || ReferenceEquals(segment2D_2, null))
+            if (segment2D_1?.start is not Point2D start)
             {
                 return false;
             }
 
-            return segment2D_1.start.Equals(segment2D_2.start) && segment2D_1.vector.Equals(segment2D_2.vector);
+            if (segment2D_1?.vector is not Vector2D vector)
+            {
+                return false;
+            }
+
+            return start.Equals(segment2D_2?.start) && vector.Equals(segment2D_2.vector);
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Segment2D(this);
         }
 
-        public Point2D ClosestPoint(Point2D point2D)
+        public Point2D? ClosestPoint(Point2D? point2D)
         {
             return Query.ClosestPoint(point2D, start, End, true);
         }
 
-        public bool Collinear(ILinear2D linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Collinear(ILinear2D? linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Query.Collinear(this, linear2D, tolerance);
         }
 
-        public double Distance(Point2D point2D)
+        public double Distance(Point2D? point2D)
         {
             if (point2D == null)
             {
@@ -221,10 +222,20 @@ namespace DiGi.Geometry.Planar.Classes
             return point2D.Distance(ClosestPoint(point2D));
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            Segment2D segment2D = obj as Segment2D;
+            Segment2D? segment2D = obj as Segment2D;
             if (segment2D == null)
+            {
+                return false;
+            }
+
+            if(segment2D.start is null && start is null && segment2D.vector is null && vector is null)
+            {
+                return true;
+            }
+
+            if (segment2D.start is null || start is null || segment2D.vector is null || vector is null)
             {
                 return false;
             }
@@ -232,9 +243,9 @@ namespace DiGi.Geometry.Planar.Classes
             return segment2D.start.Equals(start) && segment2D.vector.Equals(vector);
         }
 
-        public BoundingBox2D GetBoundingBox()
+        public BoundingBox2D? GetBoundingBox()
         {
-            if (start == null || vector == null)
+            if (start is null || vector is null)
             {
                 return null;
             }
@@ -242,17 +253,17 @@ namespace DiGi.Geometry.Planar.Classes
             return new BoundingBox2D(start, End);
         }
 
-        public List<Point2D> GetPoints()
+        public List<Point2D>? GetPoints()
         {
-            return new List<Point2D>() { Start, End };
+            return [Start, End];
         }
 
-        public List<Segment2D> GetSegments()
+        public List<Segment2D>? GetSegments()
         {
-            return new List<Segment2D> { new Segment2D(this) };
+            return [new (this)];
         }
 
-        public Point2D IntersectionPoint(Segment2D segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point2D? IntersectionPoint(Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2D == null)
             {
@@ -267,9 +278,9 @@ namespace DiGi.Geometry.Planar.Classes
             vector?.Inverse();
         }
 
-        public Point2D Mid()
+        public Point2D? Mid()
         {
-            if (start == null || vector == null)
+            if (start is null || vector is null)
             {
                 return null;
             }
@@ -277,9 +288,9 @@ namespace DiGi.Geometry.Planar.Classes
             return start.Mid(End);
         }
 
-        public override bool Move(Vector2D vector2D)
+        public override bool Move(Vector2D? vector2D)
         {
-            if(vector2D == null || start == null)
+            if(vector2D is null || start is null)
             {
                 return false;
             }
@@ -288,7 +299,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             double distance = Distance(point2D);
             if (double.IsNaN(distance))
@@ -299,18 +310,22 @@ namespace DiGi.Geometry.Planar.Classes
             return distance < tolerance;
         }
 
-        public Point2D Project(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point2D? Project(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if (point2D == null)
+            if (point2D is null || start is null)
             {
                 return null;
             }
 
-            Point2D end = End;
+            Point2D? end = End;
+            if(end is null)
+            {
+                return null;
+            }
 
             if (start.X == end.X)
             {
-                return new Point2D(start.X, point2D.Y);
+                return new (start.X, point2D.Y);
             }
 
             double m = (end.Y - start.Y) / (end.X - start.X);
@@ -319,7 +334,7 @@ namespace DiGi.Geometry.Planar.Classes
             double x = (m * point2D.Y + point2D.X - m * b) / (m * m + 1);
             double y = (m * m * point2D.Y + m * point2D.X + b) / (m * m + 1);
 
-            Point2D result = new Point2D(x, y);
+            Point2D result = new (x, y);
             if (On(result, tolerance))
             {
                 return result;
@@ -328,20 +343,28 @@ namespace DiGi.Geometry.Planar.Classes
             return start.Distance(result) < end.Distance(result) ? Start : end;
         }
 
-        public override bool Transform(ITransform2D transform)
+        public override bool Transform(ITransform2D? transform)
         {
-            if (transform == null || start == null || vector == null)
+            if (transform is null || start is null || vector is null)
             {
                 return false;
             }
 
-            Point2D end = End;  
+            Point2D? end = End;  
 
             start.Transform(transform);
-            end.Transform(transform);
+            end?.Transform(transform);
 
-            vector = new Vector2D(start, end);
+            vector = new (start, end);
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 1695988409;
+            hashCode = hashCode * -1521134295 + EqualityComparer<Point2D?>.Default.GetHashCode(start);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Vector2D?>.Default.GetHashCode(vector);
+            return hashCode;
         }
     }
 }

@@ -15,31 +15,31 @@ namespace DiGi.Geometry.Spatial.Classes
 
         }
 
-        public PlanarIntersectionResult(Plane plane)
+        public PlanarIntersectionResult(Plane? plane)
             : base(plane)
         {
 
         }
 
-        public PlanarIntersectionResult(JsonObject jsonObject)
+        public PlanarIntersectionResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public PlanarIntersectionResult(PlanarIntersectionResult planarIntersectionResult)
+        public PlanarIntersectionResult(PlanarIntersectionResult? planarIntersectionResult)
             : base(planarIntersectionResult)
         {
 
         }
 
-        public PlanarIntersectionResult(Plane plane, IEnumerable<IGeometry2D> geometry2Ds)
+        public PlanarIntersectionResult(Plane? plane, IEnumerable<IGeometry2D>? geometry2Ds)
             : base(plane, geometry2Ds)
         {
 
         }
 
-        public PlanarIntersectionResult(Plane plane, IGeometry2D geometry2D)
+        public PlanarIntersectionResult(Plane? plane, IGeometry2D? geometry2D)
             : base(plane, geometry2D)
         {
 
@@ -54,7 +54,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new PlanarIntersectionResult(this);
         }

@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Spatial.Classes
 {
     public abstract class Coordinate3D : Coordinate, IGeometry3D, ITransformable3D
     {
-        public Coordinate3D(JsonObject jsonObject)
+        public Coordinate3D(JsonObject? jsonObject)
             : base(jsonObject, 3)
         {
 
@@ -25,13 +25,13 @@ namespace DiGi.Geometry.Spatial.Classes
 
         }
 
-        public Coordinate3D(Coordinate3D coordinate3D)
+        public Coordinate3D(Coordinate3D? coordinate3D)
             : base(coordinate3D)
         {
 
         }
 
-        public Coordinate3D(double[] values)
+        public Coordinate3D(double[]? values)
             : base()
         {
             this.values = new double[3];
@@ -88,7 +88,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public bool Move(Vector3D vector3D)
+        public bool Move(Vector3D? vector3D)
         {
             if (vector3D == null || values == null || values.Length < 2)
             {
@@ -101,22 +101,22 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
-        public bool Transform(ITransform3D transform)
+        public bool Transform(ITransform3D? transform)
         {
             if (transform == null || values == null || values.Length < 2)
             {
                 return false;
             }
 
-            if (transform is Transform3D)
+            if (transform is Transform3D transform3D)
             {
-                Matrix4D matrix4D = ((Transform3D)transform)?.Matrix4D;
+                Matrix4D? matrix4D = transform3D.Matrix4D;
                 if (matrix4D == null)
                 {
                     return false;
                 }
 
-                Matrix matrix = matrix4D * ArgumentedMatrix;
+                Matrix? matrix = matrix4D * ArgumentedMatrix;
                 if (matrix == null)
                 {
                     return false;
@@ -128,9 +128,9 @@ namespace DiGi.Geometry.Spatial.Classes
                 return true;
             }
 
-            if (transform is TransformGroup3D)
+            if (transform is TransformGroup3D transformGroup3D)
             {
-                foreach (ITransform3D transform_Temp in (TransformGroup3D)transform)
+                foreach (ITransform3D transform_Temp in transformGroup3D)
                 {
                     if (transform_Temp == null)
                     {

@@ -6,9 +6,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Polygon2D> ExternalPolygons<T>(this IEnumerable<T> segmentable2Ds, double maxDistance, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
+        public static List<Polygon2D>? ExternalPolygons<T>(this IEnumerable<T>? segmentable2Ds, double maxDistance, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
-            List<Segment2D> segment2Ds = segmentable2Ds?.Segments();
+            List<Segment2D>? segment2Ds = segmentable2Ds?.Segments();
             if(segment2Ds == null)
             {
                 return null;
@@ -18,28 +18,32 @@ namespace DiGi.Geometry.Planar
             {
                 for (int i = 0; i < segment2Ds.Count; i++)
                 {
-                    segment2Ds[i] = segment2Ds[i]?.Extend(maxDistance);
+                    Segment2D? segment2D = segment2Ds[i]?.Extend(maxDistance);
+                    if(segment2D is not null)
+                    {
+                        segment2Ds[i] = segment2D;
+                    }
                 }
             }
 
             return ExternalPolygons(segment2Ds, tolerance);
         }
 
-        public static List<Polygon2D> ExternalPolygons<T>(this IEnumerable<T> segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
+        public static List<Polygon2D>? ExternalPolygons<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
         {
             return ExternalPolygons(segmentable2Ds?.Segments(), tolerance);
         }
 
-        public static List<Polygon2D> ExternalPolygons(this IEnumerable<Segment2D> segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Polygon2D>? ExternalPolygons(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2Ds == null)
             {
                 return null;
             }
 
-            List<Polygon2D> result = new List<Polygon2D>();
+            List<Polygon2D> result = [];
 
-            List<IPolygonalFace2D> polygonalFace2Ds = Create.PolygonalFace2Ds(segment2Ds, tolerance);
+            List<IPolygonalFace2D>? polygonalFace2Ds = Create.PolygonalFace2Ds(segment2Ds, tolerance);
             if (polygonalFace2Ds == null || polygonalFace2Ds.Count == 0)
             {
                 return result;
@@ -53,13 +57,13 @@ namespace DiGi.Geometry.Planar
 
             for (int i = 0; i < polygonalFace2Ds.Count; i++)
             {
-                IPolygonal2D polygonal2D = polygonalFace2Ds[i]?.ExternalEdge;
+                IPolygonal2D? polygonal2D = polygonalFace2Ds[i]?.ExternalEdge;
                 if (polygonal2D == null)
                 {
                     continue;
                 }
 
-                result.Add(new Polygon2D(polygonal2D));
+                result.Add(new (polygonal2D));
             }
 
             return result;

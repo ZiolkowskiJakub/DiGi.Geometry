@@ -9,10 +9,10 @@ namespace DiGi.Geometry.Spatial.Classes
 {
     public class Segment3D : Geometry3D, ISegmentable3D, ILinear3D, ISegment<Point3D>
     {
-        private Point3D start;
-        private Vector3D vector;
+        private Point3D? start;
+        private Vector3D? vector;
 
-        public Segment3D(JsonObject jsonObject)
+        public Segment3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -24,7 +24,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         }
 
-        public Segment3D(Point3D start, Point3D end)
+        public Segment3D(Point3D? start, Point3D? end)
             : base()
         {
             if (start != null && end != null)
@@ -34,29 +34,29 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public Segment3D(Point3D start, Vector3D vector)
+        public Segment3D(Point3D? start, Vector3D? vector)
         {
             this.start = DiGi.Core.Query.Clone(start);
             this.vector = DiGi.Core.Query.Clone(vector);
         }
 
-        public Segment3D(Segment3D segment3D)
+        public Segment3D(Segment3D? segment3D)
         : this(segment3D?.start, segment3D?.vector)
         {
 
         }
 
         [JsonIgnore]
-        public Vector3D Direction
+        public Vector3D? Direction
         {
             get
             {
-                return vector == null ? null : vector.Unit;
+                return vector?.Unit;
             }
         }
 
         [JsonIgnore]
-        public Point3D End
+        public Point3D? End
         {
             get
             {
@@ -65,7 +65,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     return null;
                 }
 
-                Point3D result = new Point3D(start);
+                Point3D result = new (start);
                 result.Move(vector);
 
                 return result;
@@ -87,7 +87,12 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                Point3D end = End;
+                if(start is null)
+                {
+                    return double.NaN;
+                }
+
+                Point3D? end = End;
                 if (end == null)
                 {
                     return double.NaN;
@@ -102,13 +107,18 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
+                if(vector is null)
+                {
+                    return double.NaN;
+                }
+
                 return vector.SquaredLength;
             }
         }
 
 
         [JsonPropertyName("Start")]
-        public Point3D Start
+        public Point3D? Start
         {
             get
             {
@@ -122,7 +132,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonPropertyName("Vector")]
-        public Vector3D Vector
+        public Vector3D? Vector
         {
             get
             {
@@ -135,45 +145,40 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public Point3D this[int index]
+        public Point3D? this[int index]
         {
             get
             {
-                switch (index)
+                return index switch
                 {
-                    case 0:
-                        return Start;
-
-                    case 1:
-                        return End;
-
-                    default:
-                        return null;
-                }
+                    0 => Start,
+                    1 => End,
+                    _ => null,
+                };
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Segment3D(this);
         }
 
-        public Point3D ClosestPoint(Point3D point3D)
+        public Point3D? ClosestPoint(Point3D? point3D)
         {
             return Query.ClosestPoint(point3D, start, End, true);
         }
 
-        public bool Collinear(ILinear3D linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Collinear(ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             throw new System.NotImplementedException();
         }
 
-        public double Distance(Point3D point3D)
+        public double Distance(Point3D? point3D)
         {
             throw new System.NotImplementedException();
         }
 
-        public BoundingBox3D GetBoundingBox()
+        public BoundingBox3D? GetBoundingBox()
         {
             if(start == null || vector == null)
             {
@@ -183,31 +188,31 @@ namespace DiGi.Geometry.Spatial.Classes
             return new BoundingBox3D(start, End);
         }
 
-        public List<Point3D> GetPoints()
+        public List<Point3D>? GetPoints()
         {
             if (start == null || vector == null)
             {
                 return null;
             }
 
-            return new List<Point3D>() { new Point3D(start), End };
+            return [new Point3D(start), End];
         }
 
-        public List<Segment3D> GetSegments()
+        public List<Segment3D>? GetSegments()
         {
-            return new List<Segment3D>() { new Segment3D(this) };
+            return [new Segment3D(this)];
         }
 
         public void Inverse()
         {
-            Point3D end = End;
+            Point3D? end = End;
 
-            vector.Inverse();
+            vector?.Inverse();
 
             start = end;
         }
 
-        public Point3D Mid()
+        public Point3D? Mid()
         {
             if (start == null || vector == null)
             {
@@ -217,7 +222,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return start.Mid(End);
         }
 
-        public override bool Move(Vector3D vector3D)
+        public override bool Move(Vector3D? vector3D)
         {
             if(start == null || vector3D == null)
             {
@@ -227,18 +232,18 @@ namespace DiGi.Geometry.Spatial.Classes
             return start.Move(vector3D);
         }
         
-        public bool On(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            Point3D point3D_Temp = ClosestPoint(point3D);
+            Point3D? point3D_Temp = ClosestPoint(point3D);
             if(point3D_Temp == null)
             {
                 return false;
             }
 
-            return point3D.Distance(point3D_Temp) < tolerance;
+            return point3D!.Distance(point3D_Temp) < tolerance;
         }
         
-        public bool Transform(ITransform3D transform)
+        public bool Transform(ITransform3D? transform)
         {
             throw new System.NotImplementedException();
         }

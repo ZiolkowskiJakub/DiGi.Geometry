@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static Point2D Evaluate(this PolynomialEquation polynominalEquation, double x)
+        public static Point2D? Evaluate(this PolynomialEquation? polynominalEquation, double x)
         {
             if (polynominalEquation == null || double.IsNaN(x))
             {

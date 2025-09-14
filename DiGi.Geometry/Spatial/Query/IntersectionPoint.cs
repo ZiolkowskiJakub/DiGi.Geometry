@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="vector3D_2">Direction Vector3D of second line</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns></returns>
-        public static Point3D IntersectionPoint(this Point3D point3D_1, Vector3D vector3D_1, Point3D point3D_2, Vector3D vector3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Point3D? IntersectionPoint(this Point3D? point3D_1, Vector3D? vector3D_1, Point3D? point3D_2, Vector3D? vector3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             //x = x1 + a1*t = x2 + b1*s
             //y = y1 + a2*t = y2 + b2*s

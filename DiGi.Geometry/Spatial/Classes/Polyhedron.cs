@@ -1,4 +1,5 @@
-﻿using DiGi.Core.Interfaces;
+﻿using DiGi.Core;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,71 +10,79 @@ namespace DiGi.Geometry.Spatial.Classes
 {
     public class Polyhedron : Polyhedron<IPolygonalFace3D>
     {
-        public Polyhedron(Polyhedron polyhedron)
+        public Polyhedron(Polyhedron? polyhedron)
             :base(polyhedron)
         {
 
         }
 
-        public Polyhedron(JsonObject jsonObject)
+        public Polyhedron(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        internal Polyhedron(IEnumerable<IPolygonalFace3D> polygonalFaces)
+        internal Polyhedron(IEnumerable<IPolygonalFace3D>? polygonalFaces)
             :base(polygonalFaces)
         {
 
         }
 
-        public ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Polyhedron(this);
         }
 
-        public override BoundingBox3D GetBoundingBox()
+        public override BoundingBox3D? GetBoundingBox()
         {
             if (polygonalFaces == null || polygonalFaces.Count == 0)
             {
                 return null;
             }
 
-            List<BoundingBox3D> boundingBox3Ds = new List<BoundingBox3D>();
+            List<BoundingBox3D> boundingBox3Ds = [];
             for (int i = 0; i < polygonalFaces.Count; i++)
             {
-                boundingBox3Ds.Add(polygonalFaces[i]?.GetBoundingBox());
+                BoundingBox3D? boundingBox3D = polygonalFaces[i]?.GetBoundingBox();
+                if(boundingBox3D != null)
+                {
+                    boundingBox3Ds.Add(boundingBox3D);
+                }
             }
 
             return Create.BoundingBox3D(boundingBox3Ds);
         }
 
-        public Point3D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (polygonalFaces == null)
             {
                 return null;
             }
 
-            BoundingBox3D boundingBox3D = GetBoundingBox();
+            BoundingBox3D? boundingBox3D = GetBoundingBox();
             if (boundingBox3D == null)
             {
                 return null;
             }
 
-            Point3D result = boundingBox3D.GetCentroid();
+            Point3D? result = boundingBox3D.GetCentroid();
             if (Inside(result, tolerance))
             {
                 return result;
             }
 
-            int count = polygonalFaces.Count;
-
-            Dictionary<int, Point3D> dictionary = new Dictionary<int, Point3D>();
-            for (int i = 0; i < count; i++)
+            Dictionary<int, Point3D> dictionary = [];
+            for (int i = 0; i < polygonalFaces.Count; i++)
             {
-                dictionary[i] = polygonalFaces[i].GetInternalPoint(tolerance);
+                Point3D? point3D_Temp = polygonalFaces[i].GetInternalPoint(tolerance);
+                if(point3D_Temp is not null)
+                {
+                    dictionary[i] = point3D_Temp;
+                }
             }
+
+            int count = dictionary.Count;
 
             for (int i = 0; i < count - 1; i++)
             {
@@ -82,7 +91,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     Point3D point3D_1 = dictionary[i];
                     Point3D point3D_2 = dictionary[j];
 
-                    IntersectionResult3D planarIntersectionResult = Create.IntersectionResult3D(this, new Line3D(point3D_1, point3D_2), tolerance);
+                    IntersectionResult3D? planarIntersectionResult = Create.IntersectionResult3D(this, new Line3D(point3D_1, point3D_2), tolerance);
                     if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
                     {
                         continue;
@@ -93,15 +102,15 @@ namespace DiGi.Geometry.Spatial.Classes
                         continue;
                     }
 
-                    List<Point3D> point3Ds = planarIntersectionResult.GetGeometry3Ds<Point3D>();
+                    List<Point3D>? point3Ds = planarIntersectionResult.GetGeometry3Ds<Point3D>();
                     if (point3Ds == null || point3Ds.Count < 2)
                     {
                         continue;
                     }
 
-                    point3Ds.ExtremePoints(out point3D_1, out point3D_2);
+                    point3Ds.ExtremePoints(out Point3D? point3D_Extreme, out _);
 
-                    DiGi.Core.Modify.Sort(point3Ds, x => x.Distance(point3D_1));
+                    DiGi.Core.Modify.Sort(point3Ds, x => x.Distance(point3D_Extreme));
 
                     for (int k = 0; k < point3Ds.Count - 1; k++)
                     {
@@ -117,7 +126,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return null;
         }
 
-        public bool InRange(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || polygonalFaces == null)
             {
@@ -126,13 +135,13 @@ namespace DiGi.Geometry.Spatial.Classes
 
             for (int i = 0; i < polygonalFaces.Count; i++)
             {
-                Point3D point3D_Temp = polygonalFaces[i].GetInternalPoint(tolerance);
+                Point3D? point3D_Temp = polygonalFaces[i].GetInternalPoint(tolerance);
                 if (point3D_Temp == null)
                 {
                     continue;
                 }
 
-                IntersectionResult3D planarIntersectionResult = Create.IntersectionResult3D(this, new Line3D(point3D, point3D_Temp), tolerance);
+                IntersectionResult3D? planarIntersectionResult = Create.IntersectionResult3D(this, new Line3D(point3D, point3D_Temp), tolerance);
                 if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
                 {
                     continue;
@@ -143,7 +152,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     continue;
                 }
 
-                List<Point3D> point3Ds = planarIntersectionResult.GetGeometry3Ds<Point3D>();
+                List<Point3D>? point3Ds = planarIntersectionResult.GetGeometry3Ds<Point3D>();
                 if (point3Ds == null || point3Ds.Count == 0)
                 {
                     continue;
@@ -160,7 +169,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
-        public bool Inside(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || polygonalFaces == null)
             {
@@ -175,7 +184,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return !On(point3D, tolerance);
         }
 
-        public override bool Move(Vector3D vector3D)
+        public override bool Move(Vector3D? vector3D)
         {
             if (polygonalFaces == null)
             {
@@ -193,7 +202,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
         
-        public bool On(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || polygonalFaces == null)
             {
@@ -202,7 +211,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             for (int i = 0; i < polygonalFaces.Count; i++)
             {
-                BoundingBox3D boundingBox3D = polygonalFaces[i].GetBoundingBox();
+                BoundingBox3D? boundingBox3D = polygonalFaces[i].GetBoundingBox();
                 if (boundingBox3D == null)
                 {
                     continue;
@@ -228,7 +237,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
         
-        public bool OnEdge(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool OnEdge(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || polygonalFaces == null)
             {
@@ -237,7 +246,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             for (int i = 0; i < polygonalFaces.Count; i++)
             {
-                BoundingBox3D boundingBox3D = polygonalFaces[i].GetBoundingBox();
+                BoundingBox3D? boundingBox3D = polygonalFaces[i].GetBoundingBox();
                 if (boundingBox3D == null)
                 {
                     continue;
@@ -267,26 +276,26 @@ namespace DiGi.Geometry.Spatial.Classes
     public abstract class Polyhedron<TPolyhedronFace> : Geometry3D, IBoundable3D where TPolyhedronFace : IPolyhedronFace
     {
         [JsonInclude, JsonPropertyName("PolygonalFaces")]
-        protected List<TPolyhedronFace> polygonalFaces;
+        protected List<TPolyhedronFace>? polygonalFaces;
 
-        public Polyhedron(Polyhedron<TPolyhedronFace> polyhedron)
+        public Polyhedron(Polyhedron<TPolyhedronFace>? polyhedron)
             : base(polyhedron)
         {
-            polygonalFaces = DiGi.Core.Query.Clone(polyhedron?.polygonalFaces);
+            polygonalFaces = DiGi.Core.Query.Clone(polyhedron?.polygonalFaces)?.FilterNulls();
         }
 
-        public Polyhedron(JsonObject jsonObject)
+        public Polyhedron(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        internal Polyhedron(IEnumerable<TPolyhedronFace> polygonalFaces)
+        internal Polyhedron(IEnumerable<TPolyhedronFace>? polygonalFaces)
             :base()
         {
             if (polygonalFaces != null && polygonalFaces.Count() >= 4)
             {
-                this.polygonalFaces = new List<TPolyhedronFace>();
+                this.polygonalFaces = [];
                 foreach (TPolyhedronFace polygonalFace3D in polygonalFaces)
                 {
                     this.polygonalFaces.Add(polygonalFace3D);
@@ -304,7 +313,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public List<TPolyhedronFace> PolygonalFaces
+        public List<TPolyhedronFace>? PolygonalFaces
         {
             get
             {
@@ -313,7 +322,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     return null;
                 }
 
-                List<TPolyhedronFace> result = new List<TPolyhedronFace>();
+                List<TPolyhedronFace> result = [];
                 for (int i = 0; i < polygonalFaces.Count; i++)
                 {
                     result.Add(polygonalFaces[i]);
@@ -324,15 +333,20 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public TPolyhedronFace this[int i]
+        public TPolyhedronFace? this[int i]
         {
             get
             {
+                if(polygonalFaces is null)
+                {
+                    return default;
+                }
+
                 return DiGi.Core.Query.Clone(polygonalFaces[i]);
             }
         }
 
-        public abstract BoundingBox3D GetBoundingBox();
+        public abstract BoundingBox3D? GetBoundingBox();
     }
 
     //public class Polyhedron : Geometry3D, IBoundable3D

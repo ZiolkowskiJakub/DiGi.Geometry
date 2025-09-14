@@ -8,28 +8,28 @@ namespace DiGi.Geometry.Planar.Classes
     public class SegmentableTraceResult2D : SerializableObject
     {
         [JsonInclude, JsonPropertyName("Vector2D")]
-        private Vector2D vector2D;
+        private readonly Vector2D? vector2D;
         
         [JsonInclude, JsonPropertyName("Segment2D")]
-        private Segment2D segment2D;
+        private readonly Segment2D? segment2D;
 
         [JsonInclude, JsonPropertyName("Point2D")]
-        private Point2D point2D;
+        private readonly Point2D? point2D;
 
-        public SegmentableTraceResult2D(JsonObject jsonObject)
+        public SegmentableTraceResult2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        internal SegmentableTraceResult2D(Vector2D vector2D, Segment2D segment2D, Point2D point2D)
+        internal SegmentableTraceResult2D(Vector2D? vector2D, Segment2D? segment2D, Point2D? point2D)
         {
             this.vector2D = DiGi.Core.Query.Clone(vector2D);
             this.segment2D = DiGi.Core.Query.Clone(segment2D);
             this.point2D = DiGi.Core.Query.Clone(point2D);
         }
 
-        public SegmentableTraceResult2D(SegmentableTraceResult2D segmentableTraceResult2D)
+        public SegmentableTraceResult2D(SegmentableTraceResult2D? segmentableTraceResult2D)
         {
             if(segmentableTraceResult2D != null)
             {
@@ -43,7 +43,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// Hit direction
         /// </summary>
         [JsonIgnore]
-        public Vector2D Vector2D
+        public Vector2D? Vector2D
         {
             get
             {
@@ -55,7 +55,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// Hit Point
         /// </summary>
         [JsonIgnore]
-        public Point2D Point2D
+        public Point2D? Point2D
         {
             get
             {
@@ -67,7 +67,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// Hit Segment
         /// </summary>
         [JsonIgnore]
-        public Segment2D Segment2D
+        public Segment2D? Segment2D
         {
             get
             {
@@ -75,7 +75,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new SegmentableTraceResult2D(vector2D, segment2D, point2D);
         }

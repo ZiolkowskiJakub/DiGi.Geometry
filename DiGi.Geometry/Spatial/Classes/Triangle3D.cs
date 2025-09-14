@@ -1,4 +1,5 @@
-﻿using DiGi.Core.Interfaces;
+﻿using DiGi.Core;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -11,15 +12,15 @@ namespace DiGi.Geometry.Spatial.Classes
     public class Triangle3D : Geometry3D, IPlanar<Triangle2D>, IPolygonal3D
     {
         [JsonInclude, JsonPropertyName("Points")]
-        private Point3D[] points = new Point3D[3];
+        private readonly Point3D?[] points = new Point3D?[3];
 
-        public Triangle3D(JsonObject jsonObject)
+        public Triangle3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public Triangle3D(Triangle3D triangle3D)
+        public Triangle3D(Triangle3D? triangle3D)
             : base(triangle3D)
         {
             if(triangle3D != null)
@@ -30,7 +31,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public Triangle3D(Point3D point2D_1, Point3D point2D_2, Point3D point2D_3)
+        public Triangle3D(Point3D? point2D_1, Point3D? point2D_2, Point3D? point2D_3)
             : base()
         {
             points[0] = point2D_1;
@@ -39,17 +40,35 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Triangle2D Geometry2D
+        public Triangle2D? Geometry2D
         {
             get
             {
-                Plane plane = Plane;
-                if (plane == null)
+                Plane? plane = Plane;
+                if (plane is null)
                 {
                     return null;
                 }
 
-                return new Triangle2D(plane.Convert(points[0]), plane.Convert(points[1]), plane.Convert(points[2]));
+                Point2D? point2D_1 = plane.Convert(points[0]);
+                if (point2D_1 is null)
+                {
+                    return null;
+                }
+
+                Point2D? point2D_2 = plane.Convert(points[1]);
+                if (point2D_2 is null)
+                {
+                    return null;
+                }
+
+                Point2D? point2D_3 = plane.Convert(points[2]);
+                if (point2D_3 is null)
+                {
+                    return null;
+                }
+
+                return new Triangle2D(point2D_1, point2D_2, point2D_3);
 
             }
         }
@@ -64,12 +83,17 @@ namespace DiGi.Geometry.Spatial.Classes
                     return double.NaN;
                 }
 
-                return points[0].Distance(points[1]) + points[1].Distance(points[2]) + points[2].Distance(points[0]);
+                if (points[0] is null || points[1] is null || points[2] is null)
+                {
+                    return double.NaN;
+                }
+
+                return points[0]!.Distance(points[1]) + points[1]!.Distance(points[2]) + points[2]!.Distance(points[0]);
             }
         }
         
         [JsonIgnore]
-        public Plane Plane
+        public Plane? Plane
         {
             get
             {
@@ -78,7 +102,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Point3D this[int index]
+        public Point3D? this[int index]
         {
             get
             {
@@ -86,12 +110,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Triangle3D(this);
         }
 
-        public Point3D ClosestPoint(Point3D point3D)
+        public Point3D? ClosestPoint(Point3D? point3D)
         {
             if(point3D == null || points == null)
             {
@@ -101,14 +125,14 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.ClosestPoint(point3D, this);
         }
 
-        public double Distance(Point3D point3D)
+        public double Distance(Point3D? point3D)
         {
             if (point3D == null || points == null)
             {
                 return double.NaN;
             }
 
-            Point3D point3D_Closest = Query.ClosestPoint(point3D, this, out double result);
+            Point3D? point3D_Closest = Query.ClosestPoint(point3D, this, out double result);
             if(point3D_Closest == null)
             {
                 return double.NaN;
@@ -124,15 +148,20 @@ namespace DiGi.Geometry.Spatial.Classes
                 return double.NaN;
             }
 
-            double a = points[0].Distance(points[1]);
-            double b = points[1].Distance(points[2]);
-            double c = points[2].Distance(points[0]);
+            if (points[0] is null || points[1] is null || points[2] is null)
+            {
+                return double.NaN;
+            }
+
+            double a = points[0]!.Distance(points[1]);
+            double b = points[1]!.Distance(points[2]);
+            double c = points[2]!.Distance(points[0]);
 
             double s = (a + b + c) / 2;
             return System.Math.Sqrt(s * (s - a) * (s - b) * (s - c));
         }
 
-        public BoundingBox3D GetBoundingBox()
+        public BoundingBox3D? GetBoundingBox()
         {
             if(points == null)
             {
@@ -142,19 +171,19 @@ namespace DiGi.Geometry.Spatial.Classes
             return new BoundingBox3D(points);
         }
 
-        public Point3D GetCentroid()
+        public Point3D? GetCentroid()
         {
-            return Query.Centroid(points);
+            return Query.Centroid(points?.FilterNulls());
         }
 
-        public Point3D GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(points == null)
             {
                 return null;
             }
 
-            return points[0].Mid(points[1]).Mid(points[2]);
+            return points[0]?.Mid(points[1])?.Mid(points[2]);
         }
 
         public double GetPerimeter()
@@ -162,29 +191,29 @@ namespace DiGi.Geometry.Spatial.Classes
             return Length;
         }
 
-        public List<Point3D> GetPoints()
+        public List<Point3D>? GetPoints()
         {
-            return DiGi.Core.Query.Clone(points)?.ToList();
+            return DiGi.Core.Query.Clone(points)?.FilterNulls();
         }
 
-        public List<Segment3D> GetSegments()
+        public List<Segment3D>? GetSegments()
         {
             if(points == null)
             {
                 return null;
             }
 
-            return new List<Segment3D>() { new Segment3D(points[0], points[1]), new Segment3D(points[1], points[2]), new Segment3D(points[2], points[0]) };
+            return [new Segment3D(points[0], points[1]), new Segment3D(points[1], points[2]), new Segment3D(points[2], points[0])];
         }
 
-        public bool InRange(ISegmentable3D segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable3D == null || points == null)
             {
                 return false;
             }
 
-            List<Point3D> point3Ds = segmentable3D.GetPoints();
+            List<Point3D>? point3Ds = segmentable3D.GetPoints();
             if (point3Ds == null)
             {
                 return false;
@@ -193,7 +222,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.InRange(this, point3Ds, tolerance);
         }
 
-        public bool InRange(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || points == null)
             {
@@ -203,14 +232,14 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.InRange(this, point3D, tolerance);
         }
 
-        public bool Inside(ISegmentable3D segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable3D == null || points == null)
             {
                 return false;
             }
 
-            List<Point3D> point3Ds = segmentable3D.GetPoints();
+            List<Point3D>? point3Ds = segmentable3D.GetPoints();
             if(point3Ds == null)
             {
                 return false;
@@ -219,7 +248,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.Inside(this, point3Ds, tolerance);
         }
 
-        public bool Inside(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(point3D == null || points == null)
             {
@@ -236,13 +265,10 @@ namespace DiGi.Geometry.Spatial.Classes
                 return;
             }
 
-            Point3D point3D = points[0];
-
-            points[0] = points[2];
-            points[2] = point3D;
+            (points[2], points[0]) = (points[0], points[2]);
         }
 
-        public override bool Move(Vector3D vector3D)
+        public override bool Move(Vector3D? vector3D)
         {
             if(vector3D == null || points == null)
             {
@@ -251,13 +277,13 @@ namespace DiGi.Geometry.Spatial.Classes
 
             for(int i =0; i < points.Length; i++)
             {
-                points[i].Move(vector3D);
+                points[i]?.Move(vector3D);
             }
 
             return true;
         }
 
-        public bool On(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || points == null)
             {
@@ -267,15 +293,15 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.On(this, point3D, tolerance);
         }
 
-        public List<Triangle3D> Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
-            List<Point3D> point3Ds = GetPoints();
-            if (point3Ds != null || point3Ds.Count != 3)
+            List<Point3D>? point3Ds = GetPoints();
+            if (point3Ds == null || point3Ds.Count != 3)
             {
                 return null;
             }
 
-            return new List<Triangle3D>() { new Triangle3D(points[0], points[1], points[2]) };
+            return [new Triangle3D(points[0], points[1], points[2])];
         }
     }
 }

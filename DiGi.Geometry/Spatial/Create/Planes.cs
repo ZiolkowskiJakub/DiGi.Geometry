@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static List<Plane> Planes(this BoundingBox3D boundingBox3D)
+        public static List<Plane>? Planes(this BoundingBox3D? boundingBox3D)
         {
             if(boundingBox3D == null)
             {
@@ -28,15 +28,15 @@ namespace DiGi.Geometry.Spatial
             Vector3D vector3D_Y = Constans.Vector3D.WorldY;
             Vector3D vector3D_Z = Constans.Vector3D.WorldZ;
 
-            return new List<Plane>()
-            {
+            return
+            [
                 new Plane(point3D_Min, vector3D_X),
                 new Plane(point3D_Min, vector3D_Y),
                 new Plane(point3D_Min, vector3D_Z),
                 new Plane(point3D_Max, vector3D_X),
                 new Plane(point3D_Max, vector3D_Y),
                 new Plane(point3D_Max, vector3D_Z)
-            };
+            ];
         }
     }
 }

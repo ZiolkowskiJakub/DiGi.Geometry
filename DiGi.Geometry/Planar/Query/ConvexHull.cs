@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Point2D> ConvexHull(this IEnumerable<Point2D> point2Ds)
+        public static List<Point2D>? ConvexHull(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null)
             {
@@ -16,13 +16,13 @@ namespace DiGi.Geometry.Planar
 
             if (point2Ds.Count() <= 3)
             {
-                return new List<Point2D>(point2Ds);
+                return [.. point2Ds];
             }
 
-            List<Point2D> point2Ds_Temp = new List<Point2D>(point2Ds);
+            List<Point2D> point2Ds_Temp = [.. point2Ds];
             point2Ds_Temp.Sort(new ConvexHullComparer());
 
-            List<Point2D> point2Ds_Temp_UpperHull = new List<Point2D>();
+            List<Point2D> point2Ds_Temp_UpperHull = [];
             foreach (Point2D point2D in point2Ds_Temp)
             {
                 while (point2Ds_Temp_UpperHull.Count >= 2)
@@ -42,7 +42,7 @@ namespace DiGi.Geometry.Planar
             }
             point2Ds_Temp_UpperHull.RemoveAt(point2Ds_Temp_UpperHull.Count - 1);
 
-            IList<Point2D> point2DList_LowerHull = new List<Point2D>();
+            IList<Point2D> point2DList_LowerHull = [];
             for (int i = point2Ds_Temp.Count - 1; i >= 0; i--)
             {
                 Point2D point2D = point2Ds_Temp[i];
@@ -70,21 +70,35 @@ namespace DiGi.Geometry.Planar
             return point2Ds_Temp_UpperHull;
         }
 
-        public static List<Point2D> ConvexHull(this IEnumerable<Segment2D> segment2Ds)
+        public static List<Point2D>? ConvexHull(this IEnumerable<Segment2D>? segment2Ds)
         {
-            List<Point2D> point2Ds = new List<Point2D>();
+            if(segment2Ds is null)
+            {
+                return null;
+            }
+
+            List<Point2D> point2Ds = [];
             foreach (Segment2D segment2D in segment2Ds)
             {
-                point2Ds.Add(segment2D[0]);
-                point2Ds.Add(segment2D[1]);
+                Point2D? point2D = segment2D[0];
+                if(point2D is not null)
+                {
+                    point2Ds.Add(point2D);
+                }
+
+                point2D = segment2D[1];
+                if (point2D is not null)
+                {
+                    point2Ds.Add(point2D);
+                }
             }
 
             return ConvexHull(point2Ds);
         }
 
-        public static List<Point2D> ConvexHull(this ISegmentable2D segmentable2D)
+        public static List<Point2D>? ConvexHull(this ISegmentable2D? segmentable2D)
         {
-            return ConvexHull(segmentable2D.GetSegments());
+            return ConvexHull(segmentable2D?.GetSegments());
         }
     }
 }

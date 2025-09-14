@@ -10,7 +10,7 @@ namespace DiGi.Geometry.Core.Classes
     {
         protected double[] values;
 
-        public Coordinate(params double[] values)
+        public Coordinate(params double[]? values)
         {
             if (values != null)
             {
@@ -20,16 +20,20 @@ namespace DiGi.Geometry.Core.Classes
                     this.values[i] = values[i];
                 }
             }
+            else
+            {
+                this.values = [];
+            }
         }
 
-        public Coordinate(JsonObject jsonObject, int length)
+        public Coordinate(JsonObject? jsonObject, int length)
             : base()
         {
             values = new double[length];
             FromJsonObject(jsonObject);
         }
 
-        public Coordinate(Coordinate coordinate)
+        public Coordinate(Coordinate? coordinate)
             : this(coordinate?.values)
         {
 
@@ -93,7 +97,7 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
-        public override bool Equals(object @object)
+        public override bool Equals(object? @object)
         {
             if(GetType() != @object?.GetType())
             {
@@ -116,8 +120,13 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
-        public bool AlmostEquals(Coordinate coordinate, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool AlmostEquals(Coordinate? coordinate, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
+            if(coordinate is null)
+            {
+                return false;
+            }
+
             if (this == coordinate)
             {
                 return true;
@@ -128,10 +137,15 @@ namespace DiGi.Geometry.Core.Classes
                 return false;
             }
 
-            double[] values = coordinate.values;
+            double[]? values = coordinate?.values;
             if(this.values == values)
             {
                 return true;
+            }
+
+            if(values == null)
+            {
+                return false;
             }
 
             for (int i = 0; i < values.Length; i++)
@@ -145,19 +159,24 @@ namespace DiGi.Geometry.Core.Classes
             return true;
         }
 
-        public static bool operator ==(Coordinate coordinate_1, Coordinate coordinate_2)
+        public static bool operator ==(Coordinate? coordinate_1, Coordinate? coordinate_2)
         {
             if(coordinate_1?.GetType() != coordinate_2?.GetType())
             {
                 return false;
             }
             
-            double[] values_1 = coordinate_1?.values;
-            double[] values_2 = coordinate_2?.values;
+            double[]? values_1 = coordinate_1?.values;
+            double[]? values_2 = coordinate_2?.values;
 
             if(values_1 == values_2)
             {
                 return true;
+            }
+
+            if(values_1 == null || values_2 == null)
+            {
+                return false;
             }
 
             if(values_1.Length != values_2.Length)
@@ -176,7 +195,7 @@ namespace DiGi.Geometry.Core.Classes
             return true;
         }
 
-        public static bool operator !=(Coordinate coordinate_1, Coordinate coordinate_2)
+        public static bool operator !=(Coordinate? coordinate_1, Coordinate? coordinate_2)
         {
             return !(coordinate_1 == coordinate_2);
         }
@@ -200,7 +219,7 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         [JsonIgnore]
-        public Matrix ArgumentedMatrix
+        public Matrix? ArgumentedMatrix
         {
             get
             {

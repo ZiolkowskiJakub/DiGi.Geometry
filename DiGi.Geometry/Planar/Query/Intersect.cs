@@ -13,13 +13,13 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            BoundingBox2D boundingBox2D_1 = segmentable2D_1.GetBoundingBox();
+            BoundingBox2D? boundingBox2D_1 = segmentable2D_1.GetBoundingBox();
             if(boundingBox2D_1 == null)
             {
                 return false;
             }
 
-            BoundingBox2D boundingBox2D_2 = segmentable2D_2.GetBoundingBox();
+            BoundingBox2D? boundingBox2D_2 = segmentable2D_2.GetBoundingBox();
             if (boundingBox2D_2 == null)
             {
                 return false;
@@ -31,7 +31,7 @@ namespace DiGi.Geometry.Planar
             }
 
 
-            List<Segment2D> segment2Ds = segmentable2D_2.GetSegments();
+            List<Segment2D>? segment2Ds = segmentable2D_2.GetSegments();
             if(segment2Ds == null || segment2Ds.Count == 0) 
             {
                 return false;
@@ -48,14 +48,14 @@ namespace DiGi.Geometry.Planar
             return false;
         }
 
-        public static bool Intersect(this ISegmentable2D segmentable2D, Segment2D segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool Intersect(this ISegmentable2D? segmentable2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(segmentable2D == null || segment2D == null)
             {
                 return false;
             }
 
-            BoundingBox2D boundingBox2D = segmentable2D.GetBoundingBox();
+            BoundingBox2D? boundingBox2D = segmentable2D.GetBoundingBox();
             if(boundingBox2D == null)
             {
                 return false;
@@ -66,7 +66,7 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            List<Segment2D> segment2Ds = segmentable2D?.GetSegments();
+            List<Segment2D>? segment2Ds = segmentable2D?.GetSegments();
             if(segment2Ds == null || segment2Ds.Count == 0)
             {
                 return false;
@@ -83,9 +83,9 @@ namespace DiGi.Geometry.Planar
             return false;
         }
 
-        public static bool Intersect(this ILinear2D linear2D_1, ILinear2D linear_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool Intersect(this ILinear2D? linear2D_1, ILinear2D? linear_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            Point2D point2D = IntersectionPoint(linear2D_1, linear_2, tolerance);
+            Point2D? point2D = IntersectionPoint(linear2D_1, linear_2, tolerance);
 
             return point2D != null;
         }

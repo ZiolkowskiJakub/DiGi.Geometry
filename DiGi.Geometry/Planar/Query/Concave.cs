@@ -7,14 +7,14 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool Concave(this IEnumerable<Point2D> point2Ds)
+        public static bool Concave(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null || point2Ds.Count() < 3)
             {
                 return false;
             }
 
-            List<Point2D> point2Ds_Temp = new List<Point2D>(point2Ds);
+            List<Point2D> point2Ds_Temp = [.. point2Ds];
 
             int index = point2Ds_Temp.Count - 1;
 
@@ -34,12 +34,12 @@ namespace DiGi.Geometry.Planar
             return false;
         }
 
-        public static bool Concave(this IPolygonal2D polygonal2D)
+        public static bool Concave(this IPolygonal2D? polygonal2D)
         {
             return Concave(polygonal2D?.GetPoints());
         }
 
-        public static bool Concave(this PolygonalFace2D polygonalFace2D, bool externalEdge = true, bool internalEdges = true)
+        public static bool Concave(this PolygonalFace2D? polygonalFace2D, bool externalEdge = true, bool internalEdges = true)
         {
             if (polygonalFace2D == null)
             {
@@ -48,7 +48,7 @@ namespace DiGi.Geometry.Planar
 
             if(externalEdge)
             {
-                IPolygonal2D polygonal2D = polygonalFace2D.ExternalEdge;
+                IPolygonal2D? polygonal2D = polygonalFace2D.ExternalEdge;
                 if(polygonal2D == null)
                 {
                     return false;
@@ -62,7 +62,7 @@ namespace DiGi.Geometry.Planar
 
             if(internalEdges)
             {
-                List<IPolygonal2D> polygonal2Ds = polygonalFace2D.InternalEdges;
+                List<IPolygonal2D>? polygonal2Ds = polygonalFace2D.InternalEdges;
                 if(polygonal2Ds != null)
                 {
                     for(int i =0; i < polygonal2Ds.Count; i++)

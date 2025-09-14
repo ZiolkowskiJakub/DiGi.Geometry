@@ -7,20 +7,20 @@ namespace DiGi.Geometry.Spatial.Classes
     public class Plane : Geometry3D, IInvertible
     {
         [JsonInclude, JsonPropertyName("AxisY")]
-        private Vector3D axisY;
+        private readonly Vector3D? axisY;
 
         [JsonInclude, JsonPropertyName("Normal")]
-        private Vector3D normal;
+        private readonly Vector3D? normal;
 
         [JsonInclude, JsonPropertyName("Origin")]
-        private Point3D origin;
+        private Point3D? origin;
 
-        public Plane(JsonObject jsonObject)
+        public Plane(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
-        public Plane(Plane plane)
+        public Plane(Plane? plane)
         {
             if(plane != null)
             {
@@ -30,7 +30,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public Plane(Plane plane, Point3D origin)
+        public Plane(Plane? plane, Point3D? origin)
         {
             if(plane != null)
             {
@@ -44,14 +44,14 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public Plane(Point3D point3D_1, Point3D point3D_2, Point3D point3D_3)
+        public Plane(Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3)
         {
             origin = new Point3D(point3D_1);
             normal = Query.Normal(point3D_1, point3D_2, point3D_3);
             axisY = normal.AxisY();
         }
 
-        public Plane(Point3D origin, Vector3D normal)
+        public Plane(Point3D? origin, Vector3D? normal)
         {
             if(normal != null)
             {
@@ -61,15 +61,15 @@ namespace DiGi.Geometry.Spatial.Classes
 
             if(origin != null)
             {
-                this.origin = new Point3D(origin);
+                this.origin = new (origin);
             }
         }
 
-        public Plane(Point3D origin, Vector3D axisX, Vector3D axisY)
+        public Plane(Point3D? origin, Vector3D? axisX, Vector3D? axisY)
         {
             this.origin = origin == null ? null : new Point3D(origin);
 
-            this.axisY = axisY == null ? null : axisY.Unit;
+            this.axisY = axisY?.Unit;
 
             if(axisX != null && this.axisY != null)
             {
@@ -86,12 +86,17 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
+                if(normal is null)
+                {
+                    return double.NaN;
+                }
+
                 return normal.X;
             }
         }
 
         [JsonIgnore]
-        public Vector3D AxisX
+        public Vector3D? AxisX
         {
             get
             {
@@ -100,20 +105,20 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Vector3D AxisY
+        public Vector3D? AxisY
         {
             get
             {
-                return axisY == null ? null : new Vector3D(axisY);
+                return axisY == null ? null : new (axisY);
             }
         }
 
         [JsonIgnore]
-        public Vector3D AxisZ
+        public Vector3D? AxisZ
         {
             get
             {
-                return normal == null ? null : new Vector3D(normal);
+                return normal == null ? null : new (normal);
             }
         }
 
@@ -126,6 +131,11 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
+                if(normal is null)
+                {
+                    return double.NaN;
+                }
+
                 return normal.Y;
             }
         }
@@ -139,6 +149,11 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
+                if(normal is null)
+                {
+                    return double.NaN;
+                }
+
                 return normal.Z;
             }
         }
@@ -152,6 +167,11 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
+                if(normal is null || origin is null)
+                {
+                    return double.NaN;
+                }
+
                 return -(normal.X * origin.X + normal.Y * origin.Y + normal.Z * origin.Z);
             }
         }
@@ -164,25 +184,30 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                return normal.DotProduct((Vector3D)origin);
+                if(normal is null || origin is null)
+                {
+                    return double.NaN;
+                }
+
+                return normal.DotProduct((Vector3D)origin!);
             }
         }
 
         [JsonIgnore]
-        public Vector3D Normal
+        public Vector3D? Normal
         {
             get
             {
-                return new Vector3D(normal);
+                return new (normal);
             }
         }
 
         [JsonIgnore]
-        public Point3D Origin
+        public Point3D? Origin
         {
             get
             {
-                return origin == null ? null : new Point3D(origin);
+                return origin == null ? null : new (origin);
             }
             set
             {
@@ -190,25 +215,41 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
         
-        public Point3D ClosestPoint(Point3D point3D)
+        public Point3D? ClosestPoint(Point3D? point3D)
         {
-            if (point3D == null)
+            if (point3D is null || normal is null)
             {
                 return null;
             }
 
-            double factor = ((Vector3D)point3D).DotProduct(normal) - K;
-            return new Point3D(point3D.X - (normal.X * factor), point3D.Y - (normal.Y * factor), point3D.Z - (normal.Z * factor));
+            double factor = ((Vector3D)point3D!).DotProduct(normal) - K;
+            return new (point3D.X - (normal.X * factor), point3D.Y - (normal.Y * factor), point3D.Z - (normal.Z * factor));
         }
 
-        public bool Coplanar(Plane plane, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Coplanar(Plane? plane, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            return normal.AlmostEquals(plane.normal, tolerance) || normal.AlmostEquals(-plane.normal, tolerance);
+            if(plane?.normal is null || normal is null)
+            {
+                return false;
+            }
+
+            return normal.AlmostEquals(plane?.normal, tolerance) || normal.AlmostEquals(-plane?.normal, tolerance);
         }
 
-        public double Distance(Point3D point3D)
+        public double Distance(Point3D? point3D)
         {
-            return ClosestPoint(point3D).Distance(point3D);
+            if(point3D is null)
+            {
+                return double.NaN;
+            }
+
+            Point3D? closestPoint = ClosestPoint(point3D);
+            if (closestPoint == null)
+            {
+                return double.NaN;
+            }
+
+            return closestPoint.Distance(point3D);
         }
 
         public void Inverse()
@@ -217,7 +258,7 @@ namespace DiGi.Geometry.Spatial.Classes
             axisY?.Inverse();
         }
 
-        public override bool Move(Vector3D vector3D)
+        public override bool Move(Vector3D? vector3D)
         {
             if (vector3D == null || origin == null)
             {

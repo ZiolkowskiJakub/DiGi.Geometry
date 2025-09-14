@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static double Parameter(this IEnumerable<Point2D> point2Ds, Point2D point2D, out Point2D point2D_Closest, out double distance)
+        public static double Parameter(this IEnumerable<Point2D>? point2Ds, Point2D? point2D, out Point2D? point2D_Closest, out double distance)
         {
             point2D_Closest = null;
             distance = double.NaN;
@@ -21,7 +21,7 @@ namespace DiGi.Geometry.Planar
             distance = double.MaxValue;
             int index = -1;
 
-            List<double> lengths = new List<double>();
+            List<double> lengths = [];
             for (int i = 1; i < count; i++)
             {
                 Point2D point2D_1 = point2Ds.ElementAt(i - 1);
@@ -35,7 +35,7 @@ namespace DiGi.Geometry.Planar
 
                 lengths.Add(point2D_1.Distance(point2D_2));
 
-                Point2D point2D_Closest_Temp = ClosestPoint(point2D, point2D_1, point2D_2, true);
+                Point2D? point2D_Closest_Temp = ClosestPoint(point2D, point2D_1, point2D_2, true);
                 if(point2D_Closest_Temp == null)
                 {
                     continue;
@@ -71,14 +71,14 @@ namespace DiGi.Geometry.Planar
 
         }
 
-        public static double Parameter(this IEnumerable<Point2D> point2Ds, Point2D point2D)
+        public static double Parameter(this IEnumerable<Point2D>? point2Ds, Point2D? point2D)
         {
             if(point2Ds == null || point2D == null)
             {
                 return double.NaN;
             }
 
-            return Parameter(point2Ds, point2D, out Point2D point2D_Closest, out double distance);
+            return Parameter(point2Ds, point2D, out _, out _);
         }
     }
 }

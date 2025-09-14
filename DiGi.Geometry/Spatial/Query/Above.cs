@@ -4,20 +4,20 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static bool Above(this Plane plane, Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool Above(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null)
             {
                 return false;
             }
 
-            Vector3D normal = plane?.Normal;
+            Vector3D? normal = plane?.Normal;
             if (normal == null)
             {
                 return false;
             }
 
-            Point3D origin = plane.Origin;
+            Point3D? origin = plane!.Origin;
             if (origin == null)
             {
                 return false;

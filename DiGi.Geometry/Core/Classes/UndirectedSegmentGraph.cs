@@ -10,9 +10,12 @@ namespace DiGi.Geometry.Core.Classes
     public abstract class UndirectedSegmentGraph<T, X> : SerializableObject where T: IPoint<T> where X: ISegment<T>
     {
         [JsonIgnore]
-        private UndirectedGraph<T, Edge<T>> undirectedGraph;
+        private UndirectedGraph<T, Edge<T>>? undirectedGraph = new();
 
-        public bool Add(X segment)
+        [JsonInclude, JsonPropertyName("Segments")]
+        public abstract List<X>? Segments { get; set; }
+
+        public bool Add(X? segment)
         {
             if(segment == null)
             {
@@ -21,13 +24,24 @@ namespace DiGi.Geometry.Core.Classes
 
             int index;
 
-            T point_Start = segment.Start;
-            T point_End = segment.End;
-
-            if (undirectedGraph.TryGetEdge(point_Start, point_End, out Edge<T> edge))
+            T? point_Start = segment.Start;
+            if(point_Start is null)
             {
                 return false;
             }
+
+            T? point_End = segment.End;
+            if(point_End is null)
+            {
+                return false;
+            }
+
+            if (undirectedGraph != null && undirectedGraph.TryGetEdge(point_Start, point_End, out _))
+            {
+                return false;
+            }
+
+            undirectedGraph ??= new UndirectedGraph<T, Edge<T>>();
 
             index = GetIndex(point_Start);
             if(index == -1)
@@ -44,7 +58,7 @@ namespace DiGi.Geometry.Core.Classes
             return undirectedGraph.AddEdge(new Edge<T>(point_Start, point_End));
         }
 
-        public int GetIndex(T point)
+        public int GetIndex(T? point)
         {
             if(point == null || undirectedGraph?.Vertices == null)
             {
@@ -63,8 +77,5 @@ namespace DiGi.Geometry.Core.Classes
 
             return -1;
         }
-
-        [JsonInclude, JsonPropertyName("Segments")]
-        public abstract List<X> Segments { get; set; }
     }
 }

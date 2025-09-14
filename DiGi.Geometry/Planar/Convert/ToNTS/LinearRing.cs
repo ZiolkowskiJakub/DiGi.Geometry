@@ -7,20 +7,20 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static LinearRing ToNTS(this IPolygonal2D polygonal2D)
+        public static LinearRing? ToNTS(this IPolygonal2D? polygonal2D)
         {
             if(polygonal2D == null)
             {
                 return null;
             }
 
-            List<Point2D> point2Ds = polygonal2D.GetPoints();
+            List<Point2D>? point2Ds = polygonal2D.GetPoints();
             if(point2Ds == null || point2Ds.Count < 3)
             {
                 return null;
             }
 
-            List<Coordinate> cooridnates = point2Ds.ToNTS();
+            List<Coordinate>? cooridnates = point2Ds.ToNTS();
             if(cooridnates == null)
             {
                 return null;
@@ -28,7 +28,7 @@ namespace DiGi.Geometry.Planar
 
             cooridnates.Add(cooridnates[0]);
 
-            return new LinearRing(cooridnates.ToArray());
+            return new LinearRing([.. cooridnates]);
         }
     }
 }

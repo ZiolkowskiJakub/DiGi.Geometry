@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static bool AlmostEquals(this Point3D point3D_1, Point3D point3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool AlmostEquals(this Point3D? point3D_1, Point3D? point3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(point3D_1 == point3D_2)
             {
@@ -21,7 +21,7 @@ namespace DiGi.Geometry.Spatial
             return point3D_1.Distance(point3D_2) <= tolerance;
         }
 
-        public static bool AlmostEquals(this ISegmentable3D segmentable3D_1, ISegmentable3D segmentable3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool AlmostEquals(this ISegmentable3D? segmentable3D_1, ISegmentable3D? segmentable3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(segmentable3D_1 == segmentable3D_2)
             {
@@ -38,8 +38,8 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            List<Point3D> point3Ds_1 = segmentable3D_1.GetPoints();
-            List<Point3D> point3Ds_2 = segmentable3D_2.GetPoints();
+            List<Point3D>? point3Ds_1 = segmentable3D_1.GetPoints();
+            List<Point3D>? point3Ds_2 = segmentable3D_2.GetPoints();
 
             if((point3Ds_1 == null || point3Ds_1.Count == 0) && (point3Ds_2 == null || point3Ds_2.Count == 0))
             {

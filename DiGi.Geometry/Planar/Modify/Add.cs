@@ -5,14 +5,14 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Modify
     {
-        public static bool Add(this List<Point2D> point2Ds, Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool Add(this List<Point2D?>? point2Ds, Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2Ds == null || point2D == null)
             {
                 return false;
             }
 
-            foreach (Point2D point2D_Temp in point2Ds)
+            foreach (Point2D? point2D_Temp in point2Ds)
             {
                 if (point2D_Temp == null)
                 {
@@ -39,7 +39,7 @@ namespace DiGi.Geometry.Planar
             return true;
         }
 
-        public static bool Add(this List<Point2D> point2Ds, double x, double y)
+        public static bool Add(this List<Point2D?>? point2Ds, double x, double y)
         {
             if (point2Ds == null)
             {

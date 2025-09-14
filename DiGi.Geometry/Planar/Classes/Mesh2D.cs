@@ -9,30 +9,30 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class Mesh2D : Mesh<Point2D>, IGeometry2D, IBoundable2D, ICollectable2D
     {
-        public Mesh2D(JsonObject jsonObject)
+        public Mesh2D(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public Mesh2D(Mesh2D mesh2D)
+        public Mesh2D(Mesh2D? mesh2D)
             :base(mesh2D)
         {
 
         }
 
-        public Mesh2D(IEnumerable<Point2D> points, IEnumerable<int[]> indexes)
+        public Mesh2D(IEnumerable<Point2D>? points, IEnumerable<int[]>? indexes)
             : base(points, indexes)
         {
 
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Mesh2D(this);
         }
 
-        public BoundingBox2D GetBoundingBox()
+        public BoundingBox2D? GetBoundingBox()
         {
             if(points == null)
             {
@@ -42,7 +42,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new BoundingBox2D(points);
         }
 
-        public List<Segment2D> GetSegements()
+        public List<Segment2D>? GetSegements()
         {
             if (points == null || indexes == null)
             {
@@ -55,12 +55,12 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            List<Segment2D> result = new List<Segment2D>();
+            List<Segment2D> result = [];
 
-            Dictionary<int, HashSet<int>> dictionary = new Dictionary<int, HashSet<int>>();
+            Dictionary<int, HashSet<int>> dictionary = [];
             for (int i = 0; i < count; i++)
             {
-                List<int> indexes_Triangle = new List<int>(indexes[i]);
+                List<int> indexes_Triangle = [.. indexes[i]];
                 indexes_Triangle.Add(indexes_Triangle.First());
 
                 for (int j = 0; j < indexes_Triangle.Count - 1; j++)
@@ -78,7 +78,7 @@ namespace DiGi.Geometry.Planar.Classes
 
                     if (indexes_Index == null)
                     {
-                        indexes_Index = new HashSet<int>();
+                        indexes_Index = [];
                         dictionary[index_1] = indexes_Index;
                     }
 
@@ -91,7 +91,7 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
-        public Triangle2D GetTriangle(int index)
+        public Triangle2D? GetTriangle(int index)
         {
             if (points == null || indexes == null)
             {
@@ -124,7 +124,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new Triangle2D(points[index_1], points[index_2], points[index_3]);
         }
 
-        public List<Triangle2D> GetTriangles()
+        public List<Triangle2D>? GetTriangles()
         {
             if (points == null || indexes == null)
             {
@@ -137,7 +137,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            List<Triangle2D> result = new List<Triangle2D>();
+            List<Triangle2D> result = [];
             if (count == 0)
             {
                 return result;
@@ -145,15 +145,21 @@ namespace DiGi.Geometry.Planar.Classes
 
             for (int i = 0; i < TrianglesCount; i++)
             {
-                result.Add(GetTriangle(i));
+                Triangle2D? triangle2D = GetTriangle(i);
+                if(triangle2D == null)
+                {
+                    continue;
+                }
+
+                result.Add(triangle2D);
             }
 
             return result;
         }
         
-        public bool Move(Vector2D vector2D)
+        public bool Move(Vector2D? vector2D)
         {
-            if(points == null || vector2D == null)
+            if(points == null || vector2D is null)
             {
                 return false;
             }

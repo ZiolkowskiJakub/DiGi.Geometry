@@ -7,22 +7,22 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static Point2D Min(this IEnumerable<Point2D> point2Ds)
+        public static Point2D? Min(this IEnumerable<Point2D?>? point2Ds)
         {
-            return Min(point2Ds, out Point2D max);
+            return Min(point2Ds, out _);
         }
 
-        public static Point2D Min(this Point2D point2D_1, Point2D point2D_2)
+        public static Point2D? Min(this Point2D? point2D_1, Point2D? point2D_2)
         {
             if(point2D_1 == null || point2D_2 == null)
             {
                 return null;
             }
 
-            return Min(new Point2D[] { point2D_1, point2D_2 }, out Point2D max);
+            return Min([point2D_1, point2D_2], out _);
         }
 
-        public static Point2D Min(this IEnumerable<Point2D> point2Ds, out Point2D max)
+        public static Point2D? Min(this IEnumerable<Point2D?>? point2Ds, out Point2D? max)
         {
             max = null;
             if(point2Ds == null || point2Ds.Count() == 0)
@@ -34,7 +34,7 @@ namespace DiGi.Geometry.Planar
             double x_Max = double.MinValue;
             double y_Min = double.MaxValue;
             double y_Max = double.MinValue;
-            foreach (Point2D point2D in point2Ds)
+            foreach (Point2D? point2D in point2Ds)
             {
                 if(point2D == null)
                 {
@@ -71,7 +71,7 @@ namespace DiGi.Geometry.Planar
             return new Point2D(x_Min, y_Min);
         }
 
-        public static Point2D Min(this ISegmentable2D segmentable2D, out Point2D max)
+        public static Point2D? Min(this ISegmentable2D? segmentable2D, out Point2D? max)
         {
             max = null;
 
@@ -83,7 +83,7 @@ namespace DiGi.Geometry.Planar
             return Min(segmentable2D.GetPoints(), out max);
         }
 
-        public static Point2D Min<T>(this IEnumerable<T> segmentable2Ds, out Point2D max) where T : ISegmentable2D
+        public static Point2D? Min<T>(this IEnumerable<T?>? segmentable2Ds, out Point2D? max) where T : ISegmentable2D
         {
             max = null;
 

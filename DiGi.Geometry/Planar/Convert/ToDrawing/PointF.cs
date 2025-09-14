@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static PointF? ToDrawing(this Point2D point2D)
+        public static PointF? ToDrawing(this Point2D? point2D)
         {
             if (point2D == null)
             {

@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static Point3D ClosestPoint(this Point3D point3D, Point3D point3D_1, Point3D point3D_2, bool bounded)
+        public static Point3D? ClosestPoint(this Point3D? point3D, Point3D? point3D_1, Point3D? point3D_2, bool bounded)
         {
             if(point3D == null || point3D_1 == null || point3D_2 == null)
             {
@@ -43,22 +43,22 @@ namespace DiGi.Geometry.Spatial
             }
         }
 
-        public static Point3D ClosestPoint(this Point3D point3D, ISegmentable3D segmentable3D)
+        public static Point3D? ClosestPoint(this Point3D? point3D, ISegmentable3D segmentable3D)
         {
-            return ClosestPoint(point3D, segmentable3D?.GetSegments(), out double distance);
+            return ClosestPoint(point3D, segmentable3D?.GetSegments(), out _);
         }
 
-        public static Point3D ClosestPoint(this Point3D point3D, ISegmentable3D segmentable3D, out double distance)
+        public static Point3D? ClosestPoint(this Point3D? point3D, ISegmentable3D? segmentable3D, out double distance)
         {
             return ClosestPoint(point3D, segmentable3D?.GetSegments(), out distance);
         }
 
-        public static Point3D ClosestPoint(this Point3D point3D, IEnumerable<Segment3D> segment3Ds)
+        public static Point3D? ClosestPoint(this Point3D? point3D, IEnumerable<Segment3D>? segment3Ds)
         {
-            return ClosestPoint(point3D, segment3Ds, out double distance);
+            return ClosestPoint(point3D, segment3Ds, out _);
         }
 
-        public static Point3D ClosestPoint(this Point3D point3D, IEnumerable<Segment3D> segment3Ds, out double distance)
+        public static Point3D? ClosestPoint(this Point3D? point3D, IEnumerable<Segment3D>? segment3Ds, out double distance)
         {
             distance = double.NaN;
             if (point3D == null || segment3Ds == null)
@@ -67,10 +67,10 @@ namespace DiGi.Geometry.Spatial
             }
 
             distance = double.MaxValue;
-            Point3D result = null;
+            Point3D? result = null;
             foreach (Segment3D segment3D in segment3Ds)
             {
-                Point3D point3D_Closest = segment3D?.ClosestPoint(point3D);
+                Point3D? point3D_Closest = segment3D?.ClosestPoint(point3D);
                 if (point3D_Closest == null)
                 {
                     continue;
@@ -87,7 +87,7 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
-        public static Point3D ClosestPoint(this Point3D point3D, IEnumerable<Point3D> point3Ds, out double distance)
+        public static Point3D? ClosestPoint(this Point3D? point3D, IEnumerable<Point3D>? point3Ds, out double distance)
         {
             distance = double.NaN;
             if (point3D == null || point3Ds == null)
@@ -96,7 +96,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             distance = double.MaxValue;
-            Point3D result = null;
+            Point3D? result = null;
 
             foreach (Point3D point3D_Temp in point3Ds)
             {

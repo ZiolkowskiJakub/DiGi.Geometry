@@ -6,12 +6,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool Rectangular(this IPolygonal2D polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool Rectangular(this IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            return Rectangular(polygonal2D, out Rectangle2D rectangle2D, tolerance);
+            return Rectangular(polygonal2D, out _, tolerance);
         }
 
-        public static bool Rectangular(this IPolygonal2D polygonal2D, out Rectangle2D rectangle2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool Rectangular(this IPolygonal2D? polygonal2D, out Rectangle2D? rectangle2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             rectangle2D = null;
             if(polygonal2D == null)
@@ -19,9 +19,9 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            if(polygonal2D is Rectangle2D)
+            if(polygonal2D is Rectangle2D rectangle2D_Temp)
             {
-                rectangle2D = new Rectangle2D((Rectangle2D)polygonal2D);
+                rectangle2D = new Rectangle2D(rectangle2D_Temp);
                 return true;
             }
 
@@ -30,7 +30,7 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            List<Point2D> point2Ds = polygonal2D.GetPoints();
+            List<Point2D>? point2Ds = polygonal2D.GetPoints();
             if(point2Ds == null || point2Ds.Count < 4)
             {
                 return false;

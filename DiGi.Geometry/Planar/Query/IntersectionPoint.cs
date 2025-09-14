@@ -15,12 +15,9 @@ namespace DiGi.Geometry.Planar
         /// <param name="bounded">if bounded set to false then segments will be treated as lines (unlimited)</param>
         /// <param name="tolerance">tolerance</param>
         /// <returns>Intersection Point2D</returns>
-        public static Point2D IntersectionPoint(Point2D point2D_1_Start, Point2D point2D_1_End, Point2D point2D_2_Start, Point2D point2D_2_End, bool bounded, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Point2D? IntersectionPoint(Point2D? point2D_1_Start, Point2D? point2D_1_End, Point2D? point2D_2_Start, Point2D? point2D_2_End, bool bounded, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            Point2D point2D_Closest1 = null;
-            Point2D point2D_Closest2 = null;
-
-            Point2D point2D_Intersection = IntersectionPoint(point2D_1_Start, point2D_1_End, point2D_2_Start, point2D_2_End, out point2D_Closest1, out point2D_Closest2, tolerance);
+            Point2D? point2D_Intersection = IntersectionPoint(point2D_1_Start, point2D_1_End, point2D_2_Start, point2D_2_End, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, tolerance);
             if (bounded && (point2D_Closest1 != null || point2D_Closest2 != null))
             {
                 return null;
@@ -40,7 +37,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="point2D_Closest2">Closest point for Segment 2</param>
         /// <param name="tolerance"></param>
         /// <returns></returns>
-        public static Point2D IntersectionPoint(Point2D point2D_1_Start, Point2D point2D_1_End, Point2D point2D_2_Start, Point2D point2D_2_End, out Point2D point2D_Closest1, out Point2D point2D_Closest2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Point2D? IntersectionPoint(Point2D? point2D_1_Start, Point2D? point2D_1_End, Point2D? point2D_2_Start, Point2D? point2D_2_End, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             point2D_Closest1 = null;
             point2D_Closest2 = null;
@@ -74,7 +71,7 @@ namespace DiGi.Geometry.Planar
             double t2 = ((point2D_2_Start.X - point2D_1_Start.X) * dy12 + (point2D_1_Start.Y - point2D_2_Start.Y) * dx12) / -denominator;
 
             // Find the point of intersection.
-            Point2D point2D_Intersection = new Point2D(point2D_1_Start.X + dx12 * t1, point2D_1_Start.Y + dy12 * t1);
+            Point2D point2D_Intersection = new (point2D_1_Start.X + dx12 * t1, point2D_1_Start.Y + dy12 * t1);
 
             double t1_Temp = DiGi.Core.Query.Round(t1, tolerance);
             double t2_Temp = DiGi.Core.Query.Round(t2, tolerance);
@@ -104,17 +101,17 @@ namespace DiGi.Geometry.Planar
                 t2 = 1;
             }
 
-            point2D_Closest1 = new Point2D(point2D_1_Start.X + dx12 * t1, point2D_1_Start.Y + dy12 * t1);
-            point2D_Closest2 = new Point2D(point2D_2_Start.X + dx34 * t2, point2D_2_Start.Y + dy34 * t2);
+            point2D_Closest1 = new (point2D_1_Start.X + dx12 * t1, point2D_1_Start.Y + dy12 * t1);
+            point2D_Closest2 = new (point2D_2_Start.X + dx34 * t2, point2D_2_Start.Y + dy34 * t2);
             return point2D_Intersection;
         }
 
-        public static Point2D IntersectionPoint(Segment2D segment2D_1, Segment2D segment2D_2, out Point2D point2D_Closest1, out Point2D point2D_Closest2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Point2D? IntersectionPoint(Segment2D? segment2D_1, Segment2D? segment2D_2, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             point2D_Closest1 = null;
             point2D_Closest2 = null;
 
-            if (segment2D_1 == null || segment2D_2 == null)
+            if (segment2D_1 is null || segment2D_2 is null)
             {
                 return null;
             }
@@ -122,7 +119,7 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoint(segment2D_1[0], segment2D_1[1], segment2D_2[0], segment2D_2[1], out point2D_Closest1, out point2D_Closest2, tolerance);
         }
 
-        public static Point2D IntersectionPoint(this ILinear2D linear2D_1, ILinear2D linear2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Point2D? IntersectionPoint(this ILinear2D? linear2D_1, ILinear2D? linear2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
 
             if (linear2D_1 == null || linear2D_2 == null)
@@ -130,41 +127,43 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Point2D point2D_1_1 = null;
-            Point2D point2D_1_2 = null;
-            if (linear2D_1 is Segment2D)
+            //Point2D? point2D_1_1;
+            Point2D? point2D_1_2;
+
+            if (linear2D_1 is Segment2D segment2D)
             {
-                point2D_1_1 = ((Segment2D)linear2D_1).Start;
-                point2D_1_2 = ((Segment2D)linear2D_1).End;
+                //point2D_1_1 = segment2D.Start;
+                point2D_1_2 = segment2D.End;
             }
-            else if (linear2D_1 is Line2D)
+            else if (linear2D_1 is Line2D line2D)
             {
-                point2D_1_1 = ((Line2D)linear2D_1).Origin;
-                point2D_1_2 = point2D_1_1.GetMoved(((Line2D)linear2D_1).Direction);
+                //point2D_1_1 = line2D.Origin;
+                point2D_1_2 = line2D.Origin?.GetMoved(line2D.Direction);
             }
             else
             {
                 throw new System.NotImplementedException();
             }
 
-            Point2D point2D_2_1 = null;
-            Point2D point2D_2_2 = null;
-            if (linear2D_2 is Segment2D)
+            Point2D? point2D_2_1;
+            Point2D? point2D_2_2;
+
+            if (linear2D_2 is Segment2D segment2D_Temp)
             {
-                point2D_2_1 = ((Segment2D)linear2D_2).Start;
-                point2D_2_2 = ((Segment2D)linear2D_2).End;
+                point2D_2_1 = segment2D_Temp.Start;
+                point2D_2_2 = segment2D_Temp.End;
             }
-            else if (linear2D_2 is Line2D)
+            else if (linear2D_2 is Line2D line2D)
             {
-                point2D_2_1 = ((Line2D)linear2D_2).Origin;
-                point2D_2_2 = point2D_2_1.GetMoved(((Line2D)linear2D_2).Direction);
+                point2D_2_1 = line2D.Origin;
+                point2D_2_2 = point2D_2_1?.GetMoved(line2D.Direction);
             }
             else
             {
                 throw new System.NotImplementedException();
             }
 
-            Point2D result = IntersectionPoint(point2D_1_1, point2D_1_2, point2D_2_1, point2D_2_2, out Point2D point2D_Closest1, out Point2D point2D_Closest2, tolerance);
+            Point2D? result = IntersectionPoint(null, point2D_1_2, point2D_2_1, point2D_2_2, out _, out _, tolerance);
             if (result == null)
             {
                 return null;

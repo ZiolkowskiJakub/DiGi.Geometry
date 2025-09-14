@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static Plane Plane(this Point3D point3D_1, Point3D point3D_2, Point3D point3D_3)
+        public static Plane? Plane(this Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3)
         {
             if (point3D_1 == null || point3D_2 == null || point3D_3 == null)
             {
@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Spatial
             }
 
 
-            Vector3D normal = Query.Normal(point3D_1, point3D_2, point3D_3);
+            Vector3D? normal = Query.Normal(point3D_1, point3D_2, point3D_3);
             if (normal == null)
             {
                 return null;
@@ -22,9 +22,9 @@ namespace DiGi.Geometry.Spatial
             return new Plane((new Point3D[] { point3D_1, point3D_2, point3D_3 }).Average(), normal);
         }
 
-        public static Plane Plane(this IEnumerable<Point3D> point3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Plane? Plane(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            Vector3D normal = Query.Normal(point3Ds, tolerance);
+            Vector3D? normal = Query.Normal(point3Ds, tolerance);
             if (normal == null)
             {
                 return null;
@@ -33,7 +33,7 @@ namespace DiGi.Geometry.Spatial
             return new Plane(point3Ds.Average(), normal);
         }
 
-        public static Plane Plane(Point3D origin, Vector3D axisX, Vector3D axisY)
+        public static Plane? Plane(Point3D? origin, Vector3D? axisX, Vector3D? axisY)
         {
             if (origin == null || axisX == null || axisY == null)
             {
@@ -43,7 +43,7 @@ namespace DiGi.Geometry.Spatial
             return new Plane(origin, axisX, axisY);
         }
 
-        public static Plane Plane(double elevation)
+        public static Plane? Plane(double elevation)
         {
             if(double.IsNaN(elevation))
             {
@@ -56,7 +56,7 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
-        public static Plane Plane(Point3D origin)
+        public static Plane? Plane(Point3D? origin)
         {
             if(origin == null)
             {
@@ -66,9 +66,9 @@ namespace DiGi.Geometry.Spatial
             return new Plane(Constans.Plane.WorldZ, origin);
         }
 
-        public static Plane Plane(double value, int dimensionIndex)
+        public static Plane? Plane(double value, int dimensionIndex)
         {
-            Plane result = null;
+            Plane? result;
             switch (dimensionIndex)
             {
                 case 0:

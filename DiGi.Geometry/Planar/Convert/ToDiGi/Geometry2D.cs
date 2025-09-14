@@ -5,36 +5,36 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static IGeometry2D ToDiGi(this NetTopologySuite.Geometries.Geometry geometry)
+        public static IGeometry2D? ToDiGi(this NetTopologySuite.Geometries.Geometry? geometry)
         {
             if(geometry == null)
             {
                 return null;
             }
 
-            if(geometry is Point)
+            if(geometry is Point point)
             {
-                return ((Point)geometry).ToDiGi();
+                return point.ToDiGi();
             }
 
-            if(geometry is LinearRing)
+            if(geometry is LinearRing linearRing)
             {
-                return ((LinearRing)geometry).ToDiGi();
+                return linearRing.ToDiGi();
             }
 
-            if (geometry is LineString)
+            if (geometry is LineString lineString)
             {
-                return ((LineString)geometry).ToDiGi();
+                return lineString.ToDiGi();
             }
 
-            if (geometry is Polygon)
+            if (geometry is Polygon polygon)
             {
-                return ((Polygon)geometry).ToDiGi();
+                return polygon.ToDiGi();
             }
 
-            if(geometry is GeometryCollection)
+            if(geometry is GeometryCollection geometryCollection)
             {
-                return ((GeometryCollection)geometry).ToDiGi();
+                return geometryCollection.ToDiGi();
             }
 
             throw new System.NotImplementedException();

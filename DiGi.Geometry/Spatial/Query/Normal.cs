@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static Vector3D Normal(this Plane plane, IEnumerable<Planar.Classes.Point2D> point2Ds)
+        public static Vector3D? Normal(this Plane? plane, IEnumerable<Planar.Classes.Point2D>? point2Ds)
         {
             if (plane == null || point2Ds == null)
             {
@@ -26,12 +26,12 @@ namespace DiGi.Geometry.Spatial
                 int index_2 = DiGi.Core.Query.Next(count, index_1);
                 int index_3 = DiGi.Core.Query.Next(count, index_2);
 
-                Point3D point3D_1 = plane.Convert(point2Ds.ElementAt(index_1));
-                Point3D point3D_2 = plane.Convert(point2Ds.ElementAt(index_2));
-                Point3D point3D_3 = plane.Convert(point2Ds.ElementAt(index_3));
+                Point3D? point3D_1 = plane.Convert(point2Ds.ElementAt(index_1));
+                Point3D? point3D_2 = plane.Convert(point2Ds.ElementAt(index_2));
+                Point3D? point3D_3 = plane.Convert(point2Ds.ElementAt(index_3));
 
-                Vector3D normal = Normal(point3D_1, point3D_2, point3D_3);
-                if (normal == null)
+                Vector3D? normal = Normal(point3D_1, point3D_2, point3D_3);
+                if (normal is null)
                 {
                     continue;
                 }
@@ -42,7 +42,7 @@ namespace DiGi.Geometry.Spatial
             return null;
         }
 
-        public static Vector3D Normal(this IEnumerable<Point3D> point3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Vector3D? Normal(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3Ds == null || point3Ds.Collinear(tolerance))
             {
@@ -61,21 +61,32 @@ namespace DiGi.Geometry.Spatial
                 return Normal(point3Ds.ElementAt(0), point3Ds.ElementAt(1), point3Ds.ElementAt(2));
             }
 
-            Point3D origin = point3Ds.Average();
-            Vector3D normal = Constans.Vector3D.Zero;
+            Point3D? origin = point3Ds.Average();
+            if(origin is null)
+            {
+                return null;
+            }
+
+            Vector3D? normal = Constans.Vector3D.Zero;
             if (point3Ds.Coplanar(tolerance))
             {
-                Vector3D vector3D_Origin = (Vector3D)origin;
+                Vector3D? vector3D_Origin = (Vector3D?)origin;
 
                 for (int i = 0; i < count - 1; i++)
                 {
-                    normal += ((Vector3D)point3Ds.ElementAt(i) - vector3D_Origin).CrossProduct((Vector3D)point3Ds.ElementAt(i + 1) - vector3D_Origin);
+                    Vector3D? vector3D = ((Vector3D?)point3Ds.ElementAt(i) - vector3D_Origin)?.CrossProduct((Vector3D?)point3Ds.ElementAt(i + 1) - vector3D_Origin);
+                    if(vector3D is null)
+                    {
+                        continue;
+                    }
+
+                    normal += vector3D;
                 }
 
-                return normal.Unit;
+                return normal!.Unit;
             }
 
-            Math.Classes.Matrix matrix = new Math.Classes.Matrix(3, 3);
+            Math.Classes.Matrix matrix = new(3, 3);
             double[,] normalizedPoints = new double[count, 3];
 
             for (int i = 0; i < count; i++)
@@ -98,13 +109,13 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            Vector3D[] eigenvectors = Eigenvectors(matrix, tolerance);
+            Vector3D[]? eigenvectors = Eigenvectors(matrix, tolerance);
             if (eigenvectors == null)
             {
                 return null;
             }
 
-            Vector3D result = null;
+            Vector3D? result = null;
             double leastSquares = double.PositiveInfinity;
             foreach (Vector3D eigenvector in eigenvectors)
             {
@@ -121,14 +132,14 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            if (result == null)
+            if (result is null)
             {
                 return null;
             }
 
             result = result.Unit;
 
-            Plane plane = new Plane(origin, result);
+            Plane plane = new (origin, result);
 
             bool invalid = false;
             foreach (Point3D point3D in point3Ds)
@@ -144,16 +155,22 @@ namespace DiGi.Geometry.Spatial
             {
                 normal = Constans.Vector3D.Zero;
 
-                Vector3D vector3D_Origin = (Vector3D)origin;
+                Vector3D? vector3D_Origin = (Vector3D?)origin;
 
                 for (int i = 0; i < count - 1; i++)
                 {
-                    normal += ((Vector3D)point3Ds.ElementAt(i) - vector3D_Origin).CrossProduct((Vector3D)point3Ds.ElementAt(i + 1) - vector3D_Origin);
+                    Vector3D? vector3D = ((Vector3D?)point3Ds.ElementAt(i) - vector3D_Origin)?.CrossProduct((Vector3D?)point3Ds.ElementAt(i + 1) - vector3D_Origin);
+                    if (vector3D is null)
+                    {
+                        continue;
+                    }
+
+                    normal += vector3D;
                 }
 
-                normal = normal.Unit;
+                normal = normal!.Unit;
 
-                Plane plane_Temp = new Plane(origin, normal);
+                Plane plane_Temp = new (origin, normal);
 
                 double max = double.MinValue;
                 double max_Temp = double.MinValue;
@@ -183,7 +200,7 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
-        public static Vector3D Normal(this Point3D point3D_1, Point3D point3D_2, Point3D point3D_3)
+        public static Vector3D? Normal(this Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3)
         {
             if(point3D_1 == null || point3D_2 == null || point3D_3 == null)
             {
@@ -193,9 +210,9 @@ namespace DiGi.Geometry.Spatial
             return new Vector3D(point3D_1, point3D_2).CrossProduct(new Vector3D(point3D_1, point3D_3))?.Unit;
         }
 
-        public static Vector3D Normal(this Vector3D axisX, Vector3D axisY)
+        public static Vector3D? Normal(this Vector3D? axisX, Vector3D? axisY)
         {
-            if (axisX == null || axisY == null)
+            if (axisX is null || axisY is null)
             {
                 return null;
             }

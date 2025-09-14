@@ -5,6 +5,6 @@ namespace DiGi.Geometry.Spatial.Interfaces
 {
     public interface IIntersectionResult3D : IIntersectionResult
     {
-        List<T> GetGeometry3Ds<T>() where T : IGeometry3D;
+        List<T>? GetGeometry3Ds<T>() where T : IGeometry3D;
     }
 }

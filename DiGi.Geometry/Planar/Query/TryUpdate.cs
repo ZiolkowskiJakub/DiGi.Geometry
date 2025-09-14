@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool TryUpdate(this IEnumerable<IGeometry2DUpdater> geometry2DFixers, IGeometry2D input, out IGeometry2D output)
+        public static bool TryUpdate(this IEnumerable<IGeometry2DUpdater>? geometry2DFixers, IGeometry2D? input, out IGeometry2D? output)
         {
             output = null;
 
@@ -30,8 +30,7 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                IGeometry2D geometry2D = null;
-                if(!geometry2DFixer.TryUpdate(output, out geometry2D))
+                if (!geometry2DFixer.TryUpdate(output, out IGeometry2D? geometry2D))
                 {
                     continue;
                 }

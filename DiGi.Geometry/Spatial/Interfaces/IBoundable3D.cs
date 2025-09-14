@@ -5,6 +5,6 @@ namespace DiGi.Geometry.Spatial.Interfaces
 {
     public interface IBoundable3D : IGeometry3D, IBoundable
     {
-        BoundingBox3D GetBoundingBox();
+        BoundingBox3D? GetBoundingBox();
     }
 }

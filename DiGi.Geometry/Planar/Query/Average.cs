@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static Point2D Average(this IEnumerable<Point2D> point2Ds)
+        public static Point2D? Average(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null || point2Ds.Count() == 0)
             {

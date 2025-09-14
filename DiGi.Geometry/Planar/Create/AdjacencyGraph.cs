@@ -7,23 +7,36 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static AdjacencyGraph<Point2D, Edge<Point2D>> AdjacencyGraph(this IEnumerable<ISegmentable2D> segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static AdjacencyGraph<Point2D, Edge<Point2D>>? AdjacencyGraph(this IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2Ds == null)
                 return null;
 
-            AdjacencyGraph<Point2D, Edge<Point2D>> result = new AdjacencyGraph<Point2D, Edge<Point2D>>();
+            AdjacencyGraph<Point2D, Edge<Point2D>> result = new();
 
-            HashSet<Point2D> point2Ds = new HashSet<Point2D>();
+            HashSet<Point2D> point2Ds = [];
             foreach (ISegmentable2D segmentable2D in segmentable2Ds)
             {
-                List<Segment2D> segment2Ds = segmentable2D?.GetSegments();
+                List<Segment2D>? segment2Ds = segmentable2D?.GetSegments();
                 if (segment2Ds == null)
+                {
                     continue;
+                }
 
                 foreach (Segment2D segment2D in segment2Ds)
                 {
-                    Point2D point2D_1 = segment2D[0];
+                    Point2D? point2D_1 = segment2D[0];
+                    if (point2D_1 is null)
+                    {
+                        continue;
+                    }
+
+                    Point2D? point2D_2 = segment2D[1];
+                    if (point2D_2 is null)
+                    {
+                        continue;
+                    }
+
                     point2D_1.Round(tolerance);
                     if (!point2Ds.Contains(point2D_1))
                     {
@@ -31,7 +44,6 @@ namespace DiGi.Geometry.Planar
                         result.AddVertex(point2D_1);
                     }
 
-                    Point2D point2D_2 = segment2D[1];
                     point2D_2.Round(tolerance);
                     if (!point2Ds.Contains(point2D_2))
                     {

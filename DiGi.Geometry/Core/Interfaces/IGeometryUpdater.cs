@@ -6,6 +6,6 @@
 
     public interface IGeometryUpdater<T, X> where T : IGeometry where X : IGeometry
     {
-        bool TryUpdate(T input, out X output);
+        bool TryUpdate(T? input, out X? output);
     }
 }

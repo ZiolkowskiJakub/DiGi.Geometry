@@ -11,7 +11,7 @@ namespace DiGi.Geometry.Planar
                 return double.NaN;
             }
 
-            Segment2D[] segment2Ds = boundingBox2D.GetDiagonals();
+            Segment2D[]? segment2Ds = boundingBox2D.GetDiagonals();
             if (segment2Ds == null || segment2Ds.Length == 0)
             {
                 return double.NaN;

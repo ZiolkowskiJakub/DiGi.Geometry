@@ -6,18 +6,17 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static GeometryCollection2D ToDiGi(this GeometryCollection geometryCollection)
+        public static GeometryCollection2D? ToDiGi(this GeometryCollection? geometryCollection)
         {
             if(geometryCollection == null)
             {
                 return null;
             }
 
-            GeometryCollection2D result = new GeometryCollection2D();
+            GeometryCollection2D result = [];
             foreach (NetTopologySuite.Geometries.Geometry geometry in geometryCollection)
             {
-                ICollectable2D collectable2D = geometry.ToDiGi() as ICollectable2D;
-                if(collectable2D == null)
+                if (geometry.ToDiGi() is not ICollectable2D collectable2D)
                 {
                     continue;
                 }

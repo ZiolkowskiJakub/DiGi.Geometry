@@ -1,4 +1,5 @@
-﻿using DiGi.Geometry.Planar.Classes;
+﻿using DiGi.Core;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
@@ -7,20 +8,20 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
-        public static Polygon ToNTS(this IPolygonalFace2D polygonalFace2D)
+        public static Polygon? ToNTS(this IPolygonalFace2D? polygonalFace2D)
         {
-            LinearRing linearRing_ExternalEdge = polygonalFace2D?.ExternalEdge?.ToNTS();
+            LinearRing? linearRing_ExternalEdge = polygonalFace2D?.ExternalEdge?.ToNTS();
             if (linearRing_ExternalEdge == null)
             {
                 return null;
             }
 
-            List<LinearRing> linearRings_InternalEdges = polygonalFace2D.InternalEdges?.ConvertAll(x => x.ToNTS());
+            List<LinearRing>? linearRings_InternalEdges = polygonalFace2D?.InternalEdges?.ConvertAll(x => x.ToNTS())?.FilterNulls();
 
-            LinearRing[] linearRingsArray_InternalEdges = null;
+            LinearRing[]? linearRingsArray_InternalEdges = null;
             if (linearRings_InternalEdges != null && linearRings_InternalEdges.Count > 0)
             {
-                linearRingsArray_InternalEdges = linearRings_InternalEdges.ToArray();
+                linearRingsArray_InternalEdges = [.. linearRings_InternalEdges];
             }
 
             if (linearRingsArray_InternalEdges == null)
@@ -33,7 +34,7 @@ namespace DiGi.Geometry.Planar
             }
         }
 
-        public static Polygon ToNTS_Polygon(this Polygon2D polygon2D)
+        public static Polygon? ToNTS_Polygon(this Polygon2D? polygon2D)
         {
             if(polygon2D == null)
             {

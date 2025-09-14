@@ -11,18 +11,18 @@ namespace DiGi.Geometry.Spatial.Classes
     public class Ellipsoid : Geometry3D, IEllipsoid
     {
         [JsonInclude, JsonPropertyName("A")]
-        private double a;
+        private readonly double a;
 
         [JsonInclude, JsonPropertyName("B")]
-        private double b;
+        private readonly double b;
 
         [JsonInclude, JsonPropertyName("C")]
-        private double c;
+        private readonly double c;
 
         [JsonInclude, JsonPropertyName("Plane")]
-        private Plane plane;
+        private readonly Plane? plane;
         
-        public Ellipsoid(Point3D center, double a, double b, double c)
+        public Ellipsoid(Point3D? center, double a, double b, double c)
         {
             plane = Create.Plane(center);
             this.a = a;
@@ -30,7 +30,7 @@ namespace DiGi.Geometry.Spatial.Classes
             this.c = c;
         }
 
-        public Ellipsoid(Plane plane, double a, double b, double c)
+        public Ellipsoid(Plane? plane, double a, double b, double c)
         {
             this.plane = plane?.Clone<Plane>();
             this.a = a;
@@ -38,7 +38,7 @@ namespace DiGi.Geometry.Spatial.Classes
             this.c = c;
         }
 
-        public Ellipsoid(Ellipsoid ellipsoid)
+        public Ellipsoid(Ellipsoid? ellipsoid)
             : base(ellipsoid)
         {
             if(ellipsoid != null)
@@ -50,7 +50,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public Ellipsoid(JsonObject jsonObject)
+        public Ellipsoid(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -84,7 +84,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Point3D Center
+        public Point3D? Center
         {
             get 
             { 
@@ -93,34 +93,34 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Vector3D DirectionA
+        public Vector3D? DirectionA
         {
             get
             {
-                return plane.AxisX;
+                return plane?.AxisX;
             }
         }
 
         [JsonIgnore]
-        public Vector3D DirectionB
+        public Vector3D? DirectionB
         {
             get
             {
-                return plane.AxisY;
+                return plane?.AxisY;
             }
         }
 
         [JsonIgnore]
-        public Vector3D DirectionC
+        public Vector3D? DirectionC
         {
             get
             {
-                return plane.AxisZ;
+                return plane?.AxisZ;
             }
         }
 
         [JsonIgnore]
-        public Vector3D Extent
+        public Vector3D? Extent
         {
             get
             {
@@ -128,79 +128,69 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public static implicit operator Ellipsoid(Sphere sphere)
+        public static implicit operator Ellipsoid?(Sphere? sphere)
         {
             return sphere == null ? null : new Ellipsoid(sphere.Center, sphere.Radius, sphere.Radius, sphere.Radius);
         }
 
-        public static implicit operator Ellipsoid(Spheroid spheroid)
+        public static implicit operator Ellipsoid?(Spheroid? spheroid)
         {
             return spheroid == null ? null : new Ellipsoid(spheroid.Plane, spheroid.A, spheroid.B, spheroid.B);
         }
 
-        public BoundingBox3D GetBoundingBox()
+        public BoundingBox3D? GetBoundingBox()
         {
-            Vector3D extent = Extent;
-
-            Point3D center = Center;
-
-            return new BoundingBox3D(center - Extent, center + Extent);
-        }
-
-        public Point3D GetPoint(double theta, double phi)
-        {
-            // Unrotated local point on the ellipsoid
-            double x = a * System.Math.Sin(phi) * System.Math.Cos(theta);
-            double y = b * System.Math.Sin(phi) * System.Math.Sin(theta);
-            double z = c * System.Math.Cos(phi);
-
-            // Rotate using basis vectors and translate to center
-            return Center + x * plane.AxisX + y * plane.AxisY + z * plane.AxisZ;
-        }
-
-        public double GetVolume()
-        {
-            return (4.0 / 3.0) * System.Math.PI * a * b * c;
-        }
-
-        public bool Inside(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if (point3D == null || plane?.Origin == null)
+            Vector3D? extent = Extent;
+            if (extent is null) 
             {
-                return false;
+                return null;
             }
 
-            Vector3D vector3D = point3D - plane.Origin;
-
-            double x = vector3D.DotProduct(DirectionA) / a;
-            double y = vector3D.DotProduct(DirectionB) / b;
-            double z = vector3D.DotProduct(DirectionC) / c;
-
-            return x * x + y * y + z * z <= 1.0 + tolerance;
-        }
-
-        public override bool Move(Vector3D vector3D)
-        {
-            if(vector3D == null || plane == null)
+            Point3D? center = Center;
+            if(center is null)
             {
-                return false;
+                return null;
             }
 
-            return plane.Move(vector3D);
+            return new (center - extent, center + extent);
         }
 
-        public Point3D[] GetFocalPoints(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D[]? GetFocalPoints(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
+            Point3D? center = Center;
+            if (center is null)
+            {
+                return null;
+            }
+
+            Vector3D? directionA = DirectionA;
+            if (directionA is null)
+            {
+                return null;
+            }
+
+            Vector3D? directionB = DirectionB;
+            if (directionB is null)
+            {
+                return null;
+            }
+
+            Vector3D? directionC = DirectionC;
+            if (directionC is null)
+            {
+                return null;
+            }
+
             // Store axis lengths and their corresponding direction vectors
             var axes = new List<Tuple<double, Vector3D>>
             {
-                Tuple.Create(A, DirectionA),
-                Tuple.Create(B, DirectionB),
-                Tuple.Create(C, DirectionC)
+                Tuple.Create(a, directionA),
+                Tuple.Create(b, directionB),
+                Tuple.Create(c, directionC)
             };
 
             // Sort by axis length in descending order
-            axes = axes.OrderByDescending(a => a.Item1).ToList();
+            axes = [.. axes.OrderByDescending(a => a.Item1)];
 
             double longestSemiAxis = axes[0].Item1;
             Vector3D longestAxisDirection = axes[0].Item2;
@@ -259,10 +249,107 @@ namespace DiGi.Geometry.Spatial.Classes
             double f = System.Math.Sqrt(f_squared);
 
             // The foci lie along the direction of the longest semi-axis
-            Point3D focalPoint1 = Center - f * longestAxisDirection;
-            Point3D focalPoint2 = Center + f * longestAxisDirection;
+            Point3D? focalPoint_1 = center - (f * longestAxisDirection)!;
+            if(focalPoint_1 is null)
+            {
+                return null;
+            }
 
-            return new Point3D[] { focalPoint1, focalPoint2 };
+            Point3D? focalPoint_2 = center + (f * longestAxisDirection)!;
+            if(focalPoint_2 is null)
+            {
+                return null;
+            }
+
+            return [focalPoint_1, focalPoint_2];
+        }
+
+        public Point3D? GetPoint(double theta, double phi)
+        {
+            Vector3D? axisX = plane?.AxisX;
+            if(axisX is null)
+            {
+                return null;
+            }
+
+            Vector3D? axisY = plane!.AxisY;
+            if (axisY is null)
+            {
+                return null;
+            }
+
+            Vector3D? axisZ = plane!.AxisZ;
+            if (axisZ is null)
+            {
+                return null;
+            }
+
+            Point3D? center = Center;
+            if (center is null)
+            {
+                return null;
+            }
+
+            // Unrotated local point on the ellipsoid
+            double x = a * System.Math.Sin(phi) * System.Math.Cos(theta);
+            double y = b * System.Math.Sin(phi) * System.Math.Sin(theta);
+            double z = c * System.Math.Cos(phi);
+
+            // Rotate using basis vectors and translate to center
+            return center + (x * axisX)! + (y * axisY)! + (z * axisZ)!;
+        }
+
+        public double GetVolume()
+        {
+            return (4.0 / 3.0) * System.Math.PI * a * b * c;
+        }
+
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (point3D == null || plane?.Origin == null)
+            {
+                return false;
+            }
+
+            Vector3D? directionA = DirectionA;
+            if(directionA is null)
+            {
+                return false;
+            }
+
+            Vector3D? directionB = DirectionB;
+            if (directionB is null)
+            {
+                return false;
+            }
+
+            Vector3D? directionC = DirectionC;
+            if (directionC is null)
+            {
+                return false;
+            }
+
+            Vector3D? vector3D = point3D - plane.Origin;
+            if (vector3D is null)
+            {
+                return false;
+            }
+
+            double x = vector3D.DotProduct(directionA) / a;
+            double y = vector3D.DotProduct(directionB) / b;
+            double z = vector3D.DotProduct(directionC) / c;
+
+            return x * x + y * y + z * z <= 1.0 + tolerance;
+        }
+
+        public override bool Move(Vector3D? vector3D)
+        {
+            if(vector3D == null || plane == null)
+            {
+                return false;
+            }
+
+            return plane.Move(vector3D);
         }
     }
 }

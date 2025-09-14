@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Planar
                 return double.NaN;
             }
 
-            List<Point2D> point2Ds_Temp = new List<Point2D>(point2Ds);
+            List<Point2D> point2Ds_Temp = [.. point2Ds];
             if (point2Ds_Temp.FindIndex(x => x == null) != -1)
             {
                 return double.NaN;

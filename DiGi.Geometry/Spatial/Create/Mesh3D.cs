@@ -7,14 +7,14 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static Mesh3D Mesh3D(this Ellipsoid ellipsoid, int stacks, int slices)
+        public static Mesh3D? Mesh3D(this Ellipsoid? ellipsoid, int stacks, int slices)
         {
             if (ellipsoid == null)
             {
                 return null;
             }
 
-            List<Point3D> point3Ds = new List<Point3D>();
+            List<Point3D> point3Ds = [];
 
             // 1. Generate Vertices for a Unit Sphere (UV Sphere method)
             // Adjust for poles
@@ -49,18 +49,22 @@ namespace DiGi.Geometry.Spatial
                 // Rotate and Translate
                 // Assuming VectorX, VectorY, VectorZ are properties of ellipsoid
                 // and are correctly normalized and orthogonal.
-                Point3D ellipsoidVertex = ellipsoid.Center + (ellipsoid.DirectionA * scaledX) + (ellipsoid.DirectionB * scaledY) + (ellipsoid.DirectionC * scaledZ);
+                Point3D? ellipsoidVertex = ellipsoid.Center + (ellipsoid.DirectionA * scaledX) + (ellipsoid.DirectionB * scaledY) + (ellipsoid.DirectionC * scaledZ);
+                if(ellipsoidVertex is null)
+                {
+                    continue;
+                }
 
                 point3Ds[i] = ellipsoidVertex; // Update the vertex
             }
 
             // 3. Generate Triangles (Indices)
 
-            List<int[]> indices = new List<int[]>();
+            List<int[]> indices = [];
             // North Pole triangles
             for (int j = 0; j < slices; j++)
             {
-                indices.Add(new int[] { 0, (j + 1) % slices + 1, j + 1 });
+                indices.Add([0, (j + 1) % slices + 1, j + 1]);
             }
 
             // Middle quads
@@ -77,10 +81,10 @@ namespace DiGi.Geometry.Spatial
                     int v4 = nextStackStart + j;
 
                     // Triangle 1
-                    indices.Add(new int[] { v1, v2, v3 });
+                    indices.Add([v1, v2, v3]);
 
                     // Triangle 2
-                    indices.Add(new int[] { v1, v3, v4 });
+                    indices.Add([v1, v3, v4]);
                 }
             }
 
@@ -89,13 +93,13 @@ namespace DiGi.Geometry.Spatial
             int lastStackStart = 1 + (stacks - 2) * slices;
             for (int j = 0; j < slices; j++)
             {
-                indices.Add(new int[] { southPoleIndex, lastStackStart + j, lastStackStart + (j + 1) % slices });
+                indices.Add([southPoleIndex, lastStackStart + j, lastStackStart + (j + 1) % slices]);
             }
 
             return new Mesh3D(point3Ds, indices);
         }
 
-        public static Mesh3D Mesh3D(this Ellipsoid ellipsoid, double angleFactor)
+        public static Mesh3D? Mesh3D(this Ellipsoid? ellipsoid, double angleFactor)
         {
             if(ellipsoid == null)
             {
@@ -110,18 +114,18 @@ namespace DiGi.Geometry.Spatial
             return Mesh3D(ellipsoid, stacks, slices);
         }
 
-        public static Mesh3D Mesh3D(this IEnumerable<Triangle3D> triangle3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Mesh3D? Mesh3D(this IEnumerable<Triangle3D>? triangle3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (triangle3Ds == null || triangle3Ds.Count() == 0)
             {
                 return null;
             }
 
-            List<Point3D> point3Ds = new List<Point3D>();
-            List<int[]> indexes = new List<int[]>();
+            List<Point3D> point3Ds = [];
+            List<int[]> indexes = [];
             foreach (Triangle3D triangle3D in triangle3Ds)
             {
-                List<Point3D> point3D_Triangle3D = triangle3D?.GetPoints();
+                List<Point3D>? point3D_Triangle3D = triangle3D?.GetPoints();
                 if (point3D_Triangle3D == null || point3D_Triangle3D.Count() != 3)
                 {
                     continue;
@@ -140,7 +144,12 @@ namespace DiGi.Geometry.Spatial
                     }
                     else
                     {
-                        point3Ds[index] = point3Ds[index].Mid(point3D);
+                        Point3D? point3D_Temp = point3Ds[index].Mid(point3D);
+                        if(point3D_Temp is not null)
+                        {
+                            point3Ds[index] = point3D_Temp;
+                        }
+
                     }
 
                     indexes_Triangle3D[i] = index;
@@ -152,18 +161,18 @@ namespace DiGi.Geometry.Spatial
             return new Mesh3D(point3Ds, indexes);
         }
 
-        public static Mesh3D Mesh3D(this Polyhedron polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Mesh3D? Mesh3D(this Polyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            List<IPolygonalFace3D> polygonalFace3Ds = polyhedron?.PolygonalFaces;
+            List<IPolygonalFace3D>? polygonalFace3Ds = polyhedron?.PolygonalFaces;
             if (polygonalFace3Ds == null || polygonalFace3Ds.Count == 0)
             {
                 return null;
             }
 
-            List<Triangle3D> triangle3Ds = new List<Triangle3D>();
+            List<Triangle3D> triangle3Ds = [];
             foreach (IPolygonalFace3D polygonalFace3D in polygonalFace3Ds)
             {
-                List<Triangle3D> triangle3Ds_PolygonalFace3D = polygonalFace3D?.Triangulate(tolerance);
+                List<Triangle3D>? triangle3Ds_PolygonalFace3D = polygonalFace3D?.Triangulate(tolerance);
                 if (triangle3Ds_PolygonalFace3D != null && triangle3Ds_PolygonalFace3D.Count == 0)
                 {
                     continue;
@@ -175,7 +184,7 @@ namespace DiGi.Geometry.Spatial
             return Mesh3D(triangle3Ds, tolerance);
         }
 
-        public static Mesh3D Mesh3D(this IPolygonalFace3D polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Mesh3D? Mesh3D(this IPolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (polygonalFace3D == null)
             {

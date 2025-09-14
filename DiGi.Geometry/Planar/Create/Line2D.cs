@@ -4,7 +4,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static Line2D Line2D(this Point2D origin, double angle)
+        public static Line2D? Line2D(this Point2D? origin, double angle)
         {
             if (origin == null || double.IsNaN(angle) || double.IsInfinity(angle))
             {

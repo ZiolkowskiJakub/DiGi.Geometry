@@ -19,7 +19,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            switch(roundingMethod)
+            switch (roundingMethod)
             {
                 case RoundingMethod.Nearest:
                     return Rectangle.Round(rectangleF.Value);
@@ -29,6 +29,12 @@ namespace DiGi.Geometry.Planar
 
                 case RoundingMethod.Truncate:
                     return Rectangle.Truncate(rectangleF.Value);
+
+                case RoundingMethod.Undefined:
+                    break;
+
+                default:
+                    break;
             }
 
             return null;

@@ -6,8 +6,8 @@
 
     public interface ISegment<T> : ISegment where T : IPoint<T>
     {
-        public T Start { get; }
+        public T? Start { get; }
 
-        public T End { get; }
+        public T? End { get; }
     }
 }

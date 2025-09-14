@@ -7,26 +7,26 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<double> Determinants(this IPolygonal2D polygonal2D)
+        public static List<double>? Determinants(this IPolygonal2D? polygonal2D)
         {
             return Determinants(polygonal2D?.GetPoints());
         }
 
-        public static List<double> Determinants(this IEnumerable<Point2D> point2Ds)
+        public static List<double>? Determinants(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null || point2Ds.Count() < 3)
             {
                 return null;
             }
 
-            List<Point2D> point2Ds_Temp = new List<Point2D>(point2Ds);
+            List<Point2D> point2Ds_Temp = [.. point2Ds];
 
             int index = point2Ds_Temp.Count - 1;
 
             point2Ds_Temp.Add(point2Ds_Temp[0]);
             point2Ds_Temp.Insert(0, point2Ds_Temp[index]);
 
-            List<double> result = new List<double>();
+            List<double> result = [];
             for (int i = 1; i < point2Ds_Temp.Count - 1; i++)
             {
                 result.Add(Determinant(point2Ds_Temp[i - 1], point2Ds_Temp[i], point2Ds_Temp[i + 1]));

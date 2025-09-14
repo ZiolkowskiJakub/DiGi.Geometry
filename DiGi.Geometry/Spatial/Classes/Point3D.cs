@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Spatial.Classes
 {
     public class Point3D : Coordinate3D, IMovable3D, IPoint<Point3D>
     {
-        public Point3D(JsonObject jsonObject)
+        public Point3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -19,29 +19,29 @@ namespace DiGi.Geometry.Spatial.Classes
 
         }
 
-        public Point3D(double[] values)
+        public Point3D(double[]? values)
             : base(values)
         {
 
         }
 
-        public Point3D(Point3D point3D)
+        public Point3D(Point3D? point3D)
             : base(point3D)
         {
 
         }
 
-        public static implicit operator Point3D((double x, double y, double z) @object)
+        public static implicit operator Point3D?((double x, double y, double z) @object)
         {
             return new Point3D(@object.x, @object.y, @object.z);
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Point3D(values);
         }
 
-        public double Distance(Point3D point3D)
+        public double Distance(Point3D? point3D)
         {
             if (point3D == null)
             {
@@ -53,27 +53,27 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Point3D GetAbs()
         {
-            Point3D result = new Point3D(this);
+            Point3D result = new (this);
 
             result.Abs();
 
             return result;
         }
 
-        public Point3D GetMoved(Vector3D vector3D)
+        public Point3D? GetMoved(Vector3D? vector3D)
         {
-            if (vector3D == null)
+            if (vector3D is null)
             {
                 return null;
             }
 
-            Point3D result = new Point3D(this);
+            Point3D result = new (this);
             result.Move(vector3D);
 
             return result;
         }
 
-        public bool InDistance(Point3D point3D, double distance, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InDistance(Point3D? point3D, double distance, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null)
             {
@@ -99,7 +99,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         }
 
-        public Point3D Mid(Point3D point3D)
+        public Point3D? Mid(Point3D? point3D)
         {
             if(point3D == null)
             {
@@ -109,18 +109,33 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Point3D((point3D[0] + values[0]) / 2, (point3D[1] + values[1]) / 2, (point3D[2] + values[2]) / 2);
         }
 
-        public static Point3D operator -(Point3D point3D, Vector3D vector2D)
+        public static Point3D? operator -(Point3D? point3D, Vector3D? vector3D)
         {
-            return new Point3D(point3D.values[0] - vector2D[0], point3D.values[1] - vector2D[1], point3D.values[2] - vector2D[2]);
+            if(point3D is null || vector3D is null)
+            {
+                return null;
+            }
+
+            return new Point3D(point3D.values[0] - vector3D[0], point3D.values[1] - vector3D[1], point3D.values[2] - vector3D[2]);
         }
 
-        public static Vector3D operator -(Point3D point3D_1, Point3D point3D_2)
+        public static Vector3D? operator -(Point3D? point3D_1, Point3D? point3D_2)
         {
+            if(point3D_1 is null || point3D_2 is null)
+            {
+                return null;
+            }
+
             return new Vector3D(point3D_1.values[0] - point3D_2[0], point3D_1.values[1] - point3D_2[1], point3D_1.values[2] - point3D_2[2]);
         }
 
-        public static Point3D operator +(Point3D point3D, Vector3D vector3D)
+        public static Point3D? operator +(Point3D? point3D, Vector3D? vector3D)
         {
+            if(point3D is null || vector3D is null)
+            {
+                return null;
+            }
+
             return new Point3D(point3D.values[0] + vector3D[0], point3D.values[1] + vector3D[1], point3D.values[2] + vector3D[2]);
         }
     }

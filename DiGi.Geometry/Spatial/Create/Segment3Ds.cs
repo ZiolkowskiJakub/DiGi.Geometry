@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static List<Segment3D> Segment3Ds(this IEnumerable<Point3D> point3Ds, bool closed = false)
+        public static List<Segment3D>? Segment3Ds(this IEnumerable<Point3D>? point3Ds, bool closed = false)
         {
             if(point3Ds == null)
             {
@@ -15,7 +15,7 @@ namespace DiGi.Geometry.Spatial
 
             int count = point3Ds.Count();
 
-            List<Segment3D> result = new List<Segment3D>();
+            List<Segment3D> result = [];
 
             if (count < 2)
             {

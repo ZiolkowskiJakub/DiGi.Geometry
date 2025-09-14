@@ -8,29 +8,29 @@ namespace DiGi.Geometry.Spatial.Classes
     public class Spheroid : Geometry3D, IEllipsoid
     {
         [JsonInclude, JsonPropertyName("A")]
-        private double a;
+        private readonly double a;
 
         [JsonInclude, JsonPropertyName("B")]
-        private double b;
+        private readonly double b;
 
         [JsonInclude, JsonPropertyName("Plane")]
-        private Plane plane;
+        private readonly Plane? plane;
         
-        public Spheroid(Point3D center, double a, double b)
+        public Spheroid(Point3D? center, double a, double b)
         {
             plane = Create.Plane(center);
             this.a = a;
             this.b = b;
         }
 
-        public Spheroid(Plane plane, double a, double b, double c)
+        public Spheroid(Plane? plane, double a, double b)
         {
             this.plane = plane?.Clone<Plane>();
             this.a = a;
             this.b = b;
         }
 
-        public Spheroid(Spheroid spheroid)
+        public Spheroid(Spheroid? spheroid)
             : base(spheroid)
         {
             if(spheroid != null)
@@ -41,7 +41,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public Spheroid(JsonObject jsonObject)
+        public Spheroid(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -66,7 +66,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Point3D Center
+        public Point3D? Center
         {
             get 
             { 
@@ -75,43 +75,48 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         [JsonIgnore]
-        public Vector3D DirectionA
+        public Vector3D? DirectionA
         {
             get
             {
-                return plane.AxisX;
+                return plane?.AxisX;
             }
         }
 
         [JsonIgnore]
-        public Vector3D DirectionB
+        public Vector3D? DirectionB
         {
             get
             {
-                return plane.AxisY;
+                return plane?.AxisY;
             }
         }
 
         [JsonIgnore]
-        public Vector3D DirectionC
+        public Vector3D? DirectionC
         {
             get
             {
-                return plane.AxisZ;
+                return plane?.AxisZ;
             }
         }
 
         [JsonIgnore]
-        public Vector3D Extent
+        public Vector3D? Extent
         {
             get
             {
+                if(plane is null)
+                {
+                    return null;
+                }
+
                 return (System.Math.Abs(a) * plane.AxisX * a) + (System.Math.Abs(b) * plane.AxisY * b) + (System.Math.Abs(b) * plane.AxisZ * b);
             }
         }
         
         [JsonIgnore]
-        public Plane Plane
+        public Plane? Plane
         {
             get
             {
@@ -119,22 +124,35 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public static implicit operator Spheroid(Sphere sphere)
+        public static implicit operator Spheroid?(Sphere? sphere)
         {
             return sphere == null ? null : new Spheroid(sphere.Center, sphere.Radius, sphere.Radius);
         }
 
-        public BoundingBox3D GetBoundingBox()
+        public BoundingBox3D? GetBoundingBox()
         {
-            Vector3D extent = Extent;
+            Vector3D? extent = Extent;
+            if(extent is null)
+            {
+                return null;
+            }
 
-            Point3D center = Center;
+            Point3D? center = Center;
+            if(center is null)
+            {
+                return null;
+            }
 
             return new BoundingBox3D(center - Extent, center + Extent);
         }
 
-        public Point3D GetPoint(double theta, double phi)
+        public Point3D? GetPoint(double theta, double phi)
         {
+            if(plane is null)
+            {
+                return null;
+            }
+
             // Unrotated local point on the ellipsoid
             double x = a * System.Math.Sin(phi) * System.Math.Cos(theta);
             double y = b * System.Math.Sin(phi) * System.Math.Sin(theta);
@@ -149,14 +167,18 @@ namespace DiGi.Geometry.Spatial.Classes
             return (4.0 / 3.0) * System.Math.PI * a * b * b;
         }
 
-        public bool Inside(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || plane?.Origin == null)
             {
                 return false;
             }
 
-            Vector3D vector3D = point3D - plane.Origin;
+            Vector3D? vector3D = point3D - plane.Origin;
+            if (vector3D is null)
+            {
+                return false;
+            }
 
             double x = vector3D.DotProduct(DirectionA) / a;
             double y = vector3D.DotProduct(DirectionB) / b;
@@ -164,7 +186,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return x * x + y * y + y * y <= 1.0 + tolerance;
         }
 
-        public override bool Move(Vector3D vector3D)
+        public override bool Move(Vector3D? vector3D)
         {
             if(vector3D == null || plane == null)
             {

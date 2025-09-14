@@ -11,29 +11,32 @@ namespace DiGi.Geometry.Spatial.Classes
     public class BoundingBox3D : Geometry3D, IBoundingBox<Point3D>
     {
         [JsonInclude, JsonPropertyName("Max")]
-        private Point3D max;
+        private Point3D? max;
 
         [JsonInclude, JsonPropertyName("Min")]
-        private Point3D min;
-        public BoundingBox3D(Point3D point2D_1, Point3D point2D_2)
+        private Point3D? min;
+        public BoundingBox3D(Point3D? point2D_1, Point3D? point2D_2)
             :base()
         {
-            min = Query.Min(new Point3D[] { point2D_1, point2D_2 }, out max);
+            min = Query.Min([point2D_1, point2D_2], out max);
         }
 
-        public BoundingBox3D(IEnumerable<Point3D> point3Ds)
+        public BoundingBox3D(IEnumerable<Point3D?>? point3Ds)
         {
-            min = Query.Min(point3Ds, out max);
+            if(point3Ds is not null)
+            {
+                min = Query.Min(point3Ds, out max);
+            }
         }
 
-        public BoundingBox3D(IEnumerable<Point3D> point3Ds, double offset)
+        public BoundingBox3D(IEnumerable<Point3D?>? point3Ds, double offset)
         {
             min = Query.Min(point3Ds, out max);
 
             Offset(offset);
         }
 
-        public BoundingBox3D(Point3D point3D, double offset)
+        public BoundingBox3D(Point3D? point3D, double offset)
         {
             min = point3D == null ? null : new Point3D(point3D);
             max = point3D == null ? null : new Point3D(point3D);
@@ -143,19 +146,19 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
         
-        public bool Add(Point3D point3D)
+        public bool Add(Point3D? point3D)
         {
             if (point3D == null)
             {
                 return false;
             }
 
-            max = new Point3D(Query.Max(max, point3D));
-            min = new Point3D(Query.Min(min, point3D));
+            max = new (Query.Max(max, point3D));
+            min = new (Query.Min(min, point3D));
             return true;
         }
 
-        public bool Add(BoundingBox3D boundingBox3D)
+        public bool Add(BoundingBox3D? boundingBox3D)
         {
             if (boundingBox3D == null)
             {
@@ -184,12 +187,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return new BoundingBox3D(this);
         }
 
-        public Point3D GetCentroid()
+        public Point3D? GetCentroid()
         {
             return min?.Mid(max);
         }
 
-        public List<Point3D> GetPoints()
+        public List<Point3D>? GetPoints()
         {
             if (min == null || max == null)
             {
@@ -199,18 +202,18 @@ namespace DiGi.Geometry.Spatial.Classes
             double x = Width;
             double y = Depth;
 
-            return new List<Point3D>()
-            {
-                new Point3D(min),
-                new Point3D(min.X + x, min.Y, Min.Z),
-                new Point3D(min.X + x, min.Y + y, Min.Z),
-                new Point3D(min.X, min.Y + y, Min.Z),
+            return
+            [
+                new (min),
+                new (min.X + x, min.Y, Min.Z),
+                new (min.X + x, min.Y + y, Min.Z),
+                new (min.X, min.Y + y, Min.Z),
 
-                new Point3D(max),
-                new Point3D(max.X + x, max.Y, max.Z),
-                new Point3D(max.X + x, max.Y + y, max.Z),
-                new Point3D(max.X, max.Y + y, max.Z),
-            };
+                new (max),
+                new (max.X + x, max.Y, max.Z),
+                new (max.X + x, max.Y + y, max.Z),
+                new (max.X, max.Y + y, max.Z),
+            ];
         }
 
         public double GetVolume()
@@ -236,9 +239,9 @@ namespace DiGi.Geometry.Spatial.Classes
             return width * height * depth;
         }
 
-        public bool InRange(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if (point3D == null)
+            if (point3D is null || min is null || max is null)
             {
                 return false;
             }
@@ -246,14 +249,14 @@ namespace DiGi.Geometry.Spatial.Classes
             return (point3D.X >= min.X - tolerance && point3D.X <= max.X + tolerance && point3D.Y >= min.Y - tolerance && point3D.Y <= max.Y + tolerance && point3D.Z >= min.Z - tolerance && point3D.Z <= max.Z + tolerance);
         }
 
-        public bool InRange(Line3D line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Line3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min == null || max == null || line3D == null)
             {
                 return false;
             }
 
-            List<Plane> planes = Create.Planes(this);
+            List<Plane>? planes = Create.Planes(this);
             if (planes == null || planes.Count == 0)
             {
                 return false;
@@ -261,13 +264,13 @@ namespace DiGi.Geometry.Spatial.Classes
 
             for (int i = 0; i < planes.Count; i++)
             {
-                PlanarIntersectionResult planarIntersectionResult = Create.PlanarIntersectionResult(planes[i], line3D, tolerance);
+                PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(planes[i], line3D, tolerance);
                 if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
                 {
                     continue;
                 }
 
-                Point3D point3D_Intersection = planarIntersectionResult.GetGeometry3Ds<Point3D>()?.FirstOrDefault();
+                Point3D? point3D_Intersection = planarIntersectionResult.GetGeometry3Ds<Point3D>()?.FirstOrDefault();
                 if (point3D_Intersection == null)
                 {
                     continue;
@@ -282,14 +285,14 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
-        public bool InRange(Segment3D segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min == null || max == null || segment3D == null)
             {
                 return false;
             }
 
-            BoundingBox3D boundingBox3D = segment3D.GetBoundingBox();
+            BoundingBox3D? boundingBox3D = segment3D.GetBoundingBox();
             if (boundingBox3D == null)
             {
                 return false;
@@ -300,7 +303,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            List<Plane> planes = Create.Planes(this);
+            List<Plane>? planes = Create.Planes(this);
             if (planes == null || planes.Count == 0)
             {
                 return false;
@@ -308,13 +311,13 @@ namespace DiGi.Geometry.Spatial.Classes
 
             for (int i = 0; i < planes.Count; i++)
             {
-                PlanarIntersectionResult planarIntersectionResult = Create.PlanarIntersectionResult(planes[i], segment3D, tolerance);
+                PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(planes[i], segment3D, tolerance);
                 if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
                 {
                     continue;
                 }
 
-                Point3D point3D_Intersection = planarIntersectionResult.GetGeometry3Ds<Point3D>()?.FirstOrDefault();
+                Point3D? point3D_Intersection = planarIntersectionResult.GetGeometry3Ds<Point3D>()?.FirstOrDefault();
                 if (point3D_Intersection == null)
                 {
                     continue;
@@ -329,9 +332,9 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
-        public bool InRange(BoundingBox3D boundingBox3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(BoundingBox3D? boundingBox3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if (boundingBox3D == null)
+            if (boundingBox3D?.min is null || boundingBox3D?.max is null || max is null || min is null)
             {
                 return false;
             }
@@ -378,20 +381,20 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
-        public bool InRange(ISegmentable3D segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min == null || max == null || segmentable3D == null)
             {
                 return false;
             }
 
-            BoundingBox3D boundingBox3D = segmentable3D.GetBoundingBox();
+            BoundingBox3D? boundingBox3D = segmentable3D.GetBoundingBox();
             if (boundingBox3D == null)
             {
                 return false;
             }
 
-            List<Segment3D> segment3Ds = segmentable3D.GetSegments();
+            List<Segment3D>? segment3Ds = segmentable3D.GetSegments();
             if (segment3Ds == null || segment3Ds.Count == 0)
             {
                 return false;
@@ -413,14 +416,14 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
-        public bool InRange(Plane plane, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Plane? plane, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (plane == null)
             {
                 return false;
             }
 
-            List<Point3D> point3Ds = GetPoints();
+            List<Point3D>? point3Ds = GetPoints();
             if (point3Ds == null || point3Ds.Count == 0)
             {
                 return false;
@@ -448,9 +451,9 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
-        public bool Inside(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if (point3D == null)
+            if (point3D == null || min is null || max is null)
             {
                 return false;
             }
@@ -458,7 +461,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return (point3D.X > min.X + tolerance && point3D.X < max.X - tolerance && point3D.Y > min.Y + tolerance && point3D.Y < max.Y - tolerance && point3D.Z > min.Z + tolerance && point3D.Z < max.Z - tolerance);
         }
 
-        public override bool Move(Vector3D vector3D)
+        public override bool Move(Vector3D? vector3D)
         {
             if (vector3D == null || min == null || max == null)
             {
@@ -481,7 +484,7 @@ namespace DiGi.Geometry.Spatial.Classes
             max = new Point3D(max.X + value, max.Y + value, max.Z + value);
         }
 
-        public bool On(Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(point3D == null)
             {

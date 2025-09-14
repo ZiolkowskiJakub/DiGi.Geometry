@@ -1,4 +1,5 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+﻿using DiGi.Geometry.Core.Interfaces;
+using DiGi.Geometry.Spatial.Classes;
 using DiGi.Math.Classes;
 
 namespace DiGi.Geometry.Spatial
@@ -7,15 +8,24 @@ namespace DiGi.Geometry.Spatial
     {
         public static partial class Transform3D
         {
-            public static Classes.Transform3D CoordinateSystem3DToCoordinateSystem3D(CoordinateSystem3D coordinateSystem3D_From, CoordinateSystem3D coordinateSystem3D_To)
+            public static Classes.Transform3D? CoordinateSystem3DToCoordinateSystem3D(CoordinateSystem3D? coordinateSystem3D_From, CoordinateSystem3D? coordinateSystem3D_To)
             {
-                Classes.Transform3D transform3D_From = CoordinateSystem3DToOrigin(coordinateSystem3D_From);
-                Classes.Transform3D transform3D_To = OriginToCoordinateSystem3D(coordinateSystem3D_To);
+                Classes.Transform3D? transform3D_From = CoordinateSystem3DToOrigin(coordinateSystem3D_From);
+                if (transform3D_From == null)
+                {
+                    return null;
+                }
+
+                Classes.Transform3D? transform3D_To = OriginToCoordinateSystem3D(coordinateSystem3D_To);
+                if (transform3D_To == null)
+                {
+                    return null;
+                }
 
                 return transform3D_To * transform3D_From;
             }
 
-            public static Classes.Transform3D CoordinateSystem3DToOrigin(CoordinateSystem3D coordinateSystem3D)
+            public static Classes.Transform3D? CoordinateSystem3DToOrigin(CoordinateSystem3D? coordinateSystem3D)
             {
                 if (coordinateSystem3D == null)
                 {
@@ -40,7 +50,7 @@ namespace DiGi.Geometry.Spatial
 
             public static Classes.Transform3D MirrorXZ()
             {
-                Classes.Transform3D result = Identity();
+                Classes.Transform3D? result = Identity();
                 result[1, 1] = -result[1, 1];
 
                 return result;
@@ -48,28 +58,33 @@ namespace DiGi.Geometry.Spatial
 
             public static Classes.Transform3D MirrorYZ()
             {
-                Classes.Transform3D result = Identity();
+                Classes.Transform3D? result = Identity();
                 result[0, 0] = -result[0, 0];
 
                 return result;
             }
 
-            public static Classes.Transform3D OriginToCoordinateSystem3D(CoordinateSystem3D coordinateSystem3D)
+            public static Classes.Transform3D? OriginToCoordinateSystem3D(CoordinateSystem3D? coordinateSystem3D)
             {
-                Classes.Transform3D result = CoordinateSystem3DToOrigin(coordinateSystem3D);
-                result.Inverse();
+                Classes.Transform3D? result = CoordinateSystem3DToOrigin(coordinateSystem3D);
+                result?.Inverse();
                 return result;
             }
 
-            public static Classes.Transform3D OriginToPlane(Plane plane)
+            public static Classes.Transform3D? OriginToPlane(Plane? plane)
             {
-                Classes.Transform3D result = PlaneToOrigin(plane);
-                result.Inverse();
+                Classes.Transform3D? result = PlaneToOrigin(plane);
+                result?.Inverse();
                 return result;
             }
 
-            public static Classes.Transform3D OriginTranslation(Point3D point3D)
+            public static Classes.Transform3D? OriginTranslation(Point3D? point3D)
             {
+                if(point3D is null)
+                {
+                    return null;
+                }
+
                 Classes.Transform3D result = Identity();
                 result[0, 3] = point3D[0];
                 result[1, 3] = point3D[1];
@@ -78,14 +93,14 @@ namespace DiGi.Geometry.Spatial
                 return result;
             }
 
-            public static Classes.Transform3D PlaneToOrigin(Point3D origin, Vector3D axisX, Vector3D axisY, Vector3D axisZ)
+            public static Classes.Transform3D? PlaneToOrigin(Point3D? origin, Vector3D? axisX, Vector3D? axisY, Vector3D? axisZ)
             {
                 if (origin == null || axisX == null || axisY == null || axisZ == null)
                 {
                     return null;
                 }
 
-                Matrix4D matrix4D = Math.Create.Matrix4D.Identity();
+                Matrix4D? matrix4D = Math.Create.Matrix4D.Identity();
                 matrix4D[0, 0] = Constans.Vector3D.WorldX.DotProduct(axisX);
                 matrix4D[0, 1] = Constans.Vector3D.WorldX.DotProduct(axisY);
                 matrix4D[0, 2] = Constans.Vector3D.WorldX.DotProduct(axisZ);
@@ -105,7 +120,7 @@ namespace DiGi.Geometry.Spatial
 
             }
 
-            public static Classes.Transform3D PlaneToOrigin(Plane plane)
+            public static Classes.Transform3D? PlaneToOrigin(Plane? plane)
             {
                 if (plane == null)
                 {
@@ -115,10 +130,19 @@ namespace DiGi.Geometry.Spatial
                 return PlaneToOrigin(plane.Origin, plane.AxisX, plane.AxisY, plane.AxisZ);
             }
 
-            public static Classes.Transform3D PlaneToPlane(Plane plane_From, Plane plane_To)
+            public static Classes.Transform3D? PlaneToPlane(Plane? plane_From, Plane? plane_To)
             {
-                Classes.Transform3D transform3D_From = OriginToPlane(plane_From);
-                Classes.Transform3D transform3D_To = PlaneToOrigin(plane_To);
+                Classes.Transform3D? transform3D_From = OriginToPlane(plane_From);
+                if(transform3D_From is null)
+                {
+                    return null;
+                }
+
+                Classes.Transform3D? transform3D_To = PlaneToOrigin(plane_To);
+                if(transform3D_To is null)
+                {
+                    return null;
+                }
 
                 return transform3D_To * transform3D_From;
             }
@@ -153,18 +177,17 @@ namespace DiGi.Geometry.Spatial
             /// <param name="axis">rotation axis Vector3D</param>
             /// <param name="angle">Angle in radians</param>
             /// <returns>Transform3D</returns>
-            public static Classes.Transform3D Rotation(Vector3D axis, double angle)
+            public static Classes.Transform3D? Rotation(Vector3D? axis, double angle)
             {
                 //TODO: Revise this method
 
-                if (axis == null)
+                Vector3D? axis_Unit = axis?.Unit;
+                if (axis_Unit is null)
                 {
                     return null;
                 }
 
                 Classes.Transform3D result = Identity();
-
-                Vector3D axis_Unit = axis.Unit;
 
                 result[0, 0] = System.Math.Cos(angle) + System.Math.Pow(axis_Unit.X, 2) * (1 - System.Math.Cos(angle));
                 result[1, 0] = axis_Unit.X * axis_Unit.Y * (1 - System.Math.Cos(angle)) - axis_Unit.Z * System.Math.Sin(angle);
@@ -188,16 +211,32 @@ namespace DiGi.Geometry.Spatial
             /// <param name="axis">Axis</param>
             /// <param name="angle">Angle</param>
             /// <returns></returns>
-            public static Classes.Transform3D Rotation(Point3D origin, Vector3D axis, double angle)
+            public static Classes.Transform3D? Rotation(Point3D? origin, Vector3D? axis, double angle)
             {
                 //TODO: Revise this method
 
                 if (origin == null)
+                {
                     return null;
+                }
 
-                Classes.Transform3D transform3D_Translation_1 = Translation(origin.X, origin.Y, origin.Z);
-                Classes.Transform3D transform3D_Rotation = Rotation(axis, angle);
-                Classes.Transform3D transform3D_Translation_2 = Translation(-origin.X, -origin.Y, -origin.Z);
+                Classes.Transform3D? transform3D_Translation_1 = Translation(origin.X, origin.Y, origin.Z);
+                if (transform3D_Translation_1 is null)
+                {
+                    return null;
+                }
+
+                Classes.Transform3D? transform3D_Rotation = Rotation(axis, angle);
+                if (transform3D_Rotation is null)
+                {
+                    return null;
+                }
+
+                Classes.Transform3D? transform3D_Translation_2 = Translation(-origin.X, -origin.Y, -origin.Z);
+                if (transform3D_Translation_2 is null)
+                {
+                    return null;
+                }
 
                 return transform3D_Translation_1 * transform3D_Rotation * transform3D_Translation_2;
             }
@@ -209,7 +248,7 @@ namespace DiGi.Geometry.Spatial
             /// <returns>Transform3D</returns>
             public static Classes.Transform3D RotationX(double angle)
             {
-                Classes.Transform3D result = Identity();
+                Classes.Transform3D? result = Identity();
                 result[1, 1] = System.Math.Cos(angle);
                 result[1, 2] = -System.Math.Sin(angle);
                 result[2, 1] = System.Math.Sin(angle);
@@ -270,17 +309,28 @@ namespace DiGi.Geometry.Spatial
                 return result;
             }
 
-            public static Classes.Transform3D Scale(Point3D origin, double factor)
+            public static Classes.Transform3D? Scale(Point3D? origin, double factor)
             {
+                if(origin is null)
+                {
+                    return null;
+                }
+
                 Classes.Transform3D transform3D_Translation_1 = Translation(origin.X, origin.Y, origin.Z);
-                Classes.Transform3D transform3D_Scale = Scale(factor);
-                Classes.Transform3D transform3D_Translation_2 = Translation(-origin.X, -origin.Y, -origin.Z);
+
+                Classes.Transform3D? transform3D_Scale = Scale(factor);
+                Classes.Transform3D? transform3D_Translation_2 = Translation(-origin.X, -origin.Y, -origin.Z);
 
                 return transform3D_Translation_1 * transform3D_Scale * transform3D_Translation_2;
             }
 
-            public static Classes.Transform3D Translation(Vector3D vector3D)
+            public static Classes.Transform3D? Translation(Vector3D? vector3D)
             {
+                if(vector3D is null)
+                {
+                    return null;
+                }
+
                 Classes.Transform3D result = Identity();
                 result[0, 3] = vector3D[0];
                 result[1, 3] = vector3D[1];
@@ -310,7 +360,7 @@ namespace DiGi.Geometry.Spatial
             /// <returns>Transform3D</returns>
             public static Classes.Transform3D Zero()
             {
-                Math.Classes.Matrix4D matrix4D = new Math.Classes.Matrix4D();
+                Matrix4D matrix4D = new ();
                 matrix4D[3, 3] = 1;
                 return new Classes.Transform3D(matrix4D);
             }

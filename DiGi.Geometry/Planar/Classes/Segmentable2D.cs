@@ -9,9 +9,9 @@ namespace DiGi.Geometry.Planar.Classes
     public abstract class Segmentable2D : Geometry2D, ISegmentable2D, IBoundable2D
     {
         [JsonInclude, JsonPropertyName("Points")]
-        protected List<Point2D> points = new List<Point2D>();
+        protected List<Point2D> points = [];
 
-        public Segmentable2D(JsonObject jsonObject)
+        public Segmentable2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -22,18 +22,18 @@ namespace DiGi.Geometry.Planar.Classes
 
         }
 
-        public Segmentable2D(Segmentable2D segmentable2D)
+        public Segmentable2D(Segmentable2D? segmentable2D)
             : base(segmentable2D)
         {
-            points = segmentable2D?.points.Clone();
+            points = segmentable2D?.points.Clone()?.FilterNulls() ?? [];
         }
 
-        public Segmentable2D(IEnumerable<Point2D> point2Ds)
+        public Segmentable2D(IEnumerable<Point2D>? point2Ds)
         {
-            points = point2Ds?.Clone();
+            points = point2Ds?.Clone()?.FilterNulls() ?? [];
         }
 
-        public Point2D ClosestPoint(Point2D point2D)
+        public Point2D? ClosestPoint(Point2D? point2D)
         {
             if(point2D == null || points == null || points.Count == 0)
             {
@@ -43,7 +43,7 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.ClosestPoint(point2D, GetSegments());
         }
 
-        public double Distance(Point2D point2D)
+        public double Distance(Point2D? point2D)
         {
             if (point2D == null || points == null || points.Count == 0)
             {
@@ -53,14 +53,14 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.Distance(point2D, GetSegments());
         }
 
-        public List<Point2D> GetPoints()
+        public List<Point2D>? GetPoints()
         {
-            return points?.Clone();
+            return points?.Clone()?.FilterNulls();
         }
 
-        public abstract List<Segment2D> GetSegments();
+        public abstract List<Segment2D>? GetSegments();
         
-        public override bool Move(Vector2D vector2D)
+        public override bool Move(Vector2D? vector2D)
         {
             if(points == null || vector2D == null)
             {
@@ -75,7 +75,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public override bool Transform(ITransform2D transform)
+        public override bool Transform(ITransform2D? transform)
         {
             if (points == null || transform == null)
             {
@@ -90,7 +90,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public BoundingBox2D GetBoundingBox()
+        public BoundingBox2D? GetBoundingBox()
         {
             if(points == null || points.Count == 0)
             {
@@ -100,7 +100,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new BoundingBox2D(points);
         }
 
-        public bool On(Point2D point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Query.On(this, point2D, tolerance);
         }
@@ -110,7 +110,7 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
-                List<Segment2D> segment2Ds = GetSegments();
+                List<Segment2D>? segment2Ds = GetSegments();
                 if (segment2Ds == null)
                 {
                     return double.NaN;
@@ -120,7 +120,7 @@ namespace DiGi.Geometry.Planar.Classes
                 for (int i = 0; i < segment2Ds.Count; i++)
                 {
                     Segment2D segment2D = segment2Ds[i];
-                    if (segment2D == null)
+                    if (segment2D is null)
                     {
                         continue;
                     }

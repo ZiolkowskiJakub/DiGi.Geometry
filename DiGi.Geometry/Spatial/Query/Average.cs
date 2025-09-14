@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static Point3D Average(this IEnumerable<Point3D> point3Ds)
+        public static Point3D? Average(this IEnumerable<Point3D>? point3Ds)
         {
             if (point3Ds == null)
             {
@@ -33,7 +33,7 @@ namespace DiGi.Geometry.Spatial
             return new Point3D(x / count, y / count, z / count);
         }
 
-        public static Vector3D Average(this IEnumerable<Vector3D> vector3Ds)
+        public static Vector3D? Average(this IEnumerable<Vector3D>? vector3Ds)
         {
             if (vector3Ds == null)
             {

@@ -7,14 +7,14 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static Segment2D Segment2D(this Line2D line2D, IPolygonal2D polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Segment2D? Segment2D(this Line2D? line2D, IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if (line2D == null || polygonal2D == null)
+            if (line2D is null || polygonal2D is null)
             {
                 return null;
             }
 
-            IntersectionResult2D intersectionResult2D = IntersectionResult2D(polygonal2D, line2D, tolerance);
+            IntersectionResult2D? intersectionResult2D = IntersectionResult2D(polygonal2D, line2D, tolerance);
             if(intersectionResult2D == null || !intersectionResult2D.Intersect)
             {
                 return null;
@@ -26,7 +26,7 @@ namespace DiGi.Geometry.Planar
             }
 
 
-            List<Point2D> point2Ds = intersectionResult2D.GetGeometry2Ds<Point2D>();
+            List<Point2D>? point2Ds = intersectionResult2D.GetGeometry2Ds<Point2D>();
             if(point2Ds == null || point2Ds.Count < 2)
             {
                 return null;

@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static List<Segment2D> Segment2Ds(this IEnumerable<Point2D> point2Ds, bool closed = false)
+        public static List<Segment2D>? Segment2Ds(this IEnumerable<Point2D>? point2Ds, bool closed = false)
         {
             if(point2Ds == null)
             {
@@ -15,7 +15,7 @@ namespace DiGi.Geometry.Planar
 
             int count = point2Ds.Count();
 
-            List<Segment2D> result = new List<Segment2D>();
+            List<Segment2D> result = [];
 
             if (count < 2)
             {

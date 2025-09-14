@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static void ExtremePoints(this IEnumerable<Point2D> point2Ds, out Point2D point2D_1, out Point2D point2D_2)
+        public static void ExtremePoints(this IEnumerable<Point2D>? point2Ds, out Point2D? point2D_1, out Point2D? point2D_2)
         {
             point2D_1 = null;
             point2D_2 = null;

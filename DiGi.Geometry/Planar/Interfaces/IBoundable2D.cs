@@ -5,6 +5,6 @@ namespace DiGi.Geometry.Planar.Interfaces
 {
     public interface IBoundable2D : IGeometry2D, IBoundable
     {
-        BoundingBox2D GetBoundingBox();
+        BoundingBox2D? GetBoundingBox();
     }
 }
