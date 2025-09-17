@@ -24,7 +24,7 @@ namespace DiGi.Geometry.Planar
             return determinant > 0 ? Core.Enums.Orientation.Clockwise : Core.Enums.Orientation.CounterClockwise;
         }
 
-        public static Orientation Orientation(this Vector2D vector2D_1, Vector2D vector2D_2)
+        public static Orientation Orientation(this Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             double determinant = Determinant(vector2D_1, vector2D_2);
 
@@ -36,30 +36,17 @@ namespace DiGi.Geometry.Planar
             return determinant > 0 ? Core.Enums.Orientation.Clockwise : Core.Enums.Orientation.CounterClockwise;
         }
 
-        public static Orientation Orientation(this IEnumerable<Point2D> point2Ds, bool convexHull = true)
+        public static Orientation Orientation(this IEnumerable<Point2D>? point2Ds, bool convexHull = true)
         {
-            if (point2Ds == null || point2Ds.Count() == 0)
+            if (point2Ds == null || point2Ds.Count() < 3)
             {
                 return Core.Enums.Orientation.Undefined;
             }
 
-            List<Point2D> point2Ds_Temp = [.. point2Ds];
+            List<Point2D>? point2Ds_Temp = convexHull ? ConvexHull(point2Ds, true) : [.. point2Ds];
             if (point2Ds_Temp == null || point2Ds_Temp.Count < 3)
             {
                 return Core.Enums.Orientation.Undefined;
-            }
-
-            if (convexHull)
-            {
-                List<Point2D>? point2Ds_ConvexHull = ConvexHull(point2Ds);
-
-                //ConvexHull may have different orientation so needs to remove unnecessary points from existing point2Ds
-                if (point2Ds_ConvexHull != null && point2Ds_ConvexHull.Count > 0)
-                {
-                    List<Point2D> point2Ds_ConvexHull_Temp = [.. point2Ds];
-                    point2Ds_ConvexHull_Temp.RemoveAll(x => point2Ds_ConvexHull.Contains(x));
-                    point2Ds_Temp.RemoveAll(x => point2Ds_ConvexHull_Temp.Contains(x));
-                }
             }
 
             point2Ds_Temp.Add(point2Ds_Temp[0]);

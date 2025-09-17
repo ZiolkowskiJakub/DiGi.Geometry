@@ -1,9 +1,9 @@
 ﻿using DiGi.Core;
 using DiGi.Core.Interfaces;
+using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -350,7 +350,38 @@ namespace DiGi.Geometry.Planar.Classes
 
             return true;
         }
-        
+
+        public bool Orient(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation)
+        {
+            bool result = false;
+
+            if(externalEdgeOrientation is not null && externalEdge is not null)
+            {
+                if(externalEdge.Orient(externalEdgeOrientation.Value))
+                {
+                    result = true;
+                }
+            }
+
+            if(internalEdgeOrientation is not null && internalEdges is not null)
+            {
+                foreach(IPolygonal2D internalEdge in internalEdges)
+                {
+                    if(internalEdge is null)
+                    {
+                        continue;
+                    }
+
+                    if (internalEdge.Orient(internalEdgeOrientation.Value))
+                    {
+                        result = true;
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public override bool Transform(ITransform2D? transform)
         {
             if (transform == null || externalEdge == null)

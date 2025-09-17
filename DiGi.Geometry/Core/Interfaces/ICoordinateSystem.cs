@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DiGi.Geometry.Core.Interfaces
+﻿namespace DiGi.Geometry.Core.Interfaces
 {
     public interface ICoordinateSystem : IGeometry
     {

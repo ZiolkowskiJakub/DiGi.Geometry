@@ -1,4 +1,7 @@
 ﻿using DiGi.Core.Interfaces;
+using DiGi.Geometry.Core;
+using DiGi.Geometry.Core.Enums;
+using DiGi.Geometry.Planar;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
@@ -231,6 +234,37 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             return result;
+        }
+
+        public bool Orient(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation)
+        {
+            if(externalEdgeOrientation is null && internalEdgeOrientation is null || geometry2D is null)
+            {
+                return false;
+            }
+
+            Orientation? externalEdgeOrientation_Temp = externalEdgeOrientation;
+            Orientation? internalEdgeOrientation_Temp = internalEdgeOrientation;
+
+            if (ExternalEdge is not IPolygonal3D externalEdge3D || geometry2D?.ExternalEdge is not IPolygonal2D externalEdge2D)
+            {
+                return false;
+            }
+
+            if (externalEdge3D.Orientation() != externalEdge2D.Orientation())
+            {
+                if (externalEdgeOrientation_Temp is not null)
+                {
+                    externalEdgeOrientation_Temp = externalEdgeOrientation_Temp.Value.Opposite();
+                }
+
+                if (internalEdgeOrientation_Temp is not null)
+                {
+                    internalEdgeOrientation_Temp = internalEdgeOrientation_Temp.Value.Opposite();
+                }
+            }
+
+            return geometry2D.Orient(externalEdgeOrientation_Temp, internalEdgeOrientation_Temp);
         }
     }
 }

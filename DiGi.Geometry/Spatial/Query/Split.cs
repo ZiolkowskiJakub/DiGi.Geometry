@@ -1,12 +1,10 @@
 ﻿using DiGi.Core;
-using DiGi.Core.Classes;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace DiGi.Geometry.Spatial
 {
@@ -206,20 +204,24 @@ namespace DiGi.Geometry.Spatial
 
                 while (x.Count > 0)
                 {
-                    IPolygonalFace3D polygonalFace3D_Above = x[0];
+                    IPolygonalFace3D polygonalFace3D = x[0];
                     x.RemoveAt(0);
 
-                    List<IPolygonalFace3D>? polygonalFace3Ds_Polyhedron = ConnectedPolygonalFace3Ds(polygonalFace3D_Above, x, tolerance);
-                    if (polygonalFace3Ds_Polyhedron is null)
+                    if(!TryGetConnectedPolygonalFace3Ds(polygonalFace3D, x, out List<IPolygonalFace3D>? polygonalFace3Ds_Connected, out List<IPolygonalFace3D> ? polygonalFace3Ds_Disconnected, tolerance))
                     {
                         continue;
                     }
 
-                    polygonalFace3Ds_Polyhedron.Add(polygonalFace3D_Above);
+                    if (polygonalFace3Ds_Connected is null)
+                    {
+                        continue;
+                    }
 
-                    polygonalFace3Ds_Polyhedron.ForEach(y => x.Remove(y));
+                    polygonalFace3Ds_Connected.Add(polygonalFace3D);
 
-                    Polyhedron? polyhedron_Temp = Create.Polyhedron(polygonalFace3Ds_Polyhedron);
+                    x = polygonalFace3Ds_Disconnected ?? [];
+
+                    Polyhedron? polyhedron_Temp = Create.Polyhedron(polygonalFace3Ds_Connected);
                     if(polyhedron_Temp is null)
                     {
                         continue;

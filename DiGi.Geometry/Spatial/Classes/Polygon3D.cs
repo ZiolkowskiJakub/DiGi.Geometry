@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class Polygon3D : Planar<Polygon2D>, IPolygonal3D
+    public class Polygon3D : Planar<Polygon2D>, IPolygonal3D<Polygon2D>
     {
         public Polygon3D(JsonObject? jsonObject)
             : base(jsonObject)
@@ -47,6 +47,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
         }
+        
         public override ISerializableObject? Clone()
         {
             return new Polygon3D(this);

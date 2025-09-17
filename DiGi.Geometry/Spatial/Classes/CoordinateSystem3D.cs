@@ -1,8 +1,6 @@
-﻿using DiGi.Geometry.Core.Interfaces;
-using DiGi.Geometry.Spatial.Interfaces;
+﻿using DiGi.Geometry.Spatial.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using static DiGi.Core.Constans.Reference;
 
 namespace DiGi.Geometry.Spatial.Classes
 {

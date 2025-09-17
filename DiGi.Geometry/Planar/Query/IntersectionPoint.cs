@@ -127,18 +127,23 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            //Point2D? point2D_1_1;
+            Point2D? point2D_1_1;
             Point2D? point2D_1_2;
 
             if (linear2D_1 is Segment2D segment2D)
             {
-                //point2D_1_1 = segment2D.Start;
+                point2D_1_1 = segment2D.Start;
                 point2D_1_2 = segment2D.End;
             }
             else if (linear2D_1 is Line2D line2D)
             {
-                //point2D_1_1 = line2D.Origin;
+                point2D_1_1 = line2D.Origin;
                 point2D_1_2 = line2D.Origin?.GetMoved(line2D.Direction);
+            }
+            else if (linear2D_1 is Ray2D ray2D)
+            {
+                point2D_1_1 = ray2D.Origin;
+                point2D_1_2 = ray2D.Origin?.GetMoved(ray2D.Direction);
             }
             else
             {
@@ -158,12 +163,17 @@ namespace DiGi.Geometry.Planar
                 point2D_2_1 = line2D.Origin;
                 point2D_2_2 = point2D_2_1?.GetMoved(line2D.Direction);
             }
+            else if (linear2D_2 is Ray2D ray2D)
+            {
+                point2D_2_1 = ray2D.Origin;
+                point2D_2_2 = point2D_2_1?.GetMoved(ray2D.Direction);
+            }
             else
             {
                 throw new System.NotImplementedException();
             }
 
-            Point2D? result = IntersectionPoint(null, point2D_1_2, point2D_2_1, point2D_2_2, out _, out _, tolerance);
+            Point2D? result = IntersectionPoint(point2D_1_1, point2D_1_2, point2D_2_1, point2D_2_2, out _, out _, tolerance);
             if (result == null)
             {
                 return null;

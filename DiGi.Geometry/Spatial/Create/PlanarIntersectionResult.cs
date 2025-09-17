@@ -589,7 +589,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return PlanarIntersectionResult(polygonalFace3D, origin, origin + direction, true, false, tolerance);
+            return PlanarIntersectionResult(polygonalFace3D, origin, origin + direction, false, false, tolerance);
 
         }
 

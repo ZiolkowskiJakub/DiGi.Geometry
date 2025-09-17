@@ -1,7 +1,6 @@
 ﻿using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Geometry.Planar.Interfaces;
-using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

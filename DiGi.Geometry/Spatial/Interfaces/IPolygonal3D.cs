@@ -1,4 +1,5 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+﻿using DiGi.Geometry.Planar.Interfaces;
+using DiGi.Geometry.Spatial.Classes; 
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Spatial.Interfaces
@@ -12,5 +13,10 @@ namespace DiGi.Geometry.Spatial.Interfaces
         bool InRange(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 
         List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance);
+    }
+
+    public interface IPolygonal3D<TGeometry2D> : IPolygonal3D, IPlanar<TGeometry2D> where TGeometry2D : IGeometry2D
+    {
+
     }
 }

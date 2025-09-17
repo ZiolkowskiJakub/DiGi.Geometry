@@ -1,4 +1,5 @@
-﻿using DiGi.Geometry.Planar.Classes;
+﻿using DiGi.Core;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
@@ -485,6 +486,74 @@ namespace DiGi.Geometry.Spatial
             }
 
             return Convert(plane, planar as dynamic);
+        }
+
+        public static List<TGeometry3D>? Convert<TGeometry3D>(IGeometry3D? geometry3D) where TGeometry3D : IGeometry3D
+        {
+            if (geometry3D is null)
+            {
+                return null;
+            }
+
+            if (geometry3D is TGeometry3D geometry_Temp)
+            {
+                if (DiGi.Core.Query.Clone(geometry_Temp) is TGeometry3D geometry_Temp_Temp)
+                {
+                    return [geometry_Temp_Temp];
+                }
+            }
+
+            List<TGeometry3D> result = [];
+
+            if (typeof(TGeometry3D).IsAssignableFrom(typeof(IPolygonal3D)))
+            {
+                if (geometry3D is IPolygonalFace3D polygonalFace3D)
+                {
+                    if (polygonalFace3D.Edges is List<IPolygonal3D> polygonal3Ds)
+                    {
+                        foreach (IPolygonal3D polygonal3D in polygonal3Ds)
+                        {
+                            List<TGeometry3D>? geometry3Ds = Convert<TGeometry3D>(polygonal3D);
+                            if (geometry3Ds != null)
+                            {
+                                result.AddRange(geometry3Ds);
+                            }
+                        }
+                    }
+
+                    return result;
+                }
+            }
+
+            if (typeof(TGeometry3D).IsAssignableFrom(typeof(PolygonalFace3D)))
+            {
+                if (geometry3D is IPolygonal3D polygonal3D)
+                {
+                    result.Add((TGeometry3D)(object)new PolygonalFace3D(polygonal3D));
+                    return result;
+                }
+            }
+
+            if (typeof(TGeometry3D).IsAssignableFrom(typeof(Segment3D)))
+            {
+                if (geometry3D is IPolygonal3D polygonal3D)
+                {
+                    if(polygonal3D.GetSegments() is List<Segment3D> segments)
+                    {
+                        foreach(Segment3D segment in segments)
+                        {
+                            if(segment is TGeometry3D geometry3D_Temp)
+                            {
+                                result.Add(geometry3D_Temp);
+                            }
+                        }
+                    }
+
+                    return result;
+                }
+            }
+
+            return null;
         }
     }
 

@@ -3,13 +3,12 @@ using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class Triangle3D : Geometry3D, IPlanar<Triangle2D>, IPolygonal3D
+    public class Triangle3D : Geometry3D, IPlanar<Triangle2D>, IPolygonal3D<Triangle2D>
     {
         [JsonInclude, JsonPropertyName("Points")]
         private readonly Point3D?[] points = new Point3D?[3];

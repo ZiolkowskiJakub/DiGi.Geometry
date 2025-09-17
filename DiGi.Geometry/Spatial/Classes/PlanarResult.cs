@@ -118,12 +118,17 @@ namespace DiGi.Geometry.Spatial.Classes
             List<T> result = [];
             for (int i = 0; i < geometry2Ds.Count; i++)
             {
-                IGeometry3D geometry3D = Query.Convert(plane, geometry2Ds[i] as dynamic);
-                
-                if (geometry3D is T t)
+                if(Query.Convert(plane, geometry2Ds[i] as dynamic) is not IGeometry3D geometry3D)
                 {
-                    result.Add(t);
+                    continue;
                 }
+
+                if(Query.Convert<T>(geometry3D) is not List<T> ts)
+                {
+                    continue;
+                }
+
+                result.AddRange(ts);
             }
 
             return result;

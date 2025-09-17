@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class Rectangle3D : Planar<Rectangle2D>, IPolygonal3D
+    public class Rectangle3D : Planar<Rectangle2D>, IPolygonal3D<Rectangle2D>
     {
         public Rectangle3D(JsonObject? jsonObject)
             : base(jsonObject)

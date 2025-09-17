@@ -7,6 +7,36 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        public static List<Point2D>? ConvexHull(this IEnumerable<Point2D>? point2Ds, bool keepOrder)
+        {
+            if(point2Ds is null)
+            {
+                return null;
+            }
+
+            List<Point2D>? result = ConvexHull(point2Ds);
+            
+            if(!keepOrder || result is null || result.Count < 2)
+            {
+                return result;
+            }
+
+            List<Point2D> point2Ds_Temp = [];
+            foreach(Point2D point2D in point2Ds)
+            {
+                if(!result.Contains(point2D))
+                {
+                    continue;
+                }
+
+                point2Ds_Temp.Add(point2D);
+            }
+
+            result = point2Ds_Temp;
+
+            return result;
+        }
+
         public static List<Point2D>? ConvexHull(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null)
@@ -67,6 +97,7 @@ namespace DiGi.Geometry.Planar
             {
                 point2Ds_Temp_UpperHull.AddRange(point2DList_LowerHull);
             }
+
             return point2Ds_Temp_UpperHull;
         }
 
@@ -98,7 +129,7 @@ namespace DiGi.Geometry.Planar
 
         public static List<Point2D>? ConvexHull(this ISegmentable2D? segmentable2D)
         {
-            return ConvexHull(segmentable2D?.GetSegments());
+            return ConvexHull(segmentable2D?.GetPoints());
         }
     }
 }

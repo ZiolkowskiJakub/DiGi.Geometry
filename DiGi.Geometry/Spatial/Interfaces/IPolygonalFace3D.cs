@@ -1,4 +1,5 @@
-﻿using DiGi.Geometry.Planar.Interfaces;
+﻿using DiGi.Geometry.Core.Enums;
+using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 
@@ -9,5 +10,7 @@ namespace DiGi.Geometry.Spatial.Interfaces
         List<IPolygonal3D>? Edges { get; }
 
         List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance);
+
+        bool Orient(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation);
     }
 }
