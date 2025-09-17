@@ -152,5 +152,15 @@ namespace DiGi.Geometry.Spatial
 
             return new Polyhedron(polygonalFace3Ds);
         }
+
+        public static Polyhedron? Polyhedron(this PolygonalFaceExtrusion? polygonalFaceExtrusion, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(polygonalFaceExtrusion is null)
+            {
+                return null;
+            }
+
+            return Polyhedron(polygonalFaceExtrusion.Surface, polygonalFaceExtrusion.Vector, tolerance);
+        }
     }
 }

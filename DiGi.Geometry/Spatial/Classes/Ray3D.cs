@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class Line3D : Geometry3D, ILinear3D
+    public class Ray3D : Geometry3D, ILinear3D
     {
         [JsonInclude, JsonPropertyName("Direction")]
         private Vector3D? direction;
@@ -15,28 +15,28 @@ namespace DiGi.Geometry.Spatial.Classes
         [JsonInclude, JsonPropertyName("Origin")]
         private Point3D? origin;
 
-        public Line3D(Line3D? line3D)
+        public Ray3D(Ray3D? ray3D)
         {
-            if(line3D is not null)
+            if(ray3D is not null)
             {
-                origin = DiGi.Core.Query.Clone(line3D.origin);
-                direction = DiGi.Core.Query.Clone(line3D.direction);
+                origin = DiGi.Core.Query.Clone(ray3D.origin);
+                direction = DiGi.Core.Query.Clone(ray3D.direction);
             }
         }
 
-        public Line3D(Point3D? origin, Vector3D? direction)
+        public Ray3D(Point3D? origin, Vector3D? direction)
         {
             this.origin = DiGi.Core.Query.Clone(origin);
             this.direction = direction?.Unit;
         }
 
-        public Line3D(Point3D? point3D_1, Point3D? point3D_2)
+        public Ray3D(Point3D? point3D_1, Point3D? point3D_2)
         {
             origin = DiGi.Core.Query.Clone(point3D_1);
             direction = new Vector3D(point3D_1, point3D_2).Unit;
         }
 
-        public Line3D(JsonObject? jsonObject)
+        public Ray3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
@@ -69,34 +69,39 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public static bool operator !=(Line3D? line3D_1, Line3D? line3D_2)
+        public static bool operator !=(Ray3D? ray3D_1, Ray3D? ray3D_2)
         {
-            return !(line3D_1 == line3D_2);
+            return !(ray3D_1 == ray3D_2);
         }
 
-        public static bool operator ==(Line3D? line3D_1, Line3D? line3D_2)
+        public static bool operator ==(Ray3D? ray3D_1, Ray3D? ray3D_2)
         {
-            if (line3D_1 is null && line3D_2 is null)
+            if (ray3D_1 is null && ray3D_2 is null)
             {
                 return true;
             }
 
-            if (line3D_1 is null || line3D_2 is null)
+            if (ray3D_1 is null || ray3D_2 is null)
             {
                 return false;
             }
 
-            return line3D_1.origin == line3D_2.origin && line3D_1.direction == line3D_2.direction;
+            return ray3D_1.origin == ray3D_2.origin && ray3D_1.direction == ray3D_2.direction;
         }
 
         public override ISerializableObject? Clone()
         {
-            return new Line3D(this);
+            return new Ray3D(this);
         }
 
         public Point3D? ClosestPoint(Point3D? point3D)
         {
-            return Project(point3D);
+            if(origin is null || direction is null)
+            {
+                return null;
+            }
+
+            return Query.ClosestPoint(point3D, origin, origin.GetMoved(direction), true, false);
         }
 
         public bool Collinear(ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -128,12 +133,12 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public override bool Equals(object obj)
         {
-            if (obj is not Line3D line3D)
+            if (obj is not Ray3D ray3D)
             {
                 return false;
             }
 
-            return line3D.origin == origin && line3D.direction == direction;
+            return ray3D.origin == origin && ray3D.direction == direction;
         }
 
         public override int GetHashCode()
@@ -144,7 +149,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return hashCode;
         }
 
-        public Point3D? IntersectionPoint(Line3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D? IntersectionPoint(Ray3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (line3D == null)
             {
@@ -205,7 +210,12 @@ namespace DiGi.Geometry.Spatial.Classes
         
         public Point3D? Project(Point3D? point3D)
         {
-            return Query.ClosestPoint(point3D, origin, origin + direction, false);
+            if (origin is null || direction is null)
+            {
+                return null;
+            }
+
+            return Query.ClosestPoint(point3D, origin, origin.GetMoved(direction), false);
         }
 
         public bool Transform(ITransform3D? transform)

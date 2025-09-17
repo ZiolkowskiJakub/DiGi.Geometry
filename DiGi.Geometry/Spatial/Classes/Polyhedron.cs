@@ -1,6 +1,8 @@
 ﻿using DiGi.Core;
 using DiGi.Core.Interfaces;
+using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
@@ -55,43 +57,150 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if (polygonalFaces == null)
+            PolyhedronInternalPointSolver polyhedronInternalPointSolver = new (this, tolerance);
+            if(!polyhedronInternalPointSolver.Solve())
             {
                 return null;
             }
 
-            BoundingBox3D? boundingBox3D = GetBoundingBox();
-            if (boundingBox3D == null)
+            return polyhedronInternalPointSolver.InternalPoint;
+        }
+
+        public Vector3D? GetNormal(int index, Enums.Side? side = null, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (polygonalFaces?[index] is not IPolygonalFace3D polygonalFace3D)
             {
                 return null;
             }
 
-            Point3D? result = boundingBox3D.GetCentroid();
-            if (Inside(result, tolerance))
+            if (side is Enums.Side.Undefined)
+            {
+                return null;
+            }
+
+            if (polygonalFace3D.Plane?.Normal is not Vector3D result)
+            {
+                return null;
+            }
+
+            if (side is null)
             {
                 return result;
             }
 
-            Dictionary<int, Point3D> dictionary = [];
-            for (int i = 0; i < polygonalFaces.Count; i++)
+            List<Point3D>? point3Ds = null;
+
+            PolygonalFace3DInternalPointSolver polygonalFace3DInternalPointSolver = new (polygonalFace3D, tolerance);
+            while(polygonalFace3DInternalPointSolver.Solve())
             {
-                Point3D? point3D_Temp = polygonalFaces[i].GetInternalPoint(tolerance);
-                if(point3D_Temp is not null)
+                if (polygonalFace3DInternalPointSolver.InternalPoint is not Point3D internalPoint)
                 {
-                    dictionary[i] = point3D_Temp;
+                    break;
+                }
+
+                point3Ds = [];
+                for (int i = 0; i < polygonalFaces.Count; i++)
+                {
+                    if (i == index)
+                    {
+                        continue;
+                    }
+
+                    PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(new PolygonalFace3D(polygonalFaces[i].ExternalEdge), internalPoint, internalPoint + result, true, false, tolerance);
+                    if (planarIntersectionResult is null || !planarIntersectionResult.Intersect)
+                    {
+                        continue;
+                    }
+
+                    if (planarIntersectionResult.Contains<ILinear2D>())
+                    {
+                        point3Ds = null;
+                        break;
+                    }
+
+                    if (planarIntersectionResult.GetGeometry3Ds<Point3D>() is not List<Point3D> point3Ds_Intersection || point3Ds_Intersection.Count > 1)
+                    {
+                        point3Ds = null;
+                        break;
+                    }
+
+                    point3Ds.Add(point3Ds_Intersection[0]);
+                }
+
+                if(point3Ds is not null)
+                {
+                    break;
                 }
             }
 
-            int count = dictionary.Count;
-
-            for (int i = 0; i < count - 1; i++)
+            if (point3Ds is null)
             {
-                for (int j = i + 1; j < count - 2; j++)
-                {
-                    Point3D point3D_1 = dictionary[i];
-                    Point3D point3D_2 = dictionary[j];
+                throw new NotImplementedException();
+            }
 
-                    IntersectionResult3D? planarIntersectionResult = Create.IntersectionResult3D(this, new Line3D(point3D_1, point3D_2), tolerance);
+            bool even = point3Ds.Count % 2 == 0;
+
+            if (even)
+            {
+                //External
+
+                if (side.Value != Enums.Side.External)
+                {
+                    result.Inverse();
+                }
+            }
+            else
+            {
+                //Internal
+
+                if (side.Value != Enums.Side.Internal)
+                {
+                    result.Inverse();
+                }
+            }
+
+            return result;
+        }
+
+        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (point3D == null || polygonalFaces == null)
+            {
+                return false;
+            }
+
+            if(On(point3D, tolerance))
+            {
+                return true;
+            }
+
+            int maxCount = 100;
+
+            List<PolygonalFace3DInternalPointSolver?> polygonalFace3DInternalPointSolvers = [.. Enumerable.Repeat<PolygonalFace3DInternalPointSolver?>(null, polygonalFaces.Count)];
+
+            for(int j =0; j < maxCount; j++)
+            {
+                for (int i = 0; i < polygonalFaces.Count; i++)
+                {
+                    PolygonalFace3DInternalPointSolver? polygonalFace3DInternalPointSolver = polygonalFace3DInternalPointSolvers[i];
+                    if (polygonalFace3DInternalPointSolver is null)
+                    {
+                        polygonalFace3DInternalPointSolver = new PolygonalFace3DInternalPointSolver(maxCount, polygonalFaces[i], tolerance);
+                        polygonalFace3DInternalPointSolvers[i] = polygonalFace3DInternalPointSolver;
+                    }
+
+                    if (!polygonalFace3DInternalPointSolver.Solve())
+                    {
+                        continue;
+                    }
+
+                    Point3D? point3D_Temp = polygonalFace3DInternalPointSolver.InternalPoint;
+                    if (point3D_Temp == null)
+                    {
+                        continue;
+                    }
+
+                    IntersectionResult3D? planarIntersectionResult = Create.IntersectionResult3D(this, new Ray3D(point3D, point3D_Temp), tolerance);
                     if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
                     {
                         continue;
@@ -103,69 +212,20 @@ namespace DiGi.Geometry.Spatial.Classes
                     }
 
                     List<Point3D>? point3Ds = planarIntersectionResult.GetGeometry3Ds<Point3D>();
-                    if (point3Ds == null || point3Ds.Count < 2)
+                    if (point3Ds == null || point3Ds.Count == 0)
                     {
                         continue;
                     }
 
-                    point3Ds.ExtremePoints(out Point3D? point3D_Extreme, out _);
-
-                    DiGi.Core.Modify.Sort(point3Ds, x => x.Distance(point3D_Extreme));
-
-                    for (int k = 0; k < point3Ds.Count - 1; k++)
+                    if (point3Ds.Find(x => OnEdge(x, tolerance)) != null)
                     {
-                        result = point3Ds[k].Mid(point3Ds[k + 1]);
-                        if (Inside(result, tolerance))
-                        {
-                            return result;
-                        }
+                        continue;
                     }
+
+                    return point3Ds.Count % 2 != 0;
                 }
             }
-
-            return null;
-        }
-
-        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if (point3D == null || polygonalFaces == null)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < polygonalFaces.Count; i++)
-            {
-                Point3D? point3D_Temp = polygonalFaces[i].GetInternalPoint(tolerance);
-                if (point3D_Temp == null)
-                {
-                    continue;
-                }
-
-                IntersectionResult3D? planarIntersectionResult = Create.IntersectionResult3D(this, new Line3D(point3D, point3D_Temp), tolerance);
-                if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
-                {
-                    continue;
-                }
-
-                if (planarIntersectionResult.Contains<Segment3D>())
-                {
-                    continue;
-                }
-
-                List<Point3D>? point3Ds = planarIntersectionResult.GetGeometry3Ds<Point3D>();
-                if (point3Ds == null || point3Ds.Count == 0)
-                {
-                    continue;
-                }
-
-                if (point3Ds.Find(x => OnEdge(x, tolerance)) != null)
-                {
-                    continue;
-                }
-
-                return point3Ds.Count % 2 == 0;
-            }
-
+            
             return false;
         }
 
@@ -176,12 +236,12 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            if (!InRange(point3D, tolerance))
+            if (InRange(point3D, tolerance))
             {
-                return false;
+                return !On(point3D, tolerance);
             }
 
-            return !On(point3D, tolerance);
+            return false;
         }
 
         public override bool Move(Vector3D? vector3D)

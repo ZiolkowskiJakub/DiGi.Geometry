@@ -3,11 +3,13 @@ using DiGi.Geometry.Planar.Classes;
 
 namespace DiGi.Geometry.Planar.Interfaces
 {
-    public interface ILinear2D : IMovable2D, IInvertible, ICurve, ITransformable2D
+    public interface ILinear2D : IMovable2D, IInvertible, ICurve, ITransformable2D, IGeometry2D
     {
         Vector2D? Direction { get; }
 
         Point2D? ClosestPoint(Point2D? point2D);
+
+        Point2D? Project(Point2D? point2D);
 
         double Distance(Point2D? point2D);
 

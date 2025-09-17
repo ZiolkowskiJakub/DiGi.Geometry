@@ -29,7 +29,7 @@ namespace DiGi.Geometry.Spatial
             List<Segment3D> segment3Ds = [];
             for (int i = 0; i < polyhedron.Count; i++)
             {
-                PlanarIntersectionResult? planarIntersectionResult = PlanarIntersectionResult(polyhedron[i], linear3D, tolerance);
+                PlanarIntersectionResult? planarIntersectionResult = PlanarIntersectionResult(polyhedron[i], linear3D as dynamic, tolerance);
                 if(planarIntersectionResult == null || !planarIntersectionResult.Intersect)
                 {
                     continue;

@@ -106,6 +106,34 @@ namespace DiGi.Geometry.Spatial
             return new ProjectionResult(plane, new Line2D(point2D, vector2D));
         }
 
+        public static ProjectionResult? ProjectionResult(this Plane? plane, Ray3D? ray3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (plane == null || ray3D == null)
+            {
+                return null;
+            }
+
+            if (Query.Similar(plane.Normal, ray3D.Direction, tolerance))
+            {
+                PlanarIntersectionResult? planarIntersectionResult = PlanarIntersectionResult(plane, ray3D, tolerance);
+                return new ProjectionResult(plane, planarIntersectionResult?.GetGeometry2Ds<IGeometry2D>());
+            }
+
+            Point2D? point2D = ProjectionResult(plane, ray3D.Origin)?.GetGeometry2Ds<Point2D>()?.FirstOrDefault();
+            if (point2D == null)
+            {
+                return null;
+            }
+
+            Vector2D? vector2D = ProjectionResult(plane, ray3D.Direction, tolerance)?.GetGeometry2Ds<Vector2D>()?.FirstOrDefault();
+            if (vector2D == null)
+            {
+                return null;
+            }
+
+            return new ProjectionResult(plane, new Ray2D(point2D, vector2D));
+        }
+
         public static ProjectionResult? ProjectionResult(this Plane? plane, Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (plane == null || segment3D == null)

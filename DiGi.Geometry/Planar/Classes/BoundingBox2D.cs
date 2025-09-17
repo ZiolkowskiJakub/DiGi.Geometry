@@ -413,8 +413,7 @@ namespace DiGi.Geometry.Planar.Classes
 
             for (int i = 0; i < point2Ds.Count; i++)
             {
-                Point2D? point2D = segment2D.Project(point2Ds[i], tolerance);
-                if (point2D == null)
+                if (segment2D.ClosestPoint(point2Ds[i]) is not Point2D point2D)
                 {
                     continue;
                 }

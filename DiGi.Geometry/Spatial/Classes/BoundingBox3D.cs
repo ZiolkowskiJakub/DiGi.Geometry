@@ -1,6 +1,9 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
+using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Spatial.Constans;
 using DiGi.Geometry.Spatial.Interfaces;
+using NetTopologySuite.Mathematics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
@@ -239,6 +242,52 @@ namespace DiGi.Geometry.Spatial.Classes
             return width * height * depth;
         }
 
+        public bool InRange(Point3D? point3D_1, Point3D? point3D_2, bool bounded_1, bool bounded_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (point3D_1 is null || point3D_2 is null)
+            {
+                return false;
+            }
+
+            List<Plane>? planes = Create.Planes(this);
+            if (planes == null || planes.Count == 0)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < planes.Count; i++)
+            {
+                PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(planes[i], point3D_1, point3D_2, bounded_1, bounded_2, tolerance);
+                if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+                {
+                    continue;
+                }
+
+                Point3D? point3D_Intersection = planarIntersectionResult.GetGeometry3Ds<Point3D>()?.FirstOrDefault();
+                if (point3D_Intersection == null)
+                {
+                    continue;
+                }
+
+                if (On(point3D_Intersection, tolerance))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool InRange(Ray3D? ray3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if(ray3D?.Origin is not Point3D origin || ray3D.Direction is not Vector3D direction)
+            {
+                return false;
+            }
+
+            return InRange(origin, origin + direction, true, false, tolerance);
+        }
+
         public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D is null || min is null || max is null)
@@ -251,85 +300,22 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool InRange(Line3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if (min == null || max == null || line3D == null)
+            if (line3D?.Origin is not Point3D origin || line3D.Direction is not Vector3D direction)
             {
                 return false;
             }
 
-            List<Plane>? planes = Create.Planes(this);
-            if (planes == null || planes.Count == 0)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < planes.Count; i++)
-            {
-                PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(planes[i], line3D, tolerance);
-                if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
-                {
-                    continue;
-                }
-
-                Point3D? point3D_Intersection = planarIntersectionResult.GetGeometry3Ds<Point3D>()?.FirstOrDefault();
-                if (point3D_Intersection == null)
-                {
-                    continue;
-                }
-
-                if (On(point3D_Intersection, tolerance))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return InRange(origin, origin + direction, false, false, tolerance);
         }
 
         public bool InRange(Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if (min == null || max == null || segment3D == null)
+            if (segment3D?.Start is not Point3D origin || segment3D.End is not Point3D end)
             {
                 return false;
             }
 
-            BoundingBox3D? boundingBox3D = segment3D.GetBoundingBox();
-            if (boundingBox3D == null)
-            {
-                return false;
-            }
-
-            if (!InRange(boundingBox3D, tolerance))
-            {
-                return false;
-            }
-
-            List<Plane>? planes = Create.Planes(this);
-            if (planes == null || planes.Count == 0)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < planes.Count; i++)
-            {
-                PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(planes[i], segment3D, tolerance);
-                if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
-                {
-                    continue;
-                }
-
-                Point3D? point3D_Intersection = planarIntersectionResult.GetGeometry3Ds<Point3D>()?.FirstOrDefault();
-                if (point3D_Intersection == null)
-                {
-                    continue;
-                }
-
-                if (On(point3D_Intersection, tolerance))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return InRange(origin, end, true, true, tolerance);
         }
 
         public bool InRange(BoundingBox3D? boundingBox3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)

@@ -9,6 +9,11 @@ namespace DiGi.Geometry.Planar
     {
         public static Point2D? ClosestPoint(this Point2D? point2D, Point2D? point2D_1, Point2D? point2D_2, bool bounded)
         {
+            return ClosestPoint(point2D, point2D_1, point2D_2, bounded, bounded);
+        }
+
+        public static Point2D? ClosestPoint(this Point2D? point2D, Point2D? point2D_1, Point2D? point2D_2, bool bounded_1, bool bounded_2)
+        {
             if(point2D == null || point2D_1 == null || point2D_2 == null)
             {
                 return null;
@@ -27,11 +32,12 @@ namespace DiGi.Geometry.Planar
                 parameter = dot / len_sq;
             }
 
-            if (parameter < 0 && bounded)
+            if (parameter < 0 && bounded_1)
             {
                 return new Point2D(point2D_1);
             }
-            else if (parameter > 1 && bounded)
+            
+            if (parameter > 1 && bounded_2)
             {
                 return new Point2D(point2D_2);
             }

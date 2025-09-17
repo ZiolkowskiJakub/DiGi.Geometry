@@ -116,7 +116,6 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-
         [JsonPropertyName("Start")]
         public Point3D? Start
         {
@@ -168,9 +167,19 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.ClosestPoint(point3D, start, End, true);
         }
 
+        public Point3D? Project(Point3D? point3D)
+        {
+            return Query.ClosestPoint(point3D, start, End, false);
+        }
+
         public bool Collinear(ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            throw new System.NotImplementedException();
+            if (Direction is not Vector3D direction_1 || linear3D?.Direction is not Vector3D direction_2)
+            {
+                return false;
+            }
+
+            return direction_1.Collinear(direction_2, tolerance);
         }
 
         public double Distance(Point3D? point3D)

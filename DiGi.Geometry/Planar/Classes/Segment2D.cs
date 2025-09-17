@@ -3,7 +3,6 @@ using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -310,37 +309,14 @@ namespace DiGi.Geometry.Planar.Classes
             return distance < tolerance;
         }
 
-        public Point2D? Project(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point2D? Project(Point2D? point2D)
         {
             if (point2D is null || start is null)
             {
                 return null;
             }
 
-            Point2D? end = End;
-            if(end is null)
-            {
-                return null;
-            }
-
-            if (start.X == end.X)
-            {
-                return new (start.X, point2D.Y);
-            }
-
-            double m = (end.Y - start.Y) / (end.X - start.X);
-            double b = start.Y - (m * start.X);
-
-            double x = (m * point2D.Y + point2D.X - m * b) / (m * m + 1);
-            double y = (m * m * point2D.Y + m * point2D.X + b) / (m * m + 1);
-
-            Point2D result = new (x, y);
-            if (On(result, tolerance))
-            {
-                return result;
-            }
-
-            return start.Distance(result) < end.Distance(result) ? Start : end;
+            return Query.ClosestPoint(point2D, start, End, false);
         }
 
         public override bool Transform(ITransform2D? transform)

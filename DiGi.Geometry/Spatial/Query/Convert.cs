@@ -8,6 +8,38 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        public static Ray3D? Convert(this Plane? plane, Ray2D? ray2D)
+        {
+
+            if(plane?.Convert(ray2D?.Direction) is not Vector3D direction)
+            {
+                return null;
+            }
+
+            if (plane.Convert(ray2D!.Origin) is not Point3D origin)
+            {
+                return null;
+            }
+
+            return new Ray3D(origin, direction);
+        }
+
+        public static Ray2D? Convert(this Plane? plane, Ray3D? ray3D)
+        {
+
+            if (plane?.Convert(ray3D?.Direction) is not Vector2D direction)
+            {
+                return null;
+            }
+
+            if (plane.Convert(ray3D!.Origin) is not Point2D origin)
+            {
+                return null;
+            }
+
+            return new Ray2D(origin, direction);
+        }
+
         public static Point3D? Convert(this Plane? plane, Point2D? point2D)
         {
             if (point2D == null)

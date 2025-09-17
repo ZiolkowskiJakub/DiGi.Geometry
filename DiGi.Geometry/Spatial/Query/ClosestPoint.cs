@@ -8,6 +8,11 @@ namespace DiGi.Geometry.Spatial
     {
         public static Point3D? ClosestPoint(this Point3D? point3D, Point3D? point3D_1, Point3D? point3D_2, bool bounded)
         {
+            return ClosestPoint(point3D, point3D_1, point3D_2, bounded, bounded);
+        }
+
+        public static Point3D? ClosestPoint(this Point3D? point3D, Point3D? point3D_1, Point3D? point3D_2, bool bounded_1, bool bounded_2)
+        {
             if(point3D == null || point3D_1 == null || point3D_2 == null)
             {
                 return null;
@@ -27,20 +32,21 @@ namespace DiGi.Geometry.Spatial
             double squareLength = c * c + d * d + f * f;
             double parameter = -1;
             if (squareLength != 0)
+            {
                 parameter = dot / squareLength;
+            }
 
-            if (parameter < 0 && bounded)
+            if (parameter < 0 && bounded_1)
             {
-                return start;
+                return new Point3D(start);
             }
-            else if (parameter > 1 && bounded)
+
+            if (parameter > 1 && bounded_2)
             {
-                return end;
+                return new Point3D(end);
             }
-            else
-            {
-                return new Point3D(start.X + parameter * c, start.Y + parameter * d, start.Z + parameter * f);
-            }
+
+            return new Point3D(start.X + parameter * c, start.Y + parameter * d, start.Z + parameter * f);
         }
 
         public static Point3D? ClosestPoint(this Point3D? point3D, ISegmentable3D segmentable3D)

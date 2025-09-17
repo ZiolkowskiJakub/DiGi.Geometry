@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Line2D : Geometry2D, ILinear2D
+    public class Ray2D : Geometry2D, ILinear2D
     {
         [JsonInclude, JsonPropertyName("Direction")]
         private Vector2D? direction;
@@ -14,18 +14,18 @@ namespace DiGi.Geometry.Planar.Classes
         [JsonInclude, JsonPropertyName("Origin")]
         private Point2D? origin;
         
-        public Line2D(Point2D? origin, Vector2D? direction)
+        public Ray2D(Point2D? origin, Vector2D? direction)
         {
             this.origin = origin?.Clone<Point2D>();
             this.direction = direction?.Unit;
         }
 
-        public Line2D(Line2D? line2D)
+        public Ray2D(Ray2D? ray2D)
         {
-            if(line2D is not null)
+            if(ray2D is not null)
             {
-                origin = line2D.Origin;
-                direction = line2D.Direction;
+                origin = ray2D.Origin;
+                direction = ray2D.Direction;
             }
         }
 
@@ -58,54 +58,54 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
 
-        public static explicit operator Line2D?(Segment2D? segment2D)
+        public static explicit operator Ray2D?(Segment2D? segment2D)
         {
             if (segment2D is null)
             {
                 return null;
             }
 
-            return new Line2D(segment2D.Start, segment2D.Vector);
+            return new Ray2D(segment2D.Start, segment2D.Vector);
         }
 
-        public static bool operator !=(Line2D? line2D_1, Line2D? line2D_2)
+        public static bool operator !=(Ray2D? ray2D_1, Ray2D? ray2D_2)
         {
-            return !(line2D_1 == line2D_2);
+            return !(ray2D_1 == ray2D_2);
         }
 
-        public static bool operator ==(Line2D? line2D_1, Line2D? line2D_2)
+        public static bool operator ==(Ray2D? ray2D_1, Ray2D? ray2D_2)
         {
-            if (line2D_1 is null && line2D_2 is null)
+            if (ray2D_1 is null && ray2D_2 is null)
             {
                 return true;
             }
 
-            if (line2D_1 is null || line2D_2 is null)
+            if (ray2D_1 is null || ray2D_2 is null)
             {
                 return false;
             }
 
-            return line2D_1.origin == line2D_2.origin && line2D_1.direction == line2D_2.direction;
+            return ray2D_1.origin == ray2D_2.origin && ray2D_1.direction == ray2D_2.direction;
         }
 
         public override ISerializableObject? Clone()
         {
-            return new Line2D(this);
+            return new Ray2D(this);
         }
 
         public override bool Equals(object? obj)
         {
-            if (obj is not Line2D line2D)
+            if (obj is not Ray2D ray2D)
             {
                 return false;
             }
 
-            return line2D.origin == origin && line2D.direction == direction;
+            return ray2D.origin == origin && ray2D.direction == direction;
         }
 
-        public Point2D? IntersectionPoint(Line2D? line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point2D? IntersectionPoint(Ray2D? ray2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if (line2D is null || origin == null || direction is null)
+            if (ray2D is null || origin == null || direction is null)
             {
                 return null;
             }
@@ -113,10 +113,16 @@ namespace DiGi.Geometry.Planar.Classes
             Point2D? point2D_1 = Origin;
             point2D_1?.Move(direction);
 
-            Point2D? point2D_2 = line2D.Origin;
-            point2D_2?.Move(line2D.direction);
+            Point2D? point2D_2 = ray2D.Origin;
+            point2D_2?.Move(ray2D.direction);
 
-            return Query.IntersectionPoint(origin, point2D_1, line2D.origin, point2D_2, false, tolerance);
+            Point2D? result = Query.IntersectionPoint(origin, point2D_1, ray2D.origin, point2D_2, false, tolerance);
+            if (!ray2D.On(result, tolerance) || !On(result, tolerance))
+            {
+                return null;
+            }
+
+            return result;
         }
 
         public Point2D? IntersectionPoint(Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -130,7 +136,7 @@ namespace DiGi.Geometry.Planar.Classes
             point2D?.Move(direction);
 
             Point2D? result = Query.IntersectionPoint(origin, point2D, segment2D.Start, segment2D.End, false, tolerance);
-            if(!segment2D.On(result))
+            if(!segment2D.On(result) || !On(result))
             {
                 return null;
             }
@@ -166,17 +172,17 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Point2D? Project(Point2D? point2D)
         {
-            return ClosestPoint(point2D);
+            return Query.ClosestPoint(point2D, origin, origin + direction, false);
         }
 
         public Point2D? ClosestPoint(Point2D? point2D)
         {
-            if(origin is null || direction is null)
+            if(origin == null || direction is null)
             {
                 return null;
             }
 
-            return Query.ClosestPoint(point2D, origin, origin + direction, false);
+            return Query.ClosestPoint(point2D, origin, origin + direction, true, false);
         }
 
         public bool Collinear(ILinear2D? linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -191,7 +197,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return double.NaN;
             }
 
-            Point2D? point2D_Project = Project(point2D);
+            Point2D? point2D_Project = ClosestPoint(point2D);
             if(point2D_Project is null)
             {
                 return double.NaN;
