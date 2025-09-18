@@ -1,16 +1,16 @@
-﻿using DiGi.Geometry.Core.Interfaces;
+﻿using DiGi.Geometry.Spatial.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class Plane : Geometry3D, IInvertible
+    public class Plane : Geometry3D, IFlippable
     {
         [JsonInclude, JsonPropertyName("AxisY")]
-        private readonly Vector3D? axisY;
+        private Vector3D? axisY;
 
         [JsonInclude, JsonPropertyName("Normal")]
-        private readonly Vector3D? normal;
+        private Vector3D? normal;
 
         [JsonInclude, JsonPropertyName("Origin")]
         private Point3D? origin;
@@ -252,10 +252,85 @@ namespace DiGi.Geometry.Spatial.Classes
             return closestPoint.Distance(point3D);
         }
 
-        public void Inverse()
+        public Vector3D? GetAxis(Enums.SpatialAxis axis)
         {
-            normal?.Inverse();
-            axisY?.Inverse();
+            switch (axis)
+            {
+                case Enums.SpatialAxis.X:
+                    return AxisX;
+
+                case Enums.SpatialAxis.Y:
+                    return AxisY;
+
+                case Enums.SpatialAxis.Z:
+                    return AxisZ;
+
+                default:
+                    return null;
+            }
+        }
+
+        public bool Flip(Enums.SpatialAxis prmiaryAxis = Enums.SpatialAxis.Z, Enums.SpatialAxis secondaryAxis = Enums.SpatialAxis.X)
+        {
+            if (prmiaryAxis == secondaryAxis)
+            {
+                return false;
+            }
+
+            if(prmiaryAxis == Enums.SpatialAxis.Z)
+            {
+                if(secondaryAxis == Enums.SpatialAxis.X)
+                {
+                    Vector3D? axisX = AxisX;
+                    normal?.Inverse();
+                    axisY = normal?.CrossProduct(axisX);
+
+                    return true;
+                }
+                else if (secondaryAxis == Enums.SpatialAxis.Y)
+                {
+                    normal?.Inverse();
+
+                    return true;
+                }
+            }
+            else if (prmiaryAxis == Enums.SpatialAxis.Y)
+            {
+                if (secondaryAxis == Enums.SpatialAxis.X)
+                {
+                    Vector3D? axisX = AxisX;
+                    axisY?.Inverse();
+                    normal = Query.Normal(axisX, axisY);
+
+                    return true;
+                }
+                else if (secondaryAxis == Enums.SpatialAxis.Z)
+                {
+                    axisY?.Inverse();
+
+                    return true;
+                }
+            }
+            else if (prmiaryAxis == Enums.SpatialAxis.X)
+            {
+                if (secondaryAxis == Enums.SpatialAxis.Y)
+                {
+                    Vector3D? axisX = AxisX?.GetInversed();
+                    normal = Query.Normal(axisX, axisY);
+
+                    return true;
+                }
+                else if (secondaryAxis == Enums.SpatialAxis.Z)
+                {
+                    Vector3D? axisX = AxisX?.GetInversed();
+                    axisY = normal?.CrossProduct(axisX);
+
+                    return true;
+                }
+            }
+
+            return false;
+
         }
 
         public override bool Move(Vector3D? vector3D)

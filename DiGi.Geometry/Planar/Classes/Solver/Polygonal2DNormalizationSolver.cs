@@ -35,7 +35,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool Normalized()
         {
-            return Query.Orientation(polygonal2D?.GetPoints()) == orientation;
+            return Query.Orientation(polygonal2D) == orientation;
         }
 
     }

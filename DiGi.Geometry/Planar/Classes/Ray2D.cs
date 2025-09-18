@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class Ray2D : Geometry2D, ILinear2D
+    public class Ray2D : Geometry2D, ILinear2D, IInvertible2D
     {
         [JsonInclude, JsonPropertyName("Direction")]
         private Vector2D? direction;
@@ -165,9 +165,14 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public void Inverse()
+        public bool Inverse()
         {
-            direction?.Inverse();
+            if(direction is null)
+            {
+                return false;
+            }
+
+            return direction.Inverse();
         }
 
         public Point2D? Project(Point2D? point2D)

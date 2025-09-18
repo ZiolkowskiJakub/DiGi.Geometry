@@ -1,6 +1,7 @@
 ﻿using DiGi.Core;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace DiGi.Geometry.Spatial
             return determinant > 0 ? Core.Enums.Orientation.Clockwise : Core.Enums.Orientation.CounterClockwise;
         }
 
-        public static Orientation Orientation(this IPolygonal3D? polygonal3D)
+        public static Orientation Orientation(this IPolygonal3D? polygonal3D, bool convexHull = true)
         {
             if(polygonal3D?.Plane is not Plane plane)
             {
@@ -60,7 +61,12 @@ namespace DiGi.Geometry.Spatial
                 point2Ds = polygonal3D.GetPoints()?.ConvertAll(plane.Convert).FilterNulls();
             }
 
-            return Orientation(plane, point2Ds, true);
+            return Orientation(plane, point2Ds, convexHull);
+        }
+
+        public static Orientation Orientation(this Plane? plane, IPolygonal2D? polygonal2D, bool convexHull = true)
+        {
+            return Orientation(plane, polygonal2D?.GetPoints(), convexHull);
         }
 
         public static Orientation Orientation(this Plane? plane, IEnumerable<Point2D>? point2Ds, bool convexHull = true)

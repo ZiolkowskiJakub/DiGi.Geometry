@@ -139,9 +139,15 @@ namespace DiGi.Geometry.Spatial.Classes
             return Create.Segment3Ds(points, false);
         }
         
-        public void Inverse()
+        public bool Inverse()
         {
+            if(points.Count < 2)
+            {
+                return false;
+            }
+
             points.Reverse();
+            return true;
         }
 
         public bool IsClosed()

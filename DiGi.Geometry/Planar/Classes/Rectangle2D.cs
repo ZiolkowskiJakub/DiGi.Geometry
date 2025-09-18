@@ -342,12 +342,11 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).Inside(point2D, tolerance);
         }
 
-        public void Inverse()
+        public bool Inverse()
         {
-            Point2D? point2D = DiGi.Core.Query.Clone(origin);
-            if(point2D is null)
+            if(DiGi.Core.Query.Clone(origin) is not Point2D point2D)
             {
-                return;
+                return false;
             }
 
             Vector2D? vector2D;
@@ -361,6 +360,7 @@ namespace DiGi.Geometry.Planar.Classes
             origin = point2D;
 
             heightDirection?.Inverse();
+            return true;
         }
 
         public override bool Move(Vector2D? vector2D)

@@ -66,17 +66,19 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
-        public void Inverse()
+        public bool Inverse()
         {
             if (values == null)
             {
-                return;
+                return false;
             }
 
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = -values[i];
             }
+
+            return true;
         }
 
         public override int GetHashCode()

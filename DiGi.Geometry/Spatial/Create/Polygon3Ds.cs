@@ -47,7 +47,7 @@ namespace DiGi.Geometry.Spatial
             point3D_4 = min.GetMoved(vector3D_Depth);
 
             plane = Constans.Plane.WorldZ;
-            plane.Inverse();
+            plane.Flip();
             plane = new Plane(plane, point3D_1.Mid(point3D_3));
 
             Polygon3D? polygon3D = Polygon3D(plane, plane.Convert(point3D_1), plane.Convert(point3D_2), plane.Convert(point3D_3), plane.Convert(point3D_4));
@@ -63,7 +63,7 @@ namespace DiGi.Geometry.Spatial
             point3D_4 = min.GetMoved(vector3D_Height);
 
             plane = Constans.Plane.WorldX;
-            plane.Inverse();
+            plane.Flip();
             plane = new Plane(plane, point3D_1.Mid(point3D_3));
 
             polygon3D = Polygon3D(plane, plane.Convert(point3D_1), plane.Convert(point3D_2), plane.Convert(point3D_3), plane.Convert(point3D_4));
@@ -78,7 +78,7 @@ namespace DiGi.Geometry.Spatial
             point3D_4 = min.GetMoved(vector3D_Width);
 
             plane = Constans.Plane.WorldY;
-            plane.Inverse();
+            plane.Flip();
             plane = new Plane(plane, point3D_1.Mid(point3D_3));
 
             polygon3D = Polygon3D(plane, plane.Convert(point3D_1), plane.Convert(point3D_2), plane.Convert(point3D_3), plane.Convert(point3D_4));

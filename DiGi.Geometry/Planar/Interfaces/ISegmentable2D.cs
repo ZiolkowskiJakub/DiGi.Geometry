@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DiGi.Geometry.Planar.Interfaces
 {
-    public interface ISegmentable2D : IMovable2D, ICurve2D, IBoundable2D, IInvertible
+    public interface ISegmentable2D : IMovable2D, ICurve2D, IBoundable2D, IInvertible2D
     {
         List<Segment2D>? GetSegments();
 

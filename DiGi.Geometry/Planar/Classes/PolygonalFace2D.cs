@@ -87,6 +87,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return DiGi.Core.Query.Clone(internalEdges)?.FilterNulls();
             }
         }
+        
         public override ISerializableObject? Clone()
         {
             return new PolygonalFace2D(this);

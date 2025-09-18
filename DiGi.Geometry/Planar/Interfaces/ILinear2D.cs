@@ -3,7 +3,7 @@ using DiGi.Geometry.Planar.Classes;
 
 namespace DiGi.Geometry.Planar.Interfaces
 {
-    public interface ILinear2D : IMovable2D, IInvertible, ICurve, ITransformable2D, IGeometry2D
+    public interface ILinear2D : IMovable2D, ICurve, ITransformable2D, IGeometry2D
     {
         Vector2D? Direction { get; }
 

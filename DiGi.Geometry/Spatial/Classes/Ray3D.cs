@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class Ray3D : Geometry3D, ILinear3D
+    public class Ray3D : Geometry3D, ILinear3D, IInvertible3D
     {
         [JsonInclude, JsonPropertyName("Direction")]
         private Vector3D? direction;
@@ -175,9 +175,14 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
-        public void Inverse()
+        public bool Inverse()
         {
-            direction?.Inverse();
+            if(direction is null)
+            {
+                return false;
+            }
+
+            return direction.Inverse();
         }
 
         public override bool Move(Vector3D? vector3D)

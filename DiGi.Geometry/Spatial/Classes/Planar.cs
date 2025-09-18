@@ -1,18 +1,19 @@
 ﻿using DiGi.Geometry.Planar.Interfaces;
+using DiGi.Geometry.Spatial.Enums;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public abstract class Planar<T> : Geometry3D, IPlanar<T> where T : IGeometry2D
+    public abstract class Planar<T> : Geometry3D, IPlanar<T>, IFlippable where T : IGeometry2D
     {
+        [JsonInclude, JsonPropertyName("Geometry2D")]
+        protected T? geometry2D;
+
         [JsonInclude, JsonPropertyName("Plane")]
         protected Plane? plane;
-
-        [JsonInclude, JsonPropertyName("Geometry2D")]
-        protected T? geometry2D; 
-
+        
         public Planar(Plane? plane)
             : base()
         {
@@ -58,6 +59,23 @@ namespace DiGi.Geometry.Spatial.Classes
             {
                 return plane == null ? null : new (plane);
             }
+        }
+
+        public bool Flip(SpatialAxis prmiaryAxis = SpatialAxis.Z, SpatialAxis secondaryAxis = SpatialAxis.X)
+        {
+            if (plane is null)
+            {
+                return false;
+            }
+
+            bool result = plane.Flip(prmiaryAxis, secondaryAxis);
+
+            if(result)
+            {
+
+            }
+
+            return result;
         }
 
         public override bool Move(Vector3D? vector3D)

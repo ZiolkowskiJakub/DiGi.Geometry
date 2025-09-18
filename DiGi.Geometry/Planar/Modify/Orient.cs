@@ -8,14 +8,14 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Modify
     {
-        public static bool Orient(this IPolygonal2D? polygonal2D, Orientation orientation)
+        public static bool Orient(this IPolygonal2D? polygonal2D, Orientation orientation, bool convexHull = true)
         {
             if(polygonal2D == null || orientation == Orientation.Undefined || orientation == Orientation.Collinear)
             {
                 return false;
             }
 
-            Orientation orientation_Temp = polygonal2D.Orientation();
+            Orientation orientation_Temp = polygonal2D.Orientation(convexHull);
             if(orientation_Temp == orientation)
             {
                 return false;

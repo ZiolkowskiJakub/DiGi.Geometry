@@ -43,7 +43,7 @@ namespace DiGi.Geometry.Planar
                 return Core.Enums.Orientation.Undefined;
             }
 
-            List<Point2D>? point2Ds_Temp = convexHull ? ConvexHull(point2Ds, true) : [.. point2Ds];
+            List<Point2D>? point2Ds_Temp = convexHull && point2Ds.Count() > 3 ? ConvexHull(point2Ds, true) : [.. point2Ds];
             if (point2Ds_Temp == null || point2Ds_Temp.Count < 3)
             {
                 return Core.Enums.Orientation.Undefined;
@@ -64,7 +64,7 @@ namespace DiGi.Geometry.Planar
             return Core.Enums.Orientation.Undefined;
         }
 
-        public static Orientation Orientation(this IPolygonal2D? polygonal2D)
+        public static Orientation Orientation(this IPolygonal2D? polygonal2D, bool convexHull = true)
         {
             if (polygonal2D == null)
             {
@@ -77,7 +77,7 @@ namespace DiGi.Geometry.Planar
                 return Core.Enums.Orientation.Undefined;
             }
 
-            return Orientation(point2Ds);
+            return Orientation(point2Ds, convexHull);
         }
     }
 }

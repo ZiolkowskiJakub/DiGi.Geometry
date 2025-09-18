@@ -3,13 +3,13 @@ using DiGi.Geometry.Spatial.Classes;
 
 namespace DiGi.Geometry.Spatial.Interfaces
 {
-    public interface IPlanar : IGeometry3D
+    public interface IPlanar
     {
         Plane? Plane { get; }
     }
 
-    public interface IPlanar<T> : IPlanar where T : IGeometry2D
+    public interface IPlanar<TGeometry2D> : IPlanar where TGeometry2D : IGeometry2D
     {
-        T? Geometry2D { get; }
+        TGeometry2D? Geometry2D { get; }
     }
 }

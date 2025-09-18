@@ -257,14 +257,15 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.Inside(this, point3D, tolerance);
         }
 
-        public void Inverse()
+        public bool Inverse()
         {
             if(points == null)
             {
-                return;
+                return false;
             }
 
             (points[2], points[0]) = (points[0], points[2]);
+            return true;
         }
 
         public override bool Move(Vector3D? vector3D)

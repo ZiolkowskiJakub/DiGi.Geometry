@@ -170,11 +170,6 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
-        public void Inverse()
-        {
-            direction?.Inverse();
-        }
-
         public override bool Move(Vector3D? vector3D)
         {
             if (vector3D == null || origin == null)

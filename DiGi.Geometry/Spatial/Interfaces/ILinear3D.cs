@@ -3,7 +3,7 @@ using DiGi.Geometry.Spatial.Classes;
 
 namespace DiGi.Geometry.Spatial.Interfaces
 {
-    public interface ILinear3D : IMovable3D, IInvertible, ICurve, ITransformable3D, IGeometry3D
+    public interface ILinear3D : IMovable3D, ICurve, ITransformable3D
     {
         Vector3D? Direction { get; }
 

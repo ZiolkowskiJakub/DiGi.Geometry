@@ -252,6 +252,14 @@ namespace DiGi.Geometry.Planar.Classes
             return new BoundingBox2D(start, End);
         }
 
+        public override int GetHashCode()
+        {
+            int hashCode = 1695988409;
+            hashCode = hashCode * -1521134295 + EqualityComparer<Point2D?>.Default.GetHashCode(start);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Vector2D?>.Default.GetHashCode(vector);
+            return hashCode;
+        }
+
         public List<Point2D>? GetPoints()
         {
             return [Start, End];
@@ -272,9 +280,14 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.IntersectionPoint(start, End, segment2D.start, segment2D.End, true, tolerance);
         }
 
-        public void Inverse()
+        public bool Inverse()
         {
-            vector?.Inverse();
+            if(vector is null)
+            {
+                return false;
+            }
+
+            return vector.Inverse();
         }
 
         public Point2D? Mid()
@@ -333,14 +346,6 @@ namespace DiGi.Geometry.Planar.Classes
 
             vector = new (start, end);
             return true;
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = 1695988409;
-            hashCode = hashCode * -1521134295 + EqualityComparer<Point2D?>.Default.GetHashCode(start);
-            hashCode = hashCode * -1521134295 + EqualityComparer<Vector2D?>.Default.GetHashCode(vector);
-            return hashCode;
         }
     }
 }

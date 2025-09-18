@@ -124,7 +124,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public double Distance(Point3D? point3D)
         {
             Point3D? closestPoint = ClosestPoint(point3D);
-            if(closestPoint is null)
+            if (closestPoint is null)
             {
                 return double.NaN;
             }
@@ -132,6 +132,24 @@ namespace DiGi.Geometry.Spatial.Classes
             return closestPoint.Distance(point3D);
         }
 
+        public Vector3D? GetAxis(Enums.SpatialAxis axis)
+        {
+            switch (axis)
+            {
+                case Enums.SpatialAxis.X:
+                    return AxisX;
+
+                case Enums.SpatialAxis.Y:
+                    return AxisY;
+
+                case Enums.SpatialAxis.Z:
+                    return AxisZ;
+
+                default:
+                    return null;
+            }
+        }
+        
         public void Inverse()
         {
             axisZ?.Inverse();

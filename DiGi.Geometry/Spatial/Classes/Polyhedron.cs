@@ -68,6 +68,13 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Vector3D? GetNormal(int index, Enums.Side? side = null, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
+            return GetNormal(index, out _, side, tolerance);
+        }
+
+        public Vector3D? GetNormal(int index, out bool inversed, Enums.Side? side = null, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            inversed = false;
+
             if (polygonalFaces?[index] is not IPolygonalFace3D polygonalFace3D)
             {
                 return null;
@@ -147,6 +154,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 if (side.Value != Enums.Side.External)
                 {
                     result.Inverse();
+                    inversed = true;
                 }
             }
             else
@@ -156,6 +164,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 if (side.Value != Enums.Side.Internal)
                 {
                     result.Inverse();
+                    inversed = true;
                 }
             }
 

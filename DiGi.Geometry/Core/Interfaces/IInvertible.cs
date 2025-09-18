@@ -2,6 +2,6 @@
 {
     public interface IInvertible : IGeometry
     {
-        void Inverse();
+        bool Inverse();
     }
 }

@@ -8,14 +8,14 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class CoordinateSystem2D : SerializableObject, IMovable2D, ITransformable2D
     {
+        [JsonInclude, JsonPropertyName("Origin")]
+        private readonly Point2D? origin;
+
         [JsonInclude, JsonPropertyName("AxisX")]
         private Vector2D? axisX;
 
         [JsonInclude, JsonPropertyName("AxisY")]
         private Vector2D? axisY;
-
-        [JsonInclude, JsonPropertyName("Origin")]
-        private readonly Point2D? origin;
         public CoordinateSystem2D(Point2D? origin)
         {
             this.origin = origin == null ? null : new Point2D(origin);
@@ -82,6 +82,21 @@ namespace DiGi.Geometry.Planar.Classes
             return new CoordinateSystem2D(this);
         }
 
+        public Vector2D? GetAxis(Enums.PlanarAxis axis)
+        {
+            switch (axis)
+            {
+                case Enums.PlanarAxis.X:
+                    return AxisX;
+
+                case Enums.PlanarAxis.Y:
+                    return AxisY;
+
+                default:
+                    return null;
+            }
+        }
+        
         public bool Move(Vector2D? vector2D)
         {
             if (origin == null || vector2D is null)

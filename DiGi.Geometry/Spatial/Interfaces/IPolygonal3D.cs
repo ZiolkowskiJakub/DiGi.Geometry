@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DiGi.Geometry.Spatial.Interfaces
 {
-    public interface IPolygonal3D : IClosedCurve3D, ISegmentable3D, IPlanar
+    public interface IPolygonal3D : IClosedCurve3D, ISegmentable3D, IPlanar, IInvertible3D
     {
         Point3D? GetCentroid();
         

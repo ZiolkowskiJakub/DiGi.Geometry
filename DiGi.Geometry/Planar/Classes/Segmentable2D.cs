@@ -133,9 +133,15 @@ namespace DiGi.Geometry.Planar.Classes
 
         }
 
-        public void Inverse()
+        public bool Inverse()
         {
-            points?.Reverse();
+            if(points is null)
+            {
+                return false;
+            }
+
+            points.Reverse();
+            return true;
         }
     }
 }

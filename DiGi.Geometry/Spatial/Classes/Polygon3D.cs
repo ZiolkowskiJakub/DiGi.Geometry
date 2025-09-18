@@ -205,9 +205,14 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.Inside(this, point3D, tolerance);
         }
 
-        public void Inverse()
+        public bool Inverse()
         {
-            geometry2D?.Inverse();
+            if(geometry2D is null)
+            {
+                return false;
+            }
+
+            return geometry2D.Inverse();
         }
 
         public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)

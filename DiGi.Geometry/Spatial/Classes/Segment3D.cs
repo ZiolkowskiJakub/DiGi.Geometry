@@ -167,11 +167,6 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.ClosestPoint(point3D, start, End, true);
         }
 
-        public Point3D? Project(Point3D? point3D)
-        {
-            return Query.ClosestPoint(point3D, start, End, false);
-        }
-
         public bool Collinear(ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (Direction is not Vector3D direction_1 || linear3D?.Direction is not Vector3D direction_2)
@@ -189,7 +184,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public BoundingBox3D? GetBoundingBox()
         {
-            if(start == null || vector == null)
+            if (start == null || vector == null)
             {
                 return null;
             }
@@ -212,13 +207,17 @@ namespace DiGi.Geometry.Spatial.Classes
             return [new Segment3D(this)];
         }
 
-        public void Inverse()
+        public bool Inverse()
         {
-            Point3D? end = End;
-
-            vector?.Inverse();
-
+            if(End is not Point3D end || vector is null)
+            {
+                return false;
+            }
+            
+            vector.Inverse();
             start = end;
+
+            return true;
         }
 
         public Point3D? Mid()
@@ -233,23 +232,28 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public override bool Move(Vector3D? vector3D)
         {
-            if(start == null || vector3D == null)
+            if (start == null || vector3D == null)
             {
                 return false;
             }
 
             return start.Move(vector3D);
         }
-        
+
         public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             Point3D? point3D_Temp = ClosestPoint(point3D);
-            if(point3D_Temp == null)
+            if (point3D_Temp == null)
             {
                 return false;
             }
 
             return point3D!.Distance(point3D_Temp) < tolerance;
+        }
+
+        public Point3D? Project(Point3D? point3D)
+        {
+            return Query.ClosestPoint(point3D, start, End, false);
         }
         
         public bool Transform(ITransform3D? transform)
