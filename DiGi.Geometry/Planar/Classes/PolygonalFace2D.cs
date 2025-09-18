@@ -303,6 +303,32 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        public bool Inverse()
+        {
+            bool result = false;
+
+            if(externalEdge is not null)
+            {
+                if(externalEdge.Inverse())
+                {
+                    result = true;
+                }
+            }
+
+            if(internalEdges is not null)
+            {
+                foreach(IPolygonal2D internalEdge in internalEdges)
+                {
+                    if (internalEdge is not null && internalEdge.Inverse())
+                    {
+                        result = true;
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public override bool Move(Vector2D? vector2D)
         {
             if (vector2D == null || externalEdge == null)

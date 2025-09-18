@@ -1,0 +1,20 @@
+﻿using DiGi.Core.Constans;
+using DiGi.Geometry.Core.Enums;
+using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Enums;
+
+namespace DiGi.Geometry.Spatial.Interfaces
+{
+    public interface IPolyhedron : IGeometry3D, IBoundable3D, IInvertible3D
+    {
+        int Count { get; }
+
+        Vector3D? GetNormal(int index, out bool inversed, Side? side = null, double tolerance = Tolerance.Distance);
+
+        bool Orient(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation);
+
+        bool SetNormal(int index, Side side, double tolerance = Tolerance.Distance);
+
+        bool Normalized(int index, Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation, double tolerance = Tolerance.Distance);
+    }
+}

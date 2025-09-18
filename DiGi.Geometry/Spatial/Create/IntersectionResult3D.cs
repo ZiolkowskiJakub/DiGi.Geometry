@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static IntersectionResult3D? IntersectionResult3D(this Polyhedron? polyhedron, ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult3D? IntersectionResult3D<TPolygonalFace3D>(this Polyhedron<TPolygonalFace3D>? polyhedron, ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
         {
             if(polyhedron == null || linear3D == null)
             {

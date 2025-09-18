@@ -1,26 +1,27 @@
 ﻿using DiGi.Geometry.Core.Classes;
+using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class PolyhedronInternalPointSolver : InternalPointSolver<Point3D>
+    public class PolyhedronInternalPointSolver<TPolygonalFace3D> : InternalPointSolver<Point3D> where TPolygonalFace3D : IPolygonalFace3D
     {
-        private readonly Polyhedron? polyhedron;
+        private readonly Polyhedron<TPolygonalFace3D>? polyhedron;
 
         private List<PolygonalFace3DInternalPointSolver?>? polygonalFace3DInternalPointSolvers = null;
 
         private int i = 0;
         private int j = 0;
         
-        public PolyhedronInternalPointSolver(Polyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public PolyhedronInternalPointSolver(Polyhedron<TPolygonalFace3D>? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(tolerance)
         {
             this.polyhedron = DiGi.Core.Query.Clone(polyhedron);
         }
 
-        public PolyhedronInternalPointSolver(int maxCount, Polyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public PolyhedronInternalPointSolver(int maxCount, Polyhedron<TPolygonalFace3D>? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(maxCount, tolerance)
         {
             this.polyhedron = DiGi.Core.Query.Clone(polyhedron);

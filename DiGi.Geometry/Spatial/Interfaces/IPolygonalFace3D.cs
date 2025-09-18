@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DiGi.Geometry.Spatial.Interfaces
 {
-    public interface IPolygonalFace3D : IFace3D<IPolygonal3D>, IPlanar<IPolygonalFace2D>, IPolyhedronFace
+    public interface IPolygonalFace3D : IFace3D<IPolygonal3D>, IPlanar<IPolygonalFace2D>, IInvertible3D, IFlippable
     {
         List<IPolygonal3D>? Edges { get; }
 

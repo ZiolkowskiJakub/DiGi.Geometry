@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DiGi.Geometry.Planar.Interfaces
 {
-    public interface IPolygonalFace2D : IFace2D<IPolygonal2D>
+    public interface IPolygonalFace2D : IFace2D<IPolygonal2D>, IInvertible2D
     {
         List<IPolygonal2D>? Edges { get; }
 

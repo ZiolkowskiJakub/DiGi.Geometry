@@ -42,7 +42,6 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-
                 IPolygonal3D? externalEdge = ExternalEdge;
                 if (externalEdge == null)
                 {
@@ -193,6 +192,16 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.Inside(plane.Convert(point3D), tolerance);
         }
 
+        public bool Inverse()
+        {
+            if (geometry2D is null)
+            {
+                return false;
+            }
+
+            return geometry2D.Inverse();
+        }
+
         public bool OnEdge(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || plane == null || geometry2D == null)
@@ -206,6 +215,37 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             return geometry2D.OnEdge(plane.Convert(point3D), tolerance);
+        }
+
+        public bool Orient(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation)
+        {
+            if (externalEdgeOrientation is null && internalEdgeOrientation is null || geometry2D is null)
+            {
+                return false;
+            }
+
+            Orientation? externalEdgeOrientation_Temp = externalEdgeOrientation;
+            Orientation? internalEdgeOrientation_Temp = internalEdgeOrientation;
+
+            if (ExternalEdge is not IPolygonal3D externalEdge3D || geometry2D?.ExternalEdge is not IPolygonal2D externalEdge2D)
+            {
+                return false;
+            }
+
+            if (externalEdge3D.Orientation() != externalEdge2D.Orientation())
+            {
+                if (externalEdgeOrientation_Temp is not null)
+                {
+                    externalEdgeOrientation_Temp = externalEdgeOrientation_Temp.Value.Opposite();
+                }
+
+                if (internalEdgeOrientation_Temp is not null)
+                {
+                    internalEdgeOrientation_Temp = internalEdgeOrientation_Temp.Value.Opposite();
+                }
+            }
+
+            return geometry2D.Orient(externalEdgeOrientation_Temp, internalEdgeOrientation_Temp);
         }
 
         public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
@@ -234,37 +274,6 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             return result;
-        }
-
-        public bool Orient(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation)
-        {
-            if(externalEdgeOrientation is null && internalEdgeOrientation is null || geometry2D is null)
-            {
-                return false;
-            }
-
-            Orientation? externalEdgeOrientation_Temp = externalEdgeOrientation;
-            Orientation? internalEdgeOrientation_Temp = internalEdgeOrientation;
-
-            if (ExternalEdge is not IPolygonal3D externalEdge3D || geometry2D?.ExternalEdge is not IPolygonal2D externalEdge2D)
-            {
-                return false;
-            }
-
-            if (externalEdge3D.Orientation() != externalEdge2D.Orientation())
-            {
-                if (externalEdgeOrientation_Temp is not null)
-                {
-                    externalEdgeOrientation_Temp = externalEdgeOrientation_Temp.Value.Opposite();
-                }
-
-                if (internalEdgeOrientation_Temp is not null)
-                {
-                    internalEdgeOrientation_Temp = internalEdgeOrientation_Temp.Value.Opposite();
-                }
-            }
-
-            return geometry2D.Orient(externalEdgeOrientation_Temp, internalEdgeOrientation_Temp);
         }
     }
 }
