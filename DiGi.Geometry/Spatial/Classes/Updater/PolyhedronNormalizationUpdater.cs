@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Constans;
+using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Spatial.Enums;
 using DiGi.Geometry.Spatial.Interfaces;
@@ -7,68 +8,56 @@ using System.Collections.Generic;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class PolyhedronNormalizationSolver : PolyhedronNormalizationSolver<Polyhedron>
+    public class PolyhedronNormalizationUpdater : PolyhedronNormalizationUpdater<Polyhedron>
     {
-        public PolyhedronNormalizationSolver(Polyhedron? polyhedron, Orientation orientation)
-            : base(polyhedron, orientation)
+        public PolyhedronNormalizationUpdater(Orientation orientation)
+            : base(orientation)
         {
 
         }
 
-        public PolyhedronNormalizationSolver(Polyhedron? polyhedron, Side? normalSide, Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation, double tolerance = Tolerance.Distance)
-            : base(polyhedron, normalSide, externalEdgeOrientation, internalEdgeOrientation)
+        public PolyhedronNormalizationUpdater(Side? normalSide, Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation, double tolerance = Tolerance.Distance)
+            : base(normalSide, externalEdgeOrientation, internalEdgeOrientation)
         {
 
         }
     }
 
-    public class PolyhedronNormalizationSolver<TPolyhedron> : Core.Interfaces.INormalizationSolver  where TPolyhedron : IPolyhedron
+    public class PolyhedronNormalizationUpdater<TPolyhedron> : GeometryUpdater<TPolyhedron>, Core.Interfaces.INormalizationUpdater<TPolyhedron>  where TPolyhedron : IPolyhedron
     {
         private readonly double tolerance = Tolerance.Distance;
 
         private readonly Side? normalSide;
         private readonly Orientation? externalEdgeOrientation;
         private readonly Orientation? internalEdgeOrientation;
-        
-        private readonly TPolyhedron? polyhedron;
 
-        public PolyhedronNormalizationSolver(TPolyhedron? polyhedron, Orientation orientation)
+        public PolyhedronNormalizationUpdater(Orientation orientation)
         {
-            this.polyhedron = DiGi.Core.Query.Clone(polyhedron);
             externalEdgeOrientation = orientation;
             internalEdgeOrientation = orientation;
         }
 
-        public PolyhedronNormalizationSolver(TPolyhedron? polyhedron, Side? normalSide, Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation, double tolerance = Tolerance.Distance)
+        public PolyhedronNormalizationUpdater(Side? normalSide, Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation, double tolerance = Tolerance.Distance)
         {
             this.tolerance = tolerance; 
 
-            this.polyhedron = DiGi.Core.Query.Clone(polyhedron);
             this.externalEdgeOrientation = externalEdgeOrientation;
             this.internalEdgeOrientation = internalEdgeOrientation;
             this.normalSide = normalSide;
         }
 
-        public TPolyhedron? Polyhedron
-        {
-            get
-            {
-                return DiGi.Core.Query.Clone(polyhedron);
-            }
-        }
-
         public bool Normalized()
         {
-            if (polyhedron is null)
+            if (Value is null)
             {
                 return false;
             }
 
             if (externalEdgeOrientation is not null || internalEdgeOrientation is not null)
             {
-                for (int i = 0; i < polyhedron.Count; i++)
+                for (int i = 0; i < Value.Count; i++)
                 {
-                    if(!polyhedron.Normalized(i, externalEdgeOrientation, internalEdgeOrientation, tolerance))
+                    if (!Value.Normalized(i, externalEdgeOrientation, internalEdgeOrientation, tolerance))
                     {
                         return false;
                     }
@@ -77,9 +66,9 @@ namespace DiGi.Geometry.Spatial.Classes
 
             if (normalSide is not null)
             {
-                for (int i = 0; i < polyhedron.Count; i++)
+                for (int i = 0; i < Value.Count; i++)
                 {
-                    polyhedron.GetNormal(i, out bool inversed, normalSide, tolerance);
+                    Value.GetNormal(i, out bool inversed, normalSide, tolerance);
                     if (inversed)
                     {
                         return false;
@@ -90,9 +79,9 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
-        public bool Solve()
+        public override bool Update()
         {
-            if(polyhedron is null)
+            if (Value is null)
             {
                 return false;
             }
@@ -101,9 +90,9 @@ namespace DiGi.Geometry.Spatial.Classes
 
             if (normalSide is not null)
             {
-                for (int i = 0; i < polyhedron.Count; i++)
+                for (int i = 0; i < Value.Count; i++)
                 {
-                    if (polyhedron.SetNormal(i, normalSide.Value, tolerance))
+                    if (Value.SetNormal(i, normalSide.Value, tolerance))
                     {
                         result = true;
                     }
@@ -112,7 +101,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             if (externalEdgeOrientation is not null || internalEdgeOrientation is not null)
             {
-                if (polyhedron.Orient(externalEdgeOrientation, internalEdgeOrientation))
+                if (Value.Orient(externalEdgeOrientation, internalEdgeOrientation))
                 {
                     result = true;
                 }

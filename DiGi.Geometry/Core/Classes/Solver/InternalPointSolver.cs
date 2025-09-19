@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace DiGi.Geometry.Core.Classes
 {
-    public abstract class InternalPointSolver<TPoint> : IInternalPointSolver<TPoint> where TPoint : IPoint
+    public abstract class InternalPointSolver<TGeometry, TPoint> : IOneToManyGeometrySolver<TGeometry, TPoint> where TPoint : IPoint where TGeometry : IGeometry
     {
         protected int maxCount = 100;
 
-        protected List<TPoint> internalPoints = [];
+        protected List<TPoint> outputs = [];
         protected double tolerance = Tolerance.Distance;
         
         public InternalPointSolver(double tolerance = Tolerance.Distance)
@@ -23,24 +23,26 @@ namespace DiGi.Geometry.Core.Classes
             this.tolerance = tolerance;
         }
 
-        public TPoint? InternalPoint
+        public abstract TGeometry? Input { set; }
+
+        public TPoint? Output
         {
             get
             {
-                if (internalPoints == null || internalPoints.Count == 0)
+                if (outputs == null || outputs.Count == 0)
                 {
                     return default;
                 }
 
-                return DiGi.Core.Query.Clone(internalPoints.Last());
+                return DiGi.Core.Query.Clone(outputs.Last());
             }
         }
 
-        public List<TPoint>? InternalPoints
+        public List<TPoint>? Outputs
         {
             get
             {
-                return DiGi.Core.Query.CloneAndFilterNulls(internalPoints);
+                return DiGi.Core.Query.CloneAndFilterNulls(outputs);
             }
         }
 

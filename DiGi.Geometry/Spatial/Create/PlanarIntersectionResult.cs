@@ -432,7 +432,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Polyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, IPolyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (plane == null || polyhedron == null)
             {
@@ -448,7 +448,7 @@ namespace DiGi.Geometry.Spatial
             List<IGeometry2D>? geometry2Ds = [];
             for (int i = 0; i < count; i++)
             {
-                PlanarIntersectionResult? planarIntersectionResult = PlanarIntersectionResult(plane, polyhedron[i], tolerance);
+                PlanarIntersectionResult? planarIntersectionResult = PlanarIntersectionResult(plane, polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i), tolerance);
                 if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
                 {
                     continue;
@@ -760,7 +760,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane_PolygonalFace3D_1, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Polyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, IPolyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polygonalFace3D == null || polyhedron == null)
             {
@@ -770,14 +770,12 @@ namespace DiGi.Geometry.Spatial
             List<IPolygonalFace3D> polygonalFace3Ds = []; 
             for (int i =0; i < polyhedron.Count; i++)
             {
-                IPolygonalFace3D? volatilePolygonalFace3D = polyhedron[i];
-                if(volatilePolygonalFace3D == null)
+                if(polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is not IPolygonalFace3D polygonalFace3D_Temp)
                 {
                     continue;
                 }
 
-                polygonalFace3Ds.Add(volatilePolygonalFace3D);
-
+                polygonalFace3Ds.Add(polygonalFace3D_Temp);
             }
 
             return PlanarIntersectionResult(polygonalFace3D, polygonalFace3Ds, tolerance);

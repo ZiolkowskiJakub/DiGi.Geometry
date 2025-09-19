@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class PolygonalFace2DInternalPointSolver : Core.Classes.InternalPointSolver<Point2D>
+    public class PolygonalFace2DInternalPointSolver : Core.Classes.InternalPointSolver<IPolygonalFace2D, Point2D>
     {
         private IPolygonalFace2D? polygonalFace2D = null;
 
@@ -16,28 +16,29 @@ namespace DiGi.Geometry.Planar.Classes
         private int i = 0;
         private int j = 0;
 
-        public PolygonalFace2DInternalPointSolver(IPolygonalFace2D? polygonalFace2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public PolygonalFace2DInternalPointSolver(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(tolerance)
         {
-            this.polygonalFace2D = DiGi.Core.Query.Clone(polygonalFace2D);
+
         }
-        public PolygonalFace2DInternalPointSolver(int maxCount, IPolygonalFace2D? polygonalFace2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        
+        public PolygonalFace2DInternalPointSolver(int maxCount, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(maxCount, tolerance)
         {
-            this.polygonalFace2D = DiGi.Core.Query.Clone(polygonalFace2D);
+
         }
 
-        public IPolygonalFace2D? PolygonalFace2D
+        public override IPolygonalFace2D? Input
         {
-            get
+            set
             {
-                return DiGi.Core.Query.Clone(polygonalFace2D);
+                polygonalFace2D = DiGi.Core.Query.Clone(value);
             }
         }
 
         public override bool Solve()
         {
-            if (polygonalFace2D is null || internalPoints.Count >= maxCount)
+            if (polygonalFace2D is null || outputs.Count >= maxCount)
             {
                 return false;
             }
@@ -76,7 +77,7 @@ namespace DiGi.Geometry.Planar.Classes
 
                 if (internalPoint is not null)
                 {
-                    internalPoints.Add(internalPoint);
+                    outputs.Add(internalPoint);
                     return true;
                 }
             }
@@ -118,7 +119,7 @@ namespace DiGi.Geometry.Planar.Classes
                             Point2D? internalPoint = points_Temp[i].Mid(points_Temp[j]);
                             if (polygonalFace2D.Inside(internalPoint, tolerance))
                             {
-                                internalPoints.Add(internalPoint!);
+                                outputs.Add(internalPoint!);
                                 return true;
                             }
                         }
@@ -152,7 +153,7 @@ namespace DiGi.Geometry.Planar.Classes
                         this.i = i + 1;
                         if (triangles_Temp[i]?.GetCentroid() is Point2D internalPoint && polygonalFace2D.Inside(internalPoint, tolerance))
                         {
-                            internalPoints.Add(internalPoint!);
+                            outputs.Add(internalPoint!);
                             return true;
                         }
                     }
@@ -206,13 +207,13 @@ namespace DiGi.Geometry.Planar.Classes
 
                             if (triangle2D_1?.GetCentroid() is Point2D internalPoint_1 && polygonalFace2D.Inside(internalPoint_1, tolerance))
                             {
-                                internalPoints.Add(internalPoint_1!);
+                                outputs.Add(internalPoint_1!);
                                 return true;
                             }
 
                             if (triangle2D_2?.GetCentroid() is Point2D internalPoint_2 && polygonalFace2D.Inside(internalPoint_2, tolerance))
                             {
-                                internalPoints.Add(internalPoint_2!);
+                                outputs.Add(internalPoint_2!);
                                 return true;
                             }
                         }

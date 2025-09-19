@@ -2,8 +2,8 @@
 
 namespace DiGi.Geometry.Core.Interfaces
 {
-    public interface INormalizationSolver : ISolver
+    public interface IGeometrySolver : ISolver
     {
-        bool Normalized();
+
     }
 }

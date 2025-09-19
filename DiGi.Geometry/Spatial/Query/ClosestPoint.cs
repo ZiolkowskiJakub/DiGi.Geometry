@@ -128,6 +128,49 @@ namespace DiGi.Geometry.Spatial
 
             return result;
         }
+
+        public static Point3D? ClosestPoint<TPolygonalFace3D>(this Point3D? point3D, IEnumerable<TPolygonalFace3D> polygonalFace3Ds) where TPolygonalFace3D : IPolygonalFace3D
+        {
+            return ClosestPoint(point3D, polygonalFace3Ds, out _, out _, 0.0);
+        }
+
+        public static Point3D? ClosestPoint<TPolygonalFace3D>(this Point3D? point3D, IEnumerable<TPolygonalFace3D> polygonalFace3Ds, out TPolygonalFace3D? closestPolygonalFace3D, out double distance, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
+        {
+            distance = double.NaN;
+            closestPolygonalFace3D = default;
+
+            if(point3D is null || polygonalFace3Ds is null)
+            {
+                return null;
+            }
+
+            distance = double.MaxValue;
+
+            Point3D? result = null;
+
+            foreach(TPolygonalFace3D polygonalFace3D in polygonalFace3Ds)
+            {
+                if(polygonalFace3D?.ClosestPoint(point3D) is not Point3D closestPoint_Temp)
+                {
+                    continue;
+                }
+
+                double distance_Temp = closestPoint_Temp.Distance(point3D);
+                if(distance_Temp < distance)
+                {
+                    result = closestPoint_Temp;
+
+                    distance = distance_Temp;
+                    closestPolygonalFace3D = polygonalFace3D;
+                    if(distance < tolerance)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 
 }

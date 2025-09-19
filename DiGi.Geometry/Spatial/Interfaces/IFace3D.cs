@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Spatial.Interfaces
     {
         Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 
-        Point3D? ClosestPoint(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
+        Point3D? ClosestPoint(Point3D? point3D);
 
         public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 

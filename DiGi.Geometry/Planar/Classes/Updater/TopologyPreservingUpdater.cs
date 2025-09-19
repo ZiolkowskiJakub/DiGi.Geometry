@@ -1,12 +1,12 @@
-﻿using DiGi.Geometry.Planar.Interfaces;
+﻿using DiGi.Geometry.Core.Interfaces;
+using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Simplify;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class TopologyPreservingUpdater : IGeometry2DUpdater
+    public class TopologyPreservingUpdater : IGeometryUpdater<IGeometry2D>
     {
         private readonly double tolerance = DiGi.Core.Constans.Tolerance.Distance;
-
         public TopologyPreservingUpdater()
         {
 
@@ -17,19 +17,29 @@ namespace DiGi.Geometry.Planar.Classes
             this.tolerance = tolerance;
         }
 
-        public bool TryUpdate(IGeometry2D? input, out IGeometry2D? output)
-        {
-            output = null;
+        public IGeometry2D Value { get; set; }
 
-            NetTopologySuite.Geometries.Geometry? geometry = input?.ToNTS();
-            if(geometry == null)
+        public bool Update()
+        {
+            if(Value is null)
             {
                 return false;
             }
 
-            output = TopologyPreservingSimplifier.Simplify(geometry, tolerance)?.ToDiGi();
+            NetTopologySuite.Geometries.Geometry? geometry = Value?.ToNTS();
+            if (geometry == null)
+            {
+                return false;
+            }
 
-            return output != null;
+            IGeometry2D? value_Temp = TopologyPreservingSimplifier.Simplify(geometry, tolerance)?.ToDiGi();
+            if(value_Temp is null)
+            {
+                return false;
+            }
+
+            Value = value_Temp;
+            return true;
         }
     }
 }

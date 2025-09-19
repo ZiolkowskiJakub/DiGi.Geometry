@@ -1,8 +1,9 @@
-﻿using DiGi.Geometry.Planar.Interfaces;
+﻿using DiGi.Geometry.Core.Interfaces;
+using DiGi.Geometry.Planar.Interfaces;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class SnapperUpdater : IGeometry2DUpdater
+    public class SnapperUpdater : IGeometryUpdater<IGeometry2D>
     {
         private readonly double tolerance = DiGi.Core.Constans.Tolerance.Distance;
 
@@ -16,22 +17,33 @@ namespace DiGi.Geometry.Planar.Classes
             this.tolerance = tolerance;
         }
 
-        public bool TryUpdate(IGeometry2D? input, out IGeometry2D? output)
+        public IGeometry2D Value { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
+        public bool Update(ref IGeometry2D? value)
         {
-            output = null;
-
-            NetTopologySuite.Geometries.Geometry? geometry = input?.ToNTS();
-            if(geometry == null)
-            {
-                return false;
-            }
-            output = NetTopologySuite.Operation.Overlay.Snap.GeometrySnapper.SnapToSelf(geometry, tolerance, true)?.ToDiGi();
-            if (output == null)
+            if(value is null)
             {
                 return false;
             }
 
-            return output != null;
+            NetTopologySuite.Geometries.Geometry? geometry = value?.ToNTS();
+            if (geometry == null)
+            {
+                return false;
+            }
+
+            IGeometry2D? result = NetTopologySuite.Operation.Overlay.Snap.GeometrySnapper.SnapToSelf(geometry, tolerance, true)?.ToDiGi();
+            if (result == null)
+            {
+                return false;
+            }
+
+            return result != null;
+        }
+
+        public bool Update()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using DiGi.Geometry.Planar.Interfaces;
+﻿using DiGi.Geometry.Core.Classes;
+using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Simplify;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public class DouglasPeuckerUpdater : IGeometry2DUpdater
+    public class DouglasPeuckerUpdater : GeometryUpdater<IGeometry2D>
     {
         private readonly double tolerance = DiGi.Core.Constans.Tolerance.Distance;
 
@@ -17,19 +18,27 @@ namespace DiGi.Geometry.Planar.Classes
             this.tolerance = tolerance;
         }
 
-        public bool TryUpdate(IGeometry2D? input, out IGeometry2D? output)
+        public override bool Update()
         {
-            output = null;
-
-            NetTopologySuite.Geometries.Geometry? geometry = input?.ToNTS();
-            if(geometry == null)
+            if(Value == null)
             {
                 return false;
             }
 
-            output = DouglasPeuckerSimplifier.Simplify(geometry, tolerance)?.ToDiGi();
+            NetTopologySuite.Geometries.Geometry? geometry = Value?.ToNTS();
+            if (geometry == null)
+            {
+                return false;
+            }
 
-            return output != null;
+            IGeometry2D? value_Temp = DouglasPeuckerSimplifier.Simplify(geometry, tolerance)?.ToDiGi();
+            if(value_Temp is null)
+            {
+                return false;
+            }
+
+            Value = value_Temp;
+            return true;
         }
     }
 }

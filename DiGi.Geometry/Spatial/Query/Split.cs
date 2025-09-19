@@ -77,7 +77,7 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
-        public static Polyhedron? Split(this Polyhedron? polyhedron, IEnumerable<Polyhedron>? polyhedrons, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Polyhedron? Split<TPolyhedron>(this IPolyhedron? polyhedron, IEnumerable<TPolyhedron>? polyhedrons, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where TPolyhedron : IPolyhedron
         {
             if(polyhedron == null || polyhedrons == null)
             {
@@ -89,13 +89,13 @@ namespace DiGi.Geometry.Spatial
             count = polyhedron.Count;
             if(count == 0)
             {
-                return DiGi.Core.Query.Clone(polyhedron);
+                return new Polyhedron(new IPolygonalFace3D[] { });
             }
 
             List<Tuple<IPolygonalFace3D, List<IPolygonalFace3D>>> tuples = [];
             for (int i = 0; i < count; i++)
             {
-                IPolygonalFace3D? polygonalFace3D = polyhedron[i];
+                IPolygonalFace3D? polygonalFace3D = polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i);
                 if (polygonalFace3D == null)
                 {
                     continue;
@@ -104,7 +104,7 @@ namespace DiGi.Geometry.Spatial
                 tuples.Add(new Tuple<IPolygonalFace3D, List<IPolygonalFace3D>>(polygonalFace3D, []));
             }
 
-            foreach (Polyhedron polyhedron_Temp in polyhedrons)
+            foreach (TPolyhedron polyhedron_Temp in polyhedrons)
             {
                 if(polyhedron_Temp == null)
                 {
@@ -119,7 +119,7 @@ namespace DiGi.Geometry.Spatial
 
                 for (int i = 0; i < count; i++)
                 {
-                    IPolygonalFace3D? polygonalFace3D = polyhedron_Temp[i];
+                    IPolygonalFace3D? polygonalFace3D = polyhedron_Temp.GetPolygonalFace3D<IPolygonalFace3D>(i);
                     if (polygonalFace3D == null)
                     {
                         continue;
@@ -159,9 +159,15 @@ namespace DiGi.Geometry.Spatial
             return new Polyhedron(polygonalFace3Ds);
         }
 
-        public static List<Polyhedron>? Split(this Plane plane, Polyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Polyhedron>? Split(this Plane plane, IPolyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (plane == null || polyhedron == null)
+            {
+                return null;
+            }
+
+            int count = polyhedron.Count;
+            if(count == 0)
             {
                 return null;
             }
@@ -174,9 +180,14 @@ namespace DiGi.Geometry.Spatial
 
             List<IPolygonalFace3D> polygonalFace3Ds = [];
 
-            foreach(IPolygonalFace3D polygonalFace3D in polyhedron.PolygonalFaces!)
+            for(int i =0; i < count; i++)
             {
-                if(Split(plane, polygonalFace3D, tolerance) is List<IPolygonalFace3D> polygonalFace3Ds_Split && polygonalFace3Ds_Split.Count != 0)
+                if(polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is not IPolygonalFace3D polygonalFace3D)
+                {
+                    continue;
+                }
+
+                if (Split(plane, polygonalFace3D, tolerance) is List<IPolygonalFace3D> polygonalFace3Ds_Split && polygonalFace3Ds_Split.Count != 0)
                 {
                     polygonalFace3Ds.AddRange(polygonalFace3Ds_Split);
                 }
@@ -221,7 +232,7 @@ namespace DiGi.Geometry.Spatial
 
                     x = polygonalFace3Ds_Disconnected ?? [];
 
-                    Polyhedron? polyhedron_Temp = Create.Polyhedron(polygonalFace3Ds_Connected);
+                    Polyhedron? polyhedron_Temp = new (polygonalFace3Ds_Connected);
                     if(polyhedron_Temp is null)
                     {
                         continue;

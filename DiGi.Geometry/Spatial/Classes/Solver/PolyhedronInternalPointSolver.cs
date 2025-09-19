@@ -6,25 +6,33 @@ using System.Linq;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
-    public class PolyhedronInternalPointSolver<TPolygonalFace3D> : InternalPointSolver<Point3D> where TPolygonalFace3D : IPolygonalFace3D
+    public class PolyhedronInternalPointSolver<TPolyhedron> : InternalPointSolver<TPolyhedron, Point3D> where TPolyhedron : IPolyhedron
     {
-        private readonly Polyhedron<TPolygonalFace3D>? polyhedron;
+        private TPolyhedron? polyhedron;
 
         private List<PolygonalFace3DInternalPointSolver?>? polygonalFace3DInternalPointSolvers = null;
 
         private int i = 0;
         private int j = 0;
         
-        public PolyhedronInternalPointSolver(Polyhedron<TPolygonalFace3D>? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public PolyhedronInternalPointSolver(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(tolerance)
         {
-            this.polyhedron = DiGi.Core.Query.Clone(polyhedron);
+
         }
 
-        public PolyhedronInternalPointSolver(int maxCount, Polyhedron<TPolygonalFace3D>? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public PolyhedronInternalPointSolver(int maxCount, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(maxCount, tolerance)
         {
-            this.polyhedron = DiGi.Core.Query.Clone(polyhedron);
+
+        }
+
+        public override TPolyhedron? Input
+        {
+            set
+            {
+                polyhedron = DiGi.Core.Query.Clone(value);
+            }
         }
 
         public override bool Solve()
@@ -42,7 +50,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 {
                     if (polyhedron.Inside(centroid, tolerance))
                     {
-                        internalPoints.Add(centroid);
+                        outputs.Add(centroid);
                         return true;
                     }
                 }
@@ -57,7 +65,10 @@ namespace DiGi.Geometry.Spatial.Classes
                 PolygonalFace3DInternalPointSolver? polygonalFace3DInternalPointSolver_1 = polygonalFace3DInternalPointSolvers[i];
                 if (polygonalFace3DInternalPointSolver_1 is null)
                 {
-                    polygonalFace3DInternalPointSolver_1 = new PolygonalFace3DInternalPointSolver(MaxCount, polyhedron[i], tolerance);
+                    polygonalFace3DInternalPointSolver_1 = new PolygonalFace3DInternalPointSolver(MaxCount, tolerance)
+                    {
+                        Input = polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i)
+                    };
                     polygonalFace3DInternalPointSolvers[i] = polygonalFace3DInternalPointSolver_1;
                 }
 
@@ -66,7 +77,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     continue;
                 }
 
-                if (polygonalFace3DInternalPointSolver_1.InternalPoint is not Point3D point3D_1)
+                if (polygonalFace3DInternalPointSolver_1.Ouput is not Point3D point3D_1)
                 {
                     continue;
                 }
@@ -83,7 +94,10 @@ namespace DiGi.Geometry.Spatial.Classes
                     PolygonalFace3DInternalPointSolver? polygonalFace3DInternalPointSolver_2 = polygonalFace3DInternalPointSolvers[j];
                     if (polygonalFace3DInternalPointSolver_2 is null)
                     {
-                        polygonalFace3DInternalPointSolver_2 = new PolygonalFace3DInternalPointSolver(MaxCount, polyhedron[j], tolerance);
+                        polygonalFace3DInternalPointSolver_2 = new PolygonalFace3DInternalPointSolver(MaxCount, tolerance)
+                        {
+                            Input = polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(j)
+                        };
                         polygonalFace3DInternalPointSolvers[j] = polygonalFace3DInternalPointSolver_2;
                     }
 
@@ -92,7 +106,7 @@ namespace DiGi.Geometry.Spatial.Classes
                         continue;
                     }
 
-                    if (polygonalFace3DInternalPointSolver_2.InternalPoint is not Point3D point3D_2)
+                    if (polygonalFace3DInternalPointSolver_2.Ouput is not Point3D point3D_2)
                     {
                         continue;
                     }
@@ -100,7 +114,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     Point3D? internalPoint = point3D_1.Mid(point3D_2);
                     if (polyhedron.Inside(internalPoint, tolerance))
                     {
-                        internalPoints.Add(internalPoint!);
+                        outputs.Add(internalPoint!);
                         return true;
                     }
                 }

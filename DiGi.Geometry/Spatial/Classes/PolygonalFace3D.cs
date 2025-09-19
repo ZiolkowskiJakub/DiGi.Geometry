@@ -125,7 +125,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return new PolygonalFace3D(this);
         }
 
-        public Point3D? ClosestPoint(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D? ClosestPoint(Point3D? point3D)
         {
             if (point3D == null || plane == null || geometry2D == null)
             {
@@ -140,6 +140,11 @@ namespace DiGi.Geometry.Spatial.Classes
 
 
             return plane.Convert(geometry2D.ClosestPoint(point2D));
+        }
+
+        public double Distance(Point3D? point3D)
+        {
+            return ClosestPoint(point3D) is not Point3D closestPoint ? double.NaN : closestPoint.Distance(point3D);
         }
 
         public double GetArea()

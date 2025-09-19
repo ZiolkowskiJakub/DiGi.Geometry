@@ -2,13 +2,11 @@
 using DiGi.Core.Constans;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Enums;
-using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Enums;
 using DiGi.Geometry.Spatial.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -146,13 +144,16 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Point3D? GetInternalPoint(double tolerance = Tolerance.Distance)
         {
-            PolyhedronInternalPointSolver<TPolygonalFace3D> polyhedronInternalPointSolver = new(this, tolerance);
+            PolyhedronInternalPointSolver<IPolyhedron> polyhedronInternalPointSolver = new(tolerance)
+            {
+                Input = this
+            };
             if (!polyhedronInternalPointSolver.Solve())
             {
                 return null;
             }
 
-            return polyhedronInternalPointSolver.InternalPoint;
+            return polyhedronInternalPointSolver.Output;
         }
 
         public Vector3D? GetNormal(int index, Side? side = null, double tolerance = Tolerance.Distance)
@@ -191,10 +192,13 @@ namespace DiGi.Geometry.Spatial.Classes
 
             List<Point3D>? point3Ds = null;
 
-            PolygonalFace3DInternalPointSolver polygonalFace3DInternalPointSolver = new(polygonalFace3D, tolerance);
+            PolygonalFace3DInternalPointSolver polygonalFace3DInternalPointSolver = new(tolerance)
+            {
+                Input = polygonalFace3D
+            };
             while (polygonalFace3DInternalPointSolver.Solve())
             {
-                if (polygonalFace3DInternalPointSolver.InternalPoint is not Point3D internalPoint)
+                if (polygonalFace3DInternalPointSolver.Ouput is not Point3D internalPoint)
                 {
                     break;
                 }
@@ -288,7 +292,10 @@ namespace DiGi.Geometry.Spatial.Classes
                     PolygonalFace3DInternalPointSolver? polygonalFace3DInternalPointSolver = polygonalFace3DInternalPointSolvers[i];
                     if (polygonalFace3DInternalPointSolver is null)
                     {
-                        polygonalFace3DInternalPointSolver = new PolygonalFace3DInternalPointSolver(maxCount, polygonalFaces[i], tolerance);
+                        polygonalFace3DInternalPointSolver = new PolygonalFace3DInternalPointSolver(maxCount, tolerance)
+                        {
+                            Input = polygonalFaces[i]
+                        };
                         polygonalFace3DInternalPointSolvers[i] = polygonalFace3DInternalPointSolver;
                     }
 
@@ -297,7 +304,7 @@ namespace DiGi.Geometry.Spatial.Classes
                         continue;
                     }
 
-                    Point3D? point3D_Temp = polygonalFace3DInternalPointSolver.InternalPoint;
+                    Point3D? point3D_Temp = polygonalFace3DInternalPointSolver.Ouput;
                     if (point3D_Temp == null)
                     {
                         continue;
@@ -389,7 +396,10 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            PolygonalFace3DNormalizationSolver polygonalFace3DNormalizationSolver = new(polygonalFaces[index], externalEdgeOrientation, internalEdgeOrientation);
+            PolygonalFace3DNormalizationUpdater polygonalFace3DNormalizationSolver = new(externalEdgeOrientation, internalEdgeOrientation)
+            {
+                Value = polygonalFaces[index]
+            };
             return polygonalFace3DNormalizationSolver.Normalized();
         }
 
@@ -515,6 +525,16 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             return true;
+        }
+
+        public UPolygonalFace3D? GetPolygonalFace3D<UPolygonalFace3D>(int index) where UPolygonalFace3D : IPolygonalFace3D
+        {
+            if(polygonalFaces is null)
+            {
+                return default;
+            }
+
+            return polygonalFaces[index] is UPolygonalFace3D result ? result : default;
         }
     }
 }
