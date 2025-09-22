@@ -74,5 +74,15 @@ namespace DiGi.Geometry.Spatial
 
             return new PolygonalFace3D(plane, polygonalFace2D);
         }
+
+        public static PolygonalFace3D? PolygonalFace3D(this IPolygonalFace3D? polygonalFace3D)
+        {
+            if(polygonalFace3D is null || polygonalFace3D.Plane is not Plane plane || polygonalFace3D.Geometry2D is not IPolygonalFace2D polygonalFace2D)
+            {
+                return null;
+            }
+
+            return new PolygonalFace3D(plane, polygonalFace2D);
+        }
     }
 }
