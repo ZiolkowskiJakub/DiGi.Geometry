@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Spatial.Classes
 {
     public class Polygonal3DNormalizationUpdater : GeometryUpdater<IPolygonal3D>, Core.Interfaces.INormalizationUpdater<IPolygonal3D>
     {
-        private Orientation orientation;
+        private readonly Orientation orientation;
 
         public Polygonal3DNormalizationUpdater(Orientation orientation)
         {

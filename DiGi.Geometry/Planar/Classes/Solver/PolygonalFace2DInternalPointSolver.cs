@@ -59,7 +59,7 @@ namespace DiGi.Geometry.Planar.Classes
 
                 edges.Item2!.Add(externalEdge);
 
-                Point2D? internalPoint = null;
+                Point2D? internalPoint;
                 if (polygonalFace2D.InternalEdges is not List<IPolygonal2D> internalEdges || internalEdges.Count == 0)
                 {
                     internalPoint = externalEdge.GetInternalPoint(tolerance);

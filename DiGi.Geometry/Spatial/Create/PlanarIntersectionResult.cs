@@ -156,14 +156,14 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D vector3D = new Vector3D(point3D_1, point3D_2);
+            Vector3D vector3D = new (point3D_1, point3D_2);
 
             double d = normal.DotProduct(vector3D);
             if (System.Math.Abs(d) < tolerance)
             {
                 if (plane.Distance(point3D_1) < tolerance)
                 {
-                    ProjectionResult? projectionResult = null;
+                    ProjectionResult? projectionResult;
                     if (bounded_1 && bounded_2)
                     {
                         projectionResult = ProjectionResult(plane, new Segment3D(point3D_1, vector3D), tolerance);

@@ -17,7 +17,7 @@ namespace DiGi.Geometry.Planar.Classes
             this.tolerance = tolerance;
         }
 
-        public IGeometry2D Value { get; set; }
+        public IGeometry2D? Value { get; set; }
 
         public bool Update()
         {

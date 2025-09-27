@@ -417,11 +417,6 @@ namespace DiGi.Geometry.Spatial.Classes
                     continue;
                 }
 
-                if (polygonalFace3D.GetBoundingBox() is not BoundingBox3D boundingBox3D)
-                {
-                    continue;
-                }
-
                 if (polygonalFace3D.InRange(point3D, tolerance))
                 {
                     return true;

@@ -17,7 +17,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         public PolyhedronNormalizationUpdater(Side? normalSide, Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation, double tolerance = Tolerance.Distance)
-            : base(normalSide, externalEdgeOrientation, internalEdgeOrientation)
+            : base(normalSide, externalEdgeOrientation, internalEdgeOrientation, tolerance)
         {
 
         }

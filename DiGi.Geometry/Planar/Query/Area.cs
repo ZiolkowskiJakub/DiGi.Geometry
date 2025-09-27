@@ -1,6 +1,5 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.Geometry.Planar
 {
@@ -26,13 +25,16 @@ namespace DiGi.Geometry.Planar
                 return 0;
             }
 
-            if (!point2Ds_Temp[count - 1].Equals(point2Ds_Temp[0]))
+            double sum = 0;
+            for (int i = 0; i < count; i++)
             {
-                point2Ds_Temp.Add(point2Ds_Temp[0]);
-                count++;
+                Point2D current = point2Ds_Temp[i];
+                Point2D next = point2Ds_Temp[(i + 1) % count];
+
+                sum += (current.X * next.Y) - (next.X * current.Y);
             }
 
-            return System.Math.Abs(point2Ds_Temp.Take(count - 1).Select((p, i) => (point2Ds_Temp[i + 1].X - p.X) * (point2Ds_Temp[i + 1].Y + p.Y)).Sum() / 2);
+            return System.Math.Abs(sum) * 0.5;
         }
     }
 }

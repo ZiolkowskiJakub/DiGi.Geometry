@@ -84,19 +84,18 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Vector2D? GetAxis(Enums.PlanarAxis axis)
         {
-            switch (axis)
+            return axis switch
             {
-                case Enums.PlanarAxis.X:
-                    return AxisX;
+                Enums.PlanarAxis.X => AxisX,
 
-                case Enums.PlanarAxis.Y:
-                    return AxisY;
-
-                default:
-                    return null;
-            }
+                Enums.PlanarAxis.Y => AxisY,
+                
+                Enums.PlanarAxis.Undefined => null,
+                
+                _ => null,
+            };
         }
-        
+
         public bool Move(Vector2D? vector2D)
         {
             if (origin == null || vector2D is null)

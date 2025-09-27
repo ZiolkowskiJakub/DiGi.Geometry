@@ -115,6 +115,8 @@ namespace DiGi.Geometry.Spatial.Classes
                     if (polyhedron.Inside(internalPoint, tolerance))
                     {
                         outputs.Add(internalPoint!);
+                        this.i = i;
+                        this.j = j;
                         return true;
                     }
                 }

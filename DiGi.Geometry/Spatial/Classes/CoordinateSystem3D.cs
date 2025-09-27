@@ -134,22 +134,20 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Vector3D? GetAxis(Enums.SpatialAxis axis)
         {
-            switch (axis)
+            return axis switch
             {
-                case Enums.SpatialAxis.X:
-                    return AxisX;
-
-                case Enums.SpatialAxis.Y:
-                    return AxisY;
-
-                case Enums.SpatialAxis.Z:
-                    return AxisZ;
-
-                default:
-                    return null;
-            }
+                Enums.SpatialAxis.X => AxisX,
+                
+                Enums.SpatialAxis.Y => AxisY,
+                
+                Enums.SpatialAxis.Z => AxisZ,
+                
+                Enums.SpatialAxis.Undefined => null,
+                
+                _ => null,
+            };
         }
-        
+
         public void Inverse()
         {
             axisZ?.Inverse();

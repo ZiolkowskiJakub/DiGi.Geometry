@@ -17,33 +17,30 @@ namespace DiGi.Geometry.Planar.Classes
             this.tolerance = tolerance;
         }
 
-        public IGeometry2D Value { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public IGeometry2D? Value { get; set; }
 
-        public bool Update(ref IGeometry2D? value)
+        public bool Update()
         {
-            if(value is null)
+            if (Value is null)
             {
                 return false;
             }
 
-            NetTopologySuite.Geometries.Geometry? geometry = value?.ToNTS();
+            NetTopologySuite.Geometries.Geometry? geometry = Value?.ToNTS();
             if (geometry == null)
             {
                 return false;
             }
 
-            IGeometry2D? result = NetTopologySuite.Operation.Overlay.Snap.GeometrySnapper.SnapToSelf(geometry, tolerance, true)?.ToDiGi();
-            if (result == null)
+            IGeometry2D? geometry2D = NetTopologySuite.Operation.Overlay.Snap.GeometrySnapper.SnapToSelf(geometry, tolerance, true)?.ToDiGi();
+            if (geometry2D == null)
             {
                 return false;
             }
 
-            return result != null;
-        }
+            Value = geometry2D;
 
-        public bool Update()
-        {
-            throw new System.NotImplementedException();
+            return true;
         }
     }
 }

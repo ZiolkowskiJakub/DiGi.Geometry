@@ -153,6 +153,32 @@ namespace DiGi.Geometry.Spatial
             return new Polyhedron(polygonalFace3Ds);
         }
 
+        public static Polyhedron? Polyhedron(this IPolyhedron polyhedron)
+        {
+            if (polyhedron is null)
+            {
+                return null;
+            }
+
+            List<IPolygonalFace3D> polygonalFace3Ds = [];
+
+            int count = polyhedron.Count;
+            if(count > 0)
+            {
+                for(int i =0; i < count; i++)
+                {
+                    if(polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is not IPolygonalFace3D polygonalFace3D)
+                    {
+                        continue;
+                    }
+
+                    polygonalFace3Ds.Add(polygonalFace3D);
+                }
+            }
+
+            return new Polyhedron(polygonalFace3Ds);
+        }
+
         public static Polyhedron? Polyhedron(this PolygonalFaceExtrusion? polygonalFaceExtrusion, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polygonalFaceExtrusion is null)

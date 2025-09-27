@@ -6,32 +6,31 @@ namespace DiGi.Geometry.Core
     {
         public static Alignment Opposite(this Alignment alignment)
         {
-            switch (alignment)
+            return alignment switch
             {
-                case Alignment.Horizontal:
-                    return Alignment.Vertical;
-
-                case Alignment.Vertical:
-                    return Alignment.Horizontal;
-
-                default:
-                    return Alignment.Undefined;
-            }
+                
+                Alignment.Horizontal => Alignment.Vertical,
+                
+                Alignment.Vertical => Alignment.Horizontal,
+                
+                _ => Alignment.Undefined,
+            };
         }
 
         public static Orientation Opposite(this Orientation orientation)
         {
-            switch (orientation)
+            return orientation switch
             {
-                case Orientation.Clockwise:
-                    return Orientation.CounterClockwise;
+                Orientation.Clockwise => Orientation.CounterClockwise,
 
-                case Orientation.CounterClockwise:
-                    return Orientation.Clockwise;
-
-                default:
-                    return Orientation.Undefined;
-            }
+                Orientation.CounterClockwise => Orientation.Clockwise,
+                
+                Orientation.Undefined => Orientation.Undefined,
+                
+                Orientation.Collinear => Orientation.Undefined,
+                
+                _ => Orientation.Undefined,
+            };
         }
     }
 }

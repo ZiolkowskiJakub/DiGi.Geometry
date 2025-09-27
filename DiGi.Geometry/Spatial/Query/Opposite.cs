@@ -6,17 +6,16 @@ namespace DiGi.Geometry.Spatial
     {
         public static Side Opposite(this Side side)
         {
-            switch (side)
+            return side switch
             {
-                case Side.Internal:
-                    return Side.External;
+                Side.Internal => Side.External,
 
-                case Side.External:
-                    return Side.Internal;
-
-                default:
-                    return Side.Undefined;
-            }
+                Side.External => Side.Internal,
+                
+                Side.Undefined => Side.Undefined,
+                
+                _ => Side.Undefined,
+            };
         }
     }
 }

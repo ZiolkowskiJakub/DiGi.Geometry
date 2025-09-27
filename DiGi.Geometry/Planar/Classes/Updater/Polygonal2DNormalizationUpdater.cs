@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class Polygonal2DNormalizationUpdater : GeometryUpdater<IPolygonal2D>,  Core.Interfaces.INormalizationUpdater<IPolygonal2D>
     {
-        private Orientation orientation;
+        private readonly Orientation orientation;
 
         public Polygonal2DNormalizationUpdater(Orientation orientation)
         {
