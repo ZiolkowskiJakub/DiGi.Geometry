@@ -44,7 +44,7 @@ namespace DiGi.Geometry.Spatial.Classes
             Offset(offset);
         }
 
-        public BoundingBox3D(BoundingBox3D boundingBox3D)
+        public BoundingBox3D(BoundingBox3D? boundingBox3D)
             : base(boundingBox3D)
         {
             if (boundingBox3D != null)
@@ -54,7 +54,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        public BoundingBox3D(JsonObject jsonObject)
+        public BoundingBox3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
