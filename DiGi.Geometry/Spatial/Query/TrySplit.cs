@@ -322,12 +322,12 @@ namespace DiGi.Geometry.Spatial
                 return result; 
             });
 
-            List<Polyhedron> result = [];
+            polyhedrons = [];
 
-            result.AddRange(createPolyhedrons.Invoke(polygonalFace3Ds_Above));
-            result.AddRange(createPolyhedrons.Invoke(polygonalFace3Ds_Below));
+            polyhedrons.AddRange(createPolyhedrons.Invoke(polygonalFace3Ds_Above));
+            polyhedrons.AddRange(createPolyhedrons.Invoke(polygonalFace3Ds_Below));
 
-            return result.Count != 0;
+            return polyhedrons.Count != 0;
         }
 
         public static bool TrySplit(this Plane? plane, IPolygonalFace3D? polygonalFace3D, out List<PolygonalFace3D>? result, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
