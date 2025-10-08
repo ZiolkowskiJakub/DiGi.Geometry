@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static double RectangularThinnessRatio(this IPolygonal2D polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static double SquareThinnessRatio(this IPolygonal2D polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polygonal2D == null)
             {
@@ -23,7 +23,7 @@ namespace DiGi.Geometry.Planar
                 return double.NaN;
             }
 
-            return Core.Query.RectangularThinnessRatio(area, rectangle2D.GetArea());
+            return Core.Query.RectangularThinnessRatio(area, System.Math.Max(rectangle2D.Width, rectangle2D.Height) * 2);
         }
     }
 }
