@@ -117,14 +117,14 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Polygon2D>? Union(this IEnumerable<Polygon2D>? polygon2Ds)
+        public static List<Polygon2D>? Union<TPolygonal2D>(this IEnumerable<TPolygonal2D>? polygonal2Ds) where TPolygonal2D : IPolygonal2D
         {
-            if(polygon2Ds == null)
+            if(polygonal2Ds == null)
             {
                 return null;
             }
 
-            int count = polygon2Ds.Count();
+            int count = polygonal2Ds.Count();
 
             List<Polygon2D> result = [];
 
@@ -135,15 +135,14 @@ namespace DiGi.Geometry.Planar
 
             if(count == 1)
             {
-                result.Add(new Polygon2D(polygon2Ds.ElementAt(0)));
+                result.Add(new Polygon2D(polygonal2Ds.ElementAt(0)));
                 return result;
             }
 
             List<Polygon>? polygons = [];
-            foreach(Polygon2D polygon2D in polygon2Ds)
+            foreach(TPolygonal2D polygonal2D in polygonal2Ds)
             {
-                Polygon? polygon = polygon2D?.ToNTS_Polygon();
-                if(polygon == null)
+                if(polygonal2D?.ToNTS_Polygon() is not Polygon polygon)
                 {
                     continue;
                 }

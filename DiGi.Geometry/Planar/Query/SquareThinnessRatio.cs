@@ -23,7 +23,9 @@ namespace DiGi.Geometry.Planar
                 return double.NaN;
             }
 
-            return Core.Query.RectangularThinnessRatio(area, System.Math.Max(rectangle2D.Width, rectangle2D.Height) * 2);
+            double length = System.Math.Max(rectangle2D.Width, rectangle2D.Height);
+
+            return Core.Query.RectangularThinnessRatio(area, length * length);
         }
     }
 }

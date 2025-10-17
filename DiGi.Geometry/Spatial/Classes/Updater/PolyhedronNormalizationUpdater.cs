@@ -1,7 +1,6 @@
 ﻿using DiGi.Core.Constans;
 using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Core.Enums;
-using DiGi.Geometry.Spatial.Enums;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 

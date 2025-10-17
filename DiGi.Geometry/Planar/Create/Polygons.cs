@@ -103,5 +103,37 @@ namespace DiGi.Geometry.Planar
 
             return result;
         }
+
+        public static List<Polygon>? Polygons(this MultiPolygon? multiPolygon)
+        {
+            NetTopologySuite.Geometries.Geometry[]? geometries = multiPolygon?.Geometries;
+            if (geometries == null)
+            {
+                return null;
+            }
+
+            List<Polygon> result = [];
+            foreach (NetTopologySuite.Geometries.Geometry geometry in geometries)
+            {
+                if (geometry is Polygon polygon)
+                {
+                    result.Add(polygon);
+                }
+                else if (geometry is MultiPolygon multiPolygon_Temp)
+                {
+                    List<Polygon>? polygons = Polygons(multiPolygon_Temp);
+                    if (polygons != null && polygons.Count > 0)
+                    {
+                        result.AddRange(polygons);
+                    }
+                }
+                else if (geometry is LinearRing linearRing)
+                {
+                    result.Add(new Polygon(linearRing));
+                }
+            }
+
+            return result;
+        }
     }
 }

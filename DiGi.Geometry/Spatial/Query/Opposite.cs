@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Enums;
+﻿using DiGi.Geometry.Core.Enums;
 
 namespace DiGi.Geometry.Spatial
 {

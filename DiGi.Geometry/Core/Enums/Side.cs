@@ -1,4 +1,4 @@
-﻿namespace DiGi.Geometry.Spatial.Enums
+﻿namespace DiGi.Geometry.Core.Enums
 {
     public enum Side
     { 

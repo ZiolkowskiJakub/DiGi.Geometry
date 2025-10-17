@@ -3,6 +3,7 @@ using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
+using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Spatial
@@ -183,13 +184,17 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            List<Point2D>? point2Ds = polygon2D.GetPoints();
-            if (point2Ds == null)
+            return new (plane, polygon2D);
+        }
+
+        public static Rectangle3D? Convert(this Plane? plane, Rectangle2D rectangle2D)
+        {
+            if (plane == null || rectangle2D == null)
             {
                 return null;
             }
 
-            return new (plane, point2Ds);
+            return new Rectangle3D(plane, rectangle2D);
         }
 
         public static IPolygonal3D? Convert(this Plane? plane, IPolygonal2D? polygonal2D)
@@ -360,14 +365,63 @@ namespace DiGi.Geometry.Spatial
 
         }
     
-        public static IPolygonal2D? Convert(this Plane? plane, IPolygonal3D? polygonal3D)
+        //public static IPolygonal2D? Convert(this Plane? plane, IPolygonal3D? polygonal3D)
+        //{
+        //    if(plane == null || polygonal3D == null)
+        //    {
+        //        return null;
+        //    }
+
+        //    if(polygonal3D is Rectangle3D rectangle3D)
+        //    {
+        //        return Convert(plane, rectangle3D);
+        //    }
+
+        //    return Convert(plane, polygonal3D as dynamic);
+        //}
+
+        public static IPolygonal2D? Convert(this Plane? plane, IPolygonal3D? polygonal3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || polygonal3D == null)
+            if (plane == null || polygonal3D == null)
             {
                 return null;
             }
 
+            if (polygonal3D is Rectangle3D rectangle3D)
+            {
+                return Convert(plane, rectangle3D, tolerance);
+            }
+
             return Convert(plane, polygonal3D as dynamic);
+        }
+
+        public static IPolygonal2D? Convert(this Plane? plane, Rectangle3D? rectangle3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (rectangle3D == null || plane?.Normal is not Vector3D normal)
+            {
+                return null;
+            }
+
+            if(normal.Similar(rectangle3D.Plane?.Normal, tolerance))
+            {
+                return rectangle3D.Geometry2D;
+            }
+
+            IPolygonal2D? result = Convert(plane, new Polygon3D(rectangle3D.Plane, new Polygon2D(rectangle3D.Geometry2D)));
+            if(result == null)
+            {
+                return result;
+            }
+
+            if(Planar.Create.Rectangle2D(result, tolerance) is Rectangle2D rectangle2D)
+            {
+                if(rectangle2D.GetArea().AlmostEquals(result.GetArea(), tolerance))
+                {
+                    result = rectangle2D;
+                }
+            }
+
+            return result;
         }
 
         public static Polyline3D? Convert(this Plane? plane, Polyline2D? polyline2D)
@@ -462,9 +516,19 @@ namespace DiGi.Geometry.Spatial
             return new (plane, ellipse2D);
         }
 
-        public static IPolygonal2D? Convert(Plane? plane, BoundingBox2D? boundingBox2D)
+        public static Rectangle3D? Convert(Plane? plane, BoundingBox2D? boundingBox2D)
         {
-            throw new System.NotImplementedException("BoundingBox2D to IPolygonal2D conversion is not implemented yet.");
+            if(plane is null)
+            {
+                return null;
+            }
+
+            if(boundingBox2D?.GetPoints() is not List<Point2D> point2Ds)
+            {
+                return null;
+            }
+
+            return new(plane, point2Ds);
         }
 
         public static IGeometry3D? Convert(this Plane? plane, IGeometry2D? geometry2D)

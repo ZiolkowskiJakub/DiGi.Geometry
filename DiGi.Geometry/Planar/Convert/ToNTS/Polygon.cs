@@ -34,14 +34,14 @@ namespace DiGi.Geometry.Planar
             }
         }
 
-        public static Polygon? ToNTS_Polygon(this Polygon2D? polygon2D)
+        public static Polygon? ToNTS_Polygon(this IPolygonal2D? polygonal2D)
         {
-            if(polygon2D == null)
+            if(polygonal2D == null)
             {
                 return null;
             }
 
-            return new Polygon(polygon2D.ToNTS());
+            return new Polygon(polygonal2D.ToNTS());
         }
     }
 }

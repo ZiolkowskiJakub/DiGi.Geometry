@@ -1,4 +1,5 @@
 ﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
 using System.Collections.Generic;
@@ -8,6 +9,44 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        public static List<IPolygonal2D>? Difference(this IPolygonal2D polygonal2D_1, IPolygonal2D polygonal2D_2)
+        {
+            if (polygonal2D_1 == null || polygonal2D_2 == null)
+            {
+                return null;
+            }
+
+            List<PolygonalFace2D>? polygonalFace2Ds = Difference(new PolygonalFace2D(polygonal2D_1), new PolygonalFace2D(polygonal2D_2));
+            if(polygonalFace2Ds is null)
+            {
+                return null;
+            }
+
+            List<IPolygonal2D> result = [];
+            foreach(PolygonalFace2D polygonalFace2D in polygonalFace2Ds)
+            {
+                if(polygonalFace2D.ExternalEdge is IPolygonal2D externalEdge)
+                {
+                    result.Add(externalEdge);
+                }
+
+                if(polygonalFace2D.InternalEdges is not List<IPolygonal2D> internalEdges)
+                {
+                    continue;
+                }
+
+                foreach(IPolygonal2D internalEdge in internalEdges)
+                {
+                    if(internalEdge is not null)
+                    {
+                        result.Add(internalEdge);
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public static List<PolygonalFace2D>? Difference(this PolygonalFace2D? polygonalFace2D_1, PolygonalFace2D? polygonalFace2D_2)
         {
             if(polygonalFace2D_1 == null || polygonalFace2D_2 == null)
@@ -27,7 +66,32 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
+            List<Polygon>? polygons = Difference(polygon_1, polygon_2);
+            if(polygons == null)
+            {
+                return null;
+            }
+
             List<PolygonalFace2D> result = [];
+            foreach(Polygon polygon in polygons)
+            {
+                if(polygon.ToDiGi() is PolygonalFace2D polygonalFace2D)
+                {
+                    result.Add(polygonalFace2D);
+                }
+            }
+
+            return result;
+        }
+
+        public static List<Polygon>? Difference(this Polygon? polygon_1, Polygon? polygon_2)
+        {
+            if(polygon_1 is null || polygon_2 is null)
+            {
+                return null;
+            }
+
+            List<Polygon> result = [];
 
             if (polygon_1.EqualsTopologically(polygon_2))
             {
@@ -71,31 +135,24 @@ namespace DiGi.Geometry.Planar
             {
                 if (geometry_Temp is Polygon polygon)
                 {
-                    PolygonalFace2D? polygonalFace2D = polygon.ToDiGi();
-                    if (polygonalFace2D != null)
-                    {
-                        result.Add(polygonalFace2D);
-                    }
+                    result.Add(polygon);
                 }
                 else if (geometry_Temp is MultiPolygon multiPolygon)
                 {
-                    List<PolygonalFace2D>? polygonalFace2Ds = multiPolygon.ToDiGi_PolygonalFace2Ds();
-                    if (polygonalFace2Ds != null && polygonalFace2Ds.Count > 0)
+                    List<Polygon>? polygons = Create.Polygons(multiPolygon);
+                    if(polygons != null)
                     {
-                        result.AddRange(polygonalFace2Ds);
+                        result.AddRange(polygons);
                     }
                 }
                 else if (geometry_Temp is LinearRing linearRing)
                 {
-                    Polygon2D? polygon2D = linearRing.ToDiGi();
-                    if (polygon2D != null)
-                    {
-                        result.Add(new PolygonalFace2D(polygon2D));
-                    }
+                    result.Add(new Polygon(linearRing));
                 }
             }
 
             return result;
+
         }
     }
 }

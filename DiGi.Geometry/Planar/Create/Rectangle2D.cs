@@ -15,62 +15,61 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Vector2D? direction_Height = new (direction);
-            direction_Height = direction_Height.Unit;
-            Vector2D? direction_Width = direction_Height?.GetPerpendicular();
+            if (direction.Unit is not Vector2D direction_Height)
+            {
+                return null;
+            }
 
-            List<Point2D> point2Ds_Height = [];
-            List<Point2D> point2Ds_Width = [];
+            if (direction_Height.GetPerpendicular() is not Vector2D direction_Width)
+            {
+                return null;
+            }
+
+            double minHeight = double.MaxValue;
+            double maxHeight = double.MinValue;
+            double minWidth = double.MaxValue;
+            double maxWidth = double.MinValue;
 
             foreach (Point2D point2D in point2Ds)
             {
-                if(direction_Height?.Project(point2D) is Point2D point2D_Height)
+                if ((Vector2D?)point2D is not Vector2D vector2D)
                 {
-                    point2Ds_Height.Add(point2D_Height);
+                    continue;
                 }
 
-                if (direction_Width?.Project(point2D) is Point2D point2D_Width)
+                double projHeight = vector2D.DotProduct(direction_Height);
+
+                if (projHeight < minHeight)
                 {
-                    point2Ds_Width.Add(point2D_Width);
+                    minHeight = projHeight;
+                }
+
+                if (projHeight > maxHeight)
+                {
+                    maxHeight = projHeight;
+                }
+
+
+                double projWidth = vector2D.DotProduct(direction_Width);
+
+                if (projWidth < minWidth)
+                {
+                    minWidth = projWidth;
+                }
+
+                if (projWidth > maxWidth)
+                {
+                    maxWidth = projWidth;
                 }
             }
 
-            double height = Query.MaxDistance(point2Ds_Height, out Point2D? point2D_1_Height, out Point2D? point2D_2_Height);
-            if (point2D_1_Height == null || point2D_2_Height == null)
+            Vector2D? vector2D_Origin = direction_Height * minHeight + direction_Width * minWidth;
+            if (vector2D_Origin is null)
             {
                 return null;
             }
 
-            double width = Query.MaxDistance(point2Ds_Width, out Point2D? point2D_1_Width, out Point2D? point2D_2_Width);
-            if (point2D_1_Width == null || point2D_2_Width == null)
-            {
-                return null;
-            }
-
-            Segment2D segment2D_Height = new (point2D_1_Height, point2D_2_Height);
-            Segment2D segment2D_Width = new (point2D_1_Width, point2D_2_Width);
-
-            if (segment2D_Height.Direction is Vector2D direction_Height_Temp && !direction_Height_Temp.AlmostEquals(direction_Height))
-            {
-                segment2D_Height.Inverse();
-            }
-
-            if (segment2D_Width.Direction is Vector2D direction_Width_Temp && !direction_Width_Temp.AlmostEquals(direction_Width))
-            {
-                segment2D_Width.Inverse();
-            }
-
-            Point2D? point2D_Temp = segment2D_Height[0];
-            segment2D_Height.Start = segment2D_Width[0];
-            segment2D_Width.Start = point2D_Temp;
-
-            Point2D? point2D_Intersection = ((Line2D?)segment2D_Height)?.IntersectionPoint((Line2D?)segment2D_Width);
-            if (point2D_Intersection == null)
-            {
-                return null;
-            }
-
-            return new (point2D_Intersection, width, height, direction_Height);
+            return new Rectangle2D(new Point2D(vector2D_Origin.X, vector2D_Origin.Y), maxWidth - minWidth, maxHeight - minHeight, direction_Height);
         }
 
         public static Rectangle2D? Rectangle2D(this IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)

@@ -77,7 +77,7 @@ namespace DiGi.Geometry.Planar
             double t2_Temp = DiGi.Core.Query.Round(t2, tolerance);
 
             // The segments intersect if t1 and t2 are between 0 and 1.
-            if (((t1_Temp >= 0) && (t1_Temp <= 1) && (t2_Temp >= 0) && (t2_Temp <= 1)))
+            if (((t1_Temp >= - tolerance) && (t1_Temp <= 1 + tolerance) && (t2_Temp >= -tolerance) && (t2_Temp <= 1 + tolerance)))
             {
                 return point2D_Intersection;
             }

@@ -53,15 +53,12 @@ namespace DiGi.Geometry.Planar
 
         public static Rectangle2D? Offset(this Rectangle2D? rectangle2D, double offset)
         {
-            if(rectangle2D == null)
+            if(rectangle2D?.Origin is not Point2D origin || rectangle2D.HeightDirection is not Vector2D heightDirection || rectangle2D.WidthDirection is not Vector2D widthDirection)
             {
                 return null;
             }
 
-            Point2D? origin = rectangle2D.Origin;
-            Vector2D? heightDirection = rectangle2D.HeightDirection;
-
-            Vector2D? vector2D = (heightDirection + rectangle2D.WidthDirection) * offset;
+            Vector2D? vector2D = (heightDirection.GetInversed() + widthDirection.GetInversed()) * offset;
             origin?.Move(vector2D);
 
             double width = rectangle2D.Width;

@@ -400,6 +400,72 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool InRange(Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
+            if(min is null || max is null)
+            {
+                return false;
+            }
+
+            if(segment2D?[0] is not Point2D point2D_Start)
+            {
+                return false;
+            }
+
+            if (segment2D[1] is not Point2D point2D_End)
+            {
+                return false;
+            }
+
+            Vector2D vector2D = new (point2D_Start, point2D_End); // use actual delta vector, not normalized direction
+
+            double minX = min.X - tolerance;
+            double minY = min.Y - tolerance;
+            double maxX = max.X + tolerance;
+            double maxY = max.Y + tolerance;
+
+            double t0 = 0.0;
+            double t1 = 1.0;
+
+            // For each axis (X and Y)
+            for (int i = 0; i < 2; i++)
+            {
+                double p = (i == 0) ? vector2D.X : vector2D.Y;
+                double minB = (i == 0) ? minX : minY;
+                double maxB = (i == 0) ? maxX : maxY;
+                double p0Val = (i == 0) ? point2D_Start.X : point2D_Start.Y;
+
+                if (System.Math.Abs(p) < tolerance)
+                {
+                    // Line is parallel to the axis — outside if completely beyond bounds
+                    if (p0Val < minB || p0Val > maxB)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    double tEnter = (minB - p0Val) / p;
+                    double tExit = (maxB - p0Val) / p;
+                    if (tEnter > tExit)
+                    {
+                        (tExit, tEnter) = (tEnter, tExit);
+                    }
+
+                    t0 = System.Math.Max(t0, tEnter);
+                    t1 = System.Math.Min(t1, tExit);
+
+                    if (t0 > t1)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+
+        public bool InRange_Old(Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
             if (min == null || max == null || segment2D is null)
             {
                 return false;

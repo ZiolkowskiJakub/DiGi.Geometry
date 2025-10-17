@@ -186,7 +186,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
         
         /// <summary>
-        /// Calculate the dot product as an angle
+        /// Calculate the dot product as an angle. Use SignedAngle if performance is priority
         /// Source: https://wiki.unity3d.com/index.php/3d_Math_functions
         /// </summary>
         /// <param name="vector2D">Vector2D</param>
@@ -220,6 +220,24 @@ namespace DiGi.Geometry.Planar.Classes
             //    result = 0;
 
             //return result;
+        }
+
+        /// <summary>
+        /// Signed angle between two vectors
+        /// </summary>
+        /// <param name="vector2D"></param>
+        /// <returns></returns>
+        public double SignedAngle(Vector2D? vector2D)
+        {
+            if(vector2D is null)
+            {
+                return double.NaN;
+            }
+
+            double dot = X * vector2D.X + Y * vector2D.Y;      // x1 * x2 + y1 * y2
+            double cross = X * vector2D.Y - Y * vector2D.X;    // x1 * y2 - y1 * x2
+
+            return System.Math.Atan2(cross, dot);
         }
 
         public override ISerializableObject Clone()

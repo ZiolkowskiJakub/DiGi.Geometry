@@ -1,7 +1,6 @@
 ﻿using DiGi.Core.Constans;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Spatial.Classes;
-using DiGi.Geometry.Spatial.Enums;
 
 namespace DiGi.Geometry.Spatial.Interfaces
 {
