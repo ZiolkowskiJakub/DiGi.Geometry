@@ -194,12 +194,12 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public List<Point3D>? GetPoints()
         {
-            if (start == null || vector == null)
+            if (start is null || vector is null || End is not Point3D end)
             {
                 return null;
             }
 
-            return [new Point3D(start), End];
+            return [new Point3D(start), end];
         }
 
         public List<Segment3D>? GetSegments()

@@ -54,9 +54,9 @@ namespace DiGi.Geometry.Spatial.Classes
         public PlanarResult(Plane? plane, IGeometry2D? geometry2D)
         {
             this.plane = plane == null ? null : new (plane);
-            if(geometry2D != null)
+            if(geometry2D != null && DiGi.Core.Query.Clone(geometry2D) is IGeometry2D geometry2D_Temp)
             {
-                geometry2Ds = [DiGi.Core.Query.Clone(geometry2D)];
+                geometry2Ds = [geometry2D_Temp];
             }
         }
 

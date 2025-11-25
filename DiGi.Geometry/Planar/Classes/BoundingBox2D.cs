@@ -279,7 +279,12 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            return [BottomLeft, TopLeft, TopRight, bottomRight];
+            if(BottomLeft is not Point2D bottomLeft || TopLeft is not Point2D topLeft || TopRight is not Point2D topRight)
+            {
+                return null;
+            }
+
+            return [bottomLeft, topLeft, topRight, bottomRight];
         }
 
         public Point2D? GetPoint(Corner corner)

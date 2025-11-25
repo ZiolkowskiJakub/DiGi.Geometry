@@ -141,7 +141,12 @@ namespace DiGi.Geometry.Planar
 
             if(offset == 0)
             {
-                return [DiGi.Core.Query.Clone(polygon2D)];
+                if(DiGi.Core.Query.Clone(polygon2D) is Polygon2D polygon2D_Clone)
+                {
+                    return [polygon2D_Clone];
+                }
+
+                return null;
             }
 
             Polygon? polygon = polygon2D.ToNTS_Polygon();

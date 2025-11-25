@@ -74,8 +74,8 @@ namespace DiGi.Geometry.Spatial
 
                     List<Point3D> point3Ds =
                     [
-                        segment3D[0],
-                        segment3D[1],
+                        segment3D[0]!,
+                        segment3D[1]!,
                         point3D_2,
                         point3D_3,
 

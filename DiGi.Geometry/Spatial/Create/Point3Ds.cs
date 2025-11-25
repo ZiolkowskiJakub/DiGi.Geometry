@@ -15,7 +15,13 @@ namespace DiGi.Geometry.Spatial
             switch (count)
             {
                 case 1:
-                    return [segment3D.Mid()];
+
+                    if(segment3D.Mid() is not Point3D mid)
+                    {
+                        return null;
+                    }
+
+                    return [mid];
 
                 case 2:
                     return segment3D.GetPoints();
@@ -28,7 +34,12 @@ namespace DiGi.Geometry.Spatial
                         return null;
                     }
 
-                    List<Point3D> result = [segment3D.Start];
+                    if (segment3D.Start is not Point3D start)
+                    {
+                        return null;
+                    }
+
+                    List<Point3D> result = [start];
 
                     int count_Temp = count - 1;
 

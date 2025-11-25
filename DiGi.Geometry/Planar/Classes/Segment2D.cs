@@ -262,7 +262,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         public List<Point2D>? GetPoints()
         {
-            return [Start, End];
+            if (Start is not Point2D start || End is not Point2D end)
+            {
+                return null;
+            }
+
+            return [start, end];
         }
 
         public List<Segment2D>? GetSegments()

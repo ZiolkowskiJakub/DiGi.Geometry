@@ -218,10 +218,15 @@ namespace DiGi.Geometry.Spatial
             double t1 = (-b - discriminant) / (2 * a);
             double t2 = (-b + discriminant) / (2 * a);
 
+            if(line3D!.Origin + t1 * d is not IGeometry3D geometry3D_1 || line3D!.Origin + t2 * d is not IGeometry3D geometry3D_2)
+            {
+                return new IntersectionResult3D();
+            }
+
             List<IGeometry3D> geometry3Ds =
             [
-                line3D!.Origin + t1 * d, 
-                line3D!.Origin + t2 * d 
+                geometry3D_1,
+                geometry3D_2
             ];
 
             return new IntersectionResult3D(geometry3Ds);

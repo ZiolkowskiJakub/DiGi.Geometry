@@ -32,9 +32,9 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public IntersectionResult3D(IGeometry3D? geometry3D)
         {
-            if(geometry3D != null)
+            if(geometry3D != null && geometry3D.Clone<IGeometry3D>() is IGeometry3D geometry3D_Temp)
             {
-                geometry3Ds = [geometry3D.Clone<IGeometry3D>()];
+                geometry3Ds = [geometry3D_Temp];
             }
         }
 

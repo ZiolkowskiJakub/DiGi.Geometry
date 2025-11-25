@@ -43,12 +43,12 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
-                if (externalEdge == null)
+                if (DiGi.Core.Query.Clone(externalEdge) is not IPolygonal2D externalEdge_Temp)
                 {
                     return null;
                 }
 
-                List<IPolygonal2D> result = [DiGi.Core.Query.Clone(externalEdge)];
+                List<IPolygonal2D> result = [externalEdge_Temp];
                 if (internalEdges == null || internalEdges.Count == 0)
                 {
                     return result;
@@ -56,13 +56,9 @@ namespace DiGi.Geometry.Planar.Classes
 
                 for (int i = 0; i < internalEdges.Count; i++)
                 {
-                    if (internalEdges[i] != null)
+                    if (DiGi.Core.Query.Clone(internalEdges[i]) is IPolygonal2D polygonal2D)
                     {
-                        IPolygonal2D? polygonal2D = DiGi.Core.Query.Clone(internalEdges[i]);
-                        if (polygonal2D is not null)
-                        {
-                            result.Add(polygonal2D);
-                        }
+                        result.Add(polygonal2D);
                     }
                 }
 

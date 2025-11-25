@@ -33,9 +33,9 @@ namespace DiGi.Geometry.Planar.Classes
 
         internal IntersectionResult2D(IGeometry2D? geometry2D)
         {
-            if(geometry2D != null)
+            if(geometry2D != null && geometry2D.Clone<IGeometry2D>() is IGeometry2D geometry2D_Temp)
             {
-                geometry2Ds = [geometry2D.Clone<IGeometry2D>()];
+                geometry2Ds = [geometry2D_Temp];
             }
         }
 
