@@ -143,6 +143,11 @@ namespace DiGi.Geometry.Planar
 
         public static Rectangle2D? Rectangle2D(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
+            if(segmentable2D is Rectangle2D rectangle2D)
+            {
+                return new Rectangle2D(rectangle2D);
+            }
+
             return Rectangle2D(segmentable2D?.GetPoints(), tolerance);
         }
 
