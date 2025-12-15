@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<IPolygonal2D>? Difference(this IPolygonal2D polygonal2D_1, IPolygonal2D polygonal2D_2)
+        public static List<IPolygonal2D>? Difference(this IPolygonal2D? polygonal2D_1, IPolygonal2D? polygonal2D_2)
         {
             if (polygonal2D_1 == null || polygonal2D_2 == null)
             {
