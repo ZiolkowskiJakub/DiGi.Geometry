@@ -10,13 +10,13 @@ namespace DiGi.Geometry.Planar
     {
         public static bool Orient(this IPolygonal2D? polygonal2D, Orientation orientation, bool convexHull = true)
         {
-            if(polygonal2D == null || orientation == Orientation.Undefined || orientation == Orientation.Collinear)
+            if (polygonal2D == null || orientation == Orientation.Undefined || orientation == Orientation.Collinear)
             {
                 return false;
             }
 
             Orientation orientation_Temp = polygonal2D.Orientation(convexHull);
-            if(orientation_Temp == orientation)
+            if (orientation_Temp == orientation)
             {
                 return false;
             }
@@ -38,7 +38,7 @@ namespace DiGi.Geometry.Planar
             }
 
             List<Orientation>? orienations = Query.Orientations(point2Ds);
-            if(orienations is null)
+            if (orienations is null)
             {
                 return false;
             }

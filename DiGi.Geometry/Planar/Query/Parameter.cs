@@ -27,7 +27,7 @@ namespace DiGi.Geometry.Planar
                 Point2D point2D_1 = point2Ds.ElementAt(i - 1);
                 Point2D point2D_2 = point2Ds.ElementAt(i);
 
-                if(point2D_1 == null || point2D_2 == null)
+                if (point2D_1 == null || point2D_2 == null)
                 {
                     lengths.Add(0);
                     continue;
@@ -36,13 +36,13 @@ namespace DiGi.Geometry.Planar
                 lengths.Add(point2D_1.Distance(point2D_2));
 
                 Point2D? point2D_Closest_Temp = ClosestPoint(point2D, point2D_1, point2D_2, true);
-                if(point2D_Closest_Temp == null)
+                if (point2D_Closest_Temp == null)
                 {
                     continue;
                 }
 
                 double distance_Temp = point2D.Distance(point2D_Closest_Temp);
-                if(distance < distance_Temp )
+                if (distance < distance_Temp)
                 {
                     continue;
                 }
@@ -52,7 +52,7 @@ namespace DiGi.Geometry.Planar
                 index = i;
             }
 
-            if(distance == double.MaxValue || index == -1 || point2D_Closest == null)
+            if (distance == double.MaxValue || index == -1 || point2D_Closest == null)
             {
                 point2D_Closest = null;
                 distance = double.NaN;
@@ -73,7 +73,7 @@ namespace DiGi.Geometry.Planar
 
         public static double Parameter(this IEnumerable<Point2D>? point2Ds, Point2D? point2D)
         {
-            if(point2Ds == null || point2D == null)
+            if (point2Ds == null || point2D == null)
             {
                 return double.NaN;
             }

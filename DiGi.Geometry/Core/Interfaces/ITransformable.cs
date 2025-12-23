@@ -4,7 +4,7 @@
     {
     }
 
-    public interface ITransformable<T> : ITransformable where T: ITransform
+    public interface ITransformable<T> : ITransformable where T : ITransform
     {
         bool Transform(T transform);
     }

@@ -1,14 +1,14 @@
-﻿using DiGi.Core.Classes;
-using System.Text.Json.Serialization;
-using DiGi.Core;
+﻿using DiGi.Core;
+using DiGi.Core.Classes;
 using DiGi.Geometry.Core.Interfaces;
 using System.Collections.Generic;
-using System.Text.Json.Nodes;
 using System.Linq;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Core.Classes
 {
-    public abstract class Mesh<T> : SerializableObject, IMesh where T: IPoint<T>
+    public abstract class Mesh<T> : SerializableObject, IMesh where T : IPoint<T>
     {
         [JsonInclude, JsonPropertyName("Indexes")]
         protected List<int[]>? indexes;
@@ -23,21 +23,21 @@ namespace DiGi.Geometry.Core.Classes
 
         public Mesh(Mesh<T>? mesh)
         {
-            if(mesh != null)
+            if (mesh != null)
             {
                 List<T?>? points_Temp = mesh?.points?.Clone();
-                if(points_Temp != null)
+                if (points_Temp != null)
                 {
                     points = [];
                     foreach (T? point in points_Temp)
                     {
-                        if(point == null)
+                        if (point == null)
                         {
                             continue;
                         }
 
                         T? point_Temp = point.Clone<T>();
-                        if(point_Temp == null)
+                        if (point_Temp == null)
                         {
                             continue;
                         }
@@ -46,7 +46,7 @@ namespace DiGi.Geometry.Core.Classes
                     }
                 }
 
-                if(mesh?.indexes != null)
+                if (mesh?.indexes != null)
                 {
                     indexes = [];
                     foreach (int[] vertices in mesh.indexes)
@@ -59,7 +59,7 @@ namespace DiGi.Geometry.Core.Classes
 
         public Mesh(IEnumerable<T>? points, IEnumerable<int[]>? indexes)
         {
-            if(points == null || indexes == null)
+            if (points == null || indexes == null)
             {
                 return;
             }
@@ -90,7 +90,7 @@ namespace DiGi.Geometry.Core.Classes
             this.indexes = [];
             foreach (int[] vertices in indexes)
             {
-                if(vertices == null || vertices.Length < 3)
+                if (vertices == null || vertices.Length < 3)
                 {
                     continue;
                 }
@@ -213,21 +213,21 @@ namespace DiGi.Geometry.Core.Classes
 
         public List<T>? GetPoints()
         {
-            if(points == null)
+            if (points == null)
             {
                 return null;
             }
 
             List<T> result = [];
-            foreach(T point in points)
+            foreach (T point in points)
             {
-                if(point == null)
+                if (point == null)
                 {
                     continue;
                 }
-                
+
                 T? point_Temp = point.Clone<T>();
-                if(point_Temp == null)
+                if (point_Temp == null)
                 {
                     continue;
                 }

@@ -9,13 +9,13 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Core.Classes
 {
-    public class DensityBasedSpatialClusteringResult<T> : SerializableResult where T: IPoint<T>
+    public class DensityBasedSpatialClusteringResult<T> : SerializableResult where T : IPoint<T>
     {
-        [JsonInclude, JsonPropertyName("Tolerance")]
-        private readonly double tolerance;
-
         [JsonInclude, JsonPropertyName("PointCount")]
         private readonly int pointCount;
+
+        [JsonInclude, JsonPropertyName("Tolerance")]
+        private readonly double tolerance;
 
         [JsonInclude, JsonPropertyName("Dictionary")]
         private Dictionary<T, int>? dictionary;
@@ -29,9 +29,9 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         public DensityBasedSpatialClusteringResult(DensityBasedSpatialClusteringResult<T> densityBasedSpatialClusteringResult)
-            :base(densityBasedSpatialClusteringResult)
+            : base(densityBasedSpatialClusteringResult)
         {
-            if(densityBasedSpatialClusteringResult != null)
+            if (densityBasedSpatialClusteringResult != null)
             {
                 tolerance = densityBasedSpatialClusteringResult.tolerance;
                 pointCount = densityBasedSpatialClusteringResult.pointCount;
@@ -41,7 +41,7 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         public DensityBasedSpatialClusteringResult(JsonObject jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
@@ -51,7 +51,7 @@ namespace DiGi.Geometry.Core.Classes
         {
             get
             {
-                if(dictionary == null)
+                if (dictionary == null)
                 {
                     return null;
                 }
@@ -59,7 +59,7 @@ namespace DiGi.Geometry.Core.Classes
                 Dictionary<T, int> result = [];
                 foreach (KeyValuePair<T, int> keyValuePair in dictionary)
                 {
-                    if(keyValuePair.Key.Clone<T>() is T t)
+                    if (keyValuePair.Key.Clone<T>() is T t)
                     {
                         result[t] = keyValuePair.Value;
                     }
@@ -71,7 +71,7 @@ namespace DiGi.Geometry.Core.Classes
             private set
             {
 
-                if(value == null)
+                if (value == null)
                 {
                     dictionary = null;
                     return;
@@ -88,15 +88,20 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        public override ISerializableObject? Clone()
+        {
+            return new DensityBasedSpatialClusteringResult<T>(this);
+        }
+
         public HashSet<int>? GetIndexes()
         {
-            if(dictionary == null)
+            if (dictionary == null)
             {
                 return null;
             }
 
             HashSet<int> result = [];
-            foreach(int index in dictionary.Values)
+            foreach (int index in dictionary.Values)
             {
                 result.Add(index);
             }
@@ -104,9 +109,45 @@ namespace DiGi.Geometry.Core.Classes
             return result;
         }
 
+        public T? GetPoint(int index, Func<IEnumerable<T>, T>? func = null)
+        {
+            List<T>? points = GetPoints(index);
+            if (points == null || points.Count == 0)
+            {
+                return default;
+            }
+
+            T point = func == null ? points[0] : func.Invoke(points);
+            if (point == null)
+            {
+                return default;
+            }
+
+            return point.Clone<T>();
+        }
+
+        public List<T>? GetPoints(int index)
+        {
+            if (dictionary == null)
+            {
+                return null;
+            }
+
+            List<T> result = [];
+            foreach (KeyValuePair<T, int> keyValuePair in dictionary)
+            {
+                if (keyValuePair.Value == index)
+                {
+                    result.Add(keyValuePair.Key);
+                }
+            }
+
+            return result;
+        }
+
         public bool HasIndex(int index)
         {
-            if(dictionary == null)
+            if (dictionary == null)
             {
                 return false;
             }
@@ -120,47 +161,6 @@ namespace DiGi.Geometry.Core.Classes
             }
 
             return false;
-        }
-
-        public List<T>? GetPoints(int index)
-        {
-            if (dictionary == null)
-            {
-                return null;
-            }
-
-            List<T> result = [];
-            foreach (KeyValuePair<T, int> keyValuePair in dictionary)
-            {
-                if(keyValuePair.Value == index)
-                {
-                    result.Add(keyValuePair.Key);
-                }
-            }
-
-            return result;
-        }
-
-        public T? GetPoint(int index, Func<IEnumerable<T>, T>? func = null)
-        {
-            List<T>? points = GetPoints(index);
-            if(points == null || points.Count == 0)
-            {
-                return default;
-            }
-
-            T point = func == null ? points[0] : func.Invoke(points);
-            if(point == null)
-            {
-                return default;
-            }
-
-            return point.Clone<T>();
-        }
-
-        public override ISerializableObject? Clone()
-        {
-            return new DensityBasedSpatialClusteringResult<T>(this);
         }
     }
 }

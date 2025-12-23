@@ -11,9 +11,9 @@ namespace DiGi.Geometry.Spatial
                 Side.Internal => Side.External,
 
                 Side.External => Side.Internal,
-                
+
                 Side.Undefined => Side.Undefined,
-                
+
                 _ => Side.Undefined,
             };
         }

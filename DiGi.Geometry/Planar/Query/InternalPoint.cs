@@ -14,13 +14,13 @@ namespace DiGi.Geometry.Planar
             }
 
             Point2D? result = Centroid(point2Ds);
-            if(result == null)
+            if (result == null)
             {
                 return null;
             }
 
             List<Segment2D>? segment2Ds = Create.Segment2Ds(point2Ds, true);
-            if(segment2Ds == null)
+            if (segment2Ds == null)
             {
                 return null;
             }

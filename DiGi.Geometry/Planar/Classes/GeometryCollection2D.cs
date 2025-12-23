@@ -1,7 +1,7 @@
 ﻿using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Planar.Interfaces;
-using System.Text.Json.Nodes;
 using System.Collections.Generic;
+using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
@@ -26,12 +26,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool Move(Vector2D vector2D)
         {
-            if(vector2D == null)
+            if (vector2D == null)
             {
                 return false;
             }
 
-            foreach(ICollectable2D collectable2D in this)
+            foreach (ICollectable2D collectable2D in this)
             {
                 collectable2D?.Move(vector2D);
             }

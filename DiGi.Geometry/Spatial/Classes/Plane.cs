@@ -22,7 +22,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Plane(Plane? plane)
         {
-            if(plane != null)
+            if (plane != null)
             {
                 normal = new Vector3D(plane.normal);
                 origin = new Point3D(plane.origin);
@@ -32,13 +32,13 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Plane(Plane? plane, Point3D? origin)
         {
-            if(plane != null)
+            if (plane != null)
             {
                 normal = new Vector3D(plane.normal);
                 axisY = new Vector3D(plane.axisY);
             }
 
-            if(origin != null)
+            if (origin != null)
             {
                 this.origin = new Point3D(origin);
             }
@@ -53,15 +53,15 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Plane(Point3D? origin, Vector3D? normal)
         {
-            if(normal != null)
+            if (normal != null)
             {
                 this.normal = normal.Unit;
                 axisY = normal.AxisY();
             }
 
-            if(origin != null)
+            if (origin != null)
             {
-                this.origin = new (origin);
+                this.origin = new(origin);
             }
         }
 
@@ -71,7 +71,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             this.axisY = axisY?.Unit;
 
-            if(axisX != null && this.axisY != null)
+            if (axisX != null && this.axisY != null)
             {
                 normal = Query.Normal(axisX.Unit, this.axisY);
             }
@@ -86,7 +86,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(normal is null)
+                if (normal is null)
                 {
                     return double.NaN;
                 }
@@ -109,7 +109,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                return axisY == null ? null : new (axisY);
+                return axisY == null ? null : new(axisY);
             }
         }
 
@@ -118,7 +118,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                return normal == null ? null : new (normal);
+                return normal == null ? null : new(normal);
             }
         }
 
@@ -131,7 +131,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(normal is null)
+                if (normal is null)
                 {
                     return double.NaN;
                 }
@@ -149,7 +149,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(normal is null)
+                if (normal is null)
                 {
                     return double.NaN;
                 }
@@ -167,7 +167,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(normal is null || origin is null)
+                if (normal is null || origin is null)
                 {
                     return double.NaN;
                 }
@@ -184,7 +184,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(normal is null || origin is null)
+                if (normal is null || origin is null)
                 {
                     return double.NaN;
                 }
@@ -198,7 +198,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                return new (normal);
+                return new(normal);
             }
         }
 
@@ -207,14 +207,14 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                return origin == null ? null : new (origin);
+                return origin == null ? null : new(origin);
             }
             set
             {
                 origin = value;
             }
         }
-        
+
         public Point3D? ClosestPoint(Point3D? point3D)
         {
             if (point3D is null || normal is null)
@@ -223,12 +223,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             double factor = ((Vector3D)point3D!).DotProduct(normal) - K;
-            return new (point3D.X - (normal.X * factor), point3D.Y - (normal.Y * factor), point3D.Z - (normal.Z * factor));
+            return new(point3D.X - (normal.X * factor), point3D.Y - (normal.Y * factor), point3D.Z - (normal.Z * factor));
         }
 
         public bool Coplanar(Plane? plane, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane?.normal is null || normal is null)
+            if (plane?.normal is null || normal is null)
             {
                 return false;
             }
@@ -238,7 +238,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public double Distance(Point3D? point3D)
         {
-            if(point3D is null)
+            if (point3D is null)
             {
                 return double.NaN;
             }
@@ -259,11 +259,11 @@ namespace DiGi.Geometry.Spatial.Classes
                 Enums.SpatialAxis.X => AxisX,
 
                 Enums.SpatialAxis.Y => AxisY,
-                
+
                 Enums.SpatialAxis.Z => AxisZ,
-                
+
                 Enums.SpatialAxis.Undefined => null,
-                
+
                 _ => null,
             };
         }
@@ -275,9 +275,9 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            if(prmiaryAxis == Enums.SpatialAxis.Z)
+            if (prmiaryAxis == Enums.SpatialAxis.Z)
             {
-                if(secondaryAxis == Enums.SpatialAxis.X)
+                if (secondaryAxis == Enums.SpatialAxis.X)
                 {
                     Vector3D? axisX = AxisX;
                     normal?.Inverse();

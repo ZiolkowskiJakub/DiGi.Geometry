@@ -7,17 +7,17 @@ namespace DiGi.Geometry.Planar
     {
         public static IGeometry2D? ToDiGi(this NetTopologySuite.Geometries.Geometry? geometry)
         {
-            if(geometry == null)
+            if (geometry == null)
             {
                 return null;
             }
 
-            if(geometry is Point point)
+            if (geometry is Point point)
             {
                 return point.ToDiGi();
             }
 
-            if(geometry is LinearRing linearRing)
+            if (geometry is LinearRing linearRing)
             {
                 return linearRing.ToDiGi();
             }
@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Planar
                 return polygon.ToDiGi();
             }
 
-            if(geometry is GeometryCollection geometryCollection)
+            if (geometry is GeometryCollection geometryCollection)
             {
                 return geometryCollection.ToDiGi();
             }

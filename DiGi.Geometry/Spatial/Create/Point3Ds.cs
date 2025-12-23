@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Spatial
     {
         public static List<Point3D>? Point3Ds(this Segment3D? segment3D, int count)
         {
-            if(count < 0 || segment3D == null)
+            if (count < 0 || segment3D == null)
             {
                 return null;
             }
@@ -16,7 +16,7 @@ namespace DiGi.Geometry.Spatial
             {
                 case 1:
 
-                    if(segment3D.Mid() is not Point3D mid)
+                    if (segment3D.Mid() is not Point3D mid)
                     {
                         return null;
                     }
@@ -44,9 +44,9 @@ namespace DiGi.Geometry.Spatial
                     int count_Temp = count - 1;
 
                     vector3D *= (segment3D.Length / count_Temp);
-                    for(int i =0; i < count_Temp; i++)
+                    for (int i = 0; i < count_Temp; i++)
                     {
-                        if(result[i].GetMoved(vector3D) is Point3D point3D)
+                        if (result[i].GetMoved(vector3D) is Point3D point3D)
                         {
                             result.Add(point3D);
                         }

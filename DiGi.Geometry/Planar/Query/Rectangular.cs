@@ -14,24 +14,24 @@ namespace DiGi.Geometry.Planar
         public static bool Rectangular(this IPolygonal2D? polygonal2D, out Rectangle2D? rectangle2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             rectangle2D = null;
-            if(polygonal2D == null)
+            if (polygonal2D == null)
             {
                 return false;
             }
 
-            if(polygonal2D is Rectangle2D rectangle2D_Temp)
+            if (polygonal2D is Rectangle2D rectangle2D_Temp)
             {
                 rectangle2D = new Rectangle2D(rectangle2D_Temp);
                 return true;
             }
 
-            if(polygonal2D is Triangle2D)
+            if (polygonal2D is Triangle2D)
             {
                 return false;
             }
 
             List<Point2D>? point2Ds = polygonal2D.GetPoints();
-            if(point2Ds == null || point2Ds.Count < 4)
+            if (point2Ds == null || point2Ds.Count < 4)
             {
                 return false;
             }

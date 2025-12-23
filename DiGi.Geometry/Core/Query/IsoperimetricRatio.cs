@@ -10,12 +10,12 @@
         /// <returns>Isoperimetric ratio</returns>
         public static double IsoperimetricRatio(double area, double perimeter)
         {
-            if(double.IsNaN(area) || double.IsNaN(perimeter))
+            if (double.IsNaN(area) || double.IsNaN(perimeter))
             {
                 return double.NaN;
             }
 
-            if(area == 0)
+            if (area == 0)
             {
                 return double.NaN;
             }

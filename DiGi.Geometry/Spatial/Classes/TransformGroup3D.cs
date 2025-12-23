@@ -1,11 +1,11 @@
-﻿using DiGi.Core.Classes;
+﻿using DiGi.Core;
+using DiGi.Core.Classes;
+using DiGi.Geometry.Spatial.Interfaces;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using DiGi.Geometry.Spatial.Interfaces;
-using System.Collections.Generic;
-using System.Collections;
-using DiGi.Core;
-using System.Linq;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
@@ -20,14 +20,14 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         public TransformGroup3D(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
 
         public TransformGroup3D(TransformGroup3D? transformGroup3D)
         {
-            if(transformGroup3D != null)
+            if (transformGroup3D != null)
             {
                 transform3Ds = DiGi.Core.Query.Clone(transformGroup3D.transform3Ds)?.FilterNulls();
             }
@@ -36,7 +36,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public IEnumerator<ITransform3D> GetEnumerator()
         {
             List<ITransform3D>? transform3Ds_Temp = DiGi.Core.Query.Clone(transform3Ds).FilterNulls();
-            if(transform3Ds_Temp is null)
+            if (transform3Ds_Temp is null)
             {
                 return Enumerable.Empty<ITransform3D>().GetEnumerator();
             }

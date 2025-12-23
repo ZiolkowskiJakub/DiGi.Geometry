@@ -71,13 +71,13 @@ namespace DiGi.Geometry.Planar
             double t2 = ((point2D_2_Start.X - point2D_1_Start.X) * dy12 + (point2D_1_Start.Y - point2D_2_Start.Y) * dx12) / -denominator;
 
             // Find the point of intersection.
-            Point2D point2D_Intersection = new (point2D_1_Start.X + dx12 * t1, point2D_1_Start.Y + dy12 * t1);
+            Point2D point2D_Intersection = new(point2D_1_Start.X + dx12 * t1, point2D_1_Start.Y + dy12 * t1);
 
             double t1_Temp = DiGi.Core.Query.Round(t1, tolerance);
             double t2_Temp = DiGi.Core.Query.Round(t2, tolerance);
 
             // The segments intersect if t1 and t2 are between 0 and 1.
-            if (((t1_Temp >= - tolerance) && (t1_Temp <= 1 + tolerance) && (t2_Temp >= -tolerance) && (t2_Temp <= 1 + tolerance)))
+            if (((t1_Temp >= -tolerance) && (t1_Temp <= 1 + tolerance) && (t2_Temp >= -tolerance) && (t2_Temp <= 1 + tolerance)))
             {
                 return point2D_Intersection;
             }
@@ -101,8 +101,8 @@ namespace DiGi.Geometry.Planar
                 t2 = 1;
             }
 
-            point2D_Closest1 = new (point2D_1_Start.X + dx12 * t1, point2D_1_Start.Y + dy12 * t1);
-            point2D_Closest2 = new (point2D_2_Start.X + dx34 * t2, point2D_2_Start.Y + dy34 * t2);
+            point2D_Closest1 = new(point2D_1_Start.X + dx12 * t1, point2D_1_Start.Y + dy12 * t1);
+            point2D_Closest2 = new(point2D_2_Start.X + dx34 * t2, point2D_2_Start.Y + dy34 * t2);
             return point2D_Intersection;
         }
 

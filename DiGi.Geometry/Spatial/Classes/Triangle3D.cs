@@ -22,7 +22,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public Triangle3D(Triangle3D? triangle3D)
             : base(triangle3D)
         {
-            if(triangle3D != null)
+            if (triangle3D != null)
             {
                 points[0] = triangle3D.points[0];
                 points[1] = triangle3D.points[1];
@@ -77,7 +77,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(points == null)
+                if (points == null)
                 {
                     return double.NaN;
                 }
@@ -90,7 +90,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return points[0]!.Distance(points[1]) + points[1]!.Distance(points[2]) + points[2]!.Distance(points[0]);
             }
         }
-        
+
         [JsonIgnore]
         public Plane? Plane
         {
@@ -116,7 +116,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Point3D? ClosestPoint(Point3D? point3D)
         {
-            if(point3D == null || points == null)
+            if (point3D == null || points == null)
             {
                 return null;
             }
@@ -132,7 +132,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             Point3D? point3D_Closest = Query.ClosestPoint(point3D, this, out double result);
-            if(point3D_Closest == null)
+            if (point3D_Closest == null)
             {
                 return double.NaN;
             }
@@ -162,7 +162,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public BoundingBox3D? GetBoundingBox()
         {
-            if(points == null)
+            if (points == null)
             {
                 return null;
             }
@@ -177,7 +177,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(points == null)
+            if (points == null)
             {
                 return null;
             }
@@ -197,7 +197,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public List<Segment3D>? GetSegments()
         {
-            if(points == null)
+            if (points == null)
             {
                 return null;
             }
@@ -239,7 +239,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             List<Point3D>? point3Ds = segmentable3D.GetPoints();
-            if(point3Ds == null)
+            if (point3Ds == null)
             {
                 return false;
             }
@@ -249,7 +249,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point3D == null || points == null)
+            if (point3D == null || points == null)
             {
                 return false;
             }
@@ -259,7 +259,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool Inverse()
         {
-            if(points == null)
+            if (points == null)
             {
                 return false;
             }
@@ -270,12 +270,12 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public override bool Move(Vector3D? vector3D)
         {
-            if(vector3D == null || points == null)
+            if (vector3D == null || points == null)
             {
                 return false;
             }
 
-            for(int i =0; i < points.Length; i++)
+            for (int i = 0; i < points.Length; i++)
             {
                 points[i]?.Move(vector3D);
             }

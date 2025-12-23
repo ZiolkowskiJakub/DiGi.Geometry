@@ -11,7 +11,7 @@ namespace DiGi.Geometry.Planar
         public static Orientation Orientation(this Point2D? point2D_1, Point2D? point2D_2, Point2D? point2D_3)
         {
             double determinant = Determinant(point2D_1, point2D_2, point2D_3);
-            if(double.IsNaN(determinant))
+            if (double.IsNaN(determinant))
             {
                 return Core.Enums.Orientation.Undefined;
             }
@@ -72,7 +72,7 @@ namespace DiGi.Geometry.Planar
             }
 
             List<Point2D>? point2Ds = polygonal2D?.GetPoints();
-            if(point2Ds == null || point2Ds.Count < 3)
+            if (point2Ds == null || point2Ds.Count < 3)
             {
                 return Core.Enums.Orientation.Undefined;
             }

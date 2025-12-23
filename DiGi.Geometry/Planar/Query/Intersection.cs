@@ -1,9 +1,9 @@
 ﻿using DiGi.Geometry.Planar.Classes;
-using NetTopologySuite.Geometries.Utilities;
+using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using DiGi.Geometry.Planar.Interfaces;
 
 namespace DiGi.Geometry.Planar
 {
@@ -99,18 +99,18 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<X>? Intersection<T, X>(this IEnumerable<T>? polygon2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: IPolygonal2D where X: IPolygonal2D
+        public static List<X>? Intersection<T, X>(this IEnumerable<T>? polygon2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IPolygonal2D where X : IPolygonal2D
         {
-            if(polygon2Ds == null)
+            if (polygon2Ds == null)
             {
                 return null;
             }
 
             List<Segment2D> segment2Ds = [];
-            foreach(IPolygonal2D polygonal2D in polygon2Ds)
+            foreach (IPolygonal2D polygonal2D in polygon2Ds)
             {
                 List<Segment2D>? segment2Ds_Temp = polygonal2D?.GetSegments();
-                if(segment2Ds_Temp == null || segment2Ds_Temp.Count == 0)
+                if (segment2Ds_Temp == null || segment2Ds_Temp.Count == 0)
                 {
                     continue;
                 }
@@ -119,17 +119,17 @@ namespace DiGi.Geometry.Planar
             }
 
             List<Polygon2D>? polygon2Ds_Temp = Create.Polygon2Ds(segment2Ds, tolerance);
-            if(polygon2Ds_Temp == null || polygon2Ds_Temp.Count == 0)
+            if (polygon2Ds_Temp == null || polygon2Ds_Temp.Count == 0)
             {
                 return null;
             }
 
 
             List<X> result = [];
-            foreach(Polygon2D polygon2D in polygon2Ds_Temp)
+            foreach (Polygon2D polygon2D in polygon2Ds_Temp)
             {
                 X? x = default;
-                if(polygon2D is X)
+                if (polygon2D is X)
                 {
                     x = (X)(object)polygon2D;
                 }
@@ -142,7 +142,7 @@ namespace DiGi.Geometry.Planar
                     }
                 }
 
-                if(x == null) 
+                if (x == null)
                 {
                     continue;
                 }

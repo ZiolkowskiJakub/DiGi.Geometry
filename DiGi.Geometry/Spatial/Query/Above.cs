@@ -31,7 +31,7 @@ namespace DiGi.Geometry.Spatial
 
         public static bool Above(this Plane? plane, IPolygonal3D? polygonal3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || polygonal3D?.GetPoints() is not List<Point3D> point3Ds)
+            if (plane == null || polygonal3D?.GetPoints() is not List<Point3D> point3Ds)
             {
                 return false;
             }

@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Spatial
     {
         public static CoordinateSystem3D? ToDiGi(this Plane? plane)
         {
-            if(plane == null)
+            if (plane == null)
             {
                 return null;
             }

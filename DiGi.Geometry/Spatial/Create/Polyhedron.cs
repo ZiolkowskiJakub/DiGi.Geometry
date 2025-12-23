@@ -10,29 +10,29 @@ namespace DiGi.Geometry.Spatial
     {
         public static Polyhedron? Polyhedron(this IPolygonalFace3D? polygonalFace3D, Vector3D? vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(polygonalFace3D == null || vector3D == null)
+            if (polygonalFace3D == null || vector3D == null)
             {
                 return null;
             }
 
             Plane? plane = polygonalFace3D.Plane;
-            if(plane == null)
-            {
-                return null;
-            }
-            
-            if(vector3D.Length < tolerance)
+            if (plane == null)
             {
                 return null;
             }
 
-            if(plane.On(vector3D, tolerance))
+            if (vector3D.Length < tolerance)
+            {
+                return null;
+            }
+
+            if (plane.On(vector3D, tolerance))
             {
                 return null;
             }
 
             List<IPolygonal3D>? edges = polygonalFace3D.Edges;
-            if(edges == null || edges.Count == 0)
+            if (edges == null || edges.Count == 0)
             {
                 return null;
             }
@@ -42,26 +42,26 @@ namespace DiGi.Geometry.Spatial
             foreach (IPolygonal3D edge in edges)
             {
                 List<Segment3D>? segment3Ds = edge?.GetSegments();
-                if(segment3Ds == null)
+                if (segment3Ds == null)
                 {
                     continue;
                 }
 
-                foreach(Segment3D segment3D in segment3Ds)
+                foreach (Segment3D segment3D in segment3Ds)
                 {
-                    if(segment3D == null)
+                    if (segment3D == null)
                     {
                         continue;
                     }
 
                     double squareLength = segment3D.SquaredLength;
-                    if(double.IsNaN(squareLength) || squareLength == 0)
+                    if (double.IsNaN(squareLength) || squareLength == 0)
                     {
                         continue;
                     }
 
                     Point3D? point3D_2 = segment3D[1]?.GetMoved(vector3D);
-                    if(point3D_2 is null)
+                    if (point3D_2 is null)
                     {
                         continue;
                     }
@@ -88,10 +88,10 @@ namespace DiGi.Geometry.Spatial
                     }
 
                     List<Point2D> point2Ds = [];
-                    for(int i = 0; i < point3Ds.Count; i++)
+                    for (int i = 0; i < point3Ds.Count; i++)
                     {
                         Point2D? point2D = plane_Temp.Convert(point3Ds[i]);
-                        if(point2D is null)
+                        if (point2D is null)
                         {
                             continue;
                         }
@@ -99,14 +99,14 @@ namespace DiGi.Geometry.Spatial
                         point2Ds.Add(point2D);
                     }
 
-                    PolygonalFace2D polygonalFace2D = new (new Polygon2D(point2Ds));
+                    PolygonalFace2D polygonalFace2D = new(new Polygon2D(point2Ds));
 
                     polygonalFace3Ds.Add(new PolygonalFace3D(plane_Temp, polygonalFace2D));
                 }
             }
 
             IPolygonalFace3D? polygonalFace3D_Temp = DiGi.Core.Query.Clone(polygonalFace3D);
-            if(polygonalFace3D_Temp is not null)
+            if (polygonalFace3D_Temp is not null)
             {
                 polygonalFace3D_Temp.Move(vector3D);
                 polygonalFace3Ds.Add(polygonalFace3D_Temp);
@@ -129,10 +129,10 @@ namespace DiGi.Geometry.Spatial
             }
 
             List<PolygonalFace3D> polygonalFace3Ds = [];
-            for(int i =0; i < polygon3Ds.Count; i++)
+            for (int i = 0; i < polygon3Ds.Count; i++)
             {
                 PolygonalFace3D? polygonalFace3D = polygon3Ds[i]?.PolygonalFace3D();
-                if(polygonalFace3D is null)
+                if (polygonalFace3D is null)
                 {
                     continue;
                 }
@@ -145,7 +145,7 @@ namespace DiGi.Geometry.Spatial
 
         public static Polyhedron? Polyhedron(this IEnumerable<IPolygonalFace3D>? polygonalFace3Ds)
         {
-            if(polygonalFace3Ds is null || polygonalFace3Ds.Count() < 4)
+            if (polygonalFace3Ds is null || polygonalFace3Ds.Count() < 4)
             {
                 return null;
             }
@@ -163,11 +163,11 @@ namespace DiGi.Geometry.Spatial
             List<IPolygonalFace3D> polygonalFace3Ds = [];
 
             int count = polyhedron.Count;
-            if(count > 0)
+            if (count > 0)
             {
-                for(int i =0; i < count; i++)
+                for (int i = 0; i < count; i++)
                 {
-                    if(polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is not IPolygonalFace3D polygonalFace3D)
+                    if (polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is not IPolygonalFace3D polygonalFace3D)
                     {
                         continue;
                     }
@@ -181,7 +181,7 @@ namespace DiGi.Geometry.Spatial
 
         public static Polyhedron? Polyhedron(this PolygonalFaceExtrusion? polygonalFaceExtrusion, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(polygonalFaceExtrusion is null)
+            if (polygonalFaceExtrusion is null)
             {
                 return null;
             }

@@ -10,12 +10,12 @@
         /// <returns>Rectangular thinness ratio</returns>
         public static double RectangularThinnessRatio(double area, double rectangleArea)
         {
-            if(double.IsNaN(area) || double.IsNaN(rectangleArea))
+            if (double.IsNaN(area) || double.IsNaN(rectangleArea))
             {
                 return double.NaN;
             }
 
-            if(rectangleArea == 0)
+            if (rectangleArea == 0)
             {
                 return double.NaN;
             }

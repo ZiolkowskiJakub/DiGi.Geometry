@@ -33,17 +33,17 @@ namespace DiGi.Geometry.Planar.Classes
 
         public static implicit operator Point2D((double x, double y) @object)
         {
-            return new (@object.x, @object.y);
+            return new(@object.x, @object.y);
         }
 
         public static Point2D? operator -(Point2D? point2D, Vector2D? vector2D)
         {
-            if(point2D is null || vector2D is null)
+            if (point2D is null || vector2D is null)
             {
                 return null;
             }
 
-            return new (point2D.values[0] - vector2D[0], point2D.values[1] - vector2D[1]);
+            return new(point2D.values[0] - vector2D[0], point2D.values[1] - vector2D[1]);
         }
 
         public static Point2D? operator +(Point2D? point2D, Vector2D? vector2D)
@@ -53,7 +53,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            return new (point2D.values[0] + vector2D[0], point2D.values[1] + vector2D[1]);
+            return new(point2D.values[0] + vector2D[0], point2D.values[1] + vector2D[1]);
         }
 
         public override ISerializableObject? Clone()
@@ -73,7 +73,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Point2D? GetAbs()
         {
-            Point2D result = new (this);
+            Point2D result = new(this);
 
             result.Abs();
 
@@ -87,12 +87,12 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            Point2D result = new (this);
+            Point2D result = new(this);
             result.Move(vector3D);
 
             return result;
         }
-        
+
         public bool InDistance(Point2D? point2D, double distance, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null)
@@ -116,7 +116,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Point2D? Mid(Point2D? point2D)
         {
-            if(point2D == null)
+            if (point2D == null)
             {
                 return null;
             }

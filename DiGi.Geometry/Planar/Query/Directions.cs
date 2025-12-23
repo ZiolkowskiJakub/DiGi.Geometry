@@ -25,7 +25,7 @@ namespace DiGi.Geometry.Planar
             foreach (ISegmentable2D segmentable2D in segmentable2Ds)
             {
                 List<Segment2D>? segment2Ds = segmentable2D.GetSegments();
-                if(segment2Ds is null)
+                if (segment2Ds is null)
                 {
                     continue;
                 }
@@ -33,7 +33,7 @@ namespace DiGi.Geometry.Planar
                 foreach (Segment2D segment2D in segment2Ds)
                 {
                     Vector2D? vector2D = segment2D.Vector;
-                    if(vector2D is null)
+                    if (vector2D is null)
                     {
                         continue;
                     }

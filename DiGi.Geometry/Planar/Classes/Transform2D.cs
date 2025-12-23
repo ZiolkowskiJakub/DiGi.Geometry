@@ -1,8 +1,8 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Math.Classes;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using DiGi.Geometry.Planar.Interfaces;
 
 namespace DiGi.Geometry.Planar.Classes
 {
@@ -17,7 +17,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         public Transform2D(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }

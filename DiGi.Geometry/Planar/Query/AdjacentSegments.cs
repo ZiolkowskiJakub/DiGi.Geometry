@@ -93,13 +93,13 @@ namespace DiGi.Geometry.Planar
 
         public static List<Segment2D>? AdjacentSegments(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(segmentable2D_1 == null || segmentable2D_2 == null)
+            if (segmentable2D_1 == null || segmentable2D_2 == null)
             {
                 return null;
             }
 
             BoundingBox2D? boundingBox2D_1 = segmentable2D_1.GetBoundingBox();
-            if(boundingBox2D_1 == null)
+            if (boundingBox2D_1 == null)
             {
                 return null;
             }
@@ -110,7 +110,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            if(!boundingBox2D_1.InRange(boundingBox2D_2, tolerance))
+            if (!boundingBox2D_1.InRange(boundingBox2D_2, tolerance))
             {
                 return null;
             }

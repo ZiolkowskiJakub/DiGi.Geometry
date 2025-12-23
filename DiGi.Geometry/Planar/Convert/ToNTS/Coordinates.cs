@@ -14,10 +14,10 @@ namespace DiGi.Geometry.Planar
             }
 
             List<Coordinate> result = [];
-            foreach(Point2D point2D in point2Ds)
+            foreach (Point2D point2D in point2Ds)
             {
                 Coordinate? coordinate = point2D?.ToNTS();
-                if(coordinate is null)
+                if (coordinate is null)
                 {
                     continue;
                 }

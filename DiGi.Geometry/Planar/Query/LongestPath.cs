@@ -1,12 +1,12 @@
-﻿using DiGi.Geometry.Planar.Classes;
+﻿using DiGi.Geometry.Core.Enums;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
+using QuikGraph;
 using QuikGraph.Algorithms.Observers;
 using QuikGraph.Algorithms.ShortestPath;
-using QuikGraph;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DiGi.Geometry.Core.Enums;
 
 namespace DiGi.Geometry.Planar
 {
@@ -74,7 +74,7 @@ namespace DiGi.Geometry.Planar
                     }
                 }
 
-                if(point2D_Start_Temp is null)
+                if (point2D_Start_Temp is null)
                 {
                     return null;
                 }

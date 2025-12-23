@@ -127,7 +127,7 @@ namespace DiGi.Geometry.Planar
             }
 
             Vector2D? unit = vector2D?.Unit;
-            if(unit is null)
+            if (unit is null)
             {
                 return null;
             }
@@ -255,7 +255,7 @@ namespace DiGi.Geometry.Planar
 
         public static List<Point2D>? IntersectionPoints(double x, double y, double radius, Point2D? point2D_1, Point2D? point2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point2D_1 is null || point2D_2 is null)
+            if (point2D_1 is null || point2D_2 is null)
             {
                 return null;
             }
@@ -280,7 +280,7 @@ namespace DiGi.Geometry.Planar
             if (System.Math.Abs(det) < tolerance)
             {
                 t = -b / (2 * a);
-                result.Add(new (point2D_1.X + t * dx, point2D_1.Y + t * dy));
+                result.Add(new(point2D_1.X + t * dx, point2D_1.Y + t * dy));
                 return result;
             }
 
@@ -313,7 +313,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Point2D? point2D_2 = new (point2D_1);
+            Point2D? point2D_2 = new(point2D_1);
             if (point2D_1 == null)
             {
                 return null;
@@ -406,13 +406,13 @@ namespace DiGi.Geometry.Planar
 
         public static List<Point2D>? IntersectionPoints(this Ellipse2D? ellipse2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(ellipse2D is null || segment2D is null)
+            if (ellipse2D is null || segment2D is null)
             {
                 return null;
             }
 
             Point2D? point2D_1 = segment2D[0];
-            if(point2D_1 is null)
+            if (point2D_1 is null)
             {
                 return null;
             }
@@ -424,7 +424,7 @@ namespace DiGi.Geometry.Planar
             }
 
             Point2D? center = ellipse2D.Center;
-            if(center is null)
+            if (center is null)
             {
                 return null;
             }

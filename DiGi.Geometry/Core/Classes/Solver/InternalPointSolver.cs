@@ -11,7 +11,7 @@ namespace DiGi.Geometry.Core.Classes
 
         protected List<TPoint> outputs = [];
         protected double tolerance = Tolerance.Distance;
-        
+
         public InternalPointSolver(double tolerance = Tolerance.Distance)
         {
             this.tolerance = tolerance;
@@ -24,6 +24,19 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         public abstract TGeometry? Input { set; }
+
+        public int MaxCount
+        {
+            get
+            {
+                return maxCount;
+            }
+
+            set
+            {
+                maxCount = value;
+            }
+        }
 
         public TPoint? Output
         {
@@ -43,19 +56,6 @@ namespace DiGi.Geometry.Core.Classes
             get
             {
                 return DiGi.Core.Query.CloneAndFilterNulls(outputs);
-            }
-        }
-
-        public int MaxCount
-        {
-            get 
-            { 
-                return maxCount; 
-            }
-
-            set
-            {
-                maxCount = value;
             }
         }
 

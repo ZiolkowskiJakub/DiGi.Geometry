@@ -13,13 +13,13 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         public PolygonalFaceExtrusion(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
 
         public PolygonalFaceExtrusion(IPolygonalFace3D? surface, Vector3D? vector)
-            :base(surface, vector)
+            : base(surface, vector)
         {
 
         }

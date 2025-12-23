@@ -7,19 +7,29 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class SegmentableTraceResult2D : SerializableObject
     {
-        [JsonInclude, JsonPropertyName("Vector2D")]
-        private readonly Vector2D? vector2D;
-        
-        [JsonInclude, JsonPropertyName("Segment2D")]
-        private readonly Segment2D? segment2D;
-
         [JsonInclude, JsonPropertyName("Point2D")]
         private readonly Point2D? point2D;
 
+        [JsonInclude, JsonPropertyName("Segment2D")]
+        private readonly Segment2D? segment2D;
+
+        [JsonInclude, JsonPropertyName("Vector2D")]
+        private readonly Vector2D? vector2D;
+        
         public SegmentableTraceResult2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
+        }
+
+        public SegmentableTraceResult2D(SegmentableTraceResult2D? segmentableTraceResult2D)
+        {
+            if (segmentableTraceResult2D != null)
+            {
+                vector2D = segmentableTraceResult2D.Vector2D;
+                segment2D = segmentableTraceResult2D.Segment2D;
+                point2D = segmentableTraceResult2D.Point2D;
+            }
         }
 
         internal SegmentableTraceResult2D(Vector2D? vector2D, Segment2D? segment2D, Point2D? point2D)
@@ -28,29 +38,7 @@ namespace DiGi.Geometry.Planar.Classes
             this.segment2D = DiGi.Core.Query.Clone(segment2D);
             this.point2D = DiGi.Core.Query.Clone(point2D);
         }
-
-        public SegmentableTraceResult2D(SegmentableTraceResult2D? segmentableTraceResult2D)
-        {
-            if(segmentableTraceResult2D != null)
-            {
-                vector2D = segmentableTraceResult2D.Vector2D;
-                segment2D = segmentableTraceResult2D.Segment2D;
-                point2D = segmentableTraceResult2D.Point2D;
-            }
-        }
-
-        /// <summary>
-        /// Hit direction
-        /// </summary>
-        [JsonIgnore]
-        public Vector2D? Vector2D
-        {
-            get
-            {
-                return vector2D == null ? null : new Vector2D(vector2D);
-            }
-        }
-
+        
         /// <summary>
         /// Hit Point
         /// </summary>
@@ -75,6 +63,18 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Hit direction
+        /// </summary>
+        [JsonIgnore]
+        public Vector2D? Vector2D
+        {
+            get
+            {
+                return vector2D == null ? null : new Vector2D(vector2D);
+            }
+        }
+        
         public override ISerializableObject? Clone()
         {
             return new SegmentableTraceResult2D(vector2D, segment2D, point2D);

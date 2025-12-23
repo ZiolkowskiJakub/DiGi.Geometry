@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            if(sAMGeometry2D is Point2D point2D)
+            if (sAMGeometry2D is Point2D point2D)
             {
                 Coordinate? coordinate = ToNTS(point2D);
                 if (coordinate == null)
@@ -29,7 +29,7 @@ namespace DiGi.Geometry.Planar
                 return ToNTS(polygonal2D);
             }
 
-            if(sAMGeometry2D is IPolygonalFace2D polygonalFace2D)
+            if (sAMGeometry2D is IPolygonalFace2D polygonalFace2D)
             {
                 return ToNTS(polygonalFace2D);
             }

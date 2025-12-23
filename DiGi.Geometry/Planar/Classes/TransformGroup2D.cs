@@ -21,14 +21,14 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         public TransformGroup2D(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
 
         public TransformGroup2D(TransformGroup2D? transformGroup2D)
         {
-            if(transformGroup2D != null)
+            if (transformGroup2D != null)
             {
                 transform2Ds = DiGi.Core.Query.Clone(transformGroup2D.transform2Ds)?.FilterNulls();
             }
@@ -37,7 +37,7 @@ namespace DiGi.Geometry.Planar.Classes
         public IEnumerator<ITransform2D> GetEnumerator()
         {
             List<ITransform2D>? transform2Ds_Temp = DiGi.Core.Query.Clone(transform2Ds)?.FilterNulls();
-            if(transform2Ds_Temp == null)
+            if (transform2Ds_Temp == null)
             {
                 return Enumerable.Empty<ITransform2D>().GetEnumerator();
             }

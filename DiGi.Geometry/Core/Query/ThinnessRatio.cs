@@ -4,12 +4,12 @@
     {
         public static double ThinnessRatio(double area, double perimeter)
         {
-            if(double.IsNaN(area) || double.IsNaN(perimeter))
+            if (double.IsNaN(area) || double.IsNaN(perimeter))
             {
                 return double.NaN;
             }
 
-            if(perimeter == 0)
+            if (perimeter == 0)
             {
                 return double.NaN;
             }

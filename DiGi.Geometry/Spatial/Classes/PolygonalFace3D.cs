@@ -108,7 +108,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 for (int i = 0; i < polygonal2Ds.Count; i++)
                 {
                     IPolygonal3D? polygonal3D = plane.Convert(polygonal2Ds[i]);
-                    if(polygonal3D is null)
+                    if (polygonal3D is null)
                     {
                         continue;
                     }
@@ -169,12 +169,12 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point3D == null || plane == null || geometry2D == null)
+            if (point3D == null || plane == null || geometry2D == null)
             {
                 return false;
             }
 
-            if(!plane.On(point3D, tolerance))
+            if (!plane.On(point3D, tolerance))
             {
                 return false;
             }

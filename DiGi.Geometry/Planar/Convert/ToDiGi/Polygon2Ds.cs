@@ -8,13 +8,13 @@ namespace DiGi.Geometry.Planar
     {
         public static List<Polygon2D>? ToDiGi_Polygon2Ds(this Polygon? polygon)
         {
-            if(polygon == null)
+            if (polygon == null)
             {
                 return null;
             }
 
             LineString lineString = polygon.ExteriorRing;
-            if(lineString == null)
+            if (lineString == null)
             {
                 return null;
             }
@@ -23,12 +23,12 @@ namespace DiGi.Geometry.Planar
             result.Add(new Polygon2D(lineString.Coordinates.ToDiGi()));
 
             LineString[] lineStrings = polygon.InteriorRings;
-            if(lineStrings == null)
+            if (lineStrings == null)
             {
                 return result;
             }
 
-            foreach(LineString lineString_Temp in lineStrings)
+            foreach (LineString lineString_Temp in lineStrings)
             {
                 result.Add(new Polygon2D(lineString_Temp.Coordinates.ToDiGi()));
             }

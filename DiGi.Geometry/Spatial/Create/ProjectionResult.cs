@@ -11,13 +11,13 @@ namespace DiGi.Geometry.Spatial
     {
         public static ProjectionResult? ProjectionResult(this Plane? plane, Point3D? point3D)
         {
-            if(plane == null || point3D == null)
+            if (plane == null || point3D == null)
             {
                 return null;
             }
 
             Point2D? point2D = Query.Convert(plane, plane.ClosestPoint(point3D));
-            if(point2D == null)
+            if (point2D == null)
             {
                 return null;
             }
@@ -33,7 +33,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             List<IGeometry2D> geometry2Ds = [];
-            foreach(Point3D point3D in point3Ds)
+            foreach (Point3D point3D in point3Ds)
             {
                 Point2D? point2D = Query.Convert(plane, plane.ClosestPoint(point3D));
                 if (point2D == null)
@@ -57,7 +57,7 @@ namespace DiGi.Geometry.Spatial
             Vector3D? normal = plane.Normal;
 
             Vector3D? vector3D_Temp = vector3D - vector3D.DotProduct(normal) * normal;
-            if(vector3D_Temp is null)
+            if (vector3D_Temp is null)
             {
                 return null;
             }
@@ -80,25 +80,25 @@ namespace DiGi.Geometry.Spatial
 
         public static ProjectionResult? ProjectionResult(this Plane? plane, Line3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || line3D == null)
+            if (plane == null || line3D == null)
             {
                 return null;
             }
 
-            if(Query.Similar(plane.Normal, line3D.Direction, tolerance))
+            if (Query.Similar(plane.Normal, line3D.Direction, tolerance))
             {
                 PlanarIntersectionResult? planarIntersectionResult = PlanarIntersectionResult(plane, line3D, tolerance);
                 return new ProjectionResult(plane, planarIntersectionResult?.GetGeometry2Ds<IGeometry2D>());
             }
 
             Point2D? point2D = ProjectionResult(plane, line3D.Origin)?.GetGeometry2Ds<Point2D>()?.FirstOrDefault();
-            if(point2D == null)
+            if (point2D == null)
             {
                 return null;
             }
 
             Vector2D? vector2D = ProjectionResult(plane, line3D.Direction, tolerance)?.GetGeometry2Ds<Vector2D>()?.FirstOrDefault();
-            if(vector2D == null)
+            if (vector2D == null)
             {
                 return null;
             }
@@ -147,7 +147,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             Point2D? point2D_1 = ProjectionResult(plane, segment3D[0])?.GetGeometry2Ds<Point2D>()?.FirstOrDefault();
-            if(point2D_1 == null)
+            if (point2D_1 == null)
             {
                 return null;
             }
@@ -163,28 +163,28 @@ namespace DiGi.Geometry.Spatial
 
         public static ProjectionResult? ProjectionResult(this Plane? plane, Triangle3D? triangle3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || triangle3D == null)
+            if (plane == null || triangle3D == null)
             {
                 return null;
             }
 
             ProjectionResult? projectionResult = ProjectionResult(plane, triangle3D.GetPoints());
             List<Point2D>? point2Ds = projectionResult?.GetGeometry2Ds<Point2D>();
-            if(point2Ds == null || point2Ds.Count < 3)
+            if (point2Ds == null || point2Ds.Count < 3)
             {
                 return null;
             }
 
-            if(Planar.Query.Collinear(point2Ds, tolerance))
+            if (Planar.Query.Collinear(point2Ds, tolerance))
             {
                 Planar.Query.ExtremePoints(point2Ds, out Point2D? point2D_1, out Point2D? point2D_2);
-                if(point2D_1 == null || point2D_2 == null)
+                if (point2D_1 == null || point2D_2 == null)
                 {
                     return null;
                 }
 
-                Segment2D segment2D = new (point2D_1, point2D_2);
-                if(segment2D.Length < tolerance)
+                Segment2D segment2D = new(point2D_1, point2D_2);
+                if (segment2D.Length < tolerance)
                 {
                     return new ProjectionResult(plane, segment2D?.Mid());
                 }
@@ -192,7 +192,7 @@ namespace DiGi.Geometry.Spatial
                 return new ProjectionResult(plane, segment2D);
             }
 
-            if(Planar.Query.MinDistance(point2Ds) < tolerance)
+            if (Planar.Query.MinDistance(point2Ds) < tolerance)
             {
                 return null;
             }
@@ -209,7 +209,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             Vector3D? polygon3D_Normal = polygon3D.Plane?.Normal;
-            if(polygon3D_Normal == null)
+            if (polygon3D_Normal == null)
             {
                 return null;
             }
@@ -229,7 +229,7 @@ namespace DiGi.Geometry.Spatial
                     return null;
                 }
 
-                Segment2D segment2D = new (point2D_1, point2D_2);
+                Segment2D segment2D = new(point2D_1, point2D_2);
                 if (segment2D.Length < tolerance)
                 {
                     return new ProjectionResult(plane, segment2D?.Mid());
@@ -241,40 +241,40 @@ namespace DiGi.Geometry.Spatial
             return new ProjectionResult(plane, new Polygon2D(point2Ds));
 
         }
-    
+
         public static ProjectionResult? ProjectionResult(this Plane? plane, IGeometry3D? geometry3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || geometry3D == null)
+            if (plane == null || geometry3D == null)
             {
                 return null;
             }
 
-            if(geometry3D is Point3D point3D)
+            if (geometry3D is Point3D point3D)
             {
                 return ProjectionResult(plane, point3D);
             }
 
             return ProjectionResult(plane, geometry3D as dynamic, tolerance);
         }
-    
-        public static ProjectionResult? ProjectionResult<T>(this Plane? plane, IEnumerable<T>? geometry3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: IGeometry3D
+
+        public static ProjectionResult? ProjectionResult<T>(this Plane? plane, IEnumerable<T>? geometry3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IGeometry3D
         {
-            if(plane == null || geometry3Ds == null)
+            if (plane == null || geometry3Ds == null)
             {
                 return null;
             }
 
             List<IGeometry2D> geometry2Ds = [];
 
-            foreach(T geometry2D in geometry3Ds)
+            foreach (T geometry2D in geometry3Ds)
             {
-                if(geometry2D == null)
+                if (geometry2D == null)
                 {
                     continue;
                 }
 
                 List<IGeometry2D>? geometry2Ds_Temp = ProjectionResult(plane, geometry2D, tolerance)?.GetGeometry2Ds<IGeometry2D>();
-                if(geometry2Ds_Temp == null)
+                if (geometry2Ds_Temp == null)
                 {
                     continue;
                 }
@@ -287,7 +287,7 @@ namespace DiGi.Geometry.Spatial
 
         public static ProjectionResult? ProjectionResult(this Plane? plane, Ellipse3D? ellipse3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || ellipse3D == null)
+            if (plane == null || ellipse3D == null)
             {
                 return null;
             }
@@ -307,7 +307,7 @@ namespace DiGi.Geometry.Spatial
 
         public static ProjectionResult? ProjectionResult(this Plane? plane, PolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || polygonalFace3D == null)
+            if (plane == null || polygonalFace3D == null)
             {
                 return null;
             }
@@ -324,13 +324,13 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            if(projectionResult.Contains<Segment2D>())
+            if (projectionResult.Contains<Segment2D>())
             {
                 return new ProjectionResult(plane, projectionResult.GetGeometry2Ds<IGeometry2D>());
             }
 
             IPolygonal2D? externalEdge2D = projectionResult.GetGeometry2Ds<IPolygonal2D>()?.FirstOrDefault();
-            if(externalEdge2D == null)
+            if (externalEdge2D == null)
             {
                 return null;
             }
@@ -338,7 +338,7 @@ namespace DiGi.Geometry.Spatial
             projectionResult = ProjectionResult(plane, polygonalFace3D.InternalEdges, tolerance);
 
             PolygonalFace2D? polygonalFace2D = Planar.Create.PolygonalFace2D(externalEdge2D, projectionResult?.GetGeometry2Ds<IPolygonal2D>(), tolerance);
-            if(polygonalFace2D == null)
+            if (polygonalFace2D == null)
             {
                 return null;
             }

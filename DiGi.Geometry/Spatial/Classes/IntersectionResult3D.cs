@@ -15,11 +15,11 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public IntersectionResult3D()
         {
-            
+
         }
-        
+
         public IntersectionResult3D(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public IntersectionResult3D(IGeometry3D? geometry3D)
         {
-            if(geometry3D != null && geometry3D.Clone<IGeometry3D>() is IGeometry3D geometry3D_Temp)
+            if (geometry3D != null && geometry3D.Clone<IGeometry3D>() is IGeometry3D geometry3D_Temp)
             {
                 geometry3Ds = [geometry3D_Temp];
             }
@@ -40,12 +40,12 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public IntersectionResult3D(IEnumerable<IGeometry3D>? geometry3Ds)
         {
-            if(geometry3Ds != null)
+            if (geometry3Ds != null)
             {
                 this.geometry3Ds = [];
-                foreach(IGeometry3D geometry3D in geometry3Ds)
+                foreach (IGeometry3D geometry3D in geometry3Ds)
                 {
-                    if(geometry3D == null)
+                    if (geometry3D == null)
                     {
                         continue;
                     }
@@ -84,7 +84,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(geometry3Ds == null || geometry3Ds.Count <= index)
+                if (geometry3Ds == null || geometry3Ds.Count <= index)
                 {
                     return null;
                 }
@@ -95,18 +95,18 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public List<T>? GetGeometry3Ds<T>() where T : IGeometry3D
         {
-            if(geometry3Ds == null)
+            if (geometry3Ds == null)
             {
                 return null;
             }
 
             List<T> result = [];
-            for (int i =0; i < geometry3Ds.Count; i++)
+            for (int i = 0; i < geometry3Ds.Count; i++)
             {
                 if (geometry3Ds[i] is T t)
                 {
                     T? t_Temp = t.Clone<T>();
-                    if(t_Temp is not null)
+                    if (t_Temp is not null)
                     {
                         result.Add(t_Temp);
                     }
@@ -116,7 +116,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
-        public bool Contains<T>() where T: IGeometry3D
+        public bool Contains<T>() where T : IGeometry3D
         {
             return geometry3Ds != null && geometry3Ds.Find(x => x is T) != null;
         }

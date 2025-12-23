@@ -15,7 +15,7 @@ namespace DiGi.Geometry.Spatial.Classes
     public class Polyhedron : Polyhedron<IPolygonalFace3D>
     {
         public Polyhedron(Polyhedron? polyhedron)
-            :base(polyhedron)
+            : base(polyhedron)
         {
 
         }
@@ -27,7 +27,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         internal Polyhedron(IEnumerable<IPolygonalFace3D>? polygonalFaces)
-            :base(polygonalFaces)
+            : base(polygonalFaces)
         {
 
         }
@@ -50,20 +50,20 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         public Polyhedron(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
 
         protected Polyhedron(IEnumerable<TPolygonalFace3D>? polygonalFaces)
-            :base()
+            : base()
         {
             if (polygonalFaces != null && polygonalFaces.Count() >= 4)
             {
                 this.polygonalFaces = [];
                 foreach (TPolygonalFace3D polygonalFace in polygonalFaces)
                 {
-                    if(DiGi.Core.Query.Clone(polygonalFace) is not TPolygonalFace3D polygonalFace_Temp)
+                    if (DiGi.Core.Query.Clone(polygonalFace) is not TPolygonalFace3D polygonalFace_Temp)
                     {
                         continue;
                     }
@@ -112,7 +112,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(polygonalFaces is null)
+                if (polygonalFaces is null)
                 {
                     return default;
                 }
@@ -492,28 +492,28 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             return SetNormal(index, side, out _, tolerance);
         }
-        
+
         public bool SetNormal(int index, Side side, out Vector3D? normal, double tolerance = Tolerance.Distance)
         {
             normal = null;
 
-            if(polygonalFaces is null)
+            if (polygonalFaces is null)
             {
                 return false;
             }
 
             normal = GetNormal(index, out bool inversed, side, tolerance);
-            if(normal is null || !inversed)
+            if (normal is null || !inversed)
             {
                 return false;
             }
 
-            if(!polygonalFaces[index].Flip())
+            if (!polygonalFaces[index].Flip())
             {
                 return false;
             }
 
-            if(!normal.Inverse())
+            if (!normal.Inverse())
             {
                 return false;
             }
@@ -523,7 +523,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public UPolygonalFace3D? GetPolygonalFace3D<UPolygonalFace3D>(int index) where UPolygonalFace3D : IPolygonalFace3D
         {
-            if(polygonalFaces is null)
+            if (polygonalFaces is null)
             {
                 return default;
             }

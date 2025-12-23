@@ -46,18 +46,18 @@ namespace DiGi.Geometry.Spatial
             double y = point3D_1.Y + vector3D_1.Y * t;
             double z = point3D_1.Z + vector3D_1.Z * t;
 
-            Point3D result = new (x, y, z);
+            Point3D result = new(x, y, z);
 
             if (bounded)
             {
-                if(t < 0 || t > 1)
+                if (t < 0 || t > 1)
                 {
-                    if(point3D_1.Distance(result) > tolerance)
+                    if (point3D_1.Distance(result) > tolerance)
                     {
                         return null;
                     }
 
-                    if(point3D_1.GetMoved(vector3D_1) is not Point3D point3D_Temp)
+                    if (point3D_1.GetMoved(vector3D_1) is not Point3D point3D_Temp)
                     {
                         return null;
                     }

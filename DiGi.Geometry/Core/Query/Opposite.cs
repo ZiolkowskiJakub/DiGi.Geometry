@@ -8,11 +8,11 @@ namespace DiGi.Geometry.Core
         {
             return alignment switch
             {
-                
+
                 Alignment.Horizontal => Alignment.Vertical,
-                
+
                 Alignment.Vertical => Alignment.Horizontal,
-                
+
                 _ => Alignment.Undefined,
             };
         }
@@ -24,11 +24,11 @@ namespace DiGi.Geometry.Core
                 Orientation.Clockwise => Orientation.CounterClockwise,
 
                 Orientation.CounterClockwise => Orientation.Clockwise,
-                
+
                 Orientation.Undefined => Orientation.Undefined,
-                
+
                 Orientation.Collinear => Orientation.Undefined,
-                
+
                 _ => Orientation.Undefined,
             };
         }

@@ -3,7 +3,6 @@ using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
-using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Spatial
@@ -13,7 +12,7 @@ namespace DiGi.Geometry.Spatial
         public static Ray3D? Convert(this Plane? plane, Ray2D? ray2D)
         {
 
-            if(plane?.Convert(ray2D?.Direction) is not Vector3D direction)
+            if (plane?.Convert(ray2D?.Direction) is not Vector3D direction)
             {
                 return null;
             }
@@ -56,7 +55,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             Vector3D? axisY = plane!.AxisY;
-            if(axisY is null)
+            if (axisY is null)
             {
                 return null;
             }
@@ -67,10 +66,10 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D u = new (axisY.X * point2D.Y, axisY.Y * point2D.Y, axisY.Z * point2D.Y);
-            Vector3D v = new (axisX.X * point2D.X, axisX.Y * point2D.X, axisX.Z * point2D.X);
+            Vector3D u = new(axisY.X * point2D.Y, axisY.Y * point2D.Y, axisY.Z * point2D.Y);
+            Vector3D v = new(axisX.X * point2D.X, axisX.Y * point2D.X, axisX.Z * point2D.X);
 
-            return new (origin.X + u.X + v.X, origin.Y + u.Y + v.Y, origin.Z + u.Z + v.Z);
+            return new(origin.X + u.X + v.X, origin.Y + u.Y + v.Y, origin.Z + u.Z + v.Z);
         }
 
         public static Vector3D? Convert(this Plane? plane, Vector2D? vector2D)
@@ -81,32 +80,32 @@ namespace DiGi.Geometry.Spatial
             }
 
             Vector3D? axisX = plane.AxisX;
-            if(axisX is null)
+            if (axisX is null)
             {
                 return null;
             }
 
             Vector3D? axisY = plane.AxisY;
-            if(axisY is null)
+            if (axisY is null)
             {
                 return null;
             }
 
-            Vector3D u = new (axisY.X * vector2D.Y, axisY.Y * vector2D.Y, axisY.Z * vector2D.Y);
-            Vector3D v = new (axisX.X * vector2D.X, axisX.Y * vector2D.X, axisX.Z * vector2D.X);
+            Vector3D u = new(axisY.X * vector2D.Y, axisY.Y * vector2D.Y, axisY.Z * vector2D.Y);
+            Vector3D v = new(axisX.X * vector2D.X, axisX.Y * vector2D.X, axisX.Z * vector2D.X);
 
-            return new (u.X + v.X, u.Y + v.Y, u.Z + v.Z);
+            return new(u.X + v.X, u.Y + v.Y, u.Z + v.Z);
         }
 
         public static Segment3D? Convert(this Plane? plane, Segment2D? segment2D)
         {
-            if(plane == null || segment2D == null)
+            if (plane == null || segment2D == null)
             {
                 return null;
             }
 
             Point3D? start = plane.Convert(segment2D.Start);
-            if(start == null)
+            if (start == null)
             {
                 return null;
             }
@@ -118,7 +117,7 @@ namespace DiGi.Geometry.Spatial
             }
 
 
-            return new (start, end);
+            return new(start, end);
         }
 
         public static Line3D? Convert(this Plane? plane, Line2D? line2D)
@@ -140,24 +139,24 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new (origin, direction);
+            return new(origin, direction);
         }
 
         public static Triangle3D? Convert(this Plane? plane, Triangle2D? triangle2D)
         {
-            if(plane == null || triangle2D == null)
+            if (plane == null || triangle2D == null)
             {
                 return null;
             }
 
             List<Point2D>? point2Ds = triangle2D.GetPoints();
-            if(point2Ds == null)
+            if (point2Ds == null)
             {
                 return null;
             }
 
             Point3D? point3D_1 = plane.Convert(point2Ds[0]);
-            if(point3D_1 == null)
+            if (point3D_1 == null)
             {
                 return null;
             }
@@ -174,7 +173,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new (point3D_1, point3D_2, point3D_3);
+            return new(point3D_1, point3D_2, point3D_3);
         }
 
         public static Polygon3D? Convert(this Plane? plane, Polygon2D? polygon2D)
@@ -184,7 +183,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new (plane, polygon2D);
+            return new(plane, polygon2D);
         }
 
         public static Rectangle3D? Convert(this Plane? plane, Rectangle2D rectangle2D)
@@ -199,7 +198,7 @@ namespace DiGi.Geometry.Spatial
 
         public static IPolygonal3D? Convert(this Plane? plane, IPolygonal2D? polygonal2D)
         {
-            if(plane == null || polygonal2D == null)
+            if (plane == null || polygonal2D == null)
             {
                 return null;
             }
@@ -215,25 +214,25 @@ namespace DiGi.Geometry.Spatial
             }
 
             Vector3D? axisX = plane.AxisX;
-            if(axisX is null)
+            if (axisX is null)
             {
                 return null;
             }
 
             Vector3D? axisY = plane.AxisY;
-            if(axisY is null)
+            if (axisY is null)
             {
                 return null;
             }
 
             Point3D? origin = plane.Origin;
-            if(origin is null)
+            if (origin is null)
             {
                 return null;
             }
 
-            Vector3D vector3D = new (point3D.X - origin.X, point3D.Y - origin.Y, point3D.Z - origin.Z);
-            return new (axisX.DotProduct(vector3D), axisY.DotProduct(vector3D));
+            Vector3D vector3D = new(point3D.X - origin.X, point3D.Y - origin.Y, point3D.Z - origin.Z);
+            return new(axisX.DotProduct(vector3D), axisY.DotProduct(vector3D));
         }
 
         public static Vector2D? Convert(this Plane? plane, Vector3D? vector3D)
@@ -244,18 +243,18 @@ namespace DiGi.Geometry.Spatial
             }
 
             Vector3D? axisX = plane.AxisX;
-            if(axisX is null)
+            if (axisX is null)
             {
                 return null;
             }
 
             Vector3D? axisY = plane.AxisY;
-            if(axisY is null)
+            if (axisY is null)
             {
                 return null;
             }
 
-            return new (axisX.DotProduct(vector3D), axisY.DotProduct(vector3D));
+            return new(axisX.DotProduct(vector3D), axisY.DotProduct(vector3D));
         }
 
         public static Segment2D? Convert(this Plane? plane, Segment3D? segment3D)
@@ -277,7 +276,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new (start, end);
+            return new(start, end);
         }
 
         public static Line2D? Convert(this Plane? plane, Line3D? line3D)
@@ -299,7 +298,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new (origin, direction);
+            return new(origin, direction);
         }
 
         public static Triangle2D? Convert(this Plane? plane, Triangle3D? triangle3D)
@@ -333,7 +332,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new (point2D_1, point2D_2, point2D_3);
+            return new(point2D_1, point2D_2, point2D_3);
         }
 
         public static Polygon2D? Convert(this Plane? plane, Polygon3D? polygon3D)
@@ -361,10 +360,10 @@ namespace DiGi.Geometry.Spatial
                 point2Ds.Add(point2D);
             }
 
-            return new (point2Ds);
+            return new(point2Ds);
 
         }
-    
+
         //public static IPolygonal2D? Convert(this Plane? plane, IPolygonal3D? polygonal3D)
         //{
         //    if(plane == null || polygonal3D == null)
@@ -402,20 +401,20 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            if(normal.Similar(rectangle3D.Plane?.Normal, tolerance))
+            if (normal.Similar(rectangle3D.Plane?.Normal, tolerance))
             {
                 return rectangle3D.Geometry2D;
             }
 
             IPolygonal2D? result = Convert(plane, new Polygon3D(rectangle3D.Plane, new Polygon2D(rectangle3D.Geometry2D)));
-            if(result == null)
+            if (result == null)
             {
                 return result;
             }
 
-            if(Planar.Create.Rectangle2D(result, tolerance) is Rectangle2D rectangle2D)
+            if (Planar.Create.Rectangle2D(result, tolerance) is Rectangle2D rectangle2D)
             {
-                if(rectangle2D.GetArea().AlmostEquals(result.GetArea(), tolerance))
+                if (rectangle2D.GetArea().AlmostEquals(result.GetArea(), tolerance))
                 {
                     result = rectangle2D;
                 }
@@ -426,22 +425,22 @@ namespace DiGi.Geometry.Spatial
 
         public static Polyline3D? Convert(this Plane? plane, Polyline2D? polyline2D)
         {
-            if(plane == null || polyline2D == null)
+            if (plane == null || polyline2D == null)
             {
                 return null;
             }
 
             List<Point2D>? point2Ds = polyline2D.GetPoints();
-            if(point2Ds == null)
+            if (point2Ds == null)
             {
                 return null;
             }
 
             List<Point3D> point3Ds = [];
-            for(int i =0; i < point2Ds.Count; i++)
+            for (int i = 0; i < point2Ds.Count; i++)
             {
                 Point3D? point3D = plane.Convert(point2Ds[i]);
-                if(point3D is null)
+                if (point3D is null)
                 {
                     continue;
                 }
@@ -449,7 +448,7 @@ namespace DiGi.Geometry.Spatial
                 point3Ds.Add(point3D);
             }
 
-            return new (point3Ds);
+            return new(point3Ds);
         }
 
         public static IPolygonalFace2D? Convert(this Plane? plane, IPolygonalFace3D? polygonalFace3D)
@@ -464,13 +463,13 @@ namespace DiGi.Geometry.Spatial
 
         public static PolygonalFace2D? Convert(this Plane? plane, PolygonalFace3D? polygonalFace3D)
         {
-            if(plane == null || polygonalFace3D == null)
+            if (plane == null || polygonalFace3D == null)
             {
                 return null;
             }
 
             IPolygonal2D? externalEdge = plane.Convert(polygonalFace3D.ExternalEdge);
-            if(externalEdge == null)
+            if (externalEdge == null)
             {
                 return null;
             }
@@ -484,7 +483,7 @@ namespace DiGi.Geometry.Spatial
                 for (int i = 0; i < internalEdges_3D.Count; i++)
                 {
                     IPolygonal2D? internalEdge = plane.Convert(internalEdges_3D[i]);
-                    if(internalEdge == null)
+                    if (internalEdge == null)
                     {
                         continue;
                     }
@@ -493,7 +492,7 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            return new (externalEdge, internalEdges);
+            return new(externalEdge, internalEdges);
         }
 
         public static PolygonalFace3D? Convert(this Plane? plane, PolygonalFace2D? polygonalFace2D)
@@ -503,7 +502,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new (plane, polygonalFace2D);
+            return new(plane, polygonalFace2D);
         }
 
         public static Ellipse3D? Convert(this Plane? plane, Ellipse2D? ellipse2D)
@@ -513,17 +512,17 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new (plane, ellipse2D);
+            return new(plane, ellipse2D);
         }
 
         public static Rectangle3D? Convert(Plane? plane, BoundingBox2D? boundingBox2D)
         {
-            if(plane is null)
+            if (plane is null)
             {
                 return null;
             }
 
-            if(boundingBox2D?.GetPoints() is not List<Point2D> point2Ds)
+            if (boundingBox2D?.GetPoints() is not List<Point2D> point2Ds)
             {
                 return null;
             }
@@ -533,7 +532,7 @@ namespace DiGi.Geometry.Spatial
 
         public static IGeometry3D? Convert(this Plane? plane, IGeometry2D? geometry2D)
         {
-            if(plane == null || geometry2D == null)
+            if (plane == null || geometry2D == null)
             {
                 return null;
             }
@@ -544,7 +543,7 @@ namespace DiGi.Geometry.Spatial
         public static IGeometry2D? Convert(IPlanar? planar)
         {
             Plane? plane = planar?.Plane;
-            if(plane == null)
+            if (plane == null)
             {
                 return null;
             }
@@ -602,11 +601,11 @@ namespace DiGi.Geometry.Spatial
             {
                 if (geometry3D is IPolygonal3D polygonal3D)
                 {
-                    if(polygonal3D.GetSegments() is List<Segment3D> segments)
+                    if (polygonal3D.GetSegments() is List<Segment3D> segments)
                     {
-                        foreach(Segment3D segment in segments)
+                        foreach (Segment3D segment in segments)
                         {
-                            if(segment is TGeometry3D geometry3D_Temp)
+                            if (segment is TGeometry3D geometry3D_Temp)
                             {
                                 result.Add(geometry3D_Temp);
                             }

@@ -14,7 +14,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             int count = point3Ds.Count();
-            if(count == 0)
+            if (count == 0)
             {
                 return null;
             }
@@ -50,11 +50,11 @@ namespace DiGi.Geometry.Spatial
             for (var i = 2; i < count; i++)
             {
                 Point3D point3D_3 = point3Ds.ElementAt(i);
-                Vector3D vector3D_1 = new (point3D_1, point3D_3);
-                Vector3D vector3D_2 = new (point3D_2, point3D_3);
+                Vector3D vector3D_1 = new(point3D_1, point3D_3);
+                Vector3D vector3D_2 = new(point3D_2, point3D_3);
 
                 Vector3D? vector3D_3 = vector3D_1.CrossProduct(vector3D_2);
-                if(vector3D_3 is null)
+                if (vector3D_3 is null)
                 {
                     continue;
                 }

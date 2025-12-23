@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
     {
         public static List<IGeometry2D>? Geometry2Ds(IEnumerable<IGeometry2D>? geometry2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(geometry2Ds == null)
+            if (geometry2Ds == null)
             {
                 return null;
             }
@@ -16,16 +16,16 @@ namespace DiGi.Geometry.Planar
             List<IGeometry2D> result = [];
 
             List<Point2D> point2Ds = [];
-            List<ISegmentable2D> segmentable2Ds = []; 
+            List<ISegmentable2D> segmentable2Ds = [];
             List<IPolygonalFace2D> polygonalFace2Ds = [];
-            
-            foreach(IGeometry2D geometry2D in geometry2Ds)
+
+            foreach (IGeometry2D geometry2D in geometry2Ds)
             {
-                if(geometry2D is Point2D point2D)
+                if (geometry2D is Point2D point2D)
                 {
                     DiGi.Core.Modify.Add(point2Ds, point2D, x => x.Similar(point2D, tolerance));
                 }
-                else if(geometry2D is ISegmentable2D segmentable2D)
+                else if (geometry2D is ISegmentable2D segmentable2D)
                 {
                     DiGi.Core.Modify.Add(segmentable2Ds, segmentable2D, x => x.Similar(segmentable2D, tolerance));
                 }

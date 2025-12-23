@@ -23,7 +23,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public Sphere(Sphere? sphere)
             : base(sphere)
         {
-            if(sphere != null)
+            if (sphere != null)
             {
                 center = sphere.center?.Clone<Point3D>();
                 radius = sphere.radius;
@@ -39,9 +39,9 @@ namespace DiGi.Geometry.Spatial.Classes
         [JsonIgnore]
         public Point3D? Center
         {
-            get 
-            { 
-                return center; 
+            get
+            {
+                return center;
             }
         }
 
@@ -57,15 +57,15 @@ namespace DiGi.Geometry.Spatial.Classes
         [JsonIgnore]
         public double Radius
         {
-            get 
-            { 
-                return radius; 
+            get
+            {
+                return radius;
             }
         }
 
         public BoundingBox3D? GetBoundingBox()
         {
-            if(center is null || double.IsNaN(radius))
+            if (center is null || double.IsNaN(radius))
             {
                 return null;
             }
@@ -88,7 +88,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             double x = radius * System.Math.Sin(phi) * System.Math.Cos(theta);
             double y = radius * System.Math.Sin(phi) * System.Math.Sin(theta);
-            double z = radius * System.Math.Cos(phi); 
+            double z = radius * System.Math.Cos(phi);
 
             return new Point3D(x + center.X, y + center.Y, z + center.Z);
         }
@@ -100,7 +100,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point3D is null || center is null)
+            if (point3D is null || center is null)
             {
                 return false;
             }
@@ -119,14 +119,14 @@ namespace DiGi.Geometry.Spatial.Classes
         public bool Inside(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             List<Point3D>? point3Ds = segmentable3D?.GetPoints();
-            if(point3Ds == null || point3Ds.Count == 0)
+            if (point3Ds == null || point3Ds.Count == 0)
             {
                 return false;
             }
 
-            foreach(Point3D point3D in point3Ds)
+            foreach (Point3D point3D in point3Ds)
             {
-                if(!Inside(point3D, tolerance))
+                if (!Inside(point3D, tolerance))
                 {
                     return false;
                 }

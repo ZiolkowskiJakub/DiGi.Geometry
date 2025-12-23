@@ -11,11 +11,11 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class BoundingBox2D : Geometry2D, IBoundingBox<Point2D>
     {
-        [JsonInclude, JsonPropertyName("Min")]
-        private Point2D? min;
-
         [JsonInclude, JsonPropertyName("Max")]
         private Point2D? max;
+
+        [JsonInclude, JsonPropertyName("Min")]
+        private Point2D? min;
 
         public BoundingBox2D(JsonObject? jsonObject)
             : base(jsonObject)
@@ -42,7 +42,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public BoundingBox2D(BoundingBox2D boundingBox2D)
         {
-            if(boundingBox2D != null)
+            if (boundingBox2D != null)
             {
                 min = new Point2D(boundingBox2D.min);
                 max = new Point2D(boundingBox2D.max);
@@ -52,7 +52,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public BoundingBox2D(Range<double>? x, Range<double>? y)
         {
-            if(x != null && y != null)
+            if (x != null && y != null)
             {
                 min = new Point2D(x.Min, y.Min);
                 max = new Point2D(x.Max, y.Max);
@@ -63,6 +63,34 @@ namespace DiGi.Geometry.Planar.Classes
             : this(new Point2D(x, y), new Point2D(x + width, y + height))
         {
 
+        }
+
+        [JsonIgnore]
+        public Point2D? BottomLeft
+        {
+            get
+            {
+                if (min == null)
+                {
+                    return null;
+                }
+
+                return new Point2D(min);
+            }
+        }
+
+        [JsonIgnore]
+        public Point2D? BottomRight
+        {
+            get
+            {
+                if (max == null || min == null)
+                {
+                    return null;
+                }
+
+                return new Point2D(max.X, min.Y);
+            }
         }
 
         [JsonIgnore]
@@ -124,20 +152,6 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonIgnore]
-        public double Width
-        {
-            get
-            {
-                if (max == null || min == null)
-                {
-                    return double.NaN;
-                }
-
-                return max.X - min.X;
-            }
-        }
-
-        [JsonIgnore]
         public Point2D? TopLeft
         {
             get
@@ -156,7 +170,7 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
-                if(max == null)
+                if (max == null)
                 {
                     return null;
                 }
@@ -166,30 +180,16 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         [JsonIgnore]
-        public Point2D? BottomLeft
-        {
-            get
-            {
-                if(min == null)
-                {
-                    return null;
-                }
-
-                return new Point2D(min);
-            }
-        }
-
-        [JsonIgnore]
-        public Point2D? BottomRight
+        public double Width
         {
             get
             {
                 if (max == null || min == null)
                 {
-                    return null;
+                    return double.NaN;
                 }
 
-                return new Point2D(max.X, min.Y);
+                return max.X - min.X;
             }
         }
 
@@ -254,6 +254,17 @@ namespace DiGi.Geometry.Planar.Classes
             return min?.Mid(max);
         }
 
+        public Segment2D[]? GetDiagonals()
+        {
+            List<Point2D>? points = GetPoints();
+            if (points == null)
+            {
+                return null;
+            }
+
+            return [new Segment2D(points[0], points[2]), new Segment2D(points[1], points[3])];
+        }
+
         public double GetLength()
         {
             double width = Width;
@@ -269,22 +280,6 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return 2 * (width + height);
-        }
-
-        public List<Point2D>? GetPoints()
-        {
-            Point2D? bottomRight = BottomRight;
-            if (bottomRight is null)
-            {
-                return null;
-            }
-
-            if(BottomLeft is not Point2D bottomLeft || TopLeft is not Point2D topLeft || TopRight is not Point2D topRight)
-            {
-                return null;
-            }
-
-            return [bottomLeft, topLeft, topRight, bottomRight];
         }
 
         public Point2D? GetPoint(Corner corner)
@@ -310,12 +305,28 @@ namespace DiGi.Geometry.Planar.Classes
 
                 case Corner.Undefined:
                     break;
-                
+
                 default:
                     break;
             }
 
             return null;
+        }
+
+        public List<Point2D>? GetPoints()
+        {
+            Point2D? bottomRight = BottomRight;
+            if (bottomRight is null)
+            {
+                return null;
+            }
+
+            if (BottomLeft is not Point2D bottomLeft || TopLeft is not Point2D topLeft || TopRight is not Point2D topRight)
+            {
+                return null;
+            }
+
+            return [bottomLeft, topLeft, topRight, bottomRight];
         }
 
         public List<Segment2D>? GetSegments()
@@ -375,26 +386,26 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool InRange(Line2D? line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(min == null || max == null || line2D is null)
+            if (min == null || max == null || line2D is null)
             {
                 return false;
             }
 
             List<Point2D>? point2Ds = GetPoints();
-            if(point2Ds == null || point2Ds.Count == 0)
+            if (point2Ds == null || point2Ds.Count == 0)
             {
                 return false;
             }
 
-            for(int i =0; i < point2Ds.Count; i++)
+            for (int i = 0; i < point2Ds.Count; i++)
             {
                 Point2D? point2D = line2D.Project(point2Ds[i]);
-                if(point2D == null)
+                if (point2D == null)
                 {
                     continue;
                 }
 
-                if(InRange(point2D, tolerance))
+                if (InRange(point2D, tolerance))
                 {
                     return true;
                 }
@@ -405,12 +416,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool InRange(Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(min is null || max is null)
+            if (min is null || max is null)
             {
                 return false;
             }
 
-            if(segment2D?[0] is not Point2D point2D_Start)
+            if (segment2D?[0] is not Point2D point2D_Start)
             {
                 return false;
             }
@@ -420,7 +431,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            Vector2D vector2D = new (point2D_Start, point2D_End); // use actual delta vector, not normalized direction
+            Vector2D vector2D = new(point2D_Start, point2D_End); // use actual delta vector, not normalized direction
 
             double minX = min.X - tolerance;
             double minY = min.Y - tolerance;
@@ -468,36 +479,6 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-
-        public bool InRange_Old(Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            if (min == null || max == null || segment2D is null)
-            {
-                return false;
-            }
-
-            List<Point2D>? point2Ds = GetPoints();
-            if (point2Ds == null || point2Ds.Count == 0)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < point2Ds.Count; i++)
-            {
-                if (segment2D.ClosestPoint(point2Ds[i]) is not Point2D point2D)
-                {
-                    continue;
-                }
-
-                if (InRange(point2D, tolerance))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min == null || max == null)
@@ -538,6 +519,35 @@ namespace DiGi.Geometry.Planar.Classes
             return Inside(point2D, tolerance) || On(point2D, tolerance);
         }
 
+        public bool InRange_Old(Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            if (min == null || max == null || segment2D is null)
+            {
+                return false;
+            }
+
+            List<Point2D>? point2Ds = GetPoints();
+            if (point2Ds == null || point2Ds.Count == 0)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < point2Ds.Count; i++)
+            {
+                if (segment2D.ClosestPoint(point2Ds[i]) is not Point2D point2D)
+                {
+                    continue;
+                }
+
+                if (InRange(point2D, tolerance))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null || min == null || max == null)
@@ -550,14 +560,14 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool Inside(IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point2Ds == null)
+            if (point2Ds == null)
             {
                 return false;
             }
 
-            foreach(Point2D point2D in point2Ds)
+            foreach (Point2D point2D in point2Ds)
             {
-                if(!Inside(point2D, tolerance))
+                if (!Inside(point2D, tolerance))
                 {
                     return false;
                 }
@@ -568,7 +578,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(min == null || max == null)
+            if (min == null || max == null)
             {
                 return false;
             }
@@ -588,7 +598,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public override bool Move(Vector2D? vector2D)
         {
-            if(vector2D is null || max == null || min == null)
+            if (vector2D is null || max == null || min == null)
             {
                 return false;
             }
@@ -600,7 +610,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public void Offset(double value)
         {
-            if(double.IsNaN(value) || min == null || max == null)
+            if (double.IsNaN(value) || min == null || max == null)
             {
                 return;
             }
@@ -611,30 +621,19 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            return Query.On(GetSegments(), point2D,tolerance);
+            return Query.On(GetSegments(), point2D, tolerance);
         }
 
         public override bool Transform(ITransform2D? transform)
         {
-            if(transform == null || min == null || max == null)
+            if (transform == null || min == null || max == null)
             {
                 return false;
             }
 
             min.Transform(transform);
-            max.Transform(transform); 
+            max.Transform(transform);
             return true;
-        }
-
-        public Segment2D[]? GetDiagonals()
-        {
-            List<Point2D>? points = GetPoints();
-            if(points == null)
-            {
-                return null;
-            }
-
-            return [new Segment2D(points[0], points[2]), new Segment2D(points[1], points[3])];
         }
     }
 }

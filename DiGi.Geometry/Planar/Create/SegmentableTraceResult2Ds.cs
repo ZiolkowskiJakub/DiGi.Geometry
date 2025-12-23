@@ -18,7 +18,7 @@ namespace DiGi.Geometry.Planar
 
         public static List<SegmentableTraceResult2D>? SegmentableTraceResult2Ds(this Point2D? point2D, Vector2D? vector2D, IEnumerable<Segment2D>? segment2Ds, int bounces = 0, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point2D is null || vector2D is null || segment2Ds is null)
+            if (point2D is null || vector2D is null || segment2Ds is null)
             {
                 return null;
             }
@@ -29,7 +29,7 @@ namespace DiGi.Geometry.Planar
                 Point2D? point2D_Temp_Temp;
 
                 point2D_Temp_Temp = segment2D[0];
-                if(point2D_Temp_Temp is not null)
+                if (point2D_Temp_Temp is not null)
                 {
                     point2Ds.Add(point2D_Temp_Temp);
                 }
@@ -41,7 +41,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            BoundingBox2D boundingBox2D = new (point2Ds, 1.0);
+            BoundingBox2D boundingBox2D = new(point2Ds, 1.0);
             double length = new Vector2D(boundingBox2D.Min, boundingBox2D.Max).Length;
 
             List<SegmentableTraceResult2D> result = [];
@@ -50,7 +50,7 @@ namespace DiGi.Geometry.Planar
             Vector2D? vector2D_Temp = vector2D?.Unit * length;
             Point2D? point2D_Temp = point2D;
 
-            if(vector2D_Temp is null)
+            if (vector2D_Temp is null)
             {
                 return null;
             }
@@ -65,7 +65,7 @@ namespace DiGi.Geometry.Planar
                     Point2D point2D_Intersection = point2Ds_Intersection[0];
                     Segment2D segment2D_Intersection = segment2Ds_Intersection[0];
 
-                    Vector2D vector2D_result = new (point2D_Temp, point2D_Intersection);
+                    Vector2D vector2D_result = new(point2D_Temp, point2D_Intersection);
                     result.Add(new SegmentableTraceResult2D(vector2D_result, segment2D_Intersection, point2D_Intersection));
 
                     if (result.Count >= bounces)

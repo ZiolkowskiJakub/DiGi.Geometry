@@ -9,13 +9,13 @@ namespace DiGi.Geometry.Planar
         public static Polygon2D? ToDiGi(this LinearRing? linearRing)
         {
             List<Point2D>? point2Ds = linearRing?.Coordinates?.ToDiGi();
-            if(point2Ds == null)
+            if (point2Ds == null)
             {
                 return null;
             }
 
             int count = point2Ds.Count;
-            if(count < 3)
+            if (count < 3)
             {
                 return null;
             }

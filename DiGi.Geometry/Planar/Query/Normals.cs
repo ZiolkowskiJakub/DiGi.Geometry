@@ -9,13 +9,13 @@ namespace DiGi.Geometry.Planar
     {
         public static List<Vector2D?>? Normals(this IPolygonal2D? polygonal2D, Core.Enums.Side side = Core.Enums.Side.External)
         {
-            if(polygonal2D?.GetSegments() is not List<Segment2D> segment2Ds)
+            if (polygonal2D?.GetSegments() is not List<Segment2D> segment2Ds)
             {
                 return null;
             }
 
             Core.Enums.Orientation orientation = polygonal2D.Orientation();
-            if(orientation == Core.Enums.Orientation.Collinear || orientation == Core.Enums.Orientation.Undefined)
+            if (orientation == Core.Enums.Orientation.Collinear || orientation == Core.Enums.Orientation.Undefined)
             {
                 return null;
             }
@@ -26,7 +26,7 @@ namespace DiGi.Geometry.Planar
             }
 
             List<Vector2D?> result = [];
-            foreach(Segment2D segment2D in segment2Ds)
+            foreach (Segment2D segment2D in segment2Ds)
             {
                 result.Add(segment2D?.Direction?.GetPerpendicular(orientation));
             }

@@ -52,7 +52,7 @@ namespace DiGi.Geometry.Planar
             }
 
             area *= 3;
-            return new (x / area, y / area);
+            return new(x / area, y / area);
         }
 
         public static Point2D? Centroid(this IPolygonal2D? polygonal2D)
@@ -63,7 +63,7 @@ namespace DiGi.Geometry.Planar
         public static Point2D? Centroid(this IPolygonalFace2D? polygonalFace2D)
         {
             IPolygonal2D? polygonal2D = polygonalFace2D?.ExternalEdge;
-            if(polygonal2D == null)
+            if (polygonal2D == null)
             {
                 return null;
             }

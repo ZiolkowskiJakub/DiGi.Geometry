@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         [JsonInclude, JsonPropertyName("Origin")]
         private Point2D? origin;
-        
+
         public Line2D(Point2D? origin, Vector2D? direction)
         {
             this.origin = origin?.Clone<Point2D>();
@@ -22,7 +22,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Line2D(Line2D? line2D)
         {
-            if(line2D is not null)
+            if (line2D is not null)
             {
                 origin = line2D.Origin;
                 direction = line2D.Direction;
@@ -169,7 +169,7 @@ namespace DiGi.Geometry.Planar.Classes
             point2D?.Move(direction);
 
             Point2D? result = Query.IntersectionPoint(origin, point2D, segment2D.Start, segment2D.End, false, tolerance);
-            if(!segment2D.On(result))
+            if (!segment2D.On(result))
             {
                 return null;
             }
@@ -179,7 +179,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool Inverse()
         {
-            if(direction is null)
+            if (direction is null)
             {
                 return false;
             }
@@ -207,26 +207,26 @@ namespace DiGi.Geometry.Planar.Classes
 
             return Distance(point2D) < tolerance;
         }
-        
+
         public Point2D? Project(Point2D? point2D)
         {
             return ClosestPoint(point2D);
         }
-        
+
         public override bool Transform(ITransform2D? transform)
         {
-            if(transform is null || origin is null || direction is null)
+            if (transform is null || origin is null || direction is null)
             {
                 return false;
             }
 
-            Point2D point2D = new (origin);
+            Point2D point2D = new(origin);
             point2D.Move(direction);
 
             origin.Transform(transform);
 
             point2D.Transform(transform);
-            direction = new (origin, point2D);
+            direction = new(origin, point2D);
             direction.Normalize();
 
             return true;

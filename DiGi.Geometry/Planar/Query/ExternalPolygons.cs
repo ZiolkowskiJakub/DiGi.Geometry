@@ -9,17 +9,17 @@ namespace DiGi.Geometry.Planar
         public static List<Polygon2D>? ExternalPolygons<T>(this IEnumerable<T>? segmentable2Ds, double maxDistance, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
             List<Segment2D>? segment2Ds = segmentable2Ds?.Segments();
-            if(segment2Ds == null)
+            if (segment2Ds == null)
             {
                 return null;
             }
 
-            if(maxDistance != 0)
+            if (maxDistance != 0)
             {
                 for (int i = 0; i < segment2Ds.Count; i++)
                 {
                     Segment2D? segment2D = segment2Ds[i]?.Extend(maxDistance);
-                    if(segment2D is not null)
+                    if (segment2D is not null)
                     {
                         segment2Ds[i] = segment2D;
                     }
@@ -29,7 +29,7 @@ namespace DiGi.Geometry.Planar
             return ExternalPolygons(segment2Ds, tolerance);
         }
 
-        public static List<Polygon2D>? ExternalPolygons<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
+        public static List<Polygon2D>? ExternalPolygons<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
             return ExternalPolygons(segmentable2Ds?.Segments(), tolerance);
         }
@@ -63,7 +63,7 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                result.Add(new (polygonal2D));
+                result.Add(new(polygonal2D));
             }
 
             return result;

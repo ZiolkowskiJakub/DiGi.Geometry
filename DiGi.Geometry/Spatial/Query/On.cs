@@ -39,14 +39,14 @@ namespace DiGi.Geometry.Spatial
             }
 
             Vector3D? normal = plane.Normal;
-            if(normal == null)
+            if (normal == null)
             {
                 return false;
             }
 
 
             Point3D? origin = plane.Origin;
-            if(origin == null)
+            if (origin == null)
             {
                 return false;
             }
@@ -54,10 +54,10 @@ namespace DiGi.Geometry.Spatial
 
             return System.Math.Abs((normal.X * (point3D.X - origin.X)) + (normal.Y * (point3D.Y - origin.Y)) + (normal.Z * (point3D.Z - origin.Z))) < tolerance;
         }
-        
+
         public static bool On(this Plane? plane, Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || segment3D == null)
+            if (plane == null || segment3D == null)
             {
                 return false;
             }
@@ -67,13 +67,13 @@ namespace DiGi.Geometry.Spatial
 
         public static bool On(this Plane? plane, ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || segmentable3D == null)
+            if (plane == null || segmentable3D == null)
             {
                 return false;
             }
 
             List<Point3D>? point3Ds = segmentable3D.GetPoints();
-            if(point3Ds == null)
+            if (point3Ds == null)
             {
                 return false;
             }
@@ -89,28 +89,28 @@ namespace DiGi.Geometry.Spatial
             return true;
 
         }
-    
+
         public static bool On(this Plane? plane, Vector3D? vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || vector3D == null)
+            if (plane == null || vector3D == null)
             {
                 return false;
             }
 
             Point3D? point3D_1 = plane.Origin;
-            if(point3D_1 == null)
+            if (point3D_1 == null)
             {
                 return false;
             }
 
             Point3D? point3D_2 = point3D_1.GetMoved(vector3D);
-            if(point3D_2 == null)
+            if (point3D_2 == null)
             {
                 return false;
             }
 
-            Point3D? point3D_Temp =  plane.Project(point3D_2);
-            if(point3D_Temp == null)
+            Point3D? point3D_Temp = plane.Project(point3D_2);
+            if (point3D_Temp == null)
             {
                 return false;
             }

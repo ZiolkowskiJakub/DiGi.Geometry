@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
     {
         public static BoundingBox2D? BoundingBox2D<T>(this IEnumerable<T>? boundable2Ds, double offset = 0) where T : IBoundable2D
         {
-            if(boundable2Ds == null)
+            if (boundable2Ds == null)
             {
                 return null;
             }
@@ -17,12 +17,12 @@ namespace DiGi.Geometry.Planar
             foreach (T boundable2D in boundable2Ds)
             {
                 BoundingBox2D? boundingBox2D = boundable2D?.GetBoundingBox();
-                if(boundingBox2D == null)
+                if (boundingBox2D == null)
                 {
                     continue;
                 }
 
-                if(result == null)
+                if (result == null)
                 {
                     result = boundingBox2D;
                     continue;
@@ -41,21 +41,21 @@ namespace DiGi.Geometry.Planar
 
         public static BoundingBox2D? BoundingBox2D(this Point2D? point2D, double width, double height, Core.Enums.Corner corner)
         {
-            if(double.IsNaN(width) || double.IsNaN(height) || point2D == null)
+            if (double.IsNaN(width) || double.IsNaN(height) || point2D == null)
             {
                 return null;
             }
 
             Query.Directions(corner, out Vector2D? heightDirection, out Vector2D? widthDirection);
 
-            if(heightDirection == null || widthDirection == null)
+            if (heightDirection == null || widthDirection == null)
             {
                 return null;
             }
 
             Point2D? point2D_Temp = point2D.GetMoved(heightDirection)?.GetMoved(widthDirection);
 
-            return new (point2D, point2D_Temp);
+            return new(point2D, point2D_Temp);
         }
 
         public static BoundingBox2D? BoundingBox2D(this Point2D? center, double width, double height)
@@ -71,7 +71,7 @@ namespace DiGi.Geometry.Planar
             Point2D? point2D_1 = center.GetMoved(vector2D_Width)?.GetMoved(vector2D_Height);
             Point2D? point2D_2 = center.GetMoved(vector2D_Width?.GetInversed())?.GetMoved(vector2D_Height?.GetInversed());
 
-            return new (point2D_1, point2D_2);
+            return new(point2D_1, point2D_2);
         }
     }
 

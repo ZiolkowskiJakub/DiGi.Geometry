@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Core
     {
         public static DensityBasedSpatialClusteringResult<T>? DensityBasedSpatialClusteringResult<T>(this IEnumerable<T>? points, double tolerance, int pointCount) where T : IPoint<T>
         {
-            if(points == null)
+            if (points == null)
             {
                 return null;
             }

@@ -15,10 +15,10 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Segment2D(double x_1, double y_1, double x_2, double y_2)
         {
-            start = new (x_1, y_1);
-            vector = new (start, new Point2D(x_2, y_2));
+            start = new(x_1, y_1);
+            vector = new(start, new Point2D(x_2, y_2));
         }
-        
+
         public Segment2D(Point2D? start, Vector2D? vector)
         {
             this.start = start?.Clone<Point2D>();
@@ -30,7 +30,7 @@ namespace DiGi.Geometry.Planar.Classes
             if (start != null && end != null)
             {
                 this.start = start?.Clone<Point2D>();
-                vector = new (start, end);
+                vector = new(start, end);
             }
         }
 
@@ -70,7 +70,7 @@ namespace DiGi.Geometry.Planar.Classes
                     return null;
                 }
 
-                Point2D result = new (start);
+                Point2D result = new(start);
                 result.Move(vector);
 
                 return result;
@@ -111,7 +111,7 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
-                if(vector is null)
+                if (vector is null)
                 {
                     return double.NaN;
                 }
@@ -229,7 +229,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            if(segment2D.start is null && start is null && segment2D.vector is null && vector is null)
+            if (segment2D.start is null && start is null && segment2D.vector is null && vector is null)
             {
                 return true;
             }
@@ -272,7 +272,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public List<Segment2D>? GetSegments()
         {
-            return [new (this)];
+            return [new(this)];
         }
 
         public Point2D? IntersectionPoint(Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -287,7 +287,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool Inverse()
         {
-            if(vector is null)
+            if (vector is null)
             {
                 return false;
             }
@@ -307,7 +307,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public override bool Move(Vector2D? vector2D)
         {
-            if(vector2D is null || start is null)
+            if (vector2D is null || start is null)
             {
                 return false;
             }
@@ -344,12 +344,12 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            Point2D? end = End;  
+            Point2D? end = End;
 
             start.Transform(transform);
             end?.Transform(transform);
 
-            vector = new (start, end);
+            vector = new(start, end);
             return true;
         }
     }

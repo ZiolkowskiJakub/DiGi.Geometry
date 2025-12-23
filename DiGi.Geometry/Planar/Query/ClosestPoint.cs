@@ -14,7 +14,7 @@ namespace DiGi.Geometry.Planar
 
         public static Point2D? ClosestPoint(this Point2D? point2D, Point2D? point2D_1, Point2D? point2D_2, bool bounded_1, bool bounded_2)
         {
-            if(point2D == null || point2D_1 == null || point2D_2 == null)
+            if (point2D == null || point2D_1 == null || point2D_2 == null)
             {
                 return null;
             }
@@ -36,7 +36,7 @@ namespace DiGi.Geometry.Planar
             {
                 return new Point2D(point2D_1);
             }
-            
+
             if (parameter > 1 && bounded_2)
             {
                 return new Point2D(point2D_2);
@@ -58,23 +58,23 @@ namespace DiGi.Geometry.Planar
         public static Point2D? ClosestPoint(this Point2D? point2D, IEnumerable<Segment2D>? segment2Ds, out double distance)
         {
             distance = double.NaN;
-            if(point2D == null || segment2Ds == null)
+            if (point2D == null || segment2Ds == null)
             {
                 return null;
             }
 
             distance = double.MaxValue;
             Point2D? result = null;
-            foreach(Segment2D segment2D in segment2Ds)
+            foreach (Segment2D segment2D in segment2Ds)
             {
                 Point2D? point2D_Closest = segment2D?.ClosestPoint(point2D);
-                if(point2D_Closest == null)
+                if (point2D_Closest == null)
                 {
                     continue;
                 }
 
                 double distance_Temp = point2D_Closest.Distance(point2D);
-                if(distance_Temp < distance)
+                if (distance_Temp < distance)
                 {
                     distance = distance_Temp;
                     result = point2D_Closest;
@@ -89,10 +89,10 @@ namespace DiGi.Geometry.Planar
             return ClosestPoint(point2D, segment2Ds, out _);
         }
 
-        public static Point2D? ClosestPoint<T>(this Point2D? point2D, IEnumerable<T>? segmentable2Ds, out double distance) where T: ISegmentable2D
+        public static Point2D? ClosestPoint<T>(this Point2D? point2D, IEnumerable<T>? segmentable2Ds, out double distance) where T : ISegmentable2D
         {
             distance = double.NaN;
-            if(point2D == null || segmentable2Ds == null || segmentable2Ds.Count() == 0)
+            if (point2D == null || segmentable2Ds == null || segmentable2Ds.Count() == 0)
             {
                 return null;
             }
@@ -100,7 +100,7 @@ namespace DiGi.Geometry.Planar
             return ClosestPoint(point2D, segmentable2Ds?.Segments());
         }
 
-        public static Point2D? ClosestPoint<T>(this Point2D? point2D, IEnumerable<T>? segmentable2Ds) where T: ISegmentable2D
+        public static Point2D? ClosestPoint<T>(this Point2D? point2D, IEnumerable<T>? segmentable2Ds) where T : ISegmentable2D
         {
             return ClosestPoint(point2D, segmentable2Ds, out _);
         }
@@ -108,7 +108,7 @@ namespace DiGi.Geometry.Planar
         public static Point2D? ClosestPoint(this Point2D? point2D, IEnumerable<Point2D>? point2Ds, out double distance)
         {
             distance = double.NaN;
-            if(point2D == null || point2Ds == null)
+            if (point2D == null || point2Ds == null)
             {
                 return null;
             }
@@ -116,15 +116,15 @@ namespace DiGi.Geometry.Planar
             distance = double.MaxValue;
             Point2D? result = null;
 
-            foreach(Point2D point2D_Temp in point2Ds)
+            foreach (Point2D point2D_Temp in point2Ds)
             {
-                if(point2D_Temp == null)
+                if (point2D_Temp == null)
                 {
                     continue;
                 }
 
-                double distance_Temp = point2D.Distance(point2D_Temp); 
-                if(distance_Temp > distance)
+                double distance_Temp = point2D.Distance(point2D_Temp);
+                if (distance_Temp > distance)
                 {
                     continue;
                 }
@@ -133,7 +133,7 @@ namespace DiGi.Geometry.Planar
                 result = point2D_Temp;
             }
 
-            if(distance == double.MaxValue)
+            if (distance == double.MaxValue)
             {
                 distance = double.NaN;
             }

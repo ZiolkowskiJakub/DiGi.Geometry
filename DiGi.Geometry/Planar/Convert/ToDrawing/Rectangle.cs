@@ -8,13 +8,13 @@ namespace DiGi.Geometry.Planar
     {
         public static Rectangle? ToDrawing_Rectangle(this BoundingBox2D boundingBox2D, RoundingMethod roundingMethod = RoundingMethod.Nearest)
         {
-            if(roundingMethod == RoundingMethod.Undefined)
+            if (roundingMethod == RoundingMethod.Undefined)
             {
                 return null;
             }
 
             RectangleF? rectangleF = ToDrawing(boundingBox2D);
-            if(rectangleF == null || !rectangleF.HasValue)
+            if (rectangleF == null || !rectangleF.HasValue)
             {
                 return null;
             }

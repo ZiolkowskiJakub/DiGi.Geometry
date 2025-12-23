@@ -8,13 +8,13 @@ namespace DiGi.Geometry.Planar
     {
         public static Point? ToDrawing_Point(this Point2D point2D, RoundingMethod roundingMethod = RoundingMethod.Nearest)
         {
-            if(roundingMethod == RoundingMethod.Undefined)
+            if (roundingMethod == RoundingMethod.Undefined)
             {
                 return null;
             }
 
             PointF? pointF = ToDrawing(point2D);
-            if(pointF == null || !pointF.HasValue)
+            if (pointF == null || !pointF.HasValue)
             {
                 return null;
             }

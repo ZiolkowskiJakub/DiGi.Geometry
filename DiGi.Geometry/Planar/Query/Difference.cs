@@ -17,27 +17,27 @@ namespace DiGi.Geometry.Planar
             }
 
             List<PolygonalFace2D>? polygonalFace2Ds = Difference(new PolygonalFace2D(polygonal2D_1), new PolygonalFace2D(polygonal2D_2));
-            if(polygonalFace2Ds is null)
+            if (polygonalFace2Ds is null)
             {
                 return null;
             }
 
             List<IPolygonal2D> result = [];
-            foreach(PolygonalFace2D polygonalFace2D in polygonalFace2Ds)
+            foreach (PolygonalFace2D polygonalFace2D in polygonalFace2Ds)
             {
-                if(polygonalFace2D.ExternalEdge is IPolygonal2D externalEdge)
+                if (polygonalFace2D.ExternalEdge is IPolygonal2D externalEdge)
                 {
                     result.Add(externalEdge);
                 }
 
-                if(polygonalFace2D.InternalEdges is not List<IPolygonal2D> internalEdges)
+                if (polygonalFace2D.InternalEdges is not List<IPolygonal2D> internalEdges)
                 {
                     continue;
                 }
 
-                foreach(IPolygonal2D internalEdge in internalEdges)
+                foreach (IPolygonal2D internalEdge in internalEdges)
                 {
-                    if(internalEdge is not null)
+                    if (internalEdge is not null)
                     {
                         result.Add(internalEdge);
                     }
@@ -49,33 +49,33 @@ namespace DiGi.Geometry.Planar
 
         public static List<PolygonalFace2D>? Difference(this PolygonalFace2D? polygonalFace2D_1, PolygonalFace2D? polygonalFace2D_2)
         {
-            if(polygonalFace2D_1 == null || polygonalFace2D_2 == null)
+            if (polygonalFace2D_1 == null || polygonalFace2D_2 == null)
             {
                 return null;
             }
 
             Polygon? polygon_1 = polygonalFace2D_1.ToNTS();
-            if(polygon_1 == null)
+            if (polygon_1 == null)
             {
                 return null;
             }
 
             Polygon? polygon_2 = polygonalFace2D_2.ToNTS();
-            if(polygon_2 == null)
+            if (polygon_2 == null)
             {
                 return null;
             }
 
             List<Polygon>? polygons = Difference(polygon_1, polygon_2);
-            if(polygons == null)
+            if (polygons == null)
             {
                 return null;
             }
 
             List<PolygonalFace2D> result = [];
-            foreach(Polygon polygon in polygons)
+            foreach (Polygon polygon in polygons)
             {
-                if(polygon.ToDiGi() is PolygonalFace2D polygonalFace2D)
+                if (polygon.ToDiGi() is PolygonalFace2D polygonalFace2D)
                 {
                     result.Add(polygonalFace2D);
                 }
@@ -86,7 +86,7 @@ namespace DiGi.Geometry.Planar
 
         public static List<Polygon>? Difference(this Polygon? polygon_1, Polygon? polygon_2)
         {
-            if(polygon_1 is null || polygon_2 is null)
+            if (polygon_1 is null || polygon_2 is null)
             {
                 return null;
             }
@@ -140,7 +140,7 @@ namespace DiGi.Geometry.Planar
                 else if (geometry_Temp is MultiPolygon multiPolygon)
                 {
                     List<Polygon>? polygons = Create.Polygons(multiPolygon);
-                    if(polygons != null)
+                    if (polygons != null)
                     {
                         result.AddRange(polygons);
                     }

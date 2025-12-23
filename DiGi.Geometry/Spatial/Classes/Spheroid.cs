@@ -15,7 +15,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         [JsonInclude, JsonPropertyName("Plane")]
         private readonly Plane? plane;
-        
+
         public Spheroid(Point3D? center, double a, double b)
         {
             plane = Create.Plane(center);
@@ -33,7 +33,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public Spheroid(Spheroid? spheroid)
             : base(spheroid)
         {
-            if(spheroid != null)
+            if (spheroid != null)
             {
                 plane = spheroid.plane?.Clone<Plane>();
                 a = spheroid.a;
@@ -68,9 +68,9 @@ namespace DiGi.Geometry.Spatial.Classes
         [JsonIgnore]
         public Point3D? Center
         {
-            get 
-            { 
-                return plane?.Origin; 
+            get
+            {
+                return plane?.Origin;
             }
         }
 
@@ -106,7 +106,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(plane is null)
+                if (plane is null)
                 {
                     return null;
                 }
@@ -114,7 +114,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return (System.Math.Abs(a) * plane.AxisX * a) + (System.Math.Abs(b) * plane.AxisY * b) + (System.Math.Abs(b) * plane.AxisZ * b);
             }
         }
-        
+
         [JsonIgnore]
         public Plane? Plane
         {
@@ -132,13 +132,13 @@ namespace DiGi.Geometry.Spatial.Classes
         public BoundingBox3D? GetBoundingBox()
         {
             Vector3D? extent = Extent;
-            if(extent is null)
+            if (extent is null)
             {
                 return null;
             }
 
             Point3D? center = Center;
-            if(center is null)
+            if (center is null)
             {
                 return null;
             }
@@ -148,7 +148,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Point3D? GetPoint(double theta, double phi)
         {
-            if(plane is null)
+            if (plane is null)
             {
                 return null;
             }
@@ -188,7 +188,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public override bool Move(Vector3D? vector3D)
         {
-            if(vector3D == null || plane == null)
+            if (vector3D == null || plane == null)
             {
                 return false;
             }

@@ -36,7 +36,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         public Coordinate2D(Coordinate2D? coordinate2D)
-            :base(coordinate2D)
+            : base(coordinate2D)
         {
 
         }
@@ -75,12 +75,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool Transform(ITransform2D? transform)
         {
-            if(transform == null || values == null || values.Length < 2)
+            if (transform == null || values == null || values.Length < 2)
             {
                 return false;
             }
 
-            if(transform is Transform2D transform2D)
+            if (transform is Transform2D transform2D)
             {
                 Matrix3D? matrix3D = transform2D?.Matrix3D;
                 if (matrix3D == null)
@@ -99,11 +99,11 @@ namespace DiGi.Geometry.Planar.Classes
                 return true;
             }
 
-            if(transform is TransformGroup2D transformGroup2D)
+            if (transform is TransformGroup2D transformGroup2D)
             {
-                foreach(ITransform2D transform_Temp in transformGroup2D)
+                foreach (ITransform2D transform_Temp in transformGroup2D)
                 {
-                    if(transform_Temp == null)
+                    if (transform_Temp == null)
                     {
                         continue;
                     }

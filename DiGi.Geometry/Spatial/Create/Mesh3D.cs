@@ -50,7 +50,7 @@ namespace DiGi.Geometry.Spatial
                 // Assuming VectorX, VectorY, VectorZ are properties of ellipsoid
                 // and are correctly normalized and orthogonal.
                 Point3D? ellipsoidVertex = ellipsoid.Center + (ellipsoid.DirectionA * scaledX) + (ellipsoid.DirectionB * scaledY) + (ellipsoid.DirectionC * scaledZ);
-                if(ellipsoidVertex is null)
+                if (ellipsoidVertex is null)
                 {
                     continue;
                 }
@@ -101,7 +101,7 @@ namespace DiGi.Geometry.Spatial
 
         public static Mesh3D? Mesh3D(this Ellipsoid? ellipsoid, double angleFactor)
         {
-            if(ellipsoid == null)
+            if (ellipsoid == null)
             {
                 return null;
             }
@@ -145,7 +145,7 @@ namespace DiGi.Geometry.Spatial
                     else
                     {
                         Point3D? point3D_Temp = point3Ds[index].Mid(point3D);
-                        if(point3D_Temp is not null)
+                        if (point3D_Temp is not null)
                         {
                             point3Ds[index] = point3D_Temp;
                         }

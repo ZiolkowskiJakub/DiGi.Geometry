@@ -23,40 +23,40 @@ namespace DiGi.Geometry.Planar
             }
 
             BoundingBox2D? boundingBox2D = polygonal2D?.GetBoundingBox();
-            if(boundingBox2D is null)
+            if (boundingBox2D is null)
             {
                 return null;
             }
 
             List<Polygon2D> result = [];
-            for(int i = 0; i < polygonalFace2Ds.Count; i++)
+            for (int i = 0; i < polygonalFace2Ds.Count; i++)
             {
                 List<IPolygonal2D>? polygonal2Ds = polygonalFace2Ds[i]?.Edges;
-                if(polygonal2Ds == null)
+                if (polygonal2Ds == null)
                 {
                     continue;
                 }
 
-                for(int j = 0; j < polygonal2Ds.Count; j++)
+                for (int j = 0; j < polygonal2Ds.Count; j++)
                 {
                     IPolygonal2D polygonal2D_Temp = polygonal2Ds[j];
-                    if(polygonal2D_Temp == null)
+                    if (polygonal2D_Temp == null)
                     {
                         continue;
                     }
 
                     Point2D? point2D = polygonal2D_Temp.GetInternalPoint();
-                    if(!boundingBox2D.Inside(point2D, tolerance))
+                    if (!boundingBox2D.Inside(point2D, tolerance))
                     {
                         continue;
                     }
 
-                    if(!polygonal2D!.Inside(point2D, tolerance))
+                    if (!polygonal2D!.Inside(point2D, tolerance))
                     {
                         continue;
                     }
 
-                    result.Add(new (polygonal2D_Temp));
+                    result.Add(new(polygonal2D_Temp));
                 }
             }
 

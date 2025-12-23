@@ -33,78 +33,6 @@ namespace DiGi.Geometry.Planar.Classes
             points = point2Ds?.Clone()?.FilterNulls() ?? [];
         }
 
-        public Point2D? ClosestPoint(Point2D? point2D)
-        {
-            if(point2D == null || points == null || points.Count == 0)
-            {
-                return null;
-            }
-
-            return Query.ClosestPoint(point2D, GetSegments());
-        }
-
-        public double Distance(Point2D? point2D)
-        {
-            if (point2D == null || points == null || points.Count == 0)
-            {
-                return double.NaN;
-            }
-
-            return Query.Distance(point2D, GetSegments());
-        }
-
-        public List<Point2D>? GetPoints()
-        {
-            return points?.Clone()?.FilterNulls();
-        }
-
-        public abstract List<Segment2D>? GetSegments();
-        
-        public override bool Move(Vector2D? vector2D)
-        {
-            if(points == null || vector2D == null)
-            {
-                return false;
-            }
-
-            for(int i=0; i < points.Count; i++)
-            {
-                points[i]?.Move(vector2D);
-            }
-
-            return true;
-        }
-
-        public override bool Transform(ITransform2D? transform)
-        {
-            if (points == null || transform == null)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < points.Count; i++)
-            {
-                points[i]?.Transform(transform);
-            }
-
-            return true;
-        }
-
-        public BoundingBox2D? GetBoundingBox()
-        {
-            if(points == null || points.Count == 0)
-            {
-                return null;
-            }
-
-            return new BoundingBox2D(points);
-        }
-
-        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            return Query.On(this, point2D, tolerance);
-        }
-
         [JsonIgnore]
         public double Length
         {
@@ -133,14 +61,86 @@ namespace DiGi.Geometry.Planar.Classes
 
         }
 
+        public Point2D? ClosestPoint(Point2D? point2D)
+        {
+            if (point2D == null || points == null || points.Count == 0)
+            {
+                return null;
+            }
+
+            return Query.ClosestPoint(point2D, GetSegments());
+        }
+
+        public double Distance(Point2D? point2D)
+        {
+            if (point2D == null || points == null || points.Count == 0)
+            {
+                return double.NaN;
+            }
+
+            return Query.Distance(point2D, GetSegments());
+        }
+
+        public BoundingBox2D? GetBoundingBox()
+        {
+            if (points == null || points.Count == 0)
+            {
+                return null;
+            }
+
+            return new BoundingBox2D(points);
+        }
+
+        public List<Point2D>? GetPoints()
+        {
+            return points?.Clone()?.FilterNulls();
+        }
+
+        public abstract List<Segment2D>? GetSegments();
+
         public bool Inverse()
         {
-            if(points is null)
+            if (points is null)
             {
                 return false;
             }
 
             points.Reverse();
+            return true;
+        }
+
+        public override bool Move(Vector2D? vector2D)
+        {
+            if (points == null || vector2D == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                points[i]?.Move(vector2D);
+            }
+
+            return true;
+        }
+
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            return Query.On(this, point2D, tolerance);
+        }
+
+        public override bool Transform(ITransform2D? transform)
+        {
+            if (points == null || transform == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                points[i]?.Transform(transform);
+            }
+
             return true;
         }
     }

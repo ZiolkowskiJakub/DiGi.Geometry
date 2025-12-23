@@ -1,8 +1,8 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
-using DiGi.Geometry.Spatial.Interfaces;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
@@ -58,7 +58,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(geometry2D is null)
+                if (geometry2D is null)
                 {
                     return double.NaN;
                 }
@@ -67,7 +67,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
         }
-        
+
         [JsonIgnore]
         public double Width
         {
@@ -136,7 +136,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Point3D? GetCentroid()
         {
-            if(plane == null || geometry2D == null)
+            if (plane == null || geometry2D == null)
             {
                 return null;
             }
@@ -228,7 +228,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             return Query.Inside(this, segmentable3D, tolerance);
         }
-        
+
         public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || geometry2D == null || plane == null)
@@ -241,7 +241,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool Inverse()
         {
-            if(geometry2D is null)
+            if (geometry2D is null)
             {
                 return false;
             }
@@ -261,13 +261,13 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
-            if(plane == null)
+            if (plane == null)
             {
                 return null;
             }
 
             List<Triangle2D>? triangle2Ds = geometry2D?.Triangulate(tolerance);
-            if(triangle2Ds == null)
+            if (triangle2Ds == null)
             {
                 return null;
             }

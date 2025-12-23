@@ -7,18 +7,18 @@ namespace DiGi.Geometry.Planar
     {
         public static double SquareThinnessRatio(this IPolygonal2D polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(polygonal2D == null)
+            if (polygonal2D == null)
             {
                 return double.NaN;
             }
 
             double area = polygonal2D.GetArea();
-            if(double.IsNaN(area))
+            if (double.IsNaN(area))
             {
                 return double.NaN;
             }
 
-            if(Create.Rectangle2D(polygonal2D, tolerance) is not Rectangle2D rectangle2D)
+            if (Create.Rectangle2D(polygonal2D, tolerance) is not Rectangle2D rectangle2D)
             {
                 return double.NaN;
             }

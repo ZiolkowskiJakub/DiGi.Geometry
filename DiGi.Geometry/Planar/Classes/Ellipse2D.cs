@@ -21,7 +21,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         [JsonInclude, JsonPropertyName("DirectionA")]
         private Vector2D? directionA;
-        
+
         public Ellipse2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -38,7 +38,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Ellipse2D(Ellipse2D? ellipse2D)
         {
-            if(ellipse2D is not null)
+            if (ellipse2D is not null)
             {
                 center = ellipse2D.Center;
                 a = ellipse2D.a;
@@ -105,7 +105,7 @@ namespace DiGi.Geometry.Planar.Classes
                 center = value?.Clone<Point2D>();
             }
         }
-        
+
         [JsonIgnore]
         public Vector2D? DirectionA
         {
@@ -193,7 +193,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public BoundingBox2D? GetBoundingBox()
         {
-            if(directionA is null || center is null)
+            if (directionA is null || center is null)
             {
                 return null;
             }
@@ -214,13 +214,13 @@ namespace DiGi.Geometry.Planar.Classes
             double minY = center.Y - dy;
             double maxY = center.Y + dy;
 
-            return new (new Point2D(minX, minY), new Point2D(maxX, maxY));
+            return new(new Point2D(minX, minY), new Point2D(maxX, maxY));
         }
 
         public double GetFocalLength()
         {
             double c = C;
-            if(double.IsNaN(c))
+            if (double.IsNaN(c))
             {
                 return double.NaN;
             }
@@ -230,30 +230,30 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Point2D[]? GetFocalPoints()
         {
-            if(directionA == null || center is null || double.IsNaN(a) || double.IsNaN(b))
+            if (directionA == null || center is null || double.IsNaN(a) || double.IsNaN(b))
             {
                 return null;
             }
 
-            Vector2D? vector2D = (a > b ? directionA : DirectionB ) * C;
-            if(vector2D is null)
+            Vector2D? vector2D = (a > b ? directionA : DirectionB) * C;
+            if (vector2D is null)
             {
                 return null;
             }
 
             Point2D? point2D_1 = center.GetMoved(vector2D);
-            if(point2D_1 is null)
+            if (point2D_1 is null)
             {
                 return null;
             }
 
             Point2D? point2D_2 = center.GetMoved(vector2D.GetInversed());
-            if(point2D_2 is null)
+            if (point2D_2 is null)
             {
                 return null;
             }
 
-            return [ point2D_1, point2D_2];
+            return [point2D_1, point2D_2];
         }
 
         public override int GetHashCode()
@@ -284,7 +284,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Point2D? GetPoint(Vector2D? vector2D)
         {
-            if(vector2D == null || directionA == null || center == null)
+            if (vector2D == null || directionA == null || center == null)
             {
                 return null;
             }
@@ -319,10 +319,10 @@ namespace DiGi.Geometry.Planar.Classes
 
             return new Point2D(xGlobal, yGlobal);
         }
-        
+
         public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point2D is null || center is null || directionA is null)
+            if (point2D is null || center is null || directionA is null)
             {
                 return false;
             }
@@ -347,7 +347,7 @@ namespace DiGi.Geometry.Planar.Classes
         {
             return InRange(point2D, -tolerance);
         }
-        
+
         public void Inverse()
         {
             directionA?.Inverse();
@@ -366,7 +366,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point2D is null || center is null || directionA is null)
+            if (point2D is null || center is null || directionA is null)
             {
                 return false;
             }
@@ -392,12 +392,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Point2D? Project(Point2D? point2D)
         {
-            if(point2D == null || center == null)
+            if (point2D == null || center == null)
             {
                 return null;
             }
 
-            Vector2D vector2D = new (center, point2D);
+            Vector2D vector2D = new(center, point2D);
 
             vector2D.Scale(System.Math.Max(a, b) * 2);
 
@@ -406,7 +406,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Point2D? Project(Point2D? point2D, double tolerance)
         {
-            if(point2D is null || center is null || directionA is null)
+            if (point2D is null || center is null || directionA is null)
             {
                 return null;
             }
@@ -432,7 +432,7 @@ namespace DiGi.Geometry.Planar.Classes
             double deltaTx = double.MaxValue;
             double deltaTy = double.MaxValue;
 
-            while(System.Math.Min(deltaTx, deltaTy) > tolerance)
+            while (System.Math.Min(deltaTx, deltaTy) > tolerance)
             {
                 double ex = a * tx / System.Math.Sqrt(tx * tx + (b * b / (a * a)) * ty * ty);
                 double ey = b * ty / System.Math.Sqrt((a * a / (b * b)) * tx * tx + ty * ty);
@@ -464,21 +464,21 @@ namespace DiGi.Geometry.Planar.Classes
 
             return new Point2D(gx, gy);
         }
-        
+
         public override bool Transform(ITransform2D? transform)
         {
-            if(transform == null || center == null || directionA is null)
+            if (transform == null || center == null || directionA is null)
             {
                 return false;
             }
 
-            Point2D point2D = new (center);
+            Point2D point2D = new(center);
             point2D.Move(directionA);
 
             center.Transform(transform);
 
             point2D.Transform(transform);
-            directionA = new (center, point2D);
+            directionA = new(center, point2D);
             directionA.Normalize();
 
             return true;

@@ -28,17 +28,17 @@ namespace DiGi.Geometry.Spatial
 
         public static T? Project<T>(this Plane? plane, IGeometry3D? geometry3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IGeometry3D
         {
-            if(geometry3D == null || plane == null)
+            if (geometry3D == null || plane == null)
             {
                 return default;
             }
 
-            if(geometry3D is Point3D point3D_Temp)
+            if (geometry3D is Point3D point3D_Temp)
             {
-                if(typeof(T).IsAssignableFrom(typeof(Point3D)))
+                if (typeof(T).IsAssignableFrom(typeof(Point3D)))
                 {
                     Point3D? point3D = Project(plane, point3D_Temp);
-                    if(point3D != null)
+                    if (point3D != null)
                     {
                         return (T)(object)point3D;
                     }
@@ -48,13 +48,13 @@ namespace DiGi.Geometry.Spatial
             }
 
             ProjectionResult? projectionResult = Create.ProjectionResult(plane, geometry3D, tolerance);
-            if(projectionResult == null)
+            if (projectionResult == null)
             {
                 return default;
             }
 
             List<T>? ts = projectionResult.GetGeometry3Ds<T>();
-            if(ts == null || ts.Count == 0)
+            if (ts == null || ts.Count == 0)
             {
                 return default;
             }

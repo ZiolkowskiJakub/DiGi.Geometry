@@ -77,7 +77,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return result;
             }
         }
-        
+
         public override ISerializableObject? Clone()
         {
             return new Polyline3D(this);
@@ -138,10 +138,10 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             return Create.Segment3Ds(points, false);
         }
-        
+
         public bool Inverse()
         {
-            if(points.Count < 2)
+            if (points.Count < 2)
             {
                 return false;
             }
@@ -152,14 +152,14 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool IsClosed()
         {
-            if(points == null || points.Count < 3)
+            if (points == null || points.Count < 3)
             {
                 return false;
             }
 
             return points[0].Equals(points[points.Count - 1]);
         }
-        
+
         public override bool Move(Vector3D? vector3D)
         {
             if (points == null || points.Count == 0)
@@ -187,7 +187,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return;
             }
 
-            if(points == null || points.Count < 3)
+            if (points == null || points.Count < 3)
             {
                 return;
             }

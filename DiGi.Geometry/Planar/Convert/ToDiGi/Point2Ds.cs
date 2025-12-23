@@ -7,16 +7,16 @@ namespace DiGi.Geometry.Planar
     {
         public static List<Point2D>? ToDiGi(this IEnumerable<NetTopologySuite.Geometries.Coordinate>? coordinates)
         {
-            if(coordinates == null)
+            if (coordinates == null)
             {
                 return null;
             }
 
             List<Point2D> result = [];
-            foreach(NetTopologySuite.Geometries.Coordinate coordinate in coordinates)
+            foreach (NetTopologySuite.Geometries.Coordinate coordinate in coordinates)
             {
                 Point2D point2D = coordinate.ToDiGi();
-                if(point2D == null)
+                if (point2D == null)
                 {
                     continue;
                 }

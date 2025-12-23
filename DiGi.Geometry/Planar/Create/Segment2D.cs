@@ -15,19 +15,19 @@ namespace DiGi.Geometry.Planar
             }
 
             IntersectionResult2D? intersectionResult2D = IntersectionResult2D(polygonal2D, line2D, tolerance);
-            if(intersectionResult2D == null || !intersectionResult2D.Intersect)
+            if (intersectionResult2D == null || !intersectionResult2D.Intersect)
             {
                 return null;
             }
 
-            if(intersectionResult2D.Contains<Segment2D>())
+            if (intersectionResult2D.Contains<Segment2D>())
             {
                 return intersectionResult2D.GetGeometry2Ds<Segment2D>()?.FirstOrDefault();
             }
 
 
             List<Point2D>? point2Ds = intersectionResult2D.GetGeometry2Ds<Point2D>();
-            if(point2Ds == null || point2Ds.Count < 2)
+            if (point2Ds == null || point2Ds.Count < 2)
             {
                 return null;
             }

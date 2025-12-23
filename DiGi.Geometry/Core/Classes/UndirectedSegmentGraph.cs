@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Core.Classes
 {
-    public abstract class UndirectedSegmentGraph<T, X> : SerializableObject where T: IPoint<T> where X: ISegment<T>
+    public abstract class UndirectedSegmentGraph<T, X> : SerializableObject where T : IPoint<T> where X : ISegment<T>
     {
         [JsonIgnore]
         private UndirectedGraph<T, Edge<T>>? undirectedGraph = new();
@@ -17,7 +17,7 @@ namespace DiGi.Geometry.Core.Classes
 
         public bool Add(X? segment)
         {
-            if(segment == null)
+            if (segment == null)
             {
                 return false;
             }
@@ -25,13 +25,13 @@ namespace DiGi.Geometry.Core.Classes
             int index;
 
             T? point_Start = segment.Start;
-            if(point_Start is null)
+            if (point_Start is null)
             {
                 return false;
             }
 
             T? point_End = segment.End;
-            if(point_End is null)
+            if (point_End is null)
             {
                 return false;
             }
@@ -44,7 +44,7 @@ namespace DiGi.Geometry.Core.Classes
             undirectedGraph ??= new UndirectedGraph<T, Edge<T>>();
 
             index = GetIndex(point_Start);
-            if(index == -1)
+            if (index == -1)
             {
                 undirectedGraph.AddVertex(point_Start);
             }
@@ -60,7 +60,7 @@ namespace DiGi.Geometry.Core.Classes
 
         public int GetIndex(T? point)
         {
-            if(point == null || undirectedGraph?.Vertices == null)
+            if (point == null || undirectedGraph?.Vertices == null)
             {
                 return -1;
             }
@@ -69,7 +69,7 @@ namespace DiGi.Geometry.Core.Classes
 
             for (int i = 0; i < count; i++)
             {
-                if(point.Equals(undirectedGraph.Vertices.ElementAt(i)))
+                if (point.Equals(undirectedGraph.Vertices.ElementAt(i)))
                 {
                     return i;
                 }

@@ -28,9 +28,9 @@ namespace DiGi.Geometry.Spatial
             double depth = boundingBox3D.Depth;
             double height = boundingBox3D.Height;
 
-            Vector3D vector3D_Width = new (width, 0, 0);
-            Vector3D vector3D_Depth = new (0, depth, 0);
-            Vector3D vector3D_Height = new (0, 0, height);
+            Vector3D vector3D_Width = new(width, 0, 0);
+            Vector3D vector3D_Depth = new(0, depth, 0);
+            Vector3D vector3D_Height = new(0, 0, height);
 
             Plane plane;
 
@@ -51,7 +51,7 @@ namespace DiGi.Geometry.Spatial
             plane = new Plane(plane, point3D_1.Mid(point3D_3));
 
             Polygon3D? polygon3D = Polygon3D(plane, plane.Convert(point3D_1), plane.Convert(point3D_2), plane.Convert(point3D_3), plane.Convert(point3D_4));
-            if(polygon3D != null)
+            if (polygon3D != null)
             {
                 result.Add(polygon3D);
             }

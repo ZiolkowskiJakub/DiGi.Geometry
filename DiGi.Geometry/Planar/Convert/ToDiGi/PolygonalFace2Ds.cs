@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Planar
         public static List<PolygonalFace2D>? ToDiGi_PolygonalFace2Ds(this MultiPolygon? multiPolygon)
         {
             List<Polygon>? polygons = Create.Polygons(multiPolygon);
-            if(polygons == null)
+            if (polygons == null)
             {
                 return null;
             }

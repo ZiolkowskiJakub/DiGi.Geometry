@@ -13,11 +13,11 @@ namespace DiGi.Geometry.Spatial.Classes
 
         [JsonInclude, JsonPropertyName("Plane")]
         protected Plane? plane;
-        
+
         public Planar(Plane? plane)
             : base()
         {
-            this.plane = plane == null ? null : new (plane);
+            this.plane = plane == null ? null : new(plane);
         }
 
         public Planar(JsonObject? jsonObject)
@@ -29,7 +29,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public Planar(Planar<T>? planar)
             : base(planar)
         {
-            if(planar != null)
+            if (planar != null)
             {
                 plane = DiGi.Core.Query.Clone(planar.plane);
                 geometry2D = DiGi.Core.Query.Clone(planar.geometry2D);
@@ -39,7 +39,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public Planar(Plane? plane, T? geometry2D)
             : base()
         {
-            this.plane = plane == null ? null : new (plane);
+            this.plane = plane == null ? null : new(plane);
             this.geometry2D = DiGi.Core.Query.Clone(geometry2D);
         }
 
@@ -57,7 +57,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                return plane == null ? null : new (plane);
+                return plane == null ? null : new(plane);
             }
         }
 
@@ -70,7 +70,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             bool result = plane.Flip(prmiaryAxis, secondaryAxis);
 
-            if(result)
+            if (result)
             {
 
             }
@@ -80,7 +80,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public override bool Move(Vector3D? vector3D)
         {
-            if(vector3D == null || plane == null)
+            if (vector3D == null || plane == null)
             {
                 return false;
             }

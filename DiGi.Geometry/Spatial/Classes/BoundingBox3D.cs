@@ -15,15 +15,16 @@ namespace DiGi.Geometry.Spatial.Classes
 
         [JsonInclude, JsonPropertyName("Min")]
         private Point3D? min;
+        
         public BoundingBox3D(Point3D? point2D_1, Point3D? point2D_2)
-            :base()
+            : base()
         {
             min = Query.Min([point2D_1, point2D_2], out max);
         }
 
         public BoundingBox3D(IEnumerable<Point3D?>? point3Ds)
         {
-            if(point3Ds is not null)
+            if (point3Ds is not null)
             {
                 min = Query.Min(point3Ds, out max);
             }
@@ -131,7 +132,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 }
             }
         }
-        
+
         [JsonIgnore]
         public double Width
         {
@@ -145,7 +146,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return max.X - min.X;
             }
         }
-        
+
         public bool Add(Point3D? point3D)
         {
             if (point3D == null)
@@ -153,8 +154,8 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            max = new (Query.Max(max, point3D));
-            min = new (Query.Min(min, point3D));
+            max = new(Query.Max(max, point3D));
+            min = new(Query.Min(min, point3D));
             return true;
         }
 
@@ -277,7 +278,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool InRange(Ray3D? ray3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(ray3D?.Origin is not Point3D origin || ray3D.Direction is not Vector3D direction)
+            if (ray3D?.Origin is not Point3D origin || ray3D.Direction is not Vector3D direction)
             {
                 return false;
             }
@@ -469,12 +470,12 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point3D == null)
+            if (point3D == null)
             {
                 return false;
             }
 
-            if(Inside(point3D, tolerance))
+            if (Inside(point3D, tolerance))
             {
                 return false;
             }

@@ -24,7 +24,7 @@ namespace DiGi.Geometry.Spatial.Classes
             : base()
         {
             values = [double.NaN, double.NaN, double.NaN];
-            if(start != null && end != null)
+            if (start != null && end != null)
             {
                 values[0] = end[0] - start[0];
                 values[1] = end[1] - start[1];
@@ -77,7 +77,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                Vector3D result = new (this);
+                Vector3D result = new(this);
                 result.Normalize();
 
                 return result;
@@ -106,7 +106,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public static Vector3D? operator -(Vector3D? vector3D_1, Vector3D? vector3D_2)
         {
-            if(vector3D_1 is null || vector3D_2 is null)
+            if (vector3D_1 is null || vector3D_2 is null)
             {
                 return null;
             }
@@ -116,7 +116,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public static Vector3D? operator -(Vector3D? vector3D)
         {
-            Vector3D result = new (vector3D);
+            Vector3D result = new(vector3D);
             result.Inverse();
             return result;
         }
@@ -128,7 +128,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public static double operator *(Vector3D? vector3D_1, Vector3D? vector3D_2)
         {
-            if(vector3D_1 is null || vector3D_2 is null)
+            if (vector3D_1 is null || vector3D_2 is null)
             {
                 return double.NaN;
             }
@@ -138,7 +138,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public static Vector3D? operator *(Vector3D? vector3D_1, double factor)
         {
-            if(vector3D_1 is null)
+            if (vector3D_1 is null)
             {
                 return null;
             }
@@ -158,7 +158,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public static Vector3D? operator /(Vector3D? vector3D, double factor)
         {
-            if(vector3D is null)
+            if (vector3D is null)
             {
                 return null;
             }
@@ -168,7 +168,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public static Vector3D? operator +(Vector3D? vector3D_1, Vector3D? vector3D_2)
         {
-            if(vector3D_1 is null || vector3D_2 is null)
+            if (vector3D_1 is null || vector3D_2 is null)
             {
                 return null;
             }
@@ -178,7 +178,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public static bool operator ==(Vector3D? vector3D_1, Vector3D? vector3D_2)
         {
-            if(vector3D_1 is null && vector3D_2 is null)
+            if (vector3D_1 is null && vector3D_2 is null)
             {
                 return true;
             }
@@ -195,7 +195,7 @@ namespace DiGi.Geometry.Spatial.Classes
         //Source: https://wiki.unity3d.com/index.php/3d_Math_functions
         public double Angle(Vector3D? vector3D)
         {
-            if(vector3D is null)
+            if (vector3D is null)
             {
                 return double.NaN;
             }
@@ -252,7 +252,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Vector3D GetAbs()
         {
-            Vector3D result = new (this);
+            Vector3D result = new(this);
 
             result.Abs();
 
@@ -261,7 +261,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Vector3D GetInversed()
         {
-            Vector3D result = new (this);
+            Vector3D result = new(this);
             result.Inverse();
 
             return result;
@@ -294,12 +294,12 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>Projection vector</returns>
         public Vector3D? Project(Vector3D? vector3D)
         {
-            if(vector3D == null)
+            if (vector3D == null)
             {
                 return null;
             }
 
-            Vector3D result = new (this);
+            Vector3D result = new(this);
             result.Scale(vector3D.DotProduct(this) / DotProduct(this));
             return result;
         }

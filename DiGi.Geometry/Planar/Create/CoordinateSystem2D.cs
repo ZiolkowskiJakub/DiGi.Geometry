@@ -11,11 +11,11 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Vector2D axisY_Temp = new (axisY);
+            Vector2D axisY_Temp = new(axisY);
             axisY_Temp.Normalize();
 
             Vector2D? axisX = axisY_Temp.GetPerpendicular(Core.Enums.Orientation.Clockwise);
-            if(axisX is null)
+            if (axisX is null)
             {
                 return null;
             }

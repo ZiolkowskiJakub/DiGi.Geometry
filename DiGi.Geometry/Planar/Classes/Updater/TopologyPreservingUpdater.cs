@@ -21,7 +21,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool Update()
         {
-            if(Value is null)
+            if (Value is null)
             {
                 return false;
             }
@@ -33,7 +33,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             IGeometry2D? value_Temp = TopologyPreservingSimplifier.Simplify(geometry, tolerance)?.ToDiGi();
-            if(value_Temp is null)
+            if (value_Temp is null)
             {
                 return false;
             }

@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Planar
     {
         public static IPolygonal2D? Polygonal2D(this IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(polygonal2D == null)
+            if (polygonal2D == null)
             {
                 return null;
             }
@@ -25,12 +25,12 @@ namespace DiGi.Geometry.Planar
             }
 
             int count = point2Ds.Count();
-            if(count == 0)
+            if (count == 0)
             {
                 return null;
             }
 
-            if(count < 3)
+            if (count < 3)
             {
                 return null;
             }

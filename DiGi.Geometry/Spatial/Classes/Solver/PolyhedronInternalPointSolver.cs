@@ -14,7 +14,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         private int i = 0;
         private int j = 0;
-        
+
         public PolyhedronInternalPointSolver(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(tolerance)
         {

@@ -93,7 +93,7 @@ namespace DiGi.Geometry.Planar
             HashSet<double> angleHashSet = [];
             for (int i = 0; i < point2Ds_ConvexHull.Count - 1; i++)
             {
-                Vector2D direction = new (point2Ds_ConvexHull[i], point2Ds_ConvexHull[i + 1]);
+                Vector2D direction = new(point2Ds_ConvexHull[i], point2Ds_ConvexHull[i + 1]);
                 double angle = direction.Angle(vector2D);
                 if (!angleHashSet.Contains(angle))
                 {
@@ -133,7 +133,7 @@ namespace DiGi.Geometry.Planar
         public static Rectangle2D? Rectangle2D(this IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             List<Point2D>? point2Ds = segmentable2Ds?.Points()?.FilterNulls();
-            if(point2Ds is null)
+            if (point2Ds is null)
             {
                 return null;
             }
@@ -143,7 +143,7 @@ namespace DiGi.Geometry.Planar
 
         public static Rectangle2D? Rectangle2D(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(segmentable2D is Rectangle2D rectangle2D)
+            if (segmentable2D is Rectangle2D rectangle2D)
             {
                 return new Rectangle2D(rectangle2D);
             }
@@ -154,7 +154,7 @@ namespace DiGi.Geometry.Planar
         public static Rectangle2D? Rectangle2D(this IPolygonalFace2D? polygonalFace2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             IPolygonal2D? polygonal2D = polygonalFace2D?.ExternalEdge;
-            if(polygonal2D == null)
+            if (polygonal2D == null)
             {
                 return null;
             }

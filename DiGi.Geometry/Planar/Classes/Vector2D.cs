@@ -25,7 +25,7 @@ namespace DiGi.Geometry.Planar.Classes
             : base()
         {
             values = [double.NaN, double.NaN];
-            if(start != null && end != null)
+            if (start != null && end != null)
             {
                 values[0] = end[0] - start[0];
                 values[1] = end[1] - start[1];
@@ -55,7 +55,7 @@ namespace DiGi.Geometry.Planar.Classes
             {
                 Vector2D? vector2D = Unit;
                 vector2D?.Scale(value);
-                if(vector2D is null)
+                if (vector2D is null)
                 {
                     return;
                 }
@@ -78,7 +78,7 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
-                Vector2D result = new (this);
+                Vector2D result = new(this);
                 result.Normalize();
 
                 return result;
@@ -92,27 +92,27 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            return new (point2D.X, point2D.Y);
+            return new(point2D.X, point2D.Y);
         }
 
         public static implicit operator Vector2D?((double x, double y) @object)
         {
-            return new (@object.x, @object.y);
+            return new(@object.x, @object.y);
         }
 
         public static implicit operator Vector2D?((Point2D? start, Point2D? end) @object)
         {
-            return new (@object.start, @object.end);
+            return new(@object.start, @object.end);
         }
 
         public static Vector2D? operator -(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
-            if(vector2D_1 is null || vector2D_2 is null)
+            if (vector2D_1 is null || vector2D_2 is null)
             {
                 return null;
             }
 
-            return new (vector2D_1.values[0] - vector2D_2.values[0], vector2D_1.values[1] - vector2D_2.values[1]);
+            return new(vector2D_1.values[0] - vector2D_2.values[0], vector2D_1.values[1] - vector2D_2.values[1]);
         }
 
         public static bool operator !=(Vector2D? vector2D_1, Vector2D? vector2D_2)
@@ -122,7 +122,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public static double operator *(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
-            if(vector2D_1 is null || vector2D_2 is null)
+            if (vector2D_1 is null || vector2D_2 is null)
             {
                 return double.NaN;
             }
@@ -132,12 +132,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         public static Vector2D? operator *(Vector2D? vector2D, double factor)
         {
-            if(vector2D is null)
+            if (vector2D is null)
             {
                 return null;
             }
 
-            return new (vector2D.values[0] * factor, vector2D.values[1] * factor);
+            return new(vector2D.values[0] * factor, vector2D.values[1] * factor);
         }
 
         public static Vector2D? operator *(double factor, Vector2D? vector2D)
@@ -147,7 +147,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            return new (vector2D.values[0] * factor, vector2D.values[1] * factor);
+            return new(vector2D.values[0] * factor, vector2D.values[1] * factor);
         }
 
         public static Vector2D? operator /(Vector2D? vector2D, double factor)
@@ -157,7 +157,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            return new (vector2D.X / factor, vector2D.Y / factor);
+            return new(vector2D.X / factor, vector2D.Y / factor);
         }
 
         public static Vector2D? operator +(Vector2D? vector2D_1, Vector2D? vector2D_2)
@@ -167,7 +167,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            return new (vector2D_1.values[0] + vector2D_2.values[0], vector2D_1.values[1] + vector2D_2.values[1]);
+            return new(vector2D_1.values[0] + vector2D_2.values[0], vector2D_1.values[1] + vector2D_2.values[1]);
         }
 
         public static bool operator ==(Vector2D? vector2D_1, Vector2D? vector2D_2)
@@ -184,7 +184,7 @@ namespace DiGi.Geometry.Planar.Classes
 
             return vector2D_1?.values[0] == vector2D_2?.values[0] && vector2D_1?.values[1] == vector2D_2?.values[1];
         }
-        
+
         /// <summary>
         /// Calculate the dot product as an angle. Use SignedAngle if performance is priority
         /// Source: https://wiki.unity3d.com/index.php/3d_Math_functions
@@ -194,7 +194,7 @@ namespace DiGi.Geometry.Planar.Classes
         public double Angle(Vector2D? vector2D)
         {
             Vector2D? unit = Unit;
-            if(unit is null)
+            if (unit is null)
             {
                 return double.NaN;
             }
@@ -222,24 +222,6 @@ namespace DiGi.Geometry.Planar.Classes
             //return result;
         }
 
-        /// <summary>
-        /// Signed angle between two vectors
-        /// </summary>
-        /// <param name="vector2D"></param>
-        /// <returns></returns>
-        public double SignedAngle(Vector2D? vector2D)
-        {
-            if(vector2D is null)
-            {
-                return double.NaN;
-            }
-
-            double dot = X * vector2D.X + Y * vector2D.Y;      // x1 * x2 + y1 * y2
-            double cross = X * vector2D.Y - Y * vector2D.X;    // x1 * y2 - y1 * x2
-
-            return System.Math.Atan2(cross, dot);
-        }
-
         public override ISerializableObject Clone()
         {
             return new Vector2D(this);
@@ -265,18 +247,33 @@ namespace DiGi.Geometry.Planar.Classes
             return (values[0] * vector2D.values[0]) + (values[1] * vector2D.values[1]);
         }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Vector2D d &&
+                   base.Equals(obj) &&
+                   EqualityComparer<double[]>.Default.Equals(values, d.values);
+        }
+
         public Vector2D GetAbs()
         {
-            Vector2D result = new (this);
+            Vector2D result = new(this);
 
             result.Abs();
 
             return result;
         }
 
+        public override int GetHashCode()
+        {
+            int hashCode = 1501109969;
+            hashCode = hashCode * -1521134295 + base.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<double[]>.Default.GetHashCode(values);
+            return hashCode;
+        }
+
         public Vector2D GetInversed()
         {
-            Vector2D result = new (this);
+            Vector2D result = new(this);
             result.Inverse();
 
             return result;
@@ -301,7 +298,7 @@ namespace DiGi.Geometry.Planar.Classes
             values[0] = values[0] / length;
             values[1] = values[1] / length;
         }
-        
+
         public Point2D? Project(Point2D? point2D)
         {
             if (point2D == null)
@@ -334,29 +331,32 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>Projection vector</returns>
         public Vector2D? Project(Vector2D? vector2D)
         {
-            if(vector2D == null)
+            if (vector2D == null)
             {
                 return null;
             }
 
-            Vector2D result = new (this);
+            Vector2D result = new(this);
             result.Scale(vector2D.DotProduct(this) / DotProduct(this));
             return result;
         }
 
-        public override bool Equals(object? obj)
+        /// <summary>
+        /// Signed angle between two vectors
+        /// </summary>
+        /// <param name="vector2D"></param>
+        /// <returns></returns>
+        public double SignedAngle(Vector2D? vector2D)
         {
-            return obj is Vector2D d &&
-                   base.Equals(obj) &&
-                   EqualityComparer<double[]>.Default.Equals(values, d.values);
-        }
+            if (vector2D is null)
+            {
+                return double.NaN;
+            }
 
-        public override int GetHashCode()
-        {
-            int hashCode = 1501109969;
-            hashCode = hashCode * -1521134295 + base.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<double[]>.Default.GetHashCode(values);
-            return hashCode;
+            double dot = X * vector2D.X + Y * vector2D.Y;      // x1 * x2 + y1 * y2
+            double cross = X * vector2D.Y - Y * vector2D.X;    // x1 * y2 - y1 * x2
+
+            return System.Math.Atan2(cross, dot);
         }
     }
 }

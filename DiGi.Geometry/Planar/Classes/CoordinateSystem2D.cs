@@ -16,6 +16,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         [JsonInclude, JsonPropertyName("AxisY")]
         private Vector2D? axisY;
+
         public CoordinateSystem2D(Point2D? origin)
         {
             this.origin = origin == null ? null : new Point2D(origin);
@@ -89,9 +90,9 @@ namespace DiGi.Geometry.Planar.Classes
                 Enums.PlanarAxis.X => AxisX,
 
                 Enums.PlanarAxis.Y => AxisY,
-                
+
                 Enums.PlanarAxis.Undefined => null,
-                
+
                 _ => null,
             };
         }

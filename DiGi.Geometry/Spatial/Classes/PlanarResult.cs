@@ -25,7 +25,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public PlanarResult(Plane? plane)
             : base()
         {
-            this.plane = plane == null ? null : new (plane);
+            this.plane = plane == null ? null : new(plane);
         }
 
         public PlanarResult(JsonObject? jsonObject)
@@ -37,7 +37,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public PlanarResult(PlanarResult? planarResult)
             : base()
         {
-            if(planarResult != null)
+            if (planarResult != null)
             {
                 geometry2Ds = DiGi.Core.Query.Clone(planarResult.geometry2Ds)?.FilterNulls();
                 plane = planarResult.plane == null ? null : new Plane(planarResult.plane);
@@ -53,8 +53,8 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public PlanarResult(Plane? plane, IGeometry2D? geometry2D)
         {
-            this.plane = plane == null ? null : new (plane);
-            if(geometry2D != null && DiGi.Core.Query.Clone(geometry2D) is IGeometry2D geometry2D_Temp)
+            this.plane = plane == null ? null : new(plane);
+            if (geometry2D != null && DiGi.Core.Query.Clone(geometry2D) is IGeometry2D geometry2D_Temp)
             {
                 geometry2Ds = [geometry2D_Temp];
             }
@@ -96,7 +96,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 if (geometry2Ds[i] is T t)
                 {
                     T? t_Temp = DiGi.Core.Query.Clone(t);
-                    if(t_Temp == null)
+                    if (t_Temp == null)
                     {
                         continue;
                     }
@@ -118,12 +118,12 @@ namespace DiGi.Geometry.Spatial.Classes
             List<T> result = [];
             for (int i = 0; i < geometry2Ds.Count; i++)
             {
-                if(Query.Convert(plane, geometry2Ds[i] as dynamic) is not IGeometry3D geometry3D)
+                if (Query.Convert(plane, geometry2Ds[i] as dynamic) is not IGeometry3D geometry3D)
                 {
                     continue;
                 }
 
-                if(Query.Convert<T>(geometry3D) is not List<T> ts)
+                if (Query.Convert<T>(geometry3D) is not List<T> ts)
                 {
                     continue;
                 }

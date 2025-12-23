@@ -10,19 +10,19 @@ namespace DiGi.Geometry.Planar
     {
         public static List<PolygonalFace2D>? PolygonalFace2Ds(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(segment2Ds == null || segment2Ds.Count() < 3)
+            if (segment2Ds == null || segment2Ds.Count() < 3)
             {
                 return null;
             }
 
             List<Polygon>? polygons = Polygons(segment2Ds, tolerance);
-            if(polygons == null)
+            if (polygons == null)
             {
                 return null;
             }
 
             List<PolygonalFace2D> result = [];
-            foreach(Polygon polygon in polygons)
+            foreach (Polygon polygon in polygons)
             {
                 PolygonalFace2D? polygonalFace2D = polygon?.ToDiGi();
                 if (polygonalFace2D == null)
@@ -38,7 +38,7 @@ namespace DiGi.Geometry.Planar
 
         public static List<PolygonalFace2D>? PolygonalFace2Ds(this IEnumerable<IPolygonal2D>? polygonal2Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(polygonal2Ds == null)
+            if (polygonal2Ds == null)
             {
                 return null;
             }

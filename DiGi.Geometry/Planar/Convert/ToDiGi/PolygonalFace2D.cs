@@ -20,7 +20,7 @@ namespace DiGi.Geometry.Planar
             }
 
             Polygon2D? externalEdge = linearRing.ToDiGi();
-            if(externalEdge == null)
+            if (externalEdge == null)
             {
                 return null;
             }

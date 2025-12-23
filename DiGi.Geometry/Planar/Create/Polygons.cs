@@ -22,10 +22,10 @@ namespace DiGi.Geometry.Planar
             }
 
             List<NetTopologySuite.Geometries.Geometry> geometries = [];
-            foreach(Segment2D segment2D in segment2Ds)
+            foreach (Segment2D segment2D in segment2Ds)
             {
                 NetTopologySuite.Geometries.Geometry? geometry = segment2D.ToNTS_LineString();
-                if(geometry == null)
+                if (geometry == null)
                 {
                     continue;
                 }
@@ -66,7 +66,7 @@ namespace DiGi.Geometry.Planar
                 return result;
             }
 
-            GeometryNoder geometryNoder = new (new PrecisionModel(1 / tolerance));
+            GeometryNoder geometryNoder = new(new PrecisionModel(1 / tolerance));
 
             List<LineString> lineStrings = [.. geometryNoder.Node(geometries_Temp)];
             if (lineStrings == null || lineStrings.Count == 0)
@@ -74,7 +74,7 @@ namespace DiGi.Geometry.Planar
                 return result;
             }
 
-            Polygonizer polygonizer = new (false);
+            Polygonizer polygonizer = new(false);
             polygonizer.Add([.. lineStrings]);
 
             IEnumerable<NetTopologySuite.Geometries.Geometry> geometries_Result = polygonizer.GetPolygons();

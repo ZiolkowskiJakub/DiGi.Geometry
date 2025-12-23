@@ -83,7 +83,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return DiGi.Core.Query.Clone(internalEdges)?.FilterNulls();
             }
         }
-        
+
         public override ISerializableObject? Clone()
         {
             return new PolygonalFace2D(this);
@@ -91,28 +91,28 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Point2D? ClosestPoint(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point2D == null || externalEdge == null)
+            if (point2D == null || externalEdge == null)
             {
                 return null;
             }
 
-            if(Inside(point2D, tolerance))
+            if (Inside(point2D, tolerance))
             {
                 return new Point2D(point2D);
             }
 
-            if(externalEdge.On(point2D, tolerance))
+            if (externalEdge.On(point2D, tolerance))
             {
                 return new Point2D(point2D);
             }
 
-            if(internalEdges != null)
+            if (internalEdges != null)
             {
-                for(int i =0; i < internalEdges.Count; i++)
+                for (int i = 0; i < internalEdges.Count; i++)
                 {
                     if (internalEdges[i] != null && internalEdges[i].On(point2D, tolerance))
                     {
-                        return new (point2D);
+                        return new(point2D);
                     }
                 }
             }
@@ -120,7 +120,7 @@ namespace DiGi.Geometry.Planar.Classes
             double distance = double.NaN;
 
             Point2D? result = externalEdge.ClosestPoint(point2D);
-            if(result != null)
+            if (result != null)
             {
                 distance = result.Distance(point2D);
                 if (distance < tolerance)
@@ -129,12 +129,12 @@ namespace DiGi.Geometry.Planar.Classes
                 }
             }
 
-            if(internalEdges != null)
+            if (internalEdges != null)
             {
                 for (int i = 0; i < internalEdges.Count; i++)
                 {
                     Point2D? point2D_Temp = internalEdges[i]?.ClosestPoint(point2D);
-                    if(point2D_Temp == null)
+                    if (point2D_Temp == null)
                     {
                         continue;
                     }
@@ -147,7 +147,7 @@ namespace DiGi.Geometry.Planar.Classes
                         result = point2D_Temp;
                     }
 
-                    if(distance < tolerance)
+                    if (distance < tolerance)
                     {
                         return result;
                     }
@@ -159,20 +159,20 @@ namespace DiGi.Geometry.Planar.Classes
 
         public double GetArea()
         {
-            if(externalEdge == null)
+            if (externalEdge == null)
             {
                 return double.NaN;
             }
 
             double result = externalEdge.GetArea();
-            if(double.IsNaN(result) || result == 0)
+            if (double.IsNaN(result) || result == 0)
             {
                 return result;
             }
 
-            if(internalEdges != null && internalEdges.Count != 0)
+            if (internalEdges != null && internalEdges.Count != 0)
             {
-                for(int i=0; i < internalEdges.Count; i++)
+                for (int i = 0; i < internalEdges.Count; i++)
                 {
                     if (internalEdges[i] == null)
                     {
@@ -243,18 +243,18 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point2D == null || externalEdge == null)
+            if (point2D == null || externalEdge == null)
             {
                 return false;
             }
 
-            if(Inside(point2D, tolerance))
+            if (Inside(point2D, tolerance))
             {
                 return true;
             }
 
             bool result = externalEdge.On(point2D, tolerance);
-            if(internalEdges == null || internalEdges.Count == 0)
+            if (internalEdges == null || internalEdges.Count == 0)
             {
                 return result;
             }
@@ -278,7 +278,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             bool result = externalEdge.Inside(point2D, tolerance);
-            if(!result)
+            if (!result)
             {
                 return result;
             }
@@ -303,17 +303,17 @@ namespace DiGi.Geometry.Planar.Classes
         {
             bool result = false;
 
-            if(externalEdge is not null)
+            if (externalEdge is not null)
             {
-                if(externalEdge.Inverse())
+                if (externalEdge.Inverse())
                 {
                     result = true;
                 }
             }
 
-            if(internalEdges is not null)
+            if (internalEdges is not null)
             {
-                foreach(IPolygonal2D internalEdge in internalEdges)
+                foreach (IPolygonal2D internalEdge in internalEdges)
                 {
                     if (internalEdge is not null && internalEdge.Inverse())
                     {
@@ -353,7 +353,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             bool result = externalEdge.On(point2D, tolerance);
-            if(result)
+            if (result)
             {
                 return result;
             }
@@ -378,19 +378,19 @@ namespace DiGi.Geometry.Planar.Classes
         {
             bool result = false;
 
-            if(externalEdgeOrientation is not null && externalEdge is not null)
+            if (externalEdgeOrientation is not null && externalEdge is not null)
             {
-                if(externalEdge.Orient(externalEdgeOrientation.Value))
+                if (externalEdge.Orient(externalEdgeOrientation.Value))
                 {
                     result = true;
                 }
             }
 
-            if(internalEdgeOrientation is not null && internalEdges is not null)
+            if (internalEdgeOrientation is not null && internalEdges is not null)
             {
-                foreach(IPolygonal2D internalEdge in internalEdges)
+                foreach (IPolygonal2D internalEdge in internalEdges)
                 {
-                    if(internalEdge is null)
+                    if (internalEdge is null)
                     {
                         continue;
                     }
@@ -427,12 +427,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         public virtual List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
-            if(externalEdge == null)
+            if (externalEdge == null)
             {
                 return null;
             }
 
-            if(internalEdges == null || internalEdges.Count == 0)
+            if (internalEdges == null || internalEdges.Count == 0)
             {
                 return externalEdge.Triangulate(tolerance);
             }
@@ -452,7 +452,7 @@ namespace DiGi.Geometry.Planar.Classes
                     continue;
                 }
 
-                result.Add(new (coordinates[0].ToDiGi(), coordinates[1].ToDiGi(), coordinates[2].ToDiGi()));
+                result.Add(new(coordinates[0].ToDiGi(), coordinates[1].ToDiGi(), coordinates[2].ToDiGi()));
             }
 
             return result;

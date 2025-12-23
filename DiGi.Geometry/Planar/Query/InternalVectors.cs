@@ -14,7 +14,7 @@ namespace DiGi.Geometry.Planar
             }
 
             List<Segment2D>? segment2Ds = polygonal2D.GetSegments();
-            if(segment2Ds is null)
+            if (segment2Ds is null)
             {
                 return null;
             }

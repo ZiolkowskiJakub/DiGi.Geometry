@@ -25,10 +25,10 @@ namespace DiGi.Geometry.Planar
                 Vector2D? vector2D_Intersection = Create.SegmentableTraceResult2D(point2D, vector2D, segment2Ds_Temp, tolerance)?.Vector2D;
                 if (vector2D_Intersection != null && vector2D_Intersection.Length > 0)
                 {
-                    Point2D point2D_Temp = new (point2D);
+                    Point2D point2D_Temp = new(point2D);
                     point2D_Temp.Move(vector2D_Intersection);
-                    
-                    Segment2D segment2D_Intersection = new (point2D_Temp, point2D);
+
+                    Segment2D segment2D_Intersection = new(point2D_Temp, point2D);
                     if (segment2D_Intersection.Length > maxLength)
                     {
                         continue;
@@ -51,10 +51,10 @@ namespace DiGi.Geometry.Planar
                 vector2D_Intersection = Create.SegmentableTraceResult2D(point2D, vector2D, segment2Ds_Temp, tolerance)?.Vector2D;
                 if (vector2D_Intersection != null && vector2D_Intersection.Length > 0)
                 {
-                    Point2D point2D_Temp = new (point2D);
+                    Point2D point2D_Temp = new(point2D);
                     point2D_Temp.Move(vector2D_Intersection);
 
-                    Segment2D segment2D_Intersection = new (point2D_Temp, point2D);
+                    Segment2D segment2D_Intersection = new(point2D_Temp, point2D);
                     if (segment2D_Intersection.Length > maxLength)
                         continue;
 
@@ -77,7 +77,7 @@ namespace DiGi.Geometry.Planar
 
         public static List<Segment2D>? SelfIntersectionSegments(this ISegmentable2D? segmentable2D, double maxLength, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(segmentable2D == null)
+            if (segmentable2D == null)
             {
                 return null;
             }

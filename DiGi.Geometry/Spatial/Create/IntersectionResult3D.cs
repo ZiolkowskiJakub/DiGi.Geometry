@@ -8,13 +8,13 @@ namespace DiGi.Geometry.Spatial
     {
         public static IntersectionResult3D? IntersectionResult3D<TPolygonalFace3D>(this Polyhedron<TPolygonalFace3D>? polyhedron, ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
         {
-            if(polyhedron == null || linear3D == null)
+            if (polyhedron == null || linear3D == null)
             {
                 return null;
             }
 
             BoundingBox3D? boundingBox3D = polyhedron.GetBoundingBox();
-            if(boundingBox3D == null)
+            if (boundingBox3D == null)
             {
                 return null;
             }
@@ -29,13 +29,13 @@ namespace DiGi.Geometry.Spatial
             for (int i = 0; i < polyhedron.Count; i++)
             {
                 PlanarIntersectionResult? planarIntersectionResult = PlanarIntersectionResult(polyhedron[i], linear3D as dynamic, tolerance);
-                if(planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+                if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
                 {
                     continue;
                 }
 
                 List<IGeometry3D>? geometry3Ds_Temp = planarIntersectionResult.GetGeometry3Ds<IGeometry3D>();
-                if(geometry3Ds_Temp != null)
+                if (geometry3Ds_Temp != null)
                 {
                     foreach (IGeometry3D geometry3D in geometry3Ds_Temp)
                     {
@@ -51,13 +51,13 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            if(point3Ds.Count == 0 && segment3Ds.Count == 0)
+            if (point3Ds.Count == 0 && segment3Ds.Count == 0)
             {
                 return new IntersectionResult3D();
             }
 
             List<IGeometry3D> geometry3Ds = [];
-            for(int i =0; i < point3Ds.Count; i++)
+            for (int i = 0; i < point3Ds.Count; i++)
             {
                 geometry3Ds.Add(point3Ds[i]);
             }
@@ -72,13 +72,13 @@ namespace DiGi.Geometry.Spatial
 
         public static IntersectionResult3D? IntersectionResult3D(this BoundingBox3D? boundingBox3D, ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(boundingBox3D == null || linear3D == null)
+            if (boundingBox3D == null || linear3D == null)
             {
                 return null;
             }
 
             Polyhedron? polyhedron = Polyhedron(boundingBox3D);
-            if(polyhedron == null)
+            if (polyhedron == null)
             {
                 return null;
             }
@@ -88,24 +88,24 @@ namespace DiGi.Geometry.Spatial
 
         public static IntersectionResult3D? IntersectionResult3D(this BoundingBox3D? boundingBox3D, Point3D? point3D, Vector3D? direction, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(boundingBox3D == null || direction == null || point3D == null)
+            if (boundingBox3D == null || direction == null || point3D == null)
             {
                 return null;
             }
 
             IntersectionResult3D? intersectionResult3D = IntersectionResult3D(boundingBox3D, new Line3D(point3D, direction), tolerance);
-            if(intersectionResult3D == null)
+            if (intersectionResult3D == null)
             {
                 return null;
             }
 
-            if(!intersectionResult3D.Intersect)
+            if (!intersectionResult3D.Intersect)
             {
                 return intersectionResult3D;
             }
 
             Vector3D? unit = direction?.Unit;
-            if(unit == null)
+            if (unit == null)
             {
                 return null;
             }
@@ -113,7 +113,7 @@ namespace DiGi.Geometry.Spatial
             List<IGeometry3D> geometry3Ds = [];
 
             List<IGeometry3D>? geometry3Ds_Temp = intersectionResult3D.GetGeometry3Ds<IGeometry3D>();
-            if(geometry3Ds_Temp != null)
+            if (geometry3Ds_Temp != null)
             {
                 foreach (IGeometry3D geometry3D in geometry3Ds_Temp)
                 {
@@ -140,7 +140,7 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            if(geometry3Ds == null || geometry3Ds.Count == 0)
+            if (geometry3Ds == null || geometry3Ds.Count == 0)
             {
                 return new IntersectionResult3D();
             }
@@ -152,7 +152,7 @@ namespace DiGi.Geometry.Spatial
         {
             Vector3D? d = segment3D?.End - segment3D?.Start;
             Vector3D? f = segment3D?.Start - sphere?.Center;
-            if(d is null || f is null)
+            if (d is null || f is null)
             {
                 return null;
             }
@@ -163,7 +163,7 @@ namespace DiGi.Geometry.Spatial
 
             double discriminant = b * b - 4 * a * c;
 
-            if (discriminant < - tolerance)
+            if (discriminant < -tolerance)
             {
                 return new IntersectionResult3D();
             }
@@ -173,16 +173,16 @@ namespace DiGi.Geometry.Spatial
             double t2 = (-b + discriminant) / (2 * a);
 
             List<IGeometry3D> geometry3Ds = [];
-            if (t1 >= - tolerance && t1 <= 1 + tolerance)
+            if (t1 >= -tolerance && t1 <= 1 + tolerance)
             {
                 IGeometry3D? geometry3D = segment3D?.Start + t1 * d;
-                if(geometry3D is not null)
+                if (geometry3D is not null)
                 {
                     geometry3Ds.Add(geometry3D);
                 }
             }
 
-            if (t2 >= - tolerance && t2 <= 1 + tolerance)
+            if (t2 >= -tolerance && t2 <= 1 + tolerance)
             {
                 IGeometry3D? geometry3D = segment3D?.Start + t2 * d;
                 if (geometry3D is not null)
@@ -218,7 +218,7 @@ namespace DiGi.Geometry.Spatial
             double t1 = (-b - discriminant) / (2 * a);
             double t2 = (-b + discriminant) / (2 * a);
 
-            if(line3D!.Origin + t1 * d is not IGeometry3D geometry3D_1 || line3D!.Origin + t2 * d is not IGeometry3D geometry3D_2)
+            if (line3D!.Origin + t1 * d is not IGeometry3D geometry3D_1 || line3D!.Origin + t2 * d is not IGeometry3D geometry3D_2)
             {
                 return new IntersectionResult3D();
             }

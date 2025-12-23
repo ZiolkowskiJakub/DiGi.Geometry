@@ -137,13 +137,13 @@ namespace DiGi.Geometry.Spatial.Classes
             return axis switch
             {
                 Enums.SpatialAxis.X => AxisX,
-                
+
                 Enums.SpatialAxis.Y => AxisY,
-                
+
                 Enums.SpatialAxis.Z => AxisZ,
-                
+
                 Enums.SpatialAxis.Undefined => null,
-                
+
                 _ => null,
             };
         }

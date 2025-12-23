@@ -20,7 +20,7 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            if(count == 3)
+            if (count == 3)
             {
                 return Inside(point2D, point2Ds.ElementAt(0), point2Ds.ElementAt(1), point2Ds.ElementAt(2));
             }
@@ -56,7 +56,7 @@ namespace DiGi.Geometry.Planar
         /// <returns>True in point2D is inside triangle created by trheer points (point2D_1, point2D_2, point2D_3)</returns>
         public static bool Inside(this Point2D? point2D, Point2D? point2D_1, Point2D? point2D_2, Point2D? point2D_3)
         {
-            if(point2D is null || point2D_1 is null || point2D_2 is null || point2D_3 is null)
+            if (point2D is null || point2D_1 is null || point2D_2 is null || point2D_3 is null)
             {
                 return false;
             }

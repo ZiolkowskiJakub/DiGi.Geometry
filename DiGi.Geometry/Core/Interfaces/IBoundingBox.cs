@@ -5,7 +5,7 @@
 
     }
 
-    public interface IBoundingBox<T> : IBoundingBox where T: IPoint
+    public interface IBoundingBox<T> : IBoundingBox where T : IPoint
     {
         T Max { get; }
 

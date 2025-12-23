@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Spatial
 
         public static Point3D? ClosestPoint(this Point3D? point3D, Point3D? point3D_1, Point3D? point3D_2, bool bounded_1, bool bounded_2)
         {
-            if(point3D == null || point3D_1 == null || point3D_2 == null)
+            if (point3D == null || point3D_1 == null || point3D_2 == null)
             {
                 return null;
             }
@@ -139,7 +139,7 @@ namespace DiGi.Geometry.Spatial
             distance = double.NaN;
             closestPolygonalFace3D = default;
 
-            if(point3D is null || polygonalFace3Ds is null)
+            if (point3D is null || polygonalFace3Ds is null)
             {
                 return null;
             }
@@ -148,21 +148,21 @@ namespace DiGi.Geometry.Spatial
 
             Point3D? result = null;
 
-            foreach(TPolygonalFace3D polygonalFace3D in polygonalFace3Ds)
+            foreach (TPolygonalFace3D polygonalFace3D in polygonalFace3Ds)
             {
-                if(polygonalFace3D?.ClosestPoint(point3D) is not Point3D closestPoint_Temp)
+                if (polygonalFace3D?.ClosestPoint(point3D) is not Point3D closestPoint_Temp)
                 {
                     continue;
                 }
 
                 double distance_Temp = closestPoint_Temp.Distance(point3D);
-                if(distance_Temp < distance)
+                if (distance_Temp < distance)
                 {
                     result = closestPoint_Temp;
 
                     distance = distance_Temp;
                     closestPolygonalFace3D = polygonalFace3D;
-                    if(distance < tolerance)
+                    if (distance < tolerance)
                     {
                         break;
                     }

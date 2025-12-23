@@ -9,22 +9,22 @@ namespace DiGi.Geometry.Planar
     {
         public static List<Point2D>? ConvexHull(this IEnumerable<Point2D>? point2Ds, bool keepOrder)
         {
-            if(point2Ds is null)
+            if (point2Ds is null)
             {
                 return null;
             }
 
             List<Point2D>? result = ConvexHull(point2Ds);
-            
-            if(!keepOrder || result is null || result.Count < 2)
+
+            if (!keepOrder || result is null || result.Count < 2)
             {
                 return result;
             }
 
             List<Point2D> point2Ds_Temp = [];
-            foreach(Point2D point2D in point2Ds)
+            foreach (Point2D point2D in point2Ds)
             {
-                if(!result.Contains(point2D))
+                if (!result.Contains(point2D))
                 {
                     continue;
                 }
@@ -62,7 +62,7 @@ namespace DiGi.Geometry.Planar
                     if ((point2D_1.X - point2D_2.X) * (point2D.Y - point2D_2.Y) >= (point2D_1.Y - point2D_2.Y) * (point2D.X - point2D_2.X))
                     {
                         point2Ds_Temp_UpperHull.RemoveAt(point2Ds_Temp_UpperHull.Count - 1);
-                    } 
+                    }
                     else
                     {
                         break;
@@ -103,7 +103,7 @@ namespace DiGi.Geometry.Planar
 
         public static List<Point2D>? ConvexHull(this IEnumerable<Segment2D>? segment2Ds)
         {
-            if(segment2Ds is null)
+            if (segment2Ds is null)
             {
                 return null;
             }
@@ -112,7 +112,7 @@ namespace DiGi.Geometry.Planar
             foreach (Segment2D segment2D in segment2Ds)
             {
                 Point2D? point2D = segment2D[0];
-                if(point2D is not null)
+                if (point2D is not null)
                 {
                     point2Ds.Add(point2D);
                 }

@@ -50,11 +50,11 @@ namespace DiGi.Geometry.Planar
 
                     Segment2D? segment2D_Temp = null;
 
-                    segment2D_Temp = new (segment2D[0], point2D_Project);
+                    segment2D_Temp = new(segment2D[0], point2D_Project);
                     result.Add(segment2D_Temp);
                     segment2Ds[i] = segment2D_Temp;
 
-                    segment2D_Temp = new (point2D_Project, segment2D[1]);
+                    segment2D_Temp = new(point2D_Project, segment2D[1]);
                     result.Add(segment2D_Temp);
 
                     if (i == segment2Ds.Count - 1)
@@ -95,8 +95,8 @@ namespace DiGi.Geometry.Planar
                 switch (pointConnectMethod)
                 {
                     case PointConnectMethod.Ends:
-                        result.Add(new (point2D, segment2D[0]));
-                        result.Add(new (point2D, segment2D[1]));
+                        result.Add(new(point2D, segment2D[0]));
+                        result.Add(new(point2D, segment2D[1]));
                         segment2Ds.AddRange(result);
                         break;
 
@@ -110,10 +110,10 @@ namespace DiGi.Geometry.Planar
                         }
                         else
                         {
-                            segment2D_Temp = new (segment2D[0], point2D_Project);
+                            segment2D_Temp = new(segment2D[0], point2D_Project);
                             segment2Ds[index] = segment2D_Temp;
 
-                            segment2D_Temp = new (point2D_Project, segment2D[1]);
+                            segment2D_Temp = new(point2D_Project, segment2D[1]);
                         }
 
                         if (index == segment2Ds.Count - 1)
@@ -125,7 +125,7 @@ namespace DiGi.Geometry.Planar
                             segment2Ds.Insert(index + 1, segment2D_Temp);
                         }
 
-                        segment2D_Temp = new (point2D, point2D_Project);
+                        segment2D_Temp = new(point2D, point2D_Project);
                         result.Add(segment2D_Temp);
                         segment2Ds.Add(segment2D_Temp);
                         break;

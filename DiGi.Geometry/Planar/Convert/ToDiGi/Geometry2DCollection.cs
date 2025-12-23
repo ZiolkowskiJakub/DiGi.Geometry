@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
     {
         public static GeometryCollection2D? ToDiGi(this GeometryCollection? geometryCollection)
         {
-            if(geometryCollection == null)
+            if (geometryCollection == null)
             {
                 return null;
             }

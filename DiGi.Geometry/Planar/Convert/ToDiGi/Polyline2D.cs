@@ -9,13 +9,13 @@ namespace DiGi.Geometry.Planar
         public static Polyline2D? ToDiGi(this LineString? linearString)
         {
             List<Point2D>? point2Ds = linearString?.Coordinates?.ToDiGi();
-            if(point2Ds == null)
+            if (point2Ds == null)
             {
                 return null;
             }
 
             int count = point2Ds.Count;
-            if(count < 3)
+            if (count < 3)
             {
                 return null;
             }

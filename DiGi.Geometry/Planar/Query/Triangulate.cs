@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Planar
                     return null;
                 }
 
-                ConformingDelaunayTriangulationBuilder conformingDelaunayTriangulationBuilder = new ();
+                ConformingDelaunayTriangulationBuilder conformingDelaunayTriangulationBuilder = new();
 
                 conformingDelaunayTriangulationBuilder.SetSites(geometry);
                 conformingDelaunayTriangulationBuilder.Constraints = geometry;
@@ -72,7 +72,7 @@ namespace DiGi.Geometry.Planar
                     return [polygon];
                 }
 
-                DelaunayTriangulationBuilder delaunayTriangulationBuilder = new ();
+                DelaunayTriangulationBuilder delaunayTriangulationBuilder = new();
                 delaunayTriangulationBuilder.SetSites(polygon);
 
                 geometryCollection = delaunayTriangulationBuilder.GetTriangles(geometryFactory);

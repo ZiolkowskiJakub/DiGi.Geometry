@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Planar
 
         public static Point2D? Max(this Point2D? point2D_1, Point2D? point2D_2)
         {
-            if(point2D_1 == null || point2D_2 == null)
+            if (point2D_1 == null || point2D_2 == null)
             {
                 return null;
             }

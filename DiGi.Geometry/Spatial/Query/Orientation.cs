@@ -41,18 +41,18 @@ namespace DiGi.Geometry.Spatial
 
         public static Orientation Orientation(this IPolygonal3D? polygonal3D, bool convexHull = true)
         {
-            if(polygonal3D?.Plane is not Plane plane)
+            if (polygonal3D?.Plane is not Plane plane)
             {
                 return Core.Enums.Orientation.Undefined;
             }
 
             List<Point2D>? point2Ds = null;
 
-            if(polygonal3D is Polygon3D polygon3D)
+            if (polygonal3D is Polygon3D polygon3D)
             {
                 point2Ds = polygon3D.Geometry2D?.GetPoints();
             }
-            else if(polygonal3D is Triangle3D triangle3D)
+            else if (polygonal3D is Triangle3D triangle3D)
             {
                 point2Ds = triangle3D.Geometry2D?.GetPoints();
             }

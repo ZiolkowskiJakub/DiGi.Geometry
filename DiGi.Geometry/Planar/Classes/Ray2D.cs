@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         [JsonInclude, JsonPropertyName("Origin")]
         private Point2D? origin;
-        
+
         public Ray2D(Point2D? origin, Vector2D? direction)
         {
             this.origin = origin?.Clone<Point2D>();
@@ -22,7 +22,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Ray2D(Ray2D? ray2D)
         {
-            if(ray2D is not null)
+            if (ray2D is not null)
             {
                 origin = ray2D.Origin;
                 direction = ray2D.Direction;
@@ -93,6 +93,37 @@ namespace DiGi.Geometry.Planar.Classes
             return new Ray2D(this);
         }
 
+        public Point2D? ClosestPoint(Point2D? point2D)
+        {
+            if (origin == null || direction is null)
+            {
+                return null;
+            }
+
+            return Query.ClosestPoint(point2D, origin, origin + direction, true, false);
+        }
+
+        public bool Collinear(ILinear2D? linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        {
+            return Query.Collinear(this, linear2D, tolerance);
+        }
+
+        public double Distance(Point2D? point2D)
+        {
+            if (point2D == null || origin == null || direction is null)
+            {
+                return double.NaN;
+            }
+
+            Point2D? point2D_Project = ClosestPoint(point2D);
+            if (point2D_Project is null)
+            {
+                return double.NaN;
+            }
+
+            return point2D_Project.Distance(point2D);
+        }
+
         public override bool Equals(object? obj)
         {
             if (obj is not Ray2D ray2D)
@@ -101,6 +132,14 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return ray2D.origin == origin && ray2D.direction == direction;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -1652769719;
+            hashCode = hashCode * -1521134295 + EqualityComparer<Vector2D?>.Default.GetHashCode(direction);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Point2D?>.Default.GetHashCode(origin);
+            return hashCode;
         }
 
         public Point2D? IntersectionPoint(Ray2D? ray2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -136,12 +175,33 @@ namespace DiGi.Geometry.Planar.Classes
             point2D?.Move(direction);
 
             Point2D? result = Query.IntersectionPoint(origin, point2D, segment2D.Start, segment2D.End, false, tolerance);
-            if(!segment2D.On(result) || !On(result))
+            if (!segment2D.On(result) || !On(result))
             {
                 return null;
             }
 
             return result;
+        }
+
+        public bool Inverse()
+        {
+            if (direction is null)
+            {
+                return false;
+            }
+
+            return direction.Inverse();
+        }
+
+        public override bool Move(Vector2D? vector2D)
+        {
+            if (vector2D is null || origin is null)
+            {
+                return false;
+            }
+
+            origin.Move(vector2D);
+            return true;
         }
 
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -153,89 +213,29 @@ namespace DiGi.Geometry.Planar.Classes
 
             return Distance(point2D) < tolerance;
         }
-
-        public override bool Move(Vector2D? vector2D)
-        {
-            if(vector2D is null || origin is null)
-            {
-                return false;
-            }
-
-            origin.Move(vector2D);
-            return true;
-        }
-
-        public bool Inverse()
-        {
-            if(direction is null)
-            {
-                return false;
-            }
-
-            return direction.Inverse();
-        }
-
+        
         public Point2D? Project(Point2D? point2D)
         {
             return Query.ClosestPoint(point2D, origin, origin + direction, false);
         }
-
-        public Point2D? ClosestPoint(Point2D? point2D)
-        {
-            if(origin == null || direction is null)
-            {
-                return null;
-            }
-
-            return Query.ClosestPoint(point2D, origin, origin + direction, true, false);
-        }
-
-        public bool Collinear(ILinear2D? linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
-        {
-            return Query.Collinear(this, linear2D, tolerance);
-        }
-
-        public double Distance(Point2D? point2D)
-        {
-            if(point2D == null || origin == null || direction is null)
-            {
-                return double.NaN;
-            }
-
-            Point2D? point2D_Project = ClosestPoint(point2D);
-            if(point2D_Project is null)
-            {
-                return double.NaN;
-            }
-
-            return point2D_Project.Distance(point2D);
-        }
-
+        
         public override bool Transform(ITransform2D? transform)
         {
-            if(transform is null || origin is null || direction is null)
+            if (transform is null || origin is null || direction is null)
             {
                 return false;
             }
 
-            Point2D point2D = new (origin);
+            Point2D point2D = new(origin);
             point2D.Move(direction);
 
             origin.Transform(transform);
 
             point2D.Transform(transform);
-            direction = new (origin, point2D);
+            direction = new(origin, point2D);
             direction.Normalize();
 
             return true;
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = -1652769719;
-            hashCode = hashCode * -1521134295 + EqualityComparer<Vector2D?>.Default.GetHashCode(direction);
-            hashCode = hashCode * -1521134295 + EqualityComparer<Point2D?>.Default.GetHashCode(origin);
-            return hashCode;
         }
     }
 }

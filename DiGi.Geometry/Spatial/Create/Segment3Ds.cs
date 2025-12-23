@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Spatial
     {
         public static List<Segment3D>? Segment3Ds(this IEnumerable<Point3D>? point3Ds, bool closed = false)
         {
-            if(point3Ds == null)
+            if (point3Ds == null)
             {
                 return null;
             }
@@ -25,7 +25,7 @@ namespace DiGi.Geometry.Spatial
             for (int i = 1; i < count; i++)
             {
                 Point3D point3D_1 = point3Ds.ElementAt(i - 1);
-                if(point3D_1 == null)
+                if (point3D_1 == null)
                 {
                     continue;
                 }
@@ -39,7 +39,7 @@ namespace DiGi.Geometry.Spatial
                 result.Add(new Segment3D(new Point3D(point3D_1), new Point3D(point3D_2)));
             }
 
-            if(closed)
+            if (closed)
             {
                 result.Add(new Segment3D(new Point3D(result[result.Count - 1][1]), new Point3D(result[0][0])));
             }

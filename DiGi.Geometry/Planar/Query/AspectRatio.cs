@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
     {
         public static double AspectRatio(this Rectangle2D rectangle2D, bool normalized = true)
         {
-            if(rectangle2D is null)
+            if (rectangle2D is null)
             {
                 return double.NaN;
             }

@@ -1,8 +1,8 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
-using DiGi.Geometry.Spatial.Interfaces;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
@@ -38,7 +38,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(geometry2D is null)
+                if (geometry2D is null)
                 {
                     return double.NaN;
                 }
@@ -47,7 +47,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
         }
-        
+
         public override ISerializableObject? Clone()
         {
             return new Polygon3D(this);
@@ -207,7 +207,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool Inverse()
         {
-            if(geometry2D is null)
+            if (geometry2D is null)
             {
                 return false;
             }

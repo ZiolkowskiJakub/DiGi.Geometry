@@ -26,7 +26,7 @@ namespace DiGi.Geometry.Planar
             foreach (Segment2D segment2D in segment2Ds)
             {
                 BoundingBox2D? boundingBox2D = segment2D?.GetBoundingBox();
-                if(boundingBox2D is null)
+                if (boundingBox2D is null)
                 {
                     continue;
                 }
@@ -184,7 +184,7 @@ namespace DiGi.Geometry.Planar
         public static List<Segment2D>? Split(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             List<Segment2D>? segment2Ds = segmentable2D?.GetSegments();
-            if(segment2Ds == null)
+            if (segment2Ds == null)
             {
                 return null;
             }
@@ -192,7 +192,7 @@ namespace DiGi.Geometry.Planar
             return Split(segment2Ds, tolerance);
         }
 
-        public static List<Segment2D>? Split<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
+        public static List<Segment2D>? Split<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
             List<Segment2D>? segment2Ds = segmentable2Ds?.Segments();
             if (segment2Ds == null)
@@ -205,7 +205,7 @@ namespace DiGi.Geometry.Planar
 
         public static List<PolygonalFace2D>? Split<T>(this IPolygonalFace2D? polygonalFace2D, IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
-            if(polygonalFace2D == null || segmentable2Ds == null)
+            if (polygonalFace2D == null || segmentable2Ds == null)
             {
                 return null;
             }
@@ -223,7 +223,7 @@ namespace DiGi.Geometry.Planar
             }
 
             List<ISegmentable2D> segmentable2Ds_Temp = [];
-            foreach(T segmentable2D in segmentable2Ds)
+            foreach (T segmentable2D in segmentable2Ds)
             {
                 segmentable2Ds_Temp.Add(segmentable2D);
             }
@@ -232,7 +232,7 @@ namespace DiGi.Geometry.Planar
             List<Segment2D>? segment2Ds = segmentable2Ds_Temp.Split(tolerance);
 
             List<PolygonalFace2D>? result = Create.PolygonalFace2Ds(segment2Ds);
-            if(result == null || result.Count == 0)
+            if (result == null || result.Count == 0)
             {
                 return result;
             }
@@ -240,13 +240,13 @@ namespace DiGi.Geometry.Planar
             for (int i = result.Count - 1; i >= 0; i--)
             {
                 Point2D? point2D = result[i]?.GetInternalPoint(tolerance);
-                if(point2D == null || !boundingBox2D.InRange(point2D, tolerance))
+                if (point2D == null || !boundingBox2D.InRange(point2D, tolerance))
                 {
                     result.RemoveAt(i);
                     continue;
                 }
 
-                if(!polygonalFace2D.InRange(point2D, tolerance))
+                if (!polygonalFace2D.InRange(point2D, tolerance))
                 {
                     result.RemoveAt(i);
                     continue;

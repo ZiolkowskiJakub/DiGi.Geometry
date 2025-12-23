@@ -17,9 +17,9 @@ namespace DiGi.Geometry.Planar
 
         public static LinearEquation? LinearEquation(this Segment2D? segment2D)
         {
-            if(segment2D == null)
+            if (segment2D == null)
             {
-                return null; 
+                return null;
             }
 
             Point2D? point2D_1 = segment2D[0];

@@ -18,7 +18,7 @@ namespace DiGi.Geometry.Planar
                 return true;
             }
 
-            if(point2D_1 is null || point2D_2 is null)
+            if (point2D_1 is null || point2D_2 is null)
             {
                 return false;
             }
@@ -63,7 +63,7 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            Vector2D vector2D_3 = new (vector2D_2);
+            Vector2D vector2D_3 = new(vector2D_2);
             vector2D_3.Inverse();
 
             return vector2D_1.AlmostEquals(vector2D_2, tolerance) || vector2D_1.AlmostEquals(vector2D_3, tolerance);
@@ -93,7 +93,7 @@ namespace DiGi.Geometry.Planar
 
             List<Point2D>? point2Ds_1 = segmentable2D_1.GetPoints();
             List<Point2D>? point2Ds_2 = segmentable2D_2.GetPoints();
-            if((point2Ds_1 == null || point2Ds_1.Count == 0) && (point2Ds_2 == null || point2Ds_2.Count == 0))
+            if ((point2Ds_1 == null || point2Ds_1.Count == 0) && (point2Ds_2 == null || point2Ds_2.Count == 0))
             {
                 return true;
             }
@@ -108,7 +108,7 @@ namespace DiGi.Geometry.Planar
                 return Similar(new Segment2D(point2Ds_1[0], point2Ds_1[1]), new Segment2D(point2Ds_2[0], point2Ds_2[1]), tolerance);
             }
 
-            if((point2Ds_1 == null || point2Ds_1.Count == 0) && (point2Ds_2 == null || point2Ds_2.Count == 0))
+            if ((point2Ds_1 == null || point2Ds_1.Count == 0) && (point2Ds_2 == null || point2Ds_2.Count == 0))
             {
                 return true;
             }
@@ -124,13 +124,13 @@ namespace DiGi.Geometry.Planar
                 for (int i = 0; i < point2Ds_2.Count; i++)
                 {
                     similar = Similar(point2Ds_1[i], point2Ds_2[i], tolerance);
-                    if(!similar)
+                    if (!similar)
                     {
                         break;
                     }
                 }
 
-                if(similar)
+                if (similar)
                 {
                     return true;
                 }
@@ -165,12 +165,12 @@ namespace DiGi.Geometry.Planar
 
         public static bool Similar(this IPolygonalFace2D? polygonalFace2D_1, IPolygonalFace2D? polygonalFace2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(polygonalFace2D_1 == null && polygonalFace2D_2 == null)
+            if (polygonalFace2D_1 == null && polygonalFace2D_2 == null)
             {
                 return true;
             }
 
-            if(polygonalFace2D_1 == null || polygonalFace2D_2 == null)
+            if (polygonalFace2D_1 == null || polygonalFace2D_2 == null)
             {
                 return false;
             }
@@ -180,14 +180,14 @@ namespace DiGi.Geometry.Planar
             List<IPolygonal2D>? internalEdges_2 = polygonalFace2D_2.InternalEdges;
             internalEdges_2?.RemoveAll(x => x == null);
 
-            if(internalEdges_1 != null && internalEdges_2 != null)
+            if (internalEdges_1 != null && internalEdges_2 != null)
             {
-                if(internalEdges_1.Count != internalEdges_2.Count)
+                if (internalEdges_1.Count != internalEdges_2.Count)
                 {
                     return false;
                 }
 
-                for(int i=0; i < internalEdges_1.Count; i++)
+                for (int i = 0; i < internalEdges_1.Count; i++)
                 {
                     bool result = Similar(internalEdges_1[i], internalEdges_2[i], tolerance);
                     if (!result)

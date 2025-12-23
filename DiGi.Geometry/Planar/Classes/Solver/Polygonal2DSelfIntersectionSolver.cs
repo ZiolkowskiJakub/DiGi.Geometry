@@ -48,37 +48,37 @@ namespace DiGi.Geometry.Planar.Classes
         {
             output = null;
 
-            if(input == null)
+            if (input == null)
             {
                 return false;
             }
 
-            if(Query.SelfIntersectionPolygons(input, maxLength, tolerance) is not List<Polygon2D> polygon2Ds)
+            if (Query.SelfIntersectionPolygons(input, maxLength, tolerance) is not List<Polygon2D> polygon2Ds)
             {
                 return false;
             }
 
-            if(polygon2Ds.Count == 0)
+            if (polygon2Ds.Count == 0)
             {
                 return false;
             }
 
-            if(polygon2Ds.Count == 1)
+            if (polygon2Ds.Count == 1)
             {
                 output = polygon2Ds[0];
                 return true;
             }
 
             List<Tuple<Polygon2D, double>> tuples = [];
-            foreach(Polygon2D polygon2D in polygon2Ds)
+            foreach (Polygon2D polygon2D in polygon2Ds)
             {
-                if(polygon2D is null)
+                if (polygon2D is null)
                 {
                     continue;
                 }
 
                 double area = polygon2D.GetArea();
-                if(area < tolerance)
+                if (area < tolerance)
                 {
                     continue;
                 }
@@ -86,12 +86,12 @@ namespace DiGi.Geometry.Planar.Classes
                 tuples.Add(new Tuple<Polygon2D, double>(polygon2D, area));
             }
 
-            if(tuples.Count == 0)
+            if (tuples.Count == 0)
             {
                 return false;
             }
 
-            if(tuples.Count == 1)
+            if (tuples.Count == 1)
             {
                 output = tuples[0].Item1;
                 return true;

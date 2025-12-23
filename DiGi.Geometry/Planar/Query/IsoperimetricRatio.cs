@@ -6,19 +6,19 @@ namespace DiGi.Geometry.Planar
     {
         public static double IsoperimetricRatio(this IPolygonal2D polygonal2D)
         {
-            if(polygonal2D == null)
+            if (polygonal2D == null)
             {
                 return double.NaN;
             }
 
             double area = polygonal2D.GetArea();
-            if(double.IsNaN(area))
+            if (double.IsNaN(area))
             {
                 return double.NaN;
             }
 
             double perimeter = polygonal2D.GetPerimeter();
-            if(double.IsNaN(perimeter))
+            if (double.IsNaN(perimeter))
             {
                 return double.NaN;
             }

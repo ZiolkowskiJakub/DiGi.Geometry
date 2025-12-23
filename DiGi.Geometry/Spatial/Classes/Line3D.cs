@@ -17,7 +17,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Line3D(Line3D? line3D)
         {
-            if(line3D is not null)
+            if (line3D is not null)
             {
                 origin = DiGi.Core.Query.Clone(line3D.origin);
                 direction = DiGi.Core.Query.Clone(line3D.direction);
@@ -101,7 +101,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool Collinear(ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(direction is null || linear3D?.Direction is not Vector3D direction_Temp)
+            if (direction is null || linear3D?.Direction is not Vector3D direction_Temp)
             {
                 return false;
             }
@@ -180,7 +180,7 @@ namespace DiGi.Geometry.Spatial.Classes
             origin.Move(vector3D);
             return true;
         }
-        
+
         public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null)
@@ -197,7 +197,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             return point3D_Project.Distance(point3D) < tolerance;
         }
-        
+
         public Point3D? Project(Point3D? point3D)
         {
             return Query.ClosestPoint(point3D, origin, origin + direction, false);
@@ -210,13 +210,13 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            Point3D point2D = new (origin);
+            Point3D point2D = new(origin);
             point2D.Move(direction);
 
             origin.Transform(transform);
 
             point2D.Transform(transform);
-            direction = new (origin, point2D);
+            direction = new(origin, point2D);
             direction.Normalize();
 
             return true;

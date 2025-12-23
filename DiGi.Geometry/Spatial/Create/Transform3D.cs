@@ -79,7 +79,7 @@ namespace DiGi.Geometry.Spatial
 
             public static Classes.Transform3D? OriginTranslation(Point3D? point3D)
             {
-                if(point3D is null)
+                if (point3D is null)
                 {
                     return null;
                 }
@@ -132,13 +132,13 @@ namespace DiGi.Geometry.Spatial
             public static Classes.Transform3D? PlaneToPlane(Plane? plane_From, Plane? plane_To)
             {
                 Classes.Transform3D? transform3D_From = OriginToPlane(plane_From);
-                if(transform3D_From is null)
+                if (transform3D_From is null)
                 {
                     return null;
                 }
 
                 Classes.Transform3D? transform3D_To = PlaneToOrigin(plane_To);
-                if(transform3D_To is null)
+                if (transform3D_To is null)
                 {
                     return null;
                 }
@@ -310,7 +310,7 @@ namespace DiGi.Geometry.Spatial
 
             public static Classes.Transform3D? Scale(Point3D? origin, double factor)
             {
-                if(origin is null)
+                if (origin is null)
                 {
                     return null;
                 }
@@ -325,7 +325,7 @@ namespace DiGi.Geometry.Spatial
 
             public static Classes.Transform3D? Translation(Vector3D? vector3D)
             {
-                if(vector3D is null)
+                if (vector3D is null)
                 {
                     return null;
                 }
@@ -359,7 +359,7 @@ namespace DiGi.Geometry.Spatial
             /// <returns>Transform3D</returns>
             public static Classes.Transform3D Zero()
             {
-                Matrix4D matrix4D = new ();
+                Matrix4D matrix4D = new();
                 matrix4D[3, 3] = 1;
                 return new Classes.Transform3D(matrix4D);
             }

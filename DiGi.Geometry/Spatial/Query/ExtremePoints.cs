@@ -33,7 +33,7 @@ namespace DiGi.Geometry.Spatial
             for (int i = 0; i < count - 1; i++)
             {
                 Point3D? point3D_1_Temp = point3Ds.ElementAt(i);
-                if(point3D_1_Temp is null)
+                if (point3D_1_Temp is null)
                 {
                     continue;
                 }

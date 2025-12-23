@@ -8,18 +8,18 @@ namespace DiGi.Geometry.Core.Classes
 {
     public abstract class GeometryCollection<T> : SerializableObjectCollection<T>, IGeometryCollection<T> where T : ICollectable
     {
-        public GeometryCollection() 
-        { 
+        public GeometryCollection()
+        {
         }
 
         public GeometryCollection(IEnumerable<T>? collectables)
-            :base(collectables)
+            : base(collectables)
         {
 
         }
 
         public GeometryCollection(JsonObject? jsonObject)
-            : base(jsonObject) 
+            : base(jsonObject)
         {
 
         }

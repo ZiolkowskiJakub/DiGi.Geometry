@@ -16,7 +16,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public Extrusion(Extrusion<TSurface3D>? extrusion)
             : base(extrusion)
         {
-            if(extrusion is not null)
+            if (extrusion is not null)
             {
                 surface = DiGi.Core.Query.Clone(extrusion.surface);
                 vector = DiGi.Core.Query.Clone(extrusion.vector);
@@ -24,13 +24,13 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         public Extrusion(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
 
         public Extrusion(TSurface3D? surface, Vector3D? vector)
-            :base()
+            : base()
         {
             if (surface is not null)
             {
@@ -44,7 +44,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                return  DiGi.Core.Query.Clone(surface);
+                return DiGi.Core.Query.Clone(surface);
             }
         }
 
@@ -60,14 +60,14 @@ namespace DiGi.Geometry.Spatial.Classes
         public BoundingBox3D? GetBoundingBox()
         {
             BoundingBox3D? result = surface?.GetBoundingBox();
-            if(result is null)
+            if (result is null)
             {
                 return result;
             }
 
-            if(vector != null && result.GetPoints() is List<Point3D> point3Ds)
+            if (vector != null && result.GetPoints() is List<Point3D> point3Ds)
             {
-                foreach(Point3D point3D in point3Ds)
+                foreach (Point3D point3D in point3Ds)
                 {
                     result.Add(point3D);
                 }
@@ -78,7 +78,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public override bool Move(Vector3D? vector3D)
         {
-            if(surface is null)
+            if (surface is null)
             {
                 return false;
             }

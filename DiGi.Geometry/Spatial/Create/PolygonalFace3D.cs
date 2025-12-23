@@ -10,19 +10,19 @@ namespace DiGi.Geometry.Spatial
     {
         public static PolygonalFace3D? PolygonalFace3D<T>(this Planar<T>? planar) where T : IPolygonal2D
         {
-            if(planar == null)
+            if (planar == null)
             {
                 return null;
             }
 
             Plane? plane = planar.Plane;
-            if(plane == null)
+            if (plane == null)
             {
                 return null;
             }
 
             T? polygonal2D = planar.Geometry2D;
-            if(polygonal2D == null)
+            if (polygonal2D == null)
             {
                 return null;
             }
@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Spatial
 
         public static PolygonalFace3D? PolygonalFace3D(Plane? plane, params Point2D[]? points)
         {
-            if(plane == null || points == null || points.Length < 3)
+            if (plane == null || points == null || points.Length < 3)
             {
                 return null;
             }
@@ -43,7 +43,7 @@ namespace DiGi.Geometry.Spatial
         public static PolygonalFace3D? PolygonalFace3D(IPolygonal3D? externalEdge, IEnumerable<IPolygonal3D>? internalEdges = null, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             Plane? plane = externalEdge?.Plane;
-            if(plane == null)
+            if (plane == null)
             {
                 return null;
             }
@@ -51,7 +51,7 @@ namespace DiGi.Geometry.Spatial
             IPolygonal2D? externalEdge2D = plane.Convert(externalEdge);
 
             List<IPolygonal2D>? internalEdge2Ds = null;
-            if(internalEdges != null)
+            if (internalEdges != null)
             {
                 internalEdge2Ds = [];
                 foreach (IPolygonal3D internalEdge in internalEdges)
@@ -67,7 +67,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             PolygonalFace2D? polygonalFace2D = Planar.Create.PolygonalFace2D(externalEdge2D, internalEdge2Ds, tolerance);
-            if(polygonalFace2D == null)
+            if (polygonalFace2D == null)
             {
                 return null;
             }
@@ -77,7 +77,7 @@ namespace DiGi.Geometry.Spatial
 
         public static PolygonalFace3D? PolygonalFace3D(this IPolygonalFace3D? polygonalFace3D)
         {
-            if(polygonalFace3D is null || polygonalFace3D.Plane is not Plane plane || polygonalFace3D.Geometry2D is not IPolygonalFace2D polygonalFace2D)
+            if (polygonalFace3D is null || polygonalFace3D.Plane is not Plane plane || polygonalFace3D.Geometry2D is not IPolygonalFace2D polygonalFace2D)
             {
                 return null;
             }

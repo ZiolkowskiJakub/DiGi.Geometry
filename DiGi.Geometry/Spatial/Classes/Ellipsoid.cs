@@ -21,7 +21,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         [JsonInclude, JsonPropertyName("Plane")]
         private readonly Plane? plane;
-        
+
         public Ellipsoid(Point3D? center, double a, double b, double c)
         {
             plane = Create.Plane(center);
@@ -41,7 +41,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public Ellipsoid(Ellipsoid? ellipsoid)
             : base(ellipsoid)
         {
-            if(ellipsoid != null)
+            if (ellipsoid != null)
             {
                 plane = ellipsoid.plane?.Clone<Plane>();
                 a = ellipsoid.a;
@@ -86,9 +86,9 @@ namespace DiGi.Geometry.Spatial.Classes
         [JsonIgnore]
         public Point3D? Center
         {
-            get 
-            { 
-                return plane?.Origin; 
+            get
+            {
+                return plane?.Origin;
             }
         }
 
@@ -141,18 +141,18 @@ namespace DiGi.Geometry.Spatial.Classes
         public BoundingBox3D? GetBoundingBox()
         {
             Vector3D? extent = Extent;
-            if (extent is null) 
+            if (extent is null)
             {
                 return null;
             }
 
             Point3D? center = Center;
-            if(center is null)
+            if (center is null)
             {
                 return null;
             }
 
-            return new (center - extent, center + extent);
+            return new(center - extent, center + extent);
         }
 
         public Point3D[]? GetFocalPoints(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -250,13 +250,13 @@ namespace DiGi.Geometry.Spatial.Classes
 
             // The foci lie along the direction of the longest semi-axis
             Point3D? focalPoint_1 = center - (f * longestAxisDirection)!;
-            if(focalPoint_1 is null)
+            if (focalPoint_1 is null)
             {
                 return null;
             }
 
             Point3D? focalPoint_2 = center + (f * longestAxisDirection)!;
-            if(focalPoint_2 is null)
+            if (focalPoint_2 is null)
             {
                 return null;
             }
@@ -267,7 +267,7 @@ namespace DiGi.Geometry.Spatial.Classes
         public Point3D? GetPoint(double theta, double phi)
         {
             Vector3D? axisX = plane?.AxisX;
-            if(axisX is null)
+            if (axisX is null)
             {
                 return null;
             }
@@ -312,7 +312,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             Vector3D? directionA = DirectionA;
-            if(directionA is null)
+            if (directionA is null)
             {
                 return false;
             }
@@ -344,7 +344,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public override bool Move(Vector3D? vector3D)
         {
-            if(vector3D == null || plane == null)
+            if (vector3D == null || plane == null)
             {
                 return false;
             }

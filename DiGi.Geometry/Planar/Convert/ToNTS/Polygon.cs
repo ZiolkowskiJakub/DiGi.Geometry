@@ -1,5 +1,4 @@
 ﻿using DiGi.Core;
-using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
@@ -36,7 +35,7 @@ namespace DiGi.Geometry.Planar
 
         public static Polygon? ToNTS_Polygon(this IPolygonal2D? polygonal2D)
         {
-            if(polygonal2D == null)
+            if (polygonal2D == null)
             {
                 return null;
             }

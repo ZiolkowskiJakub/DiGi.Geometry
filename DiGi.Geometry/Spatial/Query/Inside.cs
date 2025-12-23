@@ -11,7 +11,7 @@ namespace DiGi.Geometry.Spatial
     {
         public static bool Inside<T>(IPlanar<T>? planar, Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IPolygonal2D
         {
-            if(planar == null || point3D == null)
+            if (planar == null || point3D == null)
             {
                 return false;
             }
@@ -41,7 +41,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             IPolygonal2D? polygonal2D = planar.Geometry2D;
-            if(polygonal2D == null)
+            if (polygonal2D == null)
             {
                 return false;
             }
@@ -65,7 +65,7 @@ namespace DiGi.Geometry.Spatial
 
         public static bool Inside<T>(IPlanar<T>? planar, ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IPolygonal2D
         {
-            if(planar == null || segmentable3D == null)
+            if (planar == null || segmentable3D == null)
             {
                 return false;
             }
@@ -92,12 +92,12 @@ namespace DiGi.Geometry.Spatial
             for (int i = 0; i < segment3Ds.Count; i++)
             {
                 Segment2D? segment2D = plane.Convert(segment3Ds[i]);
-                if(segment2D == null)
+                if (segment2D == null)
                 {
                     continue;
                 }
 
-                if(!polygonal2D.Inside(segment2D, tolerance))
+                if (!polygonal2D.Inside(segment2D, tolerance))
                 {
                     return false;
                 }

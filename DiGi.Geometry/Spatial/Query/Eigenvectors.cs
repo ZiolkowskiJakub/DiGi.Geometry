@@ -24,11 +24,11 @@ namespace DiGi.Geometry.Spatial
             for (int i = 0; i < 3; i++)
             {
                 double k = eigenvalues[i];
-                Math.Classes.Matrix matrix_Equations = new (new double[,] { { a - k, b, c }, { b, d - k, e }, { c, e, f - k } });
+                Math.Classes.Matrix matrix_Equations = new(new double[,] { { a - k, b, c }, { b, d - k, e }, { c, e, f - k } });
 
                 double REFTolerance = matrix_Equations.REFTolerance(tolerance);
                 Math.Classes.Matrix? matrix_REF = matrix_Equations.RowEchelonForm(true, REFTolerance);
-                if(matrix_REF is null)
+                if (matrix_REF is null)
                 {
                     continue;
                 }

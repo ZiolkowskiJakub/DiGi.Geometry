@@ -2,7 +2,6 @@
 using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Spatial.Interfaces;
-using System.Collections.Generic;
 
 
 namespace DiGi.Geometry.Spatial.Classes
@@ -22,7 +21,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
     }
 
-    public class PolyhedronNormalizationUpdater<TPolyhedron> : GeometryUpdater<TPolyhedron>, Core.Interfaces.INormalizationUpdater<TPolyhedron>  where TPolyhedron : IPolyhedron
+    public class PolyhedronNormalizationUpdater<TPolyhedron> : GeometryUpdater<TPolyhedron>, Core.Interfaces.INormalizationUpdater<TPolyhedron> where TPolyhedron : IPolyhedron
     {
         private readonly double tolerance = Tolerance.Distance;
 
@@ -38,7 +37,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public PolyhedronNormalizationUpdater(Side? normalSide, Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation, double tolerance = Tolerance.Distance)
         {
-            this.tolerance = tolerance; 
+            this.tolerance = tolerance;
 
             this.externalEdgeOrientation = externalEdgeOrientation;
             this.internalEdgeOrientation = internalEdgeOrientation;

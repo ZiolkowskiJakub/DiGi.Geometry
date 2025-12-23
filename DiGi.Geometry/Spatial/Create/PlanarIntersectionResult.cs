@@ -11,18 +11,18 @@ namespace DiGi.Geometry.Spatial
     {
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || point3D == null)
+            if (plane == null || point3D == null)
             {
                 return null;
             }
 
             Point3D? point3D_Project = plane.Project(point3D);
-            if(point3D_Project == null)
+            if (point3D_Project == null)
             {
                 return null;
             }
 
-            if(point3D_Project.Distance(point3D) < tolerance)
+            if (point3D_Project.Distance(point3D) < tolerance)
             {
                 return new PlanarIntersectionResult(plane);
             }
@@ -44,7 +44,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             Vector3D? normal = plane.Normal;
-            if(normal is null)
+            if (normal is null)
             {
                 return null;
             }
@@ -55,7 +55,7 @@ namespace DiGi.Geometry.Spatial
                 if (System.Math.Min(plane.Distance(segment3D[0]), plane.Distance(segment3D[1])) < tolerance)
                 {
                     ProjectionResult? projectionResult = ProjectionResult(plane, segment3D, tolerance);
-                    if(projectionResult != null && projectionResult.Contains<Segment2D>())
+                    if (projectionResult != null && projectionResult.Contains<Segment2D>())
                     {
                         return new PlanarIntersectionResult(plane, projectionResult.GetGeometry2Ds<Segment2D>());
                     }
@@ -71,7 +71,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Point3D point3D_Intersection = new (point3D.X + u * direction.X, point3D.Y + u * direction.Y, point3D.Z + u * direction.Z);
+            Point3D point3D_Intersection = new(point3D.X + u * direction.X, point3D.Y + u * direction.Y, point3D.Z + u * direction.Z);
             if (!segment3D.On(point3D_Intersection, tolerance))
             {
                 return new PlanarIntersectionResult(plane);
@@ -135,7 +135,7 @@ namespace DiGi.Geometry.Spatial
 
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Line3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane is null || line3D?.Origin is not Point3D origin)
+            if (plane is null || line3D?.Origin is not Point3D origin)
             {
                 return null;
             }
@@ -151,12 +151,12 @@ namespace DiGi.Geometry.Spatial
             }
 
             Vector3D? normal = plane.Normal;
-            if(normal is null)
+            if (normal is null)
             {
                 return null;
             }
 
-            Vector3D vector3D = new (point3D_1, point3D_2);
+            Vector3D vector3D = new(point3D_1, point3D_2);
 
             double d = normal.DotProduct(vector3D);
             if (System.Math.Abs(d) < tolerance)
@@ -168,13 +168,13 @@ namespace DiGi.Geometry.Spatial
                     {
                         projectionResult = ProjectionResult(plane, new Segment3D(point3D_1, vector3D), tolerance);
                     }
-                    else if(!bounded_1 && !bounded_2)
+                    else if (!bounded_1 && !bounded_2)
                     {
                         projectionResult = ProjectionResult(plane, new Line3D(point3D_1, vector3D), tolerance);
                     }
                     else
                     {
-                        if(bounded_1)
+                        if (bounded_1)
                         {
                             projectionResult = ProjectionResult(plane, new Ray3D(point3D_1, point3D_2), tolerance);
                         }
@@ -184,7 +184,7 @@ namespace DiGi.Geometry.Spatial
                         }
                     }
 
-                    if(projectionResult != null && projectionResult.Contains<ILinear2D>())
+                    if (projectionResult != null && projectionResult.Contains<ILinear2D>())
                     {
                         return new PlanarIntersectionResult(plane, projectionResult.GetGeometry2Ds<ILinear2D>());
                     }
@@ -195,11 +195,11 @@ namespace DiGi.Geometry.Spatial
 
             double u = (plane.K - normal.DotProduct((Vector3D?)point3D_1)) / d;
 
-            Point3D point3D_Intersection = new (point3D_1.X + u * vector3D.X, point3D_1.Y + u * vector3D.Y, point3D_1.Z + u * vector3D.Z);
+            Point3D point3D_Intersection = new(point3D_1.X + u * vector3D.X, point3D_1.Y + u * vector3D.Y, point3D_1.Z + u * vector3D.Z);
 
             if (bounded_1 || bounded_2)
             {
-                if(Query.ClosestPoint(point3D_Intersection, point3D_1, point3D_2, bounded_1, bounded_2) is not Point3D point3D_Closest)
+                if (Query.ClosestPoint(point3D_Intersection, point3D_1, point3D_2, bounded_1, bounded_2) is not Point3D point3D_Closest)
                 {
                     return null;
                 }
@@ -215,13 +215,13 @@ namespace DiGi.Geometry.Spatial
 
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || segmentable3D == null)
+            if (plane == null || segmentable3D == null)
             {
                 return null;
             }
 
             List<Segment3D>? segment3Ds = segmentable3D.GetSegments();
-            if(segment3Ds == null)
+            if (segment3Ds == null)
             {
                 return null;
             }
@@ -229,27 +229,27 @@ namespace DiGi.Geometry.Spatial
             List<Segment2D> segment2Ds = [];
             List<Point2D> point2Ds = [];
 
-            for (int i=0; i < segment3Ds.Count; i++)
+            for (int i = 0; i < segment3Ds.Count; i++)
             {
                 PlanarIntersectionResult? planarIntersectionResult = PlanarIntersectionResult(plane, segment3Ds[i], tolerance);
-                if(planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+                if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
                 {
                     continue;
                 }
 
                 List<IGeometry2D>? geometry2Ds_Temp = planarIntersectionResult.GetGeometry2Ds<IGeometry2D>();
-                if(geometry2Ds_Temp is null)
+                if (geometry2Ds_Temp is null)
                 {
                     continue;
                 }
 
                 foreach (IGeometry2D geometry2D in geometry2Ds_Temp)
                 {
-                    if(geometry2D is Segment2D segment2D)
+                    if (geometry2D is Segment2D segment2D)
                     {
                         DiGi.Core.Modify.Add(segment2Ds, segment2D, x => Planar.Query.Similar(x, segment2D, tolerance));
                     }
-                    else if(geometry2D is Point2D point2D)
+                    else if (geometry2D is Point2D point2D)
                     {
                         DiGi.Core.Modify.Add(point2Ds, point2D, x => Planar.Query.Similar(x, point2D, tolerance));
                     }
@@ -304,7 +304,7 @@ namespace DiGi.Geometry.Spatial
 
             //Calculate tangent of line perpendicular to the normal of the two planes
             Vector3D? tangent = normal_1?.CrossProduct(normal_2)?.Unit;
-            if(tangent is null)
+            if (tangent is null)
             {
                 return null;
             }
@@ -340,23 +340,23 @@ namespace DiGi.Geometry.Spatial
 
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, IPolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(plane == null || polygonalFace3D == null)
+            if (plane == null || polygonalFace3D == null)
             {
                 return null;
             }
 
             Plane? plane_PolygonalFace3D = polygonalFace3D.Plane;
-            if(plane_PolygonalFace3D == null)
+            if (plane_PolygonalFace3D == null)
             {
                 return null;
             }
 
-            if(plane.Coplanar(plane_PolygonalFace3D, tolerance))
+            if (plane.Coplanar(plane_PolygonalFace3D, tolerance))
             {
-                if(plane.Distance(plane_PolygonalFace3D.Origin) < tolerance)
+                if (plane.Distance(plane_PolygonalFace3D.Origin) < tolerance)
                 {
                     IPolygonalFace2D? polygonalFace2D_Temp = plane.Convert(polygonalFace3D);
-                    if(polygonalFace2D_Temp != null)
+                    if (polygonalFace2D_Temp != null)
                     {
                         return new PlanarIntersectionResult(plane, polygonalFace2D_Temp);
                     }
@@ -366,12 +366,12 @@ namespace DiGi.Geometry.Spatial
             }
 
             BoundingBox3D? boundingBox3D = polygonalFace3D.GetBoundingBox();
-            if(boundingBox3D == null)
+            if (boundingBox3D == null)
             {
                 return null;
             }
 
-            if(!boundingBox3D.InRange(plane, tolerance))
+            if (!boundingBox3D.InRange(plane, tolerance))
             {
                 return new PlanarIntersectionResult(plane);
             }
@@ -394,7 +394,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             planarIntersectionResult = PlanarIntersectionResult(polygonalFace3D, line3D, tolerance);
-            if(planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+            if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
             {
                 return new PlanarIntersectionResult(plane);
             }
@@ -402,14 +402,14 @@ namespace DiGi.Geometry.Spatial
             List<IGeometry2D> geometry2Ds = [];
 
             List<IGeometry3D>? geometry3Ds = planarIntersectionResult.GetGeometry3Ds<IGeometry3D>();
-            if(geometry3Ds != null)
+            if (geometry3Ds != null)
             {
                 foreach (IGeometry3D geometry3D in geometry3Ds)
                 {
                     if (geometry3D is Point3D point3D)
                     {
                         Point2D? point2D = plane.Convert(point3D);
-                        if(point2D is not null)
+                        if (point2D is not null)
                         {
                             geometry2Ds.Add(point2D);
                         }
@@ -419,7 +419,7 @@ namespace DiGi.Geometry.Spatial
                     if (geometry3D is Segment3D segment3D)
                     {
                         Segment2D? segment2D = plane.Convert(segment3D);
-                        if(segment2D is not null)
+                        if (segment2D is not null)
                         {
                             geometry2Ds.Add(segment2D);
                         }
@@ -458,7 +458,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             geometry2Ds = Planar.Create.Geometry2Ds(geometry2Ds, tolerance);
-            if(geometry2Ds == null || geometry2Ds.Count == 0)
+            if (geometry2Ds == null || geometry2Ds.Count == 0)
             {
                 return new PlanarIntersectionResult(plane);
             }
@@ -474,7 +474,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             Polyhedron? polyhedron = Polyhedron(boundingBox3D);
-            if(polyhedron == null)
+            if (polyhedron == null)
             {
                 return null;
             }
@@ -489,18 +489,18 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            if(polygonalFace3D?.Plane is not Plane plane || polygonalFace3D.Geometry2D is not IPolygonalFace2D polygonalFace2D)
+            if (polygonalFace3D?.Plane is not Plane plane || polygonalFace3D.Geometry2D is not IPolygonalFace2D polygonalFace2D)
             {
                 return null;
             }
 
             PlanarIntersectionResult? planarIntersectionResult = PlanarIntersectionResult(plane, point3D_1, point3D_2, bounded_1, bounded_2, tolerance);
-            if(planarIntersectionResult is null)
+            if (planarIntersectionResult is null)
             {
                 return null;
             }
 
-            if(!planarIntersectionResult.Intersect)
+            if (!planarIntersectionResult.Intersect)
             {
                 return new PlanarIntersectionResult(plane);
             }
@@ -553,18 +553,18 @@ namespace DiGi.Geometry.Spatial
 
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(polygonalFace3D == null || point3D == null)
+            if (polygonalFace3D == null || point3D == null)
             {
                 return null;
             }
 
             Plane? plane = polygonalFace3D.Plane;
-            if(plane == null)
+            if (plane == null)
             {
                 return null;
             }
 
-            if(!polygonalFace3D.InRange(point3D, tolerance))
+            if (!polygonalFace3D.InRange(point3D, tolerance))
             {
                 return new PlanarIntersectionResult(plane);
             }
@@ -579,7 +579,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            if(line3D?.Origin is not Point3D origin)
+            if (line3D?.Origin is not Point3D origin)
             {
                 return null;
             }
@@ -661,7 +661,7 @@ namespace DiGi.Geometry.Spatial
                 }
 
                 PlanarIntersectionResult? planarIntersectionResult = PlanarIntersectionResult(polygonalFace3D, volatilePolygonalFace3D_Temp, tolerance);
-                if(planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+                if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
                 {
                     continue;
                 }
@@ -680,7 +680,7 @@ namespace DiGi.Geometry.Spatial
 
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D_1, IPolygonalFace3D? polygonalFace3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(polygonalFace3D_1 == null || polygonalFace3D_2 == null)
+            if (polygonalFace3D_1 == null || polygonalFace3D_2 == null)
             {
                 return null;
             }
@@ -705,7 +705,7 @@ namespace DiGi.Geometry.Spatial
                     IPolygonalFace2D? polygonalFace2D_2 = plane_PolygonalFace3D_1.Convert(polygonalFace3D_2);
 
                     IntersectionResult2D? intersectionResult2D = Planar.Create.IntersectionResult2D(polygonalFace2D_1, polygonalFace2D_2);
-                    if(intersectionResult2D != null && intersectionResult2D.Intersect)
+                    if (intersectionResult2D != null && intersectionResult2D.Intersect)
                     {
                         return new PlanarIntersectionResult(plane_PolygonalFace3D_1, intersectionResult2D.GetGeometry2Ds<IGeometry2D>());
                     }
@@ -735,7 +735,7 @@ namespace DiGi.Geometry.Spatial
             List<IGeometry2D> geometry2Ds = [];
 
             List<IGeometry3D>? geometry3Ds = planarIntersectionResult.GetGeometry3Ds<IGeometry3D>();
-            if(geometry3Ds != null)
+            if (geometry3Ds != null)
             {
                 foreach (IGeometry3D geometry3D in geometry3Ds)
                 {
@@ -762,15 +762,15 @@ namespace DiGi.Geometry.Spatial
 
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, IPolyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(polygonalFace3D == null || polyhedron == null)
+            if (polygonalFace3D == null || polyhedron == null)
             {
                 return null;
             }
 
-            List<IPolygonalFace3D> polygonalFace3Ds = []; 
-            for (int i =0; i < polyhedron.Count; i++)
+            List<IPolygonalFace3D> polygonalFace3Ds = [];
+            for (int i = 0; i < polyhedron.Count; i++)
             {
-                if(polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is not IPolygonalFace3D polygonalFace3D_Temp)
+                if (polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is not IPolygonalFace3D polygonalFace3D_Temp)
                 {
                     continue;
                 }

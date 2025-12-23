@@ -9,19 +9,19 @@ namespace DiGi.Geometry.Planar
     {
         public static LinearRing? ToNTS(this IPolygonal2D? polygonal2D)
         {
-            if(polygonal2D == null)
+            if (polygonal2D == null)
             {
                 return null;
             }
 
             List<Point2D>? point2Ds = polygonal2D.GetPoints();
-            if(point2Ds == null || point2Ds.Count < 3)
+            if (point2Ds == null || point2Ds.Count < 3)
             {
                 return null;
             }
 
             List<Coordinate>? cooridnates = point2Ds.ToNTS();
-            if(cooridnates == null)
+            if (cooridnates == null)
             {
                 return null;
             }

@@ -11,7 +11,7 @@ namespace DiGi.Geometry.Spatial
     {
         public static bool InRange<T>(IPlanar<T> planar, Point3D point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IPolygonal2D
         {
-            if(planar == null || point3D == null)
+            if (planar == null || point3D == null)
             {
                 return false;
             }

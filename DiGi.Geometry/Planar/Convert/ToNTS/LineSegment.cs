@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
         public static LineSegment? ToNTS(this Segment2D? segment2D)
         {
             Point2D? start = segment2D?.Start;
-            if(start == null)
+            if (start == null)
             {
                 return null;
             }

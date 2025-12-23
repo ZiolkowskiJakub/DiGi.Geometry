@@ -10,13 +10,13 @@ namespace DiGi.Geometry.Planar.Classes
     public class Mesh2D : Mesh<Point2D>, IGeometry2D, IBoundable2D, ICollectable2D
     {
         public Mesh2D(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
 
         public Mesh2D(Mesh2D? mesh2D)
-            :base(mesh2D)
+            : base(mesh2D)
         {
 
         }
@@ -34,7 +34,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public BoundingBox2D? GetBoundingBox()
         {
-            if(points == null)
+            if (points == null)
             {
                 return null;
             }
@@ -146,7 +146,7 @@ namespace DiGi.Geometry.Planar.Classes
             for (int i = 0; i < TrianglesCount; i++)
             {
                 Triangle2D? triangle2D = GetTriangle(i);
-                if(triangle2D == null)
+                if (triangle2D == null)
                 {
                     continue;
                 }
@@ -156,15 +156,15 @@ namespace DiGi.Geometry.Planar.Classes
 
             return result;
         }
-        
+
         public bool Move(Vector2D? vector2D)
         {
-            if(points == null || vector2D is null)
+            if (points == null || vector2D is null)
             {
                 return false;
             }
 
-            for(int i=0; i < points.Count; i++)
+            for (int i = 0; i < points.Count; i++)
             {
                 points[i]?.Move(vector2D);
             }
@@ -174,7 +174,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool Transform(ITransform2D transform)
         {
-            if(transform == null || points == null)
+            if (transform == null || points == null)
             {
                 return false;
             }

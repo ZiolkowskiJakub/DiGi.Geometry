@@ -9,13 +9,13 @@ namespace DiGi.Geometry.Spatial.Classes
     public class Mesh3D : Mesh<Point3D>, IGeometry3D, IBoundable3D, ICollectable3D
     {
         public Mesh3D(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
 
         public Mesh3D(Mesh3D? mesh3D)
-            :base(mesh3D)
+            : base(mesh3D)
         {
 
         }
@@ -33,12 +33,12 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public BoundingBox3D? GetBoundingBox()
         {
-            if(points == null)
+            if (points == null)
             {
                 return null;
             }
 
-            return new (points);
+            return new(points);
         }
 
         public Triangle3D? GetTriangle(int index)
@@ -71,7 +71,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return null;
             }
 
-            return new (points[index_1], points[index_2], points[index_3]);
+            return new(points[index_1], points[index_2], points[index_3]);
         }
 
         public List<Triangle3D>? GetTriangles()
@@ -96,7 +96,7 @@ namespace DiGi.Geometry.Spatial.Classes
             for (int i = 0; i < TrianglesCount; i++)
             {
                 Triangle3D? triangle3D = GetTriangle(i);
-                if(triangle3D is null)
+                if (triangle3D is null)
                 {
                     continue;
                 }
@@ -109,12 +109,12 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool Move(Vector3D? vector2D)
         {
-            if(points == null || vector2D == null)
+            if (points == null || vector2D == null)
             {
                 return false;
             }
 
-            for(int i=0; i < points.Count; i++)
+            for (int i = 0; i < points.Count; i++)
             {
                 points[i]?.Move(vector2D);
             }
@@ -124,7 +124,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool Transform(ITransform3D? transform)
         {
-            if(transform == null || points == null)
+            if (transform == null || points == null)
             {
                 return false;
             }

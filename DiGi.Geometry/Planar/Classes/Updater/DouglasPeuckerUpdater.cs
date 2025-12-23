@@ -20,7 +20,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         public override bool Update()
         {
-            if(Value == null)
+            if (Value == null)
             {
                 return false;
             }
@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             IGeometry2D? value_Temp = DouglasPeuckerSimplifier.Simplify(geometry, tolerance)?.ToDiGi();
-            if(value_Temp is null)
+            if (value_Temp is null)
             {
                 return false;
             }

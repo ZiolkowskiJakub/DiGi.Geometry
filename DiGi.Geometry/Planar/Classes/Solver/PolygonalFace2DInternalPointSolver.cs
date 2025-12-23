@@ -21,7 +21,7 @@ namespace DiGi.Geometry.Planar.Classes
         {
 
         }
-        
+
         public PolygonalFace2DInternalPointSolver(int maxCount, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(maxCount, tolerance)
         {

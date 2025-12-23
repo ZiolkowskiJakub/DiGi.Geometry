@@ -46,26 +46,26 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            if(externalEdge)
+            if (externalEdge)
             {
                 IPolygonal2D? polygonal2D = polygonalFace2D.ExternalEdge;
-                if(polygonal2D == null)
+                if (polygonal2D == null)
                 {
                     return false;
                 }
 
-                if(!polygonal2D.Concave())
+                if (!polygonal2D.Concave())
                 {
                     return false;
                 }
             }
 
-            if(internalEdges)
+            if (internalEdges)
             {
                 List<IPolygonal2D>? polygonal2Ds = polygonalFace2D.InternalEdges;
-                if(polygonal2Ds != null)
+                if (polygonal2Ds != null)
                 {
-                    for(int i =0; i < polygonal2Ds.Count; i++)
+                    for (int i = 0; i < polygonal2Ds.Count; i++)
                     {
                         if (!polygonal2Ds[i].Concave())
                         {

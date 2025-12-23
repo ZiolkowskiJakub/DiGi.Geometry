@@ -17,13 +17,13 @@ namespace DiGi.Geometry.Planar
             }
 
             NetTopologySuite.Geometries.Geometry? geometry_1 = segmentable2D_1.ToNTS();
-            if(geometry_1 == null)
+            if (geometry_1 == null)
             {
                 return false;
             }
 
             NetTopologySuite.Geometries.Geometry? geometry_2 = segmentable2D_2.ToNTS();
-            if(geometry_2 == null)
+            if (geometry_2 == null)
             {
                 return false;
             }

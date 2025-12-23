@@ -17,7 +17,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             List<Point3D> point3Ds_Temp = [];
-            foreach(Point3D? point3D in point3Ds)
+            foreach (Point3D? point3D in point3Ds)
             {
                 if (point3D == null)
                 {
@@ -55,19 +55,19 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Plane plane = new (point3Ds.ElementAt(0), normal);
+            Plane plane = new(point3Ds.ElementAt(0), normal);
 
             List<Point2D> point2Ds = [];
             foreach (Point3D? point3D in point3Ds)
             {
                 Point2D? point2D = Query.Convert(plane, plane.Project(point3D));
-                if(point2D is not null)
+                if (point2D is not null)
                 {
                     point2Ds.Add(point2D);
                 }
             }
 
-            if(point2Ds.Count < 3)
+            if (point2Ds.Count < 3)
             {
                 return null;
             }
@@ -102,7 +102,7 @@ namespace DiGi.Geometry.Spatial
 
         public static Polygon3D? Polygon3D(this Segment3D? segment3D, Vector3D? vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if (segment3D == null ||  vector3D == null)
+            if (segment3D == null || vector3D == null)
             {
                 return null;
             }
@@ -143,7 +143,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             Point2D? point2D_3 = plane.Convert(point3D_3);
-            if( point2D_3 is null)
+            if (point2D_3 is null)
             {
                 return null;
             }
@@ -157,15 +157,15 @@ namespace DiGi.Geometry.Spatial
             return new Polygon3D(plane, [point2D_1, point2D_2, point2D_3, point2D_4]);
         }
 
-        public static Polygon3D? Polygon3D<T>(this IPlanar<T>? planar) where T: IPolygonal2D
+        public static Polygon3D? Polygon3D<T>(this IPlanar<T>? planar) where T : IPolygonal2D
         {
-            if(planar == null)
+            if (planar == null)
             {
                 return null;
             }
 
             T? geometry2D = planar.Geometry2D;
-            if(geometry2D == null)
+            if (geometry2D == null)
             {
                 return null;
             }
@@ -187,15 +187,15 @@ namespace DiGi.Geometry.Spatial
 
         public static Polygon3D? Polygon3D(Plane? plane, params Point2D?[]? point2Ds)
         {
-            if(plane == null || point2Ds == null || point2Ds.Length < 3)
+            if (plane == null || point2Ds == null || point2Ds.Length < 3)
             {
                 return null;
             }
 
             List<Point2D> point2Ds_Temp = [];
-            foreach(Point2D? point2D in point2Ds)
+            foreach (Point2D? point2D in point2Ds)
             {
-                if(point2D is null)
+                if (point2D is null)
                 {
                     continue;
                 }

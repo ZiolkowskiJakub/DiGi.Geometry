@@ -10,7 +10,7 @@ namespace DiGi.Geometry.Planar
         public static bool Collinear(this ILinear2D? linear2D_1, ILinear2D? linear2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             Vector2D? direction_1 = linear2D_1?.Direction;
-            if(direction_1 is null)
+            if (direction_1 is null)
             {
                 return false;
             }
@@ -26,15 +26,15 @@ namespace DiGi.Geometry.Planar
 
         public static bool Collinear(this IEnumerable<Point2D?>? point2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point2Ds == null)
+            if (point2Ds == null)
             {
                 return false;
             }
 
             List<Point2D> point2Ds_Temp = [];
-            foreach(Point2D? point2D in point2Ds)
+            foreach (Point2D? point2D in point2Ds)
             {
-                if(point2D == null)
+                if (point2D == null)
                 {
                     continue;
                 }
@@ -45,12 +45,12 @@ namespace DiGi.Geometry.Planar
 
             int count = point2Ds_Temp.Count();
 
-            if(count < 2)
+            if (count < 2)
             {
                 return false;
             }
 
-            if(count == 2)
+            if (count == 2)
             {
                 return true;
             }
@@ -61,7 +61,7 @@ namespace DiGi.Geometry.Planar
             {
                 Vector2D? direction_2 = new Vector2D(point2Ds_Temp[i], point2Ds_Temp[i + 1]).Unit;
 
-                if(System.Math.Abs(System.Math.Abs(direction_1 * direction_2) - 1) > tolerance)
+                if (System.Math.Abs(System.Math.Abs(direction_1 * direction_2) - 1) > tolerance)
                 {
                     return false;
                 }

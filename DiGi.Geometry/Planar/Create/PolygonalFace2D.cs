@@ -8,18 +8,18 @@ namespace DiGi.Geometry.Planar
     {
         public static PolygonalFace2D? PolygonalFace2D(this IPolygonal2D? externalEdge, IEnumerable<IPolygonal2D>? internalEdges = null, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(externalEdge == null)
+            if (externalEdge == null)
             {
                 return null;
             }
 
             List<IPolygonal2D>? internalEdges_Inside = null;
-            if(internalEdges != null)
+            if (internalEdges != null)
             {
                 internalEdges_Inside = [];
                 foreach (IPolygonal2D internalEdge in internalEdges)
                 {
-                    if(externalEdge.Inside(internalEdge, tolerace))
+                    if (externalEdge.Inside(internalEdge, tolerace))
                     {
                         internalEdges_Inside.Add(internalEdge);
                     }
@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Planar
 
                     List<IPolygonal2D> internalEdges_Temp = [];
 
-                    while(internalEdges_Inside.Count > 0)
+                    while (internalEdges_Inside.Count > 0)
                     {
                         IPolygonal2D internalEdge = internalEdges_Inside[0];
 
@@ -62,7 +62,7 @@ namespace DiGi.Geometry.Planar
 
         public static PolygonalFace2D? PolygonalFace2D(params Point2D[]? points)
         {
-            if(points == null || points.Length < 3)
+            if (points == null || points.Length < 3)
             {
                 return null;
             }

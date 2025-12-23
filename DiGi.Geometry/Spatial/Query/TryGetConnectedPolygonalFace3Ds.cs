@@ -38,7 +38,7 @@ namespace DiGi.Geometry.Spatial
                     continue;
                 }
 
-                tuples.Add(new (boundingBox3D_Temp, polygonalFace3D_Temp));
+                tuples.Add(new(boundingBox3D_Temp, polygonalFace3D_Temp));
             }
 
             polygonalFace3Ds_Connected = [];

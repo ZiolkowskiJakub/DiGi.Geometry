@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Planar
     {
         public static List<Polygon2D>? Offset(this Polygon2D? polygon2D, double offset)
         {
-            if(polygon2D == null)
+            if (polygon2D == null)
             {
                 return null;
             }
@@ -25,35 +25,35 @@ namespace DiGi.Geometry.Planar
 
         public static Circle2D? Offset(this Circle2D? circle2D, double offset)
         {
-            if(circle2D == null)
+            if (circle2D == null)
             {
                 return null;
             }
 
             Point2D? center = circle2D.Center;
-            if(center == null)
+            if (center == null)
             {
                 return null;
             }
 
             double radius = circle2D.Radius;
-            if(double.IsNaN(radius))
+            if (double.IsNaN(radius))
             {
                 return null;
             }
 
             radius += offset;
-            if(radius <= 0)
+            if (radius <= 0)
             {
                 return null;
             }
 
-            return new (center, radius);
+            return new(center, radius);
         }
 
         public static Rectangle2D? Offset(this Rectangle2D? rectangle2D, double offset)
         {
-            if(rectangle2D?.Origin is not Point2D origin || rectangle2D.HeightDirection is not Vector2D heightDirection || rectangle2D.WidthDirection is not Vector2D widthDirection)
+            if (rectangle2D?.Origin is not Point2D origin || rectangle2D.HeightDirection is not Vector2D heightDirection || rectangle2D.WidthDirection is not Vector2D widthDirection)
             {
                 return null;
             }
@@ -67,39 +67,39 @@ namespace DiGi.Geometry.Planar
             width += 2 * offset;
             height += 2 * offset;
 
-            return new (origin, width, height, heightDirection);
+            return new(origin, width, height, heightDirection);
         }
 
         public static Triangle2D? Offset(this Triangle2D? triangle2D, double offset)
         {
-            if(triangle2D == null)
+            if (triangle2D == null)
             {
                 return null;
             }
 
             List<Polygon2D>? polygon2Ds = ((Polygon2D)triangle2D).Offset(offset);
-            if(polygon2Ds == null || polygon2Ds.Count < 1)
+            if (polygon2Ds == null || polygon2Ds.Count < 1)
             {
                 return null;
             }
 
             List<Point2D>? point2Ds = polygon2Ds[0]?.GetPoints();
-            if(point2Ds == null || point2Ds.Count < 3)
+            if (point2Ds == null || point2Ds.Count < 3)
             {
                 return null;
             }
 
-            return new (point2Ds[0], point2Ds[1], point2Ds[2]);
+            return new(point2Ds[0], point2Ds[1], point2Ds[2]);
         }
 
         public static List<IPolygonal2D>? Offset(this IPolygonal2D? polygonal2D, double offset)
         {
-            if(polygonal2D == null)
+            if (polygonal2D == null)
             {
                 return null;
             }
 
-            if(polygonal2D is Rectangle2D rectangle2D)
+            if (polygonal2D is Rectangle2D rectangle2D)
             {
                 IPolygonal2D? polygonal2D_Temp = rectangle2D.Offset(offset);
                 return polygonal2D_Temp != null ? [polygonal2D_Temp] : null;
@@ -114,7 +114,7 @@ namespace DiGi.Geometry.Planar
             if (polygonal2D is Polygon2D polygon2D)
             {
                 List<Polygon2D>? polygon2Ds = polygon2D.Offset(offset);
-                if(polygon2Ds != null)
+                if (polygon2Ds != null)
                 {
                     List<IPolygonal2D> result = [];
                     for (int i = 0; i < polygon2Ds.Count; i++)
@@ -134,14 +134,14 @@ namespace DiGi.Geometry.Planar
 
         public static List<Polygon2D>? Offset(this Polygon2D? polygon2D, double offset, NetTopologySuite.Operation.Buffer.BufferParameters bufferParameters)
         {
-            if(polygon2D == null || double.IsNaN(offset))
+            if (polygon2D == null || double.IsNaN(offset))
             {
                 return null;
             }
 
-            if(offset == 0)
+            if (offset == 0)
             {
-                if(DiGi.Core.Query.Clone(polygon2D) is Polygon2D polygon2D_Clone)
+                if (DiGi.Core.Query.Clone(polygon2D) is Polygon2D polygon2D_Clone)
                 {
                     return [polygon2D_Clone];
                 }
@@ -150,32 +150,32 @@ namespace DiGi.Geometry.Planar
             }
 
             Polygon? polygon = polygon2D.ToNTS_Polygon();
-            if(polygon == null)
+            if (polygon == null)
             {
                 return null;
             }
 
             NetTopologySuite.Geometries.Geometry? geometry = polygon.Buffer(offset, bufferParameters);
-            if(geometry == null)
+            if (geometry == null)
             {
                 return null;
             }
 
             List<Polygon2D> result = [];
 
-            if(geometry is Polygon polygon2D_Temp)
+            if (geometry is Polygon polygon2D_Temp)
             {
                 List<Polygon2D>? polygon2Ds = polygon2D_Temp.ToDiGi_Polygon2Ds();
-                if(polygon2Ds != null)
+                if (polygon2Ds != null)
                 {
                     result.AddRange(polygon2Ds);
                 }
             }
             else if (geometry is MultiPolygon multiPolygon)
             {
-                foreach(NetTopologySuite.Geometries.Geometry geometry_NTS in multiPolygon)
+                foreach (NetTopologySuite.Geometries.Geometry geometry_NTS in multiPolygon)
                 {
-                    if(geometry_NTS is not Polygon polygon_Temp_Temp)
+                    if (geometry_NTS is not Polygon polygon_Temp_Temp)
                     {
                         continue;
                     }

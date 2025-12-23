@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Planar
         public static LineString? ToNTS(this Polyline2D? polyline2D)
         {
             List<Coordinate>? coordinates = polyline2D?.GetPoints()?.ToNTS();
-            if(coordinates == null)
+            if (coordinates == null)
             {
                 return null;
             }

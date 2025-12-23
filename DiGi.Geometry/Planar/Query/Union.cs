@@ -1,9 +1,9 @@
-﻿using NetTopologySuite.Geometries.Utilities;
+﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using DiGi.Geometry.Planar.Classes;
-using DiGi.Geometry.Planar.Interfaces;
 
 namespace DiGi.Geometry.Planar
 {
@@ -36,10 +36,10 @@ namespace DiGi.Geometry.Planar
             }
 
             List<PolygonalFace2D> result = [];
-            for(int i=0; i < polygons.Count; i++)
+            for (int i = 0; i < polygons.Count; i++)
             {
                 PolygonalFace2D? polygonalFace2D = polygons[i].ToDiGi();
-                if(polygonalFace2D is null)
+                if (polygonalFace2D is null)
                 {
                     continue;
                 }
@@ -52,7 +52,7 @@ namespace DiGi.Geometry.Planar
 
         public static List<PolygonalFace2D>? Union(this IPolygonalFace2D? polygonalFace2D_1, IPolygonalFace2D? polygonalFace2D_2)
         {
-            if(polygonalFace2D_1 == null || polygonalFace2D_2 == null)
+            if (polygonalFace2D_1 == null || polygonalFace2D_2 == null)
             {
                 return null;
             }
@@ -119,7 +119,7 @@ namespace DiGi.Geometry.Planar
 
         public static List<Polygon2D>? Union<TPolygonal2D>(this IEnumerable<TPolygonal2D>? polygonal2Ds) where TPolygonal2D : IPolygonal2D
         {
-            if(polygonal2Ds == null)
+            if (polygonal2Ds == null)
             {
                 return null;
             }
@@ -128,21 +128,21 @@ namespace DiGi.Geometry.Planar
 
             List<Polygon2D> result = [];
 
-            if(count == 0)
+            if (count == 0)
             {
                 return result;
             }
 
-            if(count == 1)
+            if (count == 1)
             {
                 result.Add(new Polygon2D(polygonal2Ds.ElementAt(0)));
                 return result;
             }
 
             List<Polygon>? polygons = [];
-            foreach(TPolygonal2D polygonal2D in polygonal2Ds)
+            foreach (TPolygonal2D polygonal2D in polygonal2Ds)
             {
-                if(polygonal2D?.ToNTS_Polygon() is not Polygon polygon)
+                if (polygonal2D?.ToNTS_Polygon() is not Polygon polygon)
                 {
                     continue;
                 }
@@ -151,20 +151,20 @@ namespace DiGi.Geometry.Planar
             }
 
             polygons = Union(polygons);
-            if(polygons == null)
+            if (polygons == null)
             {
                 return null;
             }
 
-            for(int i = 0; i < polygons.Count; i++)
+            for (int i = 0; i < polygons.Count; i++)
             {
                 IPolygonal2D? polygonal2D = polygons[i]?.ToDiGi()?.ExternalEdge;
-                if(polygonal2D == null)
+                if (polygonal2D == null)
                 {
                     continue;
                 }
 
-                result.Add(new (polygonal2D));
+                result.Add(new(polygonal2D));
             }
 
             return result;

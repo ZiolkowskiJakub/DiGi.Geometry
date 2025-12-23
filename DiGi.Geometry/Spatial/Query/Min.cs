@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Spatial
 
         public static Point3D? Min(this Point3D? point3D_1, Point3D? point3D_2)
         {
-            if(point3D_1 == null || point3D_2 == null)
+            if (point3D_1 == null || point3D_2 == null)
             {
                 return null;
             }
@@ -24,11 +24,11 @@ namespace DiGi.Geometry.Spatial
         public static Point3D? Min(this IEnumerable<Point3D?>? point3Ds, out Point3D? max)
         {
             max = null;
-            if(point3Ds == null || point3Ds.Count() == 0)
+            if (point3Ds == null || point3Ds.Count() == 0)
             {
                 return null;
             }
-            
+
             double x_Min = double.MaxValue;
             double x_Max = double.MinValue;
             double y_Min = double.MaxValue;
@@ -37,7 +37,7 @@ namespace DiGi.Geometry.Spatial
             double z_Max = double.MinValue;
             foreach (Point3D? point3D in point3Ds)
             {
-                if(point3D == null)
+                if (point3D == null)
                 {
                     continue;
                 }
@@ -73,7 +73,7 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            if(x_Min == double.MaxValue || x_Max == double.MinValue || y_Min == double.MaxValue || y_Max == double.MinValue || z_Min == double.MaxValue || z_Max == double.MinValue)
+            if (x_Min == double.MaxValue || x_Max == double.MinValue || y_Min == double.MaxValue || y_Max == double.MinValue || z_Min == double.MaxValue || z_Max == double.MinValue)
             {
                 return null;
             }

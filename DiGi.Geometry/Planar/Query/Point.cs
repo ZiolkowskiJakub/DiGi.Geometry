@@ -8,13 +8,13 @@ namespace DiGi.Geometry.Planar
     {
         public static Point2D? Point(this IEnumerable<Point2D>? point2Ds, double parameter)
         {
-            if(point2Ds == null || double.IsNaN(parameter))
+            if (point2Ds == null || double.IsNaN(parameter))
             {
                 return null;
             }
 
             int count = point2Ds.Count();
-            if(count < 2)
+            if (count < 2)
             {
                 return null;
             }
@@ -42,14 +42,14 @@ namespace DiGi.Geometry.Planar
             Point2D? result = null;
 
             int index = 0;
-            while(value > 0)
+            while (value > 0)
             {
                 double value_Temp = value - lengths[index];
-                if(value_Temp > 0)
+                if (value_Temp > 0)
                 {
                     value = value_Temp;
                     index++;
-                    if(index >= lengths.Count)
+                    if (index >= lengths.Count)
                     {
                         index = 0;
                     }
@@ -64,7 +64,7 @@ namespace DiGi.Geometry.Planar
                     Length = value
                 };
 
-                result = new (point2D_1);
+                result = new(point2D_1);
                 result.Move(vector2D);
 
                 value = value_Temp;

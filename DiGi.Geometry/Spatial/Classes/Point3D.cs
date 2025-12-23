@@ -53,7 +53,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Point3D GetAbs()
         {
-            Point3D result = new (this);
+            Point3D result = new(this);
 
             result.Abs();
 
@@ -67,7 +67,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return null;
             }
 
-            Point3D result = new (this);
+            Point3D result = new(this);
             result.Move(vector3D);
 
             return result;
@@ -101,7 +101,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Point3D? Mid(Point3D? point3D)
         {
-            if(point3D == null)
+            if (point3D == null)
             {
                 return null;
             }
@@ -111,7 +111,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public static Point3D? operator -(Point3D? point3D, Vector3D? vector3D)
         {
-            if(point3D is null || vector3D is null)
+            if (point3D is null || vector3D is null)
             {
                 return null;
             }
@@ -121,7 +121,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public static Vector3D? operator -(Point3D? point3D_1, Point3D? point3D_2)
         {
-            if(point3D_1 is null || point3D_2 is null)
+            if (point3D_1 is null || point3D_2 is null)
             {
                 return null;
             }
@@ -131,7 +131,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public static Point3D? operator +(Point3D? point3D, Vector3D? vector3D)
         {
-            if(point3D is null || vector3D is null)
+            if (point3D is null || vector3D is null)
             {
                 return null;
             }

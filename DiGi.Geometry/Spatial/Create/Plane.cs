@@ -45,7 +45,7 @@ namespace DiGi.Geometry.Spatial
 
         public static Plane? Plane(double elevation)
         {
-            if(double.IsNaN(elevation))
+            if (double.IsNaN(elevation))
             {
                 return null;
             }
@@ -58,7 +58,7 @@ namespace DiGi.Geometry.Spatial
 
         public static Plane? Plane(Point3D? origin)
         {
-            if(origin == null)
+            if (origin == null)
             {
                 return null;
             }

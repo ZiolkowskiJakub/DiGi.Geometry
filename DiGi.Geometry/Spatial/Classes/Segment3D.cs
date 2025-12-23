@@ -19,7 +19,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         public Segment3D(double x_1, double y_1, double z_1, double x_2, double y_2, double z_2)
-            :this(new Point3D(x_1, y_1, z_1), new Point3D(x_2, y_2, z_2))
+            : this(new Point3D(x_1, y_1, z_1), new Point3D(x_2, y_2, z_2))
         {
 
         }
@@ -65,7 +65,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     return null;
                 }
 
-                Point3D result = new (start);
+                Point3D result = new(start);
                 result.Move(vector);
 
                 return result;
@@ -87,7 +87,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(start is null)
+                if (start is null)
                 {
                     return double.NaN;
                 }
@@ -107,7 +107,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(vector is null)
+                if (vector is null)
                 {
                     return double.NaN;
                 }
@@ -209,11 +209,11 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public bool Inverse()
         {
-            if(End is not Point3D end || vector is null)
+            if (End is not Point3D end || vector is null)
             {
                 return false;
             }
-            
+
             vector.Inverse();
             start = end;
 
@@ -255,7 +255,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             return Query.ClosestPoint(point3D, start, End, false);
         }
-        
+
         public bool Transform(ITransform3D? transform)
         {
             throw new System.NotImplementedException();

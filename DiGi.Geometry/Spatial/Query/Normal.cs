@@ -62,7 +62,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             Point3D? origin = point3Ds.Average();
-            if(origin is null)
+            if (origin is null)
             {
                 return null;
             }
@@ -75,7 +75,7 @@ namespace DiGi.Geometry.Spatial
                 for (int i = 0; i < count - 1; i++)
                 {
                     Vector3D? vector3D = ((Vector3D?)point3Ds.ElementAt(i) - vector3D_Origin)?.CrossProduct((Vector3D?)point3Ds.ElementAt(i + 1) - vector3D_Origin);
-                    if(vector3D is null)
+                    if (vector3D is null)
                     {
                         continue;
                     }
@@ -139,7 +139,7 @@ namespace DiGi.Geometry.Spatial
 
             result = result.Unit;
 
-            Plane plane = new (origin, result);
+            Plane plane = new(origin, result);
 
             bool invalid = false;
             foreach (Point3D point3D in point3Ds)
@@ -170,7 +170,7 @@ namespace DiGi.Geometry.Spatial
 
                 normal = normal!.Unit;
 
-                Plane plane_Temp = new (origin, normal);
+                Plane plane_Temp = new(origin, normal);
 
                 double max = double.MinValue;
                 double max_Temp = double.MinValue;
@@ -202,7 +202,7 @@ namespace DiGi.Geometry.Spatial
 
         public static Vector3D? Normal(this Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3)
         {
-            if(point3D_1 == null || point3D_2 == null || point3D_3 == null)
+            if (point3D_1 == null || point3D_2 == null || point3D_3 == null)
             {
                 return null;
             }

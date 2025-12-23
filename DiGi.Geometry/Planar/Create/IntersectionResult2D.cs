@@ -10,19 +10,19 @@ namespace DiGi.Geometry.Planar
     {
         public static IntersectionResult2D? IntersectionResult2D(this Segment2D? segment2D_1, Segment2D? segment2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(segment2D_1 == null || segment2D_2 == null)
+            if (segment2D_1 == null || segment2D_2 == null)
             {
                 return null;
             }
 
             BoundingBox2D? boundingBox2D_1 = segment2D_1.GetBoundingBox();
-            if(boundingBox2D_1 is null)
+            if (boundingBox2D_1 is null)
             {
                 return null;
             }
 
             BoundingBox2D? boundingBox2D_2 = segment2D_2.GetBoundingBox();
-            if(boundingBox2D_2 is null)
+            if (boundingBox2D_2 is null)
             {
                 return null;
             }
@@ -38,12 +38,12 @@ namespace DiGi.Geometry.Planar
             bool on_3 = segment2D_2.On(segment2D_1[0], tolerance);
             bool on_4 = segment2D_2.On(segment2D_1[1], tolerance);
 
-            if(!on_1 && !on_2 && !on_3 && !on_4)
+            if (!on_1 && !on_2 && !on_3 && !on_4)
             {
                 return new IntersectionResult2D(segment2D_1.IntersectionPoint(segment2D_2, tolerance));
             }
 
-            if(on_1 && on_2)
+            if (on_1 && on_2)
             {
                 return new IntersectionResult2D(segment2D_2);
             }
@@ -55,7 +55,7 @@ namespace DiGi.Geometry.Planar
 
             if (on_2 && on_3)
             {
-                if(Query.AlmostEquals(segment2D_2[1], segment2D_1[0], tolerance))
+                if (Query.AlmostEquals(segment2D_2[1], segment2D_1[0], tolerance))
                 {
                     return new IntersectionResult2D(segment2D_2[1]);
                 }
@@ -104,12 +104,12 @@ namespace DiGi.Geometry.Planar
             }
 
             Point2D? point2D = line2D_1.IntersectionPoint(line2D_2);
-            if(point2D != null)
+            if (point2D != null)
             {
                 return new IntersectionResult2D(point2D);
             }
 
-            if(line2D_1.On(line2D_2.Origin, tolerance))
+            if (line2D_1.On(line2D_2.Origin, tolerance))
             {
                 return new IntersectionResult2D(line2D_1);
             }
@@ -120,31 +120,31 @@ namespace DiGi.Geometry.Planar
 
         public static IntersectionResult2D? IntersectionResult2D(this Segment2D? segment2D, IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(segment2D == null || segment2Ds == null)
+            if (segment2D == null || segment2Ds == null)
             {
                 return null;
             }
 
             List<Point2D> point2Ds_Intersection = [];
             List<Segment2D> segment2Ds_Intersection = [];
-            foreach(Segment2D segment2D_Temp in segment2Ds)
+            foreach (Segment2D segment2D_Temp in segment2Ds)
             {
-                if(segment2D_Temp == null)
+                if (segment2D_Temp == null)
                 {
                     continue;
                 }
 
                 IntersectionResult2D? intersectionResult2D = IntersectionResult2D(segment2D, segment2D_Temp);
-                if(intersectionResult2D == null || !intersectionResult2D.Intersect)
+                if (intersectionResult2D == null || !intersectionResult2D.Intersect)
                 {
                     continue;
                 }
 
                 IGeometry2D? geometry2D = intersectionResult2D.GetGeometry2Ds<IGeometry2D>()?[0];
-                if(geometry2D is Point2D point2D_Intersection)
+                if (geometry2D is Point2D point2D_Intersection)
                 {
                     Point2D point2D_Similar = point2Ds_Intersection.Find(x => x.Similar(point2D_Intersection, tolerance));
-                    if(point2D_Similar == null)
+                    if (point2D_Similar == null)
                     {
                         point2Ds_Intersection.Add(point2D_Intersection);
                     }
@@ -175,7 +175,7 @@ namespace DiGi.Geometry.Planar
 
         public static IntersectionResult2D? IntersectionResult2D(this IEnumerable<Segment2D>? segment2Ds_1, IEnumerable<Segment2D>? segment2Ds_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(segment2Ds_1 == null || segment2Ds_2 == null)
+            if (segment2Ds_1 == null || segment2Ds_2 == null)
             {
                 return null;
             }
@@ -235,7 +235,7 @@ namespace DiGi.Geometry.Planar
 
         public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(segmentable2D_1 == null || segmentable2D_2 == null)
+            if (segmentable2D_1 == null || segmentable2D_2 == null)
             {
                 return null;
             }
@@ -256,7 +256,7 @@ namespace DiGi.Geometry.Planar
             }
 
             Point2D? point2D = line2D.IntersectionPoint(segment2D, tolerance);
-            if(point2D == null)
+            if (point2D == null)
             {
                 return new IntersectionResult2D();
             }
@@ -390,7 +390,7 @@ namespace DiGi.Geometry.Planar
                             }
                         }
 
-                        if(geometry2D == null)
+                        if (geometry2D == null)
                         {
                             continue;
                         }
@@ -416,13 +416,13 @@ namespace DiGi.Geometry.Planar
                         }
                     }
 
-                    if(count >= maxCount)
+                    if (count >= maxCount)
                     {
                         break;
                     }
                 }
 
-                if(count >= maxCount)
+                if (count >= maxCount)
                 {
                     break;
                 }
@@ -441,36 +441,36 @@ namespace DiGi.Geometry.Planar
 
             return new IntersectionResult2D(geometry2Ds);
         }
-    
+
         public static IntersectionResult2D? IntersectionResult2D(this IPolygonalFace2D? polygonalFace2D, ILinear2D? linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(polygonalFace2D == null || linear2D == null)
+            if (polygonalFace2D == null || linear2D == null)
             {
                 return null;
             }
 
             List<IPolygonal2D>? edges = polygonalFace2D.Edges;
-            if(edges == null)
+            if (edges == null)
             {
                 return null;
             }
 
             List<Point2D> point2Ds = [];
-            if(linear2D is ISegmentable2D segmentable2D)
+            if (linear2D is ISegmentable2D segmentable2D)
             {
                 List<Point2D>? point2Ds_Segmentable2D = segmentable2D.GetPoints();
                 if (point2Ds_Segmentable2D != null)
                 {
                     for (int i = 0; i < point2Ds_Segmentable2D.Count; i++)
                     {
-                        if(polygonalFace2D.Inside(point2Ds_Segmentable2D[i], tolerance))
+                        if (polygonalFace2D.Inside(point2Ds_Segmentable2D[i], tolerance))
                         {
                             point2Ds.Add(point2Ds_Segmentable2D[i]);
                         }
                     }
                 }
             }
-            
+
             for (int i = 0; i < edges.Count; i++)
             {
                 List<Segment2D>? segment2Ds = edges[i]?.GetSegments();
@@ -561,7 +561,7 @@ namespace DiGi.Geometry.Planar
 
         public static IntersectionResult2D? IntersectionResult2D(this IPolygonalFace2D? polygonalFace2D_1, IPolygonalFace2D? polygonalFace2D_2)
         {
-            if(polygonalFace2D_1 == null || polygonalFace2D_2 == null)
+            if (polygonalFace2D_1 == null || polygonalFace2D_2 == null)
             {
                 return null;
             }
@@ -612,7 +612,7 @@ namespace DiGi.Geometry.Planar
                 else if (geometry_Temp is LineString lineString)
                 {
                     IGeometry2D? geometry2D = lineString.ToDiGi();
-                    if(geometry2D is not null)
+                    if (geometry2D is not null)
                     {
                         geometry2Ds.Add(geometry2D);
                     }

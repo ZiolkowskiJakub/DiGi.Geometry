@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Core
     {
         public static List<T>? PointsByDistance<T>(this IEnumerable<T>? points, T? point, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IPoint<T>
         {
-            if(points == null || point == null)
+            if (points == null || point == null)
             {
                 return null;
             }

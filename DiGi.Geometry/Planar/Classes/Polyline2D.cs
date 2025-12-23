@@ -24,7 +24,7 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         public Polyline2D(IEnumerable<Point2D>? point2Ds)
-            :base(point2Ds)
+            : base(point2Ds)
         {
 
         }
@@ -42,24 +42,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-        public override List<Segment2D>? GetSegments()
-        {
-            return Create.Segment2Ds(points, false);
-        }
-
         public override ISerializableObject? Clone()
         {
             return new Polyline2D(this);
-        }
-
-        public bool IsClosed()
-        {
-            if(points == null || points.Count < 3)
-            {
-                return false;
-            }
-
-            return points[0].Equals(points[points.Count - 1]);
         }
 
         public void Close()
@@ -69,7 +54,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return;
             }
 
-            if(points == null || points.Count < 3)
+            if (points == null || points.Count < 3)
             {
                 return;
             }
@@ -77,6 +62,21 @@ namespace DiGi.Geometry.Planar.Classes
             points.Add(new Point2D(points[0]));
         }
 
+        public override List<Segment2D>? GetSegments()
+        {
+            return Create.Segment2Ds(points, false);
+        }
+        
+        public bool IsClosed()
+        {
+            if (points == null || points.Count < 3)
+            {
+                return false;
+            }
+
+            return points[0].Equals(points[points.Count - 1]);
+        }
+        
         public void Open()
         {
             if (!IsClosed())
@@ -84,7 +84,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return;
             }
 
-            if(points == null || points.Count < 3)
+            if (points == null || points.Count < 3)
             {
                 return;
             }

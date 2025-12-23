@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
     {
         public static List<Segment2D>? Segment2Ds(this IEnumerable<Point2D>? point2Ds, bool closed = false)
         {
-            if(point2Ds == null)
+            if (point2Ds == null)
             {
                 return null;
             }
@@ -25,7 +25,7 @@ namespace DiGi.Geometry.Planar
             for (int i = 1; i < count; i++)
             {
                 Point2D point2D_1 = point2Ds.ElementAt(i - 1);
-                if(point2D_1 == null)
+                if (point2D_1 == null)
                 {
                     continue;
                 }
@@ -39,7 +39,7 @@ namespace DiGi.Geometry.Planar
                 result.Add(new Segment2D(new Point2D(point2D_1), new Point2D(point2D_2)));
             }
 
-            if(closed)
+            if (closed)
             {
                 result.Add(new Segment2D(new Point2D(result[result.Count - 1][1]), new Point2D(result[0][0])));
             }

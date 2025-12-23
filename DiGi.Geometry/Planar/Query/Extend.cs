@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
     {
         public static Segment2D? Extend(this Segment2D? segment2D, double distance, bool extendStart = true, bool extendEnd = true)
         {
-            if(segment2D == null)
+            if (segment2D == null)
             {
                 return null;
             }
@@ -27,33 +27,33 @@ namespace DiGi.Geometry.Planar
 
             if (!extendStart && !extendEnd)
             {
-                return new (segment2D);
+                return new(segment2D);
             }
 
             Vector2D? direction = segment2D.Direction;
-            if (direction is null) 
+            if (direction is null)
             {
                 return null;
             }
 
             Vector2D? vector2D = segment2D.Direction * distance;
-            if(vector2D is null)
+            if (vector2D is null)
             {
                 return null;
             }
 
-            if(extendEnd)
+            if (extendEnd)
             {
                 end.Move(vector2D);
             }
 
-            if(extendStart)
+            if (extendStart)
             {
                 vector2D.Inverse();
                 start.Move(vector2D);
             }
 
-            return new (start, end);
+            return new(start, end);
         }
     }
 }

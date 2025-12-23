@@ -22,12 +22,12 @@ namespace DiGi.Geometry.Planar
             }
 
             int count = point2Ds.Count();
-            if(count == 0)
+            if (count == 0)
             {
                 return double.NaN;
             }
 
-            if(count == 1)
+            if (count == 1)
             {
                 point2D_1 = point2Ds.ElementAt(0);
                 point2D_2 = point2D_1;
@@ -51,7 +51,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            if(result == double.MinValue)
+            if (result == double.MinValue)
             {
                 result = double.NaN;
             }

@@ -11,13 +11,13 @@ namespace DiGi.Geometry.Drawing
     {
         public static void Draw(this Graphics? graphics, Segment2D? segment2D, Pen? pen)
         {
-            if(graphics == null || segment2D == null || pen == null)
+            if (graphics == null || segment2D == null || pen == null)
             {
                 return;
             }
 
             PointF? start = Convert.ToDrawing(segment2D?.Start);
-            if(start == null || !start.HasValue)
+            if (start == null || !start.HasValue)
             {
                 return;
             }
@@ -33,13 +33,13 @@ namespace DiGi.Geometry.Drawing
 
         public static void Draw(this Graphics? graphics, IPolygonal2D? polygonal2D, Pen? pen, bool fill)
         {
-            if(graphics == null || pen == null || polygonal2D == null)
+            if (graphics == null || pen == null || polygonal2D == null)
             {
                 return;
             }
 
             List<Point2D>? point2Ds = polygonal2D?.GetPoints();
-            if(point2Ds == null || point2Ds.Count == 0)
+            if (point2Ds == null || point2Ds.Count == 0)
             {
                 return;
             }
@@ -47,10 +47,10 @@ namespace DiGi.Geometry.Drawing
             point2Ds.Add(point2Ds.First());
 
             List<PointF> pointFs = [];
-            for(int i =0; i < point2Ds.Count; i++)
+            for (int i = 0; i < point2Ds.Count; i++)
             {
                 PointF? pointF = Convert.ToDrawing(point2Ds[i]);
-                if(pointF == null || !pointF.HasValue)
+                if (pointF == null || !pointF.HasValue)
                 {
                     continue;
                 }
@@ -58,7 +58,7 @@ namespace DiGi.Geometry.Drawing
                 pointFs.Add(pointF.Value);
             }
 
-            if(fill)
+            if (fill)
             {
                 using SolidBrush solidBrush = new(pen.Color);
 
@@ -116,7 +116,7 @@ namespace DiGi.Geometry.Drawing
                 return;
             }
 
-            if(fill)
+            if (fill)
             {
                 using SolidBrush solidBrush = new(pen.Color);
 
@@ -130,13 +130,13 @@ namespace DiGi.Geometry.Drawing
 
         public static void Draw(this Graphics? graphics, IPolygonalFace2D? polygonalFace2D, Pen? pen, bool fill)
         {
-            if(graphics == null || pen == null || polygonalFace2D == null)
+            if (graphics == null || pen == null || polygonalFace2D == null)
             {
                 return;
             }
 
             Mesh2D? mesh2D = Create.Mesh2D(polygonalFace2D);
-            if(mesh2D == null)
+            if (mesh2D == null)
             {
                 return;
             }
@@ -151,15 +151,15 @@ namespace DiGi.Geometry.Drawing
                 return;
             }
 
-            if(fill)
+            if (fill)
             {
                 List<Triangle2D>? triangle2Ds = mesh2D.GetTriangles();
-                if(triangle2Ds == null)
+                if (triangle2Ds == null)
                 {
                     return;
                 }
 
-                foreach(Triangle2D triangle2D in triangle2Ds)
+                foreach (Triangle2D triangle2D in triangle2Ds)
                 {
                     Draw(graphics, triangle2D, pen, fill);
                 }

@@ -37,7 +37,7 @@ namespace DiGi.Geometry.Spatial
 
             double tolerance_REF = matrix.REFTolerance(tolerance);
             Math.Classes.Matrix? matrix_REF = matrix.RowEchelonForm(true, tolerance_REF);
-            if(matrix_REF is null)
+            if (matrix_REF is null)
             {
                 return false;
             }

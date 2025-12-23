@@ -1,8 +1,8 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
+using QuikGraph;
 using QuikGraph.Algorithms.Observers;
 using QuikGraph.Algorithms.ShortestPath;
-using QuikGraph;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +10,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static List<Polyline2D>? Polyline2Ds<T>(this IEnumerable<T>? segmentable2Ds, Point2D? point2D_Start = null, bool split = true, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
+        public static List<Polyline2D>? Polyline2Ds<T>(this IEnumerable<T>? segmentable2Ds, Point2D? point2D_Start = null, bool split = true, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
             if (segmentable2Ds == null || segmentable2Ds.Count() == 0)
             {
@@ -37,7 +37,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            if(segment2Ds is null)
+            if (segment2Ds is null)
             {
                 return null;
             }
@@ -102,7 +102,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            AStarShortestPathAlgorithm<Point2D, Edge<Point2D>> aStarShortestPathAlgorithm = new (adjacencyGraph, edge => edge.Source.Distance(edge.Target), point2D => point2D.Distance(point2D_Start));
+            AStarShortestPathAlgorithm<Point2D, Edge<Point2D>> aStarShortestPathAlgorithm = new(adjacencyGraph, edge => edge.Source.Distance(edge.Target), point2D => point2D.Distance(point2D_Start));
 
             VertexPredecessorRecorderObserver<Point2D, Edge<Point2D>> vertexPredecessorRecorderObserver = new();
             vertexPredecessorRecorderObserver.Attach(aStarShortestPathAlgorithm);
@@ -123,7 +123,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            if(point2D_End == null)
+            if (point2D_End == null)
             {
                 return null;
             }

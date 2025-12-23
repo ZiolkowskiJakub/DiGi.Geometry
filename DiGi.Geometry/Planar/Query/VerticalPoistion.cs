@@ -1,6 +1,6 @@
-﻿using DiGi.Geometry.Planar.Classes;
+﻿using DiGi.Geometry.Core.Enums;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
-using DiGi.Geometry.Core.Enums;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Planar
@@ -23,7 +23,7 @@ namespace DiGi.Geometry.Planar
             List<VerticalPosition> verticalPositions = [];
 
             List<Segment2D>? segment2Ds_Temp = segmentable2D.GetSegments();
-            if(segment2Ds_Temp != null)
+            if (segment2Ds_Temp != null)
             {
                 foreach (Segment2D segment2D in segment2Ds_Temp)
                 {
@@ -58,13 +58,13 @@ namespace DiGi.Geometry.Planar
 
         public static VerticalPosition VerticalPosition(this Segment2D? segment2D, Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(segment2D == null || point2D == null)
+            if (segment2D == null || point2D == null)
             {
                 return Core.Enums.VerticalPosition.Undefined;
             }
 
             BoundingBox2D? boundingBox2D = segment2D.GetBoundingBox();
-            if(boundingBox2D == null)
+            if (boundingBox2D == null)
             {
                 return Core.Enums.VerticalPosition.Undefined;
             }
@@ -75,18 +75,18 @@ namespace DiGi.Geometry.Planar
             }
 
             SegmentableTraceResult2D? segmentableTraceResult2D = Create.SegmentableTraceResult2D(point2D, Constans.Vector2D.WorldY, [segment2D], tolerance);
-            if(segmentableTraceResult2D == null)
+            if (segmentableTraceResult2D == null)
             {
                 return Core.Enums.VerticalPosition.Undefined;
             }
 
             Vector2D? vector2D = segmentableTraceResult2D.Vector2D;
-            if(vector2D == null)
+            if (vector2D == null)
             {
                 return Core.Enums.VerticalPosition.Below;
             }
 
-            if(vector2D.Length < tolerance)
+            if (vector2D.Length < tolerance)
             {
                 return Core.Enums.VerticalPosition.On;
             }

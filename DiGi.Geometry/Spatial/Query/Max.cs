@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Spatial
 
         public static Point3D? Max(this Point3D? point3D_1, Point3D? point3D_2)
         {
-            if(point3D_1 == null || point3D_2 == null)
+            if (point3D_1 == null || point3D_2 == null)
             {
                 return null;
             }

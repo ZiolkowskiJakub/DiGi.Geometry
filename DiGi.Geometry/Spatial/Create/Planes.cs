@@ -7,13 +7,13 @@ namespace DiGi.Geometry.Spatial
     {
         public static List<Plane>? Planes(this BoundingBox3D? boundingBox3D)
         {
-            if(boundingBox3D == null)
+            if (boundingBox3D == null)
             {
                 return null;
             }
 
             Point3D point3D_Min = boundingBox3D.Min;
-            if(point3D_Min == null)
+            if (point3D_Min == null)
             {
                 return null;
             }

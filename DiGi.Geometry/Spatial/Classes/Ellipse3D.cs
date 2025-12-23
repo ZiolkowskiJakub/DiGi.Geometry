@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                if(geometry2D is null)
+                if (geometry2D is null)
                 {
                     return double.NaN;
                 }
@@ -97,7 +97,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             return new Ellipse3D(this);
         }
-        
+
         public double GetArea()
         {
             if (geometry2D == null)
@@ -117,7 +117,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             Plane? plane = Plane;
-            if(plane == null)
+            if (plane == null)
             {
                 return null;
             }
@@ -141,7 +141,7 @@ namespace DiGi.Geometry.Spatial.Classes
             Point3D[] result = new Point3D[point2Ds.Length];
             for (int i = 0; i < point2Ds.Length; i++)
             {
-                if(plane.Convert(point2Ds[i]) is Point3D point3D)
+                if (plane.Convert(point2Ds[i]) is Point3D point3D)
                 {
                     result[i] = point3D;
                 }
@@ -159,10 +159,10 @@ namespace DiGi.Geometry.Spatial.Classes
 
             return plane.Convert(geometry2D.GetInternalPoint());
         }
-        
+
         public double GetPerimeter()
         {
-            if(geometry2D is null)
+            if (geometry2D is null)
             {
                 return double.NaN;
             }

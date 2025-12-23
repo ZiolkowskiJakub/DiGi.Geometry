@@ -14,19 +14,19 @@ namespace DiGi.Geometry.Planar
 
         public static bool On(this IEnumerable<Segment2D?>? segment2Ds, Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-            if(point2D == null || segment2Ds == null)
+            if (point2D == null || segment2Ds == null)
             {
                 return false;
             }
 
-            foreach(Segment2D? segment2D in segment2Ds)
+            foreach (Segment2D? segment2D in segment2Ds)
             {
-                if(segment2D is null)
+                if (segment2D is null)
                 {
                     continue;
                 }
 
-                if(segment2D.On(point2D, tolerance))
+                if (segment2D.On(point2D, tolerance))
                 {
                     return true;
                 }
@@ -35,9 +35,9 @@ namespace DiGi.Geometry.Planar
             return false;
         }
 
-        public static bool On<T>(this IEnumerable<T>? segmentable2Ds, Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T: ISegmentable2D
+        public static bool On<T>(this IEnumerable<T>? segmentable2Ds, Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
-            if(point2D == null || segmentable2Ds == null || segmentable2Ds.Count() == 0)
+            if (point2D == null || segmentable2Ds == null || segmentable2Ds.Count() == 0)
             {
                 return false;
             }

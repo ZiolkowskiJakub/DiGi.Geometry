@@ -17,7 +17,7 @@ namespace DiGi.Geometry.Planar
         public static Vector2D? Bounce(this Vector2D? vector2D_ToBeBounced, Vector2D? vector2D, double friction = 1, double restitution = 1)
         {
             Vector2D? vector2D_1 = vector2D_ToBeBounced?.Unit;
-            if(vector2D_1 is null)
+            if (vector2D_1 is null)
             {
                 return null;
             }
