@@ -61,6 +61,5 @@ namespace DiGi.Geometry.Spatial
                 distance = distance_Max;
             }
         }
-
     }
 }

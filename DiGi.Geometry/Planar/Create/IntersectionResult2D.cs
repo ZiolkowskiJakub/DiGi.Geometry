@@ -27,7 +27,6 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-
             if (!boundingBox2D_1.InRange(boundingBox2D_2, tolerance))
             {
                 return new IntersectionResult2D();
@@ -115,7 +114,6 @@ namespace DiGi.Geometry.Planar
             }
 
             return new IntersectionResult2D();
-
         }
 
         public static IntersectionResult2D? IntersectionResult2D(this Segment2D? segment2D, IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -348,7 +346,6 @@ namespace DiGi.Geometry.Planar
 
             List<Point2D> point2Ds_Intersection = [];
             List<Segment2D> segment2Ds_Intersection = [];
-
 
             for (int i = 0; i < count_Segment2Ds - 1; i++)
             {
@@ -629,7 +626,5 @@ namespace DiGi.Geometry.Planar
 
             return new IntersectionResult2D(geometry2Ds);
         }
-
     }
-
 }

@@ -36,7 +36,6 @@ namespace DiGi.Geometry.Core.Classes
         public Coordinate(Coordinate? coordinate)
             : this(coordinate?.values)
         {
-
         }
 
         [JsonIgnore]
@@ -60,7 +59,6 @@ namespace DiGi.Geometry.Core.Classes
                 values_Temp[length, 0] = 1;
 
                 return new Matrix(values_Temp);
-
 
                 //return new Matrix(new double[,] { { coordinates[0] }, { coordinates[1] }, { coordinates[2] }, { 1 } });
             }

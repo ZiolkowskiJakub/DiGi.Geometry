@@ -20,7 +20,6 @@ namespace DiGi.Geometry.Planar.Classes
         public BoundingBox2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public BoundingBox2D(IEnumerable<Point2D>? point2Ds)
@@ -47,7 +46,6 @@ namespace DiGi.Geometry.Planar.Classes
                 min = new Point2D(boundingBox2D.min);
                 max = new Point2D(boundingBox2D.max);
             }
-
         }
 
         public BoundingBox2D(Range<double>? x, Range<double>? y)
@@ -62,7 +60,6 @@ namespace DiGi.Geometry.Planar.Classes
         public BoundingBox2D(double x, double y, double width, double height)
             : this(new Point2D(x, y), new Point2D(x + width, y + height))
         {
-
         }
 
         [JsonIgnore]

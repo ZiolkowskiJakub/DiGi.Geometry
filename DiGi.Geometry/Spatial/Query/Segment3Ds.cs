@@ -2,7 +2,6 @@
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 
-
 namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
@@ -36,6 +35,5 @@ namespace DiGi.Geometry.Spatial
 
             return result;
         }
-
     }
 }

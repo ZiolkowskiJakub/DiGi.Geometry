@@ -16,25 +16,21 @@ namespace DiGi.Geometry.Spatial.Classes
         public PolygonalFace3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public PolygonalFace3D(Plane? plane, IPolygonalFace2D? polygonalFace2D)
             : base(plane, polygonalFace2D)
         {
-
         }
 
         public PolygonalFace3D(IPolygonal3D? externalEdge)
             : base(externalEdge?.Plane, externalEdge == null ? null : new PolygonalFace2D(externalEdge?.Plane?.Convert(externalEdge)))
         {
-
         }
 
         public PolygonalFace3D(PolygonalFace3D? polygonalFace3D)
             : base(polygonalFace3D)
         {
-
         }
 
         [JsonIgnore]
@@ -137,7 +133,6 @@ namespace DiGi.Geometry.Spatial.Classes
             {
                 return null;
             }
-
 
             return plane.Convert(geometry2D.ClosestPoint(point2D));
         }

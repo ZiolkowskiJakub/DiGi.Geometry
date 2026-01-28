@@ -20,5 +20,4 @@ namespace DiGi.Geometry.Spatial
             return System.Math.Abs(crossX) < tolerance && System.Math.Abs(crossY) < tolerance && System.Math.Abs(crossZ) < tolerance;
         }
     }
-
 }

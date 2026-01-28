@@ -12,25 +12,21 @@ namespace DiGi.Geometry.Spatial.Classes
         public Polygon3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Polygon3D(Plane? plane, Polygon2D? polygon2D)
             : base(plane, polygon2D)
         {
-
         }
 
         public Polygon3D(Plane? plane, IEnumerable<Point2D>? point2Ds)
             : base(plane, point2Ds == null ? null : new(point2Ds))
         {
-
         }
 
         public Polygon3D(Polygon3D? polygon3D)
             : base(polygon3D)
         {
-
         }
 
         [JsonIgnore]
@@ -45,7 +41,6 @@ namespace DiGi.Geometry.Spatial.Classes
 
                 return geometry2D.Length;
             }
-
         }
 
         public override ISerializableObject? Clone()
@@ -112,7 +107,6 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-
             if (plane == null || geometry2D == null)
             {
                 return null;

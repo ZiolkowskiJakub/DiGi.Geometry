@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
@@ -94,7 +93,6 @@ namespace DiGi.Geometry.Spatial
             polygonalFace3Ds_Disconnected = tuples.ConvertAll(x => x.Item2);
 
             return true;
-
         }
     }
 }

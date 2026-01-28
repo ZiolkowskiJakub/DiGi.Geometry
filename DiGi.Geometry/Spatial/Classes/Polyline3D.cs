@@ -15,12 +15,10 @@ namespace DiGi.Geometry.Spatial.Classes
         public Polyline3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Polyline3D()
         {
-
         }
 
         public Polyline3D(Polyline3D? polyline3D)

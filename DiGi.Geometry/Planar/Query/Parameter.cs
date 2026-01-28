@@ -68,7 +68,6 @@ namespace DiGi.Geometry.Planar
             length += point2Ds.ElementAt(index - 1).Distance(point2D_Closest);
 
             return length / lengths.Sum();
-
         }
 
         public static double Parameter(this IEnumerable<Point2D>? point2Ds, Point2D? point2D)

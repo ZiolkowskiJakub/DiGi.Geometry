@@ -25,7 +25,6 @@ namespace DiGi.Geometry.Planar.Classes
         public Ellipse2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Ellipse2D(Point2D? center, double a, double b)

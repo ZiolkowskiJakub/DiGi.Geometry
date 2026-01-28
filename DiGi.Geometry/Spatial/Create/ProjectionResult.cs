@@ -198,7 +198,6 @@ namespace DiGi.Geometry.Spatial
             }
 
             return new ProjectionResult(plane, new Triangle2D(point2Ds));
-
         }
 
         public static ProjectionResult? ProjectionResult(this Plane? plane, Polygon3D? polygon3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -239,7 +238,6 @@ namespace DiGi.Geometry.Spatial
             }
 
             return new ProjectionResult(plane, new Polygon2D(point2Ds));
-
         }
 
         public static ProjectionResult? ProjectionResult(this Plane? plane, IGeometry3D? geometry3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)

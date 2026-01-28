@@ -23,7 +23,6 @@ namespace DiGi.Geometry.Spatial.Classes
         public Planar(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Planar(Planar<T>? planar)
@@ -72,7 +71,6 @@ namespace DiGi.Geometry.Spatial.Classes
 
             if (result)
             {
-
             }
 
             return result;

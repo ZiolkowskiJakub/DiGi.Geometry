@@ -16,7 +16,6 @@ namespace DiGi.Geometry.Spatial.Classes
         public Triangle3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Triangle3D(Triangle3D? triangle3D)
@@ -68,7 +67,6 @@ namespace DiGi.Geometry.Spatial.Classes
                 }
 
                 return new Triangle2D(point2D_1, point2D_2, point2D_3);
-
             }
         }
 

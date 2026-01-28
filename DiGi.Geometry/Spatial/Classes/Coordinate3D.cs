@@ -10,25 +10,21 @@ namespace DiGi.Geometry.Spatial.Classes
         public Coordinate3D(JsonObject? jsonObject)
             : base(jsonObject, 3)
         {
-
         }
 
         public Coordinate3D(double x, double y, double z)
             : base(x, y, z)
         {
-
         }
 
         public Coordinate3D()
             : base()
         {
-
         }
 
         public Coordinate3D(Coordinate3D? coordinate3D)
             : base(coordinate3D)
         {
-
         }
 
         public Coordinate3D(double[]? values)

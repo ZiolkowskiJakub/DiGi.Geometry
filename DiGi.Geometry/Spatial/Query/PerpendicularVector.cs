@@ -16,5 +16,4 @@ namespace DiGi.Geometry.Spatial
             return vector3D.CrossProduct(vector3D_Temp);
         }
     }
-
 }

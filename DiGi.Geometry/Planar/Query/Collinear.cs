@@ -42,7 +42,6 @@ namespace DiGi.Geometry.Planar
                 point2Ds_Temp.Add(point2D);
             }
 
-
             int count = point2Ds_Temp.Count();
 
             if (count < 2)
@@ -80,5 +79,4 @@ namespace DiGi.Geometry.Planar
             return Collinear([point2D_1, point2D_2, point2D_3], tolerance);
         }
     }
-
 }

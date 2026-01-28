@@ -31,7 +31,6 @@ namespace DiGi.Geometry.Planar
             }
 
             return area_Polygonal2D / area_Rectangle2D;
-
         }
     }
 }

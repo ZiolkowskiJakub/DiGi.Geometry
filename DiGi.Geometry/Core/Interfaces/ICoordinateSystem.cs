@@ -2,7 +2,6 @@
 {
     public interface ICoordinateSystem : IGeometry
     {
-
     }
 
     public interface ICoordinateSystem<TPoint> : ICoordinateSystem where TPoint : IPoint

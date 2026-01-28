@@ -18,6 +18,5 @@ namespace DiGi.Geometry.Spatial.Interfaces
 
     public interface IFace3D<T> : IFace3D, IFace<T> where T : IClosedCurve3D
     {
-
     }
 }

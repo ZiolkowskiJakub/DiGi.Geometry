@@ -24,5 +24,4 @@ namespace DiGi.Geometry.Spatial
             return normal.CrossProduct(axisX)?.Unit;
         }
     }
-
 }

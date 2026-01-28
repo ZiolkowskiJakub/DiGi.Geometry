@@ -63,7 +63,6 @@ namespace DiGi.Geometry.Planar
                         continue;
                     }
 
-
                     List<Point2D> point2Ds_Intersection = [];
 
                     if (segment2D_1.On(segment2D_2[0], tolerance))
@@ -101,7 +100,6 @@ namespace DiGi.Geometry.Planar
                                 continue;
                             }
                         }
-
 
                         point2Ds_Intersection.Add(point2D_Intersection);
                     }

@@ -3,7 +3,6 @@ using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace DiGi.Geometry.Spatial.Classes
 {
     public class PolyhedronInternalPointSolver<TPolyhedron> : InternalPointSolver<TPolyhedron, Point3D> where TPolyhedron : IPolyhedron
@@ -18,13 +17,11 @@ namespace DiGi.Geometry.Spatial.Classes
         public PolyhedronInternalPointSolver(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(tolerance)
         {
-
         }
 
         public PolyhedronInternalPointSolver(int maxCount, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(maxCount, tolerance)
         {
-
         }
 
         public override TPolyhedron? Input
@@ -128,4 +125,3 @@ namespace DiGi.Geometry.Spatial.Classes
         }
     }
 }
-

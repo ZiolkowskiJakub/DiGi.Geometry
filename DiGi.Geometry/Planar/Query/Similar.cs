@@ -155,12 +155,10 @@ namespace DiGi.Geometry.Planar
                     {
                         return false;
                     }
-
                 }
             }
 
             return true;
-
         }
 
         public static bool Similar(this IPolygonalFace2D? polygonalFace2D_1, IPolygonalFace2D? polygonalFace2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)

@@ -9,7 +9,6 @@ namespace DiGi.Geometry.Planar.Classes
 
         public SnapperUpdater()
         {
-
         }
 
         public SnapperUpdater(double tolerance)

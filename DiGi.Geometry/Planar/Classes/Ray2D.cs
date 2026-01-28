@@ -57,7 +57,6 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-
         public static explicit operator Ray2D?(Segment2D? segment2D)
         {
             if (segment2D is null)
@@ -213,12 +212,12 @@ namespace DiGi.Geometry.Planar.Classes
 
             return Distance(point2D) < tolerance;
         }
-        
+
         public Point2D? Project(Point2D? point2D)
         {
             return Query.ClosestPoint(point2D, origin, origin + direction, false);
         }
-        
+
         public override bool Transform(ITransform2D? transform)
         {
             if (transform is null || origin is null || direction is null)

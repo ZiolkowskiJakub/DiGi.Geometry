@@ -164,7 +164,6 @@ namespace DiGi.Geometry.Planar
             }
 
             return Create.PolygonalFace2D(externalEdge, internalEdges, tolerance);
-
         }
 
         public static IPolygonal2D? Transform(this IPolygonal2D? polygonal2D, Func<Point2D?, Point2D?>? func, double tolerance = DiGi.Core.Constans.Tolerance.Distance)

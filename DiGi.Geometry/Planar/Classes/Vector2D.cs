@@ -12,13 +12,11 @@ namespace DiGi.Geometry.Planar.Classes
         public Vector2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Vector2D(Vector2D? vector2D)
             : base(vector2D)
         {
-
         }
 
         public Vector2D(Point2D? start, Point2D? end)
@@ -35,13 +33,11 @@ namespace DiGi.Geometry.Planar.Classes
         public Vector2D(double x, double y)
             : base(x, y)
         {
-
         }
 
         public Vector2D(double[]? values)
             : base(values)
         {
-
         }
 
         [JsonIgnore]

@@ -116,7 +116,6 @@ namespace DiGi.Geometry.Planar
             }
 
             return AdjacentSegments([segmentable2D_1, segmentable2D_2], tolerance);
-
         }
     }
 }

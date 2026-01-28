@@ -121,7 +121,6 @@ namespace DiGi.Geometry.Planar
 
         public static Point2D? IntersectionPoint(this ILinear2D? linear2D_1, ILinear2D? linear2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-
             if (linear2D_1 == null || linear2D_2 == null)
             {
                 return null;

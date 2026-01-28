@@ -146,7 +146,6 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-
             return new Polygon2D(point2Ds);
         }
 
@@ -409,7 +408,7 @@ namespace DiGi.Geometry.Planar.Classes
 
             return true;
         }
-        
+
         public List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
             List<Point2D>? point2Ds = GetPoints();

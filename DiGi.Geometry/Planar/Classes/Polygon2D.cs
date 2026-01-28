@@ -11,30 +11,25 @@ namespace DiGi.Geometry.Planar.Classes
         public Polygon2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Polygon2D()
         {
-
         }
 
         public Polygon2D(Polygon2D? polygon2D)
             : base(polygon2D)
         {
-
         }
 
         public Polygon2D(IEnumerable<Point2D>? point2Ds)
             : base(point2Ds)
         {
-
         }
 
         public Polygon2D(IPolygonal2D? polygonal2D)
             : base(polygonal2D?.GetPoints())
         {
-
         }
 
         public override ISerializableObject? Clone()

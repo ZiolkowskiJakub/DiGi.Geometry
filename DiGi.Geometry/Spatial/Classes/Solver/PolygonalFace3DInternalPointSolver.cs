@@ -3,7 +3,6 @@ using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 
-
 namespace DiGi.Geometry.Spatial.Classes
 {
     public class PolygonalFace3DInternalPointSolver : IInternalPointSolver<IPolygonalFace3D, Point3D>

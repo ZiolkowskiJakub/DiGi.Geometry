@@ -15,7 +15,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
         [JsonInclude, JsonPropertyName("Min")]
         private Point3D? min;
-        
+
         public BoundingBox3D(Point3D? point2D_1, Point3D? point2D_2)
             : base()
         {
@@ -58,7 +58,6 @@ namespace DiGi.Geometry.Spatial.Classes
         public BoundingBox3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

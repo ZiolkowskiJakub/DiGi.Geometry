@@ -70,5 +70,4 @@ namespace DiGi.Geometry.Planar
             return new PolygonalFace2D(new Polygon2D(points));
         }
     }
-
 }

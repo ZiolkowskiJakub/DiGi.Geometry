@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 
-
 namespace DiGi.Geometry.Planar.Classes
 {
     public class PolygonalFace2DInternalPointSolver : Core.Classes.InternalPointSolver<IPolygonalFace2D, Point2D>
@@ -19,13 +18,11 @@ namespace DiGi.Geometry.Planar.Classes
         public PolygonalFace2DInternalPointSolver(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(tolerance)
         {
-
         }
 
         public PolygonalFace2DInternalPointSolver(int maxCount, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(maxCount, tolerance)
         {
-
         }
 
         public override IPolygonalFace2D? Input
@@ -223,6 +220,5 @@ namespace DiGi.Geometry.Planar.Classes
 
             return false;
         }
-
     }
 }

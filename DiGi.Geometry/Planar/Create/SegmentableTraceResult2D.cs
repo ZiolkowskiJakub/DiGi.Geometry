@@ -17,5 +17,4 @@ namespace DiGi.Geometry.Planar
             return SegmentableTraceResult2Ds(point2D, vector2D, segment2Ds, 0, tolerance)?.FirstOrDefault();
         }
     }
-
 }

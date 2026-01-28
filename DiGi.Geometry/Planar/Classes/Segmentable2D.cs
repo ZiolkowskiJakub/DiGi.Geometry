@@ -14,12 +14,10 @@ namespace DiGi.Geometry.Planar.Classes
         public Segmentable2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Segmentable2D()
         {
-
         }
 
         public Segmentable2D(Segmentable2D? segmentable2D)
@@ -58,7 +56,6 @@ namespace DiGi.Geometry.Planar.Classes
 
                 return result;
             }
-
         }
 
         public Point2D? ClosestPoint(Point2D? point2D)

@@ -4,7 +4,6 @@ using DiGi.Geometry.Planar.Interfaces;
 using System;
 using System.Collections.Generic;
 
-
 namespace DiGi.Geometry.Planar.Classes
 {
     public class Polygonal2DSelfIntersectionSolver : IOneToOneGeometrySolver<IPolygonal2D, IPolygonal2D>
@@ -102,6 +101,5 @@ namespace DiGi.Geometry.Planar.Classes
             output = tuples[0].Item1;
             return true;
         }
-
     }
 }

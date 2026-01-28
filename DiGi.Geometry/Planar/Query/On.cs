@@ -45,5 +45,4 @@ namespace DiGi.Geometry.Planar
             return On(segmentable2Ds?.Segments(), point2D, tolerance);
         }
     }
-
 }

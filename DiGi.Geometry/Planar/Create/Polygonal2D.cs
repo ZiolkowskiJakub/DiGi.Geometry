@@ -56,5 +56,4 @@ namespace DiGi.Geometry.Planar
             return Rectangle2D(point2Ds);
         }
     }
-
 }

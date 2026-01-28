@@ -11,19 +11,16 @@ namespace DiGi.Geometry.Spatial.Classes
         public Mesh3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Mesh3D(Mesh3D? mesh3D)
             : base(mesh3D)
         {
-
         }
 
         public Mesh3D(IEnumerable<Point3D>? points, IEnumerable<int[]>? indexes)
             : base(points, indexes)
         {
-
         }
 
         public override ISerializableObject? Clone()

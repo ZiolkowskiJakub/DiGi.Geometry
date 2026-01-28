@@ -116,7 +116,6 @@ namespace DiGi.Geometry.Spatial
                 matrix4D[2, 3] = origin.Z;
 
                 return new Classes.Transform3D(matrix4D);
-
             }
 
             public static Classes.Transform3D? PlaneToOrigin(Plane? plane)
@@ -364,7 +363,5 @@ namespace DiGi.Geometry.Spatial
                 return new Classes.Transform3D(matrix4D);
             }
         }
-
-
     }
 }

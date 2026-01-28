@@ -124,7 +124,6 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-
             List<X> result = [];
             foreach (Polygon2D polygon2D in polygon2Ds_Temp)
             {

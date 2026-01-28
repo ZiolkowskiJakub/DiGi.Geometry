@@ -105,9 +105,5 @@ namespace DiGi.Geometry.Spatial
 
             return true;
         }
-
-
-
     }
-
 }

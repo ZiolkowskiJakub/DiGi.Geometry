@@ -17,6 +17,5 @@ namespace DiGi.Geometry.Spatial.Interfaces
 
     public interface IPolygonal3D<TGeometry2D> : IPolygonal3D, IPlanar<TGeometry2D> where TGeometry2D : IGeometry2D
     {
-
     }
 }

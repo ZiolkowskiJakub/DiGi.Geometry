@@ -5,7 +5,6 @@ namespace DiGi.Geometry.Object.Core.Interfaces
 {
     public interface IGeometryObject : IUniqueObject
     {
-
     }
 
     public interface IGeometryObject<TGeometry> : IGeometryObject where TGeometry : IGeometry

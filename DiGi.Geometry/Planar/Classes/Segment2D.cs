@@ -37,13 +37,11 @@ namespace DiGi.Geometry.Planar.Classes
         public Segment2D(Segment2D? segment2D)
             : this(segment2D?.start, segment2D?.vector)
         {
-
         }
 
         public Segment2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

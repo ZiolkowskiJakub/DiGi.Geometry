@@ -16,19 +16,16 @@ namespace DiGi.Geometry.Planar.Classes
 
         public IntersectionResult2D()
         {
-
         }
 
         public IntersectionResult2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public IntersectionResult2D(IntersectionResult2D? intersectionResult2D)
             : this(intersectionResult2D?.geometry2Ds)
         {
-
         }
 
         internal IntersectionResult2D(IGeometry2D? geometry2D)
@@ -74,7 +71,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return geometry2Ds != null && geometry2Ds.Count != 0;
             }
         }
-        
+
         [JsonIgnore]
         public IGeometry2D? this[int index]
         {

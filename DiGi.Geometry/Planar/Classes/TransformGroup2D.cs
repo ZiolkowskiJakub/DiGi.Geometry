@@ -16,14 +16,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         public TransformGroup2D(IEnumerable<ITransform2D>? transform2Ds)
         {
-
             this.transform2Ds = DiGi.Core.Query.Clone(transform2Ds)?.FilterNulls();
         }
 
         public TransformGroup2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public TransformGroup2D(TransformGroup2D? transformGroup2D)

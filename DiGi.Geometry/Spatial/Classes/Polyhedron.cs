@@ -17,19 +17,16 @@ namespace DiGi.Geometry.Spatial.Classes
         public Polyhedron(Polyhedron? polyhedron)
             : base(polyhedron)
         {
-
         }
 
         public Polyhedron(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         internal Polyhedron(IEnumerable<IPolygonalFace3D>? polygonalFaces)
             : base(polygonalFaces)
         {
-
         }
 
         public override ISerializableObject? Clone()
@@ -52,7 +49,6 @@ namespace DiGi.Geometry.Spatial.Classes
         public Polyhedron(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         protected Polyhedron(IEnumerable<TPolygonalFace3D>? polygonalFaces)

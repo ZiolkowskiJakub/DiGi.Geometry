@@ -328,7 +328,6 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             return false;
-
         }
 
         public override bool Move(Vector3D? vector3D)

@@ -25,7 +25,6 @@ namespace DiGi.Geometry.Planar
                 return intersectionResult2D.GetGeometry2Ds<Segment2D>()?.FirstOrDefault();
             }
 
-
             List<Point2D>? point2Ds = intersectionResult2D.GetGeometry2Ds<Point2D>();
             if (point2Ds == null || point2Ds.Count < 2)
             {
@@ -35,5 +34,4 @@ namespace DiGi.Geometry.Planar
             return new Segment2D(point2Ds[0], point2Ds[1]);
         }
     }
-
 }

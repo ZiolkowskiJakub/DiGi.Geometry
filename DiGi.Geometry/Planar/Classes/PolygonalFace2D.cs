@@ -29,7 +29,6 @@ namespace DiGi.Geometry.Planar.Classes
         public PolygonalFace2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         internal PolygonalFace2D(IPolygonal2D? externalEdge, IEnumerable<IPolygonal2D>? internalEdges = null)
@@ -214,7 +213,6 @@ namespace DiGi.Geometry.Planar.Classes
             {
                 return null;
             }
-
 
             for (int i = 0; i < internalEdges.Count; i++)
             {

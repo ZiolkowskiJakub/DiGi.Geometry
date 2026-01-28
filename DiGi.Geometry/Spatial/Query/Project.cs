@@ -62,5 +62,4 @@ namespace DiGi.Geometry.Spatial
             return ts[0];
         }
     }
-
 }

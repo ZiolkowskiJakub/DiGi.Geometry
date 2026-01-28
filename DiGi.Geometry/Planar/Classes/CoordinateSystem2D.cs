@@ -27,7 +27,6 @@ namespace DiGi.Geometry.Planar.Classes
         public CoordinateSystem2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public CoordinateSystem2D()

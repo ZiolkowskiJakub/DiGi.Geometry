@@ -109,8 +109,6 @@ namespace DiGi.Geometry.Planar
             }
 
             return Mesh2D(triangle2Ds, tolerance);
-
         }
     }
-
 }

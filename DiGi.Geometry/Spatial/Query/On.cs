@@ -28,7 +28,6 @@ namespace DiGi.Geometry.Spatial
             }
 
             return false;
-
         }
 
         public static bool On(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -44,13 +43,11 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-
             Point3D? origin = plane.Origin;
             if (origin == null)
             {
                 return false;
             }
-
 
             return System.Math.Abs((normal.X * (point3D.X - origin.X)) + (normal.Y * (point3D.Y - origin.Y)) + (normal.Z * (point3D.Z - origin.Z))) < tolerance;
         }
@@ -87,7 +84,6 @@ namespace DiGi.Geometry.Spatial
             }
 
             return true;
-
         }
 
         public static bool On(this Plane? plane, Vector3D? vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
@@ -116,7 +112,6 @@ namespace DiGi.Geometry.Spatial
             }
 
             return System.Math.Abs(point3D_1.Distance(point3D_2) - point3D_1.Distance(point3D_Temp)) < tolerance;
-
         }
     }
 }

@@ -25,5 +25,4 @@ namespace DiGi.Geometry.Planar
             return Math.Create.PolynomialEquation(x, y, order);
         }
     }
-
 }

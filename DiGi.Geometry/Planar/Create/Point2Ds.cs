@@ -58,5 +58,4 @@ namespace DiGi.Geometry.Planar
             return result;
         }
     }
-
 }

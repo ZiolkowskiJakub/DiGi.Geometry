@@ -22,7 +22,6 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-
                 result.Add(coordinate);
             }
 

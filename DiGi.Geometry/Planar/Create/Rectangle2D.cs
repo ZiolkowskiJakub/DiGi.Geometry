@@ -49,7 +49,6 @@ namespace DiGi.Geometry.Planar
                     maxHeight = projHeight;
                 }
 
-
                 double projWidth = vector2D.DotProduct(direction_Width);
 
                 if (projWidth < minWidth)
@@ -175,5 +174,4 @@ namespace DiGi.Geometry.Planar
             return Rectangle2D(point2Ds, tolerance);
         }
     }
-
 }

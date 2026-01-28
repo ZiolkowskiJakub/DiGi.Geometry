@@ -13,6 +13,5 @@ namespace DiGi.Geometry.Spatial
 
             return new Plane(coordinateSystem3D.Origin, coordinateSystem3D.AxisX, coordinateSystem3D.AxisY);
         }
-
     }
 }

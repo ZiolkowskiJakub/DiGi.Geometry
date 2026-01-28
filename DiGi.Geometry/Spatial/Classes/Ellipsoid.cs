@@ -53,7 +53,6 @@ namespace DiGi.Geometry.Spatial.Classes
         public Ellipsoid(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

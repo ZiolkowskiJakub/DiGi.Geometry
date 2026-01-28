@@ -43,7 +43,6 @@ namespace DiGi.Geometry.Core.Classes
         public DensityBasedSpatialClusteringResult(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -70,7 +69,6 @@ namespace DiGi.Geometry.Core.Classes
 
             private set
             {
-
                 if (value == null)
                 {
                     dictionary = null;

@@ -12,19 +12,16 @@ namespace DiGi.Geometry.Spatial.Classes
         public Ellipse3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Ellipse3D(Plane? plane, Ellipse2D? ellipse2D)
             : base(plane, ellipse2D)
         {
-
         }
 
         public Ellipse3D(Ellipse3D? ellipse3D)
             : base(ellipse3D)
         {
-
         }
 
         [JsonIgnore]

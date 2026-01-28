@@ -50,7 +50,6 @@ namespace DiGi.Geometry.Planar
 
             if (point2D_Start == null)
             {
-
                 List<Point2D> point2Ds_Temp = [];
                 foreach (Point2D point2D in adjacencyGraph.Vertices)
                 {
@@ -162,7 +161,5 @@ namespace DiGi.Geometry.Planar
 
             return result;
         }
-
     }
-
 }

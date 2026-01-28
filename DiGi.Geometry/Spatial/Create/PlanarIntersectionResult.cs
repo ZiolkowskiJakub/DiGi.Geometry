@@ -253,7 +253,6 @@ namespace DiGi.Geometry.Spatial
                     {
                         DiGi.Core.Modify.Add(point2Ds, point2D, x => Planar.Query.Similar(x, point2D, tolerance));
                     }
-
                 }
             }
             List<IGeometry2D> geometry2Ds = [];
@@ -590,7 +589,6 @@ namespace DiGi.Geometry.Spatial
             }
 
             return PlanarIntersectionResult(polygonalFace3D, origin, origin + direction, false, false, tolerance);
-
         }
 
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)

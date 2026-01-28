@@ -172,5 +172,4 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
     }
-
 }

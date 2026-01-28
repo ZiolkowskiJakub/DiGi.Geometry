@@ -220,5 +220,4 @@ namespace DiGi.Geometry.Spatial
             return axisX.CrossProduct(axisY)?.Unit;
         }
     }
-
 }

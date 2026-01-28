@@ -10,7 +10,6 @@ namespace DiGi.Geometry.Planar.Classes
 
         public DouglasPeuckerUpdater()
         {
-
         }
 
         public DouglasPeuckerUpdater(double tolerance)

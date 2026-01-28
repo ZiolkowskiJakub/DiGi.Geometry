@@ -56,7 +56,6 @@ namespace DiGi.Geometry.Spatial
                 result.Add(polygon3D);
             }
 
-
             point3D_1 = min;
             point3D_2 = min.GetMoved(vector3D_Depth);
             point3D_3 = point3D_2?.GetMoved(vector3D_Height);

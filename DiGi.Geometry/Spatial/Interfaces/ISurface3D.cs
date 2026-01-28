@@ -4,6 +4,5 @@ namespace DiGi.Geometry.Spatial.Interfaces
 {
     public interface ISurface3D : ISurface, IBoundable3D
     {
-
     }
 }

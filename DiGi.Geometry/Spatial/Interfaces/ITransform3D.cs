@@ -4,6 +4,5 @@ namespace DiGi.Geometry.Spatial.Interfaces
 {
     public interface ITransform3D : ITransform
     {
-
     }
 }

@@ -15,11 +15,10 @@ namespace DiGi.Geometry.Planar.Classes
 
         [JsonInclude, JsonPropertyName("Vector2D")]
         private readonly Vector2D? vector2D;
-        
+
         public SegmentableTraceResult2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public SegmentableTraceResult2D(SegmentableTraceResult2D? segmentableTraceResult2D)
@@ -38,7 +37,7 @@ namespace DiGi.Geometry.Planar.Classes
             this.segment2D = DiGi.Core.Query.Clone(segment2D);
             this.point2D = DiGi.Core.Query.Clone(point2D);
         }
-        
+
         /// <summary>
         /// Hit Point
         /// </summary>
@@ -74,7 +73,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return vector2D == null ? null : new Vector2D(vector2D);
             }
         }
-        
+
         public override ISerializableObject? Clone()
         {
             return new SegmentableTraceResult2D(vector2D, segment2D, point2D);

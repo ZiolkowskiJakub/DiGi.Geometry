@@ -146,5 +146,4 @@ namespace DiGi.Geometry.Planar
             return ClosestPoint(point2D, point2Ds, out _);
         }
     }
-
 }

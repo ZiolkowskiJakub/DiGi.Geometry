@@ -44,7 +44,6 @@ namespace DiGi.Geometry.Spatial.Classes
         public Spheroid(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

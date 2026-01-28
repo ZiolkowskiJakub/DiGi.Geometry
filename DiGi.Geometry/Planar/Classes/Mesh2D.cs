@@ -12,19 +12,16 @@ namespace DiGi.Geometry.Planar.Classes
         public Mesh2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Mesh2D(Mesh2D? mesh2D)
             : base(mesh2D)
         {
-
         }
 
         public Mesh2D(IEnumerable<Point2D>? points, IEnumerable<int[]>? indexes)
             : base(points, indexes)
         {
-
         }
 
         public override ISerializableObject? Clone()

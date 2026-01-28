@@ -127,7 +127,6 @@ namespace DiGi.Geometry.Spatial.Classes
                 return double.NaN;
             }
 
-
             return point3D_Project.Distance(point3D);
         }
 
@@ -208,7 +207,6 @@ namespace DiGi.Geometry.Spatial.Classes
             {
                 return false;
             }
-
 
             return point3D_Project.Distance(point3D) < tolerance;
         }

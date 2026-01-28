@@ -26,7 +26,6 @@ namespace DiGi.Geometry.Spatial.Classes
         public Extrusion(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Extrusion(TSurface3D? surface, Vector3D? vector)

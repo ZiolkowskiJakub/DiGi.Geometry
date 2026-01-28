@@ -68,5 +68,4 @@ namespace DiGi.Geometry.Spatial
             return plane_1.Coplanar(plane_2, tolerance);
         }
     }
-
 }

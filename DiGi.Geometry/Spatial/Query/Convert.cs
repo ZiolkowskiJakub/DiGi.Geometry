@@ -11,7 +11,6 @@ namespace DiGi.Geometry.Spatial
     {
         public static Ray3D? Convert(this Plane? plane, Ray2D? ray2D)
         {
-
             if (plane?.Convert(ray2D?.Direction) is not Vector3D direction)
             {
                 return null;
@@ -27,7 +26,6 @@ namespace DiGi.Geometry.Spatial
 
         public static Ray2D? Convert(this Plane? plane, Ray3D? ray3D)
         {
-
             if (plane?.Convert(ray3D?.Direction) is not Vector2D direction)
             {
                 return null;
@@ -115,7 +113,6 @@ namespace DiGi.Geometry.Spatial
             {
                 return null;
             }
-
 
             return new(start, end);
         }
@@ -361,7 +358,6 @@ namespace DiGi.Geometry.Spatial
             }
 
             return new(point2Ds);
-
         }
 
         //public static IPolygonal2D? Convert(this Plane? plane, IPolygonal3D? polygonal3D)
@@ -619,5 +615,4 @@ namespace DiGi.Geometry.Spatial
             return null;
         }
     }
-
 }

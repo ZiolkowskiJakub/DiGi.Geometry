@@ -16,10 +16,10 @@ namespace DiGi.Geometry.Spatial.Classes
 
         [JsonInclude, JsonPropertyName("Plane")]
         private readonly Plane? plane;
+
         public PlanarResult()
             : base()
         {
-
         }
 
         public PlanarResult(Plane? plane)
@@ -31,7 +31,6 @@ namespace DiGi.Geometry.Spatial.Classes
         public PlanarResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public PlanarResult(PlanarResult? planarResult)
@@ -48,7 +47,6 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             this.plane = plane == null ? null : new Plane(plane);
             this.geometry2Ds = DiGi.Core.Query.Clone(geometry2Ds)?.FilterNulls();
-
         }
 
         public PlanarResult(Plane? plane, IGeometry2D? geometry2D)

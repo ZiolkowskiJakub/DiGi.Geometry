@@ -1,6 +1,5 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 
-
 namespace DiGi.Geometry.Planar
 {
     public static partial class Query

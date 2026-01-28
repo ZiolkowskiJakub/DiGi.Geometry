@@ -2,7 +2,6 @@
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Spatial.Interfaces;
 
-
 namespace DiGi.Geometry.Spatial.Classes
 {
     public class Polygonal3DNormalizationUpdater : GeometryUpdater<IPolygonal3D>, Core.Interfaces.INormalizationUpdater<IPolygonal3D>

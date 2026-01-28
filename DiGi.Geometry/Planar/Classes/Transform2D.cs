@@ -19,7 +19,6 @@ namespace DiGi.Geometry.Planar.Classes
         public Transform2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Transform2D(Transform2D? transform2D)

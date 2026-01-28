@@ -9,24 +9,20 @@ namespace DiGi.Geometry.Planar.Classes
         public Polyline2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Polyline2D()
         {
-
         }
 
         public Polyline2D(Polyline2D? polyline2D)
             : base(polyline2D)
         {
-
         }
 
         public Polyline2D(IEnumerable<Point2D>? point2Ds)
             : base(point2Ds)
         {
-
         }
 
         public Polyline2D(IEnumerable<Point2D>? point2Ds, bool close)
@@ -66,7 +62,7 @@ namespace DiGi.Geometry.Planar.Classes
         {
             return Create.Segment2Ds(points, false);
         }
-        
+
         public bool IsClosed()
         {
             if (points == null || points.Count < 3)
@@ -76,7 +72,7 @@ namespace DiGi.Geometry.Planar.Classes
 
             return points[0].Equals(points[points.Count - 1]);
         }
-        
+
         public void Open()
         {
             if (!IsClosed())

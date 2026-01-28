@@ -22,7 +22,6 @@ namespace DiGi.Geometry.Planar
                 }
 
                 result.Add(point2D);
-
             }
 
             return result;

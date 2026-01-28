@@ -11,7 +11,6 @@ namespace DiGi.Geometry.Planar
             if (segment2Ds == null)
                 return null;
 
-
             List<Segment2D> result = [];
             foreach (Segment2D segment2D in segment2Ds)
             {
@@ -41,7 +40,6 @@ namespace DiGi.Geometry.Planar
                         {
                             result.Add(segment2D_Intersection);
                         }
-
                     }
                 }
 
@@ -73,7 +71,6 @@ namespace DiGi.Geometry.Planar
 
             return result;
         }
-
 
         public static List<Segment2D>? SelfIntersectionSegments(this ISegmentable2D? segmentable2D, double maxLength, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {

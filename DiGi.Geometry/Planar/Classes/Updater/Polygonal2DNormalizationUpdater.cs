@@ -2,8 +2,6 @@
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar.Interfaces;
 
-
-
 namespace DiGi.Geometry.Planar.Classes
 {
     public class Polygonal2DNormalizationUpdater : GeometryUpdater<IPolygonal2D>, Core.Interfaces.INormalizationUpdater<IPolygonal2D>

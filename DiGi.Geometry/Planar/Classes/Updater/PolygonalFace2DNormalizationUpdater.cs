@@ -3,7 +3,6 @@ using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 
-
 namespace DiGi.Geometry.Planar.Classes
 {
     public class PolygonalFace2DNormalizationUpdater : GeometryUpdater<IPolygonalFace2D>, Core.Interfaces.INormalizationUpdater<IPolygonalFace2D>

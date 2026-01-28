@@ -33,7 +33,6 @@ namespace DiGi.Geometry.Spatial.Classes
         public Sphere(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

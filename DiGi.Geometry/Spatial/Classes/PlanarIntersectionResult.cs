@@ -12,37 +12,31 @@ namespace DiGi.Geometry.Spatial.Classes
         public PlanarIntersectionResult()
             : base()
         {
-
         }
 
         public PlanarIntersectionResult(Plane? plane)
             : base(plane)
         {
-
         }
 
         public PlanarIntersectionResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public PlanarIntersectionResult(PlanarIntersectionResult? planarIntersectionResult)
             : base(planarIntersectionResult)
         {
-
         }
 
         public PlanarIntersectionResult(Plane? plane, IEnumerable<IGeometry2D>? geometry2Ds)
             : base(plane, geometry2Ds)
         {
-
         }
 
         public PlanarIntersectionResult(Plane? plane, IGeometry2D? geometry2D)
             : base(plane, geometry2D)
         {
-
         }
 
         [JsonIgnore]

@@ -16,6 +16,5 @@ namespace DiGi.Geometry.Planar.Interfaces
 
     public interface IFace2D<T> : IFace2D, IFace<T> where T : IClosedCurve2D
     {
-
     }
 }

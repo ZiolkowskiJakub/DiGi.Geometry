@@ -11,13 +11,11 @@ namespace DiGi.Geometry.Spatial.Classes
         public Vector3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Vector3D(Vector3D? vector3D)
             : base(vector3D)
         {
-
         }
 
         public Vector3D(Point3D? start, Point3D? end)
@@ -35,13 +33,11 @@ namespace DiGi.Geometry.Spatial.Classes
         public Vector3D(double x, double y, double z)
             : base(x, y, z)
         {
-
         }
 
         public Vector3D(double[]? values)
             : base(values)
         {
-
         }
 
         [JsonIgnore]
@@ -59,7 +55,6 @@ namespace DiGi.Geometry.Spatial.Classes
                 {
                     values = [vector3D![0], vector3D[1], vector3D[2]];
                 }
-
             }
         }
 
@@ -204,7 +199,6 @@ namespace DiGi.Geometry.Spatial.Classes
             double length = Length * vector3D.Length;
 
             return (System.Math.Abs(dotProduct) < length) ? System.Math.Acos(dotProduct / length) : (dotProduct < 0) ? System.Math.PI : 0;
-
         }
 
         public override ISerializableObject? Clone()
@@ -227,7 +221,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// then their cross product is a vector perpendicular to the xy-plane going either in the
         /// positive or negative World z-axis direction. Sample: a​(a1, a2, a3) and ​b​(b1, b2, b3)
         /// then a​ ​×​ ​b ​=​ ​(a2​ ​*​ ​b3 – a3​ ​*​ ​b2​,​ ​a3​ ​*​ ​b1 - a1​ ​*​ ​b3, a1​ ​*​ ​b2 - a2​ ​*​ ​b1​ ​)
-        /// <returns> Cross Product Vector3D </returns> 
+        /// <returns> Cross Product Vector3D </returns>
         /// <param name="vector3D">A Vector3D</param>
         /// </summary>
         public Vector3D? CrossProduct(Vector3D? vector3D)

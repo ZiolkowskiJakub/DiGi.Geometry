@@ -193,5 +193,4 @@ namespace DiGi.Geometry.Planar
             }
         }
     }
-
 }

@@ -57,7 +57,6 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
-
         public static explicit operator Line2D?(Segment2D? segment2D)
         {
             if (segment2D is null)

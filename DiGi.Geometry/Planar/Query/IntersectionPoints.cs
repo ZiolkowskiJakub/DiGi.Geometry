@@ -132,13 +132,11 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-
             Dictionary<Point2D, Segment2D> dictionary = [];
 
             Segment2D segment2D = new(point2D, vector2D);
             foreach (Segment2D segment2D_Temp in segment2Ds)
             {
-
                 if (removeCollinear && segment2D.Collinear(segment2D_Temp))
                 {
                     continue;
@@ -165,7 +163,6 @@ namespace DiGi.Geometry.Planar
                 {
                     if (keepDirection)
                     {
-
                         if (!unit.AlmostEquals(new Vector2D(point2D_closest_1, point2D_closest_2).Unit, tolerance))
                         {
                             continue;
@@ -434,7 +431,6 @@ namespace DiGi.Geometry.Planar
             {
                 return null;
             }
-
 
             // Translate points to ellipse-centered coordinates
             double dx0 = point2D_1.X - center.X;

@@ -149,7 +149,6 @@ namespace DiGi.Geometry.Spatial
                         {
                             point3Ds[index] = point3D_Temp;
                         }
-
                     }
 
                     indexes_Triangle3D[i] = index;

@@ -17,7 +17,6 @@ namespace DiGi.Geometry.Planar.Classes
         public Circle2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Circle2D(Point2D? center, double radius)
@@ -28,7 +27,6 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Circle2D()
         {
-
         }
 
         public Circle2D(Circle2D? circle2D)

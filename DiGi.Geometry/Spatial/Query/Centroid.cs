@@ -77,5 +77,4 @@ namespace DiGi.Geometry.Spatial
             return new Point3D(vector3D.X / area, vector3D.Y / area, vector3D.Z / area);
         }
     }
-
 }

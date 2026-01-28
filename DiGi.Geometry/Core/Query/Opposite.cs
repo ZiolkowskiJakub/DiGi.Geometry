@@ -8,7 +8,6 @@ namespace DiGi.Geometry.Core
         {
             return alignment switch
             {
-
                 Alignment.Horizontal => Alignment.Vertical,
 
                 Alignment.Vertical => Alignment.Horizontal,

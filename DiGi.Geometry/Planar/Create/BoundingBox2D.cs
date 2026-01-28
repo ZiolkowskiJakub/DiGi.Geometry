@@ -74,5 +74,4 @@ namespace DiGi.Geometry.Planar
             return new(point2D_1, point2D_2);
         }
     }
-
 }

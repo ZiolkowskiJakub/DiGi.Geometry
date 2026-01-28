@@ -23,5 +23,4 @@ namespace DiGi.Geometry.Planar
             return new CoordinateSystem2D(origin, axisX, axisY_Temp);
         }
     }
-
 }

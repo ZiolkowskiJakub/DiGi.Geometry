@@ -59,5 +59,4 @@ namespace DiGi.Geometry.Planar
             return LinearEquation(point2D_1, point2D_2);
         }
     }
-
 }

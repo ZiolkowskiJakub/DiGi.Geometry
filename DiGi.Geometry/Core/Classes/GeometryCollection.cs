@@ -15,19 +15,16 @@ namespace DiGi.Geometry.Core.Classes
         public GeometryCollection(IEnumerable<T>? collectables)
             : base(collectables)
         {
-
         }
 
         public GeometryCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public GeometryCollection(GeometryCollection<T>? geometryCollection)
             : base(geometryCollection)
         {
-
         }
 
         public override ISerializableObject? Clone()

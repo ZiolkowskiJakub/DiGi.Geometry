@@ -22,7 +22,6 @@ namespace DiGi.Geometry.Spatial.Classes
         public TransformGroup3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public TransformGroup3D(TransformGroup3D? transformGroup3D)

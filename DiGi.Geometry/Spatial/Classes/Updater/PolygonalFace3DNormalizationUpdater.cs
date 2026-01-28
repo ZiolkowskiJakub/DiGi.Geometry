@@ -3,7 +3,6 @@ using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 
-
 namespace DiGi.Geometry.Spatial.Classes
 {
     public class PolygonalFace3DNormalizationUpdater : GeometryUpdater<IPolygonalFace3D>, Core.Interfaces.INormalizationUpdater<IPolygonalFace3D>
@@ -19,7 +18,6 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public PolygonalFace3DNormalizationUpdater(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation)
         {
-
             this.externalEdgeOrientation = externalEdgeOrientation;
             this.internalEdgeOrientation = internalEdgeOrientation;
         }

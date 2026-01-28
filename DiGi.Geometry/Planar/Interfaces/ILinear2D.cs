@@ -16,6 +16,5 @@ namespace DiGi.Geometry.Planar.Interfaces
         bool Collinear(ILinear2D? linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 
         bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
-
     }
 }

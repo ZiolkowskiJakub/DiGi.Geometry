@@ -12,7 +12,6 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-
             Vector3D? normal = Query.Normal(point3D_1, point3D_2, point3D_3);
             if (normal == null)
             {

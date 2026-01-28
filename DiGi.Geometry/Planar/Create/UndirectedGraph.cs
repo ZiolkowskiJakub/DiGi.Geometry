@@ -48,5 +48,4 @@ namespace DiGi.Geometry.Planar
             return edges.ToUndirectedGraph<Point2D, Edge<Point2D>>();
         }
     }
-
 }

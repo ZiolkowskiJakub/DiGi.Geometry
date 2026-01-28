@@ -30,7 +30,6 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-
             List<Segment2D>? segment2Ds = segmentable2D_2.GetSegments();
             if (segment2Ds == null || segment2Ds.Count == 0)
             {

@@ -12,31 +12,26 @@ namespace DiGi.Geometry.Spatial.Classes
         public Rectangle3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Rectangle3D(Plane? plane, Rectangle2D? rectangle2D)
             : base(plane, rectangle2D)
         {
-
         }
 
         public Rectangle3D(Plane? plane, double width, double height)
             : base(plane, new Rectangle2D(width, height))
         {
-
         }
 
         public Rectangle3D(Plane? plane, IEnumerable<Point2D>? point2Ds)
             : base(plane, Planar.Create.Rectangle2D(point2Ds))
         {
-
         }
 
         public Rectangle3D(Rectangle3D? rectangle3D)
             : base(rectangle3D)
         {
-
         }
 
         [JsonIgnore]
@@ -65,7 +60,6 @@ namespace DiGi.Geometry.Spatial.Classes
 
                 return geometry2D.Length;
             }
-
         }
 
         [JsonIgnore]
@@ -146,7 +140,6 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
-
             if (plane == null || geometry2D == null)
             {
                 return null;

@@ -10,18 +10,15 @@ namespace DiGi.Geometry.Planar.Classes
         public GeometryCollection2D(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public GeometryCollection2D()
         {
-
         }
 
         public GeometryCollection2D(IEnumerable<ICollectable2D> collectable2Ds)
             : base(collectable2Ds)
         {
-
         }
 
         public bool Move(Vector2D vector2D)

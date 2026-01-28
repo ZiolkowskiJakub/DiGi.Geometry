@@ -14,5 +14,4 @@ namespace DiGi.Geometry.Planar
             return new Line2D(origin, Vector2D(angle));
         }
     }
-
 }

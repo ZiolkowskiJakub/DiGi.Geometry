@@ -82,5 +82,4 @@ namespace DiGi.Geometry.Spatial
             return new Point3D(x_Min, y_Min, z_Min);
         }
     }
-
 }

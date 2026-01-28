@@ -10,25 +10,21 @@ namespace DiGi.Geometry.Planar.Classes
         public Point2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Point2D(double x, double y)
             : base(x, y)
         {
-
         }
 
         public Point2D(double[]? values)
             : base(values)
         {
-
         }
 
         public Point2D(Point2D? point2D)
             : base(point2D)
         {
-
         }
 
         public static implicit operator Point2D((double x, double y) @object)
@@ -111,7 +107,6 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return Distance(point2D) < distance - tolerance;
-
         }
 
         public Point2D? Mid(Point2D? point2D)

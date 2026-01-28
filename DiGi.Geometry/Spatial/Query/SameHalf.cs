@@ -1,6 +1,5 @@
 ﻿using DiGi.Geometry.Spatial.Classes;
 
-
 namespace DiGi.Geometry.Spatial
 {
     public static partial class Query

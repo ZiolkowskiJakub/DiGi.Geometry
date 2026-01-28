@@ -17,13 +17,11 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-
             Point2D? end = segment2D.End;
             if (end is null)
             {
                 return null;
             }
-
 
             if (!extendStart && !extendEnd)
             {

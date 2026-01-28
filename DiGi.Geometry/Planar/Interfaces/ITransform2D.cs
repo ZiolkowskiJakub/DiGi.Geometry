@@ -4,6 +4,5 @@ namespace DiGi.Geometry.Planar.Interfaces
 {
     public interface ITransform2D : ITransform
     {
-
     }
 }

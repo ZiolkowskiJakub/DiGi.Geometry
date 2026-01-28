@@ -10,13 +10,11 @@ namespace DiGi.Geometry.Planar.Classes
         public Coordinate2D(JsonObject? jsonObject)
             : base(jsonObject, 2)
         {
-
         }
 
         public Coordinate2D(double x, double y)
             : base(x, y)
         {
-
         }
 
         public Coordinate2D(double[]? values)
@@ -38,13 +36,11 @@ namespace DiGi.Geometry.Planar.Classes
         public Coordinate2D(Coordinate2D? coordinate2D)
             : base(coordinate2D)
         {
-
         }
 
         public Coordinate2D()
             : base(0, 0)
         {
-
         }
 
         public double X

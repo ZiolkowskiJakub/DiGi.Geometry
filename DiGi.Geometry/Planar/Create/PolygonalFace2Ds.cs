@@ -46,5 +46,4 @@ namespace DiGi.Geometry.Planar
             return PolygonalFace2Ds(polygonal2Ds.Segments(), tolerace);
         }
     }
-
 }

@@ -15,19 +15,16 @@ namespace DiGi.Geometry.Spatial.Classes
 
         public IntersectionResult3D()
         {
-
         }
 
         public IntersectionResult3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public IntersectionResult3D(IntersectionResult3D? intersectionResult3D)
             : this(intersectionResult3D?.geometry3Ds)
         {
-
         }
 
         public IntersectionResult3D(IGeometry3D? geometry3D)
@@ -125,6 +122,5 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             return new IntersectionResult3D(this);
         }
-
     }
 }

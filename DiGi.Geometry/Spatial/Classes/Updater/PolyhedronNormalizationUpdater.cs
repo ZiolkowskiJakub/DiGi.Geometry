@@ -3,7 +3,6 @@ using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Spatial.Interfaces;
 
-
 namespace DiGi.Geometry.Spatial.Classes
 {
     public class PolyhedronNormalizationUpdater : PolyhedronNormalizationUpdater<Polyhedron>
@@ -11,13 +10,11 @@ namespace DiGi.Geometry.Spatial.Classes
         public PolyhedronNormalizationUpdater(Orientation orientation)
             : base(orientation)
         {
-
         }
 
         public PolyhedronNormalizationUpdater(Side? normalSide, Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation, double tolerance = Tolerance.Distance)
             : base(normalSide, externalEdgeOrientation, internalEdgeOrientation, tolerance)
         {
-
         }
     }
 

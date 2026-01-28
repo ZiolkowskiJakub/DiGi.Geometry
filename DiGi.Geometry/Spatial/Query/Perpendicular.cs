@@ -24,5 +24,4 @@ namespace DiGi.Geometry.Spatial
             return Perpendicular(plane_1?.Normal, plane_2?.Normal, tolerance);
         }
     }
-
 }

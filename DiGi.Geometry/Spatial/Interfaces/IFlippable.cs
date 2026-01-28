@@ -5,4 +5,3 @@
         bool Flip(Enums.SpatialAxis prmiaryAxis = Enums.SpatialAxis.Z, Enums.SpatialAxis secondaryAxis = Enums.SpatialAxis.X);
     }
 }
-

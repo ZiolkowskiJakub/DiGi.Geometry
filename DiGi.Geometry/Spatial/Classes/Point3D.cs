@@ -10,25 +10,21 @@ namespace DiGi.Geometry.Spatial.Classes
         public Point3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Point3D(double x, double y, double z)
             : base(x, y, z)
         {
-
         }
 
         public Point3D(double[]? values)
             : base(values)
         {
-
         }
 
         public Point3D(Point3D? point3D)
             : base(point3D)
         {
-
         }
 
         public static implicit operator Point3D?((double x, double y, double z) @object)
@@ -96,7 +92,6 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             return Distance(point3D) < distance - tolerance;
-
         }
 
         public Point3D? Mid(Point3D? point3D)

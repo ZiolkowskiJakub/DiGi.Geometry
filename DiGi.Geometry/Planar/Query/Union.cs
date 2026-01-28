@@ -96,7 +96,6 @@ namespace DiGi.Geometry.Planar
             }
             catch
             {
-
             }
 
             if (geometry == null)

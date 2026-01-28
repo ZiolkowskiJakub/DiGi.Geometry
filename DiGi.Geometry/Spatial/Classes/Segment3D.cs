@@ -15,13 +15,11 @@ namespace DiGi.Geometry.Spatial.Classes
         public Segment3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Segment3D(double x_1, double y_1, double z_1, double x_2, double y_2, double z_2)
             : this(new Point3D(x_1, y_1, z_1), new Point3D(x_2, y_2, z_2))
         {
-
         }
 
         public Segment3D(Point3D? start, Point3D? end)
@@ -43,7 +41,6 @@ namespace DiGi.Geometry.Spatial.Classes
         public Segment3D(Segment3D? segment3D)
         : this(segment3D?.start, segment3D?.vector)
         {
-
         }
 
         [JsonIgnore]

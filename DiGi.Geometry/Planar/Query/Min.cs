@@ -95,5 +95,4 @@ namespace DiGi.Geometry.Planar
             return Min(segmentable2Ds.Points(), out max);
         }
     }
-
 }

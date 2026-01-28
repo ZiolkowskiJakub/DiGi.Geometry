@@ -76,6 +76,5 @@ namespace DiGi.Geometry.Spatial
         {
             return IntersectionPoint(point3D_1_Start, new Vector3D(point3D_1_Start, point3D_1_End), point3D_2_Start, new Vector3D(point3D_2_Start, point3D_2_End), true, tolerance);
         }
-
     }
 }

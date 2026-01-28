@@ -36,5 +36,4 @@ namespace DiGi.Geometry.Planar
             return result * vector2D_ToBeBounced!.Length;
         }
     }
-
 }
