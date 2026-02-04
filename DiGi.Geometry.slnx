@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Project Path="DiGi.Geometry.Drawing/DiGi.Geometry.Drawing.csproj" />
+  <Project Path="DiGi.Geometry.Object/DiGi.Geometry.Object.csproj" />
+  <Project Path="DiGi.Geometry/DiGi.Geometry.csproj" />
+</Solution>
