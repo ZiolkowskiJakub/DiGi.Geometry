@@ -173,7 +173,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.Centroid(points?.FilterNulls());
         }
 
-        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (points == null)
             {
@@ -203,7 +203,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return [new Segment3D(points[0], points[1]), new Segment3D(points[1], points[2]), new Segment3D(points[2], points[0])];
         }
 
-        public bool InRange(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable3D == null || points == null)
             {
@@ -219,7 +219,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.InRange(this, point3Ds, tolerance);
         }
 
-        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || points == null)
             {
@@ -229,7 +229,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.InRange(this, point3D, tolerance);
         }
 
-        public bool Inside(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable3D == null || points == null)
             {
@@ -245,7 +245,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.Inside(this, point3Ds, tolerance);
         }
 
-        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || points == null)
             {
@@ -281,7 +281,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
-        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || points == null)
             {
@@ -291,7 +291,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.On(this, point3D, tolerance);
         }
 
-        public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             List<Point3D>? point3Ds = GetPoints();
             if (point3Ds == null || point3Ds.Count != 3)

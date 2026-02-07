@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="vector3D_2">Direction Vector3D of second line</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns></returns>
-        public static Point3D? IntersectionPoint(this Point3D? point3D_1, Vector3D? vector3D_1, Point3D? point3D_2, Vector3D? vector3D_2, bool bounded, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Point3D? IntersectionPoint(this Point3D? point3D_1, Vector3D? vector3D_1, Point3D? point3D_2, Vector3D? vector3D_2, bool bounded, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             //x = x1 + a1*t = x2 + b1*s
             //y = y1 + a2*t = y2 + b2*s
@@ -72,7 +72,7 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
-        public static Point3D? IntersectionPoint(Point3D? point3D_1_Start, Point3D? point3D_1_End, Point3D? point3D_2_Start, Point3D? point3D_2_End, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Point3D? IntersectionPoint(Point3D? point3D_1_Start, Point3D? point3D_1_End, Point3D? point3D_2_Start, Point3D? point3D_2_End, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return IntersectionPoint(point3D_1_Start, new Vector3D(point3D_1_Start, point3D_1_End), point3D_2_Start, new Vector3D(point3D_2_Start, point3D_2_End), true, tolerance);
         }

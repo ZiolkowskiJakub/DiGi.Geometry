@@ -71,7 +71,7 @@ namespace DiGi.Geometry.Planar
             return new Rectangle2D(new Point2D(vector2D_Origin.X, vector2D_Origin.Y), maxWidth - minWidth, maxHeight - minHeight, direction_Height);
         }
 
-        public static Rectangle2D? Rectangle2D(this IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Rectangle2D? Rectangle2D(this IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2Ds == null || point2Ds.Count() <= 2)
             {
@@ -87,7 +87,7 @@ namespace DiGi.Geometry.Planar
             double area = double.MaxValue;
             Rectangle2D? result = null;
 
-            Vector2D vector2D = Constans.Vector2D.WorldY;
+            Vector2D vector2D = Constants.Vector2D.WorldY;
 
             HashSet<double> angleHashSet = [];
             for (int i = 0; i < point2Ds_ConvexHull.Count - 1; i++)
@@ -129,7 +129,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static Rectangle2D? Rectangle2D(this IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Rectangle2D? Rectangle2D(this IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<Point2D>? point2Ds = segmentable2Ds?.Points()?.FilterNulls();
             if (point2Ds is null)
@@ -140,7 +140,7 @@ namespace DiGi.Geometry.Planar
             return Rectangle2D(point2Ds, tolerance);
         }
 
-        public static Rectangle2D? Rectangle2D(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Rectangle2D? Rectangle2D(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D is Rectangle2D rectangle2D)
             {
@@ -150,7 +150,7 @@ namespace DiGi.Geometry.Planar
             return Rectangle2D(segmentable2D?.GetPoints(), tolerance);
         }
 
-        public static Rectangle2D? Rectangle2D(this IPolygonalFace2D? polygonalFace2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Rectangle2D? Rectangle2D(this IPolygonalFace2D? polygonalFace2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             IPolygonal2D? polygonal2D = polygonalFace2D?.ExternalEdge;
             if (polygonal2D == null)
@@ -161,7 +161,7 @@ namespace DiGi.Geometry.Planar
             return Rectangle2D(polygonal2D, tolerance);
         }
 
-        public static Rectangle2D? Rectangle2D(this Rectangle2D? rectangle2D_1, Rectangle2D? rectangle2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Rectangle2D? Rectangle2D(this Rectangle2D? rectangle2D_1, Rectangle2D? rectangle2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (rectangle2D_1 == null || rectangle2D_2 == null)
             {

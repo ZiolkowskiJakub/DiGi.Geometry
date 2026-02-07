@@ -13,8 +13,8 @@ namespace DiGi.Geometry.Spatial.Interfaces
 
         double Distance(Point3D? point3D);
 
-        bool Collinear(ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
+        bool Collinear(ILinear3D? linear3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance);
 
-        bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
+        bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance);
     }
 }

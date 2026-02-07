@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || point3D == null)
             {
@@ -30,7 +30,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, plane.Convert(point3D_Project));
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || segment3D == null)
             {
@@ -80,7 +80,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, plane.Convert(point3D_Intersection));
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Ray3D? ray3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Ray3D? ray3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || ray3D == null)
             {
@@ -133,7 +133,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, plane.Convert(point3D_Intersection));
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Line3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Line3D? line3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane is null || line3D?.Origin is not Point3D origin)
             {
@@ -143,7 +143,7 @@ namespace DiGi.Geometry.Spatial
             return PlanarIntersectionResult(plane, origin, origin + line3D.Direction, false, false, tolerance);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Point3D? point3D_1, Point3D? point3D_2, bool bounded_1 = false, bool bounded_2 = false, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Point3D? point3D_1, Point3D? point3D_2, bool bounded_1 = false, bool bounded_2 = false, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane is null || point3D_1 is null || point3D_2 is null)
             {
@@ -213,7 +213,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, plane.Convert(point3D_Intersection));
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || segmentable3D == null)
             {
@@ -274,7 +274,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane_1, Plane? plane_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane_1, Plane? plane_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             Point3D? origin_1 = plane_1?.Origin;
             if (origin_1 is null)
@@ -337,7 +337,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane_1, plane_1.Convert(new Line3D(orgin, tangent)));
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, IPolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, IPolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || polygonalFace3D == null)
             {
@@ -431,7 +431,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, IPolyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, IPolyhedron? polyhedron, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || polyhedron == null)
             {
@@ -465,7 +465,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, BoundingBox3D? boundingBox3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, BoundingBox3D? boundingBox3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || boundingBox3D == null)
             {
@@ -481,7 +481,7 @@ namespace DiGi.Geometry.Spatial
             return PlanarIntersectionResult(plane, polyhedron, tolerance);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Point3D? point3D_1, Point3D? point3D_2, bool bounded_1, bool bounded_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Point3D? point3D_1, Point3D? point3D_2, bool bounded_1, bool bounded_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D_1 is null || point3D_2 is null)
             {
@@ -550,7 +550,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null || point3D == null)
             {
@@ -571,7 +571,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, plane.Convert(point3D));
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Line3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Line3D? line3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null)
             {
@@ -591,7 +591,7 @@ namespace DiGi.Geometry.Spatial
             return PlanarIntersectionResult(polygonalFace3D, origin, origin + direction, false, false, tolerance);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null)
             {
@@ -611,7 +611,7 @@ namespace DiGi.Geometry.Spatial
             return PlanarIntersectionResult(polygonalFace3D, start, end, true, true, tolerance);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Ray3D? ray3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Ray3D? ray3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null)
             {
@@ -631,7 +631,7 @@ namespace DiGi.Geometry.Spatial
             return PlanarIntersectionResult(polygonalFace3D, origin, origin + direction, true, false, tolerance);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, IEnumerable<IPolygonalFace3D>? polygonalFace3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, IEnumerable<IPolygonalFace3D>? polygonalFace3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null || polygonalFace3Ds == null)
             {
@@ -676,7 +676,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D_1, IPolygonalFace3D? polygonalFace3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D_1, IPolygonalFace3D? polygonalFace3D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D_1 == null || polygonalFace3D_2 == null)
             {
@@ -758,7 +758,7 @@ namespace DiGi.Geometry.Spatial
             return new PlanarIntersectionResult(plane_PolygonalFace3D_1, geometry2Ds);
         }
 
-        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, IPolyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, IPolyhedron? polyhedron, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null || polyhedron == null)
             {

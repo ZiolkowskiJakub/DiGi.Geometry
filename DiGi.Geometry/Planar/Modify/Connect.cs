@@ -14,7 +14,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="pointConnectMethod">Point Connect Method</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns>List of the segments connected to given Point2D</returns>
-        public static List<Segment2D>? Connect(this List<Segment2D>? segment2Ds, Point2D? point2D, PointConnectMethod pointConnectMethod = PointConnectMethod.Projection, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Segment2D>? Connect(this List<Segment2D>? segment2Ds, Point2D? point2D, PointConnectMethod pointConnectMethod = PointConnectMethod.Projection, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds == null || point2D == null || segment2Ds.Count == 0 || pointConnectMethod == PointConnectMethod.Undefined)
             {

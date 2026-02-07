@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static IntersectionResult3D? IntersectionResult3D<TPolygonalFace3D>(this Polyhedron<TPolygonalFace3D>? polyhedron, ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
+        public static IntersectionResult3D? IntersectionResult3D<TPolygonalFace3D>(this Polyhedron<TPolygonalFace3D>? polyhedron, ILinear3D? linear3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
         {
             if (polyhedron == null || linear3D == null)
             {
@@ -70,7 +70,7 @@ namespace DiGi.Geometry.Spatial
             return new IntersectionResult3D(geometry3Ds);
         }
 
-        public static IntersectionResult3D? IntersectionResult3D(this BoundingBox3D? boundingBox3D, ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult3D? IntersectionResult3D(this BoundingBox3D? boundingBox3D, ILinear3D? linear3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (boundingBox3D == null || linear3D == null)
             {
@@ -86,7 +86,7 @@ namespace DiGi.Geometry.Spatial
             return IntersectionResult3D(polyhedron, linear3D, tolerance);
         }
 
-        public static IntersectionResult3D? IntersectionResult3D(this BoundingBox3D? boundingBox3D, Point3D? point3D, Vector3D? direction, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult3D? IntersectionResult3D(this BoundingBox3D? boundingBox3D, Point3D? point3D, Vector3D? direction, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (boundingBox3D == null || direction == null || point3D == null)
             {
@@ -148,7 +148,7 @@ namespace DiGi.Geometry.Spatial
             return new IntersectionResult3D(geometry3Ds);
         }
 
-        public static IntersectionResult3D? IntersectionResult3D(this Sphere? sphere, Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult3D? IntersectionResult3D(this Sphere? sphere, Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             Vector3D? d = segment3D?.End - segment3D?.Start;
             Vector3D? f = segment3D?.Start - sphere?.Center;
@@ -194,7 +194,7 @@ namespace DiGi.Geometry.Spatial
             return new IntersectionResult3D(geometry3Ds);
         }
 
-        public static IntersectionResult3D? IntersectionResult3D(this Sphere? sphere, Line3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult3D? IntersectionResult3D(this Sphere? sphere, Line3D? line3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             Vector3D? d = line3D?.Direction;
             Vector3D? f = line3D?.Origin - sphere?.Center;

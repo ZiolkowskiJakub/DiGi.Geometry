@@ -69,7 +69,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
-        public bool InDistance(Point3D? point3D, double distance, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InDistance(Point3D? point3D, double distance, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null)
             {

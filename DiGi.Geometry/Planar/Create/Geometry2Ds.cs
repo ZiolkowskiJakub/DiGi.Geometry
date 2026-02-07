@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static List<IGeometry2D>? Geometry2Ds(IEnumerable<IGeometry2D>? geometry2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<IGeometry2D>? Geometry2Ds(IEnumerable<IGeometry2D>? geometry2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (geometry2Ds == null)
             {

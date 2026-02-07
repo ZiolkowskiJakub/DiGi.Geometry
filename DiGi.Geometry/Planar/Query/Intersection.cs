@@ -99,7 +99,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<X>? Intersection<T, X>(this IEnumerable<T>? polygon2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IPolygonal2D where X : IPolygonal2D
+        public static List<X>? Intersection<T, X>(this IEnumerable<T>? polygon2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IPolygonal2D where X : IPolygonal2D
         {
             if (polygon2Ds == null)
             {

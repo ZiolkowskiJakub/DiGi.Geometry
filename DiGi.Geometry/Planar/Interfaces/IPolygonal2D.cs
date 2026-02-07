@@ -7,10 +7,10 @@ namespace DiGi.Geometry.Planar.Interfaces
     {
         Point2D? GetCentroid();
 
-        bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
+        bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance);
 
-        bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
+        bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance);
 
-        List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance);
+        List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance);
     }
 }

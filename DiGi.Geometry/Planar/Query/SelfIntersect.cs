@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool SelfIntersect(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool SelfIntersect(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             IntersectionResult2D? intersectionResult2D = Create.IntersectionResult2D(segmentable2D, 1, tolerance);
 

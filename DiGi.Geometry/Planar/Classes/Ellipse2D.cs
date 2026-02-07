@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Planar.Classes
             this.center = DiGi.Core.Query.Clone(center);
             this.a = a;
             this.b = b;
-            directionA = Constans.Vector2D.WorldX;
+            directionA = Constants.Vector2D.WorldX;
         }
 
         public Ellipse2D(Ellipse2D? ellipse2D)
@@ -265,7 +265,7 @@ namespace DiGi.Geometry.Planar.Classes
             return hashCode;
         }
 
-        public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (center == null)
             {
@@ -319,7 +319,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new Point2D(xGlobal, yGlobal);
         }
 
-        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D is null || center is null || directionA is null)
             {
@@ -342,7 +342,7 @@ namespace DiGi.Geometry.Planar.Classes
             return (xr / a) * (xr / a) + (yr / b) * (yr / b) <= 1.0 + tolerance;
         }
 
-        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return InRange(point2D, -tolerance);
         }
@@ -363,7 +363,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D is null || center is null || directionA is null)
             {

@@ -106,7 +106,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new BoundingBox2D(new Point2D(center[0] - radius, center[1] - radius), new Point2D(center[0] + radius, center[1] + radius));
         }
 
-        public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (center == null)
             {
@@ -121,7 +121,7 @@ namespace DiGi.Geometry.Planar.Classes
             return Length;
         }
 
-        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || center == null || double.IsNaN(radius))
             {
@@ -131,7 +131,7 @@ namespace DiGi.Geometry.Planar.Classes
             return center.Distance(point2D) < radius + tolerance;
         }
 
-        public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D == null || center == null)
             {
@@ -166,7 +166,7 @@ namespace DiGi.Geometry.Planar.Classes
             return false;
         }
 
-        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || center == null || double.IsNaN(radius))
             {
@@ -176,7 +176,7 @@ namespace DiGi.Geometry.Planar.Classes
             return center.Distance(point2D) < radius - tolerance;
         }
 
-        public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<Point2D>? point2Ds = segmentable2D?.GetPoints();
             if (point2Ds == null || point2Ds.Count == 0)
@@ -206,7 +206,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || center == null || double.IsNaN(radius))
             {

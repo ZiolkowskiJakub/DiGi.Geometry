@@ -14,12 +14,12 @@ namespace DiGi.Geometry.Spatial.Classes
         private int i = 0;
         private int j = 0;
 
-        public PolyhedronInternalPointSolver(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public PolyhedronInternalPointSolver(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
             : base(tolerance)
         {
         }
 
-        public PolyhedronInternalPointSolver(int maxCount, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public PolyhedronInternalPointSolver(int maxCount, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
             : base(maxCount, tolerance)
         {
         }

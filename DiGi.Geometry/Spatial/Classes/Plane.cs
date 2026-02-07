@@ -226,7 +226,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return new(point3D.X - (normal.X * factor), point3D.Y - (normal.Y * factor), point3D.Z - (normal.Z * factor));
         }
 
-        public bool Coplanar(Plane? plane, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Coplanar(Plane? plane, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane?.normal is null || normal is null)
             {

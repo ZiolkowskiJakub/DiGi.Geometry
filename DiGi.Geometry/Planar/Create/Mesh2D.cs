@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static Mesh2D? Mesh2D(this IEnumerable<Triangle2D>? triangle2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Mesh2D? Mesh2D(this IEnumerable<Triangle2D>? triangle2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (triangle2Ds == null || triangle2Ds.Count() == 0)
             {
@@ -62,7 +62,7 @@ namespace DiGi.Geometry.Planar
             return new Mesh2D(point2Ds, indexes);
         }
 
-        public static Mesh2D? Mesh2D(this IPolygonalFace2D? polygonalFace2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Mesh2D? Mesh2D(this IPolygonalFace2D? polygonalFace2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             IPolygonal2D? externalEdge = polygonalFace2D?.ExternalEdge;
             if (externalEdge == null)

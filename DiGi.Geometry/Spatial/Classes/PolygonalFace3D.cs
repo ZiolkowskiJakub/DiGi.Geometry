@@ -157,12 +157,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return ExternalEdge?.GetBoundingBox();
         }
 
-        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return plane?.Convert(geometry2D?.GetInternalPoint(tolerance));
         }
 
-        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || plane == null || geometry2D == null)
             {
@@ -177,7 +177,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.InRange(plane.Convert(point3D), tolerance);
         }
 
-        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || plane == null || geometry2D == null)
             {
@@ -202,7 +202,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.Inverse();
         }
 
-        public bool OnEdge(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool OnEdge(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || plane == null || geometry2D == null)
             {
@@ -248,7 +248,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.Orient(externalEdgeOrientation_Temp, internalEdgeOrientation_Temp);
         }
 
-        public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             if (plane == null)
             {

@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class SnapperUpdater : IGeometryUpdater<IGeometry2D>
     {
-        private readonly double tolerance = DiGi.Core.Constans.Tolerance.Distance;
+        private readonly double tolerance = DiGi.Core.Constants.Tolerance.Distance;
 
         public SnapperUpdater()
         {

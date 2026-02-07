@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class DouglasPeuckerUpdater : GeometryUpdater<IGeometry2D>
     {
-        private readonly double tolerance = DiGi.Core.Constans.Tolerance.Distance;
+        private readonly double tolerance = DiGi.Core.Constants.Tolerance.Distance;
 
         public DouglasPeuckerUpdater()
         {

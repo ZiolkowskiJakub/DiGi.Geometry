@@ -47,7 +47,7 @@ namespace DiGi.Geometry.Spatial
             return new ProjectionResult(plane, geometry2Ds);
         }
 
-        public static ProjectionResult? ProjectionResult(this Plane? plane, Vector3D? vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static ProjectionResult? ProjectionResult(this Plane? plane, Vector3D? vector3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || vector3D == null)
             {
@@ -78,7 +78,7 @@ namespace DiGi.Geometry.Spatial
             return new ProjectionResult(plane, vector2D);
         }
 
-        public static ProjectionResult? ProjectionResult(this Plane? plane, Line3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static ProjectionResult? ProjectionResult(this Plane? plane, Line3D? line3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || line3D == null)
             {
@@ -106,7 +106,7 @@ namespace DiGi.Geometry.Spatial
             return new ProjectionResult(plane, new Line2D(point2D, vector2D));
         }
 
-        public static ProjectionResult? ProjectionResult(this Plane? plane, Ray3D? ray3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static ProjectionResult? ProjectionResult(this Plane? plane, Ray3D? ray3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || ray3D == null)
             {
@@ -134,7 +134,7 @@ namespace DiGi.Geometry.Spatial
             return new ProjectionResult(plane, new Ray2D(point2D, vector2D));
         }
 
-        public static ProjectionResult? ProjectionResult(this Plane? plane, Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static ProjectionResult? ProjectionResult(this Plane? plane, Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || segment3D == null)
             {
@@ -161,7 +161,7 @@ namespace DiGi.Geometry.Spatial
             return new ProjectionResult(plane, new Segment2D(point2D_1, point2D_2));
         }
 
-        public static ProjectionResult? ProjectionResult(this Plane? plane, Triangle3D? triangle3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static ProjectionResult? ProjectionResult(this Plane? plane, Triangle3D? triangle3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || triangle3D == null)
             {
@@ -200,7 +200,7 @@ namespace DiGi.Geometry.Spatial
             return new ProjectionResult(plane, new Triangle2D(point2Ds));
         }
 
-        public static ProjectionResult? ProjectionResult(this Plane? plane, Polygon3D? polygon3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static ProjectionResult? ProjectionResult(this Plane? plane, Polygon3D? polygon3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || polygon3D == null)
             {
@@ -240,7 +240,7 @@ namespace DiGi.Geometry.Spatial
             return new ProjectionResult(plane, new Polygon2D(point2Ds));
         }
 
-        public static ProjectionResult? ProjectionResult(this Plane? plane, IGeometry3D? geometry3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static ProjectionResult? ProjectionResult(this Plane? plane, IGeometry3D? geometry3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || geometry3D == null)
             {
@@ -255,7 +255,7 @@ namespace DiGi.Geometry.Spatial
             return ProjectionResult(plane, geometry3D as dynamic, tolerance);
         }
 
-        public static ProjectionResult? ProjectionResult<T>(this Plane? plane, IEnumerable<T>? geometry3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IGeometry3D
+        public static ProjectionResult? ProjectionResult<T>(this Plane? plane, IEnumerable<T>? geometry3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IGeometry3D
         {
             if (plane == null || geometry3Ds == null)
             {
@@ -283,7 +283,7 @@ namespace DiGi.Geometry.Spatial
             return new ProjectionResult(plane, geometry2Ds);
         }
 
-        public static ProjectionResult? ProjectionResult(this Plane? plane, Ellipse3D? ellipse3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static ProjectionResult? ProjectionResult(this Plane? plane, Ellipse3D? ellipse3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || ellipse3D == null)
             {
@@ -303,7 +303,7 @@ namespace DiGi.Geometry.Spatial
             throw new System.NotImplementedException();
         }
 
-        public static ProjectionResult? ProjectionResult(this Plane? plane, PolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static ProjectionResult? ProjectionResult(this Plane? plane, PolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || polygonalFace3D == null)
             {

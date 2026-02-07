@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static Polygon3D? Polygon3D(this IEnumerable<Point3D?>? point3Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
+        public static Polygon3D? Polygon3D(this IEnumerable<Point3D?>? point3Ds, double tolerace = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3Ds == null || point3Ds.Count() < 3)
             {
@@ -75,7 +75,7 @@ namespace DiGi.Geometry.Spatial
             return new Polygon3D(plane, point2Ds);
         }
 
-        public static Polygon3D? Polygon3D(this Segment3D? segment3D, double height, double tolerance = DiGi.Core.Constans.Tolerance.Angle)
+        public static Polygon3D? Polygon3D(this Segment3D? segment3D, double height, double tolerance = DiGi.Core.Constants.Tolerance.Angle)
         {
             if (segment3D == null || double.IsNaN(height))
             {
@@ -88,7 +88,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D direction_Z = Constans.Vector3D.WorldZ;
+            Vector3D direction_Z = Constants.Vector3D.WorldZ;
 
             if (direction.MinAngle(direction_Z) <= tolerance || direction.GetInversed().MinAngle(direction_Z) <= tolerance)
             {
@@ -100,7 +100,7 @@ namespace DiGi.Geometry.Spatial
             return Polygon3D([segment3D[0], segment3D[1], segment3D[1]?.GetMoved(vector3D), segment3D[0]?.GetMoved(vector3D)]);
         }
 
-        public static Polygon3D? Polygon3D(this Segment3D? segment3D, Vector3D? vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Polygon3D? Polygon3D(this Segment3D? segment3D, Vector3D? vector3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment3D == null || vector3D == null)
             {

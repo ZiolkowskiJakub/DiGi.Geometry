@@ -14,7 +14,7 @@ namespace DiGi.Geometry.Planar
         /// <returns>List Segment2D</returns>
         /// <param name="segment2Ds">Segments2Ds</param>
         /// <param name="tolerance">tolerance</param>
-        public static List<Segment2D>? Split(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Segment2D>? Split(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds == null)
             {
@@ -179,7 +179,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Segment2D>? Split(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Segment2D>? Split(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<Segment2D>? segment2Ds = segmentable2D?.GetSegments();
             if (segment2Ds == null)
@@ -190,7 +190,7 @@ namespace DiGi.Geometry.Planar
             return Split(segment2Ds, tolerance);
         }
 
-        public static List<Segment2D>? Split<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
+        public static List<Segment2D>? Split<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
             List<Segment2D>? segment2Ds = segmentable2Ds?.Segments();
             if (segment2Ds == null)
@@ -201,7 +201,7 @@ namespace DiGi.Geometry.Planar
             return Split(segment2Ds, tolerance);
         }
 
-        public static List<PolygonalFace2D>? Split<T>(this IPolygonalFace2D? polygonalFace2D, IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
+        public static List<PolygonalFace2D>? Split<T>(this IPolygonalFace2D? polygonalFace2D, IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
             if (polygonalFace2D == null || segmentable2Ds == null)
             {

@@ -10,7 +10,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static bool TrySplit(this IPolygonalFace3D? polygonalFace3D, IEnumerable<IPolygonalFace3D>? polygonalFace3Ds, out List<PolygonalFace3D>? result, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool TrySplit(this IPolygonalFace3D? polygonalFace3D, IEnumerable<IPolygonalFace3D>? polygonalFace3Ds, out List<PolygonalFace3D>? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             result = null;
 
@@ -79,7 +79,7 @@ namespace DiGi.Geometry.Spatial
             return result.Count != 0;
         }
 
-        public static bool TrySplit<TPolyhedron>(this IPolyhedron? polyhedron, IEnumerable<TPolyhedron>? polyhedrons, out Polyhedron? result, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where TPolyhedron : IPolyhedron
+        public static bool TrySplit<TPolyhedron>(this IPolyhedron? polyhedron, IEnumerable<TPolyhedron>? polyhedrons, out Polyhedron? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolyhedron : IPolyhedron
         {
             result = null;
 
@@ -170,7 +170,7 @@ namespace DiGi.Geometry.Spatial
             return true;
         }
 
-        public static bool TrySplit<TPolyhedron>(this IEnumerable<TPolyhedron> polyhedrons, out List<Polyhedron>? result, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where TPolyhedron : IPolyhedron
+        public static bool TrySplit<TPolyhedron>(this IEnumerable<TPolyhedron> polyhedrons, out List<Polyhedron>? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolyhedron : IPolyhedron
         {
             result = null;
 
@@ -235,7 +235,7 @@ namespace DiGi.Geometry.Spatial
             return result.Count != 0;
         }
 
-        public static bool TrySplit(this Plane? plane, IPolyhedron? polyhedron, out List<Polyhedron>? polyhedrons, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool TrySplit(this Plane? plane, IPolyhedron? polyhedron, out List<Polyhedron>? polyhedrons, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             polyhedrons = null;
 
@@ -330,7 +330,7 @@ namespace DiGi.Geometry.Spatial
             return polyhedrons.Count != 0;
         }
 
-        public static bool TrySplit(this Plane? plane, IPolygonalFace3D? polygonalFace3D, out List<PolygonalFace3D>? result, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool TrySplit(this Plane? plane, IPolygonalFace3D? polygonalFace3D, out List<PolygonalFace3D>? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             result = null;
 

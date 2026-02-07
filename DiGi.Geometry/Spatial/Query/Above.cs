@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static bool Above(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool Above(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null)
             {
@@ -29,7 +29,7 @@ namespace DiGi.Geometry.Spatial
             return (normal.X * (point3D.X - origin.X)) + (normal.Y * (point3D.Y - origin.Y)) + (normal.Z * (point3D.Z - origin.Z)) > 0 + tolerance;
         }
 
-        public static bool Above(this Plane? plane, IPolygonal3D? polygonal3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool Above(this Plane? plane, IPolygonal3D? polygonal3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || polygonal3D?.GetPoints() is not List<Point3D> point3Ds)
             {

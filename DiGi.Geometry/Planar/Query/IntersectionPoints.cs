@@ -7,12 +7,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Point2D>? IntersectionPoints(this IEnumerable<Segment2D>? segment2Ds_1, IEnumerable<Segment2D>? segment2Ds_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this IEnumerable<Segment2D>? segment2Ds_1, IEnumerable<Segment2D>? segment2Ds_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return IntersectionPoints(segment2Ds_1, segment2Ds_2, int.MaxValue, tolerance);
         }
 
-        public static List<Point2D>? IntersectionPoints(this ISegmentable2D? segmentable2D, IEnumerable<Segment2D>? segment2Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this ISegmentable2D? segmentable2D, IEnumerable<Segment2D>? segment2Ds, double tolerace = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D == null || segment2Ds == null)
             {
@@ -22,7 +22,7 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(segmentable2D.GetSegments(), segment2Ds, tolerace);
         }
 
-        public static List<Point2D>? IntersectionPoints(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerace = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D_1 == null || segmentable2D_2 == null)
             {
@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(segmentable2D_1.GetSegments(), segmentable2D_2.GetSegments(), tolerace);
         }
 
-        public static List<Point2D>? IntersectionPoints<T>(this ISegmentable2D? segmentable2D, IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerace = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
+        public static List<Point2D>? IntersectionPoints<T>(this ISegmentable2D? segmentable2D, IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerace = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
             if (segmentable2D == null || segmentable2Ds == null)
             {
@@ -42,7 +42,7 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(segmentable2D.GetSegments(), segmentable2Ds.Segments(), tolerace);
         }
 
-        public static List<Point2D>? IntersectionPoints(this IEnumerable<Segment2D>? segment2Ds_1, IEnumerable<Segment2D>? segment2Ds_2, int maxCount, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this IEnumerable<Segment2D>? segment2Ds_1, IEnumerable<Segment2D>? segment2Ds_2, int maxCount, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds_1 == null || segment2Ds_2 == null || maxCount < 1)
             {
@@ -95,7 +95,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Point2D>? IntersectionPoints(this Point2D? point2D, Vector2D? vector2D, IEnumerable<ISegmentable2D>? segmentable2Ds, bool keepDirection, bool removeCollinear, bool sort, bool selfIntersection, out List<Segment2D>? intersectionSegment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this Point2D? point2D, Vector2D? vector2D, IEnumerable<ISegmentable2D>? segmentable2Ds, bool keepDirection, bool removeCollinear, bool sort, bool selfIntersection, out List<Segment2D>? intersectionSegment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             intersectionSegment2Ds = null;
             if (point2D == null || vector2D == null || segmentable2Ds == null)
@@ -118,7 +118,7 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(point2D, vector2D, segment2Ds, keepDirection, removeCollinear, sort, selfIntersection, out intersectionSegment2Ds, tolerance);
         }
 
-        public static List<Point2D>? IntersectionPoints(this Point2D? point2D, Vector2D? vector2D, IEnumerable<Segment2D>? segment2Ds, bool keepDirection, bool removeCollinear, bool sort, bool selfIntersection, out List<Segment2D>? intersectionSegment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this Point2D? point2D, Vector2D? vector2D, IEnumerable<Segment2D>? segment2Ds, bool keepDirection, bool removeCollinear, bool sort, bool selfIntersection, out List<Segment2D>? intersectionSegment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             intersectionSegment2Ds = null;
             if (point2D == null || segment2Ds == null)
@@ -200,7 +200,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="intersectionSegment2Ds">Segmentable2D segments intersected by line</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns>Intersection Points</returns>
-        public static List<Point2D>? IntersectionPoints(this Line2D? line2D, IEnumerable<ISegmentable2D> segmentable2Ds, out List<Segment2D>? intersectionSegment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this Line2D? line2D, IEnumerable<ISegmentable2D> segmentable2Ds, out List<Segment2D>? intersectionSegment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             intersectionSegment2Ds = null;
 
@@ -212,7 +212,7 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(line2D.Origin, line2D.Direction, segmentable2Ds, false, true, false, true, out intersectionSegment2Ds, tolerance);
         }
 
-        public static List<Point2D>? IntersectionPoints(this Line2D? line2D, IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this Line2D? line2D, IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null || segmentable2Ds is null)
             {
@@ -222,7 +222,7 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(line2D.Origin, line2D.Direction, segmentable2Ds, false, true, false, true, out _, tolerance);
         }
 
-        public static List<Point2D>? IntersectionPoints(this Line2D? line2D, ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this Line2D? line2D, ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null)
             {
@@ -250,7 +250,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Point2D>? IntersectionPoints(double x, double y, double radius, Point2D? point2D_1, Point2D? point2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(double x, double y, double radius, Point2D? point2D_1, Point2D? point2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D_1 is null || point2D_2 is null)
             {
@@ -289,7 +289,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Point2D>? IntersectionPoints(this Circle2D? circle2D, Line2D? line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this Circle2D? circle2D, Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (circle2D is null || line2D is null)
             {
@@ -321,7 +321,7 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(center.X, center.Y, radius, point2D_1, point2D_2, tolerance);
         }
 
-        public static List<Point2D>? IntersectionPoints(this Circle2D? circle2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this Circle2D? circle2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (circle2D == null || segment2D == null)
             {
@@ -365,7 +365,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Point2D>? IntersectionPoints(this Circle2D? circle2D, ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this Circle2D? circle2D, ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (circle2D == null || segmentable2D == null)
             {
@@ -401,7 +401,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Point2D>? IntersectionPoints(this Ellipse2D? ellipse2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this Ellipse2D? ellipse2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (ellipse2D is null || segment2D is null)
             {
@@ -483,7 +483,7 @@ namespace DiGi.Geometry.Planar
             return results;
         }
 
-        public static List<Point2D>? IntersectionPoints(this Ellipse2D? ellipse2D, Line2D? line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this Ellipse2D? ellipse2D, Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             Point2D? center = ellipse2D?.Center;
             if (center is null)
@@ -551,7 +551,7 @@ namespace DiGi.Geometry.Planar
             return results;
         }
 
-        public static List<Point2D>? IntersectionPoints(this Ellipse2D? ellipse2D, ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? IntersectionPoints(this Ellipse2D? ellipse2D, ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (ellipse2D == null || segmentable2D == null)
             {

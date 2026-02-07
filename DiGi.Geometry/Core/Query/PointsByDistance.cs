@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Core
 {
     public static partial class Query
     {
-        public static List<T>? PointsByDistance<T>(this IEnumerable<T>? points, T? point, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IPoint<T>
+        public static List<T>? PointsByDistance<T>(this IEnumerable<T>? points, T? point, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IPoint<T>
         {
             if (points == null || point == null)
             {

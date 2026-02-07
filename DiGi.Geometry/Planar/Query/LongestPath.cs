@@ -19,7 +19,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="point2D_Start">Point to start from. If null then Method will find points with the longest paths</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns>List of Point2Ds representing the longest path</returns>
-        public static List<Point2D>? LongestPath(this IEnumerable<ISegmentable2D>? segmentable2Ds, Point2D? point2D_Start = null, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Point2D>? LongestPath(this IEnumerable<ISegmentable2D>? segmentable2Ds, Point2D? point2D_Start = null, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2Ds == null)
             {

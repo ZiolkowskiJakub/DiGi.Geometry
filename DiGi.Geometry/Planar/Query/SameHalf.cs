@@ -4,7 +4,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool SameHalf(this Vector2D? vector2D_1, Vector2D? vector2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Angle)
+        public static bool SameHalf(this Vector2D? vector2D_1, Vector2D? vector2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Angle)
         {
             if (vector2D_1 == null || vector2D_2 == null)
             {

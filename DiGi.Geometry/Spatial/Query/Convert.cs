@@ -375,7 +375,7 @@ namespace DiGi.Geometry.Spatial
         //    return Convert(plane, polygonal3D as dynamic);
         //}
 
-        public static IPolygonal2D? Convert(this Plane? plane, IPolygonal3D? polygonal3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IPolygonal2D? Convert(this Plane? plane, IPolygonal3D? polygonal3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || polygonal3D == null)
             {
@@ -390,7 +390,7 @@ namespace DiGi.Geometry.Spatial
             return Convert(plane, polygonal3D as dynamic);
         }
 
-        public static IPolygonal2D? Convert(this Plane? plane, Rectangle3D? rectangle3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IPolygonal2D? Convert(this Plane? plane, Rectangle3D? rectangle3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (rectangle3D == null || plane?.Normal is not Vector3D normal)
             {

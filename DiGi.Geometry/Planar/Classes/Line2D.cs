@@ -102,7 +102,7 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.ClosestPoint(point2D, origin, origin + direction, false);
         }
 
-        public bool Collinear(ILinear2D? linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Collinear(ILinear2D? linear2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return Query.Collinear(this, linear2D, tolerance);
         }
@@ -141,7 +141,7 @@ namespace DiGi.Geometry.Planar.Classes
             return hashCode;
         }
 
-        public Point2D? IntersectionPoint(Line2D? line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point2D? IntersectionPoint(Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null || origin == null || direction is null)
             {
@@ -157,7 +157,7 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.IntersectionPoint(origin, point2D_1, line2D.origin, point2D_2, false, tolerance);
         }
 
-        public Point2D? IntersectionPoint(Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point2D? IntersectionPoint(Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2D is null || origin is null || direction is null)
             {
@@ -197,7 +197,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (origin == null || direction is null || point2D == null)
             {

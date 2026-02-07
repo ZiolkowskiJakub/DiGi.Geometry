@@ -21,7 +21,7 @@ namespace DiGi.Geometry.Spatial
             return new Plane((new Point3D[] { point3D_1, point3D_2, point3D_3 }).Average(), normal);
         }
 
-        public static Plane? Plane(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Plane? Plane(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             Vector3D? normal = Query.Normal(point3Ds, tolerance);
             if (normal == null)
@@ -49,8 +49,8 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Plane result = Constans.Plane.WorldZ;
-            result.Move(Constans.Vector3D.WorldZ * elevation);
+            Plane result = Constants.Plane.WorldZ;
+            result.Move(Constants.Vector3D.WorldZ * elevation);
 
             return result;
         }
@@ -62,7 +62,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new Plane(Constans.Plane.WorldZ, origin);
+            return new Plane(Constants.Plane.WorldZ, origin);
         }
 
         public static Plane? Plane(double value, int dimensionIndex)
@@ -71,18 +71,18 @@ namespace DiGi.Geometry.Spatial
             switch (dimensionIndex)
             {
                 case 0:
-                    result = Constans.Plane.WorldX;
-                    result.Move(Constans.Vector3D.WorldX * value);
+                    result = Constants.Plane.WorldX;
+                    result.Move(Constants.Vector3D.WorldX * value);
                     return result;
 
                 case 1:
-                    result = Constans.Plane.WorldY;
-                    result.Move(Constans.Vector3D.WorldY * value);
+                    result = Constants.Plane.WorldY;
+                    result.Move(Constants.Vector3D.WorldY * value);
                     return result;
 
                 case 2:
-                    result = Constans.Plane.WorldZ;
-                    result.Move(Constans.Vector3D.WorldZ * value);
+                    result = Constants.Plane.WorldZ;
+                    result.Move(Constants.Vector3D.WorldZ * value);
                     return result;
             }
 

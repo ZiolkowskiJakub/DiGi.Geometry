@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static List<SegmentableTraceResult2D>? SegmentableTraceResult2Ds(this Point2D? point2D, Vector2D? vector2D, IEnumerable<ISegmentable2D>? segmentable2Ds, int bounces = 0, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<SegmentableTraceResult2D>? SegmentableTraceResult2Ds(this Point2D? point2D, Vector2D? vector2D, IEnumerable<ISegmentable2D>? segmentable2Ds, int bounces = 0, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || vector2D == null || segmentable2Ds == null)
             {
@@ -16,7 +16,7 @@ namespace DiGi.Geometry.Planar
             return SegmentableTraceResult2Ds(point2D, vector2D, segmentable2Ds.Segments(), bounces, tolerance);
         }
 
-        public static List<SegmentableTraceResult2D>? SegmentableTraceResult2Ds(this Point2D? point2D, Vector2D? vector2D, IEnumerable<Segment2D>? segment2Ds, int bounces = 0, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<SegmentableTraceResult2D>? SegmentableTraceResult2Ds(this Point2D? point2D, Vector2D? vector2D, IEnumerable<Segment2D>? segment2Ds, int bounces = 0, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D is null || vector2D is null || segment2Ds is null)
             {

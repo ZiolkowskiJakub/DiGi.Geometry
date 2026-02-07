@@ -20,7 +20,7 @@ namespace DiGi.Geometry.Planar
                 return [];
             }
 
-            Vector2D vector2D_Y = Constans.Vector2D.WorldY;
+            Vector2D vector2D_Y = Constants.Vector2D.WorldY;
 
             foreach (ISegmentable2D segmentable2D in segmentable2Ds)
             {
