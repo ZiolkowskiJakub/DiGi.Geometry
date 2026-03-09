@@ -1,4 +1,5 @@
-﻿using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
@@ -69,6 +70,40 @@ namespace DiGi.Geometry.Planar.Classes
 
         public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
+            List<Point2D>? point2Ds = segmentable2D?.GetPoints();
+            if (point2Ds == null || point2Ds.Count == 0)
+            {
+                return false;
+            }
+
+            //For large number of points convert and use NetTopologySuite
+            if (point2Ds.Count > 16 || points.Count > 16)
+            {
+                if (Convert.ToNTS_Polygon(this) is Polygon polygon && segmentable2D.ToNTS() is NetTopologySuite.Geometries.Geometry geometry)
+                {
+                    return Query.InRange(polygon, geometry, tolerance);
+                }
+            }
+
+            for (int i=0; i < point2Ds.Count; i++)
+            {
+                if (InRange(point2Ds[i], tolerance))
+                {
+                    return true;
+                }
+            }
+
+            if(segmentable2D is IClosedCurve2D closedCurve2D)
+            {
+                for (int i = 0; i < points.Count; i++)
+                {
+                    if (closedCurve2D.InRange(points[i], tolerance))
+                    {
+                        return true;
+                    }
+                }
+            }
+
             List<Segment2D>? segment2Ds_1 = segmentable2D?.GetSegments();
             if (segment2Ds_1 == null)
             {

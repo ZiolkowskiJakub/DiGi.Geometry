@@ -483,7 +483,9 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            List<Segment2D>? segment2Ds = segmentable2D?.GetSegments();
+            List<Segment2D>? segment2Ds = null;
+
+            segment2Ds = segmentable2D?.GetSegments();
             if (segment2Ds == null || segment2Ds.Count == 0)
             {
                 return false;
@@ -494,6 +496,23 @@ namespace DiGi.Geometry.Planar.Classes
                 if (InRange(segment2Ds[i], tolerance))
                 {
                     return true;
+                }
+            }
+
+            if(segmentable2D is IClosedCurve2D closedCurve2D)
+            {
+                List<Point2D>? point2Ds = GetPoints();
+                if (point2Ds == null || point2Ds.Count == 0)
+                {
+                    return false;
+                }
+
+                for (int i = 0; i < point2Ds.Count; i++)
+                {
+                    if (closedCurve2D.InRange(point2Ds[i], tolerance))
+                    {
+                        return true;
+                    }
                 }
             }
 

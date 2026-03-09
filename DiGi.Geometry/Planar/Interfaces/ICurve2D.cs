@@ -2,7 +2,7 @@
 
 namespace DiGi.Geometry.Planar.Interfaces
 {
-    public interface ICurve2D : IGeometry2D, ICurve
+    public interface ICurve2D : IGeometry2D, ICurve, ICollectable2D
     {
     }
 }

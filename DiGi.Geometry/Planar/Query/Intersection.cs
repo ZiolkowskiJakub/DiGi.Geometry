@@ -1,5 +1,6 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
+using DiGi.Geometry.Spatial.Classes;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
 using System.Collections.Generic;
@@ -99,57 +100,118 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<X>? Intersection<T, X>(this IEnumerable<T>? polygon2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IPolygonal2D where X : IPolygonal2D
+        public static List<X>? Intersection<X, T>(this IEnumerable<T>? polygonal2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IPolygonal2D where X : IPolygonal2D
         {
-            if (polygon2Ds == null)
+            if (polygonal2Ds == null)
             {
                 return null;
             }
 
-            List<Segment2D> segment2Ds = [];
-            foreach (IPolygonal2D polygonal2D in polygon2Ds)
+            List<Polygon> polygons = [];
+
+            foreach(T polygonal2D in polygonal2Ds)
             {
-                List<Segment2D>? segment2Ds_Temp = polygonal2D?.GetSegments();
-                if (segment2Ds_Temp == null || segment2Ds_Temp.Count == 0)
+                if(polygonal2D.ToNTS_Polygon() is Polygon polygon)
                 {
-                    continue;
+                    polygons.Add(polygon);
                 }
-
-                segment2Ds.AddRange(segment2Ds_Temp);
             }
 
-            List<Polygon2D>? polygon2Ds_Temp = Create.Polygon2Ds(segment2Ds, tolerance);
-            if (polygon2Ds_Temp == null || polygon2Ds_Temp.Count == 0)
+            if(polygons is null || polygons.Count == 0)
+            {
+                return []; 
+            }
+
+            NetTopologySuite.Geometries.Geometry geometry = polygons[0];
+
+            if (polygons.Count > 1)
+            {
+                for (int i = 1; i < polygons.Count; i++)
+                {
+                    // Intersect current result with the next polygon
+                    geometry = geometry.Intersection(polygons[i]);
+
+                    // Optimization: if at any point the intersection is empty, 
+                    // there is no common area for the whole set.
+                    if (geometry == null || geometry.IsEmpty)
+                    {
+                        return [];
+                    }
+                }
+            }
+
+
+            if (geometry.ToDiGi() is not IGeometry2D geometry2D)
             {
                 return null;
             }
 
-            List<X> result = [];
-            foreach (Polygon2D polygon2D in polygon2Ds_Temp)
+            if (geometry2D is not GeometryCollection2D geometryCollection2D)
             {
-                X? x = default;
-                if (polygon2D is X)
+                if(geometry2D is ICollectable2D collectable2D)
                 {
-                    x = (X)(object)polygon2D;
+                    if(geometry2D is IPolygonalFace2D polygonalFace2D)
+                    {
+                        if(polygonalFace2D.Edges is List<IPolygonal2D> polygonal2Ds_Temp)
+                        {
+                            geometryCollection2D = [.. polygonalFace2D.Edges];
+                        }
+                        else
+                        {
+                            return [];
+                        }
+                    }
+                    else
+                    {
+                        geometryCollection2D = [collectable2D];
+                    }
                 }
                 else
                 {
-                    IPolygonal2D? polygonal2D = Create.Polygonal2D(polygon2D, tolerance);
-                    if (polygonal2D is X)
+                    return null;
+                }
+            }
+
+            if(geometryCollection2D is null || geometryCollection2D.Count == 0)
+            {
+                return [];
+            }
+
+            List<X> result = [];
+            foreach (ICollectable2D collectable2D in geometryCollection2D)
+            {
+                if (collectable2D is X x)
+                {
+                    return [x];
+                }
+
+                if (collectable2D is IPolygonal2D polygonal2D_Temp)
+                {
+                    if (TryConvert(polygonal2D_Temp, out List<X>? polygonal2Ds_Temp, tolerance) && polygonal2Ds_Temp is not null)
                     {
-                        x = (X)(object)polygonal2D;
+                        result.AddRange(polygonal2Ds_Temp);
                     }
                 }
 
-                if (x == null)
-                {
-                    continue;
-                }
-
-                result.Add(x);
+                throw new System.NotImplementedException();
             }
 
             return result;
+        }
+
+        public static List<Polygon2D>? Interscetion(this Polygon2D? polygon2D_1, Polygon2D? polygon2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            if(polygon2D_1 is null || polygon2D_2 is null)
+            {
+                return null;
+            }
+
+            return Interscetion([polygon2D_1, polygon2D_2], tolerance);
+        }
+
+        public static List<Polygon2D>? Interscetion(this IEnumerable<Polygon2D>? polygon2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            return Intersection<Polygon2D, Polygon2D>(polygon2Ds, tolerance);
         }
     }
 }
