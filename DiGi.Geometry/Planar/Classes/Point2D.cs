@@ -89,7 +89,7 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
-        public bool InDistance(Point2D? point2D, double distance, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InDistance(Point2D? point2D, double distance, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null)
             {

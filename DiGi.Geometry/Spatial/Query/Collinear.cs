@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static bool Collinear(this Point3D? point2D_1, Point3D? point2D_2, Point3D? point2D_3, double tolerance = DiGi.Core.Constants.Tolerance.Angle)
+        public static bool Collinear(this Point3D? point2D_1, Point3D? point2D_2, Point3D? point2D_3, double tolerance = DiGi.Core.Constans.Tolerance.Angle)
         {
             if (point2D_1 == null || point2D_2 == null || point2D_3 == null)
             {
@@ -16,7 +16,7 @@ namespace DiGi.Geometry.Spatial
             return new Vector3D(point2D_2, point2D_1).MinAngle(new Vector3D(point2D_2, point2D_3)) < tolerance;
         }
 
-        public static bool Collinear(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool Collinear(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             // Inspired by BHoM
 

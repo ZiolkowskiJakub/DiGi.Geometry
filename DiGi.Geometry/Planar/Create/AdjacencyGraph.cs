@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static AdjacencyGraph<Point2D, Edge<Point2D>>? AdjacencyGraph(this IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static AdjacencyGraph<Point2D, Edge<Point2D>>? AdjacencyGraph(this IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2Ds == null)
                 return null;

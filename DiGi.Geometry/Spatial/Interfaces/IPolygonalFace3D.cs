@@ -9,7 +9,7 @@ namespace DiGi.Geometry.Spatial.Interfaces
     {
         List<IPolygonal3D>? Edges { get; }
 
-        List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance);
+        List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance);
 
         bool Orient(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation);
     }

@@ -121,7 +121,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Query.On(this, point2D, tolerance);
         }

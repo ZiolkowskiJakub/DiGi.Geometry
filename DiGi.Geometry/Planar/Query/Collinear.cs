@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool Collinear(this ILinear2D? linear2D_1, ILinear2D? linear2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool Collinear(this ILinear2D? linear2D_1, ILinear2D? linear2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             Vector2D? direction_1 = linear2D_1?.Direction;
             if (direction_1 is null)
@@ -24,7 +24,7 @@ namespace DiGi.Geometry.Planar
             return System.Math.Abs(System.Math.Abs(direction_1 * direction_2) - 1) <= tolerance;
         }
 
-        public static bool Collinear(this IEnumerable<Point2D?>? point2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool Collinear(this IEnumerable<Point2D?>? point2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2Ds == null)
             {
@@ -69,7 +69,7 @@ namespace DiGi.Geometry.Planar
             return true;
         }
 
-        public static bool Collinear(this Point2D? point2D_1, Point2D? point2D_2, Point2D? point2D_3, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool Collinear(this Point2D? point2D_1, Point2D? point2D_2, Point2D? point2D_3, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D_1 == null || point2D_2 == null || point2D_3 == null)
             {

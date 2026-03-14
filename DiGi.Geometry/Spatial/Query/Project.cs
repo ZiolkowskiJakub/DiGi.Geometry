@@ -26,7 +26,7 @@ namespace DiGi.Geometry.Spatial
             return vector3D - vector3D.DotProduct(normal) * normal;
         }
 
-        public static T? Project<T>(this Plane? plane, IGeometry3D? geometry3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IGeometry3D
+        public static T? Project<T>(this Plane? plane, IGeometry3D? geometry3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IGeometry3D
         {
             if (geometry3D == null || plane == null)
             {

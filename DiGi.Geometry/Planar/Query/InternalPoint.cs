@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static Point2D? InternalPoint(IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static Point2D? InternalPoint(IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2Ds == null || point2Ds.Count() < 3)
             {

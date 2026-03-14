@@ -1,4 +1,4 @@
-﻿namespace DiGi.Geometry.Spatial.Constants
+﻿namespace DiGi.Geometry.Spatial.Constans
 {
     public static class Plane
     {

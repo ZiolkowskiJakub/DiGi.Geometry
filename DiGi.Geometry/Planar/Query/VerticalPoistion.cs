@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static VerticalPosition VerticalPosition(this ISegmentable2D? segmentable2D, Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static VerticalPosition VerticalPosition(this ISegmentable2D? segmentable2D, Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D == null || point2D == null)
             {
@@ -56,7 +56,7 @@ namespace DiGi.Geometry.Planar
             return Core.Enums.VerticalPosition.Inside;
         }
 
-        public static VerticalPosition VerticalPosition(this Segment2D? segment2D, Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static VerticalPosition VerticalPosition(this Segment2D? segment2D, Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2D == null || point2D == null)
             {
@@ -74,7 +74,7 @@ namespace DiGi.Geometry.Planar
                 return Core.Enums.VerticalPosition.Undefined;
             }
 
-            SegmentableTraceResult2D? segmentableTraceResult2D = Create.SegmentableTraceResult2D(point2D, Constants.Vector2D.WorldY, [segment2D], tolerance);
+            SegmentableTraceResult2D? segmentableTraceResult2D = Create.SegmentableTraceResult2D(point2D, Constans.Vector2D.WorldY, [segment2D], tolerance);
             if (segmentableTraceResult2D == null)
             {
                 return Core.Enums.VerticalPosition.Undefined;

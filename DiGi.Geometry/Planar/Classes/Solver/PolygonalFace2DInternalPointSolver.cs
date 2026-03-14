@@ -15,12 +15,12 @@ namespace DiGi.Geometry.Planar.Classes
         private int i = 0;
         private int j = 0;
 
-        public PolygonalFace2DInternalPointSolver(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public PolygonalFace2DInternalPointSolver(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(tolerance)
         {
         }
 
-        public PolygonalFace2DInternalPointSolver(int maxCount, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public PolygonalFace2DInternalPointSolver(int maxCount, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
             : base(maxCount, tolerance)
         {
         }

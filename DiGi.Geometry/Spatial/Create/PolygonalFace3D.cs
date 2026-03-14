@@ -40,7 +40,7 @@ namespace DiGi.Geometry.Spatial
             return new PolygonalFace3D(plane, Planar.Create.PolygonalFace2D(points));
         }
 
-        public static PolygonalFace3D? PolygonalFace3D(IPolygonal3D? externalEdge, IEnumerable<IPolygonal3D>? internalEdges = null, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static PolygonalFace3D? PolygonalFace3D(IPolygonal3D? externalEdge, IEnumerable<IPolygonal3D>? internalEdges = null, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             Plane? plane = externalEdge?.Plane;
             if (plane == null)

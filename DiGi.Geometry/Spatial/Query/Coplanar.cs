@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static bool Coplanar(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool Coplanar(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             // Inspired by BHoM
 
@@ -46,7 +46,7 @@ namespace DiGi.Geometry.Spatial
             return nonZeroRows < 3;
         }
 
-        public static bool Coplanar(this IPlanar? planar_1, IPlanar? planar_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool Coplanar(this IPlanar? planar_1, IPlanar? planar_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (planar_1 == planar_2)
             {

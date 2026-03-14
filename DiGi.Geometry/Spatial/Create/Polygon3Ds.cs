@@ -46,7 +46,7 @@ namespace DiGi.Geometry.Spatial
             point3D_3 = point3D_2?.GetMoved(vector3D_Depth);
             point3D_4 = min.GetMoved(vector3D_Depth);
 
-            plane = Constants.Plane.WorldZ;
+            plane = Constans.Plane.WorldZ;
             plane.Flip();
             plane = new Plane(plane, point3D_1.Mid(point3D_3));
 
@@ -61,7 +61,7 @@ namespace DiGi.Geometry.Spatial
             point3D_3 = point3D_2?.GetMoved(vector3D_Height);
             point3D_4 = min.GetMoved(vector3D_Height);
 
-            plane = Constants.Plane.WorldX;
+            plane = Constans.Plane.WorldX;
             plane.Flip();
             plane = new Plane(plane, point3D_1.Mid(point3D_3));
 
@@ -76,7 +76,7 @@ namespace DiGi.Geometry.Spatial
             point3D_3 = point3D_2?.GetMoved(vector3D_Width);
             point3D_4 = min.GetMoved(vector3D_Width);
 
-            plane = Constants.Plane.WorldY;
+            plane = Constans.Plane.WorldY;
             plane.Flip();
             plane = new Plane(plane, point3D_1.Mid(point3D_3));
 
@@ -91,7 +91,7 @@ namespace DiGi.Geometry.Spatial
             point3D_3 = point3D_2?.GetMoved(-vector3D_Depth);
             point3D_4 = max.GetMoved(-vector3D_Depth);
 
-            plane = Constants.Plane.WorldX;
+            plane = Constans.Plane.WorldX;
             plane = new Plane(plane, point3D_1.Mid(point3D_3));
 
             polygon3D = Polygon3D(plane, plane.Convert(point3D_1), plane.Convert(point3D_2), plane.Convert(point3D_3), plane.Convert(point3D_4));
@@ -105,7 +105,7 @@ namespace DiGi.Geometry.Spatial
             point3D_3 = point3D_2?.GetMoved(-vector3D_Height);
             point3D_4 = max.GetMoved(-vector3D_Height);
 
-            plane = Constants.Plane.WorldY;
+            plane = Constans.Plane.WorldY;
             plane = new Plane(plane, point3D_1.Mid(point3D_3));
 
             polygon3D = Polygon3D(plane, plane.Convert(point3D_1), plane.Convert(point3D_2), plane.Convert(point3D_3), plane.Convert(point3D_4));
@@ -119,7 +119,7 @@ namespace DiGi.Geometry.Spatial
             point3D_3 = point3D_2?.GetMoved(-vector3D_Width);
             point3D_4 = max.GetMoved(-vector3D_Width);
 
-            plane = Constants.Plane.WorldZ;
+            plane = Constans.Plane.WorldZ;
             plane = new Plane(plane, point3D_1.Mid(point3D_3));
 
             polygon3D = Polygon3D(plane, plane.Convert(point3D_1), plane.Convert(point3D_2), plane.Convert(point3D_3), plane.Convert(point3D_4));

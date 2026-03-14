@@ -6,12 +6,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool Rectangular(this IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool Rectangular(this IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Rectangular(polygonal2D, out _, tolerance);
         }
 
-        public static bool Rectangular(this IPolygonal2D? polygonal2D, out Rectangle2D? rectangle2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool Rectangular(this IPolygonal2D? polygonal2D, out Rectangle2D? rectangle2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             rectangle2D = null;
             if (polygonal2D == null)

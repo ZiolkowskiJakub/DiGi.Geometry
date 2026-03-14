@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Polygon2D>? ExternalPolygons<T>(this IEnumerable<T>? segmentable2Ds, double maxDistance, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
+        public static List<Polygon2D>? ExternalPolygons<T>(this IEnumerable<T>? segmentable2Ds, double maxDistance, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
             List<Segment2D>? segment2Ds = segmentable2Ds?.Segments();
             if (segment2Ds == null)
@@ -29,12 +29,12 @@ namespace DiGi.Geometry.Planar
             return ExternalPolygons(segment2Ds, tolerance);
         }
 
-        public static List<Polygon2D>? ExternalPolygons<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
+        public static List<Polygon2D>? ExternalPolygons<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
             return ExternalPolygons(segmentable2Ds?.Segments(), tolerance);
         }
 
-        public static List<Polygon2D>? ExternalPolygons(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static List<Polygon2D>? ExternalPolygons(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2Ds == null)
             {

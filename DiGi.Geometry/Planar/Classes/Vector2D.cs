@@ -223,7 +223,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new Vector2D(this);
         }
 
-        public bool Collinear(Vector2D vector2D, double tolerance = DiGi.Core.Constants.Tolerance.Angle)
+        public bool Collinear(Vector2D vector2D, double tolerance = DiGi.Core.Constans.Tolerance.Angle)
         {
             if (vector2D == null)
             {

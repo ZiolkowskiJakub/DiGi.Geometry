@@ -147,7 +147,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
-        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (plane == null || geometry2D == null)
             {
@@ -167,12 +167,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.GetPerimeter();
         }
 
-        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             throw new System.NotImplementedException();
         }

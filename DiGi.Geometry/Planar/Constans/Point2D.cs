@@ -1,4 +1,4 @@
-﻿namespace DiGi.Geometry.Planar.Constants
+﻿namespace DiGi.Geometry.Planar.Constans
 {
     public static class Point2D
     {

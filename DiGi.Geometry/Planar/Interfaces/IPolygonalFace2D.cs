@@ -8,9 +8,9 @@ namespace DiGi.Geometry.Planar.Interfaces
     {
         List<IPolygonal2D>? Edges { get; }
 
-        bool OnEdge(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance);
+        bool OnEdge(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 
-        List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance);
+        List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance);
 
         bool Orient(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation);
     }

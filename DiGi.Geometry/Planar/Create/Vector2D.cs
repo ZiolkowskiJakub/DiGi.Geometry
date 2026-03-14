@@ -19,7 +19,7 @@ namespace DiGi.Geometry.Planar
 
             if (angle == 0)
             {
-                return Constants.Vector2D.WorldX;
+                return Constans.Vector2D.WorldX;
             }
 
             double xAngle = angle;

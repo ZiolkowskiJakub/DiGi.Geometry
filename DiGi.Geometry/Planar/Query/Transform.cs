@@ -126,7 +126,7 @@ namespace DiGi.Geometry.Planar
             return new Triangle2D(point2Ds);
         }
 
-        public static PolygonalFace2D? Transform(this PolygonalFace2D? polygonalFace2D, Func<Point2D?, Point2D?>? func, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static PolygonalFace2D? Transform(this PolygonalFace2D? polygonalFace2D, Func<Point2D?, Point2D?>? func, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (polygonalFace2D == null || func == null)
             {
@@ -166,7 +166,7 @@ namespace DiGi.Geometry.Planar
             return Create.PolygonalFace2D(externalEdge, internalEdges, tolerance);
         }
 
-        public static IPolygonal2D? Transform(this IPolygonal2D? polygonal2D, Func<Point2D?, Point2D?>? func, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static IPolygonal2D? Transform(this IPolygonal2D? polygonal2D, Func<Point2D?, Point2D?>? func, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (polygonal2D == null || func == null)
             {

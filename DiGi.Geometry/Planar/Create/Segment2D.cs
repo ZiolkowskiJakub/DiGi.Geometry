@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static Segment2D? Segment2D(this Line2D? line2D, IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static Segment2D? Segment2D(this Line2D? line2D, IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (line2D is null || polygonal2D is null)
             {

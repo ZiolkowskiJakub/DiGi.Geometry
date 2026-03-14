@@ -166,7 +166,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return (4.0 / 3.0) * System.Math.PI * a * b * b;
         }
 
-        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || plane?.Origin == null)
             {

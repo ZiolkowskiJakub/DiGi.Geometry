@@ -15,7 +15,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="bounded">if bounded set to false then segments will be treated as lines (unlimited)</param>
         /// <param name="tolerance">tolerance</param>
         /// <returns>Intersection Point2D</returns>
-        public static Point2D? IntersectionPoint(Point2D? point2D_1_Start, Point2D? point2D_1_End, Point2D? point2D_2_Start, Point2D? point2D_2_End, bool bounded, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static Point2D? IntersectionPoint(Point2D? point2D_1_Start, Point2D? point2D_1_End, Point2D? point2D_2_Start, Point2D? point2D_2_End, bool bounded, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             Point2D? point2D_Intersection = IntersectionPoint(point2D_1_Start, point2D_1_End, point2D_2_Start, point2D_2_End, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, tolerance);
             if (bounded && (point2D_Closest1 != null || point2D_Closest2 != null))
@@ -37,7 +37,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="point2D_Closest2">Closest point for Segment 2</param>
         /// <param name="tolerance"></param>
         /// <returns></returns>
-        public static Point2D? IntersectionPoint(Point2D? point2D_1_Start, Point2D? point2D_1_End, Point2D? point2D_2_Start, Point2D? point2D_2_End, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static Point2D? IntersectionPoint(Point2D? point2D_1_Start, Point2D? point2D_1_End, Point2D? point2D_2_Start, Point2D? point2D_2_End, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             point2D_Closest1 = null;
             point2D_Closest2 = null;
@@ -106,7 +106,7 @@ namespace DiGi.Geometry.Planar
             return point2D_Intersection;
         }
 
-        public static Point2D? IntersectionPoint(Segment2D? segment2D_1, Segment2D? segment2D_2, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static Point2D? IntersectionPoint(Segment2D? segment2D_1, Segment2D? segment2D_2, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             point2D_Closest1 = null;
             point2D_Closest2 = null;
@@ -119,7 +119,7 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoint(segment2D_1[0], segment2D_1[1], segment2D_2[0], segment2D_2[1], out point2D_Closest1, out point2D_Closest2, tolerance);
         }
 
-        public static Point2D? IntersectionPoint(this ILinear2D? linear2D_1, ILinear2D? linear2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static Point2D? IntersectionPoint(this ILinear2D? linear2D_1, ILinear2D? linear2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (linear2D_1 == null || linear2D_2 == null)
             {

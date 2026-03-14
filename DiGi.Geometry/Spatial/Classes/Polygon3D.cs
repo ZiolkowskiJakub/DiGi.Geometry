@@ -105,7 +105,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return plane.Convert(geometry2D.GetCentroid());
         }
 
-        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (plane == null || geometry2D == null)
             {
@@ -159,7 +159,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Create.Segment3Ds(point3Ds, true);
         }
 
-        public bool InRange(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable3D == null || geometry2D == null || plane == null)
             {
@@ -169,7 +169,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.InRange(this, segmentable3D, tolerance);
         }
 
-        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || geometry2D == null || plane == null)
             {
@@ -179,7 +179,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.InRange(this, point3D, tolerance);
         }
 
-        public bool Inside(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Inside(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable3D == null || geometry2D == null || plane == null)
             {
@@ -189,7 +189,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.Inside(this, segmentable3D, tolerance);
         }
 
-        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || geometry2D == null || plane == null)
             {
@@ -209,7 +209,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.Inverse();
         }
 
-        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || geometry2D == null)
             {
@@ -219,7 +219,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.On(this, point3D, tolerance);
         }
 
-        public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
+        public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
             if (plane == null)
             {

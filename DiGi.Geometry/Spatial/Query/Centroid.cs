@@ -44,7 +44,7 @@ namespace DiGi.Geometry.Spatial
                 return new Point3D(centroidX, centroidY, centroidZ);
             }
 
-            Vector3D vector3D = Constants.Vector3D.Zero;
+            Vector3D vector3D = Constans.Vector3D.Zero;
             double area = 0;
 
             for (var i = 2; i < count; i++)

@@ -39,7 +39,7 @@ namespace DiGi.Geometry.Planar
             return Distance(point2D, segmentable2Ds, out _);
         }
 
-        public static double Distance(ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static double Distance(ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             point2D_Closest1 = null;
             point2D_Closest2 = null;

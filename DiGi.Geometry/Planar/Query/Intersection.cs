@@ -100,7 +100,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<X>? Intersection<X, T>(this IEnumerable<T>? polygonal2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IPolygonal2D where X : IPolygonal2D
+        public static List<X>? Intersection<X, T>(this IEnumerable<T>? polygonal2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : IPolygonal2D where X : IPolygonal2D
         {
             if (polygonal2Ds == null)
             {
@@ -199,7 +199,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Polygon2D>? Interscetion(this Polygon2D? polygon2D_1, Polygon2D? polygon2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static List<Polygon2D>? Interscetion(this Polygon2D? polygon2D_1, Polygon2D? polygon2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if(polygon2D_1 is null || polygon2D_2 is null)
             {
@@ -209,7 +209,7 @@ namespace DiGi.Geometry.Planar
             return Interscetion([polygon2D_1, polygon2D_2], tolerance);
         }
 
-        public static List<Polygon2D>? Interscetion(this IEnumerable<Polygon2D>? polygon2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static List<Polygon2D>? Interscetion(this IEnumerable<Polygon2D>? polygon2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Intersection<Polygon2D, Polygon2D>(polygon2Ds, tolerance);
         }

@@ -239,7 +239,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return width * height * depth;
         }
 
-        public bool InRange(Point3D? point3D_1, Point3D? point3D_2, bool bounded_1, bool bounded_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Point3D? point3D_1, Point3D? point3D_2, bool bounded_1, bool bounded_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D_1 is null || point3D_2 is null)
             {
@@ -275,7 +275,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
-        public bool InRange(Ray3D? ray3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Ray3D? ray3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (ray3D?.Origin is not Point3D origin || ray3D.Direction is not Vector3D direction)
             {
@@ -285,7 +285,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return InRange(origin, origin + direction, true, false, tolerance);
         }
 
-        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D is null || min is null || max is null)
             {
@@ -295,7 +295,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return (point3D.X >= min.X - tolerance && point3D.X <= max.X + tolerance && point3D.Y >= min.Y - tolerance && point3D.Y <= max.Y + tolerance && point3D.Z >= min.Z - tolerance && point3D.Z <= max.Z + tolerance);
         }
 
-        public bool InRange(Line3D? line3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Line3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (line3D?.Origin is not Point3D origin || line3D.Direction is not Vector3D direction)
             {
@@ -305,7 +305,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return InRange(origin, origin + direction, false, false, tolerance);
         }
 
-        public bool InRange(Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment3D?.Start is not Point3D origin || segment3D.End is not Point3D end)
             {
@@ -315,7 +315,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return InRange(origin, end, true, true, tolerance);
         }
 
-        public bool InRange(BoundingBox3D? boundingBox3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(BoundingBox3D? boundingBox3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (boundingBox3D?.min is null || boundingBox3D?.max is null || max is null || min is null)
             {
@@ -364,7 +364,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
-        public bool InRange(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min == null || max == null || segmentable3D == null)
             {
@@ -399,7 +399,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
-        public bool InRange(Plane? plane, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Plane? plane, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (plane == null)
             {
@@ -434,7 +434,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
-        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null || min is null || max is null)
             {
@@ -467,7 +467,7 @@ namespace DiGi.Geometry.Spatial.Classes
             max = new Point3D(max.X + value, max.Y + value, max.Z + value);
         }
 
-        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3D == null)
             {

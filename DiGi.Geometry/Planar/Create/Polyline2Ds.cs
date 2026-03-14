@@ -10,7 +10,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static List<Polyline2D>? Polyline2Ds<T>(this IEnumerable<T>? segmentable2Ds, Point2D? point2D_Start = null, bool split = true, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
+        public static List<Polyline2D>? Polyline2Ds<T>(this IEnumerable<T>? segmentable2Ds, Point2D? point2D_Start = null, bool split = true, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
             if (segmentable2Ds == null || segmentable2Ds.Count() == 0)
             {

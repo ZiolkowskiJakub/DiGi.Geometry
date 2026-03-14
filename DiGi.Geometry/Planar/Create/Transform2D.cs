@@ -33,12 +33,12 @@ namespace DiGi.Geometry.Planar
                 Vector2D? axisY = coordinateSystem2D.AxisY;
 
                 Matrix3D matrix3D = Math.Create.Matrix3D.Identity();
-                matrix3D[0, 0] = Constants.Vector2D.WorldX.DotProduct(axisX);
-                matrix3D[0, 1] = Constants.Vector2D.WorldX.DotProduct(axisY);
+                matrix3D[0, 0] = Constans.Vector2D.WorldX.DotProduct(axisX);
+                matrix3D[0, 1] = Constans.Vector2D.WorldX.DotProduct(axisY);
                 matrix3D[0, 2] = origin.X;
 
-                matrix3D[1, 0] = Constants.Vector2D.WorldY.DotProduct(axisX);
-                matrix3D[1, 1] = Constants.Vector2D.WorldY.DotProduct(axisY);
+                matrix3D[1, 0] = Constans.Vector2D.WorldY.DotProduct(axisX);
+                matrix3D[1, 1] = Constans.Vector2D.WorldY.DotProduct(axisY);
                 matrix3D[1, 2] = origin.Y;
 
                 return new Classes.Transform2D(matrix3D);

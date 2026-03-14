@@ -42,7 +42,7 @@ namespace DiGi.Geometry.Spatial
             return null;
         }
 
-        public static Vector3D? Normal(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static Vector3D? Normal(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point3Ds == null || point3Ds.Collinear(tolerance))
             {
@@ -67,7 +67,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D? normal = Constants.Vector3D.Zero;
+            Vector3D? normal = Constans.Vector3D.Zero;
             if (point3Ds.Coplanar(tolerance))
             {
                 Vector3D? vector3D_Origin = (Vector3D?)origin;
@@ -153,7 +153,7 @@ namespace DiGi.Geometry.Spatial
 
             if (invalid)
             {
-                normal = Constants.Vector3D.Zero;
+                normal = Constans.Vector3D.Zero;
 
                 Vector3D? vector3D_Origin = (Vector3D?)origin;
 

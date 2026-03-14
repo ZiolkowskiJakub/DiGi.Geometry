@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static UndirectedGraph<Point2D, Edge<Point2D>>? UndirectedGraph(this IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static UndirectedGraph<Point2D, Edge<Point2D>>? UndirectedGraph(this IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2Ds == null)
             {

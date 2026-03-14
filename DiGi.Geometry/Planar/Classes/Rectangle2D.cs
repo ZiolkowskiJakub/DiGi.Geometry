@@ -23,10 +23,10 @@ namespace DiGi.Geometry.Planar.Classes
 
         public Rectangle2D(double width, double height)
         {
-            origin = Constants.Point2D.Zero;
+            origin = Constans.Point2D.Zero;
             this.width = width;
             this.height = height;
-            heightDirection = Constants.Vector2D.WorldY;
+            heightDirection = Constans.Vector2D.WorldY;
         }
 
         public Rectangle2D(Point2D? origin, double width, double height)
@@ -34,7 +34,7 @@ namespace DiGi.Geometry.Planar.Classes
             this.origin = DiGi.Core.Query.Clone(origin);
             this.width = width;
             this.height = height;
-            heightDirection = Constants.Vector2D.WorldY;
+            heightDirection = Constans.Vector2D.WorldY;
         }
 
         public Rectangle2D(BoundingBox2D? boundingBox2D)
@@ -44,7 +44,7 @@ namespace DiGi.Geometry.Planar.Classes
                 origin = boundingBox2D.GetPoint(Corner.BottomLeft);
                 width = boundingBox2D.Width;
                 height = boundingBox2D.Height;
-                heightDirection = Constants.Vector2D.WorldY;
+                heightDirection = Constans.Vector2D.WorldY;
             }
         }
 
@@ -213,7 +213,7 @@ namespace DiGi.Geometry.Planar.Classes
             return [new Segment2D(points[0], points[2]), new Segment2D(points[1], points[3])];
         }
 
-        public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return GetCentroid();
         }
@@ -277,7 +277,7 @@ namespace DiGi.Geometry.Planar.Classes
             ];
         }
 
-        public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D == null)
             {
@@ -293,7 +293,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).InRange(segmentable2D, tolerance);
         }
 
-        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null)
             {
@@ -309,7 +309,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).InRange(point2D, tolerance);
         }
 
-        public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D == null)
             {
@@ -325,7 +325,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).Inside(segmentable2D, tolerance);
         }
 
-        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null)
             {
@@ -373,7 +373,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Query.On(this, point2D, tolerance);
         }
@@ -409,7 +409,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
+        public List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
             List<Point2D>? point2Ds = GetPoints();
             if (point2Ds == null || point2Ds.Count != 4)

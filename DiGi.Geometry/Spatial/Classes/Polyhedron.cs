@@ -1,5 +1,5 @@
 ﻿using DiGi.Core;
-using DiGi.Core.Constants;
+using DiGi.Core.Constans;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar.Interfaces;

@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Spatial
 
             if (normal.X == 0 && normal.Y == 0)
             {
-                return Constants.Vector3D.WorldX;
+                return Constans.Vector3D.WorldX;
             }
 
             return new Vector3D(normal.Y, -normal.X, 0).Unit;

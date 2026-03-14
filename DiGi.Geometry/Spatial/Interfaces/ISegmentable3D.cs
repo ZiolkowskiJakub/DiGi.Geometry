@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Spatial.Interfaces
 
         Point3D? ClosestPoint(Point3D? point3D);
 
-        bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance);
+        bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 
         double Length { get; }
     }

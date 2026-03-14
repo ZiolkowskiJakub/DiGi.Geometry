@@ -7,7 +7,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Polygon>? Triangulate(this Polygon? polygon, double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
+        public static List<Polygon>? Triangulate(this Polygon? polygon, double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
         {
             if (polygon == null)
             {

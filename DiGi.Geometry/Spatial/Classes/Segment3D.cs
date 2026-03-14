@@ -164,7 +164,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.ClosestPoint(point3D, start, End, true);
         }
 
-        public bool Collinear(ILinear3D? linear3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Collinear(ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (Direction is not Vector3D direction_1 || linear3D?.Direction is not Vector3D direction_2)
             {
@@ -237,7 +237,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return start.Move(vector3D);
         }
 
-        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             Point3D? point3D_Temp = ClosestPoint(point3D);
             if (point3D_Temp == null)

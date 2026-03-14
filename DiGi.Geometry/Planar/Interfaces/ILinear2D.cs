@@ -13,8 +13,8 @@ namespace DiGi.Geometry.Planar.Interfaces
 
         double Distance(Point2D? point2D);
 
-        bool Collinear(ILinear2D? linear2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance);
+        bool Collinear(ILinear2D? linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
 
-        bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance);
+        bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance);
     }
 }

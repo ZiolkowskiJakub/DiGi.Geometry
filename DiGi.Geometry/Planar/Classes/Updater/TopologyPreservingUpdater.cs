@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class TopologyPreservingUpdater : IGeometryUpdater<IGeometry2D>
     {
-        private readonly double tolerance = DiGi.Core.Constants.Tolerance.Distance;
+        private readonly double tolerance = DiGi.Core.Constans.Tolerance.Distance;
 
         public TopologyPreservingUpdater()
         {

@@ -24,9 +24,9 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D vector3D_X = Constants.Vector3D.WorldX;
-            Vector3D vector3D_Y = Constants.Vector3D.WorldY;
-            Vector3D vector3D_Z = Constants.Vector3D.WorldZ;
+            Vector3D vector3D_X = Constans.Vector3D.WorldX;
+            Vector3D vector3D_Y = Constans.Vector3D.WorldY;
+            Vector3D vector3D_Z = Constans.Vector3D.WorldZ;
 
             return
             [

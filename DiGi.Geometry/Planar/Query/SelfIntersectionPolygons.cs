@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Polygon2D>? SelfIntersectionPolygons(this IPolygonal2D? polygonal2D, double maxLength, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static List<Polygon2D>? SelfIntersectionPolygons(this IPolygonal2D? polygonal2D, double maxLength, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             List<Segment2D>? segment2Ds = SelfIntersectionSegments(polygonal2D, maxLength, tolerance);
             if (segment2Ds == null || segment2Ds.Count < 2)

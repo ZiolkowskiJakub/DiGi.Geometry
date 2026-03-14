@@ -206,7 +206,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Vector3D(this);
         }
 
-        public bool Collinear(Vector3D? vector3D, double tolerance = DiGi.Core.Constants.Tolerance.Angle)
+        public bool Collinear(Vector3D? vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Angle)
         {
             if (vector3D == null)
             {

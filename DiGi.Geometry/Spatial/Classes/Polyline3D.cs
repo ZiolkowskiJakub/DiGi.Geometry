@@ -173,7 +173,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
-        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Query.On(this, point3D, tolerance);
         }

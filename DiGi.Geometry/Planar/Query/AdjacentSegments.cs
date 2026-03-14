@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Segment2D>? AdjacentSegments<T>(this IEnumerable<T?>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
+        public static List<Segment2D>? AdjacentSegments<T>(this IEnumerable<T?>? segmentable2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where T : ISegmentable2D
         {
             if (segmentable2Ds == null)
             {
@@ -91,7 +91,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Segment2D>? AdjacentSegments(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static List<Segment2D>? AdjacentSegments(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D_1 == null || segmentable2D_2 == null)
             {

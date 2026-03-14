@@ -100,19 +100,19 @@ namespace DiGi.Geometry.Spatial
                 }
 
                 Matrix4D? matrix4D = Math.Create.Matrix4D.Identity();
-                matrix4D[0, 0] = Constants.Vector3D.WorldX.DotProduct(axisX);
-                matrix4D[0, 1] = Constants.Vector3D.WorldX.DotProduct(axisY);
-                matrix4D[0, 2] = Constants.Vector3D.WorldX.DotProduct(axisZ);
+                matrix4D[0, 0] = Constans.Vector3D.WorldX.DotProduct(axisX);
+                matrix4D[0, 1] = Constans.Vector3D.WorldX.DotProduct(axisY);
+                matrix4D[0, 2] = Constans.Vector3D.WorldX.DotProduct(axisZ);
                 matrix4D[0, 3] = origin.X;
 
-                matrix4D[1, 0] = Constants.Vector3D.WorldY.DotProduct(axisX);
-                matrix4D[1, 1] = Constants.Vector3D.WorldY.DotProduct(axisY);
-                matrix4D[1, 2] = Constants.Vector3D.WorldY.DotProduct(axisZ);
+                matrix4D[1, 0] = Constans.Vector3D.WorldY.DotProduct(axisX);
+                matrix4D[1, 1] = Constans.Vector3D.WorldY.DotProduct(axisY);
+                matrix4D[1, 2] = Constans.Vector3D.WorldY.DotProduct(axisZ);
                 matrix4D[1, 3] = origin.Y;
 
-                matrix4D[2, 0] = Constants.Vector3D.WorldZ.DotProduct(axisX);
-                matrix4D[2, 1] = Constants.Vector3D.WorldZ.DotProduct(axisY);
-                matrix4D[2, 2] = Constants.Vector3D.WorldZ.DotProduct(axisZ);
+                matrix4D[2, 0] = Constans.Vector3D.WorldZ.DotProduct(axisX);
+                matrix4D[2, 1] = Constans.Vector3D.WorldZ.DotProduct(axisY);
+                matrix4D[2, 2] = Constans.Vector3D.WorldZ.DotProduct(axisZ);
                 matrix4D[2, 3] = origin.Z;
 
                 return new Classes.Transform3D(matrix4D);

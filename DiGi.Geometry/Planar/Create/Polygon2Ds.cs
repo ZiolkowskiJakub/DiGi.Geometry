@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static List<Polygon2D>? Polygon2Ds(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static List<Polygon2D>? Polygon2Ds(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D == null)
             {
@@ -58,7 +58,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Polygon2D>? Polygon2Ds(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static List<Polygon2D>? Polygon2Ds(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segment2Ds == null || segment2Ds.Count() < 3)
             {

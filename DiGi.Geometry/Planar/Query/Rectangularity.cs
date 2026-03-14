@@ -5,7 +5,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static double Rectangularity(this IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static double Rectangularity(this IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (polygonal2D == null)
             {

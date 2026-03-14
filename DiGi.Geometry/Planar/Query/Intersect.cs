@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool Intersect(this ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool Intersect(this ISegmentable2D segmentable2D_1, ISegmentable2D segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D_1 == null || segmentable2D_2 == null)
             {
@@ -47,7 +47,7 @@ namespace DiGi.Geometry.Planar
             return false;
         }
 
-        public static bool Intersect(this ISegmentable2D? segmentable2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool Intersect(this ISegmentable2D? segmentable2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (segmentable2D == null || segment2D == null)
             {
@@ -82,7 +82,7 @@ namespace DiGi.Geometry.Planar
             return false;
         }
 
-        public static bool Intersect(this ILinear2D? linear2D_1, ILinear2D? linear_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool Intersect(this ILinear2D? linear2D_1, ILinear2D? linear_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             Point2D? point2D = IntersectionPoint(linear2D_1, linear_2, tolerance);
 

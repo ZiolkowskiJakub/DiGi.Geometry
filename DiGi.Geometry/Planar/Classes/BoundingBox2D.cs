@@ -343,7 +343,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="boundingBox2D">Point2D</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns>True if boundingBox2D On or Inside this BoundingBox2D</returns>
-        public bool InRange(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (boundingBox2D == null)
             {
@@ -381,7 +381,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool InRange(Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Line2D? line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min == null || max == null || line2D is null)
             {
@@ -411,7 +411,7 @@ namespace DiGi.Geometry.Planar.Classes
             return false;
         }
 
-        public bool InRange(Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min is null || max is null)
             {
@@ -476,7 +476,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min == null || max == null)
             {
@@ -525,7 +525,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="point2D">Point2D</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns>True if point2D On or Inside BoundingBox 2D</returns>
-        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null)
             {
@@ -535,7 +535,7 @@ namespace DiGi.Geometry.Planar.Classes
             return Inside(point2D, tolerance) || On(point2D, tolerance);
         }
 
-        public bool InRange_Old(Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool InRange_Old(Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min == null || max == null || segment2D is null)
             {
@@ -564,7 +564,7 @@ namespace DiGi.Geometry.Planar.Classes
             return false;
         }
 
-        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2D == null || min == null || max == null)
             {
@@ -574,7 +574,7 @@ namespace DiGi.Geometry.Planar.Classes
             return point2D.X > min.X + tolerance && point2D.X < max.X - tolerance && point2D.Y < max.Y - tolerance && point2D.Y > min.Y + tolerance;
         }
 
-        public bool Inside(IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Inside(IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (point2Ds == null)
             {
@@ -592,7 +592,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min == null || max == null)
             {
@@ -602,7 +602,7 @@ namespace DiGi.Geometry.Planar.Classes
             return Inside(segmentable2D?.GetPoints(), tolerance);
         }
 
-        public bool Inside(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool Inside(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (min == null || max == null)
             {
@@ -635,7 +635,7 @@ namespace DiGi.Geometry.Planar.Classes
             max = new Point2D(max.X + value, max.Y + value);
         }
 
-        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             return Query.On(GetSegments(), point2D, tolerance);
         }

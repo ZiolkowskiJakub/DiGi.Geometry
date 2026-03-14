@@ -4,7 +4,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool InRange(this NetTopologySuite.Geometries.Geometry geometry_1, NetTopologySuite.Geometries.Geometry geometry_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool InRange(this NetTopologySuite.Geometries.Geometry geometry_1, NetTopologySuite.Geometries.Geometry geometry_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
         {
             if (geometry_1 is null || geometry_2 is null)
             {

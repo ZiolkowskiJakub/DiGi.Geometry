@@ -20,8 +20,8 @@ namespace DiGi.Geometry.Planar.Classes
         public CoordinateSystem2D(Point2D? origin)
         {
             this.origin = origin == null ? null : new Point2D(origin);
-            axisX = Constants.Vector2D.WorldX;
-            axisY = Constants.Vector2D.WorldY;
+            axisX = Constans.Vector2D.WorldX;
+            axisY = Constans.Vector2D.WorldY;
         }
 
         public CoordinateSystem2D(JsonObject? jsonObject)
@@ -31,9 +31,9 @@ namespace DiGi.Geometry.Planar.Classes
 
         public CoordinateSystem2D()
         {
-            origin = Constants.Point2D.Zero;
-            axisX = Constants.Vector2D.WorldX;
-            axisY = Constants.Vector2D.WorldY;
+            origin = Constans.Point2D.Zero;
+            axisX = Constans.Vector2D.WorldX;
+            axisY = Constans.Vector2D.WorldY;
         }
 
         public CoordinateSystem2D(CoordinateSystem2D? coordinateSystem2D)
