@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static IntersectionResult2D? IntersectionResult2D(this Segment2D? segment2D_1, Segment2D? segment2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D? IntersectionResult2D(this Segment2D? segment2D_1, Segment2D? segment2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2D_1 == null || segment2D_2 == null)
             {
@@ -95,7 +95,7 @@ namespace DiGi.Geometry.Planar
             return null;
         }
 
-        public static IntersectionResult2D? IntersectionResult2D(this Line2D? line2D_1, Line2D? line2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D? IntersectionResult2D(this Line2D? line2D_1, Line2D? line2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D_1 is null || line2D_2 is null)
             {
@@ -116,7 +116,7 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D();
         }
 
-        public static IntersectionResult2D? IntersectionResult2D(this Segment2D? segment2D, IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D? IntersectionResult2D(this Segment2D? segment2D, IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2D == null || segment2Ds == null)
             {
@@ -171,7 +171,7 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
-        public static IntersectionResult2D? IntersectionResult2D(this IEnumerable<Segment2D>? segment2Ds_1, IEnumerable<Segment2D>? segment2Ds_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D? IntersectionResult2D(this IEnumerable<Segment2D>? segment2Ds_1, IEnumerable<Segment2D>? segment2Ds_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds_1 == null || segment2Ds_2 == null)
             {
@@ -231,7 +231,7 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
-        public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D_1 == null || segmentable2D_2 == null)
             {
@@ -241,7 +241,7 @@ namespace DiGi.Geometry.Planar
             return IntersectionResult2D(segmentable2D_1.GetSegments(), segmentable2D_2.GetSegments(), tolerance);
         }
 
-        public static IntersectionResult2D? IntersectionResult2D(this Line2D? line2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D? IntersectionResult2D(this Line2D? line2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null || segment2D is null)
             {
@@ -262,7 +262,7 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(point2D);
         }
 
-        public static IntersectionResult2D? IntersectionResult2D(this Line2D? line2D, IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D? IntersectionResult2D(this Line2D? line2D, IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null || segment2Ds == null)
             {
@@ -317,7 +317,7 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
-        public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D, Line2D? line2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D, Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null || segmentable2D is null)
             {
@@ -327,12 +327,12 @@ namespace DiGi.Geometry.Planar
             return IntersectionResult2D(line2D, segmentable2D.GetSegments(), tolerance);
         }
 
-        public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return IntersectionResult2D(segmentable2D, int.MaxValue, tolerance);
         }
 
-        public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D, int maxCount, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D, int maxCount, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<Segment2D>? segment2Ds = segmentable2D?.GetSegments();
             if (segment2Ds == null || segment2Ds.Count == 0)
@@ -439,7 +439,7 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
-        public static IntersectionResult2D? IntersectionResult2D(this IPolygonalFace2D? polygonalFace2D, ILinear2D? linear2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static IntersectionResult2D? IntersectionResult2D(this IPolygonalFace2D? polygonalFace2D, ILinear2D? linear2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace2D == null || linear2D == null)
             {

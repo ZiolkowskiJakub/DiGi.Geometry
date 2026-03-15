@@ -11,7 +11,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="polygonal2D">Polygonal2D</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns>Extent ratio [-]</returns>
-        public static double ExtentRatio(this IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        public static double ExtentRatio(this IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             if (polygonal2D == null)
             {

@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
-        public static Polyhedron? Polyhedron(this IPolygonalFace3D? polygonalFace3D, Vector3D? vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Polyhedron? Polyhedron(this IPolygonalFace3D? polygonalFace3D, Vector3D? vector3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null || vector3D == null)
             {
@@ -179,7 +179,7 @@ namespace DiGi.Geometry.Spatial
             return new Polyhedron(polygonalFace3Ds);
         }
 
-        public static Polyhedron? Polyhedron(this PolygonalFaceExtrusion? polygonalFaceExtrusion, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Polyhedron? Polyhedron(this PolygonalFaceExtrusion? polygonalFaceExtrusion, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFaceExtrusion is null)
             {

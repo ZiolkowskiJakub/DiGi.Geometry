@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
-        public static PolygonalFace2D? PolygonalFace2D(this IPolygonal2D? externalEdge, IEnumerable<IPolygonal2D>? internalEdges = null, double tolerace = DiGi.Core.Constans.Tolerance.Distance)
+        public static PolygonalFace2D? PolygonalFace2D(this IPolygonal2D? externalEdge, IEnumerable<IPolygonal2D>? internalEdges = null, double tolerace = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (externalEdge == null)
             {

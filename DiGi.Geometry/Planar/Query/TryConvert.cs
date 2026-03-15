@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static bool TryConvert<TPolygonal2D>(this IPolygonal2D polygonal2D, out List<TPolygonal2D>? polygonal2Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance) where TPolygonal2D : IPolygonal2D
+        public static bool TryConvert<TPolygonal2D>(this IPolygonal2D polygonal2D, out List<TPolygonal2D>? polygonal2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolygonal2D : IPolygonal2D
         {
             polygonal2Ds = null;
 

@@ -88,7 +88,7 @@ namespace DiGi.Geometry.Planar.Classes
             return new PolygonalFace2D(this);
         }
 
-        public Point2D? ClosestPoint(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point2D? ClosestPoint(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || externalEdge == null)
             {
@@ -190,7 +190,7 @@ namespace DiGi.Geometry.Planar.Classes
             return externalEdge?.GetBoundingBox();
         }
 
-        public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (externalEdge == null)
             {
@@ -239,7 +239,7 @@ namespace DiGi.Geometry.Planar.Classes
             return null;
         }
 
-        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || externalEdge == null)
             {
@@ -268,7 +268,7 @@ namespace DiGi.Geometry.Planar.Classes
             return false;
         }
 
-        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || externalEdge == null)
             {
@@ -343,7 +343,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public bool OnEdge(Point2D? point2D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool OnEdge(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || externalEdge == null)
             {
@@ -423,7 +423,7 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
-        public virtual List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constans.Tolerance.MicroDistance)
+        public virtual List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             if (externalEdge == null)
             {

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Constans;
+﻿using DiGi.Core.Constants;
 using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Spatial.Interfaces;

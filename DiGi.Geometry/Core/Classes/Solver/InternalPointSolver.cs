@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Constans;
+﻿using DiGi.Core.Constants;
 using DiGi.Geometry.Core.Interfaces;
 using System.Collections.Generic;
 using System.Linq;

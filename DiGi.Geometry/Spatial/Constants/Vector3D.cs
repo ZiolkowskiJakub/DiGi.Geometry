@@ -1,4 +1,4 @@
-﻿namespace DiGi.Geometry.Spatial.Constans
+﻿namespace DiGi.Geometry.Spatial.Constants
 {
     public static class Vector3D
     {

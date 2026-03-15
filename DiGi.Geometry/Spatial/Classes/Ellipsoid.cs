@@ -154,7 +154,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return new(center - extent, center + extent);
         }
 
-        public Point3D[]? GetFocalPoints(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D[]? GetFocalPoints(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             Point3D? center = Center;
             if (center is null)
@@ -303,7 +303,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return (4.0 / 3.0) * System.Math.PI * a * b * c;
         }
 
-        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || plane?.Origin == null)
             {

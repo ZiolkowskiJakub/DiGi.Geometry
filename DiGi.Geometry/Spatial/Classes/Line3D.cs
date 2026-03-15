@@ -99,7 +99,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Project(point3D);
         }
 
-        public bool Collinear(ILinear3D? linear3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Collinear(ILinear3D? linear3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (direction is null || linear3D?.Direction is not Vector3D direction_Temp)
             {
@@ -143,7 +143,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return hashCode;
         }
 
-        public Point3D? IntersectionPoint(Line3D? line3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D? IntersectionPoint(Line3D? line3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line3D == null)
             {
@@ -153,7 +153,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return Query.IntersectionPoint(origin, direction, line3D.origin, line3D.direction, false, tolerance);
         }
 
-        public Point3D? IntersectionPoint(Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public Point3D? IntersectionPoint(Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment3D == null || origin == null || direction == null)
             {
@@ -180,7 +180,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
-        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null)
             {

@@ -65,8 +65,8 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Vector2D? vector2D_Width = Constans.Vector2D.WorldX * width / 2;
-            Vector2D? vector2D_Height = Constans.Vector2D.WorldY * height / 2;
+            Vector2D? vector2D_Width = Constants.Vector2D.WorldX * width / 2;
+            Vector2D? vector2D_Height = Constants.Vector2D.WorldY * height / 2;
 
             Point2D? point2D_1 = center.GetMoved(vector2D_Width)?.GetMoved(vector2D_Height);
             Point2D? point2D_2 = center.GetMoved(vector2D_Width?.GetInversed())?.GetMoved(vector2D_Height?.GetInversed());

@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static bool On(this ISegmentable3D? segmentable3D, Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool On(this ISegmentable3D? segmentable3D, Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || segmentable3D == null)
             {
@@ -30,7 +30,7 @@ namespace DiGi.Geometry.Spatial
             return false;
         }
 
-        public static bool On(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool On(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || plane == null)
             {
@@ -52,7 +52,7 @@ namespace DiGi.Geometry.Spatial
             return System.Math.Abs((normal.X * (point3D.X - origin.X)) + (normal.Y * (point3D.Y - origin.Y)) + (normal.Z * (point3D.Z - origin.Z))) < tolerance;
         }
 
-        public static bool On(this Plane? plane, Segment3D? segment3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool On(this Plane? plane, Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || segment3D == null)
             {
@@ -62,7 +62,7 @@ namespace DiGi.Geometry.Spatial
             return plane.On(segment3D.Start, tolerance) && plane.On(segment3D.End, tolerance);
         }
 
-        public static bool On(this Plane? plane, ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool On(this Plane? plane, ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || segmentable3D == null)
             {
@@ -86,7 +86,7 @@ namespace DiGi.Geometry.Spatial
             return true;
         }
 
-        public static bool On(this Plane? plane, Vector3D? vector3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool On(this Plane? plane, Vector3D? vector3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || vector3D == null)
             {

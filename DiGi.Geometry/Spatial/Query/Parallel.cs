@@ -4,7 +4,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        public static bool Parallel(this Vector3D? vector3D_1, Vector3D? vector3D_2, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static bool Parallel(this Vector3D? vector3D_1, Vector3D? vector3D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (vector3D_1 is null || vector3D_2 is null)
             {

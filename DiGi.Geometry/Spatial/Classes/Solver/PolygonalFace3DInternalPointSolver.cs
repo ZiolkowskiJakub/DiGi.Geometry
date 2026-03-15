@@ -11,12 +11,12 @@ namespace DiGi.Geometry.Spatial.Classes
 
         private readonly Planar.Classes.PolygonalFace2DInternalPointSolver polygonalFace2DInternalPointSolver;
 
-        public PolygonalFace3DInternalPointSolver(double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public PolygonalFace3DInternalPointSolver(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             polygonalFace2DInternalPointSolver = new Planar.Classes.PolygonalFace2DInternalPointSolver(tolerance);
         }
 
-        public PolygonalFace3DInternalPointSolver(int maxCount, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public PolygonalFace3DInternalPointSolver(int maxCount, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             polygonalFace2DInternalPointSolver = new Planar.Classes.PolygonalFace2DInternalPointSolver(maxCount, tolerance);
         }

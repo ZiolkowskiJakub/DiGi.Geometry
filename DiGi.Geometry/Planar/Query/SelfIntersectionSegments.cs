@@ -6,7 +6,7 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
-        public static List<Segment2D>? SelfIntersectionSegments(this IEnumerable<Segment2D>? segment2Ds, double maxLength, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Segment2D>? SelfIntersectionSegments(this IEnumerable<Segment2D>? segment2Ds, double maxLength, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds == null)
                 return null;
@@ -72,7 +72,7 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Segment2D>? SelfIntersectionSegments(this ISegmentable2D? segmentable2D, double maxLength, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static List<Segment2D>? SelfIntersectionSegments(this ISegmentable2D? segmentable2D, double maxLength, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D == null)
             {

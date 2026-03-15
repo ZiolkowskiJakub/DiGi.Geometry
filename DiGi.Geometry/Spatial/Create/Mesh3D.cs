@@ -114,7 +114,7 @@ namespace DiGi.Geometry.Spatial
             return Mesh3D(ellipsoid, stacks, slices);
         }
 
-        public static Mesh3D? Mesh3D(this IEnumerable<Triangle3D>? triangle3Ds, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Mesh3D? Mesh3D(this IEnumerable<Triangle3D>? triangle3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (triangle3Ds == null || triangle3Ds.Count() == 0)
             {
@@ -160,7 +160,7 @@ namespace DiGi.Geometry.Spatial
             return new Mesh3D(point3Ds, indexes);
         }
 
-        public static Mesh3D? Mesh3D(this Polyhedron? polyhedron, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Mesh3D? Mesh3D(this Polyhedron? polyhedron, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<IPolygonalFace3D>? polygonalFace3Ds = polyhedron?.PolygonalFaces;
             if (polygonalFace3Ds == null || polygonalFace3Ds.Count == 0)
@@ -183,7 +183,7 @@ namespace DiGi.Geometry.Spatial
             return Mesh3D(triangle3Ds, tolerance);
         }
 
-        public static Mesh3D? Mesh3D(this IPolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public static Mesh3D? Mesh3D(this IPolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null)
             {

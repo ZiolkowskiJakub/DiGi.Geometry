@@ -4,7 +4,7 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
-        private static Vector3D[]? Eigenvectors(this Math.Classes.Matrix? matrix, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        private static Vector3D[]? Eigenvectors(this Math.Classes.Matrix? matrix, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             double[]? eigenvalues = matrix?.Eigenvalues(tolerance);
             if (eigenvalues == null)

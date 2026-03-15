@@ -97,7 +97,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return (4.0 / 3.0) * System.Math.PI * radius * radius * radius;
         }
 
-        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D is null || center is null)
             {
@@ -115,7 +115,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return distanceSquared <= effectiveRadiusSquared;
         }
 
-        public bool Inside(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<Point3D>? point3Ds = segmentable3D?.GetPoints();
             if (point3Ds == null || point3Ds.Count == 0)
@@ -134,7 +134,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
-        public bool Inside(IPolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool Inside(IPolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return Inside(polygonalFace3D?.ExternalEdge, tolerance);
         }
@@ -149,7 +149,7 @@ namespace DiGi.Geometry.Spatial.Classes
             return center.Move(vector3D);
         }
 
-        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constans.Tolerance.Distance)
+        public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D is null || center is null)
             {
