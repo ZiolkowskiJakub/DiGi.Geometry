@@ -602,6 +602,12 @@ namespace DiGi.Geometry.Planar.Classes
             return Inside(segmentable2D?.GetPoints(), tolerance);
         }
 
+        /// <summary>
+        /// Checks if boundingBox2D is inside this BoundingBox2D
+        /// </summary>
+        /// <param name="boundingBox2D">BoundingBox2D</param>
+        /// <param name="tolerance">Tolerance</param>
+        /// <returns>True if given boundingBox2D is inside this BoundingBox2D with given tolerance</returns>
         public bool Inside(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (min == null || max == null)
