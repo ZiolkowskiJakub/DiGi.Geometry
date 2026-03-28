@@ -1,6 +1,5 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
-using DiGi.Geometry.Spatial.Classes;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
 using System.Collections.Generic;
@@ -109,17 +108,17 @@ namespace DiGi.Geometry.Planar
 
             List<Polygon> polygons = [];
 
-            foreach(T polygonal2D in polygonal2Ds)
+            foreach (T polygonal2D in polygonal2Ds)
             {
-                if(polygonal2D.ToNTS_Polygon() is Polygon polygon)
+                if (polygonal2D.ToNTS_Polygon() is Polygon polygon)
                 {
                     polygons.Add(polygon);
                 }
             }
 
-            if(polygons is null || polygons.Count == 0)
+            if (polygons is null || polygons.Count == 0)
             {
-                return []; 
+                return [];
             }
 
             NetTopologySuite.Geometries.Geometry geometry = polygons[0];
@@ -131,7 +130,7 @@ namespace DiGi.Geometry.Planar
                     // Intersect current result with the next polygon
                     geometry = geometry.Intersection(polygons[i]);
 
-                    // Optimization: if at any point the intersection is empty, 
+                    // Optimization: if at any point the intersection is empty,
                     // there is no common area for the whole set.
                     if (geometry == null || geometry.IsEmpty)
                     {
@@ -140,7 +139,6 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-
             if (geometry.ToDiGi() is not IGeometry2D geometry2D)
             {
                 return null;
@@ -148,11 +146,11 @@ namespace DiGi.Geometry.Planar
 
             if (geometry2D is not GeometryCollection2D geometryCollection2D)
             {
-                if(geometry2D is ICollectable2D collectable2D)
+                if (geometry2D is ICollectable2D collectable2D)
                 {
-                    if(geometry2D is IPolygonalFace2D polygonalFace2D)
+                    if (geometry2D is IPolygonalFace2D polygonalFace2D)
                     {
-                        if(polygonalFace2D.Edges is List<IPolygonal2D> polygonal2Ds_Temp)
+                        if (polygonalFace2D.Edges is List<IPolygonal2D> polygonal2Ds_Temp)
                         {
                             geometryCollection2D = [.. polygonalFace2D.Edges];
                         }
@@ -172,7 +170,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            if(geometryCollection2D is null || geometryCollection2D.Count == 0)
+            if (geometryCollection2D is null || geometryCollection2D.Count == 0)
             {
                 return [];
             }
@@ -201,7 +199,7 @@ namespace DiGi.Geometry.Planar
 
         public static List<Polygon2D>? Interscetion(this Polygon2D? polygon2D_1, Polygon2D? polygon2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if(polygon2D_1 is null || polygon2D_2 is null)
+            if (polygon2D_1 is null || polygon2D_2 is null)
             {
                 return null;
             }

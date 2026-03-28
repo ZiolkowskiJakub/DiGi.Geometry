@@ -15,10 +15,9 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-
-            if(typeof(TPolygonal2D) == polygonal2D.GetType())
+            if (typeof(TPolygonal2D) == polygonal2D.GetType())
             {
-                if(polygonal2D.Clone() is TPolygonal2D polygonal2D_Temp)
+                if (polygonal2D.Clone() is TPolygonal2D polygonal2D_Temp)
                 {
                     polygonal2Ds = [polygonal2D_Temp];
                     return true;
@@ -27,13 +26,12 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            if(typeof(TPolygonal2D) == typeof(Polygon2D))
+            if (typeof(TPolygonal2D) == typeof(Polygon2D))
             {
                 polygonal2Ds = [(TPolygonal2D)(object)new Polygon2D(polygonal2D.GetPoints())];
 
                 return true;
             }
-
 
             throw new System.NotImplementedException();
         }

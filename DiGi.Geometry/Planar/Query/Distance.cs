@@ -99,5 +99,23 @@ namespace DiGi.Geometry.Planar
 
             return result;
         }
+
+        public static double Distance(BoundingBox2D? boundingBox2D, ISegmentable2D? segmentable2D, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            point2D_Closest1 = null;
+            point2D_Closest2 = null;
+
+            if (boundingBox2D is null || segmentable2D is null)
+            {
+                return double.NaN;
+            }
+
+            return Distance((Polygon2D?)boundingBox2D, segmentable2D, out point2D_Closest1, out point2D_Closest2, tolerance);
+        }
+
+        public static double Distance(ISegmentable2D? segmentable2D, BoundingBox2D? boundingBox2D, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            return Distance(boundingBox2D, segmentable2D, out point2D_Closest1, out point2D_Closest2, tolerance);
+        }
     }
 }

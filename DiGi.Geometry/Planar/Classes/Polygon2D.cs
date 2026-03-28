@@ -1,5 +1,4 @@
-﻿using DiGi.Core.Classes;
-using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
@@ -85,7 +84,7 @@ namespace DiGi.Geometry.Planar.Classes
                 }
             }
 
-            for (int i=0; i < point2Ds.Count; i++)
+            for (int i = 0; i < point2Ds.Count; i++)
             {
                 if (InRange(point2Ds[i], tolerance))
                 {
@@ -93,7 +92,7 @@ namespace DiGi.Geometry.Planar.Classes
                 }
             }
 
-            if(segmentable2D is IClosedCurve2D closedCurve2D)
+            if (segmentable2D is IClosedCurve2D closedCurve2D)
             {
                 for (int i = 0; i < points.Count; i++)
                 {
@@ -134,6 +133,16 @@ namespace DiGi.Geometry.Planar.Classes
         public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return On(point2D, tolerance) || Query.Inside(points, point2D);
+        }
+
+        public bool InRange(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            if (boundingBox2D is null)
+            {
+                return false;
+            }
+
+            return boundingBox2D.InRange(this, tolerance);
         }
 
         public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)

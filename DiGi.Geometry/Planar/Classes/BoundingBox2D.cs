@@ -27,6 +27,23 @@ namespace DiGi.Geometry.Planar.Classes
             min = Query.Min(point2Ds, out max);
         }
 
+        public BoundingBox2D(IEnumerable<BoundingBox2D?>? boundingBox2Ds)
+        {
+            if (boundingBox2Ds is not null)
+            {
+                foreach (BoundingBox2D? boundingBox2D in boundingBox2Ds)
+                {
+                    if (boundingBox2D is null)
+                    {
+                        continue;
+                    }
+
+                    max = max is null ? boundingBox2D.Max : Query.Max(max, boundingBox2D.Max);
+                    min = min is null ? boundingBox2D.Min : Query.Min(min, boundingBox2D.Min);
+                }
+            }
+        }
+
         public BoundingBox2D(IEnumerable<Point2D>? point2Ds, double offset)
         {
             min = Query.Min(point2Ds, out max);
@@ -188,6 +205,16 @@ namespace DiGi.Geometry.Planar.Classes
 
                 return max.X - min.X;
             }
+        }
+
+        public static implicit operator Polygon2D?(BoundingBox2D boundingBox2D)
+        {
+            if (boundingBox2D is null)
+            {
+                return null;
+            }
+
+            return new Polygon2D(boundingBox2D.GetPoints());
         }
 
         public bool Add(BoundingBox2D? boundingBox2D)
@@ -483,7 +510,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            List<Segment2D>? segment2Ds = null;
+            List<Segment2D>? segment2Ds;
 
             segment2Ds = segmentable2D?.GetSegments();
             if (segment2Ds == null || segment2Ds.Count == 0)
@@ -499,7 +526,7 @@ namespace DiGi.Geometry.Planar.Classes
                 }
             }
 
-            if(segmentable2D is IClosedCurve2D closedCurve2D)
+            if (segmentable2D is IClosedCurve2D closedCurve2D)
             {
                 List<Point2D>? point2Ds = GetPoints();
                 if (point2Ds == null || point2Ds.Count == 0)

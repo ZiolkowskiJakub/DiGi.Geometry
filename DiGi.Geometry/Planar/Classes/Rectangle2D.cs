@@ -309,6 +309,16 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).InRange(point2D, tolerance);
         }
 
+        public bool InRange(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            if (boundingBox2D is null)
+            {
+                return false;
+            }
+
+            return boundingBox2D.InRange(this, tolerance);
+        }
+
         public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D == null)

@@ -38,7 +38,7 @@ namespace DiGi.Geometry.Planar
             }
 
             // NTS Distance() returns the minimum distance between geometries.
-            // Since we ensured Polygons are used for closed loops, 
+            // Since we ensured Polygons are used for closed loops,
             // any point inside will result in a distance of 0 (already caught by Intersects).
             return geometry_Temp_1.Distance(geometry_Temp_2) < tolerance;
         }
