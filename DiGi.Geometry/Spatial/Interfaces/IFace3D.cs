@@ -16,7 +16,7 @@ namespace DiGi.Geometry.Spatial.Interfaces
         bool OnEdge(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance);
     }
 
-    public interface IFace3D<T> : IFace3D, IFace<T> where T : IClosedCurve3D
+    public interface IFace3D<T> : IFace3D, IFace<T> where T : IClosedPlanarCurve3D
     {
     }
 }

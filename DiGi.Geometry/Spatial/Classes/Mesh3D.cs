@@ -28,6 +28,94 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Mesh3D(this);
         }
 
+        public List<Segment3D>? GetAuxiliarySegments()
+        {
+            if (points is null || indexes is null)
+            {
+                return null;
+            }
+
+            List<int[]>? auxiliaryIndexes = Core.Query.AuxiliaryIndexes(indexes);
+            if (auxiliaryIndexes is null)
+            {
+                return null;
+            }
+
+            List<Segment3D> result = [];
+            foreach (int[] indexes_Segment3D in auxiliaryIndexes)
+            {
+                result.Add(new Segment3D(points[indexes_Segment3D[0]], points[indexes_Segment3D[1]]));
+            }
+
+            return result;
+        }
+
+        public List<Polyloop>? GetBoundaryEdges()
+        {
+            if (points is null || indexes is null)
+            {
+                return null;
+            }
+
+            List<List<int>>? indexesList = Core.Query.SortedBoundaryIndexes(indexes);
+            if (indexesList is null)
+            {
+                return null;
+            }
+
+            List<Polyloop>? result = [];
+            foreach (List<int> indexes_Polygon3D in indexesList)
+            {
+                List<Point3D> point3Ds = [];
+                foreach (int index in indexes_Polygon3D)
+                {
+                    point3Ds.Add(points[index]);
+                }
+
+                result.Add(new Polyloop(point3Ds));
+            }
+
+            return result;
+        }
+
+        public List<Polyloop>? GetBoundaryEdges(out List<Segment3D>? auxiliarySegments)
+        {
+            auxiliarySegments = null;
+
+            if (points is null || indexes is null)
+            {
+                return null;
+            }
+
+            List<List<int>>? indexesList = Core.Query.SortedBoundaryIndexes(indexes, out List<int[]>? auxiliaryIndexes);
+            if (auxiliaryIndexes != null)
+            {
+                auxiliarySegments = [];
+                foreach (int[] indexes_Segment3D in auxiliaryIndexes)
+                {
+                    auxiliarySegments.Add(new Segment3D(points[indexes_Segment3D[0]], points[indexes_Segment3D[1]]));
+                }
+            }
+
+            List<Polyloop>? result = null;
+            if (indexesList is not null)
+            {
+                result = [];
+                foreach (List<int> indexes_Polygon2D in indexesList)
+                {
+                    List<Point3D> point3Ds = [];
+                    foreach (int index in indexes_Polygon2D)
+                    {
+                        point3Ds.Add(points[index]);
+                    }
+
+                    result.Add(new Polyloop(point3Ds));
+                }
+            }
+
+            return result;
+        }
+
         public BoundingBox3D? GetBoundingBox()
         {
             if (points == null)

@@ -1,0 +1,97 @@
+﻿using System.Collections.Generic;
+
+namespace DiGi.Geometry.Core
+{
+    public static partial class Query
+    {
+        public static List<List<int>>? SortedBoundaryIndexes(this IEnumerable<int[]>? indexes)
+        {
+            return SortedBoundaryIndexes(indexes, out _);
+        }
+
+        public static List<List<int>>? SortedBoundaryIndexes(this IEnumerable<int[]>? indexes, out List<int[]>? auxiliaryIndexes)
+        {
+            // 1. Get raw boundary edges (from the previous method)
+            List<int[]>? edges = BoundaryIndexes(indexes, out auxiliaryIndexes);
+            if (edges == null)
+            {
+                return null;
+            }
+
+            if (edges.Count == 0)
+            {
+                return [];
+            }
+
+            // 2. Build an adjacency map for quick lookup
+            // Each boundary vertex will have exactly 2 boundary neighbors in a manifold mesh
+            Dictionary<int, List<int>> adjacency = [];
+            foreach (int[] edge in edges)
+            {
+                if (!adjacency.ContainsKey(edge[0])) adjacency[edge[0]] = [];
+                if (!adjacency.ContainsKey(edge[1])) adjacency[edge[1]] = [];
+
+                adjacency[edge[0]].Add(edge[1]);
+                adjacency[edge[1]].Add(edge[0]);
+            }
+
+            List<List<int>> result = [];
+            HashSet<int> visitedVertices = [];
+
+            // 3. Traverse the adjacency map to form loops
+            foreach (int startVertex in adjacency.Keys)
+            {
+                if (visitedVertices.Contains(startVertex))
+                {
+                    continue;
+                }
+
+                List<int> currentLoop = [];
+                int current = startVertex;
+                bool closed = false;
+
+                while (!closed)
+                {
+                    visitedVertices.Add(current);
+                    currentLoop.Add(current);
+
+                    List<int> neighbors = adjacency[current];
+                    int next = -1;
+
+                    foreach (int neighbor in neighbors)
+                    {
+                        if (neighbor == startVertex && currentLoop.Count > 2)
+                        {
+                            // Loop is closed
+                            closed = true;
+                            break;
+                        }
+                        if (!visitedVertices.Contains(neighbor))
+                        {
+                            next = neighbor;
+                            break;
+                        }
+                    }
+
+                    if (next != -1)
+                    {
+                        current = next;
+                    }
+                    else
+                    {
+                        // If we can't find a next vertex and it's not closed,
+                        // it might be an open boundary (non-manifold)
+                        closed = true;
+                    }
+                }
+
+                if (currentLoop.Count > 0)
+                {
+                    result.Add(currentLoop);
+                }
+            }
+
+            return result;
+        }
+    }
+}

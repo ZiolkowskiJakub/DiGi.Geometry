@@ -8,35 +8,35 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Core.Classes
 {
-    public abstract class Mesh<T> : SerializableObject, IMesh where T : IPoint<T>
+    public abstract class Mesh<TPoint> : SerializableObject, IMesh where TPoint : IPoint<TPoint>
     {
         [JsonInclude, JsonPropertyName("Indexes")]
         protected List<int[]>? indexes;
 
         [JsonInclude, JsonPropertyName("Points")]
-        protected List<T>? points;
+        protected List<TPoint>? points;
 
         public Mesh(JsonObject? jsonObject)
         {
             FromJsonObject(jsonObject);
         }
 
-        public Mesh(Mesh<T>? mesh)
+        public Mesh(Mesh<TPoint>? mesh)
         {
             if (mesh != null)
             {
-                List<T?>? points_Temp = mesh?.points?.Clone();
+                List<TPoint?>? points_Temp = mesh?.points?.Clone();
                 if (points_Temp != null)
                 {
                     points = [];
-                    foreach (T? point in points_Temp)
+                    foreach (TPoint? point in points_Temp)
                     {
                         if (point == null)
                         {
                             continue;
                         }
 
-                        T? point_Temp = point.Clone<T>();
+                        TPoint? point_Temp = point.Clone<TPoint>();
                         if (point_Temp == null)
                         {
                             continue;
@@ -57,25 +57,25 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
-        public Mesh(IEnumerable<T>? points, IEnumerable<int[]>? indexes)
+        public Mesh(IEnumerable<TPoint>? points, IEnumerable<int[]>? indexes)
         {
             if (points == null || indexes == null)
             {
                 return;
             }
 
-            List<T?>? points_Temp = points?.Clone();
+            List<TPoint?>? points_Temp = points?.Clone();
             if (points_Temp != null)
             {
                 this.points = [];
-                foreach (T? point in points_Temp)
+                foreach (TPoint? point in points_Temp)
                 {
                     if (point == null)
                     {
                         continue;
                     }
 
-                    T? point_Temp = point.Clone<T>();
+                    TPoint? point_Temp = point.Clone<TPoint>();
                     if (point_Temp == null)
                     {
                         continue;
@@ -157,7 +157,7 @@ namespace DiGi.Geometry.Core.Classes
             return result;
         }
 
-        public HashSet<T>? GetConnectedPoints(int index)
+        public HashSet<TPoint>? GetConnectedPoints(int index)
         {
             if (points == null)
             {
@@ -170,10 +170,10 @@ namespace DiGi.Geometry.Core.Classes
                 return null;
             }
 
-            HashSet<T> result = [];
+            HashSet<TPoint> result = [];
             foreach (int index_Temp in indexes_Temp)
             {
-                T? t = points[index_Temp].Clone<T>();
+                TPoint? t = points[index_Temp].Clone<TPoint>();
                 if (t != null)
                 {
                     result.Add(t);
@@ -211,22 +211,22 @@ namespace DiGi.Geometry.Core.Classes
             return [indexes_Triangle[0], indexes_Triangle[1], indexes_Triangle[2]];
         }
 
-        public List<T>? GetPoints()
+        public List<TPoint>? GetPoints()
         {
             if (points == null)
             {
                 return null;
             }
 
-            List<T> result = [];
-            foreach (T point in points)
+            List<TPoint> result = [];
+            foreach (TPoint point in points)
             {
                 if (point == null)
                 {
                     continue;
                 }
 
-                T? point_Temp = point.Clone<T>();
+                TPoint? point_Temp = point.Clone<TPoint>();
                 if (point_Temp == null)
                 {
                     continue;
@@ -238,7 +238,7 @@ namespace DiGi.Geometry.Core.Classes
             return result;
         }
 
-        public int IndexOf(T? point)
+        public int IndexOf(TPoint? point)
         {
             if (point == null || points == null)
             {
@@ -254,6 +254,28 @@ namespace DiGi.Geometry.Core.Classes
             }
 
             return -1;
+        }
+
+        public List<List<TPoint>>? GetSortedBoundaryPoints()
+        {
+            if (indexes is null || points is null)
+            {
+                return null;
+            }
+
+            List<List<int>>? sortedBoudaryIndexes = Query.SortedBoundaryIndexes(indexes);
+            if (sortedBoudaryIndexes is null)
+            {
+                return null;
+            }
+
+            List<List<TPoint>> result = [];
+            foreach (List<int> indexes in sortedBoudaryIndexes)
+            {
+                result.Add(indexes.ConvertAll(x => points[x]));
+            }
+
+            return result;
         }
     }
 }

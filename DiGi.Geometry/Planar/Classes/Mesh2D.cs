@@ -29,6 +29,94 @@ namespace DiGi.Geometry.Planar.Classes
             return new Mesh2D(this);
         }
 
+        public List<Segment2D>? GetAuxiliarySegments()
+        {
+            if (points is null || indexes is null)
+            {
+                return null;
+            }
+
+            List<int[]>? auxiliaryIndexes = Core.Query.AuxiliaryIndexes(indexes);
+            if (auxiliaryIndexes is null)
+            {
+                return null;
+            }
+
+            List<Segment2D> result = [];
+            foreach (int[] indexes_Segment2D in auxiliaryIndexes)
+            {
+                result.Add(new Segment2D(points[indexes_Segment2D[0]], points[indexes_Segment2D[1]]));
+            }
+
+            return result;
+        }
+
+        public List<Polygon2D>? GetBoundaryEdges()
+        {
+            if (points is null || indexes is null)
+            {
+                return null;
+            }
+
+            List<List<int>>? indexesList = Core.Query.SortedBoundaryIndexes(indexes);
+            if (indexesList is null)
+            {
+                return null;
+            }
+
+            List<Polygon2D>? result = [];
+            foreach (List<int> indexes_Polygon2D in indexesList)
+            {
+                List<Point2D> point2Ds = [];
+                foreach (int index in indexes_Polygon2D)
+                {
+                    point2Ds.Add(points[index]);
+                }
+
+                result.Add(new Polygon2D(point2Ds));
+            }
+
+            return result;
+        }
+
+        public List<Polygon2D>? GetBoundaryEdges(out List<Segment2D>? auxiliarySegments)
+        {
+            auxiliarySegments = null;
+
+            if (points is null || indexes is null)
+            {
+                return null;
+            }
+
+            List<List<int>>? indexesList = Core.Query.SortedBoundaryIndexes(indexes, out List<int[]>? auxiliaryIndexes);
+            if (auxiliaryIndexes != null)
+            {
+                auxiliarySegments = [];
+                foreach (int[] indexes_Segment2D in auxiliaryIndexes)
+                {
+                    auxiliarySegments.Add(new Segment2D(points[indexes_Segment2D[0]], points[indexes_Segment2D[1]]));
+                }
+            }
+
+            List<Polygon2D>? result = null;
+            if (indexesList is not null)
+            {
+                result = [];
+                foreach (List<int> indexes_Polygon2D in indexesList)
+                {
+                    List<Point2D> point2Ds = [];
+                    foreach (int index in indexes_Polygon2D)
+                    {
+                        point2Ds.Add(points[index]);
+                    }
+
+                    result.Add(new Polygon2D(point2Ds));
+                }
+            }
+
+            return result;
+        }
+
         public BoundingBox2D? GetBoundingBox()
         {
             if (points == null)

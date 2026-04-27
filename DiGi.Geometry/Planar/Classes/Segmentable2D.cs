@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-    public abstract class Segmentable2D : Geometry2D, ISegmentable2D, IBoundable2D
+    public abstract class Segmentable2D : Geometry2D, ISegmentable2D
     {
         [JsonInclude, JsonPropertyName("Points")]
         protected List<Point2D> points = [];

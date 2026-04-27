@@ -10,5 +10,7 @@ namespace DiGi.Geometry.Planar.Interfaces
         public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance);
 
         public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance);
+
+        double GetArea();
     }
 }
