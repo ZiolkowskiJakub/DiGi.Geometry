@@ -164,7 +164,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            origin.Move((heightDirection * (index_height + 1)) + (widthDirection * (index_width + 1)));
+            origin.Move((heightDirection * index_height) + (widthDirection * index_width));
 
             return new Rectangle2D(origin, widthFactor, heightFactor, heightDirection);
         }

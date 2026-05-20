@@ -197,17 +197,17 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
-        public static List<Polygon2D>? Interscetion(this Polygon2D? polygon2D_1, Polygon2D? polygon2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static List<Polygon2D>? Intersection(this Polygon2D? polygon2D_1, Polygon2D? polygon2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygon2D_1 is null || polygon2D_2 is null)
             {
                 return null;
             }
 
-            return Interscetion([polygon2D_1, polygon2D_2], tolerance);
+            return Intersection([polygon2D_1, polygon2D_2], tolerance);
         }
 
-        public static List<Polygon2D>? Interscetion(this IEnumerable<Polygon2D>? polygon2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static List<Polygon2D>? Intersection(this IEnumerable<Polygon2D>? polygon2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return Intersection<Polygon2D, Polygon2D>(polygon2Ds, tolerance);
         }
