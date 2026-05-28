@@ -11,6 +11,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="vector3D_1">Direction Vector3D of first line</param>
         /// <param name="point3D_2">Origin point3D of second line</param>
         /// <param name="vector3D_2">Direction Vector3D of second line</param>
+        /// <param name="bounded">Bounded means the intersection is limited to the line segments</param>
         /// <param name="tolerance">Tolerance</param>
         /// <returns></returns>
         public static Point3D? IntersectionPoint(this Point3D? point3D_1, Vector3D? vector3D_1, Point3D? point3D_2, Vector3D? vector3D_2, bool bounded, double tolerance = DiGi.Core.Constants.Tolerance.Distance)

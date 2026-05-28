@@ -193,12 +193,12 @@ namespace DiGi.Geometry.Planar.Classes
 
         public override bool Move(Vector2D? vector2D)
         {
-            return rectangle2D is null ? false : rectangle2D.Move(vector2D);
+            return rectangle2D is not null && rectangle2D.Move(vector2D);
         }
 
         public override bool Transform(ITransform2D? transform)
         {
-            return rectangle2D is null ? false : rectangle2D.Transform(transform);
+            return rectangle2D is not null && rectangle2D.Transform(transform);
         }
     }
 }
