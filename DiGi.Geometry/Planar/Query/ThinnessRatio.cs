@@ -4,6 +4,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the thinness ratio of a polygonal geometry.
+        /// </summary>
         public static double ThinnessRatio(this IPolygonal2D polygonal2D)
         {
             if (polygonal2D == null)

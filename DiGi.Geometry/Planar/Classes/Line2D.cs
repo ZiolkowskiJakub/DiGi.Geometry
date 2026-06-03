@@ -6,6 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+/// <summary>
+/// Represents an infinite line in 2D space defined by an origin point and a direction vector.
+/// </summary>
     public class Line2D : Geometry2D, ILinear2D
     {
         [JsonInclude, JsonPropertyName("Direction")]
@@ -87,11 +90,23 @@ namespace DiGi.Geometry.Planar.Classes
             return new Line2D(segment2D.Start, segment2D.Vector);
         }
 
+        /// <summary>
+        /// Determines whether two lines are not equal.
+        /// </summary>
+        /// <param name="line2D_1">The first line.</param>
+        /// <param name="line2D_2">The second line.</param>
+        /// <returns>True if the lines are not equal; otherwise, false.</returns>
         public static bool operator !=(Line2D? line2D_1, Line2D? line2D_2)
         {
             return !(line2D_1 == line2D_2);
         }
 
+        /// <summary>
+        /// Determines whether two lines are equal.
+        /// </summary>
+        /// <param name="line2D_1">The first line.</param>
+        /// <param name="line2D_2">The second line.</param>
+        /// <returns>True if the lines are equal; otherwise, false.</returns>
         public static bool operator ==(Line2D? line2D_1, Line2D? line2D_2)
         {
             if (line2D_1 is null && line2D_2 is null)
@@ -163,6 +178,11 @@ namespace DiGi.Geometry.Planar.Classes
             return point2D_Project.Distance(point2D);
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current line.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current line.</param>
+        /// <returns>True if the objects are equal; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
             if (obj is not Line2D line2D)

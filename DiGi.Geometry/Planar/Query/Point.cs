@@ -6,6 +6,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates a point along a polyline defined by a collection of points, given a parameter (normalized length).
+        /// </summary>
+        /// <param name="point2Ds">The collection of points defining the polyline.</param>
+        /// <param name="parameter">The normalized distance along the polyline.</param>
+        /// <returns>The calculated point, or null if not possible.</returns>
         public static Point2D? Point(this IEnumerable<Point2D>? point2Ds, double parameter)
         {
             if (point2Ds == null || double.IsNaN(parameter))

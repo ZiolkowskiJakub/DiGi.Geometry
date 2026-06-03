@@ -6,6 +6,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Simplifies a collection of geometries by merging similar ones and decomposing them into basic primitives (points, segments, polylines, polygons, etc.).
+        /// </summary>
+        /// <param name="geometry2Ds">The collection of geometries to simplify.</param>
+        /// <param name="tolerance">The distance tolerance used for similarity and intersection checks.</param>
+        /// <returns>A simplified list of unique geometries; otherwise, null if input is null.</returns>
         public static List<IGeometry2D>? Geometry2Ds(IEnumerable<IGeometry2D>? geometry2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (geometry2Ds == null)

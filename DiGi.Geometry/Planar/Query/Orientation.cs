@@ -8,6 +8,13 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines the orientation of three points (clockwise, counter-clockwise, or collinear).
+        /// </summary>
+        /// <param name="point2D_1">The first point.</param>
+        /// <param name="point2D_2">The second point.</param>
+        /// <param name="point2D_3">The third point.</param>
+        /// <returns>The orientation of the triplet.</returns>
         public static Orientation Orientation(this Point2D? point2D_1, Point2D? point2D_2, Point2D? point2D_3)
         {
             double determinant = Determinant(point2D_1, point2D_2, point2D_3);
@@ -24,6 +31,12 @@ namespace DiGi.Geometry.Planar
             return determinant > 0 ? Core.Enums.Orientation.Clockwise : Core.Enums.Orientation.CounterClockwise;
         }
 
+        /// <summary>
+        /// Determines the orientation of two vectors (clockwise, counter-clockwise, or collinear).
+        /// </summary>
+        /// <param name="vector2D_1">The first vector.</param>
+        /// <param name="vector2D_2">The second vector.</param>
+        /// <returns>The orientation of the vectors.</returns>
         public static Orientation Orientation(this Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             double determinant = Determinant(vector2D_1, vector2D_2);
@@ -36,6 +49,12 @@ namespace DiGi.Geometry.Planar
             return determinant > 0 ? Core.Enums.Orientation.Clockwise : Core.Enums.Orientation.CounterClockwise;
         }
 
+        /// <summary>
+        /// Determines the overall orientation of a collection of points.
+        /// </summary>
+        /// <param name="point2Ds">The collection of points.</param>
+        /// <param name="convexHull">Whether to use the convex hull for determination.</param>
+        /// <returns>The orientation of the point set.</returns>
         public static Orientation Orientation(this IEnumerable<Point2D>? point2Ds, bool convexHull = true)
         {
             if (point2Ds == null || point2Ds.Count() < 3)
@@ -64,6 +83,12 @@ namespace DiGi.Geometry.Planar
             return Core.Enums.Orientation.Undefined;
         }
 
+        /// <summary>
+        /// Determines the overall orientation of a polygonal geometry.
+        /// </summary>
+        /// <param name="polygonal2D">The polygonal geometry.</param>
+        /// <param name="convexHull">Whether to use the convex hull for determination.</param>
+        /// <returns>The orientation of the geometry.</returns>
         public static Orientation Orientation(this IPolygonal2D? polygonal2D, bool convexHull = true)
         {
             if (polygonal2D == null)

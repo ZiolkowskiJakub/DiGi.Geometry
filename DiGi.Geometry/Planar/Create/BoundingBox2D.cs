@@ -6,6 +6,13 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates a bounding box that encompasses all provided boundable geometries.
+        /// </summary>
+        /// <typeparam name="T">A type that implements IBoundable2D.</typeparam>
+        /// <param name="boundable2Ds">The collection of boundable geometries.</param>
+        /// <param name="offset">An optional offset to apply to the resulting bounding box.</param>
+        /// <returns>A BoundingBox2D that encompasses all inputs; otherwise, null if input is null.</returns>
         public static BoundingBox2D? BoundingBox2D<T>(this IEnumerable<T>? boundable2Ds, double offset = 0) where T : IBoundable2D
         {
             if (boundable2Ds == null)
@@ -39,6 +46,14 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Creates a bounding box with specified width and height, using the point as a corner.
+        /// </summary>
+        /// <param name="point2D">The anchor point.</param>
+        /// <param name="width">The width of the bounding box.</param>
+        /// <param name="height">The height of the bounding box.</param>
+        /// <param name="corner">The corner that the specified point represents.</param>
+        /// <returns>A new BoundingBox2D; otherwise, null if any input is invalid.</returns>
         public static BoundingBox2D? BoundingBox2D(this Point2D? point2D, double width, double height, Core.Enums.Corner corner)
         {
             if (double.IsNaN(width) || double.IsNaN(height) || point2D == null)
@@ -58,6 +73,13 @@ namespace DiGi.Geometry.Planar
             return new(point2D, point2D_Temp);
         }
 
+        /// <summary>
+        /// Creates a bounding box with specified width and height, centered at the given point.
+        /// </summary>
+        /// <param name="center">The center point of the bounding box.</param>
+        /// <param name="width">The width of the bounding box.</param>
+        /// <param name="height">The height of the bounding box.</param>
+        /// <returns>A new BoundingBox2D; otherwise, null if any input is invalid.</returns>
         public static BoundingBox2D? BoundingBox2D(this Point2D? center, double width, double height)
         {
             if (double.IsNaN(width) || double.IsNaN(height) || center == null)

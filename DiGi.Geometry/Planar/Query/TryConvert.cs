@@ -6,6 +6,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Attempts to convert a polygonal geometry to a specific type of polygonal geometry.
+        /// </summary>
         public static bool TryConvert<TPolygonal2D>(this IPolygonal2D polygonal2D, out List<TPolygonal2D>? polygonal2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolygonal2D : IPolygonal2D
         {
             polygonal2Ds = null;

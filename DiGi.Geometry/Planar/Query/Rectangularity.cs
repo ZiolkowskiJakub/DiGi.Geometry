@@ -5,6 +5,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the rectangularity of a polygonal geometry (ratio of its area to the area of its bounding rectangle).
+        /// </summary>
+        /// <param name="polygonal2D">The polygonal geometry.</param>
+        /// <param name="tolerance">The distance tolerance for creating the bounding rectangle.</param>
+        /// <returns>The rectangularity value, or NaN if calculation is not possible.</returns>
         public static double Rectangularity(this IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonal2D == null)

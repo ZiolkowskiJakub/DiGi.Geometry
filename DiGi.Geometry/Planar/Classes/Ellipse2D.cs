@@ -8,6 +8,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+/// <summary>
+/// Represents a 2D ellipse defined by its center, semi-axes lengths, and the direction of the major axis.
+/// </summary>
     public class Ellipse2D : Geometry2D, IEllipse2D, IBoundable2D
     {
         [JsonInclude, JsonPropertyName("A")]
@@ -167,6 +170,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Converts a <see cref="Circle2D"/> to an <see cref="Ellipse2D"/>.
+        /// </summary>
+        /// <param name="circle2D">The source circle.</param>
+        /// <returns>An ellipse equivalent to the circle.</returns>
         public static explicit operator Ellipse2D?(Circle2D? circle2D)
         {
             if (circle2D == null)
@@ -177,11 +185,23 @@ namespace DiGi.Geometry.Planar.Classes
             return new Ellipse2D(circle2D.Center, circle2D.Radius, circle2D.Radius);
         }
 
+        /// <summary>
+        /// Determines whether two ellipses are not equal.
+        /// </summary>
+        /// <param name="ellipse2D_1">The first ellipse.</param>
+        /// <param name="ellipse2D_2">The second ellipse.</param>
+        /// <returns>True if the ellipses are not equal; otherwise, false.</returns>
         public static bool operator !=(Ellipse2D? ellipse2D_1, Ellipse2D? ellipse2D_2)
         {
             return !(ellipse2D_1 == ellipse2D_2);
         }
 
+        /// <summary>
+        /// Determines whether two ellipses are equal.
+        /// </summary>
+        /// <param name="ellipse2D_1">The first ellipse.</param>
+        /// <param name="ellipse2D_2">The second ellipse.</param>
+        /// <returns>True if the ellipses are equal; otherwise, false.</returns>
         public static bool operator ==(Ellipse2D? ellipse2D_1, Ellipse2D? ellipse2D_2)
         {
             if (ellipse2D_1 is null && ellipse2D_2 is null)
@@ -222,6 +242,11 @@ namespace DiGi.Geometry.Planar.Classes
             return point2D!.Distance(point2D_Project);
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current ellipse.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current ellipse.</param>
+        /// <returns>True if the objects are equal; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
             Ellipse2D? ellipse2D = obj as Ellipse2D;

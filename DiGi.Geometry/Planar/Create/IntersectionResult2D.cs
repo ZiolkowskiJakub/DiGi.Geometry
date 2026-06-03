@@ -8,6 +8,13 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Calculates the intersection result of two segments.
+        /// </summary>
+        /// <param name="segment2D_1">The first segment.</param>
+        /// <param name="segment2D_2">The second segment.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An IntersectionResult2D containing the intersection geometry; otherwise, null if either input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this Segment2D? segment2D_1, Segment2D? segment2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2D_1 == null || segment2D_2 == null)
@@ -95,6 +102,13 @@ namespace DiGi.Geometry.Planar
             return null;
         }
 
+        /// <summary>
+        /// Calculates the intersection result of two lines.
+        /// </summary>
+        /// <param name="line2D_1">The first line.</param>
+        /// <param name="line2D_2">The second line.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An IntersectionResult2D containing the intersection geometry; otherwise, null if either input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this Line2D? line2D_1, Line2D? line2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D_1 is null || line2D_2 is null)
@@ -116,6 +130,13 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D();
         }
 
+        /// <summary>
+        /// Calculates the intersection result of a segment and a collection of segments.
+        /// </summary>
+        /// <param name="segment2D">The segment to check.</param>
+        /// <param name="segment2Ds">The collection of segments to intersect with.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An IntersectionResult2D containing all unique intersection geometries; otherwise, null if either input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this Segment2D? segment2D, IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2D == null || segment2Ds == null)
@@ -171,6 +192,13 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
+        /// <summary>
+        /// Calculates the intersection result between two collections of segments.
+        /// </summary>
+        /// <param name="segment2Ds_1">The first collection of segments.</param>
+        /// <param name="segment2Ds_2">The second collection of segments.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An IntersectionResult2D containing all unique intersection geometries; otherwise, null if either input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this IEnumerable<Segment2D>? segment2Ds_1, IEnumerable<Segment2D>? segment2Ds_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds_1 == null || segment2Ds_2 == null)
@@ -231,6 +259,13 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
+        /// <summary>
+        /// Calculates the intersection result of two segmentable geometries.
+        /// </summary>
+        /// <param name="segmentable2D_1">The first segmentable geometry.</param>
+        /// <param name="segmentable2D_2">The second segmentable geometry.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An IntersectionResult2D containing the intersection geometry; otherwise, null if either input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D_1 == null || segmentable2D_2 == null)
@@ -241,6 +276,13 @@ namespace DiGi.Geometry.Planar
             return IntersectionResult2D(segmentable2D_1.GetSegments(), segmentable2D_2.GetSegments(), tolerance);
         }
 
+        /// <summary>
+        /// Calculates the intersection result of a line and a segment.
+        /// </summary>
+        /// <param name="line2D">The line.</param>
+        /// <param name="segment2D">The segment.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An IntersectionResult2D containing the intersection geometry; otherwise, null if either input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this Line2D? line2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null || segment2D is null)
@@ -262,6 +304,13 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(point2D);
         }
 
+        /// <summary>
+        /// Calculates the intersection result of a line and a collection of segments.
+        /// </summary>
+        /// <param name="line2D">The line.</param>
+        /// <param name="segment2Ds">The collection of segments.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An IntersectionResult2D containing all unique intersection geometries; otherwise, null if either input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this Line2D? line2D, IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null || segment2Ds == null)
@@ -317,6 +366,13 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
+        /// <summary>
+        /// Calculates the intersection result of a segmentable geometry and a line.
+        /// </summary>
+        /// <param name="segmentable2D">The segmentable geometry.</param>
+        /// <param name="line2D">The line.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An IntersectionResult2D containing the intersection geometry; otherwise, null if either input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D, Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null || segmentable2D is null)
@@ -327,11 +383,24 @@ namespace DiGi.Geometry.Planar
             return IntersectionResult2D(line2D, segmentable2D.GetSegments(), tolerance);
         }
 
+        /// <summary>
+        /// Calculates the intersection result of a segmentable geometry with itself or other segments within it.
+        /// </summary>
+        /// <param name="segmentable2D">The segmentable geometry.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An IntersectionResult2D containing the self-intersection geometries; otherwise, null if input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return IntersectionResult2D(segmentable2D, int.MaxValue, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the intersection result of a segmentable geometry with itself or other segments within it, up to a maximum number of intersections.
+        /// </summary>
+        /// <param name="segmentable2D">The segmentable geometry.</param>
+        /// <param name="maxCount">The maximum number of intersections to find.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An IntersectionResult2D containing the self-intersection geometries; otherwise, null if input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this ISegmentable2D? segmentable2D, int maxCount, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<Segment2D>? segment2Ds = segmentable2D?.GetSegments();
@@ -439,6 +508,13 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
+        /// <summary>
+        /// Calculates the intersection result of a polygonal face and a linear geometry.
+        /// </summary>
+        /// <param name="polygonalFace2D">The polygonal face.</param>
+        /// <param name="linear2D">The linear geometry.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An IntersectionResult2D containing the intersection geometry; otherwise, null if either input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this IPolygonalFace2D? polygonalFace2D, ILinear2D? linear2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace2D == null || linear2D == null)
@@ -556,6 +632,12 @@ namespace DiGi.Geometry.Planar
             return new IntersectionResult2D(geometry2Ds);
         }
 
+        /// <summary>
+        /// Calculates the intersection result of two polygonal faces.
+        /// </summary>
+        /// <param name="polygonalFace2D_1">The first polygonal face.</param>
+        /// <param name="polygonalFace2D_2">The second polygonal face.</param>
+        /// <returns>An IntersectionResult2D containing the intersection geometry; otherwise, null if either input is null.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this IPolygonalFace2D? polygonalFace2D_1, IPolygonalFace2D? polygonalFace2D_2)
         {
             if (polygonalFace2D_1 == null || polygonalFace2D_2 == null)

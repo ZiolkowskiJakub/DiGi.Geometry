@@ -4,6 +4,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates a coordinate system based on an origin and a Y-axis vector.
+        /// </summary>
+        /// <param name="origin">The origin point of the coordinate system.</param>
+        /// <param name="axisY">The vector representing the Y-axis.</param>
+        /// <returns>A new CoordinateSystem2D; otherwise, null if any input is null.</returns>
         public static CoordinateSystem2D? CoordinateSystem2D(this Point2D? origin, Vector2D? axisY)
         {
             if (origin == null || axisY == null)

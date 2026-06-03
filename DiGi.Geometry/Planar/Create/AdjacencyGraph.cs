@@ -7,6 +7,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates an adjacency graph from a collection of segmentable geometries.
+        /// </summary>
+        /// <param name="segmentable2Ds">The collection of segmentable geometries.</param>
+        /// <param name="tolerance">The distance tolerance used for rounding points.</param>
+        /// <returns>An adjacency graph representing the connectivity; otherwise, null if input is null.</returns>
         public static AdjacencyGraph<Point2D, Edge<Point2D>>? AdjacencyGraph(this IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2Ds == null)

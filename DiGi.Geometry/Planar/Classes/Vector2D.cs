@@ -338,6 +338,11 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
+        /// <summary>
+        /// Gets a perpendicular vector to the current vector based on the specified orientation.
+        /// </summary>
+        /// <param name="orientation">The desired orientation of the perpendicular vector.</param>
+        /// <returns>A perpendicular <see cref="Vector2D"/>, or null if the orientation is undefined or collinear.</returns>
         public Vector2D? GetPerpendicular(Orientation orientation = Orientation.Clockwise)
         {
             return orientation switch
@@ -350,6 +355,9 @@ namespace DiGi.Geometry.Planar.Classes
             };
         }
 
+        /// <summary>
+        /// Normalizes the current vector to have a length of 1.
+        /// </summary>
         public void Normalize()
         {
             double length = Length;
@@ -358,6 +366,11 @@ namespace DiGi.Geometry.Planar.Classes
             values[1] = values[1] / length;
         }
 
+        /// <summary>
+        /// Projects a point onto the line defined by this vector passing through the origin.
+        /// </summary>
+        /// <param name="point2D">The target point to project.</param>
+        /// <returns>The projected <see cref="Point2D"/>, or null if the input is null.</returns>
         public Point2D? Project(Point2D? point2D)
         {
             if (point2D == null)

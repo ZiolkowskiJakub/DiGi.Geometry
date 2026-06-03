@@ -2,6 +2,9 @@
 {
     public static class Point2D
     {
+        /// <summary>
+        /// Gets a point at the origin (0, 0).
+        /// </summary>
         public static Classes.Point2D Zero
         {
             get

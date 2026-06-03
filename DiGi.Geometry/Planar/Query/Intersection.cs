@@ -9,6 +9,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the intersection of two polygonal faces.
+        /// </summary>
         public static List<PolygonalFace2D>? Intersection(this PolygonalFace2D? polygonalFace2D_1, PolygonalFace2D? polygonalFace2D_2)
         {
             if (polygonalFace2D_1 == null || polygonalFace2D_2 == null)
@@ -99,6 +102,9 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the intersection of a collection of polygonal geometries.
+        /// </summary>
         public static List<X>? Intersection<X, T>(this IEnumerable<T>? polygonal2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IPolygonal2D where X : IPolygonal2D
         {
             if (polygonal2Ds == null)
@@ -212,6 +218,9 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the intersection of two polygons.
+        /// </summary>
         public static List<Polygon2D>? Intersection(this Polygon2D? polygon2D_1, Polygon2D? polygon2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygon2D_1 is null || polygon2D_2 is null)
@@ -222,6 +231,9 @@ namespace DiGi.Geometry.Planar
             return Intersection([polygon2D_1, polygon2D_2], tolerance);
         }
 
+        /// <summary>
+        /// Calculates the intersection of a collection of polygons.
+        /// </summary>
         public static List<Polygon2D>? Intersection(this IEnumerable<Polygon2D>? polygon2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return Intersection<Polygon2D, Polygon2D>(polygon2Ds, tolerance);

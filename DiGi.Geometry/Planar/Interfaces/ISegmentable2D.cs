@@ -6,6 +6,10 @@ namespace DiGi.Geometry.Planar.Interfaces
 {
     public interface ISegmentable2D : ISegmentable<Point2D>, IMovable2D, ICurve2D, IBoundable2D, IInvertible2D
     {
+        /// <summary>
+        /// Gets the segments that compose the segmentable geometry.
+        /// </summary>
+        /// <returns>A list of segments; otherwise, null.</returns>
         List<Segment2D>? GetSegments();
     }
 }

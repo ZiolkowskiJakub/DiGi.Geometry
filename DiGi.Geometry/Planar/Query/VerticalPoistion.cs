@@ -7,6 +7,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines the vertical position of a point relative to a segmentable geometry.
+        /// </summary>
         public static VerticalPosition VerticalPosition(this ISegmentable2D? segmentable2D, Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D == null || point2D == null)
@@ -56,6 +59,9 @@ namespace DiGi.Geometry.Planar
             return Core.Enums.VerticalPosition.Inside;
         }
 
+        /// <summary>
+        /// Determines the vertical position of a point relative to a segment.
+        /// </summary>
         public static VerticalPosition VerticalPosition(this Segment2D? segment2D, Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2D == null || point2D == null)

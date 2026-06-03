@@ -6,11 +6,24 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Checks if a polygonal geometry is rectangular within a given tolerance.
+        /// </summary>
+        /// <param name="polygonal2D">The polygonal geometry to check.</param>
+        /// <param name="tolerance">The distance tolerance for the comparison.</param>
+        /// <returns>True if the geometry is rectangular, otherwise false.</returns>
         public static bool Rectangular(this IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return Rectangular(polygonal2D, out _, tolerance);
         }
 
+        /// <summary>
+        /// Checks if a polygonal geometry is rectangular within a given tolerance and returns the resulting rectangle.
+        /// </summary>
+        /// <param name="polygonal2D">The polygonal geometry to check.</param>
+        /// <param name="rectangle2D">The resulting rectangle if the geometry is rectangular.</param>
+        /// <param name="tolerance">The distance tolerance for the comparison.</param>
+        /// <returns>True if the geometry is rectangular, otherwise false.</returns>
         public static bool Rectangular(this IPolygonal2D? polygonal2D, out Rectangle2D? rectangle2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             rectangle2D = null;

@@ -6,6 +6,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves all points from a collection of segmentable geometries.
+        /// </summary>
+        /// <param name="segmentable2Ds">The collection of segmentable geometries.</param>
+        /// <returns>A list of all points extracted from the geometries.</returns>
         public static List<Point2D?>? Points<T>(this IEnumerable<T?>? segmentable2Ds) where T : ISegmentable2D
         {
             if (segmentable2Ds == null)

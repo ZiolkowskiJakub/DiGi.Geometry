@@ -6,6 +6,13 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Identifies segments that are part of self-intersections in a collection of segments.
+        /// </summary>
+        /// <param name="segment2Ds">The collection of segments to analyze.</param>
+        /// <param name="maxLength">The maximum length for an intersection segment to be considered.</param>
+        /// <param name="tolerance">The distance tolerance for intersection detection.</param>
+        /// <returns>A list of segments that are self-intersections.</returns>
         public static List<Segment2D>? SelfIntersectionSegments(this IEnumerable<Segment2D>? segment2Ds, double maxLength, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds == null)
@@ -72,6 +79,13 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Identifies segments that are part of self-intersections in a segmentable geometry.
+        /// </summary>
+        /// <param name="segmentable2D">The segmentable geometry to analyze.</param>
+        /// <param name="maxLength">The maximum length for an intersection segment to be considered.</param>
+        /// <param name="tolerance">The distance tolerance for intersection detection.</param>
+        /// <returns>A list of segments that are self-intersections.</returns>
         public static List<Segment2D>? SelfIntersectionSegments(this ISegmentable2D? segmentable2D, double maxLength, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D == null)

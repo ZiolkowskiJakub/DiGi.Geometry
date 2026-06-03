@@ -6,6 +6,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves all segments from a collection of segmentable geometries.
+        /// </summary>
+        /// <param name="segmentable2Ds">The collection of segmentable geometries.</param>
+        /// <returns>A list of all segments extracted from the geometries.</returns>
         public static List<Segment2D>? Segments<T>(this IEnumerable<T>? segmentable2Ds) where T : ISegmentable2D
         {
             if (segmentable2Ds == null)
@@ -31,6 +36,11 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Retrieves all segments (external and internal) from a polygonal face.
+        /// </summary>
+        /// <param name="polygonalFace2D">The polygonal face to extract segments from.</param>
+        /// <returns>A list of all segments in the polygonal face.</returns>
         public static List<Segment2D>? Segments(this IPolygonalFace2D? polygonalFace2D)
         {
             IPolygonal2D? externalEdge = polygonalFace2D?.ExternalEdge;
@@ -61,6 +71,11 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Retrieves all segments from a collection of polygonal faces.
+        /// </summary>
+        /// <param name="polygonalFace2Ds">The collection of polygonal faces.</param>
+        /// <returns>A list of all segments extracted from the polygonal faces.</returns>
         public static List<Segment2D>? Segment2Ds<T>(this IEnumerable<T>? polygonalFace2Ds) where T : IPolygonalFace2D
         {
             if (polygonalFace2Ds == null)

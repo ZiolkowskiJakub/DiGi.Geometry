@@ -5,6 +5,9 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+/// <summary>
+/// Base class for 2D coordinates providing basic transformation and movement functionality.
+/// </summary>
     public abstract class Coordinate2D : Coordinate, ICollectable2D, ITransformable2D
     {
         /// <summary>

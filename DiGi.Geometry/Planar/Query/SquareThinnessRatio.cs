@@ -5,6 +5,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the square thinness ratio of a polygonal geometry based on its bounding rectangle.
+        /// </summary>
         public static double SquareThinnessRatio(this IPolygonal2D polygonal2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonal2D == null)

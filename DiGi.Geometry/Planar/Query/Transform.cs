@@ -8,6 +8,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Transforms a point using the specified function.
+        /// </summary>
         public static Point2D? Transform(this Point2D? point2D, Func<Point2D?, Point2D?>? func)
         {
             if (point2D == null || func == null)
@@ -18,6 +21,9 @@ namespace DiGi.Geometry.Planar
             return func(point2D);
         }
 
+        /// <summary>
+        /// Transforms a collection of points using the specified function.
+        /// </summary>
         public static List<Point2D?>? Transform(this IEnumerable<Point2D>? point2Ds, Func<Point2D?, Point2D?>? func)
         {
             if (point2Ds == null || func == null)
@@ -34,6 +40,9 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Transforms a segment using the specified function.
+        /// </summary>
         public static Segment2D? Transform(this Segment2D? segment2D, Func<Point2D?, Point2D?>? func)
         {
             if (segment2D == null || func == null)
@@ -56,6 +65,9 @@ namespace DiGi.Geometry.Planar
             return new Segment2D(point2D_1, point2D_2);
         }
 
+        /// <summary>
+        /// Transforms a bounding box using the specified function.
+        /// </summary>
         public static BoundingBox2D? Transform(this BoundingBox2D? boundingBox2D, Func<Point2D?, Point2D?>? func)
         {
             if (boundingBox2D == null || func == null)
@@ -78,6 +90,9 @@ namespace DiGi.Geometry.Planar
             return new BoundingBox2D(point2D_Min, point2D__Max);
         }
 
+        /// <summary>
+        /// Transforms a polygon using the specified function.
+        /// </summary>
         public static Polygon2D? Transform(this Polygon2D? polygon2D, Func<Point2D?, Point2D?>? func)
         {
             if (polygon2D == null || func == null)
@@ -94,6 +109,9 @@ namespace DiGi.Geometry.Planar
             return new Polygon2D(point2Ds);
         }
 
+        /// <summary>
+        /// Transforms a polyline using the specified function.
+        /// </summary>
         public static Polyline2D? Transform(this Polyline2D? polyline2D, Func<Point2D?, Point2D?>? func)
         {
             if (polyline2D == null || func == null)
@@ -110,6 +128,9 @@ namespace DiGi.Geometry.Planar
             return new Polyline2D(point2Ds);
         }
 
+        /// <summary>
+        /// Transforms a triangle using the specified function.
+        /// </summary>
         public static Triangle2D? Transform(this Triangle2D? triangle2D, Func<Point2D?, Point2D?>? func)
         {
             if (triangle2D == null || func == null)
@@ -126,6 +147,9 @@ namespace DiGi.Geometry.Planar
             return new Triangle2D(point2Ds);
         }
 
+        /// <summary>
+        /// Transforms a polygonal face using the specified function.
+        /// </summary>
         public static PolygonalFace2D? Transform(this PolygonalFace2D? polygonalFace2D, Func<Point2D?, Point2D?>? func, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace2D == null || func == null)
@@ -166,6 +190,9 @@ namespace DiGi.Geometry.Planar
             return Create.PolygonalFace2D(externalEdge, internalEdges, tolerance);
         }
 
+        /// <summary>
+        /// Transforms a polygonal geometry using the specified function.
+        /// </summary>
         public static IPolygonal2D? Transform(this IPolygonal2D? polygonal2D, Func<Point2D?, Point2D?>? func, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonal2D == null || func == null)

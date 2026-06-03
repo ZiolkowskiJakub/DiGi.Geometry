@@ -9,11 +9,11 @@ namespace DiGi.Geometry.Planar
     public static partial class Query
     {
         /// <summary>
-        /// Split Segment2Ds
+        /// Splits a collection of segments into smaller segments based on their intersections.
         /// </summary>
-        /// <returns>List Segment2D</returns>
-        /// <param name="segment2Ds">Segments2Ds</param>
-        /// <param name="tolerance">tolerance</param>
+        /// <param name="segment2Ds">The collection of segments to split.</param>
+        /// <param name="tolerance">The distance tolerance for intersection detection.</param>
+        /// <returns>A list of the resulting split segments.</returns>
         public static List<Segment2D>? Split(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds == null)
@@ -179,6 +179,12 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Splits a segmentable geometry into smaller segments based on their intersections.
+        /// </summary>
+        /// <param name="segmentable2D">The segmentable geometry to split.</param>
+        /// <param name="tolerance">The distance tolerance for intersection detection.</param>
+        /// <returns>A list of the resulting split segments.</returns>
         public static List<Segment2D>? Split(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<Segment2D>? segment2Ds = segmentable2D?.GetSegments();
@@ -190,6 +196,12 @@ namespace DiGi.Geometry.Planar
             return Split(segment2Ds, tolerance);
         }
 
+        /// <summary>
+        /// Splits a collection of segmentable geometries into smaller segments based on their intersections.
+        /// </summary>
+        /// <param name="segmentable2Ds">The collection of segmentable geometries to split.</param>
+        /// <param name="tolerance">The distance tolerance for intersection detection.</param>
+        /// <returns>A list of the resulting split segments.</returns>
         public static List<Segment2D>? Split<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
             List<Segment2D>? segment2Ds = segmentable2Ds?.Segments();
@@ -201,6 +213,13 @@ namespace DiGi.Geometry.Planar
             return Split(segment2Ds, tolerance);
         }
 
+        /// <summary>
+        /// Splits a polygonal face into multiple faces using a collection of segmentable geometries as cutting lines.
+        /// </summary>
+        /// <param name="polygonalFace2D">The polygonal face to split.</param>
+        /// <param name="segmentable2Ds">The collection of segmentable geometries used for splitting.</param>
+        /// <param name="tolerance">The distance tolerance for intersection detection.</param>
+        /// <returns>A list of the resulting split polygonal faces.</returns>
         public static List<PolygonalFace2D>? Split<T>(this IPolygonalFace2D? polygonalFace2D, IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
             if (polygonalFace2D == null || segmentable2Ds == null)

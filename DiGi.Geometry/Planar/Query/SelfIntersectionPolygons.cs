@@ -6,6 +6,13 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Identifies polygons that are formed by self-intersections in a polygonal geometry.
+        /// </summary>
+        /// <param name="polygonal2D">The polygonal geometry to analyze.</param>
+        /// <param name="maxLength">The maximum length for an intersection segment to be considered.</param>
+        /// <param name="tolerance">The distance tolerance for intersection detection.</param>
+        /// <returns>A list of polygons formed by self-intersections.</returns>
         public static List<Polygon2D>? SelfIntersectionPolygons(this IPolygonal2D? polygonal2D, double maxLength, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<Segment2D>? segment2Ds = SelfIntersectionSegments(polygonal2D, maxLength, tolerance);

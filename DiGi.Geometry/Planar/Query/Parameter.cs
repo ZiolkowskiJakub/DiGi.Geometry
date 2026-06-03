@@ -6,6 +6,14 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the normalized parameter of a point relative to a polyline defined by a collection of points.
+        /// </summary>
+        /// <param name="point2Ds">The collection of points defining the polyline.</param>
+        /// <param name="point2D">The target point.</param>
+        /// <param name="point2D_Closest">The closest point on the polyline to the target point.</param>
+        /// <param name="distance">The distance from the target point to its closest point on the polyline.</param>
+        /// <returns>The normalized parameter value, or NaN if not possible.</returns>
         public static double Parameter(this IEnumerable<Point2D>? point2Ds, Point2D? point2D, out Point2D? point2D_Closest, out double distance)
         {
             point2D_Closest = null;
@@ -70,6 +78,12 @@ namespace DiGi.Geometry.Planar
             return length / lengths.Sum();
         }
 
+        /// <summary>
+        /// Calculates the normalized parameter of a point relative to a polyline defined by a collection of points.
+        /// </summary>
+        /// <param name="point2Ds">The collection of points defining the polyline.</param>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The normalized parameter value, or NaN if not possible.</returns>
         public static double Parameter(this IEnumerable<Point2D>? point2Ds, Point2D? point2D)
         {
             if (point2Ds == null || point2D == null)

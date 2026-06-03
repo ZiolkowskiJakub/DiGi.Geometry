@@ -9,6 +9,9 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the union of a collection of polygonal faces.
+        /// </summary>
         public static List<PolygonalFace2D>? Union(this IEnumerable<IPolygonalFace2D>? polygonalFace2Ds)
         {
             if (polygonalFace2Ds == null)
@@ -50,6 +53,9 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the union of two polygonal faces.
+        /// </summary>
         public static List<PolygonalFace2D>? Union(this IPolygonalFace2D? polygonalFace2D_1, IPolygonalFace2D? polygonalFace2D_2)
         {
             if (polygonalFace2D_1 == null || polygonalFace2D_2 == null)
@@ -60,6 +66,9 @@ namespace DiGi.Geometry.Planar
             return Union([polygonalFace2D_1, polygonalFace2D_2]);
         }
 
+        /// <summary>
+        /// Calculates the union of a collection of NTS polygons.
+        /// </summary>
         public static List<Polygon>? Union(this IEnumerable<Polygon>? polygons)
         {
             if (polygons == null)
@@ -116,6 +125,9 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the union of a collection of polygonal geometries.
+        /// </summary>
         public static List<Polygon2D>? Union<TPolygonal2D>(this IEnumerable<TPolygonal2D>? polygonal2Ds) where TPolygonal2D : IPolygonal2D
         {
             if (polygonal2Ds == null)
@@ -169,6 +181,9 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the union of two polygons.
+        /// </summary>
         public static List<Polygon2D>? Union(this Polygon2D? polygon2D_1, Polygon2D? polygon2D_2)
         {
             if (polygon2D_1 == null || polygon2D_2 == null)

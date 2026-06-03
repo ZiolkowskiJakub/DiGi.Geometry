@@ -5,6 +5,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the rectangular thinness ratio of a polygonal geometry based on its bounding rectangle's area.
+        /// </summary>
+        /// <param name="polygonal2D">The polygonal geometry.</param>
+        /// <param name="tolerance">The distance tolerance for creating the bounding rectangle.</param>
+        /// <returns>The rectangular thinness ratio, or NaN if calculation is not possible.</returns>
         public static double RectangularThinnessRatio(this IPolygonal2D polygonal2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonal2D == null)

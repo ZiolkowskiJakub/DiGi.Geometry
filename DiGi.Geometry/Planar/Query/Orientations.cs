@@ -7,6 +7,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the orientations of all consecutive point triplets in a collection of points.
+        /// </summary>
+        /// <param name="point2Ds">The collection of points.</param>
+        /// <returns>A list of orientations for each triplet, or null if not possible.</returns>
         public static List<Orientation>? Orientations(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null)
