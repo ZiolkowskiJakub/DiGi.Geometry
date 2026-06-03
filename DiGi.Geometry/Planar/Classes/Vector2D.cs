@@ -9,16 +9,29 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class Vector2D : Coordinate2D, IVector
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector2D"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing vector data.</param>
         public Vector2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector2D"/> class by cloning an existing vector.
+        /// </summary>
+        /// <param name="vector2D">The source vector to clone.</param>
         public Vector2D(Vector2D? vector2D)
             : base(vector2D)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector2D"/> class defined by two points.
+        /// </summary>
+        /// <param name="start">The start point of the vector.</param>
+        /// <param name="end">The end point of the vector.</param>
         public Vector2D(Point2D? start, Point2D? end)
             : base()
         {
@@ -30,16 +43,28 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector2D"/> class with specified X and Y components.
+        /// </summary>
+        /// <param name="x">The X component.</param>
+        /// <param name="y">The Y component.</param>
         public Vector2D(double x, double y)
             : base(x, y)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector2D"/> class using an array of values.
+        /// </summary>
+        /// <param name="values">The array containing coordinate values.</param>
         public Vector2D(double[]? values)
             : base(values)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the length of the vector.
+        /// </summary>
         [JsonIgnore]
         public double Length
         {
@@ -60,6 +85,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the squared length of the vector.
+        /// </summary>
         [JsonIgnore]
         public double SquaredLength
         {
@@ -69,6 +97,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the unit vector in the same direction as this vector.
+        /// </summary>
         [JsonIgnore]
         public Vector2D? Unit
         {
@@ -218,11 +249,21 @@ namespace DiGi.Geometry.Planar.Classes
             //return result;
         }
 
+        /// <summary>
+        /// Creates a clone of the current vector.
+        /// </summary>
+        /// <returns>A cloned <see cref="ISerializableObject"/>.</returns>
         public override ISerializableObject Clone()
         {
             return new Vector2D(this);
         }
 
+        /// <summary>
+        /// Checks if this vector is collinear with another vector within a given tolerance.
+        /// </summary>
+        /// <param name="vector2D">The vector to check for collinearity.</param>
+        /// <param name="tolerance">The angle tolerance.</param>
+        /// <returns>True if the vectors are collinear; otherwise, false.</returns>
         public bool Collinear(Vector2D vector2D, double tolerance = DiGi.Core.Constants.Tolerance.Angle)
         {
             if (vector2D == null)
@@ -233,6 +274,11 @@ namespace DiGi.Geometry.Planar.Classes
             return System.Math.Abs(System.Math.Abs(this * vector2D) - (Length * vector2D.Length)) <= tolerance;
         }
 
+        /// <summary>
+        /// Calculates the dot product of this vector and another vector.
+        /// </summary>
+        /// <param name="vector2D">The other vector.</param>
+        /// <returns>The dot product result, or NaN if the input is null.</returns>
         public double DotProduct(Vector2D? vector2D)
         {
             if (vector2D == null)
@@ -243,6 +289,11 @@ namespace DiGi.Geometry.Planar.Classes
             return (values[0] * vector2D.values[0]) + (values[1] * vector2D.values[1]);
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current vector.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current vector.</param>
+        /// <returns>True if the objects are equal; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
             return obj is Vector2D d &&
@@ -250,6 +301,10 @@ namespace DiGi.Geometry.Planar.Classes
                    EqualityComparer<double[]>.Default.Equals(values, d.values);
         }
 
+        /// <summary>
+        /// Gets a new vector with absolute values of the components.
+        /// </summary>
+        /// <returns>A new <see cref="Vector2D"/> with absolute component values.</returns>
         public Vector2D GetAbs()
         {
             Vector2D result = new(this);
@@ -259,6 +314,10 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
+        /// <summary>
+        /// Gets the hash code for this vector.
+        /// </summary>
+        /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode()
         {
             int hashCode = 1501109969;
@@ -267,6 +326,10 @@ namespace DiGi.Geometry.Planar.Classes
             return hashCode;
         }
 
+        /// <summary>
+        /// Gets a new vector that is the inverse of this vector.
+        /// </summary>
+        /// <returns>A new <see cref="Vector2D"/> representing the opposite direction.</returns>
         public Vector2D GetInversed()
         {
             Vector2D result = new(this);

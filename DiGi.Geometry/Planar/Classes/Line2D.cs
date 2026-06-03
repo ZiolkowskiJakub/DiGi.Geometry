@@ -14,12 +14,21 @@ namespace DiGi.Geometry.Planar.Classes
         [JsonInclude, JsonPropertyName("Origin")]
         private Point2D? origin;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Line2D"/> class with a specified origin and direction.
+        /// </summary>
+        /// <param name="origin">The origin point of the line.</param>
+        /// <param name="direction">The direction vector of the line.</param>
         public Line2D(Point2D? origin, Vector2D? direction)
         {
             this.origin = origin?.Clone<Point2D>();
             this.direction = direction?.Unit;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Line2D"/> class by cloning an existing line.
+        /// </summary>
+        /// <param name="line2D">The source line to clone.</param>
         public Line2D(Line2D? line2D)
         {
             if (line2D is not null)
@@ -29,6 +38,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the unit direction vector of the line.
+        /// </summary>
         [JsonIgnore]
         public Vector2D? Direction
         {
@@ -43,6 +55,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the origin point of the line.
+        /// </summary>
         [JsonIgnore]
         public Point2D? Origin
         {
@@ -57,6 +72,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Explicitly converts a segment to a line that extends infinitely in both directions along the segment's axis.
+        /// </summary>
+        /// <param name="segment2D">The source segment.</param>
+        /// <returns>A Line2D representation of the infinite line containing the segment.</returns>
         public static explicit operator Line2D?(Segment2D? segment2D)
         {
             if (segment2D is null)
@@ -87,11 +107,20 @@ namespace DiGi.Geometry.Planar.Classes
             return line2D_1.origin == line2D_2.origin && line2D_1.direction == line2D_2.direction;
         }
 
+        /// <summary>
+        /// Creates a clone of the current line.
+        /// </summary>
+        /// <returns>A cloned instance of the line.</returns>
         public override ISerializableObject? Clone()
         {
             return new Line2D(this);
         }
 
+        /// <summary>
+        /// Finds the point on the line closest to the given point.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The projected point on the line.</returns>
         public Point2D? ClosestPoint(Point2D? point2D)
         {
             if (origin is null || direction is null)
@@ -102,11 +131,22 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.ClosestPoint(point2D, origin, origin + direction, false);
         }
 
+        /// <summary>
+        /// Checks if another linear geometry is collinear with this line.
+        /// </summary>
+        /// <param name="linear2D">The linear geometry to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if they are collinear; otherwise, false.</returns>
         public bool Collinear(ILinear2D? linear2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return Query.Collinear(this, linear2D, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the shortest distance from a point to the line.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The perpendicular distance to the line.</returns>
         public double Distance(Point2D? point2D)
         {
             if (point2D == null || origin == null || direction is null)
@@ -141,6 +181,12 @@ namespace DiGi.Geometry.Planar.Classes
             return hashCode;
         }
 
+        /// <summary>
+        /// Calculates the intersection point of two lines.
+        /// </summary>
+        /// <param name="line2D">The other line to intersect with.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>The intersection point, or null if they are parallel or collinear.</returns>
         public Point2D? IntersectionPoint(Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null || origin == null || direction is null)
@@ -157,6 +203,12 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.IntersectionPoint(origin, point2D_1, line2D.origin, point2D_2, false, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the intersection point of a line and a segment.
+        /// </summary>
+        /// <param name="segment2D">The segment to intersect with.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>The intersection point, or null if no intersection exists within the segment boundaries.</returns>
         public Point2D? IntersectionPoint(Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2D is null || origin is null || direction is null)
@@ -176,6 +228,10 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
+        /// <summary>
+        /// Reverses the direction of the line.
+        /// </summary>
+        /// <returns>True if the direction was successfully reversed.</returns>
         public bool Inverse()
         {
             if (direction is null)
@@ -186,6 +242,11 @@ namespace DiGi.Geometry.Planar.Classes
             return direction.Inverse();
         }
 
+        /// <summary>
+        /// Moves the line by translating its origin point.
+        /// </summary>
+        /// <param name="vector2D">The translation vector.</param>
+        /// <returns>True if the move was successful.</returns>
         public override bool Move(Vector2D? vector2D)
         {
             if (vector2D is null || origin is null)
@@ -197,6 +258,12 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Checks if a point lies on the line within the specified tolerance.
+        /// </summary>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is on the line; otherwise, false.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (origin == null || direction is null || point2D == null)
@@ -207,11 +274,21 @@ namespace DiGi.Geometry.Planar.Classes
             return Distance(point2D) < tolerance;
         }
 
+        /// <summary>
+        /// Projects a point onto the line.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The projected point on the line.</returns>
         public Point2D? Project(Point2D? point2D)
         {
             return ClosestPoint(point2D);
         }
 
+        /// <summary>
+        /// Transforms the line using the specified transformation.
+        /// </summary>
+        /// <param name="transform">The transformation to apply.</param>
+        /// <returns>True if the transformation was successful.</returns>
         public override bool Transform(ITransform2D? transform)
         {
             if (transform is null || origin is null || direction is null)

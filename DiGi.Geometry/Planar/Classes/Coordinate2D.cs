@@ -7,16 +7,29 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public abstract class Coordinate2D : Coordinate, ICollectable2D, ITransformable2D
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate2D"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing coordinate data.</param>
         public Coordinate2D(JsonObject? jsonObject)
             : base(jsonObject, 2)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate2D"/> class with specified X and Y coordinates.
+        /// </summary>
+        /// <param name="x">The X coordinate.</param>
+        /// <param name="y">The Y coordinate.</param>
         public Coordinate2D(double x, double y)
             : base(x, y)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate2D"/> class from an array of values.
+        /// </summary>
+        /// <param name="values">The coordinate values.</param>
         public Coordinate2D(double[]? values)
             : base()
         {
@@ -33,16 +46,26 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate2D"/> class by cloning an existing coordinate.
+        /// </summary>
+        /// <param name="coordinate2D">The source coordinate to clone.</param>
         public Coordinate2D(Coordinate2D? coordinate2D)
             : base(coordinate2D)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate2D"/> class.
+        /// </summary>
         public Coordinate2D()
             : base(0, 0)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the X coordinate.
+        /// </summary>
         public double X
         {
             get
@@ -56,6 +79,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Y coordinate.
+        /// </summary>
         public double Y
         {
             get
@@ -69,6 +95,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Transforms the coordinate using the specified transformation.
+        /// </summary>
+        /// <param name="transform">The transformation to apply.</param>
+        /// <returns>True if the transformation was successful.</returns>
         public bool Transform(ITransform2D? transform)
         {
             if (transform == null || values == null || values.Length < 2)
@@ -113,6 +144,11 @@ namespace DiGi.Geometry.Planar.Classes
             return false;
         }
 
+        /// <summary>
+        /// Moves the coordinate by the specified vector.
+        /// </summary>
+        /// <param name="vector2D">The translation vector.</param>
+        /// <returns>True if the move was successful.</returns>
         public bool Move(Vector2D? vector2D)
         {
             if (vector2D is null || values == null || values.Length < 2)

@@ -8,45 +8,81 @@ namespace DiGi.Geometry.Planar.Classes
 {
     public class Polygon2D : Segmentable2D, IPolygon2D
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polygon2D"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing polygon data.</param>
         public Polygon2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polygon2D"/> class.
+        /// </summary>
         public Polygon2D()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polygon2D"/> class by cloning an existing polygon.
+        /// </summary>
+        /// <param name="polygon2D">The source polygon to clone.</param>
         public Polygon2D(Polygon2D? polygon2D)
             : base(polygon2D)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polygon2D"/> class defined by a collection of points.
+        /// </summary>
+        /// <param name="point2Ds">The vertices of the polygon.</param>
         public Polygon2D(IEnumerable<Point2D>? point2Ds)
             : base(point2Ds)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polygon2D"/> class from another polygonal geometry.
+        /// </summary>
+        /// <param name="polygonal2D">The source polygonal geometry.</param>
         public Polygon2D(IPolygonal2D? polygonal2D)
             : base(polygonal2D?.GetPoints())
         {
         }
 
+        /// <summary>
+        /// Creates a clone of the current polygon.
+        /// </summary>
+        /// <returns>A cloned instance of the polygon.</returns>
         public override ISerializableObject? Clone()
         {
             return new Polygon2D(this);
         }
 
+        /// <summary>
+        /// Calculates the area of the polygon.
+        /// </summary>
+        /// <returns>The area of the polygon.</returns>
         public virtual double GetArea()
         {
             return Query.Area(points);
         }
 
+        /// <summary>
+        /// Gets the centroid of the polygon.
+        /// </summary>
+        /// <returns>The center point of the polygon, or null if it cannot be determined.</returns>
         public Point2D? GetCentroid()
         {
             return Query.Centroid(points);
         }
 
+        /// <summary>
+        /// Gets a point guaranteed to be inside the polygon boundaries.
+        /// </summary>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An internal point of the polygon, or null if it cannot be determined.</returns>
         public virtual Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (points == null)
@@ -57,16 +93,30 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.InternalPoint(points, tolerance);
         }
 
+        /// <summary>
+        /// Gets the perimeter length of the polygon.
+        /// </summary>
+        /// <returns>The total length of the boundary.</returns>
         public double GetPerimeter()
         {
             return Length;
         }
 
+        /// <summary>
+        /// Gets the segments that form the boundary of the polygon.
+        /// </summary>
+        /// <returns>A list of boundary segments.</returns>
         public override List<Segment2D>? GetSegments()
         {
             return Create.Segment2Ds(points, true);
         }
 
+        /// <summary>
+        /// Checks if a segmentable geometry is within or intersects the polygon boundaries.
+        /// </summary>
+        /// <param name="segmentable2D">The geometry to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if any part of the geometry is in range; otherwise, false.</returns>
         public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<Point2D>? point2Ds = segmentable2D?.GetPoints();
@@ -130,11 +180,23 @@ namespace DiGi.Geometry.Planar.Classes
             return false;
         }
 
+        /// <summary>
+        /// Checks if a point is within or on the boundary of the polygon.
+        /// </summary>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is in range; otherwise, false.</returns>
         public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return On(point2D, tolerance) || Query.Inside(points, point2D);
         }
 
+        /// <summary>
+        /// Checks if a bounding box is within or intersects the polygon.
+        /// </summary>
+        /// <param name="boundingBox2D">The bounding box to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if they intersect or overlap; otherwise, false.</returns>
         public bool InRange(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (boundingBox2D is null)
@@ -145,6 +207,12 @@ namespace DiGi.Geometry.Planar.Classes
             return boundingBox2D.InRange(this, tolerance);
         }
 
+        /// <summary>
+        /// Checks if a segmentable geometry is strictly inside the polygon boundaries.
+        /// </summary>
+        /// <param name="segmentable2D">The geometry to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if all points of the geometry are strictly inside; otherwise, false.</returns>
         public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<Point2D>? point2Ds = segmentable2D?.GetPoints();
@@ -164,6 +232,12 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Checks if a point is strictly inside the polygon boundaries.
+        /// </summary>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is strictly inside; otherwise, false.</returns>
         public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             bool result = Query.Inside(points, point2D);
@@ -176,6 +250,11 @@ namespace DiGi.Geometry.Planar.Classes
             return !On(point2D, tolerance);
         }
 
+        /// <summary>
+        /// Triangulates the polygon into a set of triangles.
+        /// </summary>
+        /// <param name="tolerance">The distance tolerance used during triangulation.</param>
+        /// <returns>A list of Triangle2D objects representing the triangulated polygon, or null if it cannot be triangulated.</returns>
         public virtual List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             if (points == null || points.Count < 3)

@@ -22,11 +22,21 @@ namespace DiGi.Geometry.Planar.Classes
         [JsonInclude, JsonPropertyName("DirectionA")]
         private Vector2D? directionA;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ellipse2D"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing ellipse data.</param>
         public Ellipse2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ellipse2D"/> class with center and semi-axes lengths.
+        /// </summary>
+        /// <param name="center">The center point of the ellipse.</param>
+        /// <param name="a">The length of the semi-major axis.</param>
+        /// <param name="b">The length of the semi-minor axis.</param>
         public Ellipse2D(Point2D? center, double a, double b)
         {
             this.center = DiGi.Core.Query.Clone(center);
@@ -35,6 +45,10 @@ namespace DiGi.Geometry.Planar.Classes
             directionA = Constants.Vector2D.WorldX;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ellipse2D"/> class by cloning an existing ellipse.
+        /// </summary>
+        /// <param name="ellipse2D">The source ellipse to clone.</param>
         public Ellipse2D(Ellipse2D? ellipse2D)
         {
             if (ellipse2D is not null)
@@ -46,6 +60,13 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ellipse2D"/> class with center, semi-axes lengths and major axis direction.
+        /// </summary>
+        /// <param name="center">The center point of the ellipse.</param>
+        /// <param name="a">The length of the semi-major axis.</param>
+        /// <param name="b">The length of the semi-minor axis.</param>
+        /// <param name="directionA">The direction vector of the major axis.</param>
         public Ellipse2D(Point2D? center, double a, double b, Vector2D? directionA)
         {
             this.center = DiGi.Core.Query.Clone(center);
@@ -54,6 +75,9 @@ namespace DiGi.Geometry.Planar.Classes
             this.directionA = DiGi.Core.Query.Clone(directionA)?.Unit;
         }
 
+        /// <summary>
+        /// Gets or sets the length of the semi-major axis.
+        /// </summary>
         [JsonIgnore]
         public double A
         {
@@ -68,6 +92,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the length of the semi-minor axis.
+        /// </summary>
         [JsonIgnore]
         public double B
         {
@@ -82,6 +109,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the linear eccentricity of the ellipse.
+        /// </summary>
         [JsonIgnore]
         public double C
         {
@@ -91,6 +121,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the center point of the ellipse.
+        /// </summary>
         [JsonIgnore]
         public Point2D? Center
         {
@@ -105,6 +138,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the direction vector of the major axis.
+        /// </summary>
         [JsonIgnore]
         public Vector2D? DirectionA
         {
@@ -119,6 +155,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the direction vector of the minor axis.
+        /// </summary>
         [JsonIgnore]
         public Vector2D? DirectionB
         {
@@ -158,11 +197,20 @@ namespace DiGi.Geometry.Planar.Classes
             return ellipse2D_1.center == ellipse2D_2.center && ellipse2D_1.directionA == ellipse2D_2.directionA && ellipse2D_1.a == ellipse2D_2.a && ellipse2D_1.b == ellipse2D_2.b;
         }
 
+        /// <summary>
+        /// Creates a clone of the current ellipse.
+        /// </summary>
+        /// <returns>A cloned instance of the ellipse.</returns>
         public override ISerializableObject? Clone()
         {
             return new Ellipse2D(this);
         }
 
+        /// <summary>
+        /// Calculates the shortest distance from a point to the ellipse boundary.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The minimum distance to the boundary.</returns>
         public double Distance(Point2D? point2D)
         {
             Point2D? point2D_Project = Project(point2D);
@@ -185,11 +233,19 @@ namespace DiGi.Geometry.Planar.Classes
             return center == ellipse2D.center && directionA == ellipse2D.directionA && a == ellipse2D.a && b == ellipse2D.b;
         }
 
+        /// <summary>
+        /// Calculates the area of the ellipse.
+        /// </summary>
+        /// <returns>The area of the ellipse.</returns>
         public double GetArea()
         {
             return System.Math.PI * a * b;
         }
 
+        /// <summary>
+        /// Gets the axis-aligned bounding box of the ellipse.
+        /// </summary>
+        /// <returns>The bounding box encompassing the ellipse.</returns>
         public BoundingBox2D? GetBoundingBox()
         {
             if (directionA is null || center is null)
@@ -216,6 +272,10 @@ namespace DiGi.Geometry.Planar.Classes
             return new(new Point2D(minX, minY), new Point2D(maxX, maxY));
         }
 
+        /// <summary>
+        /// Calculates the distance between the foci of the ellipse.
+        /// </summary>
+        /// <returns>The focal length.</returns>
         public double GetFocalLength()
         {
             double c = C;
@@ -227,6 +287,10 @@ namespace DiGi.Geometry.Planar.Classes
             return c * c;
         }
 
+        /// <summary>
+        /// Gets the focal points of the ellipse.
+        /// </summary>
+        /// <returns>An array containing the two foci.</returns>
         public Point2D[]? GetFocalPoints()
         {
             if (directionA == null || center is null || double.IsNaN(a) || double.IsNaN(b))
@@ -265,6 +329,11 @@ namespace DiGi.Geometry.Planar.Classes
             return hashCode;
         }
 
+        /// <summary>
+        /// Gets a point guaranteed to be inside the ellipse.
+        /// </summary>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An internal point of the ellipse.</returns>
         public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (center == null)
@@ -275,12 +344,21 @@ namespace DiGi.Geometry.Planar.Classes
             return new Point2D(center);
         }
 
+        /// <summary>
+        /// Calculates the approximate perimeter of the ellipse using Ramanujan's formula.
+        /// </summary>
+        /// <returns>The circumference of the ellipse.</returns>
         public double GetPerimeter()
         {
             double h = System.Math.Pow(a - b, 2) / System.Math.Pow(a + b, 2);
             return System.Math.PI * (a + b) * (1 + (3 * h) / (10 + System.Math.Sqrt(4 - 3 * h)));
         }
 
+        /// <summary>
+        /// Gets the point on the ellipse boundary in a given direction from the center.
+        /// </summary>
+        /// <param name="vector2D">The direction vector.</param>
+        /// <returns>The corresponding point on the ellipse boundary.</returns>
         public Point2D? GetPoint(Vector2D? vector2D)
         {
             if (vector2D == null || directionA == null || center == null)
@@ -319,6 +397,12 @@ namespace DiGi.Geometry.Planar.Classes
             return new Point2D(xGlobal, yGlobal);
         }
 
+        /// <summary>
+        /// Checks if a point is within or on the boundary of the ellipse.
+        /// </summary>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is in range of the ellipse.</returns>
         public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D is null || center is null || directionA is null)
@@ -342,16 +426,30 @@ namespace DiGi.Geometry.Planar.Classes
             return (xr / a) * (xr / a) + (yr / b) * (yr / b) <= 1.0 + tolerance;
         }
 
+        /// <summary>
+        /// Checks if a point is strictly inside the ellipse boundaries.
+        /// </summary>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is strictly inside.</returns>
         public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return InRange(point2D, -tolerance);
         }
 
+        /// <summary>
+        /// Inverts the direction of the major axis.
+        /// </summary>
         public void Inverse()
         {
             directionA?.Inverse();
         }
 
+        /// <summary>
+        /// Moves the ellipse by the specified vector.
+        /// </summary>
+        /// <param name="vector2D">The translation vector.</param>
+        /// <returns>True if the move was successful.</returns>
         public override bool Move(Vector2D? vector2D)
         {
             if (vector2D == null || center == null)
@@ -363,6 +461,12 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Checks if a point lies on the boundary of the ellipse.
+        /// </summary>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is on the boundary.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D is null || center is null || directionA is null)
@@ -389,6 +493,11 @@ namespace DiGi.Geometry.Planar.Classes
             return System.Math.Abs(value - 1.0) <= tolerance;
         }
 
+        /// <summary>
+        /// Projects a point onto the ellipse boundary using an iterative approach.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The projected point on the ellipse boundary.</returns>
         public Point2D? Project(Point2D? point2D)
         {
             if (point2D == null || center == null)
@@ -403,6 +512,12 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.IntersectionPoints(this, new Segment2D(center, vector2D), 0)?.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Projects a point onto the ellipse boundary with a specified tolerance for convergence.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <param name="tolerance">The convergence tolerance.</param>
+        /// <returns>The projected point on the ellipse boundary.</returns>
         public Point2D? Project(Point2D? point2D, double tolerance)
         {
             if (point2D is null || center is null || directionA is null)
@@ -464,6 +579,11 @@ namespace DiGi.Geometry.Planar.Classes
             return new Point2D(gx, gy);
         }
 
+        /// <summary>
+        /// Transforms the ellipse using the specified transformation.
+        /// </summary>
+        /// <param name="transform">The transformation to apply.</param>
+        /// <returns>True if the transformation was successful.</returns>
         public override bool Transform(ITransform2D? transform)
         {
             if (transform == null || center == null || directionA is null)

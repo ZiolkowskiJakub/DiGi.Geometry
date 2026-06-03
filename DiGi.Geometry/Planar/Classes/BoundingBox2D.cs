@@ -17,16 +17,28 @@ namespace DiGi.Geometry.Planar.Classes
         [JsonInclude, JsonPropertyName("Min")]
         private Point2D? min;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoundingBox2D"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing bounding box data.</param>
         public BoundingBox2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoundingBox2D"/> class that encompasses all given points.
+        /// </summary>
+        /// <param name="point2Ds">The collection of points to encompass.</param>
         public BoundingBox2D(IEnumerable<Point2D>? point2Ds)
         {
             min = Query.Min(point2Ds, out max);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoundingBox2D"/> class that encompasses all given bounding boxes.
+        /// </summary>
+        /// <param name="boundingBox2Ds">The collection of bounding boxes to encompass.</param>
         public BoundingBox2D(IEnumerable<BoundingBox2D?>? boundingBox2Ds)
         {
             if (boundingBox2Ds is not null)
@@ -44,6 +56,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoundingBox2D"/> class that encompasses all given points with an added offset.
+        /// </summary>
+        /// <param name="point2Ds">The collection of points to encompass.</param>
+        /// <param name="offset">The distance to expand the bounding box in all directions.</param>
         public BoundingBox2D(IEnumerable<Point2D>? point2Ds, double offset)
         {
             min = Query.Min(point2Ds, out max);
@@ -51,11 +68,20 @@ namespace DiGi.Geometry.Planar.Classes
             Offset(offset);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoundingBox2D"/> class defined by two points as opposite corners.
+        /// </summary>
+        /// <param name="point2D_1">The first corner point.</param>
+        /// <param name="point2D_2">The second corner point.</param>
         public BoundingBox2D(Point2D? point2D_1, Point2D? point2D_2)
         {
             min = Query.Min([point2D_1, point2D_2], out max);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoundingBox2D"/> class by cloning an existing bounding box.
+        /// </summary>
+        /// <param name="boundingBox2D">The source bounding box to clone.</param>
         public BoundingBox2D(BoundingBox2D boundingBox2D)
         {
             if (boundingBox2D != null)
@@ -65,6 +91,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoundingBox2D"/> class defined by X and Y ranges.
+        /// </summary>
+        /// <param name="x">The range of the X axis.</param>
+        /// <param name="y">The range of the Y axis.</param>
         public BoundingBox2D(Range<double>? x, Range<double>? y)
         {
             if (x != null && y != null)
@@ -74,11 +105,21 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoundingBox2D"/> class defined by its origin and size.
+        /// </summary>
+        /// <param name="x">The X coordinate of the origin.</param>
+        /// <param name="y">The Y coordinate of the origin.</param>
+        /// <param name="width">The width of the bounding box.</param>
+        /// <param name="height">The height of the bounding box.</param>
         public BoundingBox2D(double x, double y, double width, double height)
             : this(new Point2D(x, y), new Point2D(x + width, y + height))
         {
         }
 
+        /// <summary>
+        /// Gets the bottom-left corner of the bounding box.
+        /// </summary>
         [JsonIgnore]
         public Point2D? BottomLeft
         {
@@ -93,6 +134,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the bottom-right corner of the bounding box.
+        /// </summary>
         [JsonIgnore]
         public Point2D? BottomRight
         {
@@ -107,6 +151,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the height of the bounding box.
+        /// </summary>
         [JsonIgnore]
         public double Height
         {
@@ -121,6 +168,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum corner (top-right) of the bounding box.
+        /// </summary>
         [JsonIgnore]
         public Point2D Max
         {
@@ -143,6 +193,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the minimum corner (bottom-left) of the bounding box.
+        /// </summary>
         [JsonIgnore]
         public Point2D Min
         {
@@ -165,6 +218,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the top-left corner of the bounding box.
+        /// </summary>
         [JsonIgnore]
         public Point2D? TopLeft
         {
@@ -179,6 +235,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the top-right corner of the bounding box.
+        /// </summary>
         [JsonIgnore]
         public Point2D? TopRight
         {
@@ -193,6 +252,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the width of the bounding box.
+        /// </summary>
         [JsonIgnore]
         public double Width
         {
@@ -207,6 +269,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Implicitly converts a BoundingBox2D to a Polygon2D.
+        /// </summary>
+        /// <param name="boundingBox2D">The bounding box to convert.</param>
+        /// <returns>A Polygon2D representation of the bounding box.</returns>
         public static implicit operator Polygon2D?(BoundingBox2D boundingBox2D)
         {
             if (boundingBox2D is null)
@@ -217,6 +284,11 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(boundingBox2D.GetPoints());
         }
 
+        /// <summary>
+        /// Adds another bounding box to this one, expanding it to encompass the new area.
+        /// </summary>
+        /// <param name="boundingBox2D">The bounding box to add.</param>
+        /// <returns>True if the bounding box was successfully added.</returns>
         public bool Add(BoundingBox2D? boundingBox2D)
         {
             if (boundingBox2D == null)
@@ -229,6 +301,11 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Adds a point to this bounding box, expanding it to encompass the point.
+        /// </summary>
+        /// <param name="point2D">The point to add.</param>
+        /// <returns>True if the point was successfully added.</returns>
         public bool Add(Point2D? point2D)
         {
             if (point2D == null)
@@ -241,21 +318,39 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Creates a clone of the current bounding box.
+        /// </summary>
+        /// <returns>A cloned instance of the bounding box.</returns>
         public override ISerializableObject? Clone()
         {
             return new BoundingBox2D(this);
         }
 
+        /// <summary>
+        /// Finds the point on the bounding box closest to the given point.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The closest point on the bounding box boundary.</returns>
         public Point2D? ClosestPoint(Point2D? point2D)
         {
             return Query.ClosestPoint(point2D, GetSegments());
         }
 
+        /// <summary>
+        /// Calculates the distance from a point to the bounding box boundary.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The shortest distance to the boundary.</returns>
         public double Distance(Point2D? point2D)
         {
             return Query.Distance(point2D, GetSegments());
         }
 
+        /// <summary>
+        /// Calculates the area of the bounding box.
+        /// </summary>
+        /// <returns>The area of the bounding box.</returns>
         public double GetArea()
         {
             double width = Width;
@@ -273,11 +368,19 @@ namespace DiGi.Geometry.Planar.Classes
             return width * height;
         }
 
+        /// <summary>
+        /// Gets the centroid of the bounding box.
+        /// </summary>
+        /// <returns>The center point of the bounding box.</returns>
         public Point2D? GetCentroid()
         {
             return min?.Mid(max);
         }
 
+        /// <summary>
+        /// Gets the diagonals of the bounding box.
+        /// </summary>
+        /// <returns>An array containing the two diagonal segments.</returns>
         public Segment2D[]? GetDiagonals()
         {
             List<Point2D>? points = GetPoints();
@@ -289,6 +392,10 @@ namespace DiGi.Geometry.Planar.Classes
             return [new Segment2D(points[0], points[2]), new Segment2D(points[1], points[3])];
         }
 
+        /// <summary>
+        /// Calculates the perimeter length of the bounding box.
+        /// </summary>
+        /// <returns>The total length of the boundary.</returns>
         public double GetLength()
         {
             double width = Width;
@@ -306,6 +413,11 @@ namespace DiGi.Geometry.Planar.Classes
             return 2 * (width + height);
         }
 
+        /// <summary>
+        /// Gets the point corresponding to a specific corner of the bounding box.
+        /// </summary>
+        /// <param name="corner">The corner to retrieve.</param>
+        /// <returns>The point at the specified corner.</returns>
         public Point2D? GetPoint(Corner corner)
         {
             if (corner == Corner.Undefined)
@@ -337,6 +449,10 @@ namespace DiGi.Geometry.Planar.Classes
             return null;
         }
 
+        /// <summary>
+        /// Gets the four corner points of the bounding box.
+        /// </summary>
+        /// <returns>A list containing the bottom-left, top-left, top-right, and bottom-right corners.</returns>
         public List<Point2D>? GetPoints()
         {
             Point2D? bottomRight = BottomRight;
@@ -353,6 +469,10 @@ namespace DiGi.Geometry.Planar.Classes
             return [bottomLeft, topLeft, topRight, bottomRight];
         }
 
+        /// <summary>
+        /// Gets the four segments forming the boundary of the bounding box.
+        /// </summary>
+        /// <returns>A list of segments that define the perimeter.</returns>
         public List<Segment2D>? GetSegments()
         {
             List<Point2D>? points = GetPoints();
@@ -365,11 +485,11 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
-        /// boundingBox2D not outside this BoundingBox2D
+        /// Checks if another bounding box is within or intersects this bounding box.
         /// </summary>
-        /// <param name="boundingBox2D">Point2D</param>
-        /// <param name="tolerance">Tolerance</param>
-        /// <returns>True if boundingBox2D On or Inside this BoundingBox2D</returns>
+        /// <param name="boundingBox2D">The bounding box to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the bounding box is on or inside this bounding box.</returns>
         public bool InRange(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (boundingBox2D == null)
@@ -408,6 +528,12 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Checks if a line is within or intersects the bounding box.
+        /// </summary>
+        /// <param name="line2D">The line to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the line is in range of the bounding box.</returns>
         public bool InRange(Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (min == null || max == null || line2D is null)
@@ -438,6 +564,12 @@ namespace DiGi.Geometry.Planar.Classes
             return false;
         }
 
+        /// <summary>
+        /// Checks if a segment is within or intersects the bounding box.
+        /// </summary>
+        /// <param name="segment2D">The segment to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the segment is in range of the bounding box.</returns>
         public bool InRange(Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (min is null || max is null)
@@ -503,6 +635,12 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Checks if a segmentable geometry is within or intersects the bounding box.
+        /// </summary>
+        /// <param name="segmentable2D">The geometry to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if any part of the geometry is in range of the bounding box.</returns>
         public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (min == null || max == null)
@@ -547,11 +685,11 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
-        /// Point2D On or Inside BoundingBox2D
+        /// Checks if a point is within or on the boundary of this bounding box.
         /// </summary>
-        /// <param name="point2D">Point2D</param>
-        /// <param name="tolerance">Tolerance</param>
-        /// <returns>True if point2D On or Inside BoundingBox 2D</returns>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is on or inside the bounding box.</returns>
         public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null)
@@ -562,6 +700,12 @@ namespace DiGi.Geometry.Planar.Classes
             return Inside(point2D, tolerance) || On(point2D, tolerance);
         }
 
+        /// <summary>
+        /// Legacy method to check if a segment is within or intersects the bounding box.
+        /// </summary>
+        /// <param name="segment2D">The segment to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the segment is in range of the bounding box.</returns>
         public bool InRange_Old(Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (min == null || max == null || segment2D is null)
@@ -591,6 +735,12 @@ namespace DiGi.Geometry.Planar.Classes
             return false;
         }
 
+        /// <summary>
+        /// Checks if a point is strictly inside the bounding box boundaries.
+        /// </summary>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is strictly inside.</returns>
         public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || min == null || max == null)
@@ -601,6 +751,12 @@ namespace DiGi.Geometry.Planar.Classes
             return point2D.X > min.X + tolerance && point2D.X < max.X - tolerance && point2D.Y < max.Y - tolerance && point2D.Y > min.Y + tolerance;
         }
 
+        /// <summary>
+        /// Checks if a collection of points are all strictly inside the bounding box boundaries.
+        /// </summary>
+        /// <param name="point2Ds">The collection of points to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if all points are strictly inside.</returns>
         public bool Inside(IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2Ds == null)
@@ -619,6 +775,12 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Checks if a segmentable geometry is strictly inside the bounding box boundaries.
+        /// </summary>
+        /// <param name="segmentable2D">The geometry to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if all points of the geometry are strictly inside.</returns>
         public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (min == null || max == null)
@@ -645,6 +807,11 @@ namespace DiGi.Geometry.Planar.Classes
             return Inside(boundingBox2D?.GetPoints(), tolerance);
         }
 
+        /// <summary>
+        /// Moves the bounding box by the specified vector.
+        /// </summary>
+        /// <param name="vector2D">The translation vector.</param>
+        /// <returns>True if the move was successful.</returns>
         public override bool Move(Vector2D? vector2D)
         {
             if (vector2D is null || max == null || min == null)
@@ -657,6 +824,10 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Offsets the bounding box boundaries by a specified distance in all directions.
+        /// </summary>
+        /// <param name="value">The offset value.</param>
         public void Offset(double value)
         {
             if (double.IsNaN(value) || min == null || max == null)
@@ -668,11 +839,22 @@ namespace DiGi.Geometry.Planar.Classes
             max = new Point2D(max.X + value, max.Y + value);
         }
 
+        /// <summary>
+        /// Checks if a point lies on the boundary of the bounding box.
+        /// </summary>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is on the boundary.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return Query.On(GetSegments(), point2D, tolerance);
         }
 
+        /// <summary>
+        /// Transforms the bounding box using the specified transformation.
+        /// </summary>
+        /// <param name="transform">The transformation to apply.</param>
+        /// <returns>True if the transformation was successful.</returns>
         public override bool Transform(ITransform2D? transform)
         {
             if (transform == null || min == null || max == null)

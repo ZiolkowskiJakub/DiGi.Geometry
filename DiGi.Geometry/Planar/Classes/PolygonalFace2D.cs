@@ -17,6 +17,10 @@ namespace DiGi.Geometry.Planar.Classes
         [JsonInclude, JsonPropertyName("InternalEdges")]
         private readonly List<IPolygonal2D>? internalEdges;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolygonalFace2D"/> class by cloning an existing polygonal face.
+        /// </summary>
+        /// <param name="polygonalFace2D">The source polygonal face to clone.</param>
         public PolygonalFace2D(PolygonalFace2D? polygonalFace2D)
         {
             if (polygonalFace2D != null)
@@ -26,17 +30,29 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolygonalFace2D"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing polygonal face data.</param>
         public PolygonalFace2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolygonalFace2D"/> class with specified external and internal edges.
+        /// </summary>
+        /// <param name="externalEdge">The outer boundary of the face.</param>
+        /// <param name="internalEdges">The inner boundaries (holes) of the face.</param>
         internal PolygonalFace2D(IPolygonal2D? externalEdge, IEnumerable<IPolygonal2D>? internalEdges = null)
         {
             this.externalEdge = DiGi.Core.Query.Clone(externalEdge);
             this.internalEdges = DiGi.Core.Query.Clone(internalEdges)?.FilterNulls();
         }
 
+        /// <summary>
+        /// Gets all edges of the polygonal face, including both external and internal boundaries.
+        /// </summary>
         [JsonIgnore]
         public List<IPolygonal2D>? Edges
         {
@@ -65,6 +81,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the external boundary of the polygonal face.
+        /// </summary>
         [JsonIgnore]
         public IPolygonal2D? ExternalEdge
         {
@@ -74,6 +93,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the internal boundaries (holes) of the polygonal face.
+        /// </summary>
         [JsonIgnore]
         public List<IPolygonal2D>? InternalEdges
         {
@@ -83,11 +105,21 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Creates a clone of the current polygonal face.
+        /// </summary>
+        /// <returns>A cloned instance of the polygonal face.</returns>
         public override ISerializableObject? Clone()
         {
             return new PolygonalFace2D(this);
         }
 
+        /// <summary>
+        /// Finds the point on the polygonal face closest to the given point.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>The closest point on the face (including its interior), or null if it cannot be determined.</returns>
         public Point2D? ClosestPoint(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || externalEdge == null)
@@ -156,6 +188,10 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
+        /// <summary>
+        /// Calculates the area of the polygonal face (external area minus internal hole areas).
+        /// </summary>
+        /// <returns>The net area of the face.</returns>
         public double GetArea()
         {
             if (externalEdge == null)
@@ -185,11 +221,20 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
+        /// <summary>
+        /// Gets the axis-aligned bounding box of the polygonal face.
+        /// </summary>
+        /// <returns>The bounding box based on the external boundary.</returns>
         public BoundingBox2D? GetBoundingBox()
         {
             return externalEdge?.GetBoundingBox();
         }
 
+        /// <summary>
+        /// Gets a point guaranteed to be inside the polygonal face (outside of any holes).
+        /// </summary>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An internal point of the face, or null if it cannot be determined.</returns>
         public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (externalEdge == null)
@@ -239,6 +284,12 @@ namespace DiGi.Geometry.Planar.Classes
             return null;
         }
 
+        /// <summary>
+        /// Checks if a point is within or on the boundary of the polygonal face.
+        /// </summary>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is in range; otherwise, false.</returns>
         public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || externalEdge == null)
@@ -268,6 +319,12 @@ namespace DiGi.Geometry.Planar.Classes
             return false;
         }
 
+        /// <summary>
+        /// Checks if a point is strictly inside the polygonal face (excluding boundaries and holes).
+        /// </summary>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is strictly inside; otherwise, false.</returns>
         public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || externalEdge == null)
@@ -297,6 +354,10 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Reverses the orientation of both external and internal boundaries.
+        /// </summary>
+        /// <returns>True if at least one boundary was successfully reversed.</returns>
         public bool Inverse()
         {
             bool result = false;
@@ -323,6 +384,11 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
+        /// <summary>
+        /// Moves the polygonal face by translating its boundaries.
+        /// </summary>
+        /// <param name="vector2D">The translation vector.</param>
+        /// <returns>True if the move was successful.</returns>
         public override bool Move(Vector2D? vector2D)
         {
             if (vector2D == null || externalEdge == null)
@@ -343,6 +409,12 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Checks if a point lies on any of the edges (external or internal) of the face.
+        /// </summary>
+        /// <param name="point2D">The point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is on an edge; otherwise, false.</returns>
         public bool OnEdge(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null || externalEdge == null)
@@ -372,6 +444,12 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Orients the external and internal boundaries of the face.
+        /// </summary>
+        /// <param name="externalEdgeOrientation">The desired orientation for the external boundary.</param>
+        /// <param name="internalEdgeOrientation">The desired orientation for the internal boundaries.</param>
+        /// <returns>True if at least one boundary was successfully oriented.</returns>
         public bool Orient(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation)
         {
             bool result = false;
@@ -403,6 +481,11 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
+        /// <summary>
+        /// Transforms the polygonal face by transforming its boundaries.
+        /// </summary>
+        /// <param name="transform">The transformation to apply.</param>
+        /// <returns>True if the transformation was successful.</returns>
         public override bool Transform(ITransform2D? transform)
         {
             if (transform == null || externalEdge == null)
@@ -423,6 +506,11 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Triangulates the polygonal face into a set of triangles.
+        /// </summary>
+        /// <param name="tolerance">The distance tolerance used during triangulation.</param>
+        /// <returns>A list of Triangle2D objects representing the triangulated face, or null if it cannot be triangulated.</returns>
         public virtual List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             if (externalEdge == null)
