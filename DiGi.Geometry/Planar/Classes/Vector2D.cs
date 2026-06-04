@@ -477,10 +477,10 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
-        /// Signed angle between two vectors
+        /// Calculates the signed angle between this vector and another vector.
         /// </summary>
-        /// <param name="vector2D"></param>
-        /// <returns></returns>
+        /// <param name="vector2D">The other vector.</param>
+        /// <returns>The signed angle in radians, or NaN if the input is null.</returns>
         public double SignedAngle(Vector2D? vector2D)
         {
             if (vector2D is null)

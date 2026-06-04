@@ -60,6 +60,10 @@ namespace DiGi.Geometry.Planar.Classes
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Segment2D"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing segment data.</param>
         public Segment2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -369,11 +373,21 @@ namespace DiGi.Geometry.Planar.Classes
             return [start, end];
         }
 
+        /// <summary>
+        /// Returns a list containing the current segment as its only element.
+        /// </summary>
+        /// <returns>A list of one <see cref="Segment2D"/>.</returns>
         public List<Segment2D>? GetSegments()
         {
             return [new(this)];
         }
 
+        /// <summary>
+        /// Finds the intersection point between this segment and another.
+        /// </summary>
+        /// <param name="segment2D">The other segment.</param>
+        /// <param name="tolerance">The distance tolerance for detecting an intersection.</param>
+        /// <returns>The <see cref="Point2D"/> of intersection, or null if no intersection is found.</returns>
         public Point2D? IntersectionPoint(Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2D == null)
@@ -384,6 +398,10 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.IntersectionPoint(start, End, segment2D.start, segment2D.End, true, tolerance);
         }
 
+        /// <summary>
+        /// Inverts the direction of the segment by swapping start and end points.
+        /// </summary>
+        /// <returns>True if inversion was successful; otherwise, false.</returns>
         public bool Inverse()
         {
             if (vector is null)
@@ -394,6 +412,10 @@ namespace DiGi.Geometry.Planar.Classes
             return vector.Inverse();
         }
 
+        /// <summary>
+        /// Calculates the midpoint of the segment.
+        /// </summary>
+        /// <returns>The midpoint as a <see cref="Point2D"/>, or null if start or vector is missing.</returns>
         public Point2D? Mid()
         {
             if (start is null || vector is null)
@@ -404,6 +426,11 @@ namespace DiGi.Geometry.Planar.Classes
             return start.Mid(End);
         }
 
+        /// <summary>
+        /// Moves the segment by the specified translation vector.
+        /// </summary>
+        /// <param name="vector2D">The movement vector.</param>
+        /// <returns>True if move was successful; otherwise, false.</returns>
         public override bool Move(Vector2D? vector2D)
         {
             if (vector2D is null || start is null)
@@ -415,6 +442,12 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Checks if the specified point lies on the segment within a given tolerance.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is on the segment; otherwise, false.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             double distance = Distance(point2D);
@@ -426,6 +459,11 @@ namespace DiGi.Geometry.Planar.Classes
             return distance < tolerance;
         }
 
+        /// <summary>
+        /// Projects a point onto the line containing the segment, without clamping to the segment boundaries.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The projected <see cref="Point2D"/> on the infinite line, or null if input is missing.</returns>
         public Point2D? Project(Point2D? point2D)
         {
             if (point2D is null || start is null)
@@ -436,6 +474,11 @@ namespace DiGi.Geometry.Planar.Classes
             return Query.ClosestPoint(point2D, start, End, false);
         }
 
+        /// <summary>
+        /// Applies a 2D transformation to the segment's endpoints and vector.
+        /// </summary>
+        /// <param name="transform">The transform to apply.</param>
+        /// <returns>True if transformation was successful; otherwise, false.</returns>
         public override bool Transform(ITransform2D? transform)
         {
             if (transform is null || start is null || vector is null)

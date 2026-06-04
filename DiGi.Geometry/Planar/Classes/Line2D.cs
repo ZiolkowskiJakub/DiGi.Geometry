@@ -193,6 +193,10 @@ namespace DiGi.Geometry.Planar.Classes
             return line2D.origin == origin && line2D.direction == direction;
         }
 
+        /// <summary>
+        /// Gets the hash code for this line.
+        /// </summary>
+        /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode()
         {
             int hashCode = -1652769719;

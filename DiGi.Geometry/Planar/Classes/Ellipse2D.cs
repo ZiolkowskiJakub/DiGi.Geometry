@@ -344,6 +344,10 @@ namespace DiGi.Geometry.Planar.Classes
             return [point2D_1, point2D_2];
         }
 
+        /// <summary>
+        /// Gets the hash code for this ellipse.
+        /// </summary>
+        /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode()
         {
             int hashCode = -203223210;

@@ -217,31 +217,57 @@ namespace DiGi.Geometry.Planar.Classes
             return new Rectangle2D(boundingBox2D);
         }
 
+        /// <summary>
+        /// Creates a clone of the current rectangle.
+        /// </summary>
+        /// <returns>A new <see cref="ISerializableObject"/> representing the cloned rectangle.</returns>
         public override ISerializableObject? Clone()
         {
             return new Rectangle2D(this);
         }
 
+        /// <summary>
+        /// Calculates the closest point on the rectangle to the specified point.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The closest point on the rectangle's boundary or interior, or null if input is invalid.</returns>
         public Point2D? ClosestPoint(Point2D? point2D)
         {
             return Query.ClosestPoint(point2D, this);
         }
 
+        /// <summary>
+        /// Calculates the shortest distance from the rectangle to the specified point.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The shortest distance between the rectangle and the point.</returns>
         public double Distance(Point2D? point2D)
         {
             return Query.Distance(point2D, this);
         }
 
+        /// <summary>
+        /// Calculates the area of the rectangle.
+        /// </summary>
+        /// <returns>The area as a double.</returns>
         public double GetArea()
         {
             return height * width;
         }
 
+        /// <summary>
+        /// Generates a bounding box that encloses the rectangle.
+        /// </summary>
+        /// <returns>A new <see cref="BoundingBox2D"/> instance, or null if it cannot be created.</returns>
         public BoundingBox2D? GetBoundingBox()
         {
             return new BoundingBox2D(GetPoints());
         }
 
+        /// <summary>
+        /// Calculates the centroid (center point) of the rectangle.
+        /// </summary>
+        /// <returns>The centroid as a <see cref="Point2D"/>, or null if it cannot be calculated.</returns>
         public Point2D? GetCentroid()
         {
             Point2D? result = Origin;
@@ -260,6 +286,10 @@ namespace DiGi.Geometry.Planar.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the diagonals of the rectangle as segments.
+        /// </summary>
+        /// <returns>An array of two <see cref="Segment2D"/> representing the diagonals, or null if points cannot be retrieved.</returns>
         public Segment2D[]? GetDiagonals()
         {
             List<Point2D>? points = GetPoints();
@@ -271,16 +301,29 @@ namespace DiGi.Geometry.Planar.Classes
             return [new Segment2D(points[0], points[2]), new Segment2D(points[1], points[3])];
         }
 
+        /// <summary>
+        /// Finds a point known to be inside the rectangle.
+        /// </summary>
+        /// <param name="tolerance">The distance tolerance for internal checking.</param>
+        /// <returns>A <see cref="Point2D"/> located within the rectangle, or null.</returns>
         public Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return GetCentroid();
         }
 
+        /// <summary>
+        /// Calculates the perimeter of the rectangle.
+        /// </summary>
+        /// <returns>The total length of the boundary.</returns>
         public double GetPerimeter()
         {
             return Length;
         }
 
+        /// <summary>
+        /// Retrieves the four corner points of the rectangle.
+        /// </summary>
+        /// <returns>A list of <see cref="Point2D"/> representing the corners, or null if the origin is not set.</returns>
         public List<Point2D>? GetPoints()
         {
             if (origin is null)
@@ -318,6 +361,10 @@ namespace DiGi.Geometry.Planar.Classes
             return points;
         }
 
+        /// <summary>
+        /// Retrieves the four boundary segments of the rectangle.
+        /// </summary>
+        /// <returns>A list of <see cref="Segment2D"/> representing the sides, or null if points cannot be retrieved.</returns>
         public List<Segment2D>? GetSegments()
         {
             List<Point2D>? points = GetPoints();
@@ -335,6 +382,12 @@ namespace DiGi.Geometry.Planar.Classes
             ];
         }
 
+        /// <summary>
+        /// Checks if the specified segmentable object is within range of the rectangle's boundary or interior.
+        /// </summary>
+        /// <param name="segmentable2D">The object to check.</param>
+        /// <param name="tolerance">The distance tolerance for the range check.</param>
+        /// <returns>True if the object is in range, otherwise false.</returns>
         public bool InRange(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D == null)
@@ -351,6 +404,12 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).InRange(segmentable2D, tolerance);
         }
 
+        /// <summary>
+        /// Checks if the specified point is within range of the rectangle's boundary or interior.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <param name="tolerance">The distance tolerance for the range check.</param>
+        /// <returns>True if the point is in range, otherwise false.</returns>
         public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null)
@@ -367,6 +426,12 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).InRange(point2D, tolerance);
         }
 
+        /// <summary>
+        /// Checks if the specified bounding box is within range of the rectangle.
+        /// </summary>
+        /// <param name="boundingBox2D">The target bounding box.</param>
+        /// <param name="tolerance">The distance tolerance for the range check.</param>
+        /// <returns>True if the bounding box is in range, otherwise false.</returns>
         public bool InRange(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (boundingBox2D is null)
@@ -377,6 +442,12 @@ namespace DiGi.Geometry.Planar.Classes
             return boundingBox2D.InRange(this, tolerance);
         }
 
+        /// <summary>
+        /// Checks if the specified segmentable object is strictly inside the rectangle.
+        /// </summary>
+        /// <param name="segmentable2D">The object to check.</param>
+        /// <param name="tolerance">The distance tolerance for the inside check.</param>
+        /// <returns>True if the object is inside, otherwise false.</returns>
         public bool Inside(ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D == null)
@@ -393,6 +464,12 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).Inside(segmentable2D, tolerance);
         }
 
+        /// <summary>
+        /// Checks if the specified point is strictly inside the rectangle.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <param name="tolerance">The distance tolerance for the inside check.</param>
+        /// <returns>True if the point is inside, otherwise false.</returns>
         public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D == null)
@@ -409,6 +486,10 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds).Inside(point2D, tolerance);
         }
 
+        /// <summary>
+        /// Inverts the orientation of the rectangle by moving its origin to the opposite corner and reversing height direction.
+        /// </summary>
+        /// <returns>True if inversion was successful, otherwise false.</returns>
         public bool Inverse()
         {
             if (DiGi.Core.Query.Clone(origin) is not Point2D point2D)
@@ -430,6 +511,11 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Moves the rectangle by the specified vector.
+        /// </summary>
+        /// <param name="vector2D">The translation vector.</param>
+        /// <returns>True if move was successful, otherwise false.</returns>
         public override bool Move(Vector2D? vector2D)
         {
             if (origin == null || vector2D == null)
@@ -441,11 +527,22 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Checks if the specified point lies on the boundary of the rectangle.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is on the boundary, otherwise false.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return Query.On(this, point2D, tolerance);
         }
 
+        /// <summary>
+        /// Applies a 2D transformation to the rectangle.
+        /// </summary>
+        /// <param name="transform">The transform to apply.</param>
+        /// <returns>True if transformation was successful, otherwise false.</returns>
         public override bool Transform(ITransform2D? transform)
         {
             if (transform == null || origin == null || double.IsNaN(width) || double.IsNaN(height) || heightDirection == null)
@@ -477,6 +574,11 @@ namespace DiGi.Geometry.Planar.Classes
             return true;
         }
 
+        /// <summary>
+        /// Splits the rectangle into two triangles.
+        /// </summary>
+        /// <param name="tolerance">The distance tolerance for triangulation.</param>
+        /// <returns>A list of two <see cref="Triangle2D"/>, or null if it cannot be triangulated.</returns>
         public List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             List<Point2D>? point2Ds = GetPoints();
