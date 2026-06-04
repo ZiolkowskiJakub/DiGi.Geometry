@@ -7,11 +7,22 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Returns the minimum <see cref="Point2D"/> from the specified collection of <see cref="Point2D"/> objects.
+        /// </summary>
+        /// <param name="point2Ds">The <see cref="IEnumerable{T}"/> of <see cref="Point2D"/> objects to evaluate.</param>
+        /// <returns>The minimum <see cref="Point2D"/> found in the collection, or null if the collection is null or empty.</returns>
         public static Point2D? Min(this IEnumerable<Point2D?>? point2Ds)
         {
             return Min(point2Ds, out _);
         }
 
+        /// <summary>
+        /// Returns the minimum of two <see cref="Point2D?" /> points.
+        /// </summary>
+        /// <param name="point2D_1">The first <see cref="Point2D?" /> point.</param>
+        /// <param name="point2D_2">The second <see cref="Point2D?" /> point.</param>
+        /// <returns>The minimum of the two <see cref="Point2D?" /> points, or <c>null</c> if either input is <c>null</c>.</returns>
         public static Point2D? Min(this Point2D? point2D_1, Point2D? point2D_2)
         {
             if (point2D_1 == null || point2D_2 == null)
@@ -22,6 +33,12 @@ namespace DiGi.Geometry.Planar
             return Min([point2D_1, point2D_2], out _);
         }
 
+        /// <summary>
+        /// Calculates the minimum and maximum points from a collection of <see cref="Point2D"/> objects.
+        /// </summary>
+        /// <param name="point2Ds">The <see cref="IEnumerable{T}"/> of <see cref="Point2D"/> objects to evaluate.</param>
+        /// <param name="max">When this method returns, contains the maximum <see cref="Point2D"/> found; otherwise, null.</param>
+        /// <returns>The minimum <see cref="Point2D"/> found in the collection; otherwise, null if the collection is null or empty.</returns>
         public static Point2D? Min(this IEnumerable<Point2D?>? point2Ds, out Point2D? max)
         {
             max = null;
@@ -71,6 +88,12 @@ namespace DiGi.Geometry.Planar
             return new Point2D(x_Min, y_Min);
         }
 
+        /// <summary>
+        /// Calculates the minimum and maximum <see cref="Point2D"/> points of the specified <see cref="ISegmentable2D"/>.
+        /// </summary>
+        /// <param name="segmentable2D">The <see cref="ISegmentable2D"/> object to evaluate.</param>
+        /// <param name="max">When this method returns, contains the maximum <see cref="Point2D"/> found; otherwise, <see langword="null"/>.</param>
+        /// <returns>The minimum <see cref="Point2D"/> found; otherwise, <see langword="null"/> if the <paramref name="segmentable2D"/> is <see langword="null"/>.</returns>
         public static Point2D? Min(this ISegmentable2D? segmentable2D, out Point2D? max)
         {
             max = null;
@@ -83,6 +106,13 @@ namespace DiGi.Geometry.Planar
             return Min(segmentable2D.GetPoints(), out max);
         }
 
+        /// <summary>
+        /// Calculates the minimum and maximum <see cref="Point2D"/> coordinates from a collection of objects that implement <see cref="ISegmentable2D"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the collection, which must implement <see cref="ISegmentable2D"/>.</typeparam>
+        /// <param name="segmentable2Ds">An <see cref="IEnumerable{T}"/> of <see cref="ISegmentable2D"/> objects to evaluate.</param>
+        /// <param name="max">When this method returns, contains the maximum <see cref="Point2D"/> found in the collection, or <see langword="null"/> if no points were found.</param>
+        /// <returns>The minimum <see cref="Point2D"/> found in the collection, or <see langword="null"/> if the <see cref="IEnumerable{T}"/> is <see langword="null"/> or empty.</returns>
         public static Point2D? Min<T>(this IEnumerable<T?>? segmentable2Ds, out Point2D? max) where T : ISegmentable2D
         {
             max = null;

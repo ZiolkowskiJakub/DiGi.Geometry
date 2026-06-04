@@ -9,6 +9,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+    /// <summary>
+    /// Represents a two-dimensional polygonal face defined by an external edge and a collection of internal edges.
+    /// </summary>
     public class PolygonalFace2D : Geometry2D, IPolygonalFace2D
     {
         [JsonInclude, JsonPropertyName("ExternalEdge")]

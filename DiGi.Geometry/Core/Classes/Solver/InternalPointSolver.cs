@@ -5,6 +5,32 @@ using System.Linq;
 
 namespace DiGi.Geometry.Core.Classes
 {
+    /// <summary>
+    /// Provides a base implementation for solvers that calculate internal points within a specific geometry.
+    /// </summary>
+    /// <typeparam name="TGeometry">The type of geometry, which must implement <see cref="IGeometry"/>.</typeparam>
+    /// <typeparam name="TPoint">The type of point, which must implement <see cref="IPoint"/>.</typeparam>
+    /// <summary>
+    /// The maximum number of points the solver should generate.
+    /// </summary>
+    /// <summary>
+    /// The list of generated <see cref="TPoint"/> objects.
+    /// </summary>
+    /// <summary>
+    /// The distance tolerance used for geometric calculations.
+    /// </summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="InternalPointSolver{TGeometry, TPoint}"/> class.
+    /// </summary>
+    /// <param name="tolerance">The distance tolerance as a <see cref="double"/>.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="InternalPointSolver{TGeometry, TPoint}"/> class.
+    /// </summary>
+    /// <param name="maxCount">The maximum number of points as an <see cref="int"/>.</param>
+    /// <param name="tolerance">The distance tolerance as a <see cref="double"/>.</param>
+    /// <summary>
+    /// Gets or sets the input geometry for the solver.
+    /// </summary>
     public abstract class InternalPointSolver<TGeometry, TPoint> : IOneToManyGeometrySolver<TGeometry, TPoint> where TPoint : IPoint where TGeometry : IGeometry
     {
         protected int maxCount = 100;
@@ -12,19 +38,34 @@ namespace DiGi.Geometry.Core.Classes
         protected List<TPoint> outputs = [];
         protected double tolerance = Tolerance.Distance;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InternalPointSolver"/> class.
+        /// </summary>
+        /// <param name="tolerance">The <see cref="double"/> value used as the distance tolerance.</param>
         public InternalPointSolver(double tolerance = Tolerance.Distance)
         {
             this.tolerance = tolerance;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InternalPointSolver"/> class.
+        /// </summary>
+        /// <param name="maxCount">The maximum number of iterations as an <see cref="int"/>.</param>
+        /// <param name="tolerance">The convergence tolerance as a <see cref="double"/>.</param>
         public InternalPointSolver(int maxCount, double tolerance = Tolerance.Distance)
         {
             this.maxCount = maxCount;
             this.tolerance = tolerance;
         }
 
+        /// <summary>
+        /// Gets or sets the input geometry of type <typeparamref name="TGeometry"/>.
+        /// </summary>
         public abstract TGeometry? Input { set; }
 
+        /// <summary>
+        /// Gets or sets the maximum count as an <see cref="int"/>.
+        /// </summary>
         public int MaxCount
         {
             get
@@ -38,6 +79,12 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the last <TPoint> from the collection of outputs.
+        /// </summary>
+        /// <value>
+        /// The cloned last <TPoint> if any outputs exist; otherwise, the default value for <TPoint>.
+        /// </value>
         public TPoint? Output
         {
             get
@@ -51,6 +98,12 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets a <see cref="List{TPoint}"/> of the resulting output points, filtered to remove any null values.
+        /// </summary>
+        /// <value>
+        /// A <see cref="List{TPoint}"/> containing the calculated outputs, or null if no outputs exist.
+        /// </value>
         public List<TPoint>? Outputs
         {
             get
@@ -59,6 +112,10 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Attempts to solve the problem defined by the implementation.
+        /// </summary>
+        /// <returns>A <boolean> value indicating whether the solution was successfully found.</returns>
         public abstract bool Solve();
     }
 }

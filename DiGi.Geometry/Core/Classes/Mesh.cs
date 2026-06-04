@@ -8,6 +8,10 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Core.Classes
 {
+    /// <summary>
+    /// Represents an abstract base class for a mesh structure consisting of points and indices.
+    /// </summary>
+    /// <typeparam name="TPoint">The type of point used in the mesh, which must implement <see cref="IPoint{TPoint}"/>.</typeparam>
     public abstract class Mesh<TPoint> : SerializableObject, IMesh where TPoint : IPoint<TPoint>
     {
         [JsonInclude, JsonPropertyName("Indexes")]
@@ -16,11 +20,19 @@ namespace DiGi.Geometry.Core.Classes
         [JsonInclude, JsonPropertyName("Points")]
         protected List<TPoint>? points;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Mesh"/> class using the provided <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data used to initialize the mesh. This value can be null.</param>
         public Mesh(JsonObject? jsonObject)
         {
             FromJsonObject(jsonObject);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Mesh"/> class by cloning points from an existing <see cref="Mesh{TPoint}"/> object.
+        /// </summary>
+        /// <param name="mesh">The source <see cref="Mesh{TPoint}"/> object to clone points from.</param>
         public Mesh(Mesh<TPoint>? mesh)
         {
             if (mesh != null)
@@ -57,6 +69,11 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Mesh"/> class with the specified points and indexes.
+        /// </summary>
+        /// <param name="points">An <see cref="IEnumerable{TPoint}"/> containing the vertices of the mesh. This value can be null.</param>
+        /// <param name="indexes">An <see cref="IEnumerable{Int32}"/> of integer arrays defining the indices for the mesh faces. This value can be null.</param>
         public Mesh(IEnumerable<TPoint>? points, IEnumerable<int[]>? indexes)
         {
             if (points == null || indexes == null)
@@ -104,6 +121,10 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the number of points in the collection. Returns -1 if the point collection is null.
+        /// </summary>
+        /// <value>An <int> representing the count of points, or -1 if the collection is null.</value>
         [JsonIgnore]
         public int PointsCount
         {
@@ -118,6 +139,12 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the total number of triangles.
+        /// </summary>
+        /// <value>
+        /// An <see cref="int"/> representing the count of triangles, or -1 if the index collection is null.
+        /// </value>
         [JsonIgnore]
         public int TrianglesCount
         {
@@ -132,6 +159,11 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Retrieves the set of indexes connected to the specified index.
+        /// </summary>
+        /// <param name="index">The <int> index for which to find connections.</param>
+        /// <returns>A <HashSet<int>> containing all connected indexes, or <null> if the internal collection is null or the provided <int> index is negative.</returns>
         public HashSet<int>? GetConnectedIndexes(int index)
         {
             if (indexes == null || index < 0)
@@ -157,6 +189,11 @@ namespace DiGi.Geometry.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a set of points connected to the point at the specified index.
+        /// </summary>
+        /// <param name="index">The <see cref="int"/> index of the point.</param>
+        /// <returns>A <see cref="HashSet{TPoint}"/> containing the connected points, or <c>null</c> if the internal points collection is null or no connected indexes are found.</returns>
         public HashSet<TPoint>? GetConnectedPoints(int index)
         {
             if (points == null)
@@ -183,6 +220,10 @@ namespace DiGi.Geometry.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a list of integer arrays containing the indexes.
+        /// </summary>
+        /// <returns>A <see cref="List{T}"/> of <see cref="int[]"/> if the indexes are available; otherwise, null.</returns>
         public List<int[]>? GetIndexes()
         {
             if (indexes == null)
@@ -199,6 +240,11 @@ namespace DiGi.Geometry.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the indices for the element at the specified index.
+        /// </summary>
+        /// <param name="index">The <see cref="int"/> index of the element to retrieve.</param>
+        /// <returns>An <see cref="int[]"/> containing the indices if available; otherwise, <see langword="null"/>.</returns>
         public int[]? GetIndexes(int index)
         {
             if (indexes == null)
@@ -211,6 +257,10 @@ namespace DiGi.Geometry.Core.Classes
             return [indexes_Triangle[0], indexes_Triangle[1], indexes_Triangle[2]];
         }
 
+        /// <summary>
+        /// Retrieves a list of cloned <TPoint> objects.
+        /// </summary>
+        /// <returns>A <List<TPoint>> containing the cloned points, or null if the internal collection is null.</returns>
         public List<TPoint>? GetPoints()
         {
             if (points == null)
@@ -238,6 +288,11 @@ namespace DiGi.Geometry.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Returns the zero-based index of the first occurrence of the specified <typeparamref name="TPoint"/> object in the collection.
+        /// </summary>
+        /// <param name="point">The <typeparamref name="TPoint"/> object to locate in the collection.</param>
+        /// <returns>The zero-based index of the first occurrence of the specified <typeparamref name="TPoint"/> object if found; otherwise, -1.</returns>
         public int IndexOf(TPoint? point)
         {
             if (point == null || points == null)
@@ -256,6 +311,10 @@ namespace DiGi.Geometry.Core.Classes
             return -1;
         }
 
+        /// <summary>
+        /// Retrieves the sorted boundary points based on the available indexes and point data.
+        /// </summary>
+        /// <returns>A <see cref="List{T}"/> of <see cref="List{T}"/> containing <see cref="TPoint"/> objects representing the sorted boundaries, or <c>null</c> if the internal indexes or points are null, or if the boundary index query fails.</returns>
         public List<List<TPoint>>? GetSortedBoundaryPoints()
         {
             if (indexes is null || points is null)

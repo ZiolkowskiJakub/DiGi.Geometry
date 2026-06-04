@@ -73,6 +73,15 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
+        /// <summary>
+        /// Calculates the intersection point of two lines defined by their start and end points.
+        /// </summary>
+        /// <param name="point3D_1_Start">The starting <see cref="Point3D"/> of the first line.</param>
+        /// <param name="point3D_1_End">The ending <see cref="Point3D"/> of the first line.</param>
+        /// <param name="point3D_2_Start">The starting <see cref="Point3D"/> of the second line.</param>
+        /// <param name="point3D_2_End">The ending <see cref="Point3D"/> of the second line.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance used to determine if an intersection exists.</param>
+        /// <returns>A <see cref="Point3D"/> representing the intersection point, or <c>null</c> if no intersection is found within the specified tolerance.</returns>
         public static Point3D? IntersectionPoint(Point3D? point3D_1_Start, Point3D? point3D_1_End, Point3D? point3D_2_Start, Point3D? point3D_2_End, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return IntersectionPoint(point3D_1_Start, new Vector3D(point3D_1_Start, point3D_1_End), point3D_2_Start, new Vector3D(point3D_2_Start, point3D_2_End), true, tolerance);

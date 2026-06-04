@@ -6,6 +6,13 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether two <see cref="Point2D?" /> points are approximately equal based on a specified distance tolerance.
+        /// </summary>
+        /// <param name="point2D_1">The first <see cref="Point2D?" /> point to compare.</param>
+        /// <param name="point2D_2">The second <see cref="Point2D?" /> point to compare.</param>
+        /// <param name="tolerance">The <see cref="double" /> tolerance value used to determine if the points are almost equal.</param>
+        /// <returns>A <see cref="bool" /> value indicating whether the two points are considered equal within the given tolerance.</returns>
         public static bool AlmostEquals(this Point2D? point2D_1, Point2D? point2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D_1 == point2D_2)
@@ -21,6 +28,13 @@ namespace DiGi.Geometry.Planar
             return point2D_1.Distance(point2D_2) <= tolerance;
         }
 
+        /// <summary>
+        /// Determines whether two <see cref="ISegmentable2D"/> instances are approximately equal based on a specified tolerance.
+        /// </summary>
+        /// <param name="segmentable2D_1">The first <see cref="ISegmentable2D"/> instance to compare.</param>
+        /// <param name="segmentable2D_2">The second <see cref="ISegmentable2D"/> instance to compare.</param>
+        /// <param name="tolerance">A <see cref="double"/> value specifying the tolerance for the equality check.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the two instances are almost equal.</returns>
         public static bool AlmostEquals(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D_1 == segmentable2D_2)

@@ -7,23 +7,59 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
+    /// <summary>
+    /// Represents a three-dimensional ellipse defined on a plane.
+    /// </summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Ellipse3D"/> class using a <see cref="JsonObject"/>.
+    /// </summary>
+    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data to initialize the ellipse.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Ellipse3D"/> class using a specified plane and a two-dimensional ellipse.
+    /// </summary>
+    /// <param name="plane">The <see cref="Plane"/> on which the ellipse is located.</param>
+    /// <param name="ellipse2D">The <see cref="Ellipse2D"/> that defines the shape of the ellipse.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Ellipse3D"/> class by copying an existing <see cref="Ellipse3D"/> instance.
+    /// </summary>
+    /// <param name="ellipse3D">The <see cref="Ellipse3D"/> instance to copy.</param>
+    /// <summary>
+    /// Gets or sets the length of the semi-major axis as a <see cref="double"/>.
+    /// </summary>
     public class Ellipse3D : Planar<Ellipse2D>, IEllipse3D
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ellipse3D"/> class using the specified <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the instance.</param>
         public Ellipse3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ellipse3D"/> class using the specified <see cref="Plane"/> and <see cref="Ellipse2D"/>.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> on which the ellipse is located.</param>
+        /// <param name="ellipse2D">The <see cref="Ellipse2D"/> that defines the geometry of the ellipse.</param>
         public Ellipse3D(Plane? plane, Ellipse2D? ellipse2D)
             : base(plane, ellipse2D)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ellipse3D"/> class using an existing <see cref="Ellipse3D"/> instance.
+        /// </summary>
+        /// <param name="ellipse3D">The <see cref="Ellipse3D"/> instance to copy from.</param>
         public Ellipse3D(Ellipse3D? ellipse3D)
             : base(ellipse3D)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the A value of the 2D geometry. Returns <see cref="double.NaN"/> if the underlying geometry is null.
+        /// </summary>
+        /// <value>A <see cref="double"/> representing the A component.</value>
         [JsonIgnore]
         public double A
         {
@@ -48,6 +84,10 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the double value for B from the associated 2D geometry.
+        /// Returns double.NaN if the underlying geometry is null.
+        /// </summary>
         [JsonIgnore]
         public double B
         {
@@ -72,6 +112,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the center point of the geometry converted to a <see cref="Point3D"/>.
+        /// </summary>
+        /// <value>
+        /// A <see cref="Point3D"/> representing the center, or null if the conversion cannot be performed.
+        /// </value>
         [JsonIgnore]
         public Point3D? Center
         {
@@ -81,6 +127,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the direction of the ellipse as a <see cref="Vector3D"/>.
+        /// </summary>
+        /// <value>
+        /// The <see cref="Vector3D"/> representing the direction, or null if it cannot be determined.
+        /// </value>
         [JsonIgnore]
         public Vector3D? Direction
         {
@@ -90,11 +142,19 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Creates a copy of the current object.
+        /// </summary>
+        /// <returns>An <see cref="ISerializableObject"/> that is a clone of the current instance.</returns>
         public override ISerializableObject? Clone()
         {
             return new Ellipse3D(this);
         }
 
+        /// <summary>
+        /// Calculates the area of the 2D geometry.
+        /// </summary>
+        /// <returns>A <see cref="double"/> representing the area, or <see cref="double.NaN"/> if the 2D geometry is null.</returns>
         public double GetArea()
         {
             if (geometry2D == null)
@@ -105,6 +165,10 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.GetArea();
         }
 
+        /// <summary>
+        /// Calculates the 3D bounding box of the geometry based on the associated plane.
+        /// </summary>
+        /// <returns>A <see cref="BoundingBox3D"/> representing the bounding box, or <see langword="null"/> if the geometry is empty or the plane is not defined.</returns>
         public BoundingBox3D? GetBoundingBox()
         {
             List<Point2D>? point2Ds = Geometry2D?.GetBoundingBox()?.GetPoints();
@@ -122,6 +186,10 @@ namespace DiGi.Geometry.Spatial.Classes
             return new BoundingBox3D(point2Ds.ConvertAll(x => plane.Convert(x)));
         }
 
+        /// <summary>
+        /// Retrieves the focal points of the geometry converted to 3D space.
+        /// </summary>
+        /// <returns>An array of <see cref="Point3D"/> objects representing the focal points, or <see langword="null"/> if the plane or geometry is not defined or no focal points exist.</returns>
         public Point3D[]? GetFocalPoints()
         {
             if (plane == null || geometry2D == null)
@@ -147,6 +215,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
+        /// <summary>
+        /// Gets an internal point of the geometry converted to 3D space.
+        /// </summary>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for the calculation.</param>
+        /// <returns>A <see cref="Point3D"/> representing the internal point if the plane and geometry are available; otherwise, null.</returns>
         public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || geometry2D == null)
@@ -157,6 +230,10 @@ namespace DiGi.Geometry.Spatial.Classes
             return plane.Convert(geometry2D.GetInternalPoint());
         }
 
+        /// <summary>
+        /// Calculates and returns the perimeter of the 2D geometry.
+        /// </summary>
+        /// <returns>A <see cref="double"/> representing the perimeter, or <see cref="double.NaN"/> if the underlying geometry is null.</returns>
         public double GetPerimeter()
         {
             if (geometry2D is null)
@@ -167,16 +244,31 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.GetPerimeter();
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="Point3D"/> is within range of the geometry, given a specific tolerance.
+        /// </summary>
+        /// <param name="point3D">The nullable <see cref="Point3D"/> to evaluate.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance used for the calculation.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the point is within range.</returns>
         public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Determines whether the specified Point3D is inside the geometry within a given tolerance.
+        /// </summary>
+        /// <param name="point3D">The Point3D object to check.</param>
+        /// <param name="tolerance">The double value representing the distance tolerance for the operation.</param>
+        /// <returns>A bool indicating whether the point is inside the geometry.</returns>
         public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Inverts the underlying 2D geometry if it is not null.
+        /// </summary>
         public void Inverse()
         {
             if (geometry2D is null)

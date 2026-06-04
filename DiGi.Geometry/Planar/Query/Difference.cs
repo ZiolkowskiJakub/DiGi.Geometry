@@ -9,6 +9,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the difference between two 2D polygonal shapes.
+        /// </summary>
+        /// <param name="polygonal2D_1">The first <see cref="IPolygonal2D"/> object.</param>
+        /// <param name="polygonal2D_2">The second <see cref="IPolygonal2D"/> object to subtract from the first.</param>
+        /// <returns>A <see cref="List{T}"/> of <see cref="IPolygonal2D"/> objects representing the resulting difference, or null if either input is null.</returns>
         public static List<IPolygonal2D>? Difference(this IPolygonal2D? polygonal2D_1, IPolygonal2D? polygonal2D_2)
         {
             if (polygonal2D_1 == null || polygonal2D_2 == null)
@@ -47,6 +53,12 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the difference between two <see cref="PolygonalFace2D"/> objects.
+        /// </summary>
+        /// <param name="polygonalFace2D_1">The first <see cref="PolygonalFace2D"/> object from which the second is subtracted.</param>
+        /// <param name="polygonalFace2D_2">The second <see cref="PolygonalFace2D"/> object to subtract from the first.</param>
+        /// <returns>A <see cref="List{PolygonalFace2D}"/> containing the resulting faces of the difference operation, or <see langword="null"/> if either input is <see langword="null"/> or conversion fails.</returns>
         public static List<PolygonalFace2D>? Difference(this PolygonalFace2D? polygonalFace2D_1, PolygonalFace2D? polygonalFace2D_2)
         {
             if (polygonalFace2D_1 == null || polygonalFace2D_2 == null)
@@ -84,6 +96,12 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the geometric difference between two <see cref="Polygon"/> objects.
+        /// </summary>
+        /// <param name="polygon_1">The first <see cref="Polygon"/> from which the second polygon is subtracted.</param>
+        /// <param name="polygon_2">The second <see cref="Polygon"/> to be subtracted from the first.</param>
+        /// <returns>A <see cref="List{Polygon}"/> containing the resulting polygons of the difference operation, or <see langword="null"/> if either input polygon is <see langword="null"/>.</returns>
         public static List<Polygon>? Difference(this Polygon? polygon_1, Polygon? polygon_2)
         {
             if (polygon_1 is null || polygon_2 is null)

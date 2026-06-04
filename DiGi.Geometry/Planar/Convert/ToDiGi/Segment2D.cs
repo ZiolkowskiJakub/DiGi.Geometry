@@ -5,6 +5,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a <see cref="LineSegment"/> instance to a <see cref="Segment2D"/> instance.
+        /// </summary>
+        /// <param name="lineSegment">The <see cref="LineSegment"/> instance to convert.</param>
+        /// <returns>A <see cref="Segment2D"/> instance if the conversion is successful; otherwise, <c>null</c>.</returns>
         public static Segment2D? ToDiGi(this LineSegment? lineSegment)
         {
             if (lineSegment == null)

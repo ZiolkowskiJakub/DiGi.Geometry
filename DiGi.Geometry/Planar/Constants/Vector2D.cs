@@ -1,5 +1,8 @@
 ﻿namespace DiGi.Geometry.Planar.Constants
 {
+    /// <summary>
+    /// Provides static properties and utility methods for working with <see cref="Classes.Vector2D"/> instances.
+    /// </summary>
     public static class Vector2D
     {
         /// <summary>

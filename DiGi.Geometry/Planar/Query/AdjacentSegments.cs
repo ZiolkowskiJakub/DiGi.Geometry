@@ -8,6 +8,13 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Identifies and returns a list of adjacent 2D segments from a collection of segmentable objects based on a specified distance tolerance.
+        /// </summary>
+        /// <typeparam name="T">The type of the segmentable objects, which must implement <see cref="ISegmentable2D"/>.</typeparam>
+        /// <param name="segmentable2Ds">An <see cref="IEnumerable{T}"/> containing the segmentable objects to evaluate for adjacency.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance used to determine if segments are adjacent.</param>
+        /// <returns>A <see cref="List{Segment2D}"/> of adjacent segments, or <c>null</c> if the input collection is <c>null</c>.</returns>
         public static List<Segment2D>? AdjacentSegments<T>(this IEnumerable<T?>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
             if (segmentable2Ds == null)
@@ -91,6 +98,13 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the adjacent <see cref="Segment2D"/> objects between two <see cref="ISegmentable2D"/> instances within a specified tolerance.
+        /// </summary>
+        /// <param name="segmentable2D_1">The first <see cref="ISegmentable2D"/> instance.</param>
+        /// <param name="segmentable2D_2">The second <see cref="ISegmentable2D"/> instance.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance used to determine if the bounding boxes are in range.</param>
+        /// <returns>A <see cref="List{Segment2D}"/> containing the adjacent segments, or <see langword="null"/> if either input is null or no adjacency is found.</returns>
         public static List<Segment2D>? AdjacentSegments(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D_1 == null || segmentable2D_2 == null)

@@ -5,6 +5,17 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+    /// <summary>
+    /// Represents a result of a trace operation in 2D space that can be segmented into a point, segment, or vector.
+    /// </summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SegmentableTraceResult2D"/> class using the specified <see cref="JsonObject"/>.
+    /// </summary>
+    /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the instance.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SegmentableTraceResult2D"/> class by copying another <see cref="SegmentableTraceResult2D"/> instance.
+    /// </summary>
+    /// <param name="segmentableTraceResult2D">The <see cref="SegmentableTraceResult2D"/> instance to copy from.</param>
     public class SegmentableTraceResult2D : SerializableObject
     {
         [JsonInclude, JsonPropertyName("Point2D")]
@@ -16,11 +27,19 @@ namespace DiGi.Geometry.Planar.Classes
         [JsonInclude, JsonPropertyName("Vector2D")]
         private readonly Vector2D? vector2D;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SegmentableTraceResult2D"/> class using the specified <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the current instance.</param>
         public SegmentableTraceResult2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SegmentableTraceResult2D"/> class by copying the values from an existing <see cref="SegmentableTraceResult2D"/> instance.
+        /// </summary>
+        /// <param name="segmentableTraceResult2D">The <see cref="SegmentableTraceResult2D"/> instance to copy data from.</param>
         public SegmentableTraceResult2D(SegmentableTraceResult2D? segmentableTraceResult2D)
         {
             if (segmentableTraceResult2D != null)
@@ -74,6 +93,10 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Creates a clone of the current object.
+        /// </summary>
+        /// <returns>A new <see cref="ISerializableObject"/> instance that is a copy of the current object, or null.</returns>
         public override ISerializableObject? Clone()
         {
             return new SegmentableTraceResult2D(vector2D, segment2D, point2D);

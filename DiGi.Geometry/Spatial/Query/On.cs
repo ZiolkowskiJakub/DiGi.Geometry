@@ -6,6 +6,13 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether the specified <see cref="Point3D"/> is on any of the segments of the <see cref="ISegmentable3D"/> object within a given tolerance.
+        /// </summary>
+        /// <param name="segmentable3D">The <see cref="ISegmentable3D"/> instance to check.</param>
+        /// <param name="point3D">The <see cref="Point3D"/> point to evaluate.</param>
+        /// <param name="tolerance">A <see cref="double"/> value specifying the distance tolerance.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the <see cref="Point3D"/> is on any of the segments within the specified tolerance; otherwise, false.</returns>
         public static bool On(this ISegmentable3D? segmentable3D, Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || segmentable3D == null)
@@ -30,6 +37,13 @@ namespace DiGi.Geometry.Spatial
             return false;
         }
 
+        /// <summary>
+        /// Determines whether a specified <see cref="Point3D"/> lies on the <see cref="Plane"/> within a given tolerance.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> to check.</param>
+        /// <param name="point3D">The <see cref="Point3D"/> to evaluate.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the point is on the plane within the specified tolerance; otherwise, false if either the plane or point is null.</returns>
         public static bool On(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || plane == null)
@@ -52,6 +66,13 @@ namespace DiGi.Geometry.Spatial
             return System.Math.Abs((normal.X * (point3D.X - origin.X)) + (normal.Y * (point3D.Y - origin.Y)) + (normal.Z * (point3D.Z - origin.Z))) < tolerance;
         }
 
+        /// <summary>
+        /// Determines whether a <see cref="Segment3D"/> lies on a <see cref="Plane"/> within a specified tolerance.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> to check against.</param>
+        /// <param name="segment3D">The <see cref="Segment3D"/> to evaluate.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance.</param>
+        /// <returns>A <see cref="bool"/> value indicating <c>true</c> if the segment is on the plane; otherwise, <c>false</c>.</returns>
         public static bool On(this Plane? plane, Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || segment3D == null)
@@ -62,6 +83,13 @@ namespace DiGi.Geometry.Spatial
             return plane.On(segment3D.Start, tolerance) && plane.On(segment3D.End, tolerance);
         }
 
+        /// <summary>
+        /// Determines whether an <see cref="ISegmentable3D"/> object lies on a <see cref="Plane"/> within a specified tolerance.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> to check against.</param>
+        /// <param name="segmentable3D">The <see cref="ISegmentable3D"/> object to evaluate.</param>
+        /// <param name="tolerance">The <double> tolerance value used for the distance calculation.</param>
+        /// <returns>A <bool> indicating whether all points of the <see cref="ISegmentable3D"/> object are on the <see cref="Plane"/>.</returns>
         public static bool On(this Plane? plane, ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || segmentable3D == null)
@@ -86,6 +114,13 @@ namespace DiGi.Geometry.Spatial
             return true;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="Vector3D?"/> lies on the <see cref="Plane?"/> within a given tolerance.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane?"/> to check.</param>
+        /// <param name="vector3D">The <see cref="Vector3D?"/> to evaluate.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for the distance calculation.</param>
+        /// <returns>A <see cref="bool"/> indicating whether the <see cref="Vector3D?"/> is on the <see cref="Plane?"/>.</returns>
         public static bool On(this Plane? plane, Vector3D? vector3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || vector3D == null)

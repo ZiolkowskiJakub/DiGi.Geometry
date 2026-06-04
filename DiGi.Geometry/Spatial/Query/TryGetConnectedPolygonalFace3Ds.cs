@@ -8,6 +8,15 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Attempts to separate a collection of polygonal faces into those connected and disconnected from a specified source polygonal face based on a distance tolerance.
+        /// </summary>
+        /// <param name="polygonalFace3D">The source <see cref="IPolygonalFace3D"/> object.</param>
+        /// <param name="polygonalFace3Ds">An <see cref="IEnumerable{IPolygonalFace3D}"/> of <see cref="IPolygonalFace3D"/> objects to be evaluated.</param>
+        /// <param name="polygonalFace3Ds_Connected">When this method returns, contains a <see cref="List{IPolygonalFace3D}"/> of <see cref="IPolygonalFace3D"/> objects that are connected to the source face; otherwise, null.</param>
+        /// <param name="polygonalFace3Ds_Disconnected">When this method returns, contains a <see cref="List{IPolygonalFace3D}"/> of <see cref="IPolygonalFace3D"/> objects that are not connected to the source face; otherwise, null.</param>
+        /// <param name="tolerance">The distance <see cref="double"/> tolerance used to determine connectivity.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the operation was successful.</returns>
         public static bool TryGetConnectedPolygonalFace3Ds(this IPolygonalFace3D? polygonalFace3D, IEnumerable<IPolygonalFace3D>? polygonalFace3Ds, out List<IPolygonalFace3D>? polygonalFace3Ds_Connected, out List<IPolygonalFace3D>? polygonalFace3Ds_Disconnected, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             polygonalFace3Ds_Connected = null;

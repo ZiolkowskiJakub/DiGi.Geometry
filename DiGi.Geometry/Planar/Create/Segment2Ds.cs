@@ -6,6 +6,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Converts a collection of <see cref="Point2D"/> objects into a list of <see cref="Segment2D"/> objects.
+        /// </summary>
+        /// <param name="point2Ds">The <see cref="IEnumerable{T}"/> of <see cref="Point2D"/> points to process.</param>
+        /// <param name="closed">A <see cref="bool"/> value indicating whether the sequence should be closed by connecting the last point back to the first point.</param>
+        /// <returns>A <see cref="List{T}"/> of <see cref="Segment2D"/> objects, or <see langword="null"/> if the provided <see cref="IEnumerable{T}"/> is null.</returns>
         public static List<Segment2D>? Segment2Ds(this IEnumerable<Point2D>? point2Ds, bool closed = false)
         {
             if (point2Ds == null)

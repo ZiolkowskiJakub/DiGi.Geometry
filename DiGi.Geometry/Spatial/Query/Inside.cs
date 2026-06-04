@@ -9,6 +9,14 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether a specified <see cref="Point3D"/> is inside the given <see cref="IPlanar{T}"/> object within a certain tolerance.
+        /// </summary>
+        /// <typeparam name="T">The type of the polygonal 2D object, which must implement <see cref="IPolygonal2D"/>.</typeparam>
+        /// <param name="planar">The <see cref="IPlanar{T}"/> object to check against.</param>
+        /// <param name="point3D">The <see cref="Point3D"/> point to evaluate.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for the operation.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the <see cref="Point3D"/> is inside the <see cref="IPlanar{T}"/> object; otherwise, false if either parameter is null.</returns>
         public static bool Inside<T>(IPlanar<T>? planar, Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IPolygonal2D
         {
             if (planar == null || point3D == null)
@@ -19,6 +27,14 @@ namespace DiGi.Geometry.Spatial
             return Inside(planar, [point3D], tolerance);
         }
 
+        /// <summary>
+        /// Determines whether a collection of <see cref="Point3D"/> points are located on the plane of the specified <see cref="IPlanar{T}"/> object within a given tolerance.
+        /// </summary>
+        /// <typeparam name="T">A type that implements <see cref="IPolygonal2D"/>.</typeparam>
+        /// <param name="planar">The <see cref="IPlanar{T}"/> object whose plane is being evaluated.</param>
+        /// <param name="point3Ds">An <see cref="IEnumerable{Point3D}"/> containing the points to check.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for the operation.</param>
+        /// <returns>A <see cref="bool"/> value indicating <c>true</c> if all provided points are on the plane within the specified tolerance; otherwise, <c>false</c>.</returns>
         public static bool Inside<T>(IPlanar<T>? planar, IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IPolygonal2D
         {
             if (point3Ds == null || planar == null)
@@ -63,6 +79,14 @@ namespace DiGi.Geometry.Spatial
             return true;
         }
 
+        /// <summary>
+        /// Determines whether a specified <see cref="ISegmentable3D"/> object is located inside a specified <see cref="IPlanar{T}"/> planar region within a given tolerance.
+        /// </summary>
+        /// <typeparam name="T">A type that implements <see cref="IPolygonal2D"/>.</typeparam>
+        /// <param name="planar">The <see cref="IPlanar{T}"/> planar region to check against.</param>
+        /// <param name="segmentable3D">The <see cref="ISegmentable3D"/> object to evaluate.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for the operation.</param>
+        /// <returns>A <see cref="bool"/> value indicating <c>true</c> if the <see cref="ISegmentable3D"/> object is inside the planar region; otherwise, <c>false</c>.</returns>
         public static bool Inside<T>(IPlanar<T>? planar, ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IPolygonal2D
         {
             if (planar == null || segmentable3D == null)

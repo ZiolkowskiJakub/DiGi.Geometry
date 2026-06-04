@@ -5,28 +5,69 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
+    /// <summary>
+    /// Represents a three-dimensional coordinate in space.
+    /// </summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Coordinate3D"/> class using a <see cref="JsonObject"/>.
+    /// </summary>
+    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the coordinate data.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Coordinate3D"/> class with specified X, Y, and Z coordinates.
+    /// </summary>
+    /// <param name="x">The X coordinate as a <see cref="double"/>.</param>
+    /// <param name="y">The Y coordinate as a <see cref="double"/>.</param>
+    /// <param name="z">The Z coordinate as a <see cref="double"/>.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Coordinate3D"/> class.
+    /// </summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Coordinate3D"/> class by copying an existing <see cref="Coordinate3D"/>.
+    /// </summary>
+    /// <param name="coordinate3D">The source <see cref="Coordinate3D"/> to copy.</param>
     public abstract class Coordinate3D : Coordinate, IGeometry3D, ITransformable3D
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate3D"/> class using the specified <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the coordinate. This value can be null.</param>
         public Coordinate3D(JsonObject? jsonObject)
             : base(jsonObject, 3)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate3D"/> class with specified X, Y, and Z coordinates.
+        /// </summary>
+        /// <param name="x">The X coordinate as a double value.</param>
+        /// <param name="y">The Y coordinate as a double value.</param>
+        /// <param name="z">The Z coordinate as a double value.</param>
         public Coordinate3D(double x, double y, double z)
             : base(x, y, z)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate3D"/> class.
+        /// </summary>
         public Coordinate3D()
             : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate3D"/> class using an existing <see cref="Coordinate3D"/> object.
+        /// </summary>
+        /// <param name="coordinate3D">The <see cref="Coordinate3D"/> instance to copy values from.</param>
         public Coordinate3D(Coordinate3D? coordinate3D)
             : base(coordinate3D)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate3D"/> class using an array of <double> values.
+        /// </summary>
+        /// <param name="values">An optional array of <double> values. If the array is null or contains fewer than three elements, all coordinates are initialized to <see cref="double.NaN"/>.</param>
         public Coordinate3D(double[]? values)
             : base()
         {
@@ -45,6 +86,9 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the X-coordinate value as a double.
+        /// </summary>
         public double X
         {
             get
@@ -58,6 +102,9 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Y-coordinate value as a double.
+        /// </summary>
         public double Y
         {
             get
@@ -71,6 +118,9 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Z-coordinate value as a double.
+        /// </summary>
         public double Z
         {
             get
@@ -84,6 +134,11 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Moves the object by adding the specified Vector3D offset to its current values.
+        /// </summary>
+        /// <param name="vector3D">The Vector3D? vector used for translation.</param>
+        /// <returns>A bool value indicating whether the movement was successfully applied.</returns>
         public bool Move(Vector3D? vector3D)
         {
             if (vector3D == null || values == null || values.Length < 2)
@@ -97,6 +152,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
+        /// <summary>
+        /// Transforms the current values using the specified 3D transformation.
+        /// </summary>
+        /// <param name="transform">The <see cref="ITransform3D"/> object used to perform the transformation.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the transformation was successfully applied; otherwise, false.</returns>
         public bool Transform(ITransform3D? transform)
         {
             if (transform == null || values == null || values.Length < 2)

@@ -7,22 +7,49 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the shortest distance between a <see cref="Point2D"/> and an <see cref="ISegmentable2D"/>.
+        /// </summary>
+        /// <param name="point2D">The <see cref="Point2D"/> from which to calculate the distance.</param>
+        /// <param name="segmentable2D">The <see cref="ISegmentable2D"/> object to measure the distance to.</param>
+        /// <returns>The shortest distance as a <see cref="double"/>.</returns>
         public static double Distance(this Point2D? point2D, ISegmentable2D? segmentable2D)
         {
             return Distance(point2D, segmentable2D?.GetSegments(), out _);
         }
 
+        /// <summary>
+        /// Calculates the shortest distance from a <see cref="Point2D"/> to a collection of <see cref="Segment2D"/> objects.
+        /// </summary>
+        /// <param name="point2D">The <see cref="Point2D"/> instance to measure the distance from.</param>
+        /// <param name="segment2Ds">An <see cref="IEnumerable{Segment2D}"/> containing the segments to evaluate.</param>
+        /// <param name="closetPoint2D">When this method returns, contains the <see cref="Point2D"/> that is closest to the source point; otherwise, null.</param>
+        /// <returns>The minimum distance as a <see cref="double"/>.</returns>
         public static double Distance(this Point2D? point2D, IEnumerable<Segment2D>? segment2Ds, out Point2D? closetPoint2D)
         {
             closetPoint2D = ClosestPoint(point2D, segment2Ds, out double result);
             return result;
         }
 
+        /// <summary>
+        /// Calculates the shortest distance between a specified <see cref="Point2D"/> and a collection of <see cref="Segment2D"/> objects.
+        /// </summary>
+        /// <param name="point2D">The <see cref="Point2D"/> from which to calculate the distance.</param>
+        /// <param name="segment2Ds">An <see cref="IEnumerable{T}"/> of <see cref="Segment2D"/> objects to measure the distance against.</param>
+        /// <returns>The shortest distance as a <see cref="double"/>. Returns <see cref="double.NaN"/> if the point or the collection is null or empty.</returns>
         public static double Distance(this Point2D? point2D, IEnumerable<Segment2D>? segment2Ds)
         {
             return Distance(point2D, segment2Ds, out _);
         }
 
+        /// <summary>
+        /// Calculates the shortest distance from a <see cref="Point2D"/> to a collection of objects that implement <see cref="ISegmentable2D"/>.
+        /// </summary>
+        /// <typeparam name="T">A type that implements <see cref="ISegmentable2D"/>.</typeparam>
+        /// <param name="point2D">The source <see cref="Point2D"/> to measure the distance from.</param>
+        /// <param name="segmentable2Ds">An <see cref="IEnumerable{T}"/> of objects that implement <see cref="ISegmentable2D"/>.</param>
+        /// <param name="closetPoint2D">When this method returns, contains the closest <see cref="Point2D"/> found on the segmentable objects; otherwise, null.</param>
+        /// <returns>The minimum distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the source point is null, the collection is null, or the collection contains no elements.</returns>
         public static double Distance<T>(this Point2D? point2D, IEnumerable<T>? segmentable2Ds, out Point2D? closetPoint2D) where T : ISegmentable2D
         {
             closetPoint2D = null;
@@ -34,11 +61,27 @@ namespace DiGi.Geometry.Planar
             return Distance(point2D, segmentable2Ds?.Segments());
         }
 
+        /// <summary>
+        /// Calculates the shortest distance between a specified <see cref="Point2D"/> and a collection of objects that implement <see cref="ISegmentable2D"/>.
+        /// </summary>
+        /// <typeparam name="T">A type that implements the <see cref="ISegmentable2D"/> interface.</typeparam>
+        /// <param name="point2D">The <see cref="Point2D"/> from which the distance is measured.</param>
+        /// <param name="segmentable2Ds">An <see cref="IEnumerable{T}"/> collection of objects implementing <see cref="ISegmentable2D"/> to measure the distance against.</param>
+        /// <returns>The shortest distance as a <see cref="double"/>.</returns>
         public static double Distance<T>(this Point2D? point2D, IEnumerable<T>? segmentable2Ds) where T : ISegmentable2D
         {
             return Distance(point2D, segmentable2Ds, out _);
         }
 
+        /// <summary>
+        /// Calculates the shortest distance between two segmentable 2D objects.
+        /// </summary>
+        /// <param name="segmentable2D_1">The first <see cref="ISegmentable2D"/> object.</param>
+        /// <param name="segmentable2D_2">The second <see cref="ISegmentable2D"/> object.</param>
+        /// <param name="point2D_Closest1">When this method returns, contains the <see cref="Point2D"/> on the first segmentable object that is closest to the second segmentable object, or null if no distance could be calculated.</param>
+        /// <param name="point2D_Closest2">When this method returns, contains the <see cref="Point2D"/> on the second segmentable object that is closest to the first segmentable object, or null if no distance could be calculated.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for calculations.</param>
+        /// <returns>The shortest distance as a <see cref="double"/> between the two objects, or <see cref="double.NaN"/> if either object is null or contains no segments.</returns>
         public static double Distance(ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             point2D_Closest1 = null;
@@ -100,6 +143,15 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the distance between a <see cref="BoundingBox2D"/> and an <see cref="ISegmentable2D"/>.
+        /// </summary>
+        /// <param name="boundingBox2D">The <see cref="BoundingBox2D"/> to measure the distance from.</param>
+        /// <param name="segmentable2D">The <see cref="ISegmentable2D"/> to measure the distance to.</param>
+        /// <param name="point2D_Closest1">When this method returns, contains the <see cref="Point2D"/> on the <see cref="BoundingBox2D"/> closest to the <see cref="ISegmentable2D"/>, or null if not found.</param>
+        /// <param name="point2D_Closest2">When this method returns, contains the <see cref="Point2D"/> on the <see cref="ISegmentable2D"/> closest to the <see cref="BoundingBox2D"/>, or null if not found.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for distance calculations.</param>
+        /// <returns>The <see cref="double"/> distance between the two objects, or <see cref="double.NaN"/> if either input is null.</returns>
         public static double Distance(BoundingBox2D? boundingBox2D, ISegmentable2D? segmentable2D, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             point2D_Closest1 = null;
@@ -113,6 +165,15 @@ namespace DiGi.Geometry.Planar
             return Distance((Polygon2D?)boundingBox2D, segmentable2D, out point2D_Closest1, out point2D_Closest2, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the shortest distance between an <see cref="ISegmentable2D"/> and a <see cref="BoundingBox2D"/>.
+        /// </summary>
+        /// <param name="segmentable2D">The <see cref="ISegmentable2D"/> object.</param>
+        /// <param name="boundingBox2D">The <see cref="BoundingBox2D"/> object.</param>
+        /// <param name="point2D_Closest1">When this method returns, contains the <see cref="Point2D"/> that is closest to the other object on the <see cref="ISegmentable2D"/>.</param>
+        /// <param name="point2D_Closest2">When this method returns, contains the <see cref="Point2D"/> that is closest to the other object on the <see cref="BoundingBox2D"/>.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for distance calculations.</param>
+        /// <returns>The shortest distance as a <see cref="double"/> between the two objects.</returns>
         public static double Distance(ISegmentable2D? segmentable2D, BoundingBox2D? boundingBox2D, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return Distance(boundingBox2D, segmentable2D, out point2D_Closest1, out point2D_Closest2, tolerance);

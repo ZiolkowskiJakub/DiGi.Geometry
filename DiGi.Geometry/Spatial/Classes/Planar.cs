@@ -6,6 +6,10 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
+    /// <summary>
+    /// Represents an abstract 3D geometry that exists on a plane and is associated with a corresponding 2D geometry of type <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the 2D geometry, which must implement the <see cref="IGeometry2D"/> interface.</typeparam>
     public abstract class Planar<T> : Geometry3D, IPlanar<T>, IFlippable where T : IGeometry2D
     {
         [JsonInclude, JsonPropertyName("Geometry2D")]
@@ -14,17 +18,29 @@ namespace DiGi.Geometry.Spatial.Classes
         [JsonInclude, JsonPropertyName("Plane")]
         protected Plane? plane;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Planar"/> class using the specified <see cref="Plane"/>.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> used to initialize the planar object.</param>
         public Planar(Plane? plane)
             : base()
         {
             this.plane = plane == null ? null : new(plane);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Planar"/> class using the specified <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the instance.</param>
         public Planar(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Planar{T}"/> class by cloning an existing <see cref="Planar{T}"/> instance.
+        /// </summary>
+        /// <param name="planar">The source <see cref="Planar{T}"/> instance to copy from.</param>
         public Planar(Planar<T>? planar)
             : base(planar)
         {
@@ -35,6 +51,11 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Planar{T}"/> class.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> that defines the planar surface.</param>
+        /// <param name="geometry2D">The 2D geometry of type <typeparam ref="T"/> to be associated with this instance.</param>
         public Planar(Plane? plane, T? geometry2D)
             : base()
         {
@@ -42,6 +63,10 @@ namespace DiGi.Geometry.Spatial.Classes
             this.geometry2D = DiGi.Core.Query.Clone(geometry2D);
         }
 
+        /// <summary>
+        /// Gets the 2D geometry representation.
+        /// </summary>
+        /// <returns>A <see cref="T"/> instance representing the 2D geometry, or null if it is not defined.</returns>
         [JsonIgnore]
         public T? Geometry2D
         {
@@ -51,6 +76,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="Plane"/> associated with this object.
+        /// </summary>
+        /// <value>
+        /// A <see cref="Plane"/> instance if one exists; otherwise, null.
+        /// </value>
         [JsonIgnore]
         public Plane? Plane
         {
@@ -60,6 +91,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Flips the orientation of the plane based on the specified primary and secondary axes.
+        /// </summary>
+        /// <param name="prmiaryAxis">The <see cref="SpatialAxis"/> representing the primary axis for the flip operation.</param>
+        /// <param name="secondaryAxis">The <see cref="SpatialAxis"/> representing the secondary axis for the flip operation.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the flip operation was successful.</returns>
         public bool Flip(SpatialAxis prmiaryAxis = SpatialAxis.Z, SpatialAxis secondaryAxis = SpatialAxis.X)
         {
             if (plane is null)
@@ -76,6 +113,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
+        /// <summary>
+        /// Moves the object based on the provided Vector3D vector.
+        /// </summary>
+        /// <param name="vector3D">The optional Vector3D value specifying the direction and distance to move.</param>
+        /// <returns>A boolean value indicating whether the movement was successful.</returns>
         public override bool Move(Vector3D? vector3D)
         {
             if (vector3D == null || plane == null)

@@ -6,6 +6,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a <see cref="LinearRing"/> to a <see cref="Polygon2D"/>.
+        /// </summary>
+        /// <param name="linearRing">The <see cref="LinearRing"/> instance to convert.</param>
+        /// <returns>A <see cref="Polygon2D"/> instance if the conversion is successful; otherwise, <c>null</c>.</returns>
         public static Polygon2D? ToDiGi(this LinearRing? linearRing)
         {
             List<Point2D>? point2Ds = linearRing?.Coordinates?.ToDiGi();

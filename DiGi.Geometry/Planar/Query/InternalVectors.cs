@@ -6,6 +6,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves the internal vectors of the specified <see cref="IPolygon2D"/>.
+        /// </summary>
+        /// <param name="polygonal2D">The <see cref="IPolygon2D"/> instance to extract internal vectors from.</param>
+        /// <returns>A <see cref="List{Vector2D?}"/> containing the internal vectors, or <see langword="null"/> if the <see cref="IPolygon2D"/> is null, contains no segments, or has an undefined or collinear orientation.</returns>
         public static List<Vector2D?>? InternalVectors(this IPolygon2D? polygonal2D)
         {
             if (polygonal2D == null)

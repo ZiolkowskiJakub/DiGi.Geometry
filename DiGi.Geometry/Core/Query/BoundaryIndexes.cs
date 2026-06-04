@@ -5,6 +5,12 @@ namespace DiGi.Geometry.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Identifies the boundary indexes from a collection of indexes and extracts auxiliary indexes.
+        /// </summary>
+        /// <param name="indexes">The <see cref="IEnumerable{T}"/> of <see cref="int[]"/> representing the input indexes.</param>
+        /// <param name="auxiliaryIndexes">When this method returns, contains a <see cref="List{T}"/> of <see cref="int[]"/> representing the auxiliary indexes, or null if none were identified.</param>
+        /// <returns>A <see cref="List{T}"/> of <see cref="int[]"/> containing the boundary indexes, or null if the input <see cref="IEnumerable{T}"/> is null.</returns>
         public static List<int[]>? BoundaryIndexes(this IEnumerable<int[]>? indexes, out List<int[]>? auxiliaryIndexes)
         {
             auxiliaryIndexes = null;
@@ -44,6 +50,11 @@ namespace DiGi.Geometry.Core
             return result;
         }
 
+        /// <summary>
+        /// Identifies and returns the boundary indexes from the provided collection of integer arrays.
+        /// </summary>
+        /// <param name="indexes">The <see cref="IEnumerable{T}"/> of <see cref="int[]"/> representing the indexes to evaluate.</param>
+        /// <returns>A <see cref="List{T}"/> of <see cref="int[]"/> containing the boundary indexes, or <see langword="null"/> if the input collection is <see langword="null"/>.</returns>
         public static List<int[]>? BoundaryIndexes(this IEnumerable<int[]>? indexes)
         {
             if (indexes == null)

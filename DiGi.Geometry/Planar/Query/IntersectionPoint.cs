@@ -106,6 +106,15 @@ namespace DiGi.Geometry.Planar
             return point2D_Intersection;
         }
 
+        /// <summary>
+        /// Calculates the intersection point of two <see cref="Segment2D"/> objects.
+        /// </summary>
+        /// <param name="segment2D_1">The first <see cref="Segment2D"/> object.</param>
+        /// <param name="segment2D_2">The second <see cref="Segment2D"/> object.</param>
+        /// <param name="point2D_Closest1">When this method returns, contains the <see cref="Point2D"/> object on the first segment that is closest to the intersection or the other segment.</param>
+        /// <param name="point2D_Closest2">When this method returns, contains the <see cref="Point2D"/> object on the second segment that is closest to the intersection or the other segment.</param>
+        /// <param name="tolerance">The double value used as a distance tolerance for calculating the intersection.</param>
+        /// <returns>A <see cref="Point2D"/> object representing the intersection point if one exists within the specified tolerance; otherwise, null.</returns>
         public static Point2D? IntersectionPoint(Segment2D? segment2D_1, Segment2D? segment2D_2, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             point2D_Closest1 = null;
@@ -119,6 +128,13 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoint(segment2D_1[0], segment2D_1[1], segment2D_2[0], segment2D_2[1], out point2D_Closest1, out point2D_Closest2, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the intersection point of two linear 2D entities.
+        /// </summary>
+        /// <param name="linear2D_1">The first <see cref="ILinear2D"/> entity.</param>
+        /// <param name="linear2D_2">The second <see cref="ILinear2D"/> entity.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for calculating the intersection.</param>
+        /// <returns>A <see cref="Point2D"/> if an intersection point is found; otherwise, null.</returns>
         public static Point2D? IntersectionPoint(this ILinear2D? linear2D_1, ILinear2D? linear2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (linear2D_1 == null || linear2D_2 == null)

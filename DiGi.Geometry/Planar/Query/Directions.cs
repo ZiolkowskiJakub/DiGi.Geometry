@@ -7,6 +7,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the directions for a collection of segmentable 2D objects.
+        /// </summary>
+        /// <param name="segmentable2Ds">The <see cref="IEnumerable{ISegmentable2D}"/> of <see cref="ISegmentable2D"/> objects to process.</param>
+        /// <returns>A <see cref="List{Vector2D}"/> containing the calculated directions, or null if the <paramref name="segmentable2Ds"/> collection is null.</returns>
         public static List<Vector2D>? Directions(this IEnumerable<ISegmentable2D>? segmentable2Ds)
         {
             if (segmentable2Ds == null)
@@ -54,6 +59,12 @@ namespace DiGi.Geometry.Planar
             return [.. dictionary.Values];
         }
 
+        /// <summary>
+        /// Calculates the height and width direction vectors based on the specified corner.
+        /// </summary>
+        /// <param name="corner">The <see cref="Core.Enums.Corner"/> value used to determine the directions.</param>
+        /// <param name="heightDirection">When this method returns, contains a <see cref="Vector2D?"> representing the height direction vector, or null if not applicable.</param>
+        /// <param name="widthDirection">When this method returns, contains a <see cref="Vector2D?"> representing the width direction vector, or null if not applicable.</param>
         public static void Directions(this Core.Enums.Corner corner, out Vector2D? heightDirection, out Vector2D? widthDirection)
         {
             widthDirection = null;

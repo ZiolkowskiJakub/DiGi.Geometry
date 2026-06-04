@@ -1,5 +1,8 @@
 ﻿namespace DiGi.Geometry.Planar.Constants
 {
+    /// <summary>
+    /// Provides static utilities and constants for <see cref="Classes.Point2D"/> objects.
+    /// </summary>
     public static class Point2D
     {
         /// <summary>

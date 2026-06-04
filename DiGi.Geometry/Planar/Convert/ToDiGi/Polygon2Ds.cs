@@ -6,6 +6,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a <see cref="Polygon"/> to a list of <see cref="Polygon2D"/>.
+        /// </summary>
+        /// <param name="polygon">The <see cref="Polygon"/> instance to convert.</param>
+        /// <returns>A <see cref="List{Polygon2D}"/> containing the converted polygons, or null if the provided <see cref="Polygon"/> is null or has no exterior ring.</returns>
         public static List<Polygon2D>? ToDiGi_Polygon2Ds(this Polygon? polygon)
         {
             if (polygon == null)

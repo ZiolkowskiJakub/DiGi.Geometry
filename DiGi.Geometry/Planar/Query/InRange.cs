@@ -4,6 +4,13 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether two geometries are within a specified distance tolerance of each other.
+        /// </summary>
+        /// <param name="geometry_1">The first <see cref="NetTopologySuite.Geometries.Geometry"/> to evaluate.</param>
+        /// <param name="geometry_2">The second <see cref="NetTopologySuite.Geometries.Geometry"/> to evaluate.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the maximum distance threshold for proximity.</param>
+        /// <returns>A <see cref="bool"/> indicating whether the geometries intersect or are within the specified tolerance; otherwise, false if either geometry is null.</returns>
         public static bool InRange(this NetTopologySuite.Geometries.Geometry geometry_1, NetTopologySuite.Geometries.Geometry geometry_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (geometry_1 is null || geometry_2 is null)

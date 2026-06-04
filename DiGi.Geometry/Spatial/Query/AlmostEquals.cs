@@ -6,6 +6,13 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether two <see cref="Point3D?"/> points are approximately equal based on a specified distance tolerance.
+        /// </summary>
+        /// <param name="point3D_1">The first <see cref="Point3D?"/> point to compare.</param>
+        /// <param name="point3D_2">The second <see cref="Point3D?"/> point to compare.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance used to determine equality.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the two points are approximately equal.</returns>
         public static bool AlmostEquals(this Point3D? point3D_1, Point3D? point3D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D_1 == point3D_2)
@@ -21,6 +28,13 @@ namespace DiGi.Geometry.Spatial
             return point3D_1.Distance(point3D_2) <= tolerance;
         }
 
+        /// <summary>
+        /// Determines whether two <see cref="ISegmentable3D"/> objects are almost equal based on a specified tolerance.
+        /// </summary>
+        /// <param name="segmentable3D_1">The first <see cref="ISegmentable3D"/> object to compare.</param>
+        /// <param name="segmentable3D_2">The second <see cref="ISegmentable3D"/> object to compare.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance used for comparison.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the two objects are almost equal.</returns>
         public static bool AlmostEquals(this ISegmentable3D? segmentable3D_1, ISegmentable3D? segmentable3D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable3D_1 == segmentable3D_2)

@@ -5,6 +5,11 @@ namespace DiGi.Geometry.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether the provided collection of indices represents a non-manifold mesh.
+        /// </summary>
+        /// <param name="indexes">The <see cref="IEnumerable{T}"/> of <see cref="int[]"/> containing the vertex indices for each face.</param>
+        /// <returns>A <see cref="bool"/> value indicating <c>true</c> if the mesh is non-manifold; otherwise, <c>false</c>.</returns>
         public static bool IsNonManifold(this IEnumerable<int[]>? indexes)
         {
             if (indexes == null)

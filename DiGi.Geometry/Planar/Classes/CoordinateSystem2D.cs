@@ -6,6 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+    /// <summary>
+    /// Represents a two-dimensional coordinate system defined by an origin <see cref="Point2D"/> and basis vectors <see cref="Vector2D"/>.
+    /// </summary>
     public class CoordinateSystem2D : SerializableObject, IMovable2D, ITransformable2D
     {
         [JsonInclude, JsonPropertyName("Origin")]

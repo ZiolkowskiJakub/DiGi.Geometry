@@ -5,6 +5,11 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Returns a list of <Plane> objects that define the boundaries of the specified <BoundingBox3D>.
+        /// </summary>
+        /// <param name="boundingBox3D">The <BoundingBox3D> instance from which to extract the planes.</param>
+        /// <returns>A <List<Plane>> containing the boundary planes, or null if the <BoundingBox3D> is null or contains invalid bounds.</returns>
         public static List<Plane>? Planes(this BoundingBox3D? boundingBox3D)
         {
             if (boundingBox3D == null)

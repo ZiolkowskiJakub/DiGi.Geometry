@@ -7,6 +7,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts an <see cref="IPolygonal2D"/> instance to a NetTopologySuite <see cref="LinearRing"/>.
+        /// </summary>
+        /// <param name="polygonal2D">The <see cref="IPolygonal2D"/> instance to convert.</param>
+        /// <returns>A <see cref="LinearRing"/> if the conversion is successful; otherwise, <see langword="null"/>.</returns>
         public static LinearRing? ToNTS(this IPolygonal2D? polygonal2D)
         {
             if (polygonal2D == null)

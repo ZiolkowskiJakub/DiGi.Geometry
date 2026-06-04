@@ -8,6 +8,16 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
+    /// <summary>
+    /// Represents an ellipsoid geometry in 3D space.
+    /// </summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Ellipsoid"/> class.
+    /// </summary>
+    /// <param name="center">The <see cref="Point3D"/> representing the center point of the ellipsoid.</param>
+    /// <param name="a">The <see cref="double"/> value for the semi-axis length along the first axis.</param>
+    /// <param name="b">The <see cref="double"/> value for the semi-axis length along the second axis.</param>
+    /// <param name="c">The <see cref="double"/> value for the semi-axis length along the third axis.</param>
     public class Ellipsoid : Geometry3D, IEllipsoid
     {
         [JsonInclude, JsonPropertyName("A")]
@@ -22,6 +32,13 @@ namespace DiGi.Geometry.Spatial.Classes
         [JsonInclude, JsonPropertyName("Plane")]
         private readonly Plane? plane;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ellipsoid"/> class with the specified center and semi-axes lengths.
+        /// </summary>
+        /// <param name="center">The <see cref="Point3D?"/> coordinates of the center point.</param>
+        /// <param name="a">The <see cref="double"/> length of the first semi-axis.</param>
+        /// <param name="b">The <see cref="double"/> length of the second semi-axis.</param>
+        /// <param name="c">The <see cref="double"/> length of the third semi-axis.</param>
         public Ellipsoid(Point3D? center, double a, double b, double c)
         {
             plane = Create.Plane(center);
@@ -30,6 +47,13 @@ namespace DiGi.Geometry.Spatial.Classes
             this.c = c;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ellipsoid"/> class with the specified plane and semi-axis lengths.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> that defines the ellipsoid's orientation, or null.</param>
+        /// <param name="a">The length of the first semi-axis as a <see cref="double"/>.</param>
+        /// <param name="b">The length of the second semi-axis as a <see cref="double"/>.</param>
+        /// <param name="c">The length of the third semi-axis as a <see cref="double"/>.</param>
         public Ellipsoid(Plane? plane, double a, double b, double c)
         {
             this.plane = plane?.Clone<Plane>();
@@ -38,6 +62,10 @@ namespace DiGi.Geometry.Spatial.Classes
             this.c = c;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ellipsoid"/> class by copying the properties from an existing <see cref="Ellipsoid"/> object.
+        /// </summary>
+        /// <param name="ellipsoid">The <see cref="Ellipsoid"/> object to copy data from, or null to initialize a default instance.</param>
         public Ellipsoid(Ellipsoid? ellipsoid)
             : base(ellipsoid)
         {
@@ -50,11 +78,18 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ellipsoid"/> class using the provided <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data used to initialize this instance.</param>
         public Ellipsoid(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Gets the double value of A.
+        /// </summary>
         [JsonIgnore]
         public double A
         {
@@ -64,6 +99,9 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the double value of B.
+        /// </summary>
         [JsonIgnore]
         public double B
         {
@@ -73,6 +111,9 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the C constant of the plane equation as a <see cref="double"/>.
+        /// </summary>
         [JsonIgnore]
         public double C
         {
@@ -82,6 +123,9 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the center point of the plane as a <see cref="Point3D"/>.
+        /// </summary>
         [JsonIgnore]
         public Point3D? Center
         {
@@ -91,6 +135,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the X-axis direction vector of the plane.
+        /// </summary>
+        /// <value>
+        /// A <see cref="Vector3D"/> representing the first direction axis, or null if the plane is not defined.
+        /// </value>
         [JsonIgnore]
         public Vector3D? DirectionA
         {
@@ -100,6 +150,10 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the direction vector B, which represents the Y-axis of the associated plane.
+        /// </summary>
+        /// <value>A <see cref="Vector3D"/> representing the Y-axis of the plane, or null if no plane is defined.</value>
         [JsonIgnore]
         public Vector3D? DirectionB
         {
@@ -109,6 +163,10 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the direction vector for axis C, typically corresponding to the Z-axis of the associated plane.
+        /// </summary>
+        /// <value>A <see cref="Vector3D"/>? representing the direction of axis C, or null if no plane is defined.</value>
         [JsonIgnore]
         public Vector3D? DirectionC
         {
@@ -118,6 +176,10 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the extent of the ellipsoid as a <see cref="Vector3D"/>.
+        /// </summary>
+        /// <value>A <see cref="Vector3D"/> representing the spatial extent, or null if not defined.</value>
         [JsonIgnore]
         public Vector3D? Extent
         {
@@ -137,6 +199,10 @@ namespace DiGi.Geometry.Spatial.Classes
             return spheroid == null ? null : new Ellipsoid(spheroid.Plane, spheroid.A, spheroid.B, spheroid.B);
         }
 
+        /// <summary>
+        /// Calculates the bounding box of the object based on its center and extent.
+        /// </summary>
+        /// <returns>A <see cref="BoundingBox3D"/> representing the bounding box, or <see langword="null"/> if the center or extent is not defined.</returns>
         public BoundingBox3D? GetBoundingBox()
         {
             Vector3D? extent = Extent;
@@ -154,6 +220,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return new(center - extent, center + extent);
         }
 
+        /// <summary>
+        /// Calculates the focal points of the object.
+        /// </summary>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for calculations.</param>
+        /// <returns>An array of <see cref="Point3D"/> objects representing the focal points, or <see langword="null"/> if the center or directions are not defined.</returns>
         public Point3D[]? GetFocalPoints(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             Point3D? center = Center;
@@ -263,6 +334,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return [focalPoint_1, focalPoint_2];
         }
 
+        /// <summary>
+        /// Calculates a point in 3D space based on the specified theta and phi angles.
+        /// </summary>
+        /// <param name="theta">The theta angle as a <see cref="double"/>.</param>
+        /// <param name="phi">The phi angle as a <see cref="double"/>.</param>
+        /// <returns>A <see cref="Point3D"/> if the plane axes are defined; otherwise, <c>null</c>.</returns>
         public Point3D? GetPoint(double theta, double phi)
         {
             Vector3D? axisX = plane?.AxisX;
@@ -298,11 +375,21 @@ namespace DiGi.Geometry.Spatial.Classes
             return center + (x * axisX)! + (y * axisY)! + (z * axisZ)!;
         }
 
+        /// <summary>
+        /// Calculates the volume of the ellipsoid.
+        /// </summary>
+        /// <returns>A <see cref="double"/> representing the calculated volume.</returns>
         public double GetVolume()
         {
             return (4.0 / 3.0) * System.Math.PI * a * b * c;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="Point3D"/> is inside the boundary within a given tolerance.
+        /// </summary>
+        /// <param name="point3D">The <see cref="Point3D"/> to evaluate.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for the check.</param>
+        /// <returns>A <see cref="bool"/> indicating whether the point is inside the boundary.</returns>
         public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || plane?.Origin == null)
@@ -341,6 +428,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return x * x + y * y + z * z <= 1.0 + tolerance;
         }
 
+        /// <summary>
+        /// Moves the object using the specified Vector3D? vector.
+        /// </summary>
+        /// <param name="vector3D">The Vector3D? instance representing the movement vector.</param>
+        /// <returns>A boolean value indicating whether the move operation was successful.</returns>
         public override bool Move(Vector3D? vector3D)
         {
             if (vector3D == null || plane == null)

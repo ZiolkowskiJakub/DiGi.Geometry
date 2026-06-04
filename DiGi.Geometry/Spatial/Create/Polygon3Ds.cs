@@ -5,6 +5,11 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Generates a list of <Polygon3D> objects from the specified <BoundingBox3D>.
+        /// </summary>
+        /// <param name="boundingBox3D">The <BoundingBox3D> used to create the polygons.</param>
+        /// <returns>A <List<Polygon3D>> containing the generated polygons, or null if the provided <BoundingBox3D> or its boundaries are null.</returns>
         public static List<Polygon3D>? Polygon3Ds(BoundingBox3D? boundingBox3D)
         {
             if (boundingBox3D == null)

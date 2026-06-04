@@ -6,6 +6,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates a point that is strictly internal to the polygon defined by the provided collection of points.
+        /// </summary>
+        /// <param name="point2Ds">The <see cref="IEnumerable{Point2D}"/> collection of points defining the boundary.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used to determine if a point lies on a segment.</param>
+        /// <returns>A <see cref="Point2D"/> representing an internal point, or <see langword="null"/> if the input is invalid or no internal point can be determined.</returns>
         public static Point2D? InternalPoint(IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2Ds == null || point2Ds.Count() < 3)

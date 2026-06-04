@@ -6,18 +6,34 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
+    /// <summary>
+    /// Represents a three-dimensional vector.
+    /// </summary>
     public class Vector3D : Coordinate3D, IVector
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector3D"/> class using the provided <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data to initialize the vector.</param>
         public Vector3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector3D"/> class using the values from an existing <see cref="Vector3D"/>.
+        /// </summary>
+        /// <param name="vector3D">The <see cref="Vector3D"/> object to copy the values from.</param>
         public Vector3D(Vector3D? vector3D)
             : base(vector3D)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector3D"/> class based on two points.
+        /// </summary>
+        /// <param name="start">The starting <see cref="Point3D"/> point.</param>
+        /// <param name="end">The ending <see cref="Point3D"/> point.</param>
         public Vector3D(Point3D? start, Point3D? end)
             : base()
         {
@@ -30,16 +46,30 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector3D"/> class with the specified x, y, and z coordinates.
+        /// </summary>
+        /// <param name="x">The x-coordinate as a double.</param>
+        /// <param name="y">The y-coordinate as a double.</param>
+        /// <param name="z">The z-coordinate as a double.</param>
         public Vector3D(double x, double y, double z)
             : base(x, y, z)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector3D"/> class using the specified array of <see cref="double"/>.
+        /// </summary>
+        /// <param name="values">An optional array of <see cref="double"/> values to initialize the vector coordinates.</param>
         public Vector3D(double[]? values)
             : base(values)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the length (magnitude) of the vector.
+        /// </summary>
+        /// <value>A <see cref="double"/> representing the length of the vector.</value>
         [JsonIgnore]
         public double Length
         {
@@ -58,6 +88,10 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the squared length of the vector.
+        /// </summary>
+        /// <value>The squared length as a <see cref="double"/>.</value>
         [JsonIgnore]
         public double SquaredLength
         {
@@ -67,6 +101,10 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the unit vector of the current instance.
+        /// </summary>
+        /// <value>A <see cref="Vector3D"/> representing the normalized direction, or null.</value>
         [JsonIgnore]
         public Vector3D? Unit
         {
@@ -188,6 +226,11 @@ namespace DiGi.Geometry.Spatial.Classes
 
         //Calculate the dot product as an angle
         //Source: https://wiki.unity3d.com/index.php/3d_Math_functions
+        /// <summary>
+        /// Calculates the angle between this vector and another <see cref="Vector3D"/>.
+        /// </summary>
+        /// <param name="vector3D">The other <see cref="Vector3D"/> to calculate the angle with.</param>
+        /// <returns>The angle in radians as a <see cref="double"/>, or <see cref="double.NaN"/> if the provided <see cref="Vector3D"/> is null.</returns>
         public double Angle(Vector3D? vector3D)
         {
             if (vector3D is null)
@@ -201,11 +244,21 @@ namespace DiGi.Geometry.Spatial.Classes
             return (System.Math.Abs(dotProduct) < length) ? System.Math.Acos(dotProduct / length) : (dotProduct < 0) ? System.Math.PI : 0;
         }
 
+        /// <summary>
+        /// Creates a copy of the current <see cref="Vector3D"/> instance.
+        /// </summary>
+        /// <returns>A new <see cref="ISerializableObject"/> that is a clone of the current instance.</returns>
         public override ISerializableObject? Clone()
         {
             return new Vector3D(this);
         }
 
+        /// <summary>
+        /// Determines whether this vector is collinear with the specified <see cref="Vector3D"/> within a given tolerance.
+        /// </summary>
+        /// <param name="vector3D">The <see cref="Vector3D"/> to check for collinearity.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the maximum allowed difference to consider the vectors collinear.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the vectors are collinear; returns false if the provided <see cref="Vector3D"/> is null.</returns>
         public bool Collinear(Vector3D? vector3D, double tolerance = DiGi.Core.Constants.Tolerance.Angle)
         {
             if (vector3D == null)
@@ -234,6 +287,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Vector3D((values[1] * vector3D.values[2]) - (values[2] * vector3D.values[1]), (values[2] * vector3D.values[0]) - (values[0] * vector3D.values[2]), (values[0] * vector3D.values[1]) - (values[1] * vector3D.values[0]));
         }
 
+        /// <summary>
+        /// Calculates the dot product of this vector and the specified <see cref="Vector3D"/>.
+        /// </summary>
+        /// <param name="vector3D">The <see cref="Vector3D"/> to calculate the dot product with.</param>
+        /// <returns>A <see cref="double"/> representing the dot product, or <see cref="double.NaN"/> if either vector is null.</returns>
         public double DotProduct(Vector3D? vector3D)
         {
             if (vector3D == null || values == null)
@@ -244,6 +302,10 @@ namespace DiGi.Geometry.Spatial.Classes
             return (values[0] * vector3D.values[0]) + (values[1] * vector3D.values[1]) + (values[2] * vector3D.values[2]);
         }
 
+        /// <summary>
+        /// Returns a new <see cref="Vector3D"/> containing the absolute values of the current vector's components.
+        /// </summary>
+        /// <returns>A new <see cref="Vector3D"/> representing the absolute value of the current vector.</returns>
         public Vector3D GetAbs()
         {
             Vector3D result = new(this);
@@ -253,6 +315,10 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
+        /// <summary>
+        /// Returns a new <see cref="Vector3D"/> instance that is the inverse of the current vector.
+        /// </summary>
+        /// <returns>A <see cref="Vector3D"/> representing the inversed vector.</returns>
         public Vector3D GetInversed()
         {
             Vector3D result = new(this);
@@ -261,6 +327,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
+        /// <summary>
+        /// Calculates the minimum angle between this vector and the specified <see cref="Vector3D"/>.
+        /// </summary>
+        /// <param name="vector3D">The <see cref="Vector3D"/> to calculate the angle against.</param>
+        /// <returns>A <see cref="double"/> representing the smallest angular distance in radians.</returns>
         public double MinAngle(Vector3D? vector3D)
         {
             double value = System.Math.Abs(Angle(vector3D));
@@ -272,6 +343,9 @@ namespace DiGi.Geometry.Spatial.Classes
             return System.Math.Min(System.Math.PI - value, value);
         }
 
+        /// <summary>
+        /// Normalizes the vector to a unit length of 1.0.
+        /// </summary>
         public void Normalize()
         {
             double length = Length;
@@ -298,6 +372,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="Vector3D"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="Vector3D"/>.</param>
+        /// <returns><see langword="true"/> if the specified <see cref="object"/> is equal to the current <see cref="Vector3D"/>; otherwise, <see langword="false"/>.</returns>
         public override bool Equals(object? obj)
         {
             return obj is Vector3D d &&
@@ -305,6 +384,10 @@ namespace DiGi.Geometry.Spatial.Classes
                    EqualityComparer<double[]>.Default.Equals(values, d.values);
         }
 
+        /// <summary>
+        /// Returns a hash code for the current object.
+        /// </summary>
+        /// <returns>An <see cref="int"/> that is the hash code for the current object.</returns>
         public override int GetHashCode()
         {
             int hashCode = 1501109969;

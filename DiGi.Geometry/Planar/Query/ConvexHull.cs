@@ -7,6 +7,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Computes the convex hull for a collection of <see cref="Point2D"/> points.
+        /// </summary>
+        /// <param name="point2Ds">The <see cref="IEnumerable{T}"/> of <see cref="Point2D"/> objects to process.</param>
+        /// <param name="keepOrder">A <see cref="bool"/> value indicating whether the original order of the points should be preserved in the resulting list.</param>
+        /// <returns>A <see cref="List{T}"/> of <see cref="Point2D"/> objects forming the convex hull, or <see langword="null"/> if the input collection is <see langword="null"/>.</returns>
         public static List<Point2D>? ConvexHull(this IEnumerable<Point2D>? point2Ds, bool keepOrder)
         {
             if (point2Ds is null)
@@ -37,6 +43,11 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Computes the convex hull for a given collection of <Point2D> objects.
+        /// </summary>
+        /// <param name="point2Ds">An <IEnumerable<Point2D>> containing the points to process.</param>
+        /// <returns>A <List<Point2D>> representing the vertices of the convex hull, or null if the input collection is null.</returns>
         public static List<Point2D>? ConvexHull(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null)
@@ -101,6 +112,11 @@ namespace DiGi.Geometry.Planar
             return point2Ds_Temp_UpperHull;
         }
 
+        /// <summary>
+        /// Computes the convex hull for a collection of <see cref="Segment2D"/>.
+        /// </summary>
+        /// <param name="segment2Ds">The <see cref="IEnumerable{T}"/> of <see cref="Segment2D"/> objects used to derive points for the convex hull.</param>
+        /// <returns>A <see cref="List{T}"/> of <see cref="Point2D"/> vertices forming the convex hull, or <see langword="null"/> if the input is <see langword="null"/>.</returns>
         public static List<Point2D>? ConvexHull(this IEnumerable<Segment2D>? segment2Ds)
         {
             if (segment2Ds is null)
@@ -127,6 +143,11 @@ namespace DiGi.Geometry.Planar
             return ConvexHull(point2Ds);
         }
 
+        /// <summary>
+        /// Computes the convex hull for the specified <see cref="ISegmentable2D"/> instance.
+        /// </summary>
+        /// <param name="segmentable2D">The <see cref="ISegmentable2D"/> instance to calculate the convex hull for.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the points of the convex hull, or null if the <paramref name="segmentable2D"/> is null.</returns>
         public static List<Point2D>? ConvexHull(this ISegmentable2D? segmentable2D)
         {
             return ConvexHull(segmentable2D?.GetPoints());

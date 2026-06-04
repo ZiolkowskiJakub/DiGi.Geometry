@@ -4,6 +4,11 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates an X-axis vector perpendicular to the specified <see cref="Vector3D"/> normal.
+        /// </summary>
+        /// <param name="normal">The <see cref="Vector3D"/> normal vector used as a reference.</param>
+        /// <returns>A <see cref="Vector3D"/> representing the calculated X-axis, or null if the provided <see cref="Vector3D"/> normal is null.</returns>
         public static Vector3D? AxisX(this Vector3D? normal)
         {
             if (normal == null)
@@ -19,6 +24,12 @@ namespace DiGi.Geometry.Spatial
             return new Vector3D(normal.Y, -normal.X, 0).Unit;
         }
 
+        /// <summary>
+        /// Calculates the X-axis vector based on a normal vector and a Y-axis vector.
+        /// </summary>
+        /// <param name="normal">The <see cref="Vector3D?" /> normal vector.</param>
+        /// <param name="axisY">The <see cref="Vector3D?" /> Y-axis vector.</param>
+        /// <returns>A <see cref="Vector3D?" /> representing the unit X-axis vector, or null if either the normal or axisY is null.</returns>
         public static Vector3D? AxisX(this Vector3D? normal, Vector3D? axisY)
         {
             if (normal == null || axisY == null)

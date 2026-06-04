@@ -7,6 +7,12 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether a collection of <see cref="Point3D"/> points are coplanar within a specified tolerance.
+        /// </summary>
+        /// <param name="point3Ds">The <see cref="IEnumerable{Point3D}"/> of points to evaluate.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance used to determine if the points lie on the same plane.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the points are coplanar; returns <c>false</c> if the collection is null.</returns>
         public static bool Coplanar(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             // Inspired by BHoM
@@ -46,6 +52,13 @@ namespace DiGi.Geometry.Spatial
             return nonZeroRows < 3;
         }
 
+        /// <summary>
+        /// Determines whether two <see cref="IPlanar"/> objects are coplanar within a specified tolerance.
+        /// </summary>
+        /// <param name="planar_1">The first <see cref="IPlanar"/> object to evaluate.</param>
+        /// <param name="planar_2">The second <see cref="IPlanar"/> object to evaluate.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for coplanarity.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the two objects are coplanar.</returns>
         public static bool Coplanar(this IPlanar? planar_1, IPlanar? planar_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (planar_1 == planar_2)

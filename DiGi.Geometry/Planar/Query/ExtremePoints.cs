@@ -6,6 +6,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Finds the two points within a collection that are furthest apart from each other.
+        /// </summary>
+        /// <param name="point2Ds">The <see cref="IEnumerable{Point2D}"/> of <see cref="Point2D"/> objects to evaluate.</param>
+        /// <param name="point2D_1">When this method returns, contains the first point of the pair with the maximum distance, or null if the collection is null or contains fewer than two points.</param>
+        /// <param name="point2D_2">When this method returns, contains the second point of the pair with the maximum distance, or null if the collection is null or contains fewer than two points.</param>
         public static void ExtremePoints(this IEnumerable<Point2D>? point2Ds, out Point2D? point2D_1, out Point2D? point2D_2)
         {
             point2D_1 = null;

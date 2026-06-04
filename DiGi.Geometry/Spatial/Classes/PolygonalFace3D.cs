@@ -11,28 +11,71 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
+    /// <summary>
+    /// Represents a polygonal face in 3D space that is planar.
+    /// </summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class from a <see cref="JsonObject"/>.
+    /// </summary>
+    /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the face.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class using a specified plane and 2D polygonal face.
+    /// </summary>
+    /// <param name="plane">The <see cref="Plane"/> that defines the orientation of the face.</param>
+    /// <param name="polygonalFace2D">The <see cref="IPolygonalFace2D"/> representing the 2D geometry of the face.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class from an external edge.
+    /// </summary>
+    /// <param name="externalEdge">The <see cref="IPolygonal3D"/> object used to derive the face.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class by copying an existing <see cref="PolygonalFace3D"/> instance.
+    /// </summary>
+    /// <param name="polygonalFace3D">The <see cref="PolygonalFace3D"/> instance to copy.</param>
     public class PolygonalFace3D : Planar<IPolygonalFace2D>, IPolygonalFace3D
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class using the specified <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data to initialize the <see cref="PolygonalFace3D"/> instance.</param>
         public PolygonalFace3D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> that defines the surface of the polygonal face.</param>
+        /// <param name="polygonalFace2D">The <see cref="IPolygonalFace2D"/> representation of the polygonal face in 2D space.</param>
         public PolygonalFace3D(Plane? plane, IPolygonalFace2D? polygonalFace2D)
             : base(plane, polygonalFace2D)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class using the specified external edge.
+        /// </summary>
+        /// <param name="externalEdge">The <see cref="IPolygonal3D"/> object representing the external edge used to initialize the face. This value can be null.</param>
         public PolygonalFace3D(IPolygonal3D? externalEdge)
             : base(externalEdge?.Plane, externalEdge == null ? null : new PolygonalFace2D(externalEdge?.Plane?.Convert(externalEdge)))
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class using the values from another <see cref="PolygonalFace3D"/> instance.
+        /// </summary>
+        /// <param name="polygonalFace3D">The <see cref="PolygonalFace3D"/> instance to copy from.</param>
         public PolygonalFace3D(PolygonalFace3D? polygonalFace3D)
             : base(polygonalFace3D)
         {
         }
 
+        /// <summary>
+        /// Gets a list of all polygonal 3D edges, combining the external edge and any internal edges.
+        /// </summary>
+        /// <value>
+        /// A <see cref="List{IPolygonal3D}"/> containing both the external and internal edges, or <c>null</c> if no external edge exists.
+        /// </value>
         [JsonIgnore]
         public List<IPolygonal3D>? Edges
         {
@@ -64,6 +107,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the external edge of the geometry as an IPolygonal3D object.
+        /// </summary>
+        /// <value>
+        /// The IPolygonal3D representation of the external edge, or null if the plane or underlying 2D geometry is not available.
+        /// </value>
         [JsonIgnore]
         public IPolygonal3D? ExternalEdge
         {
@@ -84,6 +133,11 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the list of internal edges as <see cref="IPolygonal3D"/>.
+        /// Returns null if the plane, geometry 2D, or the source internal edges are not available.
+        /// </summary>
+        /// <value>A <see cref="List{IPolygonal3D}"/> containing the converted internal edges, or null.</value>
         [JsonIgnore]
         public List<IPolygonal3D>? InternalEdges
         {
@@ -116,11 +170,20 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Creates a copy of the current object.
+        /// </summary>
+        /// <returns>A new <see cref="ISerializableObject"/> that is a clone of the current instance, or <c>null</c>.</returns>
         public override ISerializableObject? Clone()
         {
             return new PolygonalFace3D(this);
         }
 
+        /// <summary>
+        /// Calculates the closest point on the geometry to the specified <see cref="Point3D"/>.
+        /// </summary>
+        /// <param name="point3D">The <see cref="Point3D"/> for which the closest point is calculated.</param>
+        /// <returns>The closest <see cref="Point3D"/> on the geometry, or null if the input point, plane, or geometry is null.</returns>
         public Point3D? ClosestPoint(Point3D? point3D)
         {
             if (point3D == null || plane == null || geometry2D == null)
@@ -137,11 +200,20 @@ namespace DiGi.Geometry.Spatial.Classes
             return plane.Convert(geometry2D.ClosestPoint(point2D));
         }
 
+        /// <summary>
+        /// Calculates the distance between the specified <see cref="Point3D"/> and the closest point on this object.
+        /// </summary>
+        /// <param name="point3D">The <see cref="Point3D"/> to calculate the distance from.</param>
+        /// <returns>The distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the closest point cannot be determined.</returns>
         public double Distance(Point3D? point3D)
         {
             return ClosestPoint(point3D) is not Point3D closestPoint ? double.NaN : closestPoint.Distance(point3D);
         }
 
+        /// <summary>
+        /// Calculates the area of the 2D geometry.
+        /// </summary>
+        /// <returns>A <see cref="double"/> representing the area, or <see cref="double.NaN"/> if the underlying 2D geometry is null.</returns>
         public double GetArea()
         {
             if (geometry2D == null)
@@ -152,16 +224,31 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.GetArea();
         }
 
+        /// <summary>
+        /// Gets the bounding box of the object.
+        /// </summary>
+        /// <returns>A <see cref="BoundingBox3D"/> representing the bounding box, or null if it cannot be determined.</returns>
         public BoundingBox3D? GetBoundingBox()
         {
             return ExternalEdge?.GetBoundingBox();
         }
 
+        /// <summary>
+        /// Gets an internal point of the geometry within the specified tolerance.
+        /// </summary>
+        /// <param name="tolerance">The double value representing the distance tolerance used for calculations.</param>
+        /// <returns>A Point3D object if an internal point is found; otherwise, null.</returns>
         public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return plane?.Convert(geometry2D?.GetInternalPoint(tolerance));
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="Point3D?"/> is within the range of the geometry based on the provided <see cref="double"/> tolerance.
+        /// </summary>
+        /// <param name="point3D">The <see cref="Point3D?"/> to evaluate.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance used for the range check.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the point is within range; returns <see langword="false"/> if the point, plane, or geometry is null.</returns>
         public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || plane == null || geometry2D == null)
@@ -177,6 +264,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.InRange(plane.Convert(point3D), tolerance);
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="Point3D"/> is located inside the geometry on the plane within a given tolerance.
+        /// </summary>
+        /// <param name="point3D">The nullable <see cref="Point3D"/> to evaluate.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance used for the proximity check.</param>
+        /// <returns>A <see cref="bool"/> value indicating <c>true</c> if the point is within the geometry; otherwise, <c>false</c>.</returns>
         public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || plane == null || geometry2D == null)
@@ -192,6 +285,10 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.Inside(plane.Convert(point3D), tolerance);
         }
 
+        /// <summary>
+        /// Inverts the underlying 2D geometry.
+        /// </summary>
+        /// <returns>A <see cref="bool"/> value indicating whether the inversion was successful.</returns>
         public bool Inverse()
         {
             if (geometry2D is null)
@@ -202,6 +299,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.Inverse();
         }
 
+        /// <summary>
+        /// Determines whether the specified 3D point lies on the edge of the geometry within a given tolerance.
+        /// </summary>
+        /// <param name="point3D">The nullable <see cref="Point3D"/> to evaluate.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance used for the calculation.</param>
+        /// <returns>A <see cref="bool"/> value indicating true if the point is on the edge; otherwise, false.</returns>
         public bool OnEdge(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D == null || plane == null || geometry2D == null)
@@ -217,6 +320,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.OnEdge(plane.Convert(point3D), tolerance);
         }
 
+        /// <summary>
+        /// Orients the external and internal edges of the geometry based on the specified orientations.
+        /// </summary>
+        /// <param name="externalEdgeOrientation">The optional <see cref="Orientation"/> to apply to the external edge.</param>
+        /// <param name="internalEdgeOrientation">The optional <see cref="Orientation"/> to apply to the internal edge.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the orientation process was successful.</returns>
         public bool Orient(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation)
         {
             if (externalEdgeOrientation is null && internalEdgeOrientation is null || geometry2D is null)
@@ -248,6 +357,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return geometry2D.Orient(externalEdgeOrientation_Temp, internalEdgeOrientation_Temp);
         }
 
+        /// <summary>
+        /// Triangulates the geometry into a list of <Triangle3D> objects based on the specified tolerance.
+        /// </summary>
+        /// <param name="tolerance">The <double> tolerance value used during the triangulation process.</param>
+        /// <returns>A <List<Triangle3D>> containing the resulting 3D triangles, or null if the plane or underlying 2D geometry is not available.</returns>
         public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             if (plane == null)

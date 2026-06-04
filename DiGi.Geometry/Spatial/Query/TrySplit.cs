@@ -10,6 +10,14 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Attempts to split the specified polygonal face using a collection of other polygonal faces.
+        /// </summary>
+        /// <param name="polygonalFace3D">The <see cref="IPolygonalFace3D"/> instance to be split.</param>
+        /// <param name="polygonalFace3Ds">A collection of <see cref="IPolygonalFace3D"/> instances used as splitting boundaries.</param>
+        /// <param name="result">When this method returns, contains a <see cref="List{PolygonalFace3D}"/> of the resulting split faces if successful; otherwise, null.</param>
+        /// <param name="tolerance">The double value representing the distance tolerance for intersection calculations.</param>
+        /// <returns>True if the polygonal face was successfully split; otherwise, false.</returns>
         public static bool TrySplit(this IPolygonalFace3D? polygonalFace3D, IEnumerable<IPolygonalFace3D>? polygonalFace3Ds, out List<PolygonalFace3D>? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             result = null;
@@ -79,6 +87,15 @@ namespace DiGi.Geometry.Spatial
             return result.Count != 0;
         }
 
+        /// <summary>
+        /// Attempts to split the specified polyhedron using a collection of other polyhedrons.
+        /// </summary>
+        /// <typeparam name="TPolyhedron">The type of polyhedrons in the collection, which must implement <see cref="IPolyhedron"/>.</typeparam>
+        /// <param name="polyhedron">The <see cref="IPolyhedron"/> to be split.</param>
+        /// <param name="polyhedrons">An <see cref="IEnumerable{TPolyhedron}"/> of polyhedrons used for the splitting process.</param>
+        /// <param name="result">When this method returns, contains the resulting <see cref="Polyhedron"/> if the operation succeeded; otherwise, null.</param>
+        /// <param name="tolerance">A <see cref="double"/> value specifying the distance tolerance.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the split was successful.</returns>
         public static bool TrySplit<TPolyhedron>(this IPolyhedron? polyhedron, IEnumerable<TPolyhedron>? polyhedrons, out Polyhedron? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolyhedron : IPolyhedron
         {
             result = null;
@@ -170,6 +187,14 @@ namespace DiGi.Geometry.Spatial
             return true;
         }
 
+        /// <summary>
+        /// Attempts to split a collection of polyhedrons based on a specified tolerance.
+        /// </summary>
+        /// <typeparam name="TPolyhedron">The type of polyhedron, which must implement <see cref="IPolyhedron"/>.</typeparam>
+        /// <param name="polyhedrons">The <see cref="IEnumerable{TPolyhedron}"/> of polyhedrons to split.</param>
+        /// <param name="result">When this method returns, contains the <see cref="List{Polyhedron}"/> of resulting polyhedrons if the operation succeeded; otherwise, null.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used to determine splitting boundaries.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the split was successful.</returns>
         public static bool TrySplit<TPolyhedron>(this IEnumerable<TPolyhedron> polyhedrons, out List<Polyhedron>? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolyhedron : IPolyhedron
         {
             result = null;
@@ -235,6 +260,14 @@ namespace DiGi.Geometry.Spatial
             return result.Count != 0;
         }
 
+        /// <summary>
+        /// Attempts to split a polyhedron using a specified plane.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> used to perform the split operation.</param>
+        /// <param name="polyhedron">The <see cref="IPolyhedron"/> that is to be split.</param>
+        /// <param name="polyhedrons">When this method returns, contains a <see cref="List{Polyhedron}"/> of the resulting polyhedrons if the operation succeeded; otherwise, null.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for intersection calculations.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the polyhedron was successfully split.</returns>
         public static bool TrySplit(this Plane? plane, IPolyhedron? polyhedron, out List<Polyhedron>? polyhedrons, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             polyhedrons = null;
@@ -330,6 +363,14 @@ namespace DiGi.Geometry.Spatial
             return polyhedrons.Count != 0;
         }
 
+        /// <summary>
+        /// Attempts to split a 3D polygonal face using the specified plane.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> used as the splitting surface.</param>
+        /// <param name="polygonalFace3D">The <see cref="IPolygonalFace3D"/> instance to be split.</param>
+        /// <param name="result">When this method returns, contains a <see cref="List{PolygonalFace3D}"/> of the resulting faces if the operation succeeded; otherwise, null.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance used for intersection calculations.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the split was successful.</returns>
         public static bool TrySplit(this Plane? plane, IPolygonalFace3D? polygonalFace3D, out List<PolygonalFace3D>? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             result = null;

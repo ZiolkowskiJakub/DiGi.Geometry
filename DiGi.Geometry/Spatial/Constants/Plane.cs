@@ -1,7 +1,25 @@
 ﻿namespace DiGi.Geometry.Spatial.Constants
 {
+    /// <summary>
+    /// Provides common world plane definitions.
+    /// </summary>
+    /// <summary>
+    /// Gets a <see cref="Classes.Plane"/> that represents the world X-axis plane.
+    /// </summary>
+    /// <value>A <see cref="Classes.Plane"/> instance.</value>
+    /// <summary>
+    /// Gets a <see cref="Classes.Plane"/> that represents the world Y-axis plane.
+    /// </summary>
+    /// <value>A <see cref="Classes.Plane"/> instance.</value>
+    /// <summary>
+    /// Gets a <see cref="Classes.Plane"/> that represents the world Z-axis plane.
+    /// </summary>
+    /// <value>A <see cref="Classes.Plane"/> instance.</value>
     public static class Plane
     {
+        /// <summary>
+        /// Gets a <see cref="Classes.Plane"/> representing the world X plane, which is perpendicular to the world X axis and passes through the origin.
+        /// </summary>
         public static Classes.Plane WorldX
         {
             get
@@ -10,6 +28,10 @@
             }
         }
 
+        /// <summary>
+        /// Gets a <see cref="Classes.Plane"/> representing the world Y plane, defined by the origin point and the world Y normal vector.
+        /// </summary>
+        /// <value>A <see cref="Classes.Plane"/> that is perpendicular to the world Y axis.</value>
         public static Classes.Plane WorldY
         {
             get
@@ -18,6 +40,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets a <see cref="Classes.Plane"/> representing the world Z plane.
+        /// </summary>
         public static Classes.Plane WorldZ
         {
             get

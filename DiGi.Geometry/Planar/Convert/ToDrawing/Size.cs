@@ -6,6 +6,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a <see cref="Vector2D"/> to a <see cref="Size"/> using the specified rounding method.
+        /// </summary>
+        /// <param name="vector2D">The <see cref="Vector2D"/> instance to convert.</param>
+        /// <param name="roundingMethod">The <see cref="RoundingMethod"/> used to round the values. Defaults to <see cref="RoundingMethod.Nearest"/>.</param>
+        /// <returns>A <see cref="Size"/> object if the conversion is successful and the rounding method is not <see cref="RoundingMethod.Undefined"/>; otherwise, <c>null</c>.</returns>
         public static Size? ToDrawing_Size(this Vector2D vector2D, RoundingMethod roundingMethod = RoundingMethod.Nearest)
         {
             if (roundingMethod == RoundingMethod.Undefined)

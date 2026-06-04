@@ -7,11 +7,25 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the intersection points between two collections of 2D segments.
+        /// </summary>
+        /// <param name="segment2Ds_1">The first <see cref="IEnumerable{Segment2D}"/> collection of segments.</param>
+        /// <param name="segment2Ds_2">The second <see cref="IEnumerable{Segment2D}"/> collection of segments.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for intersection calculations.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the intersection points, or <c>null</c> if either input collection is null.</returns>
         public static List<Point2D>? IntersectionPoints(this IEnumerable<Segment2D>? segment2Ds_1, IEnumerable<Segment2D>? segment2Ds_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return IntersectionPoints(segment2Ds_1, segment2Ds_2, int.MaxValue, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the intersection points between an <see cref="ISegmentable2D"/> object and a collection of <see cref="Segment2D"/> segments.
+        /// </summary>
+        /// <param name="segmentable2D">The <see cref="ISegmentable2D"/> object to check for intersections.</param>
+        /// <param name="segment2Ds">An <see cref="IEnumerable{Segment2D}"/> containing the segments to intersect with.</param>
+        /// <param name="tolerace">A <see cref="double"/> value representing the distance tolerance for intersection detection.</param>
+        /// <returns>A <see cref="List{Point2D}"/> of intersection points if successful; otherwise, <c>null</c>.</returns>
         public static List<Point2D>? IntersectionPoints(this ISegmentable2D? segmentable2D, IEnumerable<Segment2D>? segment2Ds, double tolerace = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D == null || segment2Ds == null)
@@ -22,6 +36,13 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(segmentable2D.GetSegments(), segment2Ds, tolerace);
         }
 
+        /// <summary>
+        /// Calculates the intersection points between two segmentable 2D objects.
+        /// </summary>
+        /// <param name="segmentable2D_1">The first <see cref="ISegmentable2D"/> object to check for intersections.</param>
+        /// <param name="segmentable2D_2">The second <see cref="ISegmentable2D"/> object to check for intersections.</param>
+        /// <param name="tolerace">The <see cref="double"/> distance tolerance used to determine if points intersect.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the intersection points, or <c>null</c> if either <paramref name="segmentable2D_1"/> or <paramref name="segmentable2D_2"/> is <c>null</c>.</returns>
         public static List<Point2D>? IntersectionPoints(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerace = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D_1 == null || segmentable2D_2 == null)
@@ -32,6 +53,13 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(segmentable2D_1.GetSegments(), segmentable2D_2.GetSegments(), tolerace);
         }
 
+        /// <summary>
+        /// Calculates the intersection points between a segmentable 2D object and a collection of other segmentable 2D objects.
+        /// </summary>
+        /// <param name="segmentable2D">The <see cref="ISegmentable2D"/> object to check for intersections.</param>
+        /// <param name="segmentable2Ds">An <see cref="IEnumerable{ISegmentable2D}"/> of segmentable 2D objects to intersect with the source object.</param>
+        /// <param name="tolerace">The <see cref="double"/> distance tolerance used for intersection calculations.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the found intersection points, or <c>null</c> if either input is null.</returns>
         public static List<Point2D>? IntersectionPoints<T>(this ISegmentable2D? segmentable2D, IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerace = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
             if (segmentable2D == null || segmentable2Ds == null)
@@ -42,6 +70,14 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(segmentable2D.GetSegments(), segmentable2Ds.Segments(), tolerace);
         }
 
+        /// <summary>
+        /// Calculates the intersection points between two collections of <see cref="Segment2D"/> objects.
+        /// </summary>
+        /// <param name="segment2Ds_1">The first collection of <see cref="Segment2D"/> objects.</param>
+        /// <param name="segment2Ds_2">The second collection of <see cref="Segment2D"/> objects.</param>
+        /// <param name="maxCount">The maximum number of intersection points to find as an <see cref="int"/>.</param>
+        /// <param name="tolerance">The distance tolerance used for the calculation as a <see cref="double"/>.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the found intersection points, or <c>null</c> if either collection is null or empty, or if <paramref name="maxCount"/> is less than 1.</returns>
         public static List<Point2D>? IntersectionPoints(this IEnumerable<Segment2D>? segment2Ds_1, IEnumerable<Segment2D>? segment2Ds_2, int maxCount, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds_1 == null || segment2Ds_2 == null || maxCount < 1)
@@ -95,6 +131,19 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the intersection points between a ray or line defined by a point and a vector, and a collection of segmentable 2D objects.
+        /// </summary>
+        /// <param name="point2D">The <see cref="Point2D"/> starting point.</param>
+        /// <param name="vector2D">The <see cref="Vector2D"/> direction vector.</param>
+        /// <param name="segmentable2Ds">An <see cref="IEnumerable{ISegmentable2D}"/> of segmentable 2D objects to check for intersections.</param>
+        /// <param name="keepDirection">A <see cref="bool"/> indicating whether to keep the direction of the intersection points.</param>
+        /// <param name="removeCollinear">A <see cref="bool"/> indicating whether collinear points should be removed.</param>
+        /// <param name="sort">A <see cref="bool"/> indicating whether the resulting intersection points should be sorted.</param>
+        /// <param name="selfIntersection">A <see cref="bool"/> indicating whether self-intersections are considered.</param>
+        /// <param name="intersectionSegment2Ds">When this method returns, contains a <see cref="List{Segment2D}"/> of the segments that were intersected; otherwise, null.</param>
+        /// <param name="tolerance">A <see cref="double"/> representing the distance tolerance for intersection calculations.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the intersection points if successful; otherwise, null.</returns>
         public static List<Point2D>? IntersectionPoints(this Point2D? point2D, Vector2D? vector2D, IEnumerable<ISegmentable2D>? segmentable2Ds, bool keepDirection, bool removeCollinear, bool sort, bool selfIntersection, out List<Segment2D>? intersectionSegment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             intersectionSegment2Ds = null;
@@ -118,6 +167,19 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(point2D, vector2D, segment2Ds, keepDirection, removeCollinear, sort, selfIntersection, out intersectionSegment2Ds, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the intersection points between a line defined by a point and a vector, and a collection of 2D segments.
+        /// </summary>
+        /// <param name="point2D">The starting <Point2D> of the line.</param>
+        /// <param name="vector2D">The direction <Vector2D> of the line.</param>
+        /// <param name="segment2Ds">An <IEnumerable<Segment2D>> containing the segments to check for intersections.</param>
+        /// <param name="keepDirection">A <bool> indicating whether to keep only points that follow the direction of the vector.</param>
+        /// <param name="removeCollinear">A <bool> indicating whether collinear segments should be removed from the results.</param>
+        /// <param name="sort">A <bool> indicating whether the resulting intersection points should be sorted.</param>
+        /// <param name="selfIntersection">A <bool> indicating whether to include self-intersections.</param>
+        /// <param name="intersectionSegment2Ds">When this method returns, contains a <List<Segment2D>> of segments that were intersected.</param>
+        /// <param name="tolerance">The <double> tolerance value used for intersection calculations.</param>
+        /// <returns>A <List<Point2D>> containing the intersection points, or null if no intersections are found or input parameters are invalid.</returns>
         public static List<Point2D>? IntersectionPoints(this Point2D? point2D, Vector2D? vector2D, IEnumerable<Segment2D>? segment2Ds, bool keepDirection, bool removeCollinear, bool sort, bool selfIntersection, out List<Segment2D>? intersectionSegment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             intersectionSegment2Ds = null;
@@ -212,6 +274,13 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(line2D.Origin, line2D.Direction, segmentable2Ds, false, true, false, true, out intersectionSegment2Ds, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the intersection points between a <see cref="Line2D"/> and a collection of <see cref="ISegmentable2D"/> objects.
+        /// </summary>
+        /// <param name="line2D">The <see cref="Line2D"/> to check for intersections.</param>
+        /// <param name="segmentable2Ds">A collection of <see cref="ISegmentable2D"/> objects to intersect with the line.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for intersection calculations.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the intersection points, or <c>null</c> if either the <paramref name="line2D"/> or <paramref name="segmentable2Ds"/> is null.</returns>
         public static List<Point2D>? IntersectionPoints(this Line2D? line2D, IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null || segmentable2Ds is null)
@@ -222,6 +291,13 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(line2D.Origin, line2D.Direction, segmentable2Ds, false, true, false, true, out _, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the intersection points between a <see cref="Line2D"/> and an <see cref="ISegmentable2D"/>.
+        /// </summary>
+        /// <param name="line2D">The <see cref="Line2D"/> to check for intersections.</param>
+        /// <param name="segmentable2D">The <see cref="ISegmentable2D"/> object containing segments to intersect with.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance used for the intersection calculation.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the intersection points, or <c>null</c> if the <see cref="Line2D"/> or segmentable object is null.</returns>
         public static List<Point2D>? IntersectionPoints(this Line2D? line2D, ISegmentable2D segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null)
@@ -250,6 +326,16 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the intersection points between a circle and a line defined by two points.
+        /// </summary>
+        /// <param name="x">The X-coordinate of the center of the circle as a <see cref="double"/>.</param>
+        /// <param name="y">The Y-coordinate of the center of the circle as a <see cref="double"/>.</param>
+        /// <param name="radius">The radius of the circle as a <see cref="double"/>.</param>
+        /// <param name="point2D_1">The first point defining the line as a <see cref="Point2D"/>?</param>
+        /// <param name="point2D_2">The second point defining the line as a <see cref="Point2D"/>?</param>
+        /// <param name="tolerance">The distance tolerance used for calculations as a <see cref="double"/>.</param>
+        /// <returns>A <see cref="List{Point2D}"/>? containing the intersection points, or <see langword="null"/> if no intersections exist or input points are invalid.</returns>
         public static List<Point2D>? IntersectionPoints(double x, double y, double radius, Point2D? point2D_1, Point2D? point2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D_1 is null || point2D_2 is null)
@@ -289,6 +375,13 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the intersection points between a circle and a line.
+        /// </summary>
+        /// <param name="circle2D">The <see cref="Circle2D"/> instance to intersect.</param>
+        /// <param name="line2D">The <see cref="Line2D"/> instance to intersect.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for intersection calculations.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the intersection points, or <c>null</c> if either input is null or required properties are missing.</returns>
         public static List<Point2D>? IntersectionPoints(this Circle2D? circle2D, Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (circle2D is null || line2D is null)
@@ -321,6 +414,13 @@ namespace DiGi.Geometry.Planar
             return IntersectionPoints(center.X, center.Y, radius, point2D_1, point2D_2, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the intersection points between a circle and a line segment.
+        /// </summary>
+        /// <param name="circle2D">The <see cref="Circle2D"/> instance to check for intersections.</param>
+        /// <param name="segment2D">The <see cref="Segment2D"/> instance to check for intersections.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance used for calculations.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the intersection points, or <c>null</c> if either input is <c>null</c> or the circle center is not defined.</returns>
         public static List<Point2D>? IntersectionPoints(this Circle2D? circle2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (circle2D == null || segment2D == null)
@@ -365,6 +465,13 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the intersection points between a <see cref="Circle2D"/> and an <see cref="ISegmentable2D"/>.
+        /// </summary>
+        /// <param name="circle2D">The <see cref="Circle2D"/> to check for intersections.</param>
+        /// <param name="segmentable2D">The <see cref="ISegmentable2D"/> object to check for intersections.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for the intersection calculation.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the intersection points, or <c>null</c> if either input is <c>null</c> or no segments are found.</returns>
         public static List<Point2D>? IntersectionPoints(this Circle2D? circle2D, ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (circle2D == null || segmentable2D == null)
@@ -401,6 +508,13 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Calculates the intersection points between an ellipse and a line segment.
+        /// </summary>
+        /// <param name="ellipse2D">The <see cref="Ellipse2D"/> to intersect.</param>
+        /// <param name="segment2D">The <see cref="Segment2D"/> to intersect.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance used for the intersection calculation.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the intersection points, or <c>null</c> if either input is null or the segment is invalid.</returns>
         public static List<Point2D>? IntersectionPoints(this Ellipse2D? ellipse2D, Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (ellipse2D is null || segment2D is null)
@@ -483,6 +597,13 @@ namespace DiGi.Geometry.Planar
             return results;
         }
 
+        /// <summary>
+        /// Calculates the intersection points between an ellipse and a line.
+        /// </summary>
+        /// <param name="ellipse2D">The <see cref="Ellipse2D"/> instance to intersect.</param>
+        /// <param name="line2D">The <see cref="Line2D"/> instance to intersect.</param>
+        /// <param name="tolerance">A <see cref="double"/> value specifying the distance tolerance for the intersection calculation.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the intersection points, or <c>null</c> if either input is null.</returns>
         public static List<Point2D>? IntersectionPoints(this Ellipse2D? ellipse2D, Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             Point2D? center = ellipse2D?.Center;
@@ -551,6 +672,13 @@ namespace DiGi.Geometry.Planar
             return results;
         }
 
+        /// <summary>
+        /// Calculates the intersection points between an <see cref="Ellipse2D"/> and an <see cref="ISegmentable2D"/>.
+        /// </summary>
+        /// <param name="ellipse2D">The <see cref="Ellipse2D"/> to check for intersections.</param>
+        /// <param name="segmentable2D">The <see cref="ISegmentable2D"/> object containing segments to check for intersections.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance used for intersection calculations.</param>
+        /// <returns>A <see cref="List{Point2D}"/> containing the intersection points if successful; otherwise, null.</returns>
         public static List<Point2D>? IntersectionPoints(this Ellipse2D? ellipse2D, ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (ellipse2D == null || segmentable2D == null)

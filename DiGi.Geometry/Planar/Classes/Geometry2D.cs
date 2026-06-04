@@ -4,6 +4,9 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+    /// <summary>
+    /// Represents a base class for all two-dimensional geometric objects.
+    /// </summary>
     public abstract class Geometry2D : SerializableObject, ICollectable2D
     {
         /// <summary>

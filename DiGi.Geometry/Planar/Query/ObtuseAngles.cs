@@ -7,6 +7,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether the angles of the specified <see cref="IPolygonal2D"/> object are obtuse.
+        /// </summary>
+        /// <param name="polygonal2D">The <see cref="IPolygonal2D"/> instance to analyze.</param>
+        /// <returns>A <see cref="List{T}"/> of <see cref="bool"/> values indicating if each angle is obtuse, or <see langword="null"/> if the input object or its points are null.</returns>
         public static List<bool>? ObtuseAngles(this IPolygonal2D? polygonal2D)
         {
             List<double>? determinats = Determinants(polygonal2D);

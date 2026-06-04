@@ -5,6 +5,11 @@ namespace DiGi.Geometry.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Computes the auxiliary indexes based on the provided collection of index arrays.
+        /// </summary>
+        /// <param name="indexes">The <see cref="IEnumerable{T}"/> of <see cref="int[]"/> containing the original indexes.</param>
+        /// <returns>A <see cref="List{T}"/> of <see cref="int[]"/> representing the auxiliary indexes, or <see langword="null"/> if the input is <see langword="null"/>.</returns>
         public static List<int[]>? AuxiliaryIndexes(this IEnumerable<int[]>? indexes)
         {
             if (indexes == null)

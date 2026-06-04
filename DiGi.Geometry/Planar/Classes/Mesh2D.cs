@@ -7,6 +7,9 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+    /// <summary>
+    /// Represents a two-dimensional mesh composed of <see cref="Point2D"/> elements, implementing 2D geometry, bounding, and collection interfaces.
+    /// </summary>
     public class Mesh2D : Mesh<Point2D>, IGeometry2D, IBoundable2D, ICollectable2D
     {
         /// <summary>

@@ -7,6 +7,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether the provided collection of <see cref="Point2D"/> points forms a concave polygon.
+        /// </summary>
+        /// <param name="point2Ds">The <see cref="IEnumerable{T}"/> of <see cref="Point2D"/> objects representing the vertices of the polygon.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the polygon is concave; returns <see langword="false"/> if the collection is null or contains fewer than three points.</returns>
         public static bool Concave(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null || point2Ds.Count() < 3)
@@ -34,11 +39,23 @@ namespace DiGi.Geometry.Planar
             return false;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="IPolygonal2D"/> instance is concave.
+        /// </summary>
+        /// <param name="polygonal2D">The <see cref="IPolygonal2D"/> instance to evaluate.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the polygonal object is concave; otherwise, false if the <see cref="IPolygonal2D"/> instance is null.</returns>
         public static bool Concave(this IPolygonal2D? polygonal2D)
         {
             return Concave(polygonal2D?.GetPoints());
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="PolygonalFace2D"/> is concave.
+        /// </summary>
+        /// <param name="polygonalFace2D">The <see cref="PolygonalFace2D"/> instance to evaluate.</param>
+        /// <param name="externalEdge">A <see cref="bool"/> value indicating whether the external edge should be checked for concavity.</param>
+        /// <param name="internalEdges">A <see cref="bool"/> value indicating whether internal edges should be checked for concavity.</param>
+        /// <returns>A <see cref="bool"/> value that is <c>true</c> if the polygonal face is concave; otherwise, <c>false</c>.</returns>
         public static bool Concave(this PolygonalFace2D? polygonalFace2D, bool externalEdge = true, bool internalEdges = true)
         {
             if (polygonalFace2D == null)

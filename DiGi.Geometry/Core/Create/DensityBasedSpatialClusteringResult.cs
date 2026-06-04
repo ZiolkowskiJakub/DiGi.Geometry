@@ -7,6 +7,14 @@ namespace DiGi.Geometry.Core
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Performs density-based spatial clustering on the provided collection of points.
+        /// </summary>
+        /// <typeparam name="T">The type of point, which must implement <see cref="IPoint{T}"/>.</typeparam>
+        /// <param name="points">The <see cref="IEnumerable{T}"/> collection of points to be clustered.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance threshold used to determine if two points are neighbors.</param>
+        /// <param name="pointCount">The minimum <see cref="int"/> number of points required to form a dense region.</param>
+        /// <returns>A <see cref="DensityBasedSpatialClusteringResult{T}"/> containing the clustering results, or <see langword="null"/> if the <paramref name="points"/> collection is null.</returns>
         public static DensityBasedSpatialClusteringResult<T>? DensityBasedSpatialClusteringResult<T>(this IEnumerable<T>? points, double tolerance, int pointCount) where T : IPoint<T>
         {
             if (points == null)

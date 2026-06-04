@@ -6,6 +6,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts an <see cref="IGeometry2D"/> instance to a <see cref="NetTopologySuite.Geometries.Geometry"/> object.
+        /// </summary>
+        /// <param name="sAMGeometry2D">The <see cref="IGeometry2D"/> geometry to convert.</param>
+        /// <returns>A <see cref="NetTopologySuite.Geometries.Geometry"/> representation of the input geometry, or <see langword="null"/> if the provided <see cref="IGeometry2D"/> is <see langword="null"/>.</returns>
         public static NetTopologySuite.Geometries.Geometry? ToNTS(this IGeometry2D? sAMGeometry2D)
         {
             if (sAMGeometry2D == null)

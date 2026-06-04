@@ -4,6 +4,14 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the determinant of a 3x3 matrix formed by three <see cref="Point3D"/> points and a <see cref="Vector3D"/> normal vector.
+        /// </summary>
+        /// <param name="point3D_1">The first <see cref="Point3D"/> point.</param>
+        /// <param name="point3D_2">The second <see cref="Point3D"/> point.</param>
+        /// <param name="point3D_3">The third <see cref="Point3D"/> point.</param>
+        /// <param name="normal">The <see cref="Vector3D"/> normal vector.</param>
+        /// <returns>The calculated <see cref="double"/> determinant, or <see cref="double.NaN"/> if any of the provided parameters are null.</returns>
         public static double Determinant(this Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3, Vector3D? normal)
         {
             if (point3D_1 == null || point3D_2 == null || point3D_3 == null || normal == null)
@@ -14,6 +22,13 @@ namespace DiGi.Geometry.Spatial
             return (point3D_2.X - point3D_1.X) * ((point3D_3.Y - point3D_1.Y) * normal.Z - (point3D_3.Z - point3D_1.Z) * normal.Y) - (point3D_2.Y - point3D_1.Y) * ((point3D_3.X - point3D_1.X) * normal.Z - (point3D_3.Z - point3D_1.Z) * normal.X) + (point3D_2.Z - point3D_1.Z) * ((point3D_3.X - point3D_1.X) * normal.Y - (point3D_3.Y - point3D_1.Y) * normal.X);
         }
 
+        /// <summary>
+        /// Calculates the determinant of a 3x3 matrix formed by three <see cref="Vector3D"/> vectors.
+        /// </summary>
+        /// <param name="vector3D_1">The first <see cref="Vector3D"/> vector.</param>
+        /// <param name="vector3D_2">The second <see cref="Vector3D"/> vector.</param>
+        /// <param name="normal">The third <see cref="Vector3D"/> vector.</param>
+        /// <returns>A <see cref="double"/> representing the determinant, or <see cref="double.NaN"/> if any of the input vectors are null.</returns>
         public static double Determinant(this Vector3D? vector3D_1, Vector3D? vector3D_2, Vector3D? normal)
         {
             if (vector3D_1 == null || vector3D_2 == null || normal == null)

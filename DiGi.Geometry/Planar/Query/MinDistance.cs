@@ -6,11 +6,23 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the minimum distance between any two points in the provided collection of <Point2D> objects.
+        /// </summary>
+        /// <param name="point2Ds">An <IEnumerable<Point2D>> containing the points to evaluate.</param>
+        /// <returns>A <double> representing the minimum distance found, or <double.NaN> if the collection is null or empty.</returns>
         public static double MinDistance(this IEnumerable<Point2D>? point2Ds)
         {
             return MinDistance(point2Ds, out _, out _);
         }
 
+        /// <summary>
+        /// Calculates the minimum distance between any two points in a collection of <see cref="Point2D"/> objects.
+        /// </summary>
+        /// <param name="point2Ds">The <see cref="IEnumerable{T}"/> of <see cref="Point2D"/> objects to analyze.</param>
+        /// <param name="point2D_1">When this method returns, contains the first <see cref="Point2D"/> of the pair with the minimum distance; otherwise, null.</param>
+        /// <param name="point2D_2">When this method returns, contains the second <see cref="Point2D"/> of the pair with the minimum distance; otherwise, null.</param>
+        /// <returns>The minimum distance as a <see cref="double"/>. Returns <see cref="double.NaN"/> if the collection is null or empty.</returns>
         public static double MinDistance(this IEnumerable<Point2D>? point2Ds, out Point2D? point2D_1, out Point2D? point2D_2)
         {
             point2D_1 = null;

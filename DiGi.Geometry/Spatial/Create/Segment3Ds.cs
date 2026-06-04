@@ -6,6 +6,12 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Converts a collection of <see cref="Point3D"/> objects into a list of <see cref="Segment3D"/> objects.
+        /// </summary>
+        /// <param name="point3Ds">The <see cref="IEnumerable{T}"/> of <see cref="Point3D"/> points to process.</param>
+        /// <param name="closed">A <see cref="bool"/> value indicating whether the segment list should be closed by connecting the last point back to the first point.</param>
+        /// <returns>A <see cref="List{T}"/> of <see cref="Segment3D"/> objects, or <see langword="null"/> if the provided <see cref="IEnumerable{T}"/> is null.</returns>
         public static List<Segment3D>? Segment3Ds(this IEnumerable<Point3D>? point3Ds, bool closed = false)
         {
             if (point3Ds == null)

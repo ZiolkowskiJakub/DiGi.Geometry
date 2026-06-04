@@ -4,6 +4,17 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
+    /// <summary>
+    /// Represents a plane in 3D space, inheriting from <see cref="Geometry3D"/> and implementing <see cref="IFlippable"/>.
+    /// </summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Plane"/> class using the provided <see cref="JsonObject"/>.
+    /// </summary>
+    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data to initialize the plane.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Plane"/> class by copying an existing <see cref="Plane"/>.
+    /// </summary>
+    /// <param name="plane">The source <see cref="Plane"/> object to copy from.</param>
     public class Plane : Geometry3D, IFlippable
     {
         [JsonInclude, JsonPropertyName("AxisY")]
@@ -15,11 +26,19 @@ namespace DiGi.Geometry.Spatial.Classes
         [JsonInclude, JsonPropertyName("Origin")]
         private Point3D? origin;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Plane"/> class using the provided <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data used to initialize the plane.</param>
         public Plane(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Plane"/> class by copying the values from an existing <see cref="Plane"/> object.
+        /// </summary>
+        /// <param name="plane">The source <see cref="Plane"/> object to copy data from. If null, the current instance remains uninitialized.</param>
         public Plane(Plane? plane)
         {
             if (plane != null)
@@ -30,6 +49,11 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Plane"/> class using an existing <see cref="Plane"/> for orientation and an optional <see cref="Point3D"/> for the origin.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> object to copy the normal and axisY vectors from. Can be null.</param>
+        /// <param name="origin">The <see cref="Point3D"/> object to set as the origin of the plane. Can be null.</param>
         public Plane(Plane? plane, Point3D? origin)
         {
             if (plane != null)
@@ -44,6 +68,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Plane"/> class using three points to define the plane's origin and orientation.
+        /// </summary>
+        /// <param name="point3D_1">The first <see cref="Point3D?"/>, which is used as the origin of the plane.</param>
+        /// <param name="point3D_2">The second <see cref="Point3D?"/> used to determine the normal vector of the plane.</param>
+        /// <param name="point3D_3">The third <see cref="Point3D?"/> used to determine the normal vector of the plane.</param>
         public Plane(Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3)
         {
             origin = new Point3D(point3D_1);
@@ -51,6 +81,11 @@ namespace DiGi.Geometry.Spatial.Classes
             axisY = normal.AxisY();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Plane"/> class using the specified origin point and normal vector.
+        /// </summary>
+        /// <param name="origin">The optional <see cref="Point3D"/> that defines the origin of the plane.</param>
+        /// <param name="normal">The optional <see cref="Vector3D"/> that defines the normal vector of the plane.</param>
         public Plane(Point3D? origin, Vector3D? normal)
         {
             if (normal != null)
@@ -65,6 +100,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Plane"/> class using an origin point and two basis vectors.
+        /// </summary>
+        /// <param name="origin">The <see cref="Point3D?"/> representing the origin point of the plane.</param>
+        /// <param name="axisX">The <see cref="Vector3D?"/> representing the X-axis vector of the plane.</param>
+        /// <param name="axisY">The <see cref="Vector3D?"/> representing the Y-axis vector of the plane.</param>
         public Plane(Point3D? origin, Vector3D? axisX, Vector3D? axisY)
         {
             this.origin = origin == null ? null : new Point3D(origin);
@@ -95,6 +136,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the X-axis vector of the coordinate system.
+        /// </summary>
+        /// <value>
+        /// A <see cref="Vector3D"/> representing the X-axis, or null if it cannot be determined.
+        /// </value>
         [JsonIgnore]
         public Vector3D? AxisX
         {
@@ -104,6 +151,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the Y-axis as a <see cref="Vector3D"/>.
+        /// </summary>
+        /// <value>
+        /// A <see cref="Vector3D"/> representing the Y-axis, or null if it is not defined.
+        /// </value>
         [JsonIgnore]
         public Vector3D? AxisY
         {
@@ -113,6 +166,10 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the Z-axis vector derived from the normal.
+        /// </summary>
+        /// <value>A <see cref="Vector3D"/> representing the Z-axis if the normal is defined; otherwise, null.</value>
         [JsonIgnore]
         public Vector3D? AxisZ
         {
@@ -193,6 +250,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the normal vector of the object.
+        /// </summary>
+        /// <value>
+        /// A <see cref="Vector3D"/> representing the normal vector, or null if it is not defined.
+        /// </value>
         [JsonIgnore]
         public Vector3D? Normal
         {
@@ -202,6 +265,10 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the origin point in 3D space.
+        /// </summary>
+        /// <value>A <see cref="Point3D?"> representing the origin coordinates.</value>
         [JsonIgnore]
         public Point3D? Origin
         {
@@ -215,6 +282,11 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Calculates the closest point on the plane to the specified <see cref="Point3D"/>.
+        /// </summary>
+        /// <param name="point3D">The <see cref="Point3D"/> for which the closest point is calculated.</param>
+        /// <returns>The closest <see cref="Point3D"/> on the plane, or null if the provided <see cref="Point3D"/> or the plane normal is null.</returns>
         public Point3D? ClosestPoint(Point3D? point3D)
         {
             if (point3D is null || normal is null)
@@ -226,6 +298,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return new(point3D.X - (normal.X * factor), point3D.Y - (normal.Y * factor), point3D.Z - (normal.Z * factor));
         }
 
+        /// <summary>
+        /// Determines whether this plane is coplanar with the specified <see cref="Plane"/>.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> to compare against.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance used for the comparison.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the planes are coplanar.</returns>
         public bool Coplanar(Plane? plane, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane?.normal is null || normal is null)
@@ -236,6 +314,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return normal.AlmostEquals(plane?.normal, tolerance) || normal.AlmostEquals(-plane?.normal, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the distance between the current object and the specified <see cref="Point3D"/>.
+        /// </summary>
+        /// <param name="point3D">The <see cref="Point3D"/> to calculate the distance to. This value can be null.</param>
+        /// <returns>A <see cref="double"/> representing the distance, or <see cref="double.NaN"/> if the provided point is null or a closest point cannot be determined.</returns>
         public double Distance(Point3D? point3D)
         {
             if (point3D is null)
@@ -252,6 +335,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return closestPoint.Distance(point3D);
         }
 
+        /// <summary>
+        /// Retrieves the <see cref="Vector3D"/> associated with the specified <see cref="Enums.SpatialAxis"/>.
+        /// </summary>
+        /// <param name="axis">The <see cref="Enums.SpatialAxis"/> to retrieve.</param>
+        /// <returns>A <see cref="Vector3D"/> representing the axis, or null if the <see cref="Enums.SpatialAxis"/> is undefined.</returns>
         public Vector3D? GetAxis(Enums.SpatialAxis axis)
         {
             return axis switch
@@ -268,6 +356,12 @@ namespace DiGi.Geometry.Spatial.Classes
             };
         }
 
+        /// <summary>
+        /// Flips the orientation based on the specified primary and secondary spatial axes.
+        /// </summary>
+        /// <param name="prmiaryAxis">The <see cref="Enums.SpatialAxis"/> representing the primary axis.</param>
+        /// <param name="secondaryAxis">The <see cref="Enums.SpatialAxis"/> representing the secondary axis.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the flip operation was successfully performed.</returns>
         public bool Flip(Enums.SpatialAxis prmiaryAxis = Enums.SpatialAxis.Z, Enums.SpatialAxis secondaryAxis = Enums.SpatialAxis.X)
         {
             if (prmiaryAxis == secondaryAxis)
@@ -330,6 +424,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
+        /// <summary>
+        /// Moves the object by the specified Vector3D? vector.
+        /// </summary>
+        /// <param name="vector3D">The Vector3D? value representing the displacement.</param>
+        /// <returns>A bool indicating whether the move operation was successful.</returns>
         public override bool Move(Vector3D? vector3D)
         {
             if (vector3D == null || origin == null)

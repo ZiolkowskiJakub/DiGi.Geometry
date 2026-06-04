@@ -12,13 +12,40 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Spatial.Classes
 {
+    /// <summary>
+    /// Represents a polyhedron composed of polygonal faces.
+    /// </summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Polyhedron"/> class by copying an existing <see cref="Polyhedron"/>.
+    /// </summary>
+    /// <param name="polyhedron">The <see cref="Polyhedron"/> to copy.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Polyhedron"/> class from a JSON object.
+    /// </summary>
+    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the polyhedron data.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Polyhedron"/> class using a collection of polygonal faces.
+    /// </summary>
+    /// <param name="polygonalFaces">The <see cref="IEnumerable{IPolygonalFace3D}"/> containing the faces of the polyhedron.</param>
+    /// <summary>
+    /// Creates a clone of the current <see cref="Polyhedron"/> instance.
+    /// </summary>
+    /// <returns>A new <see cref="ISerializableObject"/> representing the cloned polyhedron.</returns>
     public class Polyhedron : Polyhedron<IPolygonalFace3D>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polyhedron"/> class by copying an existing <see cref="Polyhedron"/> object.
+        /// </summary>
+        /// <param name="polyhedron">The <see cref="Polyhedron"/> object to copy from.</param>
         public Polyhedron(Polyhedron? polyhedron)
             : base(polyhedron)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polyhedron"/> class using the provided <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the polyhedron.</param>
         public Polyhedron(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -29,23 +56,51 @@ namespace DiGi.Geometry.Spatial.Classes
         {
         }
 
+        /// <summary>
+        /// Creates a clone of the current instance.
+        /// </summary>
+        /// <returns>A new <see cref="ISerializableObject"/> that is a copy of the current instance, or null.</returns>
         public override ISerializableObject? Clone()
         {
             return new Polyhedron(this);
         }
     }
 
+    /// <summary>
+    /// Represents an abstract base class for a 3D polyhedron consisting of polygonal faces.
+    /// </summary>
+    /// <typeparam name="TPolygonalFace3D">The type of the polygonal face, which must implement <see cref="IPolygonalFace3D"/>.</typeparam>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Polyhedron{TPolygonalFace3D}"/> class by cloning an existing <see cref="Polyhedron{TPolygonalFace3D}"/>.
+    /// </summary>
+    /// <param name="polyhedron">The <see cref="Polyhedron{TPolygonalFace3D}"/> instance to clone.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Polyhedron{TPolygonalFace3D}"/> class from a <see cref="JsonObject"/>.
+    /// </summary>
+    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the polyhedron data.</param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Polyhedron{TPolygonalFace3D}"/> class with a specified collection of polygonal faces.
+    /// </summary>
+    /// <param name="polygonalFaces">An <see cref="IEnumerable{TPolygonalFace3D}"/> containing the polygonal faces.</param>
     public abstract class Polyhedron<TPolygonalFace3D> : Geometry3D, IPolyhedron where TPolygonalFace3D : IPolygonalFace3D
     {
         [JsonInclude, JsonPropertyName("PolygonalFaces")]
         protected List<TPolygonalFace3D>? polygonalFaces;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polyhedron"/> class using an existing <see cref="Polyhedron{TPolygonalFace3D}"/> instance.
+        /// </summary>
+        /// <param name="polyhedron">The <see cref="Polyhedron{TPolygonalFace3D}"/> instance to copy from.</param>
         public Polyhedron(Polyhedron<TPolygonalFace3D>? polyhedron)
             : base(polyhedron)
         {
             polygonalFaces = DiGi.Core.Query.Clone(polyhedron?.polygonalFaces)?.FilterNulls();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polyhedron"/> class using the provided <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the polyhedron. This value can be null.</param>
         public Polyhedron(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -69,6 +124,10 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the total number of polygonal faces.
+        /// </summary>
+        /// <value>An <see cref="int"/> representing the count of polygonal faces.</value>
         [JsonIgnore]
         public int Count
         {
@@ -78,6 +137,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the list of <see cref="TPolygonalFace3D"/> objects representing the polygonal faces.
+        /// </summary>
+        /// <value>
+        /// A <see cref="List{TPolygonalFace3D}"/> containing the cloned polygonal faces, or null if no faces are defined.
+        /// </value>
         [JsonIgnore]
         public List<TPolygonalFace3D>? PolygonalFaces
         {
@@ -117,6 +182,10 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Calculates the bounding box that encompasses all polygonal faces of the object.
+        /// </summary>
+        /// <returns>A <see cref="BoundingBox3D"/> representing the total bounding area, or <c>null</c> if there are no polygonal faces.</returns>
         public BoundingBox3D? GetBoundingBox()
         {
             if (polygonalFaces == null || polygonalFaces.Count == 0)
@@ -137,6 +206,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return Create.BoundingBox3D(boundingBox3Ds);
         }
 
+        /// <summary>
+        /// Calculates and returns a point located inside the polyhedron.
+        /// </summary>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used to determine if a point is internal.</param>
+        /// <returns>A <see cref="Point3D"/> representing an internal point if one is found; otherwise, null.</returns>
         public Point3D? GetInternalPoint(double tolerance = Tolerance.Distance)
         {
             PolyhedronInternalPointSolver<IPolyhedron> polyhedronInternalPointSolver = new(tolerance)
@@ -151,11 +225,26 @@ namespace DiGi.Geometry.Spatial.Classes
             return polyhedronInternalPointSolver.Output;
         }
 
+        /// <summary>
+        /// Gets the normal vector of the polygonal face at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the polygonal face.</param>
+        /// <param name="side">An optional <see cref="Side"/> specifying which side of the face to use for the normal calculation.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance used for calculations.</param>
+        /// <returns>A <see cref="Vector3D"/> representing the normal vector if successful; otherwise, <c>null</c>.</returns>
         public Vector3D? GetNormal(int index, Side? side = null, double tolerance = Tolerance.Distance)
         {
             return GetNormal(index, out _, side, tolerance);
         }
 
+        /// <summary>
+        /// Gets the normal vector of a polygonal face at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the polygonal face.</param>
+        /// <param name="inversed">When called, contains a <see cref="bool"/> value indicating whether the resulting normal is inversed.</param>
+        /// <param name="side">An optional <see cref="Side?"/> specifying the side to consider for the normal calculation.</param>
+        /// <param name="tolerance">A <see cref="double"/> representing the distance tolerance used during calculations.</param>
+        /// <returns>A <see cref="Vector3D?"/> containing the normal vector if successful; otherwise, <c>null</c>.</returns>
         public Vector3D? GetNormal(int index, out bool inversed, Side? side = null, double tolerance = Tolerance.Distance)
         {
             inversed = false;
@@ -264,6 +353,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="Point3D"/> is within the given tolerance range.
+        /// </summary>
+        /// <param name="point3D">The nullable <see cref="Point3D"/> to evaluate.</param>
+        /// <param name="tolerance">The <see cref="double"/> value representing the distance tolerance.</param>
+        /// <returns>A <see cref="bool"/> value indicating <see langword="true"/> if the point is within range; otherwise, <see langword="false"/>.</returns>
         public bool InRange(Point3D? point3D, double tolerance = Tolerance.Distance)
         {
             if (point3D == null || polygonalFaces == null)
@@ -334,6 +429,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="Point3D"/> is located inside the object, excluding points that are on the boundary.
+        /// </summary>
+        /// <param name="point3D">The <see cref="Point3D"/> to check for containment.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance used for the calculation.</param>
+        /// <returns>A <see cref="bool"/> value indicating <c>true</c> if the point is inside; otherwise, <c>false</c>.</returns>
         public bool Inside(Point3D? point3D, double tolerance = Tolerance.Distance)
         {
             if (point3D == null || polygonalFaces == null)
@@ -349,6 +450,10 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
+        /// <summary>
+        /// Inverts the orientation of all polygonal faces associated with this object.
+        /// </summary>
+        /// <returns>A <see cref="bool"/> value indicating whether at least one polygonal face was successfully inversed; otherwise, <see cref="false"/>.</returns>
         public bool Inverse()
         {
             if (polygonalFaces is null)
@@ -369,6 +474,11 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
+        /// <summary>
+        /// Moves the object by the specified Vector3D vector.
+        /// </summary>
+        /// <param name="vector3D">The Vector3D? vector to translate the polygonal faces by.</param>
+        /// <returns>A bool indicating whether the move operation was successful.</returns>
         public override bool Move(Vector3D? vector3D)
         {
             if (polygonalFaces == null || polygonalFaces.Count == 0)
@@ -384,6 +494,14 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
+        /// <summary>
+        /// Determines whether the polygonal face at the specified index is normalized based on the provided external and internal edge orientations and a distance tolerance.
+        /// </summary>
+        /// <param name="index">The <see cref="int"/> index of the polygonal face to evaluate.</param>
+        /// <param name="externalEdgeOrientation">The optional <see cref="Orientation"/> for external edges.</param>
+        /// <param name="internalEdgeOrientation">The optional <see cref="Orientation"/> for internal edges.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used to determine normalization.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the face is normalized; returns <see langword="false"/> if the polygonal faces collection is null.</returns>
         public bool Normalized(int index, Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation, double tolerance = Tolerance.Distance)
         {
             if (polygonalFaces is null)
@@ -398,6 +516,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return polygonalFace3DNormalizationSolver.Normalized();
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="Point3D"/> is located on any of the polygonal faces within a given tolerance.
+        /// </summary>
+        /// <param name="point3D">The <see cref="Point3D"/> to evaluate.</param>
+        /// <param name="tolerance">The <see cref="double"/> value representing the distance tolerance used for the range check.</param>
+        /// <returns>A <see cref="bool"/> indicating whether the <see cref="Point3D"/> is on any of the polygonal faces; otherwise, <see langword="false"/>.</returns>
         public bool On(Point3D? point3D, double tolerance = Tolerance.Distance)
         {
             if (point3D == null || polygonalFaces == null)
@@ -421,6 +545,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="Point3D"/> is located on the edge of the polygonal faces within the given tolerance.
+        /// </summary>
+        /// <param name="point3D">The nullable <see cref="Point3D"/> to check.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance used for the proximity check.</param>
+        /// <returns>A <see cref="bool"/> value indicating <see langword="true"/> if the point is on the edge; otherwise, <see langword="false"/>.</returns>
         public bool OnEdge(Point3D? point3D, double tolerance = Tolerance.Distance)
         {
             if (point3D == null || polygonalFaces == null)
@@ -454,6 +584,13 @@ namespace DiGi.Geometry.Spatial.Classes
             return false;
         }
 
+        /// <summary>
+        /// Orients the polygonal face at the specified index using the provided external and internal edge orientations.
+        /// </summary>
+        /// <param name="index">The <see cref="int"/> index of the polygonal face to orient.</param>
+        /// <param name="externalEdgeOrientation">An optional <see cref="Orientation"/> specifying the orientation for external edges.</param>
+        /// <param name="internalEdgeOrientation">An optional <see cref="Orientation"/> specifying the orientation for internal edges.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the orientation was successful; returns false if the polygonal faces collection is null or both orientation parameters are null.</returns>
         public bool Orient(int index, Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation)
         {
             if (polygonalFaces is null || (externalEdgeOrientation is null && internalEdgeOrientation is null))
@@ -464,6 +601,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return polygonalFaces[index].Orient(externalEdgeOrientation, internalEdgeOrientation);
         }
 
+        /// <summary>
+        /// Orients the polygonal faces using the specified external and internal edge orientations.
+        /// </summary>
+        /// <param name="externalEdgeOrientation">The <see cref="Orientation"/> to apply to external edges, or null if no change is desired.</param>
+        /// <param name="internalEdgeOrientation">The <see cref="Orientation"/> to apply to internal edges, or null if no change is desired.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether at least one polygonal face was successfully oriented; otherwise, false.</returns>
         public bool Orient(Orientation? externalEdgeOrientation, Orientation? internalEdgeOrientation)
         {
             if (polygonalFaces is null || (externalEdgeOrientation is null && internalEdgeOrientation is null))
@@ -484,11 +627,26 @@ namespace DiGi.Geometry.Spatial.Classes
             return result;
         }
 
+        /// <summary>
+        /// Sets the normal for the element at the specified index based on the provided side and tolerance.
+        /// </summary>
+        /// <param name="index">The <see cref="int"/> index of the target element.</param>
+        /// <param name="side">The <see cref="Side"/> specifying which side to process.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for calculations.</param>
+        /// <returns>A <see cref="bool"/> indicating whether the normal was successfully set.</returns>
         public bool SetNormal(int index, Side side, double tolerance = Tolerance.Distance)
         {
             return SetNormal(index, side, out _, tolerance);
         }
 
+        /// <summary>
+        /// Sets the normal for a specific polygonal face based on the provided side and tolerance.
+        /// </summary>
+        /// <param name="index">The <see cref="int"/> index of the polygonal face.</param>
+        /// <param name="side">The <see cref="Side"/> to be used for calculating the normal.</param>
+        /// <param name="normal">When this method returns, contains the calculated <see cref="Vector3D?"> normal if successful; otherwise, null.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for distance calculations.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the normal was successfully set and flipped.</returns>
         public bool SetNormal(int index, Side side, out Vector3D? normal, double tolerance = Tolerance.Distance)
         {
             normal = null;
@@ -517,6 +675,12 @@ namespace DiGi.Geometry.Spatial.Classes
             return true;
         }
 
+        /// <summary>
+        /// Retrieves the polygonal face at the specified index, cast to the requested type.
+        /// </summary>
+        /// <typeparam name="UPolygonalFace3D">The specific type of <see cref="IPolygonalFace3D"/> to retrieve.</typeparam>
+        /// <param name="index">The zero-based integer index of the polygonal face in the collection.</param>
+        /// <returns>An instance of <typeparam ref="UPolygonalFace3D"/> if the element at the specified index exists and is of the requested type; otherwise, null.</returns>
         public UPolygonalFace3D? GetPolygonalFace3D<UPolygonalFace3D>(int index) where UPolygonalFace3D : IPolygonalFace3D
         {
             if (polygonalFaces is null)

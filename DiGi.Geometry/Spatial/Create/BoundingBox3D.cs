@@ -6,6 +6,11 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Calculates a single <see cref="BoundingBox3D"/> that encompasses all provided bounding boxes in the collection.
+        /// </summary>
+        /// <param name="boundingBox3Ds">An <see cref="IEnumerable{T}"/> of <see cref="BoundingBox3D"/> objects to process.</param>
+        /// <returns>A <see cref="BoundingBox3D"/> representing the union of all input bounding boxes, or <c>null</c> if the collection is null or contains no valid bounding boxes.</returns>
         public static BoundingBox3D? BoundingBox3D(this IEnumerable<BoundingBox3D>? boundingBox3Ds)
         {
             if (boundingBox3Ds == null)
@@ -36,6 +41,13 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
+        /// <summary>
+        /// Creates a <see cref="BoundingBox3D"/> based on the provided X, Y, and Z ranges.
+        /// </summary>
+        /// <param name="x">The <see cref="Range{double}"/> for the X axis.</param>
+        /// <param name="y">The <see cref="Range{double}"/> for the Y axis.</param>
+        /// <param name="z">The <see cref="Range{double}"/> for the Z axis.</param>
+        /// <returns>A <see cref="BoundingBox3D"/> if all provided ranges are not null; otherwise, null.</returns>
         public static BoundingBox3D? BoundingBox3D(Range<double>? x, Range<double>? y, Range<double>? z)
         {
             if (x == null || y == null || z == null)

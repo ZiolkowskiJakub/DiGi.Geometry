@@ -11,6 +11,14 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines the orientation of three <see cref="Point3D?" /> points relative to a specified <see cref="Vector3D?" /> normal vector.
+        /// </summary>
+        /// <param name="point3D_1">The first <see cref="Point3D?" /> point.</param>
+        /// <param name="point3D_2">The second <see cref="Point3D?" /> point.</param>
+        /// <param name="point3D_3">The third <see cref="Point3D?" /> point.</param>
+        /// <param name="normal">The <see cref="Vector3D?" /> normal vector used to determine the orientation.</param>
+        /// <returns>An <see cref="Orientation" /> value indicating if the points are clockwise, counter-clockwise, collinear, or undefined.</returns>
         public static Orientation Orientation(this Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3, Vector3D? normal)
         {
             double determinant = Determinant(point3D_1, point3D_2, point3D_3, normal);
@@ -27,6 +35,13 @@ namespace DiGi.Geometry.Spatial
             return determinant > 0 ? Core.Enums.Orientation.CounterClockwise : Core.Enums.Orientation.Clockwise;
         }
 
+        /// <summary>
+        /// Determines the orientation of two vectors relative to a normal vector in 3D space.
+        /// </summary>
+        /// <param name="vector3D_1">The first <see cref="Vector3D"/>? vector.</param>
+        /// <param name="vector3D_2">The second <see cref="Vector3D"/>? vector.</param>
+        /// <param name="normal">The normal <see cref="Vector3D"/>? vector used to determine the orientation.</param>
+        /// <returns>An <see cref="Orientation"/> value indicating whether the vectors are collinear, clockwise, or counter-clockwise.</returns>
         public static Orientation Orientation(this Vector3D? vector3D_1, Vector3D? vector3D_2, Vector3D? normal)
         {
             double determinant = Determinant(vector3D_1, vector3D_2, normal);
@@ -39,6 +54,12 @@ namespace DiGi.Geometry.Spatial
             return determinant > 0 ? Core.Enums.Orientation.Clockwise : Core.Enums.Orientation.CounterClockwise;
         }
 
+        /// <summary>
+        /// Determines the orientation of the specified 3D polygonal object.
+        /// </summary>
+        /// <param name="polygonal3D">The <see cref="IPolygonal3D"/> object to evaluate.</param>
+        /// <param name="convexHull">A <see cref="bool"/> value indicating whether the convex hull should be used for orientation calculation. Defaults to true.</param>
+        /// <returns>An <see cref="Orientation"/> value representing the orientation of the polygonal object, or <see cref="Core.Enums.Orientation.Undefined"/> if the plane is not defined.</returns>
         public static Orientation Orientation(this IPolygonal3D? polygonal3D, bool convexHull = true)
         {
             if (polygonal3D?.Plane is not Plane plane)
@@ -64,11 +85,25 @@ namespace DiGi.Geometry.Spatial
             return Orientation(plane, point2Ds, convexHull);
         }
 
+        /// <summary>
+        /// Determines the orientation of a polygonal shape on a specified plane.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> on which the orientation is calculated.</param>
+        /// <param name="polygonal2D">The <see cref="IPolygonal2D"/> object whose orientation is to be determined.</param>
+        /// <param name="convexHull">A <see cref="bool"/> value indicating whether to calculate the orientation based on the convex hull of the points.</param>
+        /// <returns>An <see cref="Orientation"/> value representing the orientation of the polygonal shape.</returns>
         public static Orientation Orientation(this Plane? plane, IPolygonal2D? polygonal2D, bool convexHull = true)
         {
             return Orientation(plane, polygonal2D?.GetPoints(), convexHull);
         }
 
+        /// <summary>
+        /// Determines the orientation of a collection of 2D points on a specified plane.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> used to convert 2D points into 3D space.</param>
+        /// <param name="point2Ds">An <see cref="IEnumerable{Point2D}"/> containing the points to evaluate.</param>
+        /// <param name="convexHull">A <see cref="bool"/> value indicating whether to compute the convex hull of the points before determining orientation. Defaults to true.</param>
+        /// <returns>The calculated <see cref="Orientation"/>, or <see cref="Core.Enums.Orientation.Undefined"/> if the plane is null, the point collection is empty, or there are fewer than three valid points.</returns>
         public static Orientation Orientation(this Plane? plane, IEnumerable<Point2D>? point2Ds, bool convexHull = true)
         {
             if (plane?.Normal is not Vector3D normal || point2Ds is null || !point2Ds.Any())

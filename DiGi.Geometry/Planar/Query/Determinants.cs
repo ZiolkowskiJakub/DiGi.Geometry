@@ -7,11 +7,21 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the determinants for the specified <see cref="IPolygonal2D"/> object.
+        /// </summary>
+        /// <param name="polygonal2D">The <see cref="IPolygonal2D"/> instance to process.</param>
+        /// <returns>A <see cref="List{T}"/> of <see cref="double"/> values representing the determinants, or null if the input is null or contains fewer than three points.</returns>
         public static List<double>? Determinants(this IPolygonal2D? polygonal2D)
         {
             return Determinants(polygonal2D?.GetPoints());
         }
 
+        /// <summary>
+        /// Calculates the determinants for a sequence of <Point2D> objects by treating them as a closed loop.
+        /// </summary>
+        /// <param name="point2Ds">The <IEnumerable<Point2D>> collection of points to process.</param>
+        /// <returns>A <List<double>> containing the calculated determinants, or null if the input is null or contains fewer than 3 <Point2D> elements.</returns>
         public static List<double>? Determinants(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null || point2Ds.Count() < 3)

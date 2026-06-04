@@ -4,6 +4,12 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates a vector that is perpendicular to the specified <see cref="Vector3D"/>.
+        /// </summary>
+        /// <param name="vector3D">The <see cref="Vector3D"/> for which to find a perpendicular vector.</param>
+        /// <param name="tolerance">A <see cref="double"/> value used to determine the alignment of the input vector relative to world axes.</param>
+        /// <returns>A <see cref="Vector3D"/> that is perpendicular to the input vector, or <see langword="null"/> if the input <see cref="Vector3D"/> is <see langword="null"/>.</returns>
         public static Vector3D? PerpendicularVector(this Vector3D? vector3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (vector3D == null)

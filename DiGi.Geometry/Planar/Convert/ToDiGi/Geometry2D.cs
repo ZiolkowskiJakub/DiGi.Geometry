@@ -5,6 +5,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a <see cref="NetTopologySuite.Geometries.Geometry"/> to an <see cref="IGeometry2D"/>.
+        /// </summary>
+        /// <param name="geometry">The <see cref="NetTopologySuite.Geometries.Geometry"/> instance to convert.</param>
+        /// <returns>An <see cref="IGeometry2D"/> representation of the geometry, or <c>null</c> if the provided <see cref="NetTopologySuite.Geometries.Geometry"/> is <c>null</c>.</returns>
         public static IGeometry2D? ToDiGi(this NetTopologySuite.Geometries.Geometry? geometry)
         {
             if (geometry == null)

@@ -4,6 +4,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether two <see cref="ISegmentable2D"/> objects are topologically equal.
+        /// </summary>
+        /// <param name="segmentable2D_1">The first <see cref="ISegmentable2D"/> object to compare.</param>
+        /// <param name="segmentable2D_2">The second <see cref="ISegmentable2D"/> object to compare.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the two objects are topologically equal.</returns>
         public static bool EqualsTopologically(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2)
         {
             if (segmentable2D_1 == segmentable2D_2)

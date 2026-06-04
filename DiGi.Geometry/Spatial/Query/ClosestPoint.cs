@@ -6,11 +6,28 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the closest <see cref="Point3D"/> on a line defined by two points relative to a given point.
+        /// </summary>
+        /// <param name="point3D">The target <see cref="Point3D?"> for which the closest point is calculated.</param>
+        /// <param name="point3D_1">The first <see cref="Point3D?"> defining the line.</param>
+        /// <param name="point3D_2">The second <see cref="Point3D?"> defining the line.</param>
+        /// <param name="bounded">A <see cref="bool"/> value indicating whether the result should be bounded to the segment between the two points.</param>
+        /// <returns>The closest <see cref="Point3D?"> on the line, or <see langword="null"/> if any of the input points are <see langword="null"/>.</returns>
         public static Point3D? ClosestPoint(this Point3D? point3D, Point3D? point3D_1, Point3D? point3D_2, bool bounded)
         {
             return ClosestPoint(point3D, point3D_1, point3D_2, bounded, bounded);
         }
 
+        /// <summary>
+        /// Calculates the closest <Point3D> on a line or line segment defined by two points to a given target point.
+        /// </summary>
+        /// <param name="point3D">The target <Point3D?> for which the closest point is calculated.</param>
+        /// <param name="point3D_1">The first <Point3D?> defining the line or segment.</param>
+        /// <param name="point3D_2">The second <Point3D?> defining the line or segment.</param>
+        /// <param name="bounded_1">A <bool> indicating whether the result is bounded by the first point.</param>
+        /// <param name="bounded_2">A <bool> indicating whether the result is bounded by the second point.</param>
+        /// <returns>The closest <Point3D?> on the line or segment, or null if any of the input points are null.</returns>
         public static Point3D? ClosestPoint(this Point3D? point3D, Point3D? point3D_1, Point3D? point3D_2, bool bounded_1, bool bounded_2)
         {
             if (point3D == null || point3D_1 == null || point3D_2 == null)
@@ -49,21 +66,47 @@ namespace DiGi.Geometry.Spatial
             return new Point3D(start.X + parameter * c, start.Y + parameter * d, start.Z + parameter * f);
         }
 
+        /// <summary>
+        /// Calculates the closest point on an <see cref="ISegmentable3D"/> object to a given <see cref="Point3D"/>.
+        /// </summary>
+        /// <param name="point3D">The source <see cref="Point3D"/> for which the closest point is being calculated.</param>
+        /// <param name="segmentable3D">The <see cref="ISegmentable3D"/> object to find the closest point on.</param>
+        /// <returns>The closest <see cref="Point3D"/> found on the segmentable object, or null if no such point exists.</returns>
         public static Point3D? ClosestPoint(this Point3D? point3D, ISegmentable3D segmentable3D)
         {
             return ClosestPoint(point3D, segmentable3D?.GetSegments(), out _);
         }
 
+        /// <summary>
+        /// Calculates the closest point on an <see cref="ISegmentable3D"/> object from a given <see cref="Point3D"/>.
+        /// </summary>
+        /// <param name="point3D">The source <see cref="Point3D"/> to find the closest point from.</param>
+        /// <param name="segmentable3D">The <see cref="ISegmentable3D"/> object containing segments to evaluate.</param>
+        /// <param name="distance">When this method returns, contains the distance between the source <see cref="Point3D"/> and the closest point found; otherwise, <see cref="double.NaN"/>.</param>
+        /// <returns>The closest <see cref="Point3D"/> on the segments of the <see cref="ISegmentable3D"/> object, or <see cref="null"/> if no point could be determined.</returns>
         public static Point3D? ClosestPoint(this Point3D? point3D, ISegmentable3D? segmentable3D, out double distance)
         {
             return ClosestPoint(point3D, segmentable3D?.GetSegments(), out distance);
         }
 
+        /// <summary>
+        /// Calculates the closest point among a collection of 3D segments to a given 3D point.
+        /// </summary>
+        /// <param name="point3D">The <see cref="Point3D"/> source point.</param>
+        /// <param name="segment3Ds">An <see cref="IEnumerable{T}"/> of <see cref="Segment3D"/> objects to evaluate.</param>
+        /// <returns>The closest <see cref="Point3D"/> found on the segments, or <see langword="null"/> if the source point or the collection is null.</returns>
         public static Point3D? ClosestPoint(this Point3D? point3D, IEnumerable<Segment3D>? segment3Ds)
         {
             return ClosestPoint(point3D, segment3Ds, out _);
         }
 
+        /// <summary>
+        /// Calculates the closest point on a collection of 3D segments relative to a given 3D point.
+        /// </summary>
+        /// <param name="point3D">The source <see cref="Point3D"/> point.</param>
+        /// <param name="segment3Ds">An <see cref="IEnumerable{T}"/> of <see cref="Segment3D"/> segments to evaluate.</param>
+        /// <param name="distance">When this method returns, contains the distance between the source <see cref="Point3D"/> and the closest point found; otherwise, <see cref="double.NaN"/>.</param>
+        /// <returns>The closest <see cref="Point3D"/> found among the provided segments, or <see cref="null"/> if no point is found or input parameters are null.</returns>
         public static Point3D? ClosestPoint(this Point3D? point3D, IEnumerable<Segment3D>? segment3Ds, out double distance)
         {
             distance = double.NaN;
@@ -93,6 +136,13 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
+        /// <summary>
+        /// Finds the closest <see cref="Point3D"/> in a collection of points to a specified source point.
+        /// </summary>
+        /// <param name="point3D">The source <see cref="Point3D"/> used as the reference for distance calculations.</param>
+        /// <param name="point3Ds">An <see cref="IEnumerable{T}"/> of <see cref="Point3D"/> objects to search through.</param>
+        /// <param name="distance">When this method returns, contains the minimum <see cref="double"/> distance between the source point and the closest point found; otherwise, <see cref="double.NaN"/>.</param>
+        /// <returns>The closest <see cref="Point3D"/> from the collection, or <see cref="null"/> if the source point is null, the collection is null, or no points are available.</returns>
         public static Point3D? ClosestPoint(this Point3D? point3D, IEnumerable<Point3D>? point3Ds, out double distance)
         {
             distance = double.NaN;
@@ -129,11 +179,28 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
+        /// <summary>
+        /// Calculates the closest point on a collection of polygonal faces to a given point.
+        /// </summary>
+        /// <typeparam name="TPolygonalFace3D">The type of the polygonal face, which must implement <see cref="IPolygonalFace3D"/>.</typeparam>
+        /// <param name="point3D">The source <see cref="Point3D?"/> point.</param>
+        /// <param name="polygonalFace3Ds">An <see cref="IEnumerable{TPolygonalFace3D}"/> of polygonal faces to evaluate.</param>
+        /// <returns>The closest <see cref="Point3D?"/> found on the provided polygonal faces, or <see langword="null"/> if the input point or collection is null.</returns>
         public static Point3D? ClosestPoint<TPolygonalFace3D>(this Point3D? point3D, IEnumerable<TPolygonalFace3D> polygonalFace3Ds) where TPolygonalFace3D : IPolygonalFace3D
         {
             return ClosestPoint(point3D, polygonalFace3Ds, out _, out _, 0.0);
         }
 
+        /// <summary>
+        /// Calculates the closest point to a given point from a collection of polygonal faces.
+        /// </summary>
+        /// <typeparam name="TPolygonalFace3D">The type of the polygonal face, which must implement <see cref="IPolygonalFace3D"/>.</typeparam>
+        /// <param name="point3D">The source <see cref="Point3D?"> from which to find the closest point.</param>
+        /// <param name="polygonalFace3Ds">An <see cref="IEnumerable{TPolygonalFace3D}"/> of polygonal faces to evaluate.</param>
+        /// <param name="closestPolygonalFace3D">When this method returns, contains the <see cref="TPolygonalFace3D?"> that is closest to the source point.</param>
+        /// <param name="distance">When this method returns, contains the <see cref="double"/> distance between the source point and the closest point found.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance used for calculations.</param>
+        /// <returns>The closest <see cref="Point3D?"> found among all provided polygonal faces, or <see langword="null"/> if no closest point is found or the input point or collection is null.</returns>
         public static Point3D? ClosestPoint<TPolygonalFace3D>(this Point3D? point3D, IEnumerable<TPolygonalFace3D> polygonalFace3Ds, out TPolygonalFace3D? closestPolygonalFace3D, out double distance, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
         {
             distance = double.NaN;

@@ -8,6 +8,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+    /// <summary>
+    /// Represents a two-dimensional line segment defined by a starting <see cref="Point2D"/> and a <see cref="Vector2D"/>.
+    /// </summary>
     public class Segment2D : Geometry2D, ISegmentable2D, ILinear2D, ISegment<Point2D>
     {
         private Point2D? start;

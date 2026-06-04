@@ -7,6 +7,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the centroid of a collection of <see cref="Point2D"/> objects.
+        /// </summary>
+        /// <param name="point2Ds">The collection of <see cref="Point2D"/> objects to process.</param>
+        /// <returns>A <see cref="Point2D"/> representing the centroid, or null if the input collection is null or empty.</returns>
         public static Point2D? Centroid(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null || point2Ds.Count() == 0)
@@ -55,11 +60,21 @@ namespace DiGi.Geometry.Planar
             return new(x / area, y / area);
         }
 
+        /// <summary>
+        /// Calculates the centroid of the specified <see cref="IPolygonal2D"/>.
+        /// </summary>
+        /// <param name="polygonal2D">The <see cref="IPolygonal2D"/> instance to calculate the centroid for.</param>
+        /// <returns>A <see cref="Point2D"/> representing the centroid, or null if the <see cref="IPolygonal2D"/> is null.</returns>
         public static Point2D? Centroid(this IPolygonal2D? polygonal2D)
         {
             return Centroid(polygonal2D?.GetPoints());
         }
 
+        /// <summary>
+        /// Calculates the centroid of the specified <see cref="IPolygonalFace2D"/>.
+        /// </summary>
+        /// <param name="polygonalFace2D">The <see cref="IPolygonalFace2D"/> for which to calculate the centroid.</param>
+        /// <returns>A <see cref="Point2D"/> representing the centroid, or <c>null</c> if the <see cref="IPolygonalFace2D"/> is null or has no external edge.</returns>
         public static Point2D? Centroid(this IPolygonalFace2D? polygonalFace2D)
         {
             IPolygonal2D? polygonal2D = polygonalFace2D?.ExternalEdge;

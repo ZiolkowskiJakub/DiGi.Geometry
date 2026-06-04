@@ -6,10 +6,24 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Core.Classes
 {
+    /// <summary>
+    /// Represents an abstract base class for a coordinate system that is serializable, geometric, and invertible.
+    /// </summary>
+    /// <summary>
+    /// The array of <see cref="double"/> values representing the coordinates.
+    /// </summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Coordinate"/> class with the specified values.
+    /// </summary>
+    /// <param name="values">An optional array of <see cref="double"/> values to initialize the coordinate.</param>
     public abstract class Coordinate : SerializableObject, IGeometry, IInvertible
     {
         protected double[] values;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate"/> class using a variable number of <see cref="double"/> values.
+        /// </summary>
+        /// <param name="values">An optional array of <see cref="double"/> values to initialize the coordinate.</param>
         public Coordinate(params double[]? values)
         {
             if (values != null)
@@ -26,6 +40,11 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate"/> class using a <see cref="JsonObject"/> and a specified length.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> containing coordinate data, or null if no data is provided.</param>
+        /// <param name="length">The <see cref="int"/> specifying the number of elements for the internal values array.</param>
         public Coordinate(JsonObject? jsonObject, int length)
             : base()
         {
@@ -33,11 +52,21 @@ namespace DiGi.Geometry.Core.Classes
             FromJsonObject(jsonObject);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate"/> class using the values from an existing <see cref="Coordinate"/> instance.
+        /// </summary>
+        /// <param name="coordinate">The <see cref="Coordinate"/> instance to copy values from. This parameter can be null.</param>
         public Coordinate(Coordinate? coordinate)
             : this(coordinate?.values)
         {
         }
 
+        /// <summary>
+        /// Gets the augmented matrix representation of the current values.
+        /// </summary>
+        /// <value>
+        /// A <see cref="Matrix"/> object representing the augmented matrix, or <see langword="null"/> if the underlying values are null.
+        /// </value>
         [JsonIgnore]
         public Matrix? ArgumentedMatrix
         {
@@ -119,6 +148,9 @@ namespace DiGi.Geometry.Core.Classes
             return true;
         }
 
+        /// <summary>
+        /// Computes the absolute value for each element in the values array.
+        /// </summary>
         public void Abs()
         {
             for (int i = 0; i < values.Length; i++)
@@ -127,6 +159,12 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Determines whether the current instance is approximately equal to the specified <see cref="Coordinate"/>.
+        /// </summary>
+        /// <param name="coordinate">The <see cref="Coordinate"/> instance to compare with the current instance.</param>
+        /// <param name="tolerance">A <see cref="double"/> value representing the maximum allowed difference for two coordinates to be considered equal.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the coordinates are almost equal based on the specified tolerance.</returns>
         public bool AlmostEquals(Coordinate? coordinate, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (coordinate is null)
@@ -166,6 +204,11 @@ namespace DiGi.Geometry.Core.Classes
             return true;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="Coordinate"/>.
+        /// </summary>
+        /// <param name="@object">The <see cref="object"/> to compare with the current instance.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the specified object is equal to the current instance.</returns>
         public override bool Equals(object? @object)
         {
             if (GetType() != @object?.GetType())
@@ -176,6 +219,10 @@ namespace DiGi.Geometry.Core.Classes
             return this == (Coordinate)@object;
         }
 
+        /// <summary>
+        /// Returns a hash code for the current object based on its internal values.
+        /// </summary>
+        /// <returns>An <int> representing the hash code of the current object.</returns>
         public override int GetHashCode()
         {
             unchecked
@@ -194,6 +241,10 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Inverts the signs of all elements in the values array.
+        /// </summary>
+        /// <returns>A <see cref="bool"/> value indicating whether the inversion was successful.</returns>
         public bool Inverse()
         {
             if (values == null)
@@ -209,6 +260,10 @@ namespace DiGi.Geometry.Core.Classes
             return true;
         }
 
+        /// <summary>
+        /// Rounds each value in the collection using the specified double tolerance.
+        /// </summary>
+        /// <param name="tolerance">The double value representing the precision used for rounding.</param>
         public void Round(double tolerance)
         {
             if (values == null)
@@ -222,6 +277,10 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Scales all elements of the values array by the specified multiplier.
+        /// </summary>
+        /// <param name="value">The <see cref="double"/> value to multiply each element by.</param>
         public void Scale(double value)
         {
             if (double.IsNaN(value) || values == null)
@@ -235,6 +294,10 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Returns a <string> representation of the current object, formatting the internal values as a semicolon-separated list enclosed in square brackets.
+        /// </summary>
+        /// <returns>A <string> containing the formatted values, or an empty <string> if the values are null.</returns>
         public override string ToString()
         {
             if (values == null)

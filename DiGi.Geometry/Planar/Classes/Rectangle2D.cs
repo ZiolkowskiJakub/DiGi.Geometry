@@ -7,6 +7,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+    /// <summary>
+    /// Represents a two-dimensional rectangle defined by its width and height.
+    /// </summary>
     public class Rectangle2D : Geometry2D, IPolygonal2D
     {
         [JsonInclude, JsonPropertyName("Height")]

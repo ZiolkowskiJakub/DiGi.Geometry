@@ -6,6 +6,11 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates a <see cref="Math.Classes.Matrix"/> from a collection of <see cref="Vector3D"/>.
+        /// </summary>
+        /// <param name="vector3Ds">An <see cref="IEnumerable{T}"/> of <see cref="Vector3D"/> objects to be converted into a matrix.</param>
+        /// <returns>A <see cref="Math.Classes.Matrix"/> containing the vectors as rows, or <see langword="null"/> if the input collection is <see langword="null"/>.</returns>
         public static Math.Classes.Matrix? Matrix(this IEnumerable<Vector3D>? vector3Ds)
         {
             if (vector3Ds == null)
@@ -27,6 +32,11 @@ namespace DiGi.Geometry.Spatial
             return matrix;
         }
 
+        /// <summary>
+        /// Creates a <see cref="Math.Classes.Matrix"/> from the specified collection of <see cref="Point3D"/> points.
+        /// </summary>
+        /// <param name="point3Ds">The <see cref="IEnumerable{T}"/> of <see cref="Point3D"/> objects to convert.</param>
+        /// <returns>A <see cref="Math.Classes.Matrix"/> containing the point coordinates, or <c>null</c> if <paramref name="point3Ds"/> is <c>null</c>.</returns>
         public static Math.Classes.Matrix? Matrix(this IEnumerable<Point3D>? point3Ds)
         {
             if (point3Ds == null)

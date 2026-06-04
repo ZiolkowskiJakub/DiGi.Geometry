@@ -5,6 +5,9 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+    /// <summary>
+    /// Represents a collection of two-dimensional geometry objects that implement the <see cref="ICollectable2D"/> interface.
+    /// </summary>
     public class GeometryCollection2D : GeometryCollection<ICollectable2D>, IGeometryCollection2D
     {
         /// <summary>

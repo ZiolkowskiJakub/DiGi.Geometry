@@ -6,6 +6,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the average position of a collection of <see cref="Point2D"/> objects.
+        /// </summary>
+        /// <param name="point2Ds">The <see cref="IEnumerable{Point2D}"/> of points to average.</param>
+        /// <returns>A <see cref="Point2D"/> representing the average coordinates, or <c>null</c> if the <see cref="IEnumerable{Point2D}"/> is null or empty.</returns>
         public static Point2D? Average(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null || point2Ds.Count() == 0)

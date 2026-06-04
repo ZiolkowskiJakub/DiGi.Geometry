@@ -6,6 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+    /// <summary>
+    /// Represents a two-dimensional grid geometry defined by its total width, total height, and the number of cells along each axis.
+    /// </summary>
     public class Grid2D : Geometry2D
     {
         [JsonInclude, JsonPropertyName(nameof(HeightCount))]

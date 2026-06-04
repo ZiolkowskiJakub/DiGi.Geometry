@@ -6,6 +6,12 @@ namespace DiGi.Geometry.Spatial
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the normal vector of a <see cref="Plane"/> based on a collection of <see cref="Planar.Classes.Point2D"/> points.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> instance.</param>
+        /// <param name="point2Ds">An <IEnumerable<Planar.Classes.Point2D>> containing the points used to calculate the normal vector.</param>
+        /// <returns>A <see cref="Vector3D"/> representing the normal vector, or null if the plane is null, the point collection is null, or there are fewer than three points.</returns>
         public static Vector3D? Normal(this Plane? plane, IEnumerable<Planar.Classes.Point2D>? point2Ds)
         {
             if (plane == null || point2Ds == null)
@@ -42,6 +48,12 @@ namespace DiGi.Geometry.Spatial
             return null;
         }
 
+        /// <summary>
+        /// Calculates the normal vector of a plane defined by a collection of 3D points.
+        /// </summary>
+        /// <param name="point3Ds">The <see cref="IEnumerable{Point3D}"/> collection of points used to determine the normal vector.</param>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used to check if the points are collinear.</param>
+        /// <returns>A <see cref="Vector3D"/> representing the normal vector, or <c>null</c> if the collection is null, contains fewer than three points, or the points are collinear within the specified tolerance.</returns>
         public static Vector3D? Normal(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3Ds == null || point3Ds.Collinear(tolerance))
@@ -200,6 +212,13 @@ namespace DiGi.Geometry.Spatial
             return result;
         }
 
+        /// <summary>
+        /// Calculates the unit normal vector of a plane defined by three points.
+        /// </summary>
+        /// <param name="point3D_1">The first <see cref="Point3D?" /> point.</param>
+        /// <param name="point3D_2">The second <see cref="Point3D?" /> point.</param>
+        /// <param name="point3D_3">The third <see cref="Point3D?" /> point.</param>
+        /// <returns>A <see cref="Vector3D?" /> representing the unit normal vector, or <c>null</c> if any of the provided points are <c>null</c>.</returns>
         public static Vector3D? Normal(this Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3)
         {
             if (point3D_1 == null || point3D_2 == null || point3D_3 == null)
@@ -210,6 +229,12 @@ namespace DiGi.Geometry.Spatial
             return new Vector3D(point3D_1, point3D_2).CrossProduct(new Vector3D(point3D_1, point3D_3))?.Unit;
         }
 
+        /// <summary>
+        /// Calculates the normal vector perpendicular to the two specified axes.
+        /// </summary>
+        /// <param name="axisX">The first <Vector3D?> axis.</param>
+        /// <param name="axisY">The second <Vector3D?> axis.</param>
+        /// <returns>A normalized <Vector3D?> representing the cross product of the two axes, or null if either <Vector3D?> parameter is null.</returns>
         public static Vector3D? Normal(this Vector3D? axisX, Vector3D? axisY)
         {
             if (axisX is null || axisY is null)

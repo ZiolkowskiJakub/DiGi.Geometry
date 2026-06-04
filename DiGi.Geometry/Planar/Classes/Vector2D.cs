@@ -7,6 +7,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+    /// <summary>
+    /// Represents a two-dimensional vector that inherits from <see cref="Coordinate2D"/> and implements the <see cref="IVector"/> interface.
+    /// </summary>
     public class Vector2D : Coordinate2D, IVector
     {
         /// <summary>

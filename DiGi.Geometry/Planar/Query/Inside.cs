@@ -6,6 +6,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether a specified <see cref="Point2D"/> is located inside a polygon defined by a collection of <see cref="Point2D"/> objects.
+        /// </summary>
+        /// <param name="point2Ds">The <see cref="IEnumerable{T}"/> of <see cref="Point2D"/> vertices that define the boundary of the polygon.</param>
+        /// <param name="point2D">The <see cref="Point2D"/> to check for containment within the polygon.</param>
+        /// <returns>A <see cref="bool"/> value indicating <see langword="true"/> if the <see cref="Point2D"/> is inside the polygon; otherwise, <see langword="false"/>.</returns>
         public static bool Inside(this IEnumerable<Point2D>? point2Ds, Point2D? point2D)
         {
             if (point2Ds == null || point2D == null)

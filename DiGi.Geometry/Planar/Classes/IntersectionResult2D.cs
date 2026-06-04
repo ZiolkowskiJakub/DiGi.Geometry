@@ -9,6 +9,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
+    /// <summary>
+    /// Represents the result of a two-dimensional intersection operation.
+    /// </summary>
     public class IntersectionResult2D : SerializableObject, IIntersectionResult
     {
         [JsonInclude, JsonPropertyName("Geometry2Ds")]

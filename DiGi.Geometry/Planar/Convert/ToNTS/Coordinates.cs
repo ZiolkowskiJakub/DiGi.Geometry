@@ -6,6 +6,11 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a collection of Point2D objects to a list of Coordinate objects.
+        /// </summary>
+        /// <param name="point2Ds">The IEnumerable<Point2D> containing the points to convert.</param>
+        /// <returns>A List<Coordinate> containing the converted coordinates, or null if the input collection is null.</returns>
         public static List<Coordinate>? ToNTS(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null)
