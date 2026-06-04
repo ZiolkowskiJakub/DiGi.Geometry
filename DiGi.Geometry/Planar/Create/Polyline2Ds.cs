@@ -10,6 +10,15 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates a list of polylines from a collection of segmentable geometries.
+        /// </summary>
+        /// <typeparam name="T">A type that implements ISegmentable2D.</typeparam>
+        /// <param name="segmentable2Ds">The collection of segmentable geometries to convert into polylines.</param>
+        /// <param name="point2D_Start">Optional starting point for the first polyline.</param>
+        /// <param name="split">Whether to split segmentable geometries into basic segments before processing.</param>
+        /// <param name="tolerance">The distance tolerance for connecting segments.</param>
+        /// <returns>A list of Polyline2D objects; otherwise, null if the input is empty or invalid.</returns>
         public static List<Polyline2D>? Polyline2Ds<T>(this IEnumerable<T>? segmentable2Ds, Point2D? point2D_Start = null, bool split = true, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
             if (segmentable2Ds == null || segmentable2Ds.Count() == 0)

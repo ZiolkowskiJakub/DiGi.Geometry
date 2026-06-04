@@ -8,6 +8,12 @@ namespace DiGi.Geometry.Planar
     {
         public static partial class Transform2D
         {
+            /// <summary>
+            /// Creates a transformation that converts points from one coordinate system to another.
+            /// </summary>
+            /// <param name="coordinateSystem2D_From">The source coordinate system.</param>
+            /// <param name="coordinateSystem2D_To">The target coordinate system.</param>
+            /// <returns>A transformation that maps the source system to the target system; otherwise, null.</returns>
             public static Classes.Transform2D? CoordinateSystem2DToCoordinateSystem2D(CoordinateSystem2D? coordinateSystem2D_From, CoordinateSystem2D? coordinateSystem2D_To)
             {
                 Classes.Transform2D? transform2D_From = CoordinateSystem2DToOrigin(coordinateSystem2D_From);

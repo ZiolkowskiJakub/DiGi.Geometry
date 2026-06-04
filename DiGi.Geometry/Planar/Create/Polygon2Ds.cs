@@ -8,6 +8,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates a list of polygons from a segmentable geometry.
+        /// </summary>
+        /// <param name="segmentable2D">The segmentable geometry.</param>
+        /// <param name="tolerance">The distance tolerance for identifying loops.</param>
+        /// <returns>A list of Polygon2D objects; otherwise, null if input is null.</returns>
         public static List<Polygon2D>? Polygon2Ds(this ISegmentable2D? segmentable2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D == null)
@@ -58,6 +64,12 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Creates a list of polygons from a collection of segments.
+        /// </summary>
+        /// <param name="segment2Ds">The collection of segments.</param>
+        /// <param name="tolerance">The distance tolerance for connecting segments into loops.</param>
+        /// <returns>A list of Polygon2D objects; otherwise, null if inputs are invalid or no polygons can be formed.</returns>
         public static List<Polygon2D>? Polygon2Ds(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds == null || segment2Ds.Count() < 3)

@@ -9,6 +9,12 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates a list of NTS polygons from a collection of segments.
+        /// </summary>
+        /// <param name="segment2Ds">The collection of segments.</param>
+        /// <param name="tolerance">The distance tolerance for connecting segments into loops.</param>
+        /// <returns>A list of NetTopologySuite Polygons; otherwise, null if input is null.</returns>
         public static List<Polygon>? Polygons(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds == null)
@@ -36,6 +42,12 @@ namespace DiGi.Geometry.Planar
             return Polygons(geometries, tolerance);
         }
 
+        /// <summary>
+        /// Creates a list of NTS polygons from a collection of geometries by nodalizing and polygonizing them.
+        /// </summary>
+        /// <param name="geometries">The collection of geometries (lines, rings, etc.).</param>
+        /// <param name="tolerance">The precision tolerance used for nodalization.</param>
+        /// <returns>A list of NetTopologySuite Polygons; otherwise, null if input is null.</returns>
         public static List<Polygon>? Polygons(this IEnumerable<NetTopologySuite.Geometries.Geometry>? geometries, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (geometries == null)
@@ -104,6 +116,11 @@ namespace DiGi.Geometry.Planar
             return result;
         }
 
+        /// <summary>
+        /// Extracts a list of polygons from an NTS MultiPolygon.
+        /// </summary>
+        /// <param name="multiPolygon">The MultiPolygon to extract polygons from.</param>
+        /// <returns>A list of NetTopologySuite Polygons; otherwise, null if input is null.</returns>
         public static List<Polygon>? Polygons(this MultiPolygon? multiPolygon)
         {
             NetTopologySuite.Geometries.Geometry[]? geometries = multiPolygon?.Geometries;

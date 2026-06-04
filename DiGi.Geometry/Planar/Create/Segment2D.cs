@@ -7,6 +7,13 @@ namespace DiGi.Geometry.Planar
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates a segment from the intersection of a line and a polygonal geometry.
+        /// </summary>
+        /// <param name="line2D">The line to intersect.</param>
+        /// <param name="polygonal2D">The polygonal geometry to intersect with.</param>
+        /// <param name="tolerance">The distance tolerance for intersection detection.</param>
+        /// <returns>A Segment2D resulting from the intersection; otherwise, null.</returns>
         public static Segment2D? Segment2D(this Line2D? line2D, IPolygonal2D? polygonal2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (line2D is null || polygonal2D is null)

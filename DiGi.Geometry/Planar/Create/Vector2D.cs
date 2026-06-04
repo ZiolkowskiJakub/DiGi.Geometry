@@ -28,6 +28,12 @@ namespace DiGi.Geometry.Planar
             return new Vector2D(System.Math.Cos(xAngle), System.Math.Cos(yAngle));
         }
 
+        /// <summary>
+        /// Calculates a vector for a given angle and length.
+        /// </summary>
+        /// <param name="angle">The angle to the X axis counted counterclockwise [rad].</param>
+        /// <param name="length">The length of the vector.</param>
+        /// <returns>A Vector2D with specified angle and length; otherwise, null.</returns>
         public static Vector2D? Vector2D(double angle, double length)
         {
             if (double.IsNaN(length) || double.IsInfinity(length))
@@ -44,6 +50,11 @@ namespace DiGi.Geometry.Planar
             return vector2D * length;
         }
 
+        /// <summary>
+        /// Calculates a unit vector based on the specified alignment.
+        /// </summary>
+        /// <param name="alignment">The desired alignment.</param>
+        /// <returns>A unit Vector2D corresponding to the alignment; otherwise, null.</returns>
         public static Vector2D? Vector2D(Alignment alignment)
         {
             if (alignment == Alignment.Undefined)
