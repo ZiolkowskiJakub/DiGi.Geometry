@@ -21,6 +21,11 @@ namespace DiGi.Geometry.Planar.Classes
         [JsonInclude, JsonPropertyName("Width")]
         private double width;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Rectangle2D"/> class with specified width and height at the origin.
+        /// </summary>
+        /// <param name="width">The width of the rectangle.</param>
+        /// <param name="height">The height of the rectangle.</param>
         public Rectangle2D(double width, double height)
         {
             origin = Constants.Point2D.Zero;
@@ -29,6 +34,12 @@ namespace DiGi.Geometry.Planar.Classes
             heightDirection = Constants.Vector2D.WorldY;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Rectangle2D"/> class with specified origin, width, and height.
+        /// </summary>
+        /// <param name="origin">The origin point of the rectangle.</param>
+        /// <param name="width">The width of the rectangle.</param>
+        /// <param name="height">The height of the rectangle.</param>
         public Rectangle2D(Point2D? origin, double width, double height)
         {
             this.origin = DiGi.Core.Query.Clone(origin);
@@ -37,6 +48,10 @@ namespace DiGi.Geometry.Planar.Classes
             heightDirection = Constants.Vector2D.WorldY;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Rectangle2D"/> class from a bounding box.
+        /// </summary>
+        /// <param name="boundingBox2D">The source bounding box.</param>
         public Rectangle2D(BoundingBox2D? boundingBox2D)
         {
             if (boundingBox2D is not null)
@@ -48,6 +63,13 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Rectangle2D"/> class with specified origin, width, height, and height direction vector.
+        /// </summary>
+        /// <param name="origin">The origin point of the rectangle.</param>
+        /// <param name="width">The width of the rectangle.</param>
+        /// <param name="height">The height of the rectangle.</param>
+        /// <param name="heightDirection">The vector defining the direction of the height.</param>
         public Rectangle2D(Point2D? origin, double width, double height, Vector2D? heightDirection)
         {
             this.origin = DiGi.Core.Query.Clone(origin);
@@ -56,6 +78,10 @@ namespace DiGi.Geometry.Planar.Classes
             this.heightDirection = heightDirection?.Unit;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Rectangle2D"/> class by cloning an existing rectangle.
+        /// </summary>
+        /// <param name="rectangle2D">The source rectangle to clone.</param>
         public Rectangle2D(Rectangle2D? rectangle2D)
         {
             if (rectangle2D is not null)
@@ -67,11 +93,18 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Rectangle2D"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing rectangle data.</param>
         public Rectangle2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the height of the rectangle.
+        /// </summary>
         [JsonIgnore]
         public double Height
         {
@@ -85,6 +118,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the unit vector defining the height direction of the rectangle.
+        /// </summary>
         [JsonIgnore]
         public Vector2D? HeightDirection
         {
@@ -94,6 +130,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the perimeter of the rectangle.
+        /// </summary>
         [JsonIgnore]
         public double Length
         {
@@ -103,6 +142,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the origin point of the rectangle.
+        /// </summary>
         [JsonIgnore]
         public Point2D? Origin
         {
@@ -116,6 +158,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the width of the rectangle.
+        /// </summary>
         [JsonIgnore]
         public double Width
         {
@@ -129,6 +174,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the unit vector defining the width direction of the rectangle.
+        /// </summary>
         [JsonIgnore]
         public Vector2D? WidthDirection
         {
@@ -138,6 +186,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Explicitly converts a Rectangle2D to a Polygon2D.
+        /// </summary>
+        /// <param name="rectangle2D">The rectangle to convert.</param>
+        /// <returns>A new Polygon2D representing the rectangle, or null if conversion fails.</returns>
         public static explicit operator Polygon2D?(Rectangle2D? rectangle2D)
         {
             List<Point2D>? point2Ds = rectangle2D?.GetPoints();
@@ -149,6 +202,11 @@ namespace DiGi.Geometry.Planar.Classes
             return new Polygon2D(point2Ds);
         }
 
+        /// <summary>
+        /// Explicitly converts a BoundingBox2D to a Rectangle2D.
+        /// </summary>
+        /// <param name="boundingBox2D">The bounding box to convert.</param>
+        /// <returns>A new Rectangle2D instance, or null if the input is null.</returns>
         public static explicit operator Rectangle2D?(BoundingBox2D? boundingBox2D)
         {
             if (boundingBox2D == null)

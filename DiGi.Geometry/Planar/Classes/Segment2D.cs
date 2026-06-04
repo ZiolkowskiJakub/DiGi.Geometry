@@ -13,18 +13,35 @@ namespace DiGi.Geometry.Planar.Classes
         private Point2D? start;
         private Vector2D? vector;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Segment2D"/> class defined by start and end coordinates.
+        /// </summary>
+        /// <param name="x_1">The X coordinate of the start point.</param>
+        /// <param name="y_1">The Y coordinate of the start point.</param>
+        /// <param name="x_2">The X coordinate of the end point.</param>
+        /// <param name="y_2">The Y coordinate of the end point.</param>
         public Segment2D(double x_1, double y_1, double x_2, double y_2)
         {
             start = new(x_1, y_1);
             vector = new(start, new Point2D(x_2, y_2));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Segment2D"/> class using a start point and a vector.
+        /// </summary>
+        /// <param name="start">The start point of the segment.</param>
+        /// <param name="vector">The vector defining the direction and length of the segment.</param>
         public Segment2D(Point2D? start, Vector2D? vector)
         {
             this.start = start?.Clone<Point2D>();
             this.vector = vector?.Clone<Vector2D>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Segment2D"/> class using start and end points.
+        /// </summary>
+        /// <param name="start">The start point of the segment.</param>
+        /// <param name="end">The end point of the segment.</param>
         public Segment2D(Point2D? start, Point2D? end)
         {
             if (start != null && end != null)
@@ -34,6 +51,10 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Segment2D"/> class by cloning an existing segment.
+        /// </summary>
+        /// <param name="segment2D">The source segment to clone.</param>
         public Segment2D(Segment2D? segment2D)
             : this(segment2D?.start, segment2D?.vector)
         {
@@ -44,6 +65,9 @@ namespace DiGi.Geometry.Planar.Classes
         {
         }
 
+        /// <summary>
+        /// Gets or sets the unit direction vector of the segment.
+        /// </summary>
         [JsonIgnore]
         public Vector2D? Direction
         {
@@ -58,6 +82,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the end point of the segment.
+        /// </summary>
         [JsonIgnore]
         public Point2D? End
         {
@@ -85,6 +112,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the length of the segment.
+        /// </summary>
         [JsonIgnore]
         public double Length
         {
@@ -104,6 +134,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the squared length of the segment.
+        /// </summary>
         [JsonIgnore]
         public double SquaredLength
         {
@@ -118,6 +151,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the start point of the segment.
+        /// </summary>
         [JsonPropertyName("Start")]
         public Point2D? Start
         {
@@ -132,6 +168,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the vector defining the segment.
+        /// </summary>
         [JsonPropertyName("Vector")]
         public Vector2D? Vector
         {
@@ -146,6 +185,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the point at the specified index (0 for start, 1 for end).
+        /// </summary>
         public Point2D? this[int index]
         {
             get
@@ -159,21 +201,43 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Implicitly converts a tuple of coordinate pairs to a Segment2D.
+        /// </summary>
+        /// <param name="object">The tuple containing start and end coordinates.</param>
+        /// <returns>A new Segment2D instance.</returns>
         public static implicit operator Segment2D?(((double x, double y), (double x, double y)) @object)
         {
             return new Segment2D(new Point2D(@object.Item1.x, @object.Item1.y), new Point2D(@object.Item2.x, @object.Item2.y));
         }
 
+        /// <summary>
+        /// Implicitly converts a tuple of start and end points to a Segment2D.
+        /// </summary>
+        /// <param name="object">The tuple containing the start and end points.</param>
+        /// <returns>A new Segment2D instance.</returns>
         public static implicit operator Segment2D?((Point2D? start, Point2D? end) @object)
         {
             return new Segment2D(@object.start, @object.end);
         }
 
+        /// <summary>
+        /// Checks if two segments are not equal.
+        /// </summary>
+        /// <param name="segment2D_1">The first segment.</param>
+        /// <param name="segment2D_2">The second segment.</param>
+        /// <returns>True if the segments are different; otherwise, false.</returns>
         public static bool operator !=(Segment2D? segment2D_1, Segment2D? segment2D_2)
         {
             return !(segment2D_1 == segment2D_2);
         }
 
+        /// <summary>
+        /// Checks if two segments are equal.
+        /// </summary>
+        /// <param name="segment2D_1">The first segment.</param>
+        /// <param name="segment2D_2">The second segment.</param>
+        /// <returns>True if the segments have the same start point and vector; otherwise, false.</returns>
         public static bool operator ==(Segment2D? segment2D_1, Segment2D? segment2D_2)
         {
             if (segment2D_1 is null && segment2D_2 is null)
@@ -194,21 +258,41 @@ namespace DiGi.Geometry.Planar.Classes
             return start.Equals(segment2D_2?.start) && vector.Equals(segment2D_2.vector);
         }
 
+        /// <summary>
+        /// Creates a clone of the current segment.
+        /// </summary>
+        /// <returns>A cloned <see cref="ISerializableObject"/>.</returns>
         public override ISerializableObject? Clone()
         {
             return new Segment2D(this);
         }
 
+        /// <summary>
+        /// Finds the point on the segment closest to the specified point.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The closest <see cref="Point2D"/> on the segment, or null if input is null.</returns>
         public Point2D? ClosestPoint(Point2D? point2D)
         {
             return Query.ClosestPoint(point2D, start, End, true);
         }
 
+        /// <summary>
+        /// Checks if the segment is collinear with another linear geometry.
+        /// </summary>
+        /// <param name="linear2D">The other linear geometry.</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>True if they are collinear; otherwise, false.</returns>
         public bool Collinear(ILinear2D? linear2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return Query.Collinear(this, linear2D, tolerance);
         }
 
+        /// <summary>
+        /// Calculates the minimum distance from a point to the segment.
+        /// </summary>
+        /// <param name="point2D">The target point.</param>
+        /// <returns>The distance result, or NaN if input is null.</returns>
         public double Distance(Point2D? point2D)
         {
             if (point2D == null)
@@ -219,6 +303,11 @@ namespace DiGi.Geometry.Planar.Classes
             return point2D.Distance(ClosestPoint(point2D));
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current segment.
+        /// </summary>
+        /// <param name="obj">The object to compare with.</param>
+        /// <returns>True if the objects are equal; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
             Segment2D? segment2D = obj as Segment2D;
@@ -240,6 +329,10 @@ namespace DiGi.Geometry.Planar.Classes
             return segment2D.start.Equals(start) && segment2D.vector.Equals(vector);
         }
 
+        /// <summary>
+        /// Calculates the axis-aligned bounding box of the segment.
+        /// </summary>
+        /// <returns>A new <see cref="BoundingBox2D"/>, or null if start or vector is null.</returns>
         public BoundingBox2D? GetBoundingBox()
         {
             if (start is null || vector is null)
@@ -250,6 +343,10 @@ namespace DiGi.Geometry.Planar.Classes
             return new BoundingBox2D(start, End);
         }
 
+        /// <summary>
+        /// Gets the hash code for this segment.
+        /// </summary>
+        /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode()
         {
             int hashCode = 1695988409;
@@ -258,6 +355,10 @@ namespace DiGi.Geometry.Planar.Classes
             return hashCode;
         }
 
+        /// <summary>
+        /// Returns a list containing the start and end points of the segment.
+        /// </summary>
+        /// <returns>A list of two points, or null if endpoints are missing.</returns>
         public List<Point2D>? GetPoints()
         {
             if (Start is not Point2D start || End is not Point2D end)

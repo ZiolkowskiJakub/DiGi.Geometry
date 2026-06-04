@@ -112,6 +112,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Explicitly converts a Point2D to a Vector2D.
+        /// </summary>
+        /// <param name="point2D">The point to convert.</param>
+        /// <returns>A new Vector2D with the same coordinates as the point, or null if the point is null.</returns>
         public static explicit operator Vector2D?(Point2D? point2D)
         {
             if (point2D == null)
@@ -122,16 +127,32 @@ namespace DiGi.Geometry.Planar.Classes
             return new(point2D.X, point2D.Y);
         }
 
+        /// <summary>
+        /// Implicitly converts a tuple of two doubles to a Vector2D.
+        /// </summary>
+        /// <param name="object">The tuple containing X and Y components.</param>
+        /// <returns>A new Vector2D instance.</returns>
         public static implicit operator Vector2D?((double x, double y) @object)
         {
             return new(@object.x, @object.y);
         }
 
+        /// <summary>
+        /// Implicitly converts a tuple of start and end points to a Vector2D.
+        /// </summary>
+        /// <param name="object">The tuple containing the start and end points.</param>
+        /// <returns>A new Vector2D defined by the two points, or null if either point is null.</returns>
         public static implicit operator Vector2D?((Point2D? start, Point2D? end) @object)
         {
             return new(@object.start, @object.end);
         }
 
+        /// <summary>
+        /// Subtracts one vector from another.
+        /// </summary>
+        /// <param name="vector2D_1">The first vector.</param>
+        /// <param name="vector2D_2">The second vector to subtract.</param>
+        /// <returns>A new Vector2D result, or null if either input is null.</returns>
         public static Vector2D? operator -(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             if (vector2D_1 is null || vector2D_2 is null)
@@ -142,11 +163,23 @@ namespace DiGi.Geometry.Planar.Classes
             return new(vector2D_1.values[0] - vector2D_2.values[0], vector2D_1.values[1] - vector2D_2.values[1]);
         }
 
+        /// <summary>
+        /// Checks if two vectors are not equal.
+        /// </summary>
+        /// <param name="vector2D_1">The first vector.</param>
+        /// <param name="vector2D_2">The second vector.</param>
+        /// <returns>True if the vectors are different; otherwise, false.</returns>
         public static bool operator !=(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             return vector2D_1?.values[0] != vector2D_2?.values[0] || vector2D_1?.values[1] != vector2D_2?.values[1];
         }
 
+        /// <summary>
+        /// Calculates the dot product of two vectors.
+        /// </summary>
+        /// <param name="vector2D_1">The first vector.</param>
+        /// <param name="vector2D_2">The second vector.</param>
+        /// <returns>The scalar result of the dot product, or NaN if either input is null.</returns>
         public static double operator *(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             if (vector2D_1 is null || vector2D_2 is null)
@@ -157,6 +190,12 @@ namespace DiGi.Geometry.Planar.Classes
             return vector2D_1.values[0] * vector2D_2.values[0] + vector2D_1.values[1] * vector2D_2.values[1];
         }
 
+        /// <summary>
+        /// Scales a vector by a numeric factor.
+        /// </summary>
+        /// <param name="vector2D">The vector to scale.</param>
+        /// <param name="factor">The scaling factor.</param>
+        /// <returns>A new scaled Vector2D, or null if the vector is null.</returns>
         public static Vector2D? operator *(Vector2D? vector2D, double factor)
         {
             if (vector2D is null)
@@ -167,6 +206,12 @@ namespace DiGi.Geometry.Planar.Classes
             return new(vector2D.values[0] * factor, vector2D.values[1] * factor);
         }
 
+        /// <summary>
+        /// Scales a vector by a numeric factor.
+        /// </summary>
+        /// <param name="factor">The scaling factor.</param>
+        /// <param name="vector2D">The vector to scale.</param>
+        /// <returns>A new scaled Vector2D, or null if the vector is null.</returns>
         public static Vector2D? operator *(double factor, Vector2D? vector2D)
         {
             if (vector2D is null)
@@ -177,6 +222,12 @@ namespace DiGi.Geometry.Planar.Classes
             return new(vector2D.values[0] * factor, vector2D.values[1] * factor);
         }
 
+        /// <summary>
+        /// Divides a vector by a numeric factor.
+        /// </summary>
+        /// <param name="vector2D">The vector to divide.</param>
+        /// <param name="factor">The divisor factor.</param>
+        /// <returns>A new scaled Vector2D, or null if the vector is null.</returns>
         public static Vector2D? operator /(Vector2D? vector2D, double factor)
         {
             if (vector2D is null)
@@ -187,6 +238,12 @@ namespace DiGi.Geometry.Planar.Classes
             return new(vector2D.X / factor, vector2D.Y / factor);
         }
 
+        /// <summary>
+        /// Adds two vectors together.
+        /// </summary>
+        /// <param name="vector2D_1">The first vector.</param>
+        /// <param name="vector2D_2">The second vector to add.</param>
+        /// <returns>A new Vector2D result, or null if either input is null.</returns>
         public static Vector2D? operator +(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             if (vector2D_1 is null || vector2D_2 is null)
@@ -197,6 +254,12 @@ namespace DiGi.Geometry.Planar.Classes
             return new(vector2D_1.values[0] + vector2D_2.values[0], vector2D_1.values[1] + vector2D_2.values[1]);
         }
 
+        /// <summary>
+        /// Checks if two vectors are equal.
+        /// </summary>
+        /// <param name="vector2D_1">The first vector.</param>
+        /// <param name="vector2D_2">The second vector.</param>
+        /// <returns>True if the vectors are identical; otherwise, false.</returns>
         public static bool operator ==(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             if (vector2D_1 is null && vector2D_2 is null)
