@@ -6,10 +6,10 @@ namespace DiGi.Geometry.Planar
     public static partial class Convert
     {
         /// <summary>
-        /// Converts a <see cref="Point2D?"/> to a <see cref="PointF?"/> for drawing purposes.
+/// Converts a <c>Point2D?</c> to a <c>PointF?</c> for drawing purposes.
         /// </summary>
-        /// <param name="point2D">The <see cref="Point2D?"/> instance to convert.</param>
-        /// <returns>A <see cref="PointF?"/> representation of the point, or <see langword="null"/> if the provided <see cref="Point2D?"/> is <see langword="null"/>.</returns>
+/// <param name="point2D">The <see cref="Point2D"/> instance to convert.</param>
+/// <returns>A <c>PointF?</c> representation of the point, or <see langword="null"/> if the provided <c>Point2D?</c> is <see langword="null"/>.</returns>
         public static PointF? ToDrawing(this Point2D? point2D)
         {
             if (point2D == null)

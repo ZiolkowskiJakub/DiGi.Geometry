@@ -12,14 +12,17 @@ namespace DiGi.Geometry.Core.Enums
         /// Represents an undefined orientation.
         /// </summary>
         [Description("Undefined")] Undefined,
+
         /// <summary>
         /// Indicates that the points are collinear, meaning they lie on the same straight line.
         /// </summary>
         [Description("Collinear")] Collinear,
+
         /// <summary>
         /// Specifies a clockwise orientation.
         /// </summary>
         [Description("Clockwise")] Clockwise,
+
         /// <summary>
         /// Specifies an orientation that is counter-clockwise.
         /// </summary>

@@ -5,12 +5,12 @@ namespace DiGi.Geometry.Spatial
     public static partial class Query
     {
         /// <summary>
-        /// Determines whether two <see cref="Vector3D?" /> vectors are perpendicular within a specified tolerance.
+/// Determines whether two <c>Vector3D?</c> vectors are perpendicular within a specified tolerance.
         /// </summary>
-        /// <param name="vector3D_1">The first <see cref="Vector3D?" /> vector.</param>
-        /// <param name="vector3D_2">The second <see cref="Vector3D?" /> vector.</param>
+/// <param name="vector3D_1">The first <c>Vector3D?</c> vector.</param>
+/// <param name="vector3D_2">The second <c>Vector3D?</c> vector.</param>
         /// <param name="tolerance">The <see cref="double" /> tolerance value used to determine if the vectors are perpendicular.</param>
-        /// <returns>A <see cref="bool" /> value indicating whether the two <see cref="Vector3D?" /> vectors are perpendicular.</returns>
+/// <returns>A <see cref="bool" /> value indicating whether the two <c>Vector3D?</c> vectors are perpendicular.</returns>
         public static bool Perpendicular(this Vector3D? vector3D_1, Vector3D? vector3D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (vector3D_1 == vector3D_2)

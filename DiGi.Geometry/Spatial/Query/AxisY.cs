@@ -7,8 +7,8 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the Y-axis vector based on the provided normal vector.
         /// </summary>
-        /// <param name="normal">The <see cref="Vector3D?" /> normal vector used as a basis for calculating the Y-axis.</param>
-        /// <returns>A <see cref="Vector3D?" /> representing the Y-axis, or null if the provided normal is null.</returns>
+/// <param name="normal">The <c>Vector3D?</c> normal vector used as a basis for calculating the Y-axis.</param>
+/// <returns>A <c>Vector3D?</c> representing the Y-axis, or null if the provided normal is null.</returns>
         public static Vector3D? AxisY(this Vector3D? normal)
         {
             if (normal == null)

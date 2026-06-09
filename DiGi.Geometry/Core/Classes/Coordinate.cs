@@ -9,13 +9,6 @@ namespace DiGi.Geometry.Core.Classes
     /// <summary>
     /// Represents an abstract base class for a coordinate system that is serializable, geometric, and invertible.
     /// </summary>
-    /// <summary>
-    /// The array of <see cref="double"/> values representing the coordinates.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Coordinate"/> class with the specified values.
-    /// </summary>
-    /// <param name="values">An optional array of <see cref="double"/> values to initialize the coordinate.</param>
     public abstract class Coordinate : SerializableObject, IGeometry, IInvertible
     {
         protected double[] values;
@@ -207,7 +200,7 @@ namespace DiGi.Geometry.Core.Classes
         /// <summary>
         /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="Coordinate"/>.
         /// </summary>
-        /// <param name="@object">The <see cref="object"/> to compare with the current instance.</param>
+        /// <param name="object">The <see cref="object"/> to compare with the current instance.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the specified object is equal to the current instance.</returns>
         public override bool Equals(object? @object)
         {
@@ -222,7 +215,7 @@ namespace DiGi.Geometry.Core.Classes
         /// <summary>
         /// Returns a hash code for the current object based on its internal values.
         /// </summary>
-        /// <returns>An <int> representing the hash code of the current object.</returns>
+        /// <returns>An int representing the hash code of the current object.</returns>
         public override int GetHashCode()
         {
             unchecked
@@ -295,9 +288,9 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         /// <summary>
-        /// Returns a <string> representation of the current object, formatting the internal values as a semicolon-separated list enclosed in square brackets.
+        /// Returns a string representation of the current object, formatting the internal values as a semicolon-separated list enclosed in square brackets.
         /// </summary>
-        /// <returns>A <string> containing the formatted values, or an empty <string> if the values are null.</returns>
+        /// <returns>A string containing the formatted values, or an empty string if the values are null.</returns>
         public override string ToString()
         {
             if (values == null)

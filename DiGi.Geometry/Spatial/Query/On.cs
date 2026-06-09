@@ -88,8 +88,8 @@ namespace DiGi.Geometry.Spatial
         /// </summary>
         /// <param name="plane">The <see cref="Plane"/> to check against.</param>
         /// <param name="segmentable3D">The <see cref="ISegmentable3D"/> object to evaluate.</param>
-        /// <param name="tolerance">The <double> tolerance value used for the distance calculation.</param>
-        /// <returns>A <bool> indicating whether all points of the <see cref="ISegmentable3D"/> object are on the <see cref="Plane"/>.</returns>
+/// <param name="tolerance">The <see cref="double"/> tolerance value used for the distance calculation.</param>
+/// <returns>A <see cref="bool"/> indicating whether all points of the <see cref="ISegmentable3D"/> object are on the <see cref="Plane"/>.</returns>
         public static bool On(this Plane? plane, ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || segmentable3D == null)
@@ -115,12 +115,12 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Vector3D?"/> lies on the <see cref="Plane?"/> within a given tolerance.
+/// Determines whether the specified <c>Vector3D?</c> lies on the <c>Plane?</c> within a given tolerance.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane?"/> to check.</param>
-        /// <param name="vector3D">The <see cref="Vector3D?"/> to evaluate.</param>
+/// <param name="plane">The <see cref="Plane"/> to check.</param>
+/// <param name="vector3D">The <c>Vector3D?</c> to evaluate.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used for the distance calculation.</param>
-        /// <returns>A <see cref="bool"/> indicating whether the <see cref="Vector3D?"/> is on the <see cref="Plane?"/>.</returns>
+/// <returns>A <see cref="bool"/> indicating whether the <c>Vector3D?</c> is on the <c>Plane?</c>.</returns>
         public static bool On(this Plane? plane, Vector3D? vector3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || vector3D == null)

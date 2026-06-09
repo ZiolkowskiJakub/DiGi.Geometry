@@ -9,18 +9,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a 3D transformation.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Transform3D"/> class using the specified <see cref="Matrix4D"/>.
-    /// </summary>
-    /// <param name="matrix4D">The <see cref="Matrix4D"/> to use for the transformation.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Transform3D"/> class from the specified <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing transformation data.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Transform3D"/> class by copying the specified <see cref="Transform3D"/> instance.
-    /// </summary>
-    /// <param name="transform3D">The <see cref="Transform3D"/> instance to copy.</param>
     public class Transform3D : SerializableObject, ITransform3D
     {
         [JsonInclude, JsonPropertyName("Matrix4D")]

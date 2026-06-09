@@ -9,10 +9,12 @@ namespace DiGi.Geometry.Core.Enums
         /// Indicates that the side is undefined or unspecified.
         /// </summary>
         Undefined,
+
         /// <summary>
         /// Represents the internal side.
         /// </summary>
         Internal,
+
         /// <summary>
         /// Represents the external side.
         /// </summary>

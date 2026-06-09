@@ -4,9 +4,9 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-/// <summary>
-/// Represents a 2D polyline defined by a sequence of vertices.
-/// </summary>
+    /// <summary>
+    /// Represents a 2D polyline defined by a sequence of vertices.
+    /// </summary>
     public class Polyline2D : Segmentable2D
     {
         /// <summary>

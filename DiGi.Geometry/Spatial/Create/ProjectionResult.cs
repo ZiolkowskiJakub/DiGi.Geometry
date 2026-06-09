@@ -10,11 +10,11 @@ namespace DiGi.Geometry.Spatial
     public static partial class Create
     {
         /// <summary>
-        /// Projects a <see cref="Point3D"/> onto a <see cref="Plane"/> to create a <see cref="ProjectionResult"/>.
+        /// Projects a <see cref="Point3D"/> onto a <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to create a <see cref="DiGi.Geometry.Spatial.Classes.ProjectionResult"/>.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> used for the projection.</param>
+        /// <param name="plane">The <see cref="Classes.Plane"/> used for the projection.</param>
         /// <param name="point3D">The <see cref="Point3D"/> to be projected onto the plane.</param>
-        /// <returns>A <see cref="ProjectionResult"/> containing the result of the projection, or <c>null</c> if the <see cref="Plane"/> or <see cref="Point3D"/> is <c>null</c>, or if the conversion to a <see cref="Point2D"/> fails.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.ProjectionResult"/> containing the result of the projection, or <c>null</c> if the <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> or <see cref="Point3D"/> is <c>null</c>, or if the conversion to a <see cref="Point2D"/> fails.</returns>
         public static ProjectionResult? ProjectionResult(this Plane? plane, Point3D? point3D)
         {
             if (plane == null || point3D == null)
@@ -32,11 +32,11 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Projects a collection of <see cref="Point3D"/> points onto a <see cref="Plane"/>.
+        /// Projects a collection of <see cref="Point3D"/> points onto a <see cref="DiGi.Geometry.Spatial.Classes.Plane"/>.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to which the points are projected.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to which the points are projected.</param>
         /// <param name="point3Ds">An <see cref="IEnumerable{T}"/> of <see cref="Point3D"/> objects to project.</param>
-        /// <returns>A <see cref="ProjectionResult"/> containing the projection data, or <see langword="null"/> if either the <see cref="Plane"/> or the <see cref="IEnumerable{T}"/> of <see cref="Point3D"/> is null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.ProjectionResult"/> containing the projection data, or <see langword="null"/> if either the <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> or the <see cref="IEnumerable{T}"/> of <see cref="Point3D"/> is null.</returns>
         public static ProjectionResult? ProjectionResult(this Plane? plane, IEnumerable<Point3D>? point3Ds)
         {
             if (plane == null || point3Ds == null)
@@ -60,12 +60,12 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Calculates the projection result of a <see cref="Vector3D"/> onto a <see cref="Plane"/>.
+        /// Calculates the projection result of a <see cref="Vector3D"/> onto a <see cref="DiGi.Geometry.Spatial.Classes.Plane"/>.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to project onto.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to project onto.</param>
         /// <param name="vector3D">The <see cref="Vector3D"/> to be projected.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the minimum length threshold for the projection result.</param>
-        /// <returns>A <see cref="ProjectionResult"/> containing the projection details, or <c>null</c> if the input parameters are null or the resulting vector length is less than the specified <see cref="double"/> tolerance.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.ProjectionResult"/> containing the projection details, or <c>null</c> if the input parameters are null or the resulting vector length is less than the specified <see cref="double"/> tolerance.</returns>
         public static ProjectionResult? ProjectionResult(this Plane? plane, Vector3D? vector3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || vector3D == null)
@@ -98,12 +98,12 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Projects a <see cref="Line3D"/> onto a <see cref="Plane"/>.
+        /// Projects a <see cref="Line3D"/> onto a <see cref="DiGi.Geometry.Spatial.Classes.Plane"/>.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to project the line onto.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to project the line onto.</param>
         /// <param name="line3D">The <see cref="Line3D"/> to be projected.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used for similarity and intersection calculations.</param>
-        /// <returns>A <see cref="ProjectionResult"/> containing the projection results, or <c>null</c> if either input is null or the projection cannot be determined.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.ProjectionResult"/> containing the projection results, or <c>null</c> if either input is null or the projection cannot be determined.</returns>
         public static ProjectionResult? ProjectionResult(this Plane? plane, Line3D? line3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || line3D == null)
@@ -135,10 +135,10 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the projection of a 3D ray onto a plane.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to project the ray onto.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to project the ray onto.</param>
         /// <param name="ray3D">The <see cref="Ray3D"/> to be projected.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used for similarity and distance calculations.</param>
-        /// <returns>A <see cref="ProjectionResult"/> containing the projection data, or <c>null</c> if either the <see cref="Plane"/> or <see cref="Ray3D"/> is null.</returns>
+        /// <returns>A <see cref="Classes.ProjectionResult"/> containing the projection data, or <c>null</c> if either the <see cref="Classes.Plane"/> or <see cref="Ray3D"/> is null.</returns>
         public static ProjectionResult? ProjectionResult(this Plane? plane, Ray3D? ray3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || ray3D == null)
@@ -168,12 +168,12 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Calculates the projection result of a <see cref="Segment3D"/> onto a <see cref="Plane"/>.
+        /// Calculates the projection result of a <see cref="Segment3D"/> onto a <see cref="DiGi.Geometry.Spatial.Classes.Plane"/>.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to project onto.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to project onto.</param>
         /// <param name="segment3D">The <see cref="Segment3D"/> to be projected.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the tolerance for similarity calculations.</param>
-        /// <returns>A <see cref="ProjectionResult"/> containing the projection details, or <c>null</c> if either the <see cref="Plane"/> or <see cref="Segment3D"/> is <c>null</c>.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.ProjectionResult"/> containing the projection details, or <c>null</c> if either the <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> or <see cref="Segment3D"/> is <c>null</c>.</returns>
         public static ProjectionResult? ProjectionResult(this Plane? plane, Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || segment3D == null)
@@ -204,10 +204,10 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the projection result of a 3D triangle onto a plane.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> object to project onto.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> object to project onto.</param>
         /// <param name="triangle3D">The <see cref="Triangle3D"/> object to be projected.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for collinearity checks.</param>
-        /// <returns>A <see cref="ProjectionResult"/> containing the projection data, or <see langword="null"/> if the input is null or the resulting points are not valid.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.ProjectionResult"/> containing the projection data, or <see langword="null"/> if the input is null or the resulting points are not valid.</returns>
         public static ProjectionResult? ProjectionResult(this Plane? plane, Triangle3D? triangle3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || triangle3D == null)
@@ -248,12 +248,12 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Projects a <see cref="Polygon3D"/> onto a <see cref="Plane"/>.
+        /// Projects a <see cref="DiGi.Geometry.Spatial.Classes.Polygon3D"/> onto a <see cref="DiGi.Geometry.Spatial.Classes.Plane"/>.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to project onto.</param>
-        /// <param name="polygon3D">The <see cref="Polygon3D"/> to be projected.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to project onto.</param>
+        /// <param name="polygon3D">The <see cref="DiGi.Geometry.Spatial.Classes.Polygon3D"/> to be projected.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for the projection.</param>
-        /// <returns>A <see cref="ProjectionResult"/> containing the result of the projection, or <c>null</c> if the input parameters are null or the resulting geometry is invalid.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.ProjectionResult"/> containing the result of the projection, or <c>null</c> if the input parameters are null or the resulting geometry is invalid.</returns>
         public static ProjectionResult? ProjectionResult(this Plane? plane, Polygon3D? polygon3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || polygon3D == null)
@@ -297,10 +297,10 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the projection result of a specified 3D geometry onto a plane.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to project onto.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to project onto.</param>
         /// <param name="geometry3D">The <see cref="IGeometry3D"/> object to be projected.</param>
         /// <param name="tolerance">The <see cref="double"/> value representing the distance tolerance for the projection.</param>
-        /// <returns>A <see cref="ProjectionResult"/> containing the result of the projection, or null if either the plane or geometry is null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.ProjectionResult"/> containing the result of the projection, or null if either the plane or geometry is null.</returns>
         public static ProjectionResult? ProjectionResult(this Plane? plane, IGeometry3D? geometry3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || geometry3D == null)
@@ -320,10 +320,10 @@ namespace DiGi.Geometry.Spatial
         /// Projects a collection of 3D geometry objects onto a plane.
         /// </summary>
         /// <typeparam name="T">The type of 3D geometry, which must implement <see cref="IGeometry3D"/>.</typeparam>
-        /// <param name="plane">The <see cref="Plane"/> to project the geometries onto.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to project the geometries onto.</param>
         /// <param name="geometry3Ds">An <see cref="IEnumerable{T}"/> of 3D geometry objects to be projected.</param>
         /// <param name="tolerance">A <see cref="double"/> value specifying the distance tolerance for the projection process.</param>
-        /// <returns>A <see cref="ProjectionResult"/> containing the results of the projection, or <c>null</c> if the <paramref name="plane"/> or <paramref name="geometry3Ds"/> is <c>null</c>.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.ProjectionResult"/> containing the results of the projection, or <c>null</c> if the <paramref name="plane"/> or <paramref name="geometry3Ds"/> is <c>null</c>.</returns>
         public static ProjectionResult? ProjectionResult<T>(this Plane? plane, IEnumerable<T>? geometry3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : IGeometry3D
         {
             if (plane == null || geometry3Ds == null)
@@ -355,10 +355,10 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the projection result of a 3D ellipse onto a plane.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> onto which the ellipse is projected.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> onto which the ellipse is projected.</param>
         /// <param name="ellipse3D">The <see cref="Ellipse3D"/> to be projected.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used to determine if the plane and the ellipse's plane are parallel.</param>
-        /// <returns>A <see cref="ProjectionResult"/> containing the projected 2D ellipse, or <see langword="null"/> if either the <see cref="Plane"/> or <see cref="Ellipse3D"/> is <see langword="null"/>.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.ProjectionResult"/> containing the projected 2D ellipse, or <see langword="null"/> if either the <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> or <see cref="Ellipse3D"/> is <see langword="null"/>.</returns>
         /// <exception cref="System.NotImplementedException">Thrown when the projection for non-parallel planes is not implemented.</exception>
         public static ProjectionResult? ProjectionResult(this Plane? plane, Ellipse3D? ellipse3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
@@ -383,10 +383,10 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the projection result of a 3D polygonal face onto a plane.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to project onto.</param>
-        /// <param name="polygonalFace3D">The <see cref="PolygonalFace3D"/> to be projected.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to project onto.</param>
+        /// <param name="polygonalFace3D">The <see cref="DiGi.Geometry.Spatial.Classes.PolygonalFace3D"/> to be projected.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for the projection.</param>
-        /// <returns>A <see cref="ProjectionResult"/> if the projection is successful; otherwise, <c>null</c>.</returns>
+        /// <returns>A <see cref="Classes.ProjectionResult"/> if the projection is successful; otherwise, <c>null</c>.</returns>
         public static ProjectionResult? ProjectionResult(this Plane? plane, PolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || polygonalFace3D == null)

@@ -10,17 +10,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a three-dimensional polyline consisting of a sequence of <see cref="Point3D"/> points.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyline3D"/> class using a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the polyline data.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyline3D"/> class.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyline3D"/> class by cloning an existing <see cref="Polyline3D"/> instance.
-    /// </summary>
-    /// <param name="polyline3D">The <see cref="Polyline3D"/> instance to clone.</param>
     public class Polyline3D : Geometry3D, ISegmentable3D
     {
         [JsonInclude, JsonPropertyName("Points")]
@@ -124,7 +113,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Closes the path by adding a copy of the first <Point3D> to the end of the points collection,
+        /// Closes the path by adding a copy of the first <see cref="Point3D"/> to the end of the points collection,
         /// provided that the path is not already closed and contains at least three points.
         /// </summary>
         public void Close()
@@ -188,9 +177,9 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Retrieves a list of <Point3D> objects.
+        /// Retrieves a list of <see cref="Point3D"/> objects.
         /// </summary>
-        /// <returns>A <List<Point3D>> containing the points, or null if no points are available.</returns>
+/// <returns>A <c>List&lt;Point3D&gt;</c> containing the points, or <see langword="null"/> if no points are available.</returns>
         public List<Point3D>? GetPoints()
         {
             return DiGi.Core.Query.Clone(points)?.FilterNulls();

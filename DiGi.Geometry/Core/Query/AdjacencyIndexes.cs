@@ -8,8 +8,8 @@ namespace DiGi.Geometry.Core
         /// <summary>
         /// Creates an adjacency dictionary from a collection of indexes.
         /// </summary>
-        /// <param name="indexes">The <see cref="IEnumerable{T}"/> of <see cref="int[]"/> representing the indexes to process.</param>
-        /// <returns>A <see cref="Dictionary{TKey, TValue}"/> mapping each node index to a <see cref="List{T}"/> of its adjacent <see cref="int[]"/> edges, or <c>null</c> if the input is <c>null</c>.</returns>
+        /// <param name="indexes">The <see cref="IEnumerable{T}"/> of <c>int[]</c> representing the indexes to process.</param>
+        /// <returns>A <see cref="Dictionary{TKey, TValue}"/> mapping each node index to a <see cref="List{T}"/> of its adjacent <c>int[]</c> edges, or <c>null</c> if the input is <c>null</c>.</returns>
         public static Dictionary<int, List<int[]>>? AdjacencyIndexes(this IEnumerable<int[]>? indexes)
         {
             if (indexes == null)

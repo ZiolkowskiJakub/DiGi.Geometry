@@ -13,16 +13,6 @@ namespace DiGi.Geometry.Core.Classes
     /// Represents the result of a density-based spatial clustering operation.
     /// </summary>
     /// <typeparam name="T">The type of point, which must implement <see cref="IPoint{T}"/>.</typeparam>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DensityBasedSpatialClusteringResult{T}"/> class.
-    /// </summary>
-    /// <param name="tolerance">The <double> tolerance value used for clustering.</param>
-    /// <param name="pointCount">The <int> number of points processed.</param>
-    /// <param name="dictionary">A <Dictionary<T, int>> mapping each point to its cluster index.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DensityBasedSpatialClusteringResult{T}"/> class by copying an existing result.
-    /// </summary>
-    /// <param name="densityBasedSpatialClusteringResult">The <DensityBasedSpatialClusteringResult<T>> instance to copy from.</param>
     public class DensityBasedSpatialClusteringResult<T> : SerializableResult where T : IPoint<T>
     {
         [JsonInclude, JsonPropertyName("PointCount")]
@@ -39,7 +29,7 @@ namespace DiGi.Geometry.Core.Classes
         /// </summary>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used for spatial clustering.</param>
         /// <param name="pointCount">The <see cref="int"/> number of points processed in the clustering operation.</param>
-        /// <param name="dictionary">An optional <see cref="Dictionary{T, int}"/> containing the mapping of elements to their respective cluster indices.</param>
+        /// <param name="dictionary">An optional <c>Dictionary&lt;T, int&gt;</c>/> containing the mapping of elements to their respective cluster indices.</param>
         public DensityBasedSpatialClusteringResult(double tolerance, int pointCount, Dictionary<T, int>? dictionary)
         {
             this.tolerance = tolerance;
@@ -49,7 +39,7 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DensityBasedSpatialClusteringResult"/> class using the specified <see cref="DensityBasedSpatialClusteringResult{T}"/> result.
+        /// Initializes a new instance of the <see cref="DensityBasedSpatialClusteringResult{T}"/> class using the specified <see cref="DensityBasedSpatialClusteringResult{T}"/> result.
         /// </summary>
         /// <param name="densityBasedSpatialClusteringResult">The <see cref="DensityBasedSpatialClusteringResult{T}"/> object containing the clustering data to be copied.</param>
         public DensityBasedSpatialClusteringResult(DensityBasedSpatialClusteringResult<T> densityBasedSpatialClusteringResult)
@@ -65,7 +55,7 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DensityBasedSpatialClusteringResult"/> class using the specified <see cref="JsonObject"/>.
+        /// Initializes a new instance of the <see cref="DensityBasedSpatialClusteringResult{T}"/> class using the specified <see cref="JsonObject"/>.
         /// </summary>
         /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data used to initialize the clustering result.</param>
         public DensityBasedSpatialClusteringResult(JsonObject jsonObject)
@@ -74,10 +64,10 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         /// <summary>
-        /// Gets a <see cref="Dictionary{T, int}"/> containing mappings from keys of type <typeparamref name="T"/> to values of type <see cref="int"/>.
+        /// Gets a <c>Dictionary&lt;T, int&gt;</c>/> containing mappings from keys of type <typeparamref name="T"/> to values of type <see cref="int"/>.
         /// </summary>
         /// <value>
-        /// A <see cref="Dictionary{T, int}"/> where each key is a clone of the original key, or null if the underlying dictionary is null.
+        /// A <c>Dictionary&lt;T, int&gt;</c>/> where each key is a clone of the original key, or null if the underlying dictionary is null.
         /// </value>
         [JsonIgnore]
         public Dictionary<T, int>? Dictionary
@@ -154,8 +144,8 @@ namespace DiGi.Geometry.Core.Classes
         /// they can be processed by the provided function; otherwise, the first point is returned.
         /// </summary>
         /// <param name="index">The index of the point to retrieve.</param>
-        /// <param name="func">An optional <see cref="Func{TIEnumerable{T}, T}"/> used to select a single <see cref="T"/> from the collection of points.</param>
-        /// <returns>A cloned instance of <see cref="T"/> if a point is found; otherwise, the default value of <see cref="T"/>.</returns>
+/// <param name="func">An optional <c>Func&lt;IEnumerable&lt;T&gt;, T&gt;</c> used to select a single <typeparamref name="T"/> from the collection of points.</param>
+        /// <returns>A cloned instance of <typeparamref name="T"/> if a point is found; otherwise, the default value of <typeparamref name="T"/>.</returns>
         public T? GetPoint(int index, Func<IEnumerable<T>, T>? func = null)
         {
             List<T>? points = GetPoints(index);

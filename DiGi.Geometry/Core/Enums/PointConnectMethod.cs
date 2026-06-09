@@ -12,10 +12,12 @@ namespace DiGi.Geometry.Core.Enums
         /// Indicates that the point connection method is undefined or not specified.
         /// </summary>
         [Description("Undefined")] Undefined,
+
         /// <summary>
         /// Specifies that the point connection method uses the ends.
         /// </summary>
         [Description("Ends")] Ends,
+
         /// <summary>
         /// Specifies that the connection between points is established using a projection method.
         /// </summary>

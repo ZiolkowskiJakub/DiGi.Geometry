@@ -1,5 +1,4 @@
-﻿using DiGi.Core;
-using DiGi.Geometry.Planar.Interfaces;
+﻿using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -19,56 +18,55 @@ namespace DiGi.Geometry.Planar.Classes
 
         [JsonInclude, JsonPropertyName(nameof(WidthCount))]
         private readonly int widthCount;
-        
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Grid2D"/> class.
-    /// </summary>
-    /// <param name="origin">The origin point of the grid.</param>
-    /// <param name="width">The total width of the grid.</param>
-    /// <param name="height">The total height of the grid.</param>
-    /// <param name="heightDirection">The direction of the height axis.</param>
-    /// <param name="widthCount">The number of cells in the width direction.</param>
-    /// <param name="heightCount">The number of cells in the height direction.</param>
-    public Grid2D(Point2D? origin, double width, double height, Vector2D? heightDirection, int widthCount, int heightCount)
-            :base()
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Grid2D"/> class.
+        /// </summary>
+        /// <param name="origin">The origin point of the grid.</param>
+        /// <param name="width">The total width of the grid.</param>
+        /// <param name="height">The total height of the grid.</param>
+        /// <param name="heightDirection">The direction of the height axis.</param>
+        /// <param name="widthCount">The number of cells in the width direction.</param>
+        /// <param name="heightCount">The number of cells in the height direction.</param>
+        public Grid2D(Point2D? origin, double width, double height, Vector2D? heightDirection, int widthCount, int heightCount)
+                : base()
         {
             rectangle2D = new Rectangle2D(origin, width, height, heightDirection);
             this.widthCount = widthCount;
             this.heightCount = heightCount;
         }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Grid2D"/> class.
-    /// </summary>
-    /// <param name="rectangle2D">The bounding rectangle of the grid.</param>
-    /// <param name="widthCount">The number of cells in the width direction.</param>
-    /// <param name="heightCount">The number of cells in the height direction.</param>
-    public Grid2D(Rectangle2D? rectangle2D, int widthCount, int heightCount)
-            :base()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Grid2D"/> class.
+        /// </summary>
+        /// <param name="rectangle2D">The bounding rectangle of the grid.</param>
+        /// <param name="widthCount">The number of cells in the width direction.</param>
+        /// <param name="heightCount">The number of cells in the height direction.</param>
+        public Grid2D(Rectangle2D? rectangle2D, int widthCount, int heightCount)
+                : base()
         {
             this.rectangle2D = DiGi.Core.Query.Clone(rectangle2D);
             this.widthCount = widthCount;
             this.heightCount = heightCount;
         }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Grid2D"/> class from a JSON object.
-    /// </summary>
-    /// <param name="jsonObject">The JSON object containing grid data.</param>
-    public Grid2D(JsonObject jsonObject)
-            : base(jsonObject)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Grid2D"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing grid data.</param>
+        public Grid2D(JsonObject jsonObject)
+                : base(jsonObject)
         {
-
         }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Grid2D"/> class by cloning an existing grid.
-    /// </summary>
-    /// <param name="grid2D">The source grid to clone.</param>
-    public Grid2D(Grid2D grid2D)
-            : base(grid2D)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Grid2D"/> class by cloning an existing grid.
+        /// </summary>
+        /// <param name="grid2D">The source grid to clone.</param>
+        public Grid2D(Grid2D grid2D)
+                : base(grid2D)
         {
-            if(grid2D is not null)
+            if (grid2D is not null)
             {
                 rectangle2D = grid2D.Rectangle2D;
                 widthCount = grid2D.widthCount;
@@ -208,7 +206,6 @@ namespace DiGi.Geometry.Planar.Classes
             {
                 return null;
             }
-
 
             Point2D? origin = rectangle2D.Origin;
             if (origin is null)

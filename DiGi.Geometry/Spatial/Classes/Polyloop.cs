@@ -8,21 +8,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a closed polyline in 3D space.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyloop"/> class from a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data to initialize the loop.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyloop"/> class.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyloop"/> class by copying an existing <see cref="Polyloop"/>.
-    /// </summary>
-    /// <param name="polyloop">The source <see cref="Polyloop"/> to copy.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyloop"/> class using a collection of <see cref="Point3D"/> objects.
-    /// </summary>
-    /// <param name="point3Ds">The collection of <see cref="Point3D"/> objects that define the loop.</param>
     public class Polyloop : Segmentable3D, IClosedCurve3D, ISegmentable3D, IInvertible3D
     {
         /// <summary>

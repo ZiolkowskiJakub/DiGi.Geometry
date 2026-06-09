@@ -19,7 +19,7 @@ namespace DiGi.Geometry.Spatial.Classes
         protected Plane? plane;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Planar"/> class using the specified <see cref="Plane"/>.
+        /// Initializes a new instance of the <see cref="Planar{T}"/> class using the specified <see cref="Plane"/>.
         /// </summary>
         /// <param name="plane">The <see cref="Plane"/> used to initialize the planar object.</param>
         public Planar(Plane? plane)
@@ -29,7 +29,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Planar"/> class using the specified <see cref="JsonObject"/>.
+        /// Initializes a new instance of the <see cref="Planar{T}"/> class using the specified <see cref="JsonObject"/>.
         /// </summary>
         /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the instance.</param>
         public Planar(JsonObject? jsonObject)
@@ -66,7 +66,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Gets the 2D geometry representation.
         /// </summary>
-        /// <returns>A <see cref="T"/> instance representing the 2D geometry, or null if it is not defined.</returns>
+        /// <returns>A <typeparamref name="T"/> instance representing the 2D geometry, or null if it is not defined.</returns>
         [JsonIgnore]
         public T? Geometry2D
         {

@@ -9,9 +9,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-/// <summary>
-/// Represents an axis-aligned bounding box in 2D space.
-/// </summary>
+    /// <summary>
+    /// Represents an axis-aligned bounding box in 2D space.
+    /// </summary>
     public class BoundingBox2D : Geometry2D, IBoundingBox<Point2D>
     {
         [JsonInclude, JsonPropertyName("Max")]

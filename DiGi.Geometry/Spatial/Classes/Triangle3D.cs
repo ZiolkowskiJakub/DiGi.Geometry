@@ -11,14 +11,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a three-dimensional triangle geometry.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Triangle3D"/> class using the provided <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the triangle data.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Triangle3D"/> class by copying an existing <see cref="Triangle3D"/> instance.
-    /// </summary>
-    /// <param name="triangle3D">The <see cref="Triangle3D"/> instance to copy.</param>
     public class Triangle3D : Geometry3D, IPlanar<Triangle2D>, IPolygonal3D<Triangle2D>
     {
         [JsonInclude, JsonPropertyName("Points")]
@@ -264,9 +256,9 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Retrieves a list of <Point3D> points, filtering out any null entries.
+        /// Retrieves a list of <see cref="Point3D"/> points, filtering out any null entries.
         /// </summary>
-        /// <returns>A <List<Point3D>> containing the filtered points, or null if the source is null.</returns>
+/// <returns>A <c>List&lt;Point3D&gt;</c> containing the filtered points, or <see langword="null"/> if the source is <see langword="null"/>.</returns>
         public List<Point3D>? GetPoints()
         {
             return DiGi.Core.Query.Clone(points)?.FilterNulls();

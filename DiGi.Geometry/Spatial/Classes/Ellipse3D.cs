@@ -10,22 +10,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a three-dimensional ellipse defined on a plane.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Ellipse3D"/> class using a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data to initialize the ellipse.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Ellipse3D"/> class using a specified plane and a two-dimensional ellipse.
-    /// </summary>
-    /// <param name="plane">The <see cref="Plane"/> on which the ellipse is located.</param>
-    /// <param name="ellipse2D">The <see cref="Ellipse2D"/> that defines the shape of the ellipse.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Ellipse3D"/> class by copying an existing <see cref="Ellipse3D"/> instance.
-    /// </summary>
-    /// <param name="ellipse3D">The <see cref="Ellipse3D"/> instance to copy.</param>
-    /// <summary>
-    /// Gets or sets the length of the semi-major axis as a <see cref="double"/>.
-    /// </summary>
     public class Ellipse3D : Planar<Ellipse2D>, IEllipse3D
     {
         /// <summary>

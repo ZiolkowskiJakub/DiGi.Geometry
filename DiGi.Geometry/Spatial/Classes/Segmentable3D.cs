@@ -9,17 +9,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Provides an abstract base implementation for 3D geometries that can be segmented.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Segmentable3D"/> class using a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the object.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Segmentable3D"/> class.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Segmentable3D"/> class by copying another <see cref="Segmentable3D"/> instance.
-    /// </summary>
-    /// <param name="segmentable3D">The <see cref="Segmentable3D"/> instance to copy from.</param>
     public abstract class Segmentable3D : Geometry3D, ISegmentable3D
     {
         [JsonInclude, JsonPropertyName("Points")]
@@ -146,10 +135,10 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Calculates the closest <Point3D> on the geometry to the specified <Point3D>.
+        /// Calculates the closest <see cref="Point3D"/> on the geometry to the specified <see cref="Point3D"/>.
         /// </summary>
-        /// <param name="point">The <Point3D> used as the reference for finding the closest point.</param>
-        /// <returns>The closest <Point3D> found, or null if the provided <Point3D> is null or no points are available.</returns>
+/// <param name="point">The <see cref="Point3D"/> used as the reference for finding the closest point.</param>
+/// <returns>The closest <see cref="Point3D"/> found, or <see langword="null"/> if the provided <see cref="Point3D"/> is <see langword="null"/> or no points are available.</returns>
         public Point3D? ClosestPoint(Point3D? point)
         {
             if (point == null || points == null || points.Count == 0)

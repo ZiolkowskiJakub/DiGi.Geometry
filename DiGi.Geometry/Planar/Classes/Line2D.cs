@@ -6,9 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-/// <summary>
-/// Represents an infinite line in 2D space defined by an origin point and a direction vector.
-/// </summary>
+    /// <summary>
+    /// Represents an infinite line in 2D space defined by an origin point and a direction vector.
+    /// </summary>
     public class Line2D : Geometry2D, ILinear2D
     {
         [JsonInclude, JsonPropertyName("Direction")]

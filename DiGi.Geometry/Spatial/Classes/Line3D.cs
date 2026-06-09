@@ -10,15 +10,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a line in 3D space defined by an origin point and a direction vector.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Line3D"/> class by cloning an existing <see cref="Line3D"/> object.
-    /// </summary>
-    /// <param name="line3D">The <see cref="Line3D"/> instance to clone.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Line3D"/> class with the specified origin point and direction vector.
-    /// </summary>
-    /// <param name="origin">The <see cref="Point3D"/> representing the origin of the line.</param>
-    /// <param name="direction">The <see cref="Vector3D"/> representing the direction of the line.</param>
     public class Line3D : Geometry3D, ILinear3D
     {
         [JsonInclude, JsonPropertyName("Direction")]
@@ -299,10 +290,10 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Transforms the origin and direction of the object using the specified <ITransform3D> transformation.
+        /// Transforms the origin and direction of the object using the specified <see cref="ITransform3D"/> transformation.
         /// </summary>
-        /// <param name="transform">The <ITransform3D> instance to apply for the transformation.</param>
-        /// <returns>A <bool> value indicating whether the transformation was successfully applied; returns <c>false</c> if the <ITransform3D> transform, origin, or direction is null.</returns>
+/// <param name="transform">The <see cref="ITransform3D"/> instance to apply for the transformation.</param>
+/// <returns>A <see cref="bool"/> value indicating whether the transformation was successfully applied; returns <c>false</c> if the <see cref="ITransform3D"/> transform, origin, or direction is null.</returns>
         public bool Transform(ITransform3D? transform)
         {
             if (transform == null || origin == null || direction == null)

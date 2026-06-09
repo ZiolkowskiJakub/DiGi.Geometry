@@ -10,12 +10,12 @@ namespace DiGi.Geometry.Spatial
     public static partial class Create
     {
         /// <summary>
-        /// Calculates the planar intersection result for a given <see cref="Plane"/> and <see cref="Point3D"/>.
+        /// Calculates the planar intersection result for a given <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> and <see cref="Point3D"/>.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> used for the intersection calculation.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> used for the intersection calculation.</param>
         /// <param name="point3D">The <see cref="Point3D"/> to be checked against the plane.</param>
         /// <param name="tolerance">A <see cref="double"/> value specifying the distance tolerance for determining if the point lies on the plane.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the intersection details, or <see langword="null"/> if either input is null or projection fails.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the intersection details, or <see langword="null"/> if either input is null or projection fails.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || point3D == null)
@@ -40,10 +40,10 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the intersection result between a plane and a 3D segment.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to intersect.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to intersect.</param>
         /// <param name="segment3D">The <see cref="Segment3D"/> to intersect.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used for the intersection calculation.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the intersection details, or <c>null</c> if either input is null or a result cannot be determined.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the intersection details, or <c>null</c> if either input is null or a result cannot be determined.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || segment3D == null)
@@ -97,10 +97,10 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the intersection result between a plane and a 3D ray.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to be intersected.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to be intersected.</param>
         /// <param name="ray3D">The <see cref="Ray3D"/> used for the intersection calculation.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for the intersection.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> if an intersection is found and inputs are valid; otherwise, null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> if an intersection is found and inputs are valid; otherwise, null.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Ray3D? ray3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || ray3D == null)
@@ -155,12 +155,12 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Calculates the intersection result between a <see cref="Plane"/> and a <see cref="Line3D"/>.
+        /// Calculates the intersection result between a <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> and a <see cref="Line3D"/>.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to intersect.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to intersect.</param>
         /// <param name="line3D">The <see cref="Line3D"/> to intersect.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used for the intersection calculation.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the result of the intersection, or null if the plane or line is null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the result of the intersection, or null if the plane or line is null.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Line3D? line3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane is null || line3D?.Origin is not Point3D origin)
@@ -172,15 +172,15 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Calculates the intersection result between a <see cref="Plane"/> and a line segment defined by two <see cref="Point3D"/> points.
+        /// Calculates the intersection result between a <see cref="Classes.Plane"/> and a line segment defined by two <see cref="Point3D"/> points.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to intersect with.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to intersect with.</param>
         /// <param name="point3D_1">The first <see cref="Point3D"/> defining the line segment.</param>
         /// <param name="point3D_2">The second <see cref="Point3D"/> defining the line segment.</param>
         /// <param name="bounded_1">A <see cref="bool"/> value indicating whether the intersection is bounded for the first point.</param>
         /// <param name="bounded_2">A <see cref="bool"/> value indicating whether the intersection is bounded for the second point.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used for distance calculations.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the result of the intersection, or <c>null</c> if any input parameters are null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the result of the intersection, or <c>null</c> if any input parameters are null.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, Point3D? point3D_1, Point3D? point3D_2, bool bounded_1 = false, bool bounded_2 = false, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane is null || point3D_1 is null || point3D_2 is null)
@@ -252,12 +252,12 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Calculates the planar intersection result between a <see cref="Plane"/> and an <see cref="ISegmentable3D"/> object.
+        /// Calculates the planar intersection result between a <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> and an <see cref="ISegmentable3D"/> object.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> used for the intersection calculation.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> used for the intersection calculation.</param>
         /// <param name="segmentable3D">The <see cref="ISegmentable3D"/> object to be intersected with the plane.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used to determine if an intersection occurs.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the intersection data, or <c>null</c> if the <see cref="Plane"/> or <see cref="ISegmentable3D"/> is null, or if no segments are available.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the intersection data, or <c>null</c> if the <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> or <see cref="ISegmentable3D"/> is null, or if no segments are available.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, ISegmentable3D? segmentable3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || segmentable3D == null)
@@ -322,10 +322,10 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the intersection result of two planes.
         /// </summary>
-        /// <param name="plane_1">The first <see cref="Plane"/> to intersect.</param>
-        /// <param name="plane_2">The second <see cref="Plane"/> to intersect.</param>
+        /// <param name="plane_1">The first <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to intersect.</param>
+        /// <param name="plane_2">The second <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to intersect.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used for the intersection calculation.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> if an intersection is found; otherwise, <c>null</c>.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> if an intersection is found; otherwise, <c>null</c>.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane_1, Plane? plane_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             Point3D? origin_1 = plane_1?.Origin;
@@ -392,10 +392,10 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the planar intersection result between a plane and a 3D polygonal face.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to evaluate.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to evaluate.</param>
         /// <param name="polygonalFace3D">The <see cref="IPolygonalFace3D"/> to evaluate.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used for coplanar and distance checks.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> if the intersection is successfully calculated; otherwise, null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> if the intersection is successfully calculated; otherwise, null.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, IPolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || polygonalFace3D == null)
@@ -493,10 +493,10 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the planar intersection between a plane and a polyhedron.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to intersect with the polyhedron.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to intersect with the polyhedron.</param>
         /// <param name="polyhedron">The <see cref="IPolyhedron"/> to be intersected by the plane.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for intersection calculations.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the result of the intersection, or <c>null</c> if either input is <c>null</c> or the polyhedron contains no faces.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the result of the intersection, or <c>null</c> if either input is <c>null</c> or the polyhedron contains no faces.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, IPolyhedron? polyhedron, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || polyhedron == null)
@@ -534,10 +534,10 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the planar intersection result between a plane and a 3D bounding box.
         /// </summary>
-        /// <param name="plane">The <see cref="Plane"/> to intersect with the bounding box.</param>
-        /// <param name="boundingBox3D">The <see cref="BoundingBox3D"/> to be intersected by the plane.</param>
+        /// <param name="plane">The <see cref="DiGi.Geometry.Spatial.Classes.Plane"/> to intersect with the bounding box.</param>
+        /// <param name="boundingBox3D">The <see cref="DiGi.Geometry.Spatial.Classes.BoundingBox3D"/> to be intersected by the plane.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for the intersection calculation.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the result of the intersection, or null if either the plane or bounding box is null, or if a polyhedron cannot be created from the bounding box.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the result of the intersection, or null if either the plane or bounding box is null, or if a polyhedron cannot be created from the bounding box.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this Plane? plane, BoundingBox3D? boundingBox3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || boundingBox3D == null)
@@ -563,7 +563,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="bounded_1">A <see cref="bool"/> value indicating whether the intersection is bounded by the first point.</param>
         /// <param name="bounded_2">A <see cref="bool"/> value indicating whether the intersection is bounded by the second point.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used for distance calculations.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the result of the intersection, or <c>null</c> if the input parameters are null or an intersection cannot be determined.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the result of the intersection, or <c>null</c> if the input parameters are null or an intersection cannot be determined.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Point3D? point3D_1, Point3D? point3D_2, bool bounded_1, bool bounded_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point3D_1 is null || point3D_2 is null)
@@ -639,7 +639,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polygonalFace3D">The <see cref="IPolygonalFace3D"/> instance to evaluate.</param>
         /// <param name="point3D">The <see cref="Point3D"/> instance to check for intersection.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance used for range checking.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the plane and potentially the projected point, or <c>null</c> if either input is null or the face has no associated plane.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the plane and potentially the projected point, or <c>null</c> if either input is null or the face has no associated plane.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null || point3D == null)
@@ -667,7 +667,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polygonalFace3D">The <see cref="IPolygonalFace3D"/> instance to intersect.</param>
         /// <param name="line3D">The <see cref="Line3D"/> instance to intersect.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for the intersection calculation.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the result of the intersection, or <c>null</c> if either input is null or an intersection cannot be determined.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the result of the intersection, or <c>null</c> if either input is null or an intersection cannot be determined.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Line3D? line3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null)
@@ -694,7 +694,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polygonalFace3D">The <see cref="IPolygonalFace3D"/> representing the polygonal face.</param>
         /// <param name="segment3D">The <see cref="Segment3D"/> representing the line segment.</param>
         /// <param name="tolerance">A <see cref="double"/> value specifying the distance tolerance for the intersection calculation.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the result of the intersection, or null if the <see cref="IPolygonalFace3D"/> or <see cref="Segment3D"/> is null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the result of the intersection, or null if the <see cref="IPolygonalFace3D"/> or <see cref="Segment3D"/> is null.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null)
@@ -721,7 +721,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polygonalFace3D">The <see cref="IPolygonalFace3D"/> instance to intersect.</param>
         /// <param name="ray3D">The <see cref="Ray3D"/> instance representing the ray.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used for calculations.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the intersection details, or <c>null</c> if no intersection is found or if either input is null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the intersection details, or <c>null</c> if no intersection is found or if either input is null.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, Ray3D? ray3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null)
@@ -748,7 +748,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polygonalFace3D">The reference <see cref="IPolygonalFace3D"/> object.</param>
         /// <param name="polygonalFace3Ds">An <see cref="IEnumerable{IPolygonalFace3D}"/> containing the polygonal faces to intersect with the reference face.</param>
         /// <param name="tolerance">A <see cref="double"/> value specifying the distance tolerance for the intersection calculation.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> object if a valid intersection is found; otherwise, <see langword="null"/>.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> object if a valid intersection is found; otherwise, <see langword="null"/>.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, IEnumerable<IPolygonalFace3D>? polygonalFace3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null || polygonalFace3Ds == null)
@@ -800,7 +800,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polygonalFace3D_1">The first <see cref="IPolygonalFace3D"/> face.</param>
         /// <param name="polygonalFace3D_2">The second <see cref="IPolygonalFace3D"/> face.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used for the intersection calculation.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the result of the planar intersection, or <c>null</c> if either face is null or their planes are not defined.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the result of the planar intersection, or <c>null</c> if either face is null or their planes are not defined.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D_1, IPolygonalFace3D? polygonalFace3D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D_1 == null || polygonalFace3D_2 == null)
@@ -889,7 +889,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polygonalFace3D">The <see cref="IPolygonalFace3D"/> to be intersected.</param>
         /// <param name="polyhedron">The <see cref="IPolyhedron"/> whose faces are used for the intersection calculation.</param>
         /// <param name="tolerance">A <see cref="double"/> value specifying the distance tolerance.</param>
-        /// <returns>A <see cref="PlanarIntersectionResult"/> containing the result of the intersection, or <c>null</c> if either the <see cref="IPolygonalFace3D"/> or the <see cref="IPolyhedron"/> is null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult"/> containing the result of the intersection, or <c>null</c> if either the <see cref="IPolygonalFace3D"/> or the <see cref="IPolyhedron"/> is null.</returns>
         public static PlanarIntersectionResult? PlanarIntersectionResult(this IPolygonalFace3D? polygonalFace3D, IPolyhedron? polyhedron, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null || polyhedron == null)

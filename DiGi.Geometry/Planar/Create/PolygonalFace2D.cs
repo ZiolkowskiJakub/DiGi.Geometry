@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 
@@ -7,12 +7,12 @@ namespace DiGi.Geometry.Planar
     public static partial class Create
     {
         /// <summary>
-        /// Creates a <see cref="PolygonalFace2D"/> using the specified external boundary and optional internal boundaries.
+        /// Creates a <see cref="DiGi.Geometry.Planar.Classes.PolygonalFace2D"/> using the specified external boundary and optional internal boundaries.
         /// </summary>
         /// <param name="externalEdge">The <see cref="IPolygonal2D"/> that defines the external boundary of the face.</param>
         /// <param name="internalEdges">An optional <see cref="IEnumerable{IPolygonal2D}"/> containing the internal boundaries (holes) of the face.</param>
         /// <param name="tolerace">The <see cref="double"/> tolerance used to determine if an internal boundary is inside the external boundary.</param>
-        /// <returns>A <see cref="PolygonalFace2D"/> instance if the <paramref name="externalEdge"/> is not null; otherwise, <c>null</c>.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Planar.Classes.PolygonalFace2D"/> instance if the <paramref name="externalEdge"/> is not null; otherwise, <c>null</c>.</returns>
         public static PolygonalFace2D? PolygonalFace2D(this IPolygonal2D? externalEdge, IEnumerable<IPolygonal2D>? internalEdges = null, double tolerace = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (externalEdge == null)
@@ -68,10 +68,10 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-        /// Creates a <see cref="PolygonalFace2D"/> from the specified array of <see cref="Point2D"/> points.
+        /// Creates a <see cref="Classes.PolygonalFace2D"/> from the specified array of <see cref="Point2D"/> points.
         /// </summary>
         /// <param name="points">An array of <see cref="Point2D"/> objects that define the vertices of the polygonal face.</param>
-        /// <returns>A <see cref="PolygonalFace2D"/> instance if the provided <see cref="Point2D"/> array contains at least three points; otherwise, null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Planar.Classes.PolygonalFace2D"/> instance if the provided <see cref="Point2D"/> array contains at least three points; otherwise, null.</returns>
         public static PolygonalFace2D? PolygonalFace2D(params Point2D[]? points)
         {
             if (points == null || points.Length < 3)

@@ -8,18 +8,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a spheroid geometry in 3D space, which is a special case of an ellipsoid where two axes are equal.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Spheroid"/> class using a center point and axis lengths.
-    /// </summary>
-    /// <param name="center">The <see cref="Point3D"/> representing the center of the spheroid.</param>
-    /// <param name="a">The <see cref="double"/> value for the semi-major axis length.</param>
-    /// <param name="b">The <see cref="double"/> value for the semi-minor axis length.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Spheroid"/> class using a plane and axis lengths.
-    /// </summary>
-    /// <param name="plane">The <see cref="Plane"/> defining the orientation and center of the spheroid.</param>
-    /// <param name="a">The <see cref="double"/> value for the semi-major axis length.</param>
-    /// <param name="b">The <see cref="double"/> value for the semi-minor axis length.</param>
     public class Spheroid : Geometry3D, IEllipsoid
     {
         [JsonInclude, JsonPropertyName("A")]

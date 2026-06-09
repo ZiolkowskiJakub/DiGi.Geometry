@@ -10,11 +10,11 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the closest point on a line or line segment defined by two points relative to a target point.
         /// </summary>
-        /// <param name="point2D">The target <see cref="Point2D?" /> point.</param>
-        /// <param name="point2D_1">The first <see cref="Point2D?" /> point defining the line or segment.</param>
-        /// <param name="point2D_2">The second <see cref="Point2D?" /> point defining the line or segment.</param>
+/// <param name="point2D">The target <c>Point2D?</c> point.</param>
+/// <param name="point2D_1">The first <c>Point2D?</c> point defining the line or segment.</param>
+/// <param name="point2D_2">The second <c>Point2D?</c> point defining the line or segment.</param>
         /// <param name="bounded">A <see cref="bool" /> value indicating whether the result should be bounded to the line segment between the two points.</param>
-        /// <returns>The closest <see cref="Point2D?" /> point on the line or segment, or null if any of the input points are null.</returns>
+/// <returns>The closest <c>Point2D?</c> point on the line or segment, or null if any of the input points are null.</returns>
         public static Point2D? ClosestPoint(this Point2D? point2D, Point2D? point2D_1, Point2D? point2D_2, bool bounded)
         {
             return ClosestPoint(point2D, point2D_1, point2D_2, bounded, bounded);
@@ -23,12 +23,12 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the closest point on a line or line segment defined by two points relative to a target point.
         /// </summary>
-        /// <param name="point2D">The <see cref="Point2D?" /> target point.</param>
-        /// <param name="point2D_1">The <see cref="Point2D?" /> first point defining the line or segment.</param>
-        /// <param name="point2D_2">The <see cref="Point2D?" /> second point defining the line or segment.</param>
+/// <param name="point2D">The <c>Point2D?</c> target point.</param>
+/// <param name="point2D_1">The <c>Point2D?</c> first point defining the line or segment.</param>
+/// <param name="point2D_2">The <c>Point2D?</c> second point defining the line or segment.</param>
         /// <param name="bounded_1">A <see cref="bool" /> value indicating whether the result is bounded by the first point.</param>
         /// <param name="bounded_2">A <see cref="bool" /> value indicating whether the result is bounded by the second point.</param>
-        /// <returns>The closest <see cref="Point2D?" /> on the line or segment, or null if any of the input points are null.</returns>
+/// <returns>The closest <c>Point2D?</c> on the line or segment, or null if any of the input points are null.</returns>
         public static Point2D? ClosestPoint(this Point2D? point2D, Point2D? point2D_1, Point2D? point2D_2, bool bounded_1, bool bounded_2)
         {
             if (point2D == null || point2D_1 == null || point2D_2 == null)
@@ -91,7 +91,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="point2D">The source <see cref="Point2D"/> point.</param>
         /// <param name="segment2Ds">An <see cref="IEnumerable{T}"/> of <see cref="Segment2D"/> objects to search.</param>
         /// <param name="distance">When this method returns, contains the distance between the source <see cref="Point2D"/> and the closest point found; otherwise, <see cref="double.NaN"/>.</param>
-        /// <returns>The closest <see cref="Point2D"/> found across all segments, or <see cref="null"/> if no valid point is found or inputs are null.</returns>
+/// <returns>The closest <see cref="Point2D"/> found across all segments, or <see langword="null"/> if no valid point is found or inputs are null.</returns>
         public static Point2D? ClosestPoint(this Point2D? point2D, IEnumerable<Segment2D>? segment2Ds, out double distance)
         {
             distance = double.NaN;
@@ -139,7 +139,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="point2D">The source <see cref="Point2D"/> to calculate the distance from.</param>
         /// <param name="segmentable2Ds">An <see cref="IEnumerable{T}"/> of objects implementing <see cref="ISegmentable2D"/>.</param>
         /// <param name="distance">When this method returns, contains the <see cref="double"/> distance to the closest point found; otherwise, <see cref="double.NaN"/>.</param>
-        /// <returns>The closest <see cref="Point2D"/> found, or <see cref="null"/> if no points are available or inputs are null.</returns>
+/// <returns>The closest <see cref="Point2D"/> found, or <see langword="null"/> if no points are available or inputs are null.</returns>
         public static Point2D? ClosestPoint<T>(this Point2D? point2D, IEnumerable<T>? segmentable2Ds, out double distance) where T : ISegmentable2D
         {
             distance = double.NaN;
@@ -169,7 +169,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="point2D">The source <see cref="Point2D"/> used as the reference for distance calculations.</param>
         /// <param name="point2Ds">An <see cref="IEnumerable{T}"/> of <see cref="Point2D"/> objects to search through.</param>
         /// <param name="distance">When this method returns, contains the minimum <see cref="double"/> distance found; otherwise, <see cref="double.NaN"/>.</param>
-        /// <returns>The closest <see cref="Point2D"/> from the collection, or <see cref="null"/> if no point is found or if either input parameter is <see cref="null"/>.</returns>
+/// <returns>The closest <see cref="Point2D"/> from the collection, or <see langword="null"/> if no point is found or if either input parameter is <see langword="null"/>.</returns>
         public static Point2D? ClosestPoint(this Point2D? point2D, IEnumerable<Point2D>? point2Ds, out double distance)
         {
             distance = double.NaN;

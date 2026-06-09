@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="point2Ds">An <see cref="IEnumerable{Point2D}"/> containing the points to be fitted.</param>
         /// <param name="scale">When this method returns, contains the <see cref="double"/> scale factor used to fit the points; otherwise, <see cref="double.NaN"/>.</param>
         /// <param name="offset">A <see cref="double"/> value representing the offset applied during fitting.</param>
-        /// <returns>A <see cref="List{Point2D}"/> containing the fitted points if successful; otherwise, <see cref="null"/>.</returns>
+/// <returns>A <c>List&lt;Point2D&gt;</c> containing the fitted points if successful; otherwise, <see langword="null"/>.</returns>
         public static List<Point2D>? Fit(this BoundingBox2D? boundingBox2D, IEnumerable<Point2D>? point2Ds, out double scale, double offset = 0)
         {
             scale = double.NaN;
@@ -103,7 +103,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="segment2D">The <see cref="Segment2D"/> to be fitted.</param>
         /// <param name="scale">When this method returns, contains the calculated <see cref="double"/> scale factor; otherwise, <see cref="double.NaN"/>.</param>
         /// <param name="offset">The <see cref="double"/> offset value used during the fitting process.</param>
-        /// <returns>A new <see cref="Segment2D"/> that fits within the bounding box, or <see cref="null"/> if the input parameters are null or the segment cannot be fitted.</returns>
+/// <returns>A new <see cref="Segment2D"/> that fits within the bounding box, or <see langword="null"/> if the input parameters are null or the segment cannot be fitted.</returns>
         public static Segment2D? Fit(this BoundingBox2D? boundingBox2D, Segment2D? segment2D, out double scale, double offset = 0)
         {
             scale = double.NaN;

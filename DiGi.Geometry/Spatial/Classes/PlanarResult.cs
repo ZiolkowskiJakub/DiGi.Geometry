@@ -12,17 +12,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents an abstract base class for results that are defined on a 2D plane.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PlanarResult"/> class.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PlanarResult"/> class with the specified plane.
-    /// </summary>
-    /// <param name="plane">The <see cref="Plane"/> to be used for this result.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PlanarResult"/> class from the specified JSON object.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the serialized data.</param>
     public abstract class PlanarResult : SerializableObject, ISerializableResult
     {
         [JsonInclude, JsonPropertyName("Geometry2Ds")]
@@ -138,7 +127,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// Retrieves a list of cloned 2D geometry objects of the specified type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of geometry to retrieve, which must implement IGeometry2D.</typeparam>
-        /// <returns>A List<T> containing clones of the 2D geometry objects if the collection is not null; otherwise, null.</returns>
+/// <returns>A <c>List&lt;T&gt;</c> containing clones of the 2D geometry objects if the collection is not null; otherwise, null.</returns>
         public List<T>? GetGeometry2Ds<T>() where T : IGeometry2D
         {
             if (geometry2Ds == null)

@@ -8,19 +8,6 @@ namespace DiGi.Geometry.Planar.Classes
     /// <summary>
     /// Updates the normalization of a 2D polygonal face based on specified edge orientations.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolygonalFace2DNormalizationUpdater"/> class using the same orientation for both external and internal edges.
-    /// </summary>
-    /// <param name="orientation">The <see cref="Orientation"/> to be applied to all edges.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolygonalFace2DNormalizationUpdater"/> class with specific orientations for external and internal edges.
-    /// </summary>
-    /// <param name="externalEdgeOrientation">The optional <see cref="Orientation"/> for external edges.</param>
-    /// <param name="internalEdgeOrientation">The optional <see cref="Orientation"/> for internal edges.</param>
-    /// <summary>
-    /// Determines whether the 2D polygonal face is currently normalized.
-    /// </summary>
-    /// <returns>A <see cref="bool"/> value indicating whether the face is normalized.</returns>
     public class PolygonalFace2DNormalizationUpdater : GeometryUpdater<IPolygonalFace2D>, Core.Interfaces.INormalizationUpdater<IPolygonalFace2D>
     {
         private readonly Orientation? externalEdgeOrientation;

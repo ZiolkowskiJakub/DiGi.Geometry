@@ -8,23 +8,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a three-dimensional coordinate in space.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Coordinate3D"/> class using a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the coordinate data.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Coordinate3D"/> class with specified X, Y, and Z coordinates.
-    /// </summary>
-    /// <param name="x">The X coordinate as a <see cref="double"/>.</param>
-    /// <param name="y">The Y coordinate as a <see cref="double"/>.</param>
-    /// <param name="z">The Z coordinate as a <see cref="double"/>.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Coordinate3D"/> class.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Coordinate3D"/> class by copying an existing <see cref="Coordinate3D"/>.
-    /// </summary>
-    /// <param name="coordinate3D">The source <see cref="Coordinate3D"/> to copy.</param>
     public abstract class Coordinate3D : Coordinate, IGeometry3D, ITransformable3D
     {
         /// <summary>
@@ -65,9 +48,9 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Coordinate3D"/> class using an array of <double> values.
+        /// Initializes a new instance of the <see cref="Coordinate3D"/> class using an array of <see cref="double"/> values.
         /// </summary>
-        /// <param name="values">An optional array of <double> values. If the array is null or contains fewer than three elements, all coordinates are initialized to <see cref="double.NaN"/>.</param>
+/// <param name="values">An optional array of double values. If the array is null or contains fewer than three elements, all coordinates are initialized to <see cref="double.NaN"/>.</param>
         public Coordinate3D(double[]? values)
             : base()
         {

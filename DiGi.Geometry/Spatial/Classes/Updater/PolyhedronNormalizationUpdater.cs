@@ -8,17 +8,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Provides functionality to update the normalization of a <see cref="Polyhedron"/>.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolyhedronNormalizationUpdater"/> class with a specified orientation.
-    /// </summary>
-    /// <param name="orientation">The <see cref="Orientation"/> to be used for normalization.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolyhedronNormalizationUpdater"/> class with specified normal side, edge orientations, and tolerance.
-    /// </summary>
-    /// <param name="normalSide">The optional <see cref="Side"/> indicating the direction of the normals.</param>
-    /// <param name="externalEdgeOrientation">The optional <see cref="Orientation"/> for external edges.</param>
-    /// <param name="internalEdgeOrientation">The optional <see cref="Orientation"/> for internal edges.</param>
-    /// <param name="tolerance">The <see cref="double"/> value representing the distance tolerance used during normalization.</param>
     public class PolyhedronNormalizationUpdater : PolyhedronNormalizationUpdater<Polyhedron>
     {
         /// <summary>
@@ -47,17 +36,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// Provides functionality to update the normalization of a polyhedron, ensuring consistent normals and edge orientations.
     /// </summary>
     /// <typeparam name="TPolyhedron">The type of the polyhedron, which must implement <see cref="IPolyhedron"/>.</typeparam>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolyhedronNormalizationUpdater{TPolyhedron}"/> class using a single orientation for both internal and external edges.
-    /// </summary>
-    /// <param name="orientation">The <see cref="Orientation"/> to be applied to all edges.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolyhedronNormalizationUpdater{TPolyhedron}"/> class with detailed normalization settings.
-    /// </summary>
-    /// <param name="normalSide">The <see cref="Side"/> specifying the normal direction.</param>
-    /// <param name="externalEdgeOrientation">The <see cref="Orientation"/> for external edges.</param>
-    /// <param name="internalEdgeOrientation">The <see cref="Orientation"/> for internal edges.</param>
-    /// <param name="tolerance">The <see cref="double"/> value representing the distance tolerance.</param>
     public class PolyhedronNormalizationUpdater<TPolyhedron> : GeometryUpdater<TPolyhedron>, Core.Interfaces.INormalizationUpdater<TPolyhedron> where TPolyhedron : IPolyhedron
     {
         private readonly double tolerance = Tolerance.Distance;

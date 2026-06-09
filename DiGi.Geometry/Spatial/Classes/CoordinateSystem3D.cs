@@ -7,14 +7,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a three-dimensional coordinate system defined by an origin and axes.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CoordinateSystem3D"/> class using the provided <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data to initialize the coordinate system.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CoordinateSystem3D"/> class by copying an existing <see cref="CoordinateSystem3D"/> instance.
-    /// </summary>
-    /// <param name="coordinateSystem3D">The <see cref="CoordinateSystem3D"/> instance to copy from.</param>
     public class CoordinateSystem3D : Geometry3D, ICoordinateSystem3D
     {
         [JsonInclude, JsonPropertyName("AxisY")]

@@ -18,7 +18,7 @@ namespace DiGi.Geometry.Core.Classes
         private UndirectedGraph<T, Edge<T>>? undirectedGraph = new();
 
         /// <summary>
-        /// Gets or sets the list of <see cref="X"/> segments.
+        /// Gets or sets the list of <typeparamref name="X"/> segments.
         /// </summary>
         [JsonInclude, JsonPropertyName("Segments")]
         public abstract List<X>? Segments { get; set; }
@@ -26,8 +26,8 @@ namespace DiGi.Geometry.Core.Classes
         /// <summary>
         /// Adds a segment to the collection.
         /// </summary>
-        /// <param name="segment">The <see cref="X"/> segment to be added.</param>
-        /// <returns>A <see cref="bool"/> value indicating whether the segment was successfully added; returns false if the <see cref="X"/> segment is null or if its start or end points are null.</returns>
+        /// <param name="segment">The <typeparamref name="X"/> segment to be added.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the segment was successfully added; returns false if the <typeparamref name="X"/> segment is null or if its start or end points are null.</returns>
         public bool Add(X? segment)
         {
             if (segment == null)

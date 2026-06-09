@@ -11,13 +11,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents an ellipsoid geometry in 3D space.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Ellipsoid"/> class.
-    /// </summary>
-    /// <param name="center">The <see cref="Point3D"/> representing the center point of the ellipsoid.</param>
-    /// <param name="a">The <see cref="double"/> value for the semi-axis length along the first axis.</param>
-    /// <param name="b">The <see cref="double"/> value for the semi-axis length along the second axis.</param>
-    /// <param name="c">The <see cref="double"/> value for the semi-axis length along the third axis.</param>
     public class Ellipsoid : Geometry3D, IEllipsoid
     {
         [JsonInclude, JsonPropertyName("A")]
@@ -35,7 +28,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Ellipsoid"/> class with the specified center and semi-axes lengths.
         /// </summary>
-        /// <param name="center">The <see cref="Point3D?"/> coordinates of the center point.</param>
+/// <param name="center">The <c>Point3D?</c> coordinates of the center point.</param>
         /// <param name="a">The <see cref="double"/> length of the first semi-axis.</param>
         /// <param name="b">The <see cref="double"/> length of the second semi-axis.</param>
         /// <param name="c">The <see cref="double"/> length of the third semi-axis.</param>

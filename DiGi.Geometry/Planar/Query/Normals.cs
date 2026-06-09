@@ -12,7 +12,7 @@ namespace DiGi.Geometry.Planar
         /// </summary>
         /// <param name="polygonal2D">The <see cref="IPolygonal2D"/> instance to calculate normals for.</param>
         /// <param name="side">The <see cref="Core.Enums.Side"/> specifying whether the external or internal normal vectors should be calculated.</param>
-        /// <returns>A <see cref="List{Vector2D?}"/> containing the normal vectors, or <c>null</c> if the <see cref="IPolygonal2D"/> is null, contains invalid segments, or has a collinear or undefined orientation.</returns>
+/// <returns>A <c>List&lt;Vector2D?&gt;</c> containing the normal vectors, or <c>null</c> if the <see cref="IPolygonal2D"/> is null, contains invalid segments, or has a collinear or undefined orientation.</returns>
         public static List<Vector2D?>? Normals(this IPolygonal2D? polygonal2D, Core.Enums.Side side = Core.Enums.Side.External)
         {
             if (polygonal2D?.GetSegments() is not List<Segment2D> segment2Ds)

@@ -11,21 +11,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents the result of a 3D intersection operation.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="IntersectionResult3D"/> class.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="IntersectionResult3D"/> class from a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the instance.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="IntersectionResult3D"/> class by copying an existing <see cref="IntersectionResult3D"/> instance.
-    /// </summary>
-    /// <param name="intersectionResult3D">The <see cref="IntersectionResult3D"/> instance to copy from.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="IntersectionResult3D"/> class with a specific <see cref="IGeometry3D"/> geometry.
-    /// </summary>
-    /// <param name="geometry3D">The <see cref="IGeometry3D"/> geometry to initialize the result with.</param>
     public class IntersectionResult3D : SerializableObject, IIntersectionResult3D
     {
         [JsonInclude, JsonPropertyName("Geometry3Ds")]
@@ -108,7 +93,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Gets the total number of <IGeometry3D> elements contained in the collection.
+        /// Gets the total number of <see cref="IGeometry3D"/> elements contained in the collection.
         /// </summary>
         [JsonIgnore]
         public int Count

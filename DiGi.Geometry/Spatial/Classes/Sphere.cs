@@ -9,15 +9,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a sphere in three-dimensional space.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Sphere"/> class with the specified center and radius.
-    /// </summary>
-    /// <param name="center">The <see cref="Point3D"/> representing the center point of the sphere.</param>
-    /// <param name="radius">The <see cref="double"/> value representing the radius of the sphere.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Sphere"/> class by cloning an existing <see cref="Sphere"/> instance.
-    /// </summary>
-    /// <param name="sphere">The <see cref="Sphere"/> instance to clone.</param>
     public class Sphere : Geometry3D, IEllipsoid
     {
         [JsonInclude, JsonPropertyName("Center")]

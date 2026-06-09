@@ -9,18 +9,6 @@ namespace DiGi.Geometry.Planar.Classes
     /// <summary>
     /// Represents a two-dimensional transformation defined by a <see cref="Matrix3D"/>.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Transform2D"/> class using the specified <see cref="Matrix3D"/>.
-    /// </summary>
-    /// <param name="matrix3D">The <see cref="Matrix3D"/> object to use for the transformation.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Transform2D"/> class from the specified <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the transformation data.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Transform2D"/> class by copying an existing <see cref="Transform2D"/> object.
-    /// </summary>
-    /// <param name="transform2D">The <see cref="Transform2D"/> object to copy from.</param>
     public class Transform2D : SerializableObject, ITransform2D
     {
         [JsonInclude, JsonPropertyName("Matrix3D")]

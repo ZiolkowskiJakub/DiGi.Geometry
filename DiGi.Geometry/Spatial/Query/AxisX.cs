@@ -27,9 +27,9 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the X-axis vector based on a normal vector and a Y-axis vector.
         /// </summary>
-        /// <param name="normal">The <see cref="Vector3D?" /> normal vector.</param>
-        /// <param name="axisY">The <see cref="Vector3D?" /> Y-axis vector.</param>
-        /// <returns>A <see cref="Vector3D?" /> representing the unit X-axis vector, or null if either the normal or axisY is null.</returns>
+/// <param name="normal">The <c>Vector3D?</c> normal vector.</param>
+/// <param name="axisY">The <c>Vector3D?</c> Y-axis vector.</param>
+/// <returns>A <c>Vector3D?</c> representing the unit X-axis vector, or null if either the normal or axisY is null.</returns>
         public static Vector3D? AxisX(this Vector3D? normal, Vector3D? axisY)
         {
             if (normal == null || axisY == null)

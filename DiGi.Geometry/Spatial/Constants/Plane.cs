@@ -3,18 +3,6 @@
     /// <summary>
     /// Provides common world plane definitions.
     /// </summary>
-    /// <summary>
-    /// Gets a <see cref="Classes.Plane"/> that represents the world X-axis plane.
-    /// </summary>
-    /// <value>A <see cref="Classes.Plane"/> instance.</value>
-    /// <summary>
-    /// Gets a <see cref="Classes.Plane"/> that represents the world Y-axis plane.
-    /// </summary>
-    /// <value>A <see cref="Classes.Plane"/> instance.</value>
-    /// <summary>
-    /// Gets a <see cref="Classes.Plane"/> that represents the world Z-axis plane.
-    /// </summary>
-    /// <value>A <see cref="Classes.Plane"/> instance.</value>
     public static class Plane
     {
         /// <summary>

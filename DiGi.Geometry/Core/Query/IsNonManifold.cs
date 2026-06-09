@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Core
         /// <summary>
         /// Determines whether the provided collection of indices represents a non-manifold mesh.
         /// </summary>
-        /// <param name="indexes">The <see cref="IEnumerable{T}"/> of <see cref="int[]"/> containing the vertex indices for each face.</param>
+        /// <param name="indexes">The <see cref="IEnumerable{T}"/> of <c>int[]</c> containing the vertex indices for each face.</param>
         /// <returns>A <see cref="bool"/> value indicating <c>true</c> if the mesh is non-manifold; otherwise, <c>false</c>.</returns>
         public static bool IsNonManifold(this IEnumerable<int[]>? indexes)
         {

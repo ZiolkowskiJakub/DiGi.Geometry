@@ -44,10 +44,10 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-        /// Computes the convex hull for a given collection of <Point2D> objects.
+        /// Computes the convex hull for a given collection of <see cref="Point2D"/> objects.
         /// </summary>
-        /// <param name="point2Ds">An <IEnumerable<Point2D>> containing the points to process.</param>
-        /// <returns>A <List<Point2D>> representing the vertices of the convex hull, or null if the input collection is null.</returns>
+/// <param name="point2Ds">An <c>IEnumerable&lt;Point2D&gt;</c> containing the points to process.</param>
+/// <returns>A <c>List&lt;Point2D&gt;</c> representing the vertices of the convex hull, or <see langword="null"/> if the input collection is <see langword="null"/>.</returns>
         public static List<Point2D>? ConvexHull(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null)

@@ -18,7 +18,7 @@ namespace DiGi.Geometry.Spatial.Classes
         private readonly Vector3D? vector;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Extrusion"/> class by cloning an existing <see cref="Extrusion{TSurface3D}"/> object.
+        /// Initializes a new instance of the <see cref="Extrusion{TSurface3D}"/> class by cloning an existing <see cref="Extrusion{TSurface3D}"/> object.
         /// </summary>
         /// <param name="extrusion">The <see cref="Extrusion{TSurface3D}"/> object to clone from.</param>
         public Extrusion(Extrusion<TSurface3D>? extrusion)
@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Extrusion"/> class using the specified <see cref="JsonObject"/>.
+        /// Initializes a new instance of the <see cref="Extrusion{TSurface3D}"/> class using the specified <see cref="JsonObject"/>.
         /// </summary>
         /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the extrusion.</param>
         public Extrusion(JsonObject? jsonObject)
@@ -41,9 +41,9 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Extrusion"/> class with the specified <see cref="TSurface3D"/> surface and <see cref="Vector3D"/> vector.
+        /// Initializes a new instance of the <see cref="Extrusion{TSurface3D}"/> class with the specified <typeparamref name="TSurface3D"/> surface and <see cref="Vector3D"/> vector.
         /// </summary>
-        /// <param name="surface">The <see cref="TSurface3D"/> surface to extrude.</param>
+        /// <param name="surface">The <typeparamref name="TSurface3D"/> surface to extrude.</param>
         /// <param name="vector">The <see cref="Vector3D"/> vector defining the extrusion direction and distance.</param>
         public Extrusion(TSurface3D? surface, Vector3D? vector)
             : base()
@@ -59,7 +59,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// Gets the 3D surface.
         /// </summary>
         /// <value>
-        /// The <see cref="TSurface3D"/> instance representing the surface, or null if it is not defined.
+        /// The <typeparamref name="TSurface3D"/> instance representing the surface, or null if it is not defined.
         /// </value>
         [JsonIgnore]
         public TSurface3D? Surface

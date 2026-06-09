@@ -3,18 +3,6 @@
     /// <summary>
     /// Provides static utility properties for common 3D vector directions.
     /// </summary>
-    /// <summary>
-    /// Gets a <see cref="Classes.Vector3D"/> representing the X-axis unit vector (1, 0, 0).
-    /// </summary>
-    /// <value>A <see cref="Classes.Vector3D"/> instance pointing along the positive X-axis.</value>
-    /// <summary>
-    /// Gets a <see cref="Classes.Vector3D"/> representing the Y-axis unit vector (0, 1, 0).
-    /// </summary>
-    /// <value>A <see cref="Classes.Vector3D"/> instance pointing along the positive Y-axis.</value>
-    /// <summary>
-    /// Gets a <see cref="Classes.Vector3D"/> representing the Z-axis unit vector (0, 0, 1).
-    /// </summary>
-    /// <value>A <see cref="Classes.Vector3D"/> instance pointing along the positive Z-axis.</value>
     public static class Vector3D
     {
         /// <summary>

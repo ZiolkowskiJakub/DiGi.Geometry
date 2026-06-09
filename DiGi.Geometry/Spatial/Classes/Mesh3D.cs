@@ -9,23 +9,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a three-dimensional mesh composed of <see cref="Point3D"/> vertices.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Mesh3D"/> class using a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the mesh data.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Mesh3D"/> class by copying an existing <see cref="Mesh3D"/> instance.
-    /// </summary>
-    /// <param name="mesh3D">The <see cref="Mesh3D"/> instance to copy.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Mesh3D"/> class using a collection of vertices and indices.
-    /// </summary>
-    /// <param name="points">An <see cref="IEnumerable{Point3D}"/> containing the vertex points.</param>
-    /// <param name="indexes">An <see cref="IEnumerable{int[]}"/> containing the index arrays for the mesh faces.</param>
-    /// <summary>
-    /// Creates a clone of the current <see cref="Mesh3D"/> instance.
-    /// </summary>
-    /// <returns>An <see cref="ISerializableObject"/> representing the cloned mesh.</returns>
     public class Mesh3D : Mesh<Point3D>, IGeometry3D, IBoundable3D, ICollectable3D
     {
         /// <summary>

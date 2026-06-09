@@ -9,14 +9,17 @@ namespace DiGi.Geometry.Spatial.Enums
         /// The spatial axis is undefined or unknown.
         /// </summary>
         Undefined,
+
         /// <summary>
         /// Represents the X-axis in a spatial coordinate system.
         /// </summary>
         X,
+
         /// <summary>
         /// Represents the Y-axis of the spatial coordinate system.
         /// </summary>
         Y,
+
         /// <summary>
         /// Represents the Z axis of the spatial coordinate system.
         /// </summary>

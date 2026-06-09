@@ -7,15 +7,6 @@ namespace DiGi.Geometry.Planar.Classes
     /// <summary>
     /// Provides a solver for calculating internal points within an <see cref="IPolygonalFace2D"/>.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolygonalFace2DInternalPointSolver"/> class.
-    /// </summary>
-    /// <param name="tolerance">The <see cref="double"/> tolerance value used for calculations.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolygonalFace2DInternalPointSolver"/> class with a maximum count and tolerance.
-    /// </summary>
-    /// <param name="maxCount">The <see cref="int"/> maximum number of points to solve for.</param>
-    /// <param name="tolerance">The <see cref="double"/> tolerance value used for calculations.</param>
     public class PolygonalFace2DInternalPointSolver : Core.Classes.InternalPointSolver<IPolygonalFace2D, Point2D>
     {
         private IPolygonalFace2D? polygonalFace2D = null;
@@ -61,7 +52,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <summary>
         /// Attempts to solve the current problem instance based on the polygonal face and existing outputs.
         /// </summary>
-        /// <returns>A <see cref="bool"/> value indicating whether the solution was successfully found; returns <see cref="false"/> if the polygonal face is null, the maximum output count has been reached, or the external edge area is below the specified tolerance.</returns>
+        /// <returns>A <see cref="bool"/> value indicating whether the solution was successfully found; returns <see langword="false"/> if the polygonal face is null, the maximum output count has been reached, or the external edge area is below the specified tolerance.</returns>
         public override bool Solve()
         {
             if (polygonalFace2D is null || outputs.Count >= maxCount)

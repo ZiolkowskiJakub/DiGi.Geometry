@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -170,16 +170,16 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the intersection points between a line defined by a point and a vector, and a collection of 2D segments.
         /// </summary>
-        /// <param name="point2D">The starting <Point2D> of the line.</param>
-        /// <param name="vector2D">The direction <Vector2D> of the line.</param>
-        /// <param name="segment2Ds">An <IEnumerable<Segment2D>> containing the segments to check for intersections.</param>
-        /// <param name="keepDirection">A <bool> indicating whether to keep only points that follow the direction of the vector.</param>
-        /// <param name="removeCollinear">A <bool> indicating whether collinear segments should be removed from the results.</param>
-        /// <param name="sort">A <bool> indicating whether the resulting intersection points should be sorted.</param>
-        /// <param name="selfIntersection">A <bool> indicating whether to include self-intersections.</param>
-        /// <param name="intersectionSegment2Ds">When this method returns, contains a <List<Segment2D>> of segments that were intersected.</param>
-        /// <param name="tolerance">The <double> tolerance value used for intersection calculations.</param>
-        /// <returns>A <List<Point2D>> containing the intersection points, or null if no intersections are found or input parameters are invalid.</returns>
+/// <param name="point2D">The starting <see cref="Point2D"/> of the line.</param>
+/// <param name="vector2D">The direction <see cref="Vector2D"/> of the line.</param>
+/// <param name="segment2Ds">An <c>IEnumerable&lt;Segment2D&gt;</c> containing the segments to check for intersections.</param>
+/// <param name="keepDirection">A <see cref="bool"/> indicating whether to keep only points that follow the direction of the vector.</param>
+/// <param name="removeCollinear">A <see cref="bool"/> indicating whether collinear segments should be removed from the results.</param>
+/// <param name="sort">A <see cref="bool"/> indicating whether the resulting intersection points should be sorted.</param>
+/// <param name="selfIntersection">A <see cref="bool"/> indicating whether to include self-intersections.</param>
+/// <param name="intersectionSegment2Ds">When this method returns, contains a <c>List&lt;Segment2D&gt;</c> of segments that were intersected.</param>
+/// <param name="tolerance">The <see cref="double"/> tolerance value used for intersection calculations.</param>
+/// <returns>A <c>List&lt;Point2D&gt;</c> containing the intersection points, or null if no intersections are found or input parameters are invalid.</returns>
         public static List<Point2D>? IntersectionPoints(this Point2D? point2D, Vector2D? vector2D, IEnumerable<Segment2D>? segment2Ds, bool keepDirection, bool removeCollinear, bool sort, bool selfIntersection, out List<Segment2D>? intersectionSegment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             intersectionSegment2Ds = null;

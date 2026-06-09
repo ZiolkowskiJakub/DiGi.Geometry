@@ -7,18 +7,6 @@ namespace DiGi.Geometry.Planar.Classes
     /// <summary>
     /// Provides functionality to update and verify the normalization of a 2D polygonal geometry based on a specified orientation.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polygonal2DNormalizationUpdater"/> class.
-    /// </summary>
-    /// <param name="orientation">The target <see cref="Orientation"/> used to determine if the geometry is normalized.</param>
-    /// <summary>
-    /// Checks whether the current <see cref="IPolygonal2D"/> value is already normalized according to the target orientation.
-    /// </summary>
-    /// <returns>A <see cref="bool"/> value indicating whether the geometry's orientation matches the target <see cref="Orientation"/>.</returns>
-    /// <summary>
-    /// Updates the normalization of the 2D polygonal geometry.
-    /// </summary>
-    /// <returns>A <see cref="bool"/> value indicating whether the geometry was successfully updated.</returns>
     public class Polygonal2DNormalizationUpdater : GeometryUpdater<IPolygonal2D>, Core.Interfaces.INormalizationUpdater<IPolygonal2D>
     {
         private readonly Orientation orientation;

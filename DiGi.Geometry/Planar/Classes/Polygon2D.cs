@@ -6,9 +6,9 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-/// <summary>
-/// Represents a 2D polygon defined by a collection of vertices.
-/// </summary>
+    /// <summary>
+    /// Represents a 2D polygon defined by a collection of vertices.
+    /// </summary>
     public class Polygon2D : Segmentable2D, IPolygon2D
     {
         /// <summary>

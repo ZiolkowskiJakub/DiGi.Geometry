@@ -6,10 +6,10 @@ namespace DiGi.Geometry.Planar
     public static partial class Convert
     {
         /// <summary>
-        /// Converts a collection of <NetTopologySuite.Geometries.Coordinate> objects to a list of <Point2D> objects.
+        /// Converts a collection of <see cref="NetTopologySuite.Geometries.Coordinate"/> objects to a list of <see cref="Point2D"/> objects.
         /// </summary>
-        /// <param name="coordinates">The <IEnumerable<NetTopologySuite.Geometries.Coordinate>> containing the coordinates to convert.</param>
-        /// <returns>A <List<Point2D>> containing the converted points, or null if the input <IEnumerable<NetTopologySuite.Geometries.Coordinate>> is null.</returns>
+/// <param name="coordinates">The <c>IEnumerable&lt;NetTopologySuite.Geometries.Coordinate&gt;</c> containing the coordinates to convert.</param>
+/// <returns>A <c>List&lt;Point2D&gt;</c> containing the converted points, or null if the input <c>IEnumerable&lt;NetTopologySuite.Geometries.Coordinate&gt;</c> is null.</returns>
         public static List<Point2D>? ToDiGi(this IEnumerable<NetTopologySuite.Geometries.Coordinate>? coordinates)
         {
             if (coordinates == null)

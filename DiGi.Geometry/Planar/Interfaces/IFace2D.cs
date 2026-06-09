@@ -5,11 +5,11 @@ namespace DiGi.Geometry.Planar.Interfaces
 {
     public interface IFace2D : IFace, IGeometry2D, IBoundable2D, ISurface2D
     {
-    /// <summary>
-    /// Gets an internal point of the face.
-    /// </summary>
-    /// <param name="tolerance">The distance tolerance.</param>
-    /// <returns>An internal point if found; otherwise, null.</returns>
+        /// <summary>
+        /// Gets an internal point of the face.
+        /// </summary>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>An internal point if found; otherwise, null.</returns>
         Point2D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance);
 
         /// <summary>

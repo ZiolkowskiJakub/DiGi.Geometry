@@ -9,18 +9,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// Solves for an internal point within a polyhedron of type <typeparamref name="TPolyhedron"/>.
     /// </summary>
     /// <typeparam name="TPolyhedron">The type of the polyhedron, which must implement <see cref="IPolyhedron"/>.</typeparam>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolyhedronInternalPointSolver{TPolyhedron}"/> class.
-    /// </summary>
-    /// <param name="tolerance">The double value specifying the distance tolerance.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolyhedronInternalPointSolver{TPolyhedron}"/> class.
-    /// </summary>
-    /// <param name="maxCount">The int value specifying the maximum count.</param>
-    /// <param name="tolerance">The double value specifying the distance tolerance.</param>
-    /// <summary>
-    /// Gets or sets the <typeparamref name="TPolyhedron"/> input object.
-    /// </summary>
     public class PolyhedronInternalPointSolver<TPolyhedron> : InternalPointSolver<TPolyhedron, Point3D> where TPolyhedron : IPolyhedron
     {
         private TPolyhedron? polyhedron;
@@ -31,7 +19,7 @@ namespace DiGi.Geometry.Spatial.Classes
         private int j = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PolyhedronInternalPointSolver"/> class.
+        /// Initializes a new instance of the <see cref="PolyhedronInternalPointSolver{TPolyhedron}"/> class.
         /// </summary>
         /// <param name="tolerance">The <see cref="double"/> value representing the distance tolerance used for calculations.</param>
         public PolyhedronInternalPointSolver(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
@@ -40,7 +28,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PolyhedronInternalPointSolver"/> class.
+        /// Initializes a new instance of the <see cref="PolyhedronInternalPointSolver{TPolyhedron}"/> class.
         /// </summary>
         /// <param name="maxCount">The maximum number of iterations to perform as an <see cref="int"/>.</param>
         /// <param name="tolerance">The distance tolerance used for calculations as a <see cref="double"/>.</param>
@@ -63,7 +51,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Attempts to solve for an internal point within the polyhedron.
         /// </summary>
-        /// <returns>A <boolean> value indicating whether a solution was successfully found.</returns>
+/// <returns>A <see cref="bool"/> value indicating whether a solution was successfully found.</returns>
         public override bool Solve()
         {
             if (polyhedron is null)

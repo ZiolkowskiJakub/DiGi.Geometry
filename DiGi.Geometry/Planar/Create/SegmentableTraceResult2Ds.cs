@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 
@@ -7,10 +7,10 @@ namespace DiGi.Geometry.Planar
     public static partial class Create
     {
         /// <summary>
-        /// Traces a ray from the specified <see cref="Point2D"/> in the direction of the provided <see cref="Vector2D"/> through a collection of <see cref="ISegmentable2D"/> objects.
+        /// Traces a ray from the specified <see cref="Point2D"/> in the direction of the provided <see cref="Classes.Vector2D"/> through a collection of <see cref="ISegmentable2D"/> objects.
         /// </summary>
         /// <param name="point2D">The starting <see cref="Point2D"/> for the trace.</param>
-        /// <param name="vector2D">The direction <see cref="Vector2D"/> of the trace.</param>
+        /// <param name="vector2D">The direction <see cref="Classes.Vector2D"/> of the trace.</param>
         /// <param name="segmentable2Ds">An <see cref="IEnumerable{ISegmentable2D}"/> containing the objects to be traced against.</param>
         /// <param name="bounces">The number of times the trace should bounce off surfaces as an <see cref="int"/>.</param>
         /// <param name="tolerance">The distance tolerance used for intersection calculations as a <see cref="double"/>.</param>
@@ -29,7 +29,7 @@ namespace DiGi.Geometry.Planar
         /// Traces a path from a starting point in a specified direction through a collection of 2D segments, accounting for bounces and distance tolerance.
         /// </summary>
         /// <param name="point2D">The starting <see cref="Point2D"/> for the trace operation.</param>
-        /// <param name="vector2D">The <see cref="Vector2D"/> representing the direction of the trace.</param>
+        /// <param name="vector2D">The <see cref="Classes.Vector2D"/> representing the direction of the trace.</param>
         /// <param name="segment2Ds">An <see cref="IEnumerable{Segment2D}"/> containing the segments to be traced against.</param>
         /// <param name="bounces">The <see cref="int"/> number of times the trace may bounce off segments.</param>
         /// <param name="tolerance">The <see cref="double"/> value representing the distance tolerance for intersection calculations.</param>

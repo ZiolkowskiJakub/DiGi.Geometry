@@ -8,9 +8,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-/// <summary>
-/// Represents a 2D ellipse defined by its center, semi-axes lengths, and the direction of the major axis.
-/// </summary>
+    /// <summary>
+    /// Represents a 2D ellipse defined by its center, semi-axes lengths, and the direction of the major axis.
+    /// </summary>
     public class Ellipse2D : Geometry2D, IEllipse2D, IBoundable2D
     {
         [JsonInclude, JsonPropertyName("A")]

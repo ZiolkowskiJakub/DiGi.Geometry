@@ -8,19 +8,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Provides functionality to update and normalize the orientation of a 3D polygonal face.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolygonalFace3DNormalizationUpdater"/> class using the same orientation for both internal and external edges.
-    /// </summary>
-    /// <param name="orientation">The <see cref="Orientation"/> to apply to all edges.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolygonalFace3DNormalizationUpdater"/> class with specified orientations for external and internal edges.
-    /// </summary>
-    /// <param name="externalEdgeOrientation">The optional <see cref="Orientation"/> for external edges.</param>
-    /// <param name="internalEdgeOrientation">The optional <see cref="Orientation"/> for internal edges.</param>
-    /// <summary>
-    /// Checks whether the current 3D polygonal face is normalized based on the configured orientations.
-    /// </summary>
-    /// <returns>A <see cref="bool"/> value indicating whether the face is normalized.</returns>
     public class PolygonalFace3DNormalizationUpdater : GeometryUpdater<IPolygonalFace3D>, Core.Interfaces.INormalizationUpdater<IPolygonalFace3D>
     {
         private readonly Orientation? externalEdgeOrientation;

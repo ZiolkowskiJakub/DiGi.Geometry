@@ -6,10 +6,10 @@ namespace DiGi.Geometry.Planar
     public static partial class Query
     {
         /// <summary>
-        /// Returns the maximum <Point2D> from the specified collection.
+        /// Returns the maximum <see cref="Point2D"/> from the specified collection.
         /// </summary>
-        /// <param name="point2Ds">The <IEnumerable<Point2D>> collection to evaluate.</param>
-        /// <returns>The maximum <Point2D> found in the collection, or null if the collection is null or empty.</returns>
+/// <param name="point2Ds">The <c>IEnumerable&lt;Point2D&gt;</c> collection to evaluate.</param>
+/// <returns>The maximum <see cref="Point2D"/> found in the collection, or null if the collection is null or empty.</returns>
         public static Point2D? Max(this IEnumerable<Point2D>? point2Ds)
         {
             Min(point2Ds, out Point2D? result);
@@ -17,11 +17,11 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-        /// Returns the maximum of two <see cref="Point2D?" /> values.
+/// Returns the maximum of two <c>Point2D?</c> values.
         /// </summary>
-        /// <param name="point2D_1">The first <see cref="Point2D?" /> value to compare.</param>
-        /// <param name="point2D_2">The second <see cref="Point2D?" /> value to compare.</param>
-        /// <returns>The maximum of the two <see cref="Point2D?" /> values, or <c>null</c> if either input is <c>null</c>.</returns>
+/// <param name="point2D_1">The first <c>Point2D?</c> value to compare.</param>
+/// <param name="point2D_2">The second <c>Point2D?</c> value to compare.</param>
+/// <returns>The maximum of the two <c>Point2D?</c> values, or <c>null</c> if either input is <c>null</c>.</returns>
         public static Point2D? Max(this Point2D? point2D_1, Point2D? point2D_2)
         {
             if (point2D_1 == null || point2D_2 == null)

@@ -6,20 +6,6 @@ namespace DiGi.Geometry.Planar.Classes
     /// <summary>
     /// Provides functionality to update geometry by snapping it based on a specified tolerance.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SnapperUpdater"/> class using the default distance tolerance.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SnapperUpdater"/> class with a specified distance tolerance.
-    /// </summary>
-    /// <param name="tolerance">The double value representing the snapping tolerance.</param>
-    /// <summary>
-    /// Gets or sets the <see cref="IGeometry2D"/> object to be updated.
-    /// </summary>
-    /// <summary>
-    /// Updates the current geometry value by applying snapping logic.
-    /// </summary>
-    /// <returns>A boolean value indicating whether the update was successful or if changes were applied.</returns>
     public class SnapperUpdater : IGeometryUpdater<IGeometry2D>
     {
         private readonly double tolerance = DiGi.Core.Constants.Tolerance.Distance;
@@ -49,7 +35,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <summary>
         /// Updates the current value by snapping the geometry to itself using a specified tolerance.
         /// </summary>
-        /// <returns>A <bool> indicating whether the update operation was successful.</returns>
+/// <returns>A <see cref="bool"/> indicating whether the update operation was successful.</returns>
         public bool Update()
         {
             if (Value is null)

@@ -10,27 +10,6 @@ namespace DiGi.Geometry.Core.Classes
     /// </summary>
     /// <typeparam name="TGeometry">The type of geometry, which must implement <see cref="IGeometry"/>.</typeparam>
     /// <typeparam name="TPoint">The type of point, which must implement <see cref="IPoint"/>.</typeparam>
-    /// <summary>
-    /// The maximum number of points the solver should generate.
-    /// </summary>
-    /// <summary>
-    /// The list of generated <see cref="TPoint"/> objects.
-    /// </summary>
-    /// <summary>
-    /// The distance tolerance used for geometric calculations.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="InternalPointSolver{TGeometry, TPoint}"/> class.
-    /// </summary>
-    /// <param name="tolerance">The distance tolerance as a <see cref="double"/>.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="InternalPointSolver{TGeometry, TPoint}"/> class.
-    /// </summary>
-    /// <param name="maxCount">The maximum number of points as an <see cref="int"/>.</param>
-    /// <param name="tolerance">The distance tolerance as a <see cref="double"/>.</param>
-    /// <summary>
-    /// Gets or sets the input geometry for the solver.
-    /// </summary>
     public abstract class InternalPointSolver<TGeometry, TPoint> : IOneToManyGeometrySolver<TGeometry, TPoint> where TPoint : IPoint where TGeometry : IGeometry
     {
         protected int maxCount = 100;
@@ -39,7 +18,7 @@ namespace DiGi.Geometry.Core.Classes
         protected double tolerance = Tolerance.Distance;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InternalPointSolver"/> class.
+        /// Initializes a new instance of the <see cref="InternalPointSolver{TGeometry, TPoint}"/> class.
         /// </summary>
         /// <param name="tolerance">The <see cref="double"/> value used as the distance tolerance.</param>
         public InternalPointSolver(double tolerance = Tolerance.Distance)
@@ -48,7 +27,7 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InternalPointSolver"/> class.
+        /// Initializes a new instance of the <see cref="InternalPointSolver{TGeometry, TPoint}"/> class.
         /// </summary>
         /// <param name="maxCount">The maximum number of iterations as an <see cref="int"/>.</param>
         /// <param name="tolerance">The convergence tolerance as a <see cref="double"/>.</param>
@@ -80,10 +59,10 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         /// <summary>
-        /// Gets the last <TPoint> from the collection of outputs.
+        /// Gets the last <typeparamref name="TPoint"/> from the collection of outputs.
         /// </summary>
         /// <value>
-        /// The cloned last <TPoint> if any outputs exist; otherwise, the default value for <TPoint>.
+        /// The cloned last <typeparamref name="TPoint"/> if any outputs exist; otherwise, the default value for <typeparamref name="TPoint"/>.
         /// </value>
         public TPoint? Output
         {
@@ -115,7 +94,7 @@ namespace DiGi.Geometry.Core.Classes
         /// <summary>
         /// Attempts to solve the problem defined by the implementation.
         /// </summary>
-        /// <returns>A <boolean> value indicating whether the solution was successfully found.</returns>
+/// <returns>A <see cref="bool"/> value indicating whether the solution was successfully found.</returns>
         public abstract bool Solve();
     }
 }

@@ -10,24 +10,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a three-dimensional polygon defined on a specific plane.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polygon3D"/> class from a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the polygon data.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polygon3D"/> class using a plane and a 2D polygon.
-    /// </summary>
-    /// <param name="plane">The <see cref="Plane"/> on which the polygon is located.</param>
-    /// <param name="polygon2D">The <see cref="Polygon2D"/> defining the shape of the polygon.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polygon3D"/> class using a plane and a collection of 2D points.
-    /// </summary>
-    /// <param name="plane">The <see cref="Plane"/> on which the polygon is located.</param>
-    /// <param name="point2Ds">An <see cref="IEnumerable{Point2D}"/> representing the vertices of the polygon.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polygon3D"/> class by copying another <see cref="Polygon3D"/>.
-    /// </summary>
-    /// <param name="polygon3D">The <see cref="Polygon3D"/> instance to copy from.</param>
     public class Polygon3D : Planar<Polygon2D>, IPolygonal3D<Polygon2D>
     {
         /// <summary>

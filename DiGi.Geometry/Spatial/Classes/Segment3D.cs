@@ -10,24 +10,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a three-dimensional line segment defined by two points in 3D space.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Segment3D"/> class using a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the segment data.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Segment3D"/> class using the coordinates of the start and end points.
-    /// </summary>
-    /// <param name="x_1">The X coordinate of the starting point.</param>
-    /// <param name="y_1">The Y coordinate of the starting point.</param>
-    /// <param name="z_1">The Z coordinate of the starting point.</param>
-    /// <param name="x_2">The X coordinate of the ending point.</param>
-    /// <param name="y_2">The Y coordinate of the ending point.</param>
-    /// <param name="z_2">The Z coordinate of the ending point.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Segment3D"/> class using start and end points.
-    /// </summary>
-    /// <param name="start">The starting <see cref="Point3D"/> of the segment.</param>
-    /// <param name="end">The ending <see cref="Point3D"/> of the segment.</param>
     public class Segment3D : Geometry3D, ISegmentable3D, ILinear3D, ISegment<Point3D>
     {
         private Point3D? start;
@@ -184,7 +166,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Gets or sets the starting <Point3D> position.
+        /// Gets or sets the starting <see cref="Point3D"/> position.
         /// </summary>
         [JsonPropertyName("Start")]
         public Point3D? Start

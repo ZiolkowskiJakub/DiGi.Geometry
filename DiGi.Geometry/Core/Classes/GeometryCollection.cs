@@ -10,25 +10,10 @@ namespace DiGi.Geometry.Core.Classes
     /// Represents an abstract collection of geometry objects that implements the <see cref="IGeometryCollection{T}"/> interface.
     /// </summary>
     /// <typeparam name="T">The type of elements in the collection, which must implement <see cref="ICollectable"/>.</typeparam>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GeometryCollection{T}"/> class.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GeometryCollection{T}"/> class using the specified collection of collectable items.
-    /// </summary>
-    /// <param name="collectables">An <see cref="IEnumerable{T}"/> containing the items to be added to the collection.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GeometryCollection{T}"/> class from the specified <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> used to populate the collection.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GeometryCollection{T}"/> class by copying another <see cref="GeometryCollection{T}"/>.
-    /// </summary>
-    /// <param name="geometryCollection">The <see cref="GeometryCollection{T}"/> to copy from.</param>
     public abstract class GeometryCollection<T> : SerializableObjectCollection<T>, IGeometryCollection<T> where T : ICollectable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeometryCollection"/> class.
+        /// Initializes a new instance of the <see cref="GeometryCollection{T}"/> class.
         /// </summary>
         public GeometryCollection()
         {
@@ -44,7 +29,7 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeometryCollection"/> class using the specified <see cref="JsonObject"/>.
+        /// Initializes a new instance of the <see cref="GeometryCollection{T}"/> class using the specified <see cref="JsonObject"/>.
         /// </summary>
         /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the collection.</param>
         public GeometryCollection(JsonObject? jsonObject)
@@ -53,7 +38,7 @@ namespace DiGi.Geometry.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeometryCollection"/> class using the specified <see cref="GeometryCollection{T}"/> object.
+        /// Initializes a new instance of the <see cref="GeometryCollection{T}"/> class using the specified <see cref="GeometryCollection{T}"/> object.
         /// </summary>
         /// <param name="geometryCollection">The <see cref="GeometryCollection{T}"/> object to copy from. This value can be null.</param>
         public GeometryCollection(GeometryCollection<T>? geometryCollection)

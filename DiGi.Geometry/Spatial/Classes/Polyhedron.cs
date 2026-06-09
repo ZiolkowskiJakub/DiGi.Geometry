@@ -15,22 +15,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a polyhedron composed of polygonal faces.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyhedron"/> class by copying an existing <see cref="Polyhedron"/>.
-    /// </summary>
-    /// <param name="polyhedron">The <see cref="Polyhedron"/> to copy.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyhedron"/> class from a JSON object.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the polyhedron data.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyhedron"/> class using a collection of polygonal faces.
-    /// </summary>
-    /// <param name="polygonalFaces">The <see cref="IEnumerable{IPolygonalFace3D}"/> containing the faces of the polyhedron.</param>
-    /// <summary>
-    /// Creates a clone of the current <see cref="Polyhedron"/> instance.
-    /// </summary>
-    /// <returns>A new <see cref="ISerializableObject"/> representing the cloned polyhedron.</returns>
     public class Polyhedron : Polyhedron<IPolygonalFace3D>
     {
         /// <summary>
@@ -70,18 +54,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// Represents an abstract base class for a 3D polyhedron consisting of polygonal faces.
     /// </summary>
     /// <typeparam name="TPolygonalFace3D">The type of the polygonal face, which must implement <see cref="IPolygonalFace3D"/>.</typeparam>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyhedron{TPolygonalFace3D}"/> class by cloning an existing <see cref="Polyhedron{TPolygonalFace3D}"/>.
-    /// </summary>
-    /// <param name="polyhedron">The <see cref="Polyhedron{TPolygonalFace3D}"/> instance to clone.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyhedron{TPolygonalFace3D}"/> class from a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the polyhedron data.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polyhedron{TPolygonalFace3D}"/> class with a specified collection of polygonal faces.
-    /// </summary>
-    /// <param name="polygonalFaces">An <see cref="IEnumerable{TPolygonalFace3D}"/> containing the polygonal faces.</param>
     public abstract class Polyhedron<TPolygonalFace3D> : Geometry3D, IPolyhedron where TPolygonalFace3D : IPolygonalFace3D
     {
         [JsonInclude, JsonPropertyName("PolygonalFaces")]
@@ -138,7 +110,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Gets the list of <see cref="TPolygonalFace3D"/> objects representing the polygonal faces.
+        /// Gets the list of <typeparamref name="TPolygonalFace3D"/> objects representing the polygonal faces.
         /// </summary>
         /// <value>
         /// A <see cref="List{TPolygonalFace3D}"/> containing the cloned polygonal faces, or null if no faces are defined.
@@ -242,9 +214,9 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="index">The zero-based index of the polygonal face.</param>
         /// <param name="inversed">When called, contains a <see cref="bool"/> value indicating whether the resulting normal is inversed.</param>
-        /// <param name="side">An optional <see cref="Side?"/> specifying the side to consider for the normal calculation.</param>
+/// <param name="side">An optional <see cref="Side"/> specifying the side to consider for the normal calculation.</param>
         /// <param name="tolerance">A <see cref="double"/> representing the distance tolerance used during calculations.</param>
-        /// <returns>A <see cref="Vector3D?"/> containing the normal vector if successful; otherwise, <c>null</c>.</returns>
+/// <returns>A <c>Vector3D?</c> containing the normal vector if successful; otherwise, <c>null</c>.</returns>
         public Vector3D? GetNormal(int index, out bool inversed, Side? side = null, double tolerance = Tolerance.Distance)
         {
             inversed = false;
@@ -453,7 +425,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Inverts the orientation of all polygonal faces associated with this object.
         /// </summary>
-        /// <returns>A <see cref="bool"/> value indicating whether at least one polygonal face was successfully inversed; otherwise, <see cref="false"/>.</returns>
+/// <returns>A <see cref="bool"/> value indicating whether at least one polygonal face was successfully inversed; otherwise, <see langword="false"/>.</returns>
         public bool Inverse()
         {
             if (polygonalFaces is null)
@@ -644,7 +616,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="index">The <see cref="int"/> index of the polygonal face.</param>
         /// <param name="side">The <see cref="Side"/> to be used for calculating the normal.</param>
-        /// <param name="normal">When this method returns, contains the calculated <see cref="Vector3D?"> normal if successful; otherwise, null.</param>
+/// <param name="normal">When this method returns, contains the calculated <c>Vector3D?</c> normal if successful; otherwise, null.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used for distance calculations.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the normal was successfully set and flipped.</returns>
         public bool SetNormal(int index, Side side, out Vector3D? normal, double tolerance = Tolerance.Distance)

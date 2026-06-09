@@ -7,14 +7,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a plane in 3D space, inheriting from <see cref="Geometry3D"/> and implementing <see cref="IFlippable"/>.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Plane"/> class using the provided <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data to initialize the plane.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Plane"/> class by copying an existing <see cref="Plane"/>.
-    /// </summary>
-    /// <param name="plane">The source <see cref="Plane"/> object to copy from.</param>
     public class Plane : Geometry3D, IFlippable
     {
         [JsonInclude, JsonPropertyName("AxisY")]
@@ -71,9 +63,9 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Plane"/> class using three points to define the plane's origin and orientation.
         /// </summary>
-        /// <param name="point3D_1">The first <see cref="Point3D?"/>, which is used as the origin of the plane.</param>
-        /// <param name="point3D_2">The second <see cref="Point3D?"/> used to determine the normal vector of the plane.</param>
-        /// <param name="point3D_3">The third <see cref="Point3D?"/> used to determine the normal vector of the plane.</param>
+/// <param name="point3D_1">The first <c>Point3D?</c>, which is used as the origin of the plane.</param>
+/// <param name="point3D_2">The second <c>Point3D?</c> used to determine the normal vector of the plane.</param>
+/// <param name="point3D_3">The third <c>Point3D?</c> used to determine the normal vector of the plane.</param>
         public Plane(Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3)
         {
             origin = new Point3D(point3D_1);
@@ -103,9 +95,9 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Plane"/> class using an origin point and two basis vectors.
         /// </summary>
-        /// <param name="origin">The <see cref="Point3D?"/> representing the origin point of the plane.</param>
-        /// <param name="axisX">The <see cref="Vector3D?"/> representing the X-axis vector of the plane.</param>
-        /// <param name="axisY">The <see cref="Vector3D?"/> representing the Y-axis vector of the plane.</param>
+/// <param name="origin">The <c>Point3D?</c> representing the origin point of the plane.</param>
+/// <param name="axisX">The <c>Vector3D?</c> representing the X-axis vector of the plane.</param>
+/// <param name="axisY">The <see cref="Vector3D"/> representing the Y-axis vector of the plane.</param>
         public Plane(Point3D? origin, Vector3D? axisX, Vector3D? axisY)
         {
             this.origin = origin == null ? null : new Point3D(origin);
@@ -268,7 +260,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Gets or sets the origin point in 3D space.
         /// </summary>
-        /// <value>A <see cref="Point3D?"> representing the origin coordinates.</value>
+/// <value>A <c>Point3D?</c> representing the origin coordinates.</value>
         [JsonIgnore]
         public Point3D? Origin
         {

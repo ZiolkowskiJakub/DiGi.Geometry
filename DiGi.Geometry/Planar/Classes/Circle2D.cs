@@ -6,9 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-/// <summary>
-/// Represents a 2D circle defined by its center and radius.
-/// </summary>
+    /// <summary>
+    /// Represents a 2D circle defined by its center and radius.
+    /// </summary>
     public class Circle2D : Geometry2D, IEllipse2D, IBoundable2D
     {
         [JsonInclude, JsonPropertyName("Center")]

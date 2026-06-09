@@ -62,9 +62,9 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
-        /// Gets or sets the origin <Point2D>.
+        /// Gets or sets the origin <see cref="Point2D"/>.
         /// </summary>
-        /// <value>The <Point2D> representing the origin, or null if it is not specified.</value>
+        /// <value>The <see cref="Point2D"/> representing the origin, or null if it is not specified.</value>
         [JsonIgnore]
         public Point2D? Origin
         {

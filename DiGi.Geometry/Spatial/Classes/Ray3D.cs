@@ -163,8 +163,8 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Calculates the distance between the specified <see cref="Point3D"/> and this object.
         /// </summary>
-        /// <param name="point3D">The <see cref="Point3D?"/> point to calculate the distance from.</param>
-        /// <returns>The distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the provided <see cref="Point3D?"/> is null or cannot be projected.</returns>
+/// <param name="point3D">The <c>Point3D?</c> point to calculate the distance from.</param>
+/// <returns>The distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the provided <c>Point3D?</c> is null or cannot be projected.</returns>
         public double Distance(Point3D? point3D)
         {
             if (point3D == null)

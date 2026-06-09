@@ -9,12 +9,12 @@ namespace DiGi.Geometry.Spatial
     public static partial class Create
     {
         /// <summary>
-        /// Creates a <see cref="Polyhedron"/> from the specified <see cref="IPolygonalFace3D"/> and <see cref="Vector3D"/>.
+        /// Creates a <see cref="DiGi.Geometry.Spatial.Create.Polyhedron(DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D?, DiGi.Geometry.Spatial.Classes.Vector3D?, double)"/> from the specified <see cref="IPolygonalFace3D"/> and <see cref="Vector3D"/>.
         /// </summary>
         /// <param name="polygonalFace3D">The <see cref="IPolygonalFace3D"/> that serves as the base of the polyhedron.</param>
         /// <param name="vector3D">The <see cref="Vector3D"/> defining the direction and magnitude for the polyhedron creation.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance used for calculations.</param>
-        /// <returns>A <see cref="Polyhedron"/> if successfully created; otherwise, null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/> if successfully created; otherwise, null.</returns>
         public static Polyhedron? Polyhedron(this IPolygonalFace3D? polygonalFace3D, Vector3D? vector3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null || vector3D == null)
@@ -123,10 +123,10 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Converts the specified <see cref="BoundingBox3D"/> to a <see cref="Polyhedron"/>.
+        /// Converts the specified <see cref="DiGi.Geometry.Spatial.Classes.BoundingBox3D"/> to a <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/>.
         /// </summary>
-        /// <param name="boundingBox3D">The <see cref="BoundingBox3D"/> instance to convert.</param>
-        /// <returns>A <see cref="Polyhedron"/> representing the bounding box, or <c>null</c> if the provided <see cref="BoundingBox3D"/> is <c>null</c> or cannot be converted into a valid polyhedron.</returns>
+        /// <param name="boundingBox3D">The <see cref="DiGi.Geometry.Spatial.Classes.BoundingBox3D"/> instance to convert.</param>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/> representing the bounding box, or <c>null</c> if the provided <see cref="DiGi.Geometry.Spatial.Classes.BoundingBox3D"/> is <c>null</c> or cannot be converted into a valid polyhedron.</returns>
         public static Polyhedron? Polyhedron(this BoundingBox3D? boundingBox3D)
         {
             if (boundingBox3D == null)
@@ -156,10 +156,10 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Creates a <see cref="Polyhedron"/> from the specified collection of polygonal faces.
+        /// Creates a <see cref="DiGi.Geometry.Spatial.Create.Polyhedron(DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D?, DiGi.Geometry.Spatial.Classes.Vector3D?, double)"/> from the specified collection of polygonal faces.
         /// </summary>
         /// <param name="polygonalFace3Ds">An <see cref="IEnumerable{IPolygonalFace3D}"/> containing the polygonal faces to be used for the construction.</param>
-        /// <returns>A new <see cref="Polyhedron"/> instance if the <see cref="IEnumerable{IPolygonalFace3D}"/> is not null and contains at least four elements; otherwise, null.</returns>
+        /// <returns>A new <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/> instance if the <see cref="IEnumerable{IPolygonalFace3D}"/> is not null and contains at least four elements; otherwise, null.</returns>
         public static Polyhedron? Polyhedron(this IEnumerable<IPolygonalFace3D>? polygonalFace3Ds)
         {
             if (polygonalFace3Ds is null || polygonalFace3Ds.Count() < 4)
@@ -171,10 +171,10 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Converts the specified <see cref="IPolyhedron"/> to a <see cref="Polyhedron"/>.
+        /// Converts the specified <see cref="IPolyhedron"/> to a <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/>.
         /// </summary>
         /// <param name="polyhedron">The <see cref="IPolyhedron"/> instance to convert.</param>
-        /// <returns>A <see cref="Polyhedron"/> instance if the conversion is successful; otherwise, null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/> instance if the conversion is successful; otherwise, null.</returns>
         public static Polyhedron? Polyhedron(this IPolyhedron polyhedron)
         {
             if (polyhedron is null)
@@ -202,11 +202,11 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Creates a <see cref="Polyhedron"/> from the specified <see cref="PolygonalFaceExtrusion"/>.
+        /// Creates a <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/> from the specified <see cref="PolygonalFaceExtrusion"/>.
         /// </summary>
-        /// <param name="polygonalFaceExtrusion">The <see cref="PolygonalFaceExtrusion"/> to convert into a <see cref="Polyhedron"/>.</param>
+        /// <param name="polygonalFaceExtrusion">The <see cref="PolygonalFaceExtrusion"/> to convert into a <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/>.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used for the operation.</param>
-        /// <returns>A <see cref="Polyhedron"/> if the <see cref="PolygonalFaceExtrusion"/> is not null; otherwise, null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/> if the <see cref="PolygonalFaceExtrusion"/> is not null; otherwise, null.</returns>
         public static Polyhedron? Polyhedron(this PolygonalFaceExtrusion? polygonalFaceExtrusion, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFaceExtrusion is null)

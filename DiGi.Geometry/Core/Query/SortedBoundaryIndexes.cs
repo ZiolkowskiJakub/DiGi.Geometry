@@ -5,9 +5,9 @@ namespace DiGi.Geometry.Core
     public static partial class Query
     {
         /// <summary>
-        /// Returns the sorted boundary indexes derived from the provided collection of <see cref="int[]"/>.
+        /// Returns the sorted boundary indexes derived from the provided collection of <c>int[]</c>.
         /// </summary>
-        /// <param name="indexes">The <see cref="IEnumerable{T}"/> of <see cref="int[]"/> representing the input indexes.</param>
+        /// <param name="indexes">The <see cref="IEnumerable{T}"/> of <c>int[]</c> representing the input indexes.</param>
         /// <returns>A <see cref="List{T}"/> containing <see cref="List{T}"/> of <see cref="int"/> if successful; otherwise, <see langword="null"/>.</returns>
         public static List<List<int>>? SortedBoundaryIndexes(this IEnumerable<int[]>? indexes)
         {
@@ -17,9 +17,9 @@ namespace DiGi.Geometry.Core
         /// <summary>
         /// Sorts the boundary indexes into continuous loops of vertex indices.
         /// </summary>
-        /// <param name="indexes">The <IEnumerable<int[]>> containing the mesh index arrays.</param>
-        /// <param name="auxiliaryIndexes">When this method returns, contains a <List<int[]>> of auxiliary indexes used during boundary detection.</param>
-        /// <returns>A <List<List<int>>> where each inner list represents a sorted loop of boundary vertex indices; returns null if the input <IEnumerable<int[]>> is null.</returns>
+        /// <param name="indexes">The IEnumerable&lt;int[]&gt; containing the mesh index arrays.</param>
+        /// <param name="auxiliaryIndexes">When this method returns, contains a List&lt;int[]&gt; of auxiliary indexes used during boundary detection.</param>
+        /// <returns>A List&lt;List&lt;int&gt;&gt; where each inner list represents a sorted loop of boundary vertex indices; returns null if the input IEnumerable&lt;int[]&gt; is null.</returns>
         public static List<List<int>>? SortedBoundaryIndexes(this IEnumerable<int[]>? indexes, out List<int[]>? auxiliaryIndexes)
         {
             // 1. Get raw boundary edges (from the previous method)

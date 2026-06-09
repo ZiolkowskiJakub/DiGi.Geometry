@@ -14,23 +14,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a polygonal face in 3D space that is planar.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class from a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the face.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class using a specified plane and 2D polygonal face.
-    /// </summary>
-    /// <param name="plane">The <see cref="Plane"/> that defines the orientation of the face.</param>
-    /// <param name="polygonalFace2D">The <see cref="IPolygonalFace2D"/> representing the 2D geometry of the face.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class from an external edge.
-    /// </summary>
-    /// <param name="externalEdge">The <see cref="IPolygonal3D"/> object used to derive the face.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class by copying an existing <see cref="PolygonalFace3D"/> instance.
-    /// </summary>
-    /// <param name="polygonalFace3D">The <see cref="PolygonalFace3D"/> instance to copy.</param>
     public class PolygonalFace3D : Planar<IPolygonalFace2D>, IPolygonalFace3D
     {
         /// <summary>
@@ -244,9 +227,9 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Point3D?"/> is within the range of the geometry based on the provided <see cref="double"/> tolerance.
+/// Determines whether the specified <c>Point3D?</c> is within the range of the geometry based on the provided <see cref="double"/> tolerance.
         /// </summary>
-        /// <param name="point3D">The <see cref="Point3D?"/> to evaluate.</param>
+/// <param name="point3D">The <c>Point3D?</c> to evaluate.</param>
         /// <param name="tolerance">The <see cref="double"/> distance tolerance used for the range check.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the point is within range; returns <see langword="false"/> if the point, plane, or geometry is null.</returns>
         public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
@@ -358,10 +341,10 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Triangulates the geometry into a list of <Triangle3D> objects based on the specified tolerance.
+        /// Triangulates the geometry into a list of <see cref="Triangle3D"/> objects based on the specified tolerance.
         /// </summary>
-        /// <param name="tolerance">The <double> tolerance value used during the triangulation process.</param>
-        /// <returns>A <List<Triangle3D>> containing the resulting 3D triangles, or null if the plane or underlying 2D geometry is not available.</returns>
+/// <param name="tolerance">The <see cref="double"/> tolerance value used during the triangulation process.</param>
+/// <returns>A <c>List&lt;Triangle3D&gt;</c> containing the resulting 3D triangles, or null if the plane or underlying 2D geometry is not available.</returns>
         public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             if (plane == null)

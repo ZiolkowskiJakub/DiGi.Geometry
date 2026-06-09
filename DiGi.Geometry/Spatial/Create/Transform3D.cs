@@ -103,10 +103,10 @@ namespace DiGi.Geometry.Spatial
             }
 
             /// <summary>
-            /// Calculates the transformation from the origin to the specified <see cref="Plane"/>.
+            /// Calculates the transformation from the origin to the specified <see cref="Classes.Plane"/>.
             /// </summary>
-            /// <param name="plane">The <see cref="Plane"/> to which the origin is transformed.</param>
-            /// <returns>A <see cref="Classes.Transform3D"/> representing the transformation, or null if the provided <see cref="Plane"/> is null.</returns>
+            /// <param name="plane">The <see cref="Classes.Plane"/> to which the origin is transformed.</param>
+            /// <returns>A <see cref="Classes.Transform3D"/> representing the transformation, or null if the provided <see cref="Classes.Plane"/> is null.</returns>
             public static Classes.Transform3D? OriginToPlane(Plane? plane)
             {
                 Classes.Transform3D? result = PlaneToOrigin(plane);
@@ -169,10 +169,10 @@ namespace DiGi.Geometry.Spatial
             }
 
             /// <summary>
-            /// Calculates the <Classes.Transform3D> required to transform a specified <Plane> to the origin.
+            /// Calculates the <see cref="Classes.Transform3D"/> required to transform a specified <see cref="Classes.Plane"/> to the origin.
             /// </summary>
-            /// <param name="plane">The <Plane> to be transformed to the origin.</param>
-            /// <returns>A <Classes.Transform3D> representing the transformation from the plane to the origin, or null if the provided <Plane> is null.</returns>
+/// <param name="plane">The <see cref="Classes.Plane"/> to be transformed to the origin.</param>
+/// <returns>A <see cref="Classes.Transform3D"/> representing the transformation from the plane to the origin, or <see langword="null"/> if the provided <see cref="Classes.Plane"/> is <see langword="null"/>.</returns>
             public static Classes.Transform3D? PlaneToOrigin(Plane? plane)
             {
                 if (plane == null)
@@ -184,10 +184,10 @@ namespace DiGi.Geometry.Spatial
             }
 
             /// <summary>
-            /// Calculates a <see cref="Classes.Transform3D"/> that transforms coordinates from one <see cref="Plane"/> to another.
+            /// Calculates a <see cref="Classes.Transform3D"/> that transforms coordinates from one <see cref="Classes.Plane"/> to another.
             /// </summary>
-            /// <param name="plane_From">The source <see cref="Plane"/>.</param>
-            /// <param name="plane_To">The destination <see cref="Plane"/>.</param>
+            /// <param name="plane_From">The source <see cref="Classes.Plane"/>.</param>
+            /// <param name="plane_To">The destination <see cref="Classes.Plane"/>.</param>
             /// <returns>A <see cref="Classes.Transform3D"/> representing the transformation from the source plane to the destination plane, or null if either input plane is null.</returns>
             public static Classes.Transform3D? PlaneToPlane(Plane? plane_From, Plane? plane_To)
             {

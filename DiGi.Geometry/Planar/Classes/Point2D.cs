@@ -5,9 +5,9 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
 {
-/// <summary>
-/// Represents a point in 2D space defined by X and Y coordinates.
-/// </summary>
+    /// <summary>
+    /// Represents a point in 2D space defined by X and Y coordinates.
+    /// </summary>
     public class Point2D : Coordinate2D, IMovable2D, IPoint<Point2D>
     {
         /// <summary>

@@ -9,17 +9,6 @@ namespace DiGi.Geometry.Planar.Classes
     /// <summary>
     /// Solves self-intersections for a 2D polygonal geometry.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polygonal2DSelfIntersectionSolver"/> class.
-    /// </summary>
-    /// <param name="input">The <see cref="IPolygonal2D"/> geometry to be processed.</param>
-    /// <param name="maxLength">The <see cref="double"/> value representing the maximum length threshold.</param>
-    /// <param name="tolerance">The <see cref="double"/> value representing the distance tolerance for intersection detection.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polygonal2DSelfIntersectionSolver"/> class.
-    /// </summary>
-    /// <param name="maxLength">The <see cref="double"/> value representing the maximum length threshold.</param>
-    /// <param name="tolerance">The <see cref="double"/> value representing the distance tolerance for intersection detection.</param>
     public class Polygonal2DSelfIntersectionSolver : IOneToOneGeometrySolver<IPolygonal2D, IPolygonal2D>
     {
         private readonly double tolerance = Tolerance.Distance;
@@ -80,7 +69,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <summary>
         /// Attempts to solve for self-intersecting polygons based on the input data, maximum length, and tolerance.
         /// </summary>
-        /// <returns>A <bool> value indicating whether a solution was successfully found.</returns>
+/// <returns>A <see cref="bool"/> value indicating whether a solution was successfully found.</returns>
         public bool Solve()
         {
             output = null;

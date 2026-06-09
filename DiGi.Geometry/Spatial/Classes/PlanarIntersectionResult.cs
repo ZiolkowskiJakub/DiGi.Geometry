@@ -10,21 +10,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents the result of a planar intersection operation in 3D space.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PlanarIntersectionResult"/> class.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PlanarIntersectionResult"/> class using the specified <see cref="Plane"/>.
-    /// </summary>
-    /// <param name="plane">The <see cref="Plane"/> to associate with this result.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PlanarIntersectionResult"/> class from the specified <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data to initialize this result.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PlanarIntersectionResult"/> class by copying an existing <see cref="PlanarIntersectionResult"/>.
-    /// </summary>
-    /// <param name="planarIntersectionResult">The <see cref="PlanarIntersectionResult"/> to copy from.</param>
     public class PlanarIntersectionResult : PlanarResult, IIntersectionResult3D
     {
         /// <summary>

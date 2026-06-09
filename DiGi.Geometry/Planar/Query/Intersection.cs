@@ -196,11 +196,11 @@ namespace DiGi.Geometry.Planar
                         result.AddRange(polygonal2Ds_Temp);
                     }
                 }
-                else if(collectable2D is IPolygonalFace2D polygonalFace2D)
+                else if (collectable2D is IPolygonalFace2D polygonalFace2D)
                 {
-                    if(polygonalFace2D.Edges is List<IPolygonal2D> edges)
+                    if (polygonalFace2D.Edges is List<IPolygonal2D> edges)
                     {
-                        foreach(IPolygonal2D edge in edges)
+                        foreach (IPolygonal2D edge in edges)
                         {
                             if (TryConvert(edge, out List<X>? polygonal2Ds_Temp, tolerance) && polygonal2Ds_Temp is not null)
                             {

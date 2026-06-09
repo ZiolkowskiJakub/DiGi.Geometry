@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Text.Json.Nodes;
@@ -8,24 +8,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a point in three-dimensional space.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Point3D"/> class using a <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> containing the point data.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Point3D"/> class with specified X, Y, and Z coordinates.
-    /// </summary>
-    /// <param name="x">The X coordinate as a <see cref="double"/>.</param>
-    /// <param name="y">The Y coordinate as a <see cref="double"/>.</param>
-    /// <param name="z">The Z coordinate as a <see cref="double"/>.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Point3D"/> class using an array of <see cref="double"/> values.
-    /// </summary>
-    /// <param name="values">An array of <see cref="double"/> containing the coordinates.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Point3D"/> class by copying an existing <see cref="Point3D"/> object.
-    /// </summary>
-    /// <param name="point3D">The <see cref="Point3D"/> object to copy.</param>
     public class Point3D : Coordinate3D, IMovable3D, IPoint<Point3D>
     {
         /// <summary>

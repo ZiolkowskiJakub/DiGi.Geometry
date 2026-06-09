@@ -7,18 +7,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Updates the normalization of a 3D polygonal geometry to ensure it matches a specified orientation.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Polygonal3DNormalizationUpdater"/> class.
-    /// </summary>
-    /// <param name="orientation">The target <see cref="Orientation"/> to which the geometry should be normalized.</param>
-    /// <summary>
-    /// Determines whether the current 3D polygonal geometry is already normalized according to the specified orientation.
-    /// </summary>
-    /// <returns>True if the geometry's orientation matches the target <see cref="Orientation"/>; otherwise, false.</returns>
-    /// <summary>
-    /// Updates the normalization of the 3D polygonal geometry.
-    /// </summary>
-    /// <returns>True if the geometry was updated; otherwise, false.</returns>
     public class Polygonal3DNormalizationUpdater : GeometryUpdater<IPolygonal3D>, Core.Interfaces.INormalizationUpdater<IPolygonal3D>
     {
         private readonly Orientation orientation;

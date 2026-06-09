@@ -9,11 +9,11 @@ namespace DiGi.Geometry.Planar
     public static partial class Create
     {
         /// <summary>
-        /// Creates a <see cref="Mesh2D"/> from a collection of <see cref="Triangle2D"/> objects.
+        /// Creates a <see cref="DiGi.Geometry.Planar.Classes.Mesh2D"/> from a collection of <see cref="Triangle2D"/> objects.
         /// </summary>
         /// <param name="triangle2Ds">The <see cref="IEnumerable{T}"/> of <see cref="Triangle2D"/> objects to be converted into a mesh.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the minimum area threshold; triangles with an area smaller than this value are ignored.</param>
-        /// <returns>A <see cref="Mesh2D"/> object if valid triangles are provided; otherwise, null.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Planar.Classes.Mesh2D"/> object if valid triangles are provided; otherwise, null.</returns>
         public static Mesh2D? Mesh2D(this IEnumerable<Triangle2D>? triangle2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (triangle2Ds == null || triangle2Ds.Count() == 0)
@@ -69,11 +69,11 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-        /// Converts an <see cref="IPolygonalFace2D"/> to a <see cref="Mesh2D"/>.
+        /// Converts an <see cref="IPolygonalFace2D"/> to a <see cref="DiGi.Geometry.Planar.Classes.Mesh2D"/>.
         /// </summary>
         /// <param name="polygonalFace2D">The <see cref="IPolygonalFace2D"/> instance to convert.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used for the conversion.</param>
-        /// <returns>A <see cref="Mesh2D"/> object if the conversion is successful; otherwise, <c>null</c>.</returns>
+        /// <returns>A <see cref="DiGi.Geometry.Planar.Classes.Mesh2D"/> object if the conversion is successful; otherwise, <c>null</c>.</returns>
         public static Mesh2D? Mesh2D(this IPolygonalFace2D? polygonalFace2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             IPolygonal2D? externalEdge = polygonalFace2D?.ExternalEdge;

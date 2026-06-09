@@ -8,21 +8,6 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents the result of a projection operation, inheriting from <see cref="PlanarResult"/>.
     /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ProjectionResult"/> class.
-    /// </summary>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ProjectionResult"/> class using the specified <see cref="Plane"/>.
-    /// </summary>
-    /// <param name="plane">The <see cref="Plane"/> used to initialize the result.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ProjectionResult"/> class using the specified <see cref="JsonObject"/>.
-    /// </summary>
-    /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the result.</param>
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ProjectionResult"/> class by copying an existing <see cref="ProjectionResult"/>.
-    /// </summary>
-    /// <param name="projectionResult">The <see cref="ProjectionResult"/> instance to copy from.</param>
     public class ProjectionResult : PlanarResult
     {
         /// <summary>
