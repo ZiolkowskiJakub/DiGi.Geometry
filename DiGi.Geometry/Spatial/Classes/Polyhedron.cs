@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Constants;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Enums;
@@ -140,6 +140,11 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the polygonal face at the specified index.
+        /// </summary>
+        /// <param name="i">The zero-based index of the polygonal face to retrieve.</param>
+        /// <returns>A clone of the <typeparamref name="TPolygonalFace3D"/> at the specified index, or <c>null</c> if the collection is not initialized.</returns>
         [JsonIgnore]
         public TPolygonalFace3D? this[int i]
         {

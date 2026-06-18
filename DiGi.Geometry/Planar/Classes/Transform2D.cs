@@ -56,6 +56,12 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the value at the specified row and column of the transformation matrix.
+        /// </summary>
+        /// <param name="row">The zero-based index of the row.</param>
+        /// <param name="column">The zero-based index of the column.</param>
+        /// <returns>The element at the specified position, or <see cref="double.NaN"/> if the underlying matrix is not initialized.</returns>
         [JsonIgnore]
         public double this[int row, int column]
         {
@@ -70,6 +76,12 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Multiplies two 2D transformations to produce a combined transformation.
+        /// </summary>
+        /// <param name="transform2D_1">The first transformation.</param>
+        /// <param name="transform2D_2">The second transformation.</param>
+        /// <returns>A new <see cref="Transform2D"/> representing the combined transformations, or <see langword="null"/> if either operand is <see langword="null"/>.</returns>
         public static Transform2D? operator *(Transform2D? transform2D_1, Transform2D? transform2D_2)
         {
             if (transform2D_1 == null || transform2D_2 == null)

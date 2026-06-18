@@ -199,9 +199,10 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Splits a collection of segmentable geometries into smaller segments based on their intersections.
         /// </summary>
+        /// <typeparam name="T">A type that implements the <see cref="ISegmentable2D"/> interface.</typeparam>
         /// <param name="segmentable2Ds">The collection of segmentable geometries to split.</param>
         /// <param name="tolerance">The distance tolerance for intersection detection.</param>
-        /// <returns>A list of the resulting split segments.</returns>
+        /// <returns>A list of the resulting split segments, or null if the input is null.</returns>
         public static List<Segment2D>? Split<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
             List<Segment2D>? segment2Ds = segmentable2Ds?.Segments();
@@ -216,10 +217,11 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Splits a polygonal face into multiple faces using a collection of segmentable geometries as cutting lines.
         /// </summary>
+        /// <typeparam name="T">A type that implements the <see cref="ISegmentable2D"/> interface.</typeparam>
         /// <param name="polygonalFace2D">The polygonal face to split.</param>
         /// <param name="segmentable2Ds">The collection of segmentable geometries used for splitting.</param>
         /// <param name="tolerance">The distance tolerance for intersection detection.</param>
-        /// <returns>A list of the resulting split polygonal faces.</returns>
+        /// <returns>A list of the resulting split polygonal faces, or null if the input is null or no faces could be created.</returns>
         public static List<PolygonalFace2D>? Split<T>(this IPolygonalFace2D? polygonalFace2D, IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
             if (polygonalFace2D == null || segmentable2Ds == null)

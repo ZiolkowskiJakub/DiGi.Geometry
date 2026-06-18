@@ -7,10 +7,11 @@ namespace DiGi.Geometry.Planar
     public static partial class Query
     {
         /// <summary>
-        /// Retrieves all segments from a collection of segmentable geometries.
+        /// Retrieves all segments from a collection of segmentable 2D geometries.
         /// </summary>
-        /// <param name="segmentable2Ds">The collection of segmentable geometries.</param>
-        /// <returns>A list of all segments extracted from the geometries.</returns>
+        /// <typeparam name="T">The type of the segmentable geometry, which must implement <see cref="ISegmentable2D"/>.</typeparam>
+        /// <param name="segmentable2Ds">The collection of segmentable 2D geometries to process.</param>
+        /// <returns>A list containing all segments extracted from the provided geometries, or null if the input collection is null.</returns>
         public static List<Segment2D>? Segments<T>(this IEnumerable<T>? segmentable2Ds) where T : ISegmentable2D
         {
             if (segmentable2Ds == null)
@@ -74,8 +75,9 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Retrieves all segments from a collection of polygonal faces.
         /// </summary>
-        /// <param name="polygonalFace2Ds">The collection of polygonal faces.</param>
-        /// <returns>A list of all segments extracted from the polygonal faces.</returns>
+        /// <typeparam name="T">The type of the polygonal face elements, which must implement <see cref="IPolygonalFace2D"/>.</typeparam>
+        /// <param name="polygonalFace2Ds">The collection of polygonal faces to extract segments from.</param>
+        /// <returns>A list containing all extracted <see cref="Segment2D"/> objects, or null if the input collection is null.</returns>
         public static List<Segment2D>? Segment2Ds<T>(this IEnumerable<T>? polygonalFace2Ds) where T : IPolygonalFace2D
         {
             if (polygonalFace2Ds == null)

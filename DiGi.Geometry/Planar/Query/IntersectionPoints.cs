@@ -56,9 +56,10 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the intersection points between a segmentable 2D object and a collection of other segmentable 2D objects.
         /// </summary>
+        /// <typeparam name="T">The type of the segmentable 2D object, which must implement <see cref="ISegmentable2D"/>.</typeparam>
         /// <param name="segmentable2D">The <see cref="ISegmentable2D"/> object to check for intersections.</param>
         /// <param name="segmentable2Ds">An <see cref="IEnumerable{ISegmentable2D}"/> of segmentable 2D objects to intersect with the source object.</param>
-        /// <param name="tolerace">The <see cref="double"/> distance tolerance used for intersection calculations.</param>
+        /// <param name="tolerace">The distance tolerance used for intersection calculations as a <see cref="double"/>.</param>
         /// <returns>A <see cref="List{Point2D}"/> containing the found intersection points, or <c>null</c> if either input is null.</returns>
         public static List<Point2D>? IntersectionPoints<T>(this ISegmentable2D? segmentable2D, IEnumerable<ISegmentable2D>? segmentable2Ds, double tolerace = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {

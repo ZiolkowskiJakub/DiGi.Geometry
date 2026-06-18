@@ -8,6 +8,9 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the square thinness ratio of a polygonal geometry based on its bounding rectangle.
         /// </summary>
+        /// <param name="polygonal2D">The polygonal 2D geometry to analyze.</param>
+        /// <param name="tolerance">The distance tolerance used for creating the bounding rectangle.</param>
+        /// <returns>The square thinness ratio, or <see cref="System.Double.NaN"/> if the input is null, the area is not a number, or the bounding rectangle cannot be created.</returns>
         public static double SquareThinnessRatio(this IPolygonal2D polygonal2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonal2D == null)

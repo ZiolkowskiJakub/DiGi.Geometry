@@ -8,8 +8,11 @@ namespace DiGi.Geometry.Planar
     public static partial class Query
     {
         /// <summary>
-        /// Triangulates a polygon into a set of smaller triangles.
+        /// Triangulates the specified polygon into a set of smaller triangle polygons.
         /// </summary>
+        /// <param name="polygon">The polygon to be triangulated.</param>
+        /// <param name="tolerance">The distance tolerance used for precision during the triangulation process.</param>
+        /// <returns>A list of triangles that represent the original polygon, or null if the input polygon is null or the triangulation fails.</returns>
         public static List<Polygon>? Triangulate(this Polygon? polygon, double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             if (polygon == null)

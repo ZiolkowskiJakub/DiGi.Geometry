@@ -48,6 +48,11 @@ namespace DiGi.Geometry.Spatial.Classes
         {
         }
 
+        /// <summary>
+        /// Implicitly converts a tuple of three <see cref="double"/> values representing X, Y, and Z coordinates to a <see cref="Point3D"/>.
+        /// </summary>
+        /// <param name="object">The tuple containing the X, Y, and Z coordinate values.</param>
+        /// <returns>A new <see cref="Point3D"/> instance created from the provided coordinates.</returns>
         public static implicit operator Point3D?((double x, double y, double z) @object)
         {
             return new Point3D(@object.x, @object.y, @object.z);
@@ -155,6 +160,10 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Point3D((point3D[0] + values[0]) / 2, (point3D[1] + values[1]) / 2, (point3D[2] + values[2]) / 2);
         }
 
+        /// <summary>Subtracts a <see cref="Vector3D"/> from a <see cref="Point3D"/> to produce a new point.</summary>
+        /// <param name="point3D">The starting <see cref="Point3D"/>.</param>
+        /// <param name="vector3D">The <see cref="Vector3D"/> to subtract from the point.</param>
+        /// <returns>A new <see cref="Point3D"/> resulting from the subtraction, or <see langword="null"/> if either input is <see langword="null"/>.</returns>
         public static Point3D? operator -(Point3D? point3D, Vector3D? vector3D)
         {
             if (point3D is null || vector3D is null)
@@ -165,6 +174,10 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Point3D(point3D.values[0] - vector3D[0], point3D.values[1] - vector3D[1], point3D.values[2] - vector3D[2]);
         }
 
+        /// <summary>Subtracts one <see cref="Point3D"/> from another to produce a <see cref="Vector3D"/>.</summary>
+        /// <param name="point3D_1">The first <see cref="Point3D"/>.</param>
+        /// <param name="point3D_2">The second <see cref="Point3D"/>.</param>
+        /// <returns>A new <see cref="Vector3D"/> resulting from the subtraction, or <see langword="null"/> if either input is <see langword="null"/>.</returns>
         public static Vector3D? operator -(Point3D? point3D_1, Point3D? point3D_2)
         {
             if (point3D_1 is null || point3D_2 is null)
@@ -175,6 +188,10 @@ namespace DiGi.Geometry.Spatial.Classes
             return new Vector3D(point3D_1.values[0] - point3D_2[0], point3D_1.values[1] - point3D_2[1], point3D_1.values[2] - point3D_2[2]);
         }
 
+        /// <summary>Adds a <see cref="Vector3D"/> to a <see cref="Point3D"/> to produce a new point.</summary>
+        /// <param name="point3D">The starting <see cref="Point3D"/>.</param>
+        /// <param name="vector3D">The <see cref="Vector3D"/> to add to the point.</param>
+        /// <returns>A new <see cref="Point3D"/> resulting from the addition, or <see langword="null"/> if either input is <see langword="null"/>.</returns>
         public static Point3D? operator +(Point3D? point3D, Vector3D? vector3D)
         {
             if (point3D is null || vector3D is null)

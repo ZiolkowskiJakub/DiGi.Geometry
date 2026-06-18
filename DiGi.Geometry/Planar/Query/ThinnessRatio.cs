@@ -5,8 +5,10 @@ namespace DiGi.Geometry.Planar
     public static partial class Query
     {
         /// <summary>
-        /// Calculates the thinness ratio of a polygonal geometry.
+        /// Calculates the thinness ratio of a polygonal geometry based on its area and perimeter.
         /// </summary>
+        /// <param name="polygonal2D">The polygonal geometry for which to calculate the thinness ratio.</param>
+        /// <returns>The calculated thinness ratio, or <see cref="double.NaN"/> if the input is null or if the area or perimeter cannot be determined.</returns>
         public static double ThinnessRatio(this IPolygonal2D polygonal2D)
         {
             if (polygonal2D == null)

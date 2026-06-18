@@ -100,11 +100,23 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Indicates whether the two specified <see cref="Line3D"/> objects are not equal.
+        /// </summary>
+        /// <param name="line3D_1">The first <see cref="Line3D"/> object to compare.</param>
+        /// <param name="line3D_2">The second <see cref="Line3D"/> object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are not equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator !=(Line3D? line3D_1, Line3D? line3D_2)
         {
             return !(line3D_1 == line3D_2);
         }
 
+        /// <summary>
+        /// Indicates whether the two specified <see cref="Line3D"/> objects are equal.
+        /// </summary>
+        /// <param name="line3D_1">The first <see cref="Line3D"/> object to compare.</param>
+        /// <param name="line3D_2">The second <see cref="Line3D"/> object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator ==(Line3D? line3D_1, Line3D? line3D_2)
         {
             if (line3D_1 is null && line3D_2 is null)

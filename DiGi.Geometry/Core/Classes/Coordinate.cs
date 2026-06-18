@@ -86,6 +86,11 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the coordinate value at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the coordinate value to get or set.</param>
+        /// <returns>The <see cref="double"/> value located at the specified index.</returns>
         [JsonIgnore]
         public double this[int index]
         {
@@ -100,11 +105,23 @@ namespace DiGi.Geometry.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Compares two <see cref="Coordinate"/> instances to determine if they are not equal based on their types and the values they contain.
+        /// </summary>
+        /// <param name="coordinate_1">The first coordinate to compare.</param>
+        /// <param name="coordinate_2">The second coordinate to compare.</param>
+        /// <returns><see langword="true"/> if the coordinates are not equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator !=(Coordinate? coordinate_1, Coordinate? coordinate_2)
         {
             return !(coordinate_1 == coordinate_2);
         }
 
+        /// <summary>
+        /// Compares two <see cref="Coordinate"/> instances for equality based on their types and the values they contain.
+        /// </summary>
+        /// <param name="coordinate_1">The first coordinate to compare.</param>
+        /// <param name="coordinate_2">The second coordinate to compare.</param>
+        /// <returns><see langword="true"/> if the coordinates are equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator ==(Coordinate? coordinate_1, Coordinate? coordinate_2)
         {
             if (coordinate_1?.GetType() != coordinate_2?.GetType())

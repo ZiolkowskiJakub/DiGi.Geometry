@@ -79,6 +79,11 @@ namespace DiGi.Geometry.Planar.Classes
             }
         }
 
+        /// <summary>
+        /// Explicitly converts a <see cref="Segment2D"/> instance to a <see cref="Ray2D"/> instance.
+        /// </summary>
+        /// <param name="segment2D">The <see cref="Segment2D"/> instance to convert.</param>
+        /// <returns>A <see cref="Ray2D"/> instance derived from the specified segment, or <see langword="null"/> if the input is <see langword="null"/>.</returns>
         public static explicit operator Ray2D?(Segment2D? segment2D)
         {
             if (segment2D is null)
@@ -89,11 +94,23 @@ namespace DiGi.Geometry.Planar.Classes
             return new Ray2D(segment2D.Start, segment2D.Vector);
         }
 
+        /// <summary>
+        /// Indicates whether the two specified <see cref="Ray2D"/> instances are not equal.
+        /// </summary>
+        /// <param name="ray2D_1">The first <see cref="Ray2D"/> instance to compare.</param>
+        /// <param name="ray2D_2">The second <see cref="Ray2D"/> instance to compare.</param>
+        /// <returns><see langword="true"/> if the two rays are not equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator !=(Ray2D? ray2D_1, Ray2D? ray2D_2)
         {
             return !(ray2D_1 == ray2D_2);
         }
 
+        /// <summary>
+        /// Indicates whether the two specified <see cref="Ray2D"/> instances are equal.
+        /// </summary>
+        /// <param name="ray2D_1">The first <see cref="Ray2D"/> instance to compare.</param>
+        /// <param name="ray2D_2">The second <see cref="Ray2D"/> instance to compare.</param>
+        /// <returns><see langword="true"/> if the two rays are equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator ==(Ray2D? ray2D_1, Ray2D? ray2D_2)
         {
             if (ray2D_1 is null && ray2D_2 is null)

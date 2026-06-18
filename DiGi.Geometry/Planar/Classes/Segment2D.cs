@@ -193,8 +193,10 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
-        /// Gets the point at the specified index (0 for start, 1 for end).
+        /// Gets the point at the specified index of the segment.
         /// </summary>
+        /// <param name="index">The zero-based index of the point to retrieve (0 for the start point, 1 for the end point).</param>
+        /// <returns>The <see cref="Point2D"/> at the specified index, or <see langword="null"/> if the index is not 0 or 1.</returns>
         public Point2D? this[int index]
         {
             get

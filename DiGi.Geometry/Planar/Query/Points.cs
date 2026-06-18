@@ -7,10 +7,11 @@ namespace DiGi.Geometry.Planar
     public static partial class Query
     {
         /// <summary>
-        /// Retrieves all points from a collection of segmentable geometries.
+        /// Extracts all points from a collection of segmentable 2D geometries and flattens them into a single list.
         /// </summary>
-        /// <param name="segmentable2Ds">The collection of segmentable geometries.</param>
-        /// <returns>A list of all points extracted from the geometries.</returns>
+        /// <typeparam name="T">The type of the segmentable 2D geometry, which must implement <see cref="ISegmentable2D"/>.</typeparam>
+        /// <param name="segmentable2Ds">The collection of segmentable 2D geometries to extract points from.</param>
+        /// <returns>A list containing all extracted <see cref="Point2D"/> objects, or null if the input collection is null.</returns>
         public static List<Point2D?>? Points<T>(this IEnumerable<T?>? segmentable2Ds) where T : ISegmentable2D
         {
             if (segmentable2Ds == null)

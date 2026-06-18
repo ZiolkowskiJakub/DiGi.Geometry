@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
@@ -10,8 +10,10 @@ namespace DiGi.Geometry.Planar
     public static partial class Query
     {
         /// <summary>
-        /// Calculates the union of a collection of polygonal faces.
+        /// Computes the geometric union of a collection of 2D polygonal faces.
         /// </summary>
+        /// <param name="polygonalFace2Ds">The collection of polygonal faces to be unioned.</param>
+        /// <returns>A list containing the resulting unioned polygonal faces, or <c>null</c> if the input is null or no result could be produced.</returns>
         public static List<PolygonalFace2D>? Union(this IEnumerable<IPolygonalFace2D>? polygonalFace2Ds)
         {
             if (polygonalFace2Ds == null)
@@ -54,8 +56,11 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-        /// Calculates the union of two polygonal faces.
+        /// Calculates the geometric union of two polygonal faces.
         /// </summary>
+        /// <param name="polygonalFace2D_1">The first polygonal face to unify.</param>
+        /// <param name="polygonalFace2D_2">The second polygonal face to unify.</param>
+        /// <returns>A list of <see cref="PolygonalFace2D"/> objects representing the resulting union, or <c>null</c> if either input is null.</returns>
         public static List<PolygonalFace2D>? Union(this IPolygonalFace2D? polygonalFace2D_1, IPolygonalFace2D? polygonalFace2D_2)
         {
             if (polygonalFace2D_1 == null || polygonalFace2D_2 == null)
@@ -67,8 +72,10 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-        /// Calculates the union of a collection of NTS polygons.
+        /// Calculates the geometric union of a collection of polygons.
         /// </summary>
+        /// <param name="polygons">The collection of <see cref="Polygon"/> objects to unify.</param>
+        /// <returns>A list of <see cref="Polygon"/> objects representing the resulting union, or <c>null</c> if the input is null or an error occurs during processing.</returns>
         public static List<Polygon>? Union(this IEnumerable<Polygon>? polygons)
         {
             if (polygons == null)
@@ -128,6 +135,9 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the union of a collection of polygonal geometries.
         /// </summary>
+        /// <typeparam name="TPolygonal2D">The type of polygonal geometry, which must implement <see cref="IPolygonal2D"/>.</typeparam>
+        /// <param name="polygonal2Ds">A collection of polygonal geometries to be united.</param>
+        /// <returns>A list of <see cref="Polygon2D"/> objects representing the unioned result, or <see langword="null"/> if the input collection is null.</returns>
         public static List<Polygon2D>? Union<TPolygonal2D>(this IEnumerable<TPolygonal2D>? polygonal2Ds) where TPolygonal2D : IPolygonal2D
         {
             if (polygonal2Ds == null)
@@ -182,8 +192,11 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-        /// Calculates the union of two polygons.
+        /// Calculates the union of two 2D polygons.
         /// </summary>
+        /// <param name="polygon2D_1">The first polygon to include in the union operation.</param>
+        /// <param name="polygon2D_2">The second polygon to include in the union operation.</param>
+        /// <returns>A list of <see cref="Polygon2D"/> objects representing the resulting union, or <c>null</c> if either input polygon is <c>null</c>.</returns>
         public static List<Polygon2D>? Union(this Polygon2D? polygon2D_1, Polygon2D? polygon2D_2)
         {
             if (polygon2D_1 == null || polygon2D_2 == null)

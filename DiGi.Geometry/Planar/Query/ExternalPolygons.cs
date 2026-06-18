@@ -38,11 +38,12 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-        /// Extracts the external polygons from a collection of segmentable 2D objects.
+        /// Extracts the external polygons from a collection of segmentable 2D objects using a specified distance tolerance.
         /// </summary>
-        /// <param name="segmentable2Ds">The IEnumerable of <see cref="ISegmentable2D"/> objects to process.</param>
-        /// <param name="tolerance">The double value representing the distance tolerance used for segment processing.</param>
-        /// <returns>A List of <see cref="Polygon2D"/> containing the external polygons, or null if the input collection is null.</returns>
+        /// <typeparam name="T">The type of the segmentable 2D objects, which must implement <see cref="ISegmentable2D"/>.</typeparam>
+        /// <param name="segmentable2Ds">The <see cref="IEnumerable{T}"/> collection of segmentable 2D objects to process.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance used for calculations.</param>
+        /// <returns>A <see cref="List{Polygon2D}"/> containing the external polygons, or <c>null</c> if the input collection is <c>null</c>.</returns>
         public static List<Polygon2D>? ExternalPolygons<T>(this IEnumerable<T>? segmentable2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
             return ExternalPolygons(segmentable2Ds?.Segments(), tolerance);

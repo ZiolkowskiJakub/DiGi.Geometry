@@ -9,6 +9,10 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Checks if two points are similar (almost equal) within a given tolerance.
         /// </summary>
+        /// <param name="point2D_1">The first point to compare.</param>
+        /// <param name="point2D_2">The second point to compare.</param>
+        /// <param name="tolerance">The distance tolerance used to determine similarity.</param>
+        /// <returns><c>true</c> if the points are similar; otherwise, <c>false</c>.</returns>
         public static bool Similar(this Point2D? point2D_1, Point2D? point2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (point2D_1 == point2D_2)
@@ -32,6 +36,10 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Checks if two segments are similar (identical endpoints regardless of order) within a given tolerance.
         /// </summary>
+        /// <param name="segment2D_1">The first segment to compare.</param>
+        /// <param name="segment2D_2">The second segment to compare.</param>
+        /// <param name="tolerance">The distance tolerance used to determine similarity.</param>
+        /// <returns><c>true</c> if the segments are similar; otherwise, <c>false</c>.</returns>
         public static bool Similar(this Segment2D? segment2D_1, Segment2D? segment2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2D_1 == segment2D_2)
@@ -53,8 +61,12 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-        /// Checks if two vectors are similar (identical or opposite) within a given tolerance.
+        /// Checks if two vectors are similar (identical or opposite) within a specified tolerance.
         /// </summary>
+        /// <param name="vector2D_1">The first vector to compare.</param>
+        /// <param name="vector2D_2">The second vector to compare.</param>
+        /// <param name="tolerance">The distance tolerance used to determine similarity.</param>
+        /// <returns><c>true</c> if the vectors are similar; otherwise, <c>false</c>.</returns>
         public static bool Similar(this Vector2D? vector2D_1, Vector2D? vector2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (vector2D_1 == vector2D_2)
@@ -79,8 +91,12 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-        /// Checks if two segmentable geometries are similar within a given tolerance.
+        /// Checks if two segmentable 2D geometries are similar within a specified tolerance.
         /// </summary>
+        /// <param name="segmentable2D_1">The first segmentable geometry to compare.</param>
+        /// <param name="segmentable2D_2">The second segmentable geometry to compare.</param>
+        /// <param name="tolerance">The distance tolerance used to determine similarity.</param>
+        /// <returns><c>true</c> if the geometries are similar; otherwise, <c>false</c>.</returns>
         public static bool Similar(this ISegmentable2D? segmentable2D_1, ISegmentable2D? segmentable2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D_1 == segmentable2D_2)
@@ -176,6 +192,10 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Checks if two polygonal faces are similar within a given tolerance.
         /// </summary>
+        /// <param name="polygonalFace2D_1">The first polygonal face to compare.</param>
+        /// <param name="polygonalFace2D_2">The second polygonal face to compare.</param>
+        /// <param name="tolerance">The distance tolerance used for the similarity check.</param>
+        /// <returns>True if the two polygonal faces are similar; otherwise, false.</returns>
         public static bool Similar(this IPolygonalFace2D? polygonalFace2D_1, IPolygonalFace2D? polygonalFace2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace2D_1 == null && polygonalFace2D_2 == null)

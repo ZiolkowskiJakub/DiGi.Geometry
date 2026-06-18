@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -132,10 +132,8 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        /// <summary>
-        /// Gets the direction vector C, which corresponds to the Z-axis of the plane.
-        /// </summary>
-        /// <returns>A <see cref="Vector3D"/> representing the Z-axis of the plane, or null if the plane is not defined.</returns>
+        /// <summary> Gets the direction vector C, which corresponds to the Z-axis of the plane. </summary>
+
         [JsonIgnore]
         public Vector3D? DirectionC
         {
@@ -176,6 +174,11 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Implicitly converts a <see cref="Sphere"/> to a <see cref="Spheroid"/>.
+        /// </summary>
+        /// <param name="sphere">The sphere instance to convert.</param>
+        /// <returns>A new <see cref="Spheroid"/> instance with radii equal to the sphere's radius, or <see langword="null"/> if the provided sphere is <see langword="null"/>.</returns>
         public static implicit operator Spheroid?(Sphere? sphere)
         {
             return sphere == null ? null : new Spheroid(sphere.Center, sphere.Radius, sphere.Radius);
@@ -274,3 +277,4 @@ namespace DiGi.Geometry.Spatial.Classes
         }
     }
 }
+

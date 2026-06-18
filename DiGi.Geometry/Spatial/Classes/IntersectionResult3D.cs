@@ -104,6 +104,11 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the 3D geometry at the specified index. The returned geometry is a clone of the original object to ensure encapsulation.
+        /// </summary>
+        /// <param name="index">The zero-based index of the geometry to retrieve.</param>
+        /// <returns>A clone of the <see cref="IGeometry3D"/> at the specified index, or <see langword="null"/> if the index is out of range or the internal collection is null.</returns>
         [JsonIgnore]
         public IGeometry3D? this[int index]
         {

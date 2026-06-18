@@ -199,6 +199,11 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the point at the specified index of the segment. Index 0 represents the start point and index 1 represents the end point.
+        /// </summary>
+        /// <param name="index">The zero-based index of the point to retrieve.</param>
+        /// <returns>The <see cref="Point3D"/> at the specified index, or null if the index is out of range.</returns>
         public Point3D? this[int index]
         {
             get

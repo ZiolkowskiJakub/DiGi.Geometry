@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Interfaces;
+using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Enums;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Text.Json.Nodes;
@@ -63,10 +63,7 @@ namespace DiGi.Geometry.Spatial.Classes
             this.geometry2D = DiGi.Core.Query.Clone(geometry2D);
         }
 
-        /// <summary>
-        /// Gets the 2D geometry representation.
-        /// </summary>
-        /// <returns>A <typeparamref name="T"/> instance representing the 2D geometry, or null if it is not defined.</returns>
+        /// <summary> Gets the 2D geometry representation. </summary>
         [JsonIgnore]
         public T? Geometry2D
         {
@@ -129,3 +126,4 @@ namespace DiGi.Geometry.Spatial.Classes
         }
     }
 }
+

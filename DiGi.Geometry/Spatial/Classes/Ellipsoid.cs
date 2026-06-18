@@ -182,11 +182,21 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Implicitly converts a <see cref="Sphere"/> to an <see cref="Ellipsoid"/>.
+        /// </summary>
+        /// <param name="sphere">The <see cref="Sphere"/> instance to convert.</param>
+        /// <returns>An <see cref="Ellipsoid"/> created from the provided sphere, or <see langword="null"/> if the sphere is <see langword="null"/>.</returns>
         public static implicit operator Ellipsoid?(Sphere? sphere)
         {
             return sphere == null ? null : new Ellipsoid(sphere.Center, sphere.Radius, sphere.Radius, sphere.Radius);
         }
 
+        /// <summary>
+        /// Implicitly converts a <see cref="Spheroid"/> to an <see cref="Ellipsoid"/>.
+        /// </summary>
+        /// <param name="spheroid">The <see cref="Spheroid"/> instance to convert.</param>
+        /// <returns>An <see cref="Ellipsoid"/> created from the provided spheroid, or <see langword="null"/> if the spheroid is <see langword="null"/>.</returns>
         public static implicit operator Ellipsoid?(Spheroid? spheroid)
         {
             return spheroid == null ? null : new Ellipsoid(spheroid.Plane, spheroid.A, spheroid.B, spheroid.B);

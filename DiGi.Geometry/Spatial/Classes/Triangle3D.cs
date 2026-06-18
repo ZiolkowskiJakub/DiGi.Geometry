@@ -130,6 +130,11 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the point at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the point to retrieve.</param>
+        /// <returns>A <see cref="Point3D"/> representing the point at the specified index, or <see langword="null"/> if it cannot be retrieved.</returns>
         [JsonIgnore]
         public Point3D? this[int index]
         {

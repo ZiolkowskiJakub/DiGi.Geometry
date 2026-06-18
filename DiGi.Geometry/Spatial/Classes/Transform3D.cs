@@ -56,6 +56,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the element at the specified row and column of the transformation matrix.
+        /// </summary>
+        /// <param name="row">The zero-based index of the row.</param>
+        /// <param name="column">The zero-based index of the column.</param>
+        /// <returns>The value of the element at the specified position, or <see cref="double.NaN"/> if the internal matrix is not initialized.</returns>
         [JsonIgnore]
         public double this[int row, int column]
         {
@@ -80,6 +86,12 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Multiplies two 3D transformations together to create a combined transformation.
+        /// </summary>
+        /// <param name="transform3D_1">The first 3D transformation.</param>
+        /// <param name="transform3D_2">The second 3D transformation.</param>
+        /// <returns>A new <see cref="Transform3D"/> representing the combined result, or <see langword="null"/> if either operand is <see langword="null"/>.</returns>
         public static Transform3D? operator *(Transform3D? transform3D_1, Transform3D? transform3D_2)
         {
             if (transform3D_1 == null || transform3D_2 == null)

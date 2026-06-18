@@ -100,11 +100,23 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
+        /// <summary>
+        /// Indicates whether the two specified <see cref="Ray3D"/> objects are not equal.
+        /// </summary>
+        /// <param name="ray3D_1">The first <see cref="Ray3D"/> to compare.</param>
+        /// <param name="ray3D_2">The second <see cref="Ray3D"/> to compare.</param>
+        /// <returns><see langword="true"/> if the objects are not equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator !=(Ray3D? ray3D_1, Ray3D? ray3D_2)
         {
             return !(ray3D_1 == ray3D_2);
         }
 
+        /// <summary>
+        /// Indicates whether the two specified <see cref="Ray3D"/> objects are equal.
+        /// </summary>
+        /// <param name="ray3D_1">The first <see cref="Ray3D"/> to compare.</param>
+        /// <param name="ray3D_2">The second <see cref="Ray3D"/> to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator ==(Ray3D? ray3D_1, Ray3D? ray3D_2)
         {
             if (ray3D_1 is null && ray3D_2 is null)

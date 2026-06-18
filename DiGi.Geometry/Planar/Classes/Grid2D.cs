@@ -149,6 +149,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="index_width">The index along the width axis.</param>
         /// <param name="index_height">The index along the height axis.</param>
+        /// <returns>The <see cref="Rectangle2D"/> at the specified position, or null if it cannot be determined.</returns>
         [JsonIgnore]
         public Rectangle2D? this[int index_width, int index_height]
         {
