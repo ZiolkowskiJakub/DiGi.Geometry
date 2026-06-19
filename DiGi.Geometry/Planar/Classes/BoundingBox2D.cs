@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Core.Interfaces;
@@ -544,27 +544,55 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            List<Point2D>? point2Ds = GetPoints();
-            if (point2Ds == null || point2Ds.Count == 0)
+            Point2D? point2D_Origin = line2D.Origin;
+            Vector2D? vector2D_Direction = line2D.Direction;
+            if (point2D_Origin == null || vector2D_Direction == null)
             {
                 return false;
             }
 
-            for (int i = 0; i < point2Ds.Count; i++)
-            {
-                Point2D? point2D = line2D.Project(point2Ds[i]);
-                if (point2D == null)
-                {
-                    continue;
-                }
+            double minX = min.X - tolerance;
+            double minY = min.Y - tolerance;
+            double maxX = max.X + tolerance;
+            double maxY = max.Y + tolerance;
 
-                if (InRange(point2D, tolerance))
+            double t0 = double.NegativeInfinity;
+            double t1 = double.PositiveInfinity;
+
+            for (int i = 0; i < 2; i++)
+            {
+                double p = (i == 0) ? vector2D_Direction.X : vector2D_Direction.Y;
+                double minB = (i == 0) ? minX : minY;
+                double maxB = (i == 0) ? maxX : maxY;
+                double p0Val = (i == 0) ? point2D_Origin.X : point2D_Origin.Y;
+
+                if (System.Math.Abs(p) < tolerance)
                 {
-                    return true;
+                    if (p0Val < minB || p0Val > maxB)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    double tEnter = (minB - p0Val) / p;
+                    double tExit = (maxB - p0Val) / p;
+                    if (tEnter > tExit)
+                    {
+                        (tExit, tEnter) = (tEnter, tExit);
+                    }
+
+                    t0 = System.Math.Max(t0, tEnter);
+                    t1 = System.Math.Min(t1, tExit);
+
+                    if (t0 > t1)
+                    {
+                        return false;
+                    }
                 }
             }
 
-            return false;
+            return true;
         }
 
         /// <summary>
@@ -850,7 +878,22 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the point is on the boundary.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            return Query.On(GetSegments(), point2D, tolerance);
+            if (point2D == null || min == null || max == null)
+            {
+                return false;
+            }
+
+            double px = point2D.X;
+            double py = point2D.Y;
+            double minX = min.X;
+            double minY = min.Y;
+            double maxX = max.X;
+            double maxY = max.Y;
+
+            bool onXBoundary = (System.Math.Abs(px - minX) < tolerance || System.Math.Abs(px - maxX) < tolerance) && (py >= minY - tolerance && py <= maxY + tolerance);
+            bool onYBoundary = (System.Math.Abs(py - minY) < tolerance || System.Math.Abs(py - maxY) < tolerance) && (px >= minX - tolerance && px <= maxX + tolerance);
+
+            return onXBoundary || onYBoundary;
         }
 
         /// <summary>

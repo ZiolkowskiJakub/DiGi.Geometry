@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Text.Json.Nodes;
@@ -110,7 +110,9 @@ namespace DiGi.Geometry.Planar.Classes
                 return double.NaN;
             }
 
-            return new Vector2D(this, point2D).Length;
+            double dx = X - point2D.X;
+            double dy = Y - point2D.Y;
+            return System.Math.Sqrt((dx * dx) + (dy * dy));
         }
 
         /// <summary>

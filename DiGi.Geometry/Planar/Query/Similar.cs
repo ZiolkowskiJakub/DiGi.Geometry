@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 
@@ -57,7 +57,18 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            return (AlmostEquals(segment2D_1[0], segment2D_2[0], tolerance) && AlmostEquals(segment2D_1[1], segment2D_2[1], tolerance)) || (AlmostEquals(segment2D_1[0], segment2D_2[1], tolerance) && AlmostEquals(segment2D_1[1], segment2D_2[0], tolerance));
+            Point2D? point2D_Start1 = segment2D_1.Start;
+            Point2D? point2D_End1 = segment2D_1.End;
+            Point2D? point2D_Start2 = segment2D_2.Start;
+            Point2D? point2D_End2 = segment2D_2.End;
+
+            if (point2D_Start1 == null || point2D_End1 == null || point2D_Start2 == null || point2D_End2 == null)
+            {
+                return false;
+            }
+
+            return (AlmostEquals(point2D_Start1, point2D_Start2, tolerance) && AlmostEquals(point2D_End1, point2D_End2, tolerance)) ||
+                   (AlmostEquals(point2D_Start1, point2D_End2, tolerance) && AlmostEquals(point2D_End1, point2D_Start2, tolerance));
         }
 
         /// <summary>
