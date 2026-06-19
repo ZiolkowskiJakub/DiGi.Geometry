@@ -51,7 +51,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Attempts to solve for an internal point within the polyhedron.
         /// </summary>
-/// <returns>A <see cref="bool"/> value indicating whether a solution was successfully found.</returns>
+        /// <returns>A <see cref="bool"/> value indicating whether a solution was successfully found.</returns>
         public override bool Solve()
         {
             if (polyhedron is null)

@@ -179,7 +179,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Retrieves a list of <see cref="Point3D"/> objects.
         /// </summary>
-/// <returns>A <c>List&lt;Point3D&gt;</c> containing the points, or <see langword="null"/> if no points are available.</returns>
+        /// <returns>A <c>List&lt;Point3D&gt;</c> containing the points, or <see langword="null"/> if no points are available.</returns>
         public List<Point3D>? GetPoints()
         {
             return DiGi.Core.Query.Clone(points)?.FilterNulls();

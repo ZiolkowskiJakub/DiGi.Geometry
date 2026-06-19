@@ -7,10 +7,10 @@ namespace DiGi.Geometry.Planar
     public static partial class Query
     {
         /// <summary>
-/// Determines whether two <c>Point2D?</c> points are approximately equal based on a specified distance tolerance.
+        /// Determines whether two <c>Point2D?</c> points are approximately equal based on a specified distance tolerance.
         /// </summary>
-/// <param name="point2D_1">The first <c>Point2D?</c> point to compare.</param>
-/// <param name="point2D_2">The second <c>Point2D?</c> point to compare.</param>
+        /// <param name="point2D_1">The first <c>Point2D?</c> point to compare.</param>
+        /// <param name="point2D_2">The second <c>Point2D?</c> point to compare.</param>
         /// <param name="tolerance">The <see cref="double" /> tolerance value used to determine if the points are almost equal.</param>
         /// <returns>A <see cref="bool" /> value indicating whether the two points are considered equal within the given tolerance.</returns>
         public static bool AlmostEquals(this Point2D? point2D_1, Point2D? point2D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)

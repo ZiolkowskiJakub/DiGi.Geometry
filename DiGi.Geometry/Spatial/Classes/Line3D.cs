@@ -304,8 +304,8 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Transforms the origin and direction of the object using the specified <see cref="ITransform3D"/> transformation.
         /// </summary>
-/// <param name="transform">The <see cref="ITransform3D"/> instance to apply for the transformation.</param>
-/// <returns>A <see cref="bool"/> value indicating whether the transformation was successfully applied; returns <c>false</c> if the <see cref="ITransform3D"/> transform, origin, or direction is null.</returns>
+        /// <param name="transform">The <see cref="ITransform3D"/> instance to apply for the transformation.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the transformation was successfully applied; returns <c>false</c> if the <see cref="ITransform3D"/> transform, origin, or direction is null.</returns>
         public bool Transform(ITransform3D? transform)
         {
             if (transform == null || origin == null || direction == null)

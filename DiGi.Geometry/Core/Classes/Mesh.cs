@@ -163,7 +163,7 @@ namespace DiGi.Geometry.Core.Classes
         /// Retrieves the set of indexes connected to the specified index.
         /// </summary>
         /// <param name="index">The int index for which to find connections.</param>
-/// <returns>A <c>HashSet&lt;int&gt;</c> containing all connected indexes, or <see langword="null"/> if the internal collection is <see langword="null"/> or the provided int index is negative.</returns>
+        /// <returns>A <c>HashSet&lt;int&gt;</c> containing all connected indexes, or <see langword="null"/> if the internal collection is <see langword="null"/> or the provided int index is negative.</returns>
         public HashSet<int>? GetConnectedIndexes(int index)
         {
             if (indexes == null || index < 0)

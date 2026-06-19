@@ -50,7 +50,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Coordinate3D"/> class using an array of <see cref="double"/> values.
         /// </summary>
-/// <param name="values">An optional array of double values. If the array is null or contains fewer than three elements, all coordinates are initialized to <see cref="double.NaN"/>.</param>
+        /// <param name="values">An optional array of double values. If the array is null or contains fewer than three elements, all coordinates are initialized to <see cref="double.NaN"/>.</param>
         public Coordinate3D(double[]? values)
             : base()
         {

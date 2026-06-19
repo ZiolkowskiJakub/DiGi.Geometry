@@ -127,7 +127,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// Retrieves a list of cloned 2D geometry objects of the specified type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of geometry to retrieve, which must implement IGeometry2D.</typeparam>
-/// <returns>A <c>List&lt;T&gt;</c> containing clones of the 2D geometry objects if the collection is not null; otherwise, null.</returns>
+        /// <returns>A <c>List&lt;T&gt;</c> containing clones of the 2D geometry objects if the collection is not null; otherwise, null.</returns>
         public List<T>? GetGeometry2Ds<T>() where T : IGeometry2D
         {
             if (geometry2Ds == null)

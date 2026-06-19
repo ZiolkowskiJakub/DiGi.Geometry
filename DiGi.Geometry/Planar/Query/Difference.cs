@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
@@ -20,6 +20,17 @@ namespace DiGi.Geometry.Planar
             if (polygonal2D_1 == null || polygonal2D_2 == null)
             {
                 return null;
+            }
+
+            BoundingBox2D? boundingBox2D_1 = polygonal2D_1.GetBoundingBox();
+            BoundingBox2D? boundingBox2D_2 = polygonal2D_2.GetBoundingBox();
+            if (boundingBox2D_1 != null && boundingBox2D_2 != null && !boundingBox2D_1.InRange(boundingBox2D_2))
+            {
+                if (polygonal2D_1.Clone() is IPolygonal2D polygonal2D_Cloned)
+                {
+                    return [polygonal2D_Cloned];
+                }
+                return [];
             }
 
             List<PolygonalFace2D>? polygonalFace2Ds = Difference(new PolygonalFace2D(polygonal2D_1), new PolygonalFace2D(polygonal2D_2));
@@ -66,6 +77,13 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
+            BoundingBox2D? boundingBox2D_1 = polygonalFace2D_1.GetBoundingBox();
+            BoundingBox2D? boundingBox2D_2 = polygonalFace2D_2.GetBoundingBox();
+            if (boundingBox2D_1 != null && boundingBox2D_2 != null && !boundingBox2D_1.InRange(boundingBox2D_2))
+            {
+                return [new PolygonalFace2D(polygonalFace2D_1)];
+            }
+
             Polygon? polygon_1 = polygonalFace2D_1.ToNTS();
             if (polygon_1 == null)
             {
@@ -110,6 +128,15 @@ namespace DiGi.Geometry.Planar
             }
 
             List<Polygon> result = [];
+
+            if (!polygon_1.EnvelopeInternal.Intersects(polygon_2.EnvelopeInternal))
+            {
+                if (polygon_1.Copy() is Polygon polygon_Copy)
+                {
+                    result.Add(polygon_Copy);
+                }
+                return result;
+            }
 
             if (polygon_1.EqualsTopologically(polygon_2))
             {

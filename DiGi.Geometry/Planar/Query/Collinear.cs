@@ -34,7 +34,7 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Determines whether a collection of points are collinear within a specified tolerance.
         /// </summary>
-/// <param name="point2Ds">The <c>IEnumerable&lt;Point2D?&gt;</c> collection of points to evaluate.</param>
+        /// <param name="point2Ds">The <c>IEnumerable&lt;Point2D?&gt;</c> collection of points to evaluate.</param>
         /// <param name="tolerance">The <see cref="double"/> distance tolerance used to determine if the points lie on the same line.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the points are collinear; returns <c>false</c> if the input collection is null.</returns>
         public static bool Collinear(this IEnumerable<Point2D?>? point2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)

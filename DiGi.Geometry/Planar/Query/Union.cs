@@ -68,6 +68,37 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
+            BoundingBox2D? boundingBox2D_1 = polygonalFace2D_1.GetBoundingBox();
+            BoundingBox2D? boundingBox2D_2 = polygonalFace2D_2.GetBoundingBox();
+            if (boundingBox2D_1 != null && boundingBox2D_2 != null && !boundingBox2D_1.InRange(boundingBox2D_2))
+            {
+                List<PolygonalFace2D> polygonalFace2Ds_Disjoint = [];
+                if (polygonalFace2D_1 is PolygonalFace2D PolygonalFace2D_1_Temp)
+                {
+                    polygonalFace2Ds_Disjoint.Add(new PolygonalFace2D(PolygonalFace2D_1_Temp));
+                }
+                else
+                {
+                    PolygonalFace2D? face1Converted = polygonalFace2D_1.ToNTS().ToDiGi();
+                    if (face1Converted != null) polygonalFace2Ds_Disjoint.Add(face1Converted);
+                }
+
+                if (polygonalFace2D_2 is PolygonalFace2D PolygonalFace2D_2_Temp)
+                {
+                    polygonalFace2Ds_Disjoint.Add(new PolygonalFace2D(PolygonalFace2D_2_Temp));
+                }
+                else
+                {
+                    PolygonalFace2D? polygonalFace2D_Converted = polygonalFace2D_2.ToNTS().ToDiGi();
+                    if (polygonalFace2D_Converted != null)
+                    {
+                        polygonalFace2Ds_Disjoint.Add(polygonalFace2D_Converted);
+                    }
+                }
+
+                return polygonalFace2Ds_Disjoint;
+            }
+
             return Union([polygonalFace2D_1, polygonalFace2D_2]);
         }
 
@@ -82,41 +113,72 @@ namespace DiGi.Geometry.Planar
                 return null;
 
             List<Polygon> result = [];
-            if (polygons.Count() == 0)
+
+            // Avoid multiple enumerations
+            List<Polygon> polygons_List = polygons as List<Polygon> ?? [.. polygons];
+
+            if (polygons_List.Count == 0)
             {
                 return result;
             }
 
-            if (polygons.Count() == 1)
+            if (polygons_List.Count == 1)
             {
-                result.Add(polygons.ElementAt(0));
+                result.Add(polygons_List[0]);
                 return result;
             }
 
-            NetTopologySuite.Geometries.Geometry geometry = new MultiPolygon([.. polygons]);
-            if (!geometry.IsValid)
+            // Fix invalid input geometries individually first (much faster than fixing the collection)
+            List<Polygon> validPolygons = [];
+            foreach (Polygon polygon in polygons_List)
             {
-                try
+                if (polygon == null)
                 {
-                    geometry = GeometryFixer.Fix(geometry);
+                    continue;
                 }
-                catch
+
+                if (!polygon.IsValid)
                 {
-                    return null;
+                    NetTopologySuite.Geometries.Geometry geometry_Fixed = GeometryFixer.Fix(polygon);
+                    if (geometry_Fixed is Polygon polygon_Fixed && !polygon_Fixed.IsEmpty)
+                    {
+                        validPolygons.Add(polygon_Fixed);
+                    }
+                    else if (geometry_Fixed is MultiPolygon multiPolygon_Fixed && !multiPolygon_Fixed.IsEmpty)
+                    {
+                        foreach (Polygon childPolygon in multiPolygon_Fixed.Geometries.Cast<Polygon>())
+                        {
+                            if (childPolygon != null && !childPolygon.IsEmpty)
+                            {
+                                validPolygons.Add(childPolygon);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    validPolygons.Add(polygon);
                 }
             }
 
+            if (validPolygons.Count == 0)
+            {
+                return result;
+            }
+
+            NetTopologySuite.Geometries.Geometry? geometry;
             try
             {
-                geometry = geometry.Union();
+                geometry = NetTopologySuite.Operation.Union.UnaryUnionOp.Union(validPolygons);
             }
             catch
             {
+                return null;
             }
 
-            if (geometry == null)
+            if (geometry == null || geometry.IsEmpty)
             {
-                return null;
+                return result;
             }
 
             if (geometry is MultiPolygon multiPolygon)
@@ -124,9 +186,26 @@ namespace DiGi.Geometry.Planar
                 return [.. multiPolygon.Geometries.Cast<Polygon>()];
             }
 
-            if (geometry is Polygon polygon)
+            if (geometry is Polygon polygonResult)
             {
-                result.Add(polygon);
+                result.Add(polygonResult);
+                return result;
+            }
+
+            if (geometry is GeometryCollection geometryCollection)
+            {
+                foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in geometryCollection.Geometries)
+                {
+                    if (geometry_Temp is Polygon polygon_Temp)
+                    {
+                        result.Add(polygon_Temp);
+                    }
+                    else if (geometry_Temp is MultiPolygon multiPolygon_Temp)
+                    {
+                        result.AddRange(multiPolygon_Temp.Geometries.Cast<Polygon>());
+                    }
+                }
+                return result;
             }
 
             return result;
@@ -202,6 +281,13 @@ namespace DiGi.Geometry.Planar
             if (polygon2D_1 == null || polygon2D_2 == null)
             {
                 return null;
+            }
+
+            BoundingBox2D? boundingBox2D_1 = polygon2D_1.GetBoundingBox();
+            BoundingBox2D? boundingBox2D_2 = polygon2D_2.GetBoundingBox();
+            if (boundingBox2D_1 != null && boundingBox2D_2 != null && !boundingBox2D_1.InRange(boundingBox2D_2))
+            {
+                return [new Polygon2D(polygon2D_1), new Polygon2D(polygon2D_2)];
             }
 
             return Union([polygon2D_1, polygon2D_2]);

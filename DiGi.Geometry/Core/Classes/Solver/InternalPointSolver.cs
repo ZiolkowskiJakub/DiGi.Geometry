@@ -94,7 +94,7 @@ namespace DiGi.Geometry.Core.Classes
         /// <summary>
         /// Attempts to solve the problem defined by the implementation.
         /// </summary>
-/// <returns>A <see cref="bool"/> value indicating whether the solution was successfully found.</returns>
+        /// <returns>A <see cref="bool"/> value indicating whether the solution was successfully found.</returns>
         public abstract bool Solve();
     }
 }

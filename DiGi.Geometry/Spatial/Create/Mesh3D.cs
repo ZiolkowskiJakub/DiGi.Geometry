@@ -8,12 +8,12 @@ namespace DiGi.Geometry.Spatial
     public static partial class Create
     {
         /// <summary>
-        /// Generates a <see cref="DiGi.Geometry.Spatial.Classes.Mesh3D"/> from the specified <see cref="Ellipsoid"/>.
+        /// Generates a <see cref="Classes.Mesh3D"/> from the specified <see cref="Ellipsoid"/>.
         /// </summary>
         /// <param name="ellipsoid">The <see cref="Ellipsoid"/> to convert into a mesh.</param>
         /// <param name="stacks">The number of stacks (latitude divisions) as an <see cref="int"/> used to generate the mesh.</param>
         /// <param name="slices">The number of slices (longitude divisions) as an <see cref="int"/> used to generate the mesh.</param>
-        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.Mesh3D"/> representing the ellipsoid, or <c>null</c> if the provided <see cref="Ellipsoid"/> is <c>null</c>.</returns>
+        /// <returns>A <see cref="Classes.Mesh3D"/> representing the ellipsoid, or <c>null</c> if the provided <see cref="Ellipsoid"/> is <c>null</c>.</returns>
         public static Mesh3D? Mesh3D(this Ellipsoid? ellipsoid, int stacks, int slices)
         {
             if (ellipsoid == null)
@@ -107,11 +107,11 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Generates a <see cref="DiGi.Geometry.Spatial.Classes.Mesh3D"/> from the specified <see cref="Ellipsoid"/> using an angle factor to determine the resolution of stacks and slices.
+        /// Generates a <see cref="Classes.Mesh3D"/> from the specified <see cref="Ellipsoid"/> using an angle factor to determine the resolution of stacks and slices.
         /// </summary>
         /// <param name="ellipsoid">The <see cref="Ellipsoid"/> instance to be converted into a mesh.</param>
         /// <param name="angleFactor">A <see cref="double"/> value used to calculate the number of stacks and slices for the resulting mesh.</param>
-        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.Mesh3D"/> object representing the ellipsoid, or <c>null</c> if the provided <see cref="Ellipsoid"/> is <c>null</c>.</returns>
+        /// <returns>A <see cref="Classes.Mesh3D"/> object representing the ellipsoid, or <c>null</c> if the provided <see cref="Ellipsoid"/> is <c>null</c>.</returns>
         public static Mesh3D? Mesh3D(this Ellipsoid? ellipsoid, double angleFactor)
         {
             if (ellipsoid == null)
@@ -128,11 +128,11 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Creates a <see cref="DiGi.Geometry.Spatial.Classes.Mesh3D"/> from a collection of <see cref="Triangle3D"/> objects.
+        /// Creates a <see cref="Classes.Mesh3D"/> from a collection of <see cref="Triangle3D"/> objects.
         /// </summary>
         /// <param name="triangle3Ds">The <see cref="IEnumerable{Triangle3D}"/> containing the triangles to be converted into a mesh.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used for merging coincident points.</param>
-        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.Mesh3D"/> object if the input collection is not null and contains valid triangles; otherwise, <c>null</c>.</returns>
+        /// <returns>A <see cref="Classes.Mesh3D"/> object if the input collection is not null and contains valid triangles; otherwise, <c>null</c>.</returns>
         public static Mesh3D? Mesh3D(this IEnumerable<Triangle3D>? triangle3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (triangle3Ds == null || triangle3Ds.Count() == 0)
@@ -180,11 +180,11 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Converts the specified <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/> to a <see cref="DiGi.Geometry.Spatial.Classes.Mesh3D"/> by triangulating its polygonal faces.
+        /// Converts the specified <see cref="Classes.Polyhedron"/> to a <see cref="Classes.Mesh3D"/> by triangulating its polygonal faces.
         /// </summary>
-        /// <param name="polyhedron">The <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/> instance to convert.</param>
+        /// <param name="polyhedron">The <see cref="Classes.Polyhedron"/> instance to convert.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used during the triangulation of the polygonal faces.</param>
-        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.Mesh3D"/> object representing the triangulated mesh, or <c>null</c> if the <see cref="DiGi.Geometry.Spatial.Classes.Polyhedron"/> is null or contains no valid faces.</returns>
+        /// <returns>A <see cref="Classes.Mesh3D"/> object representing the triangulated mesh, or <c>null</c> if the <see cref="Classes.Polyhedron"/> is null or contains no valid faces.</returns>
         public static Mesh3D? Mesh3D(this Polyhedron? polyhedron, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             List<IPolygonalFace3D>? polygonalFace3Ds = polyhedron?.PolygonalFaces;
@@ -213,7 +213,7 @@ namespace DiGi.Geometry.Spatial
         /// </summary>
         /// <param name="polygonalFace3D">The <see cref="IPolygonalFace3D"/> instance to convert.</param>
         /// <param name="tolerance">The <see cref="double"/> distance tolerance used for triangulation.</param>
-        /// <returns>A <see cref="DiGi.Geometry.Spatial.Classes.Mesh3D"/> object representing the polygonal face, or <c>null</c> if the input is <c>null</c>.</returns>
+        /// <returns>A <see cref="Classes.Mesh3D"/> object representing the polygonal face, or <c>null</c> if the input is <c>null</c>.</returns>
         public static Mesh3D? Mesh3D(this IPolygonalFace3D? polygonalFace3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace3D == null)

@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
@@ -22,6 +22,13 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
+            BoundingBox2D? boundingBox2D_1 = polygonalFace2D_1.GetBoundingBox();
+            BoundingBox2D? boundingBox2D_2 = polygonalFace2D_2.GetBoundingBox();
+            if (boundingBox2D_1 != null && boundingBox2D_2 != null && !boundingBox2D_1.InRange(boundingBox2D_2))
+            {
+                return [];
+            }
+
             Polygon? polygon_1 = polygonalFace2D_1.ToNTS();
             if (polygon_1 == null)
             {
@@ -34,10 +41,16 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<PolygonalFace2D>? result = [];
+            List<PolygonalFace2D> result = [];
+
+            if (!polygon_1.EnvelopeInternal.Intersects(polygon_2.EnvelopeInternal))
+            {
+                return result;
+            }
 
             if (polygon_1.EqualsTopologically(polygon_2))
             {
+                result.Add(new PolygonalFace2D(polygonalFace2D_1));
                 return result;
             }
 
@@ -135,12 +148,33 @@ namespace DiGi.Geometry.Planar
                 return [];
             }
 
+            if (polygons.Count > 1)
+            {
+                // Early check: see if all envelopes share a common overlapping region
+                Envelope envelope_Common = polygons[0].EnvelopeInternal;
+                for (int i = 1; i < polygons.Count; i++)
+                {
+                    envelope_Common = envelope_Common.Intersection(polygons[i].EnvelopeInternal);
+                    if (envelope_Common.IsNull)
+                    {
+                        return [];
+                    }
+                }
+            }
+
             NetTopologySuite.Geometries.Geometry geometry = polygons[0];
 
             if (polygons.Count > 1)
             {
                 for (int i = 1; i < polygons.Count; i++)
                 {
+                    // Optimization: if current intermediate geometry envelope does not intersect next polygon's envelope,
+                    // their intersection is guaranteed to be empty.
+                    if (!geometry.EnvelopeInternal.Intersects(polygons[i].EnvelopeInternal))
+                    {
+                        return [];
+                    }
+
                     // Intersect current result with the next polygon
                     geometry = geometry.Intersection(polygons[i]);
 
@@ -194,7 +228,8 @@ namespace DiGi.Geometry.Planar
             {
                 if (collectable2D is X x)
                 {
-                    return [x];
+                    result.Add(x);
+                    continue;
                 }
 
                 if (collectable2D is IPolygonal2D polygonal2D_Temp)
@@ -238,6 +273,13 @@ namespace DiGi.Geometry.Planar
             if (polygon2D_1 is null || polygon2D_2 is null)
             {
                 return null;
+            }
+
+            BoundingBox2D? boundingBox2D_1 = polygon2D_1.GetBoundingBox();
+            BoundingBox2D? boundingBox2D_2 = polygon2D_2.GetBoundingBox();
+            if (boundingBox2D_1 != null && boundingBox2D_2 != null && !boundingBox2D_1.InRange(boundingBox2D_2, tolerance))
+            {
+                return [];
             }
 
             return Intersection([polygon2D_1, polygon2D_2], tolerance);

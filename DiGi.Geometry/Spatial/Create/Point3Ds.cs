@@ -8,9 +8,9 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Generates a list of <see cref="Point3D"/> points from the specified <see cref="Segment3D"/> based on the provided count.
         /// </summary>
-/// <param name="segment3D">The <see cref="Segment3D"/> instance to extract points from.</param>
-/// <param name="count">The number of <see cref="Point3D"/> points to retrieve.</param>
-/// <returns>A <c>List&lt;Point3D&gt;</c> containing the requested points, or null if the <see cref="Segment3D"/> is null, the count is negative, or the points cannot be retrieved.</returns>
+        /// <param name="segment3D">The <see cref="Segment3D"/> instance to extract points from.</param>
+        /// <param name="count">The number of <see cref="Point3D"/> points to retrieve.</param>
+        /// <returns>A <c>List&lt;Point3D&gt;</c> containing the requested points, or null if the <see cref="Segment3D"/> is null, the count is negative, or the points cannot be retrieved.</returns>
         public static List<Point3D>? Point3Ds(this Segment3D? segment3D, int count)
         {
             if (count < 0 || segment3D == null)

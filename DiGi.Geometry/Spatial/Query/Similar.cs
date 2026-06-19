@@ -5,10 +5,10 @@ namespace DiGi.Geometry.Spatial
     public static partial class Query
     {
         /// <summary>
-/// Determines whether two <see cref="Point3D" /> points are similar within a specified tolerance.
+        /// Determines whether two <see cref="Point3D" /> points are similar within a specified tolerance.
         /// </summary>
-/// <param name="point3D_1">The first <c>Point3D?</c> point to compare.</param>
-/// <param name="point3D_2">The second <c>Point3D?</c> point to compare.</param>
+        /// <param name="point3D_1">The first <c>Point3D?</c> point to compare.</param>
+        /// <param name="point3D_2">The second <c>Point3D?</c> point to compare.</param>
         /// <param name="tolerance">The <see cref="double" /> tolerance value used for the comparison.</param>
         /// <returns>A <see cref="bool" /> value indicating whether the two points are similar.</returns>
         public static bool Similar(this Point3D? point3D_1, Point3D? point3D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)

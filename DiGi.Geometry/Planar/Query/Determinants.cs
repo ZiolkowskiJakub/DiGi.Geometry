@@ -20,8 +20,8 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the determinants for a sequence of <see cref="Point2D"/> objects by treating them as a closed loop.
         /// </summary>
-/// <param name="point2Ds">The <c>IEnumerable&lt;Point2D&gt;</c> collection of points to process.</param>
-/// <returns>A <c>List&lt;double&gt;</c> containing the calculated determinants, or null if the input is null or contains fewer than 3 <see cref="Point2D"/> elements.</returns>
+        /// <param name="point2Ds">The <c>IEnumerable&lt;Point2D&gt;</c> collection of points to process.</param>
+        /// <returns>A <c>List&lt;double&gt;</c> containing the calculated determinants, or null if the input is null or contains fewer than 3 <see cref="Point2D"/> elements.</returns>
         public static List<double>? Determinants(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null || point2Ds.Count() < 3)

@@ -9,8 +9,8 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the centroid of a collection of <see cref="Point3D"/> points.
         /// </summary>
-/// <param name="point3Ds">An <c>IEnumerable&lt;Point3D&gt;</c> containing the points to process.</param>
-/// <returns>A <see cref="Point3D"/>? representing the centroid, or null if the input collection is null or empty.</returns>
+        /// <param name="point3Ds">An <c>IEnumerable&lt;Point3D&gt;</c> containing the points to process.</param>
+        /// <returns>A <see cref="Point3D"/>? representing the centroid, or null if the input collection is null or empty.</returns>
         public static Point3D? Centroid(this IEnumerable<Point3D>? point3Ds)
         {
             if (point3Ds == null)

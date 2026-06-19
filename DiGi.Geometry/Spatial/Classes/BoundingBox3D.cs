@@ -20,10 +20,10 @@ namespace DiGi.Geometry.Spatial.Classes
         private Point3D? min;
 
         /// <summary>
-/// Initializes a new instance of the <see cref="BoundingBox3D"/> class using two <see cref="Point3D"/> points to define the boundaries.
+        /// Initializes a new instance of the <see cref="BoundingBox3D"/> class using two <see cref="Point3D"/> points to define the boundaries.
         /// </summary>
-/// <param name="point2D_1">The first <c>Point3D?</c> point used to calculate the minimum and maximum bounds.</param>
-/// <param name="point2D_2">The second <c>Point3D?</c> point used to calculate the minimum and maximum bounds.</param>
+        /// <param name="point2D_1">The first <c>Point3D?</c> point used to calculate the minimum and maximum bounds.</param>
+        /// <param name="point2D_2">The second <c>Point3D?</c> point used to calculate the minimum and maximum bounds.</param>
         public BoundingBox3D(Point3D? point2D_1, Point3D? point2D_2)
             : base()
         {
@@ -185,7 +185,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Gets the width of the bounding area.
         /// </summary>
-/// <value>A <see cref="double"/> representing the difference between the maximum X coordinate and the minimum X coordinate, or <see cref="double.NaN"/> if either point is null.</value>
+        /// <value>A <see cref="double"/> representing the difference between the maximum X coordinate and the minimum X coordinate, or <see cref="double.NaN"/> if either point is null.</value>
         [JsonIgnore]
         public double Width
         {
@@ -203,8 +203,8 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Adds a <see cref="Point3D"/> to the bounding volume and updates the minimum and maximum bounds.
         /// </summary>
-/// <param name="point3D">The <see cref="Point3D"/> instance to add.</param>
-/// <returns>A <see cref="bool"/> value indicating whether the point was successfully added; returns false if the provided <see cref="Point3D"/> is null.</returns>
+        /// <param name="point3D">The <see cref="Point3D"/> instance to add.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the point was successfully added; returns false if the provided <see cref="Point3D"/> is null.</returns>
         public bool Add(Point3D? point3D)
         {
             if (point3D == null)
@@ -322,8 +322,8 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Determines whether the range defined by two points intersects any of the associated planes within a specified tolerance.
         /// </summary>
-/// <param name="point3D_1">The first <see cref="Point3D"/> point defining the range.</param>
-/// <param name="point3D_2">The second <c>Point3D?</c> point defining the range.</param>
+        /// <param name="point3D_1">The first <see cref="Point3D"/> point defining the range.</param>
+        /// <param name="point3D_2">The second <c>Point3D?</c> point defining the range.</param>
         /// <param name="bounded_1">A <see cref="bool"/> value indicating whether the first point is bounded.</param>
         /// <param name="bounded_2">A <see cref="bool"/> value indicating whether the second point is bounded.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used for distance calculations.</param>

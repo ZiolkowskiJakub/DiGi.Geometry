@@ -35,7 +35,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <summary>
         /// Updates the current value by snapping the geometry to itself using a specified tolerance.
         /// </summary>
-/// <returns>A <see cref="bool"/> indicating whether the update operation was successful.</returns>
+        /// <returns>A <see cref="bool"/> indicating whether the update operation was successful.</returns>
         public bool Update()
         {
             if (Value is null)

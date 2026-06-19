@@ -263,7 +263,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Retrieves a list of <see cref="Point3D"/> points, filtering out any null entries.
         /// </summary>
-/// <returns>A <c>List&lt;Point3D&gt;</c> containing the filtered points, or <see langword="null"/> if the source is <see langword="null"/>.</returns>
+        /// <returns>A <c>List&lt;Point3D&gt;</c> containing the filtered points, or <see langword="null"/> if the source is <see langword="null"/>.</returns>
         public List<Point3D>? GetPoints()
         {
             return DiGi.Core.Query.Clone(points)?.FilterNulls();

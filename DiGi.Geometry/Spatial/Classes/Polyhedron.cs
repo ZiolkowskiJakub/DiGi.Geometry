@@ -219,9 +219,9 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="index">The zero-based index of the polygonal face.</param>
         /// <param name="inversed">When called, contains a <see cref="bool"/> value indicating whether the resulting normal is inversed.</param>
-/// <param name="side">An optional <see cref="Side"/> specifying the side to consider for the normal calculation.</param>
+        /// <param name="side">An optional <see cref="Side"/> specifying the side to consider for the normal calculation.</param>
         /// <param name="tolerance">A <see cref="double"/> representing the distance tolerance used during calculations.</param>
-/// <returns>A <c>Vector3D?</c> containing the normal vector if successful; otherwise, <c>null</c>.</returns>
+        /// <returns>A <c>Vector3D?</c> containing the normal vector if successful; otherwise, <c>null</c>.</returns>
         public Vector3D? GetNormal(int index, out bool inversed, Side? side = null, double tolerance = Tolerance.Distance)
         {
             inversed = false;
@@ -430,7 +430,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Inverts the orientation of all polygonal faces associated with this object.
         /// </summary>
-/// <returns>A <see cref="bool"/> value indicating whether at least one polygonal face was successfully inversed; otherwise, <see langword="false"/>.</returns>
+        /// <returns>A <see cref="bool"/> value indicating whether at least one polygonal face was successfully inversed; otherwise, <see langword="false"/>.</returns>
         public bool Inverse()
         {
             if (polygonalFaces is null)
@@ -621,7 +621,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="index">The <see cref="int"/> index of the polygonal face.</param>
         /// <param name="side">The <see cref="Side"/> to be used for calculating the normal.</param>
-/// <param name="normal">When this method returns, contains the calculated <c>Vector3D?</c> normal if successful; otherwise, null.</param>
+        /// <param name="normal">When this method returns, contains the calculated <c>Vector3D?</c> normal if successful; otherwise, null.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used for distance calculations.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the normal was successfully set and flipped.</returns>
         public bool SetNormal(int index, Side side, out Vector3D? normal, double tolerance = Tolerance.Distance)

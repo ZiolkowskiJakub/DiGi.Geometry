@@ -28,7 +28,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Ellipsoid"/> class with the specified center and semi-axes lengths.
         /// </summary>
-/// <param name="center">The <c>Point3D?</c> coordinates of the center point.</param>
+        /// <param name="center">The <c>Point3D?</c> coordinates of the center point.</param>
         /// <param name="a">The <see cref="double"/> length of the first semi-axis.</param>
         /// <param name="b">The <see cref="double"/> length of the second semi-axis.</param>
         /// <param name="c">The <see cref="double"/> length of the third semi-axis.</param>

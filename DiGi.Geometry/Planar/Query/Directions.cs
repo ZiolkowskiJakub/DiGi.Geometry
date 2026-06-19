@@ -63,8 +63,8 @@ namespace DiGi.Geometry.Planar
         /// Calculates the height and width direction vectors based on the specified corner.
         /// </summary>
         /// <param name="corner">The <see cref="Core.Enums.Corner"/> value used to determine the directions.</param>
-/// <param name="heightDirection">When this method returns, contains a <c>Vector2D?</c> representing the height direction vector, or null if not applicable.</param>
-/// <param name="widthDirection">When this method returns, contains a <c>Vector2D?</c> representing the width direction vector, or null if not applicable.</param>
+        /// <param name="heightDirection">When this method returns, contains a <c>Vector2D?</c> representing the height direction vector, or null if not applicable.</param>
+        /// <param name="widthDirection">When this method returns, contains a <c>Vector2D?</c> representing the width direction vector, or null if not applicable.</param>
         public static void Directions(this Core.Enums.Corner corner, out Vector2D? heightDirection, out Vector2D? widthDirection)
         {
             widthDirection = null;

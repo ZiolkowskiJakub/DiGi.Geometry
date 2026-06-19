@@ -7,11 +7,11 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the bounce vector of a given <see cref="Vector2D"/> against a <see cref="Segment2D"/>, accounting for friction and restitution.
         /// </summary>
-/// <param name="vector2D_ToBeBounced">The <c>Vector2D?</c> representing the velocity or direction to be bounced.</param>
-/// <param name="segment2D">The <see cref="Segment2D"/> representing the surface to bounce off of.</param>
+        /// <param name="vector2D_ToBeBounced">The <c>Vector2D?</c> representing the velocity or direction to be bounced.</param>
+        /// <param name="segment2D">The <see cref="Segment2D"/> representing the surface to bounce off of.</param>
         /// <param name="friction">A <see cref="double"/> value representing the friction coefficient applied during the bounce.</param>
         /// <param name="restitution">A <see cref="double"/> value representing the restitution coefficient applied during the bounce.</param>
-/// <returns>The resulting <c>Vector2D?</c> after the bounce calculation, or <see langword="null"/> if either the input vector or segment is <see langword="null"/>.</returns>
+        /// <returns>The resulting <c>Vector2D?</c> after the bounce calculation, or <see langword="null"/> if either the input vector or segment is <see langword="null"/>.</returns>
         public static Vector2D? Bounce(this Vector2D? vector2D_ToBeBounced, Segment2D? segment2D, double friction = 1, double restitution = 1)
         {
             if (vector2D_ToBeBounced == null || segment2D == null)

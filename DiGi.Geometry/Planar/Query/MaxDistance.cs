@@ -9,8 +9,8 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the maximum distance between any two points in the provided collection of <see cref="Point2D"/> objects.
         /// </summary>
-/// <param name="point2Ds">The <c>IEnumerable&lt;Point2D&gt;</c> containing the points to evaluate.</param>
-/// <returns>The maximum distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the <c>IEnumerable&lt;Point2D&gt;</c> is null or empty.</returns>
+        /// <param name="point2Ds">The <c>IEnumerable&lt;Point2D&gt;</c> containing the points to evaluate.</param>
+        /// <returns>The maximum distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the <c>IEnumerable&lt;Point2D&gt;</c> is null or empty.</returns>
         public static double MaxDistance(this IEnumerable<Point2D>? point2Ds)
         {
             return MaxDistance(point2Ds, out _, out _);
@@ -19,10 +19,10 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the maximum distance between any two points in the provided collection of <see cref="Point2D"/> objects.
         /// </summary>
-/// <param name="point2Ds">The <see cref="IEnumerable{Point2D}"/> collection of points to evaluate.</param>
-/// <param name="point2D_1">When this method returns, contains the first <see cref="Point2D"/> of the pair with the maximum distance, or null if the collection is null or empty.</param>
-/// <param name="point2D_2">When this method returns, contains the second <see cref="Point2D"/> of the pair with the maximum distance, or null if the collection is null or empty.</param>
-/// <returns>The maximum distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the <c>IEnumerable&lt;Point2D&gt;</c> is null or empty.</returns>
+        /// <param name="point2Ds">The <see cref="IEnumerable{Point2D}"/> collection of points to evaluate.</param>
+        /// <param name="point2D_1">When this method returns, contains the first <see cref="Point2D"/> of the pair with the maximum distance, or null if the collection is null or empty.</param>
+        /// <param name="point2D_2">When this method returns, contains the second <see cref="Point2D"/> of the pair with the maximum distance, or null if the collection is null or empty.</param>
+        /// <returns>The maximum distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the <c>IEnumerable&lt;Point2D&gt;</c> is null or empty.</returns>
         public static double MaxDistance(this IEnumerable<Point2D>? point2Ds, out Point2D? point2D_1, out Point2D? point2D_2)
         {
             point2D_1 = null;

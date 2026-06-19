@@ -18,11 +18,11 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-/// Returns the minimum of two <c>Point2D?</c> points.
+        /// Returns the minimum of two <c>Point2D?</c> points.
         /// </summary>
-/// <param name="point2D_1">The first <c>Point2D?</c> point.</param>
-/// <param name="point2D_2">The second <c>Point2D?</c> point.</param>
-/// <returns>The minimum of the two <c>Point2D?</c> points, or <c>null</c> if either input is <c>null</c>.</returns>
+        /// <param name="point2D_1">The first <c>Point2D?</c> point.</param>
+        /// <param name="point2D_2">The second <c>Point2D?</c> point.</param>
+        /// <returns>The minimum of the two <c>Point2D?</c> points, or <c>null</c> if either input is <c>null</c>.</returns>
         public static Point2D? Min(this Point2D? point2D_1, Point2D? point2D_2)
         {
             if (point2D_1 == null || point2D_2 == null)

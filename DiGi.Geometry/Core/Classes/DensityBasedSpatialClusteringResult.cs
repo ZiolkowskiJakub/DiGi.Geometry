@@ -144,7 +144,7 @@ namespace DiGi.Geometry.Core.Classes
         /// they can be processed by the provided function; otherwise, the first point is returned.
         /// </summary>
         /// <param name="index">The index of the point to retrieve.</param>
-/// <param name="func">An optional <c>Func&lt;IEnumerable&lt;T&gt;, T&gt;</c> used to select a single <typeparamref name="T"/> from the collection of points.</param>
+        /// <param name="func">An optional <c>Func&lt;IEnumerable&lt;T&gt;, T&gt;</c> used to select a single <typeparamref name="T"/> from the collection of points.</param>
         /// <returns>A cloned instance of <typeparamref name="T"/> if a point is found; otherwise, the default value of <typeparamref name="T"/>.</returns>
         public T? GetPoint(int index, Func<IEnumerable<T>, T>? func = null)
         {

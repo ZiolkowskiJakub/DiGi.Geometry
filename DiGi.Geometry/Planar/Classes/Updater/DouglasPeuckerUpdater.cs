@@ -30,7 +30,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <summary>
         /// Updates the current value by simplifying its underlying geometry using the Douglas-Peucker simplification algorithm.
         /// </summary>
-/// <returns>A <see cref="bool"/> indicating whether the update was successful. Returns <see langword="false"/> if the value is null or cannot be simplified; otherwise, returns <see langword="true"/>.</returns>
+        /// <returns>A <see cref="bool"/> indicating whether the update was successful. Returns <see langword="false"/> if the value is null or cannot be simplified; otherwise, returns <see langword="true"/>.</returns>
         public override bool Update()
         {
             if (Value == null)

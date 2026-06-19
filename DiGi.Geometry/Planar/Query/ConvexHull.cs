@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,15 +27,14 @@ namespace DiGi.Geometry.Planar
                 return result;
             }
 
+            HashSet<Point2D> point2Ds_ResultSet = [.. result];
             List<Point2D> point2Ds_Temp = [];
             foreach (Point2D point2D in point2Ds)
             {
-                if (!result.Contains(point2D))
+                if (point2D != null && point2Ds_ResultSet.Contains(point2D))
                 {
-                    continue;
+                    point2Ds_Temp.Add(point2D);
                 }
-
-                point2Ds_Temp.Add(point2D);
             }
 
             result = point2Ds_Temp;
@@ -46,8 +45,8 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Computes the convex hull for a given collection of <see cref="Point2D"/> objects.
         /// </summary>
-/// <param name="point2Ds">An <c>IEnumerable&lt;Point2D&gt;</c> containing the points to process.</param>
-/// <returns>A <c>List&lt;Point2D&gt;</c> representing the vertices of the convex hull, or <see langword="null"/> if the input collection is <see langword="null"/>.</returns>
+        /// <param name="point2Ds">An <see cref="IEnumerable{Point2D}"/>  containing the points to process.</param>
+        /// <returns>A <see cref="List{T}"/> representing the vertices of the convex hull, or <see langword="null"/> if the input collection is <see langword="null"/>.</returns>
         public static List<Point2D>? ConvexHull(this IEnumerable<Point2D>? point2Ds)
         {
             if (point2Ds == null)
@@ -55,13 +54,44 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            if (point2Ds.Count() <= 3)
+            List<Point2D> point2Ds_List = point2Ds as List<Point2D> ?? [.. point2Ds];
+            List<Point2D> point2Ds_Temp = [];
+            foreach (Point2D point in point2Ds_List)
             {
-                return [.. point2Ds];
+                if (point != null)
+                {
+                    point2Ds_Temp.Add(point);
+                }
             }
 
-            List<Point2D> point2Ds_Temp = [.. point2Ds];
+            if (point2Ds_Temp.Count <= 3)
+            {
+                return point2Ds_Temp;
+            }
+
             point2Ds_Temp.Sort(new ConvexHullComparer());
+
+            // Remove duplicates
+            int uniqueCount = 1;
+            for (int i = 1; i < point2Ds_Temp.Count; i++)
+            {
+                if (point2Ds_Temp[i].X != point2Ds_Temp[uniqueCount - 1].X ||
+                    point2Ds_Temp[i].Y != point2Ds_Temp[uniqueCount - 1].Y)
+                {
+                    point2Ds_Temp[uniqueCount] = point2Ds_Temp[i];
+                    uniqueCount++;
+                }
+            }
+
+            if (uniqueCount < point2Ds_Temp.Count)
+            {
+                point2Ds_Temp.RemoveRange(uniqueCount, point2Ds_Temp.Count - uniqueCount);
+            }
+
+            if (point2Ds_Temp.Count <= 3)
+            {
+                return point2Ds_Temp;
+            }
 
             List<Point2D> point2Ds_Temp_UpperHull = [];
             foreach (Point2D point2D in point2Ds_Temp)

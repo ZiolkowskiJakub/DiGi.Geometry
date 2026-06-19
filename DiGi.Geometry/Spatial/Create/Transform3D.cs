@@ -171,8 +171,8 @@ namespace DiGi.Geometry.Spatial
             /// <summary>
             /// Calculates the <see cref="Classes.Transform3D"/> required to transform a specified <see cref="Classes.Plane"/> to the origin.
             /// </summary>
-/// <param name="plane">The <see cref="Classes.Plane"/> to be transformed to the origin.</param>
-/// <returns>A <see cref="Classes.Transform3D"/> representing the transformation from the plane to the origin, or <see langword="null"/> if the provided <see cref="Classes.Plane"/> is <see langword="null"/>.</returns>
+            /// <param name="plane">The <see cref="Classes.Plane"/> to be transformed to the origin.</param>
+            /// <returns>A <see cref="Classes.Transform3D"/> representing the transformation from the plane to the origin, or <see langword="null"/> if the provided <see cref="Classes.Plane"/> is <see langword="null"/>.</returns>
             public static Classes.Transform3D? PlaneToOrigin(Plane? plane)
             {
                 if (plane == null)

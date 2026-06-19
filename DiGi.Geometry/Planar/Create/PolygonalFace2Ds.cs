@@ -9,11 +9,11 @@ namespace DiGi.Geometry.Planar
     public static partial class Create
     {
         /// <summary>
-        /// Creates a list of <see cref="DiGi.Geometry.Planar.Classes.PolygonalFace2D"/> objects from a collection of <see cref="Segment2D"/> segments.
+        /// Creates a list of <see cref="Classes.PolygonalFace2D"/> objects from a collection of <see cref="Segment2D"/> segments.
         /// </summary>
         /// <param name="segment2Ds">The <see cref="IEnumerable{T}"/> of <see cref="Segment2D"/> segments to process.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used for distance calculations.</param>
-        /// <returns>A <see cref="List{T}"/> of <see cref="DiGi.Geometry.Planar.Classes.PolygonalFace2D"/> objects if successful; otherwise, <c>null</c>.</returns>
+        /// <returns>A <see cref="List{T}"/> of <see cref="Classes.PolygonalFace2D"/> objects if successful; otherwise, <c>null</c>.</returns>
         public static List<PolygonalFace2D>? PolygonalFace2Ds(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2Ds == null || segment2Ds.Count() < 3)
@@ -43,11 +43,11 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
-        /// Converts a collection of <see cref="IPolygonal2D"/> objects to a list of <see cref="DiGi.Geometry.Planar.Classes.PolygonalFace2D"/> objects.
+        /// Converts a collection of <see cref="IPolygonal2D"/> objects to a list of <see cref="Classes.PolygonalFace2D"/> objects.
         /// </summary>
         /// <param name="polygonal2Ds">The <see cref="IEnumerable{T}"/> of <see cref="IPolygonal2D"/> objects to convert.</param>
         /// <param name="tolerace">The <see cref="double"/> distance tolerance used for the conversion.</param>
-        /// <returns>A <see cref="List{T}"/> of <see cref="DiGi.Geometry.Planar.Classes.PolygonalFace2D"/> objects, or <see langword="null"/> if the input collection is <see langword="null"/>.</returns>
+        /// <returns>A <see cref="List{T}"/> of <see cref="Classes.PolygonalFace2D"/> objects, or <see langword="null"/> if the input collection is <see langword="null"/>.</returns>
         public static List<PolygonalFace2D>? PolygonalFace2Ds(this IEnumerable<IPolygonal2D>? polygonal2Ds, double tolerace = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonal2Ds == null)

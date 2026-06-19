@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="segmentable2D">The segmentable 2D geometry to evaluate against.</param>
         /// <param name="point2D">The point whose vertical position is being determined.</param>
         /// <param name="tolerance">The distance tolerance used for the calculation.</param>
-        /// <returns>A <see cref="DiGi.Geometry.Core.Enums.VerticalPosition"/> value indicating whether the point is above, below, or undefined relative to the geometry.</returns>
+        /// <returns>A <see cref="Core.Enums.VerticalPosition"/> value indicating whether the point is above, below, or undefined relative to the geometry.</returns>
         public static VerticalPosition VerticalPosition(this ISegmentable2D? segmentable2D, Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segmentable2D == null || point2D == null)
@@ -69,7 +69,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="segment2D">The 2D segment used as the reference for the vertical position check.</param>
         /// <param name="point2D">The 2D point whose vertical position is being evaluated.</param>
         /// <param name="tolerance">The distance tolerance used to determine if the point is on the segment or within its bounds.</param>
-        /// <returns>A <see cref="DiGi.Geometry.Core.Enums.VerticalPosition"/> value indicating whether the point is above, below, on, or in an undefined position relative to the segment.</returns>
+        /// <returns>A <see cref="Core.Enums.VerticalPosition"/> value indicating whether the point is above, below, on, or in an undefined position relative to the segment.</returns>
         public static VerticalPosition VerticalPosition(this Segment2D? segment2D, Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (segment2D == null || point2D == null)

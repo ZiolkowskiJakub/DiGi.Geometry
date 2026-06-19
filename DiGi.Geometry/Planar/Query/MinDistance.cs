@@ -9,8 +9,8 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the minimum distance between any two points in the provided collection of <see cref="Point2D"/> objects.
         /// </summary>
-/// <param name="point2Ds">An <c>IEnumerable&lt;Point2D&gt;</c> containing the points to evaluate.</param>
-/// <returns>A <see cref="double"/> representing the minimum distance found, or <see cref="double.NaN"/> if the collection is null or empty.</returns>
+        /// <param name="point2Ds">An <c>IEnumerable&lt;Point2D&gt;</c> containing the points to evaluate.</param>
+        /// <returns>A <see cref="double"/> representing the minimum distance found, or <see cref="double.NaN"/> if the collection is null or empty.</returns>
         public static double MinDistance(this IEnumerable<Point2D>? point2Ds)
         {
             return MinDistance(point2Ds, out _, out _);

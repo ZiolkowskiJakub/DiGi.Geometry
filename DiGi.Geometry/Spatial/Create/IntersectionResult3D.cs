@@ -13,7 +13,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polyhedron">The <see cref="Polyhedron{TPolygonalFace3D}"/> to check for intersection.</param>
         /// <param name="linear3D">The <see cref="ILinear3D"/> object to intersect with the polyhedron.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance used for calculations.</param>
-        /// <returns>An <see cref="DiGi.Geometry.Spatial.Classes.IntersectionResult3D"/> containing the intersection details, or <c>null</c> if either input is null or the bounding box cannot be determined.</returns>
+        /// <returns>An <see cref="Classes.IntersectionResult3D"/> containing the intersection details, or <c>null</c> if either input is null or the bounding box cannot be determined.</returns>
         public static IntersectionResult3D? IntersectionResult3D<TPolygonalFace3D>(this Polyhedron<TPolygonalFace3D>? polyhedron, ILinear3D? linear3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
         {
             if (polyhedron == null || linear3D == null)
@@ -79,12 +79,12 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Calculates the intersection between a <see cref="DiGi.Geometry.Spatial.Classes.BoundingBox3D"/> and an <see cref="ILinear3D"/>.
+        /// Calculates the intersection between a <see cref="Classes.BoundingBox3D"/> and an <see cref="ILinear3D"/>.
         /// </summary>
-        /// <param name="boundingBox3D">The <see cref="DiGi.Geometry.Spatial.Classes.BoundingBox3D"/> to intersect.</param>
+        /// <param name="boundingBox3D">The <see cref="Classes.BoundingBox3D"/> to intersect.</param>
         /// <param name="linear3D">The <see cref="ILinear3D"/> to intersect.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance for the intersection calculation.</param>
-        /// <returns>An <see cref="DiGi.Geometry.Spatial.Classes.IntersectionResult3D"/> containing the result of the intersection, or <c>null</c> if either input is null or the operation fails.</returns>
+        /// <returns>An <see cref="Classes.IntersectionResult3D"/> containing the result of the intersection, or <c>null</c> if either input is null or the operation fails.</returns>
         public static IntersectionResult3D? IntersectionResult3D(this BoundingBox3D? boundingBox3D, ILinear3D? linear3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (boundingBox3D == null || linear3D == null)
@@ -104,11 +104,11 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Calculates the intersection between a 3D bounding box and a ray defined by a point and a direction.
         /// </summary>
-        /// <param name="boundingBox3D">The <see cref="DiGi.Geometry.Spatial.Classes.BoundingBox3D"/> to check for intersection.</param>
+        /// <param name="boundingBox3D">The <see cref="Classes.BoundingBox3D"/> to check for intersection.</param>
         /// <param name="point3D">The <see cref="Point3D"/> representing the starting point of the ray.</param>
         /// <param name="direction">The <see cref="Vector3D"/> representing the direction of the ray.</param>
         /// <param name="tolerance">A <see cref="double"/> value specifying the distance tolerance for the intersection calculation.</param>
-        /// <returns>An <see cref="DiGi.Geometry.Spatial.Classes.IntersectionResult3D"/> containing the result of the intersection, or null if any of the required parameters are null.</returns>
+        /// <returns>An <see cref="Classes.IntersectionResult3D"/> containing the result of the intersection, or null if any of the required parameters are null.</returns>
         public static IntersectionResult3D? IntersectionResult3D(this BoundingBox3D? boundingBox3D, Point3D? point3D, Vector3D? direction, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (boundingBox3D == null || direction == null || point3D == null)
@@ -177,7 +177,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="sphere">The <see cref="Sphere"/> to intersect.</param>
         /// <param name="segment3D">The <see cref="Segment3D"/> to intersect.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance for the intersection calculation.</param>
-        /// <returns>An <see cref="DiGi.Geometry.Spatial.Classes.IntersectionResult3D"/> containing the result of the intersection, or <see langword="null"/> if either the sphere or segment is null.</returns>
+        /// <returns>An <see cref="Classes.IntersectionResult3D"/> containing the result of the intersection, or <see langword="null"/> if either the sphere or segment is null.</returns>
         public static IntersectionResult3D? IntersectionResult3D(this Sphere? sphere, Segment3D? segment3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             Vector3D? d = segment3D?.End - segment3D?.Start;
@@ -230,7 +230,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="sphere">The <see cref="Sphere"/> to intersect.</param>
         /// <param name="line3D">The <see cref="Line3D"/> to intersect.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used for the intersection calculation.</param>
-        /// <returns>An <see cref="DiGi.Geometry.Spatial.Classes.IntersectionResult3D"/> containing the intersection details, or <see langword="null"/> if either the sphere or line is null.</returns>
+        /// <returns>An <see cref="Classes.IntersectionResult3D"/> containing the intersection details, or <see langword="null"/> if either the sphere or line is null.</returns>
         public static IntersectionResult3D? IntersectionResult3D(this Sphere? sphere, Line3D? line3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             Vector3D? d = line3D?.Direction;

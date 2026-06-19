@@ -69,7 +69,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <summary>
         /// Attempts to solve for self-intersecting polygons based on the input data, maximum length, and tolerance.
         /// </summary>
-/// <returns>A <see cref="bool"/> value indicating whether a solution was successfully found.</returns>
+        /// <returns>A <see cref="bool"/> value indicating whether a solution was successfully found.</returns>
         public bool Solve()
         {
             output = null;

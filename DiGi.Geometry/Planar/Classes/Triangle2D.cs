@@ -57,7 +57,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <summary>
         /// Creates a copy of the current object.
         /// </summary>
-/// <returns>A new <see cref="ISerializableObject"/> instance that is a clone of the current object.</returns>
+        /// <returns>A new <see cref="ISerializableObject"/> instance that is a clone of the current object.</returns>
         public override ISerializableObject? Clone()
         {
             return new Triangle2D(this);
@@ -66,8 +66,8 @@ namespace DiGi.Geometry.Planar.Classes
         /// <summary>
         /// Triangulates the object into a list of <see cref="Triangle2D"/> objects using the specified tolerance.
         /// </summary>
-/// <param name="tolerance">The <see cref="double"/> value representing the distance tolerance used for triangulation.</param>
-/// <returns>A <c>List&lt;Triangle2D&gt;</c> containing the resulting triangles, or null if the object cannot be triangulated.</returns>
+        /// <param name="tolerance">The <see cref="double"/> value representing the distance tolerance used for triangulation.</param>
+        /// <returns>A <c>List&lt;Triangle2D&gt;</c> containing the resulting triangles, or null if the object cannot be triangulated.</returns>
         public override List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             List<Point2D>? point2Ds = GetPoints();

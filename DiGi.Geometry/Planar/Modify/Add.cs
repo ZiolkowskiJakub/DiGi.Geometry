@@ -6,10 +6,10 @@ namespace DiGi.Geometry.Planar
     public static partial class Modify
     {
         /// <summary>
-/// Adds a <c>Point2D?</c> to the <c>List&lt;Point2D?&gt;?</c> if it is not null and does not already exist within the specified tolerance.
-/// </summary>
-/// <param name="point2Ds">The <c>List&lt;Point2D?&gt;?</c> to which the point will be added.</param>
-/// <param name="point2D">The <c>Point2D?</c> object to add to the list.</param>
+        /// Adds a <c>Point2D?</c> to the <c>List&lt;Point2D?&gt;?</c> if it is not null and does not already exist within the specified tolerance.
+        /// </summary>
+        /// <param name="point2Ds">The <c>List&lt;Point2D?&gt;?</c> to which the point will be added.</param>
+        /// <param name="point2D">The <c>Point2D?</c> object to add to the list.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used to determine if a point is a duplicate.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the point was successfully added to the list.</returns>
         public static bool Add(this List<Point2D?>? point2Ds, Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)

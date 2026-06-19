@@ -131,8 +131,8 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Calculates the closest <see cref="Point3D"/> on the geometry to the specified <see cref="Point3D"/>.
         /// </summary>
-/// <param name="point3D">The <see cref="Point3D"/> for which the closest point is sought.</param>
-/// <returns>The closest <see cref="Point3D"/> found, or null if the provided <see cref="Point3D"/> is null or the geometry is not available.</returns>
+        /// <param name="point3D">The <see cref="Point3D"/> for which the closest point is sought.</param>
+        /// <returns>The closest <see cref="Point3D"/> found, or null if the provided <see cref="Point3D"/> is null or the geometry is not available.</returns>
         public Point3D? ClosestPoint(Point3D? point3D)
         {
             if (point3D == null || geometry2D == null)
@@ -210,8 +210,8 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Gets an internal point of the geometry.
         /// </summary>
-/// <param name="tolerance">The <see cref="double"/> tolerance value used for calculations.</param>
-/// <returns>A <see cref="Point3D"/> representing the internal point if successful; otherwise, null.</returns>
+        /// <param name="tolerance">The <see cref="double"/> tolerance value used for calculations.</param>
+        /// <returns>A <see cref="Point3D"/> representing the internal point if successful; otherwise, null.</returns>
         public Point3D? GetInternalPoint(double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || geometry2D == null)
@@ -376,7 +376,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// Triangulates the geometry into a list of 3D triangles using the specified tolerance.
         /// </summary>
         /// <param name="tolerance">The double value representing the distance tolerance used during the triangulation process.</param>
-/// <returns>A <c>List&lt;Triangle3D&gt;</c> containing the resulting 3D triangles, or <see langword="null"/> if the plane is not defined or the 2D triangulation fails.</returns>
+        /// <returns>A <c>List&lt;Triangle3D&gt;</c> containing the resulting 3D triangles, or <see langword="null"/> if the plane is not defined or the 2D triangulation fails.</returns>
         public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
             if (plane == null)

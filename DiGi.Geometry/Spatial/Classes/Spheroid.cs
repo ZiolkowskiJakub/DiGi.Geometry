@@ -277,4 +277,3 @@ namespace DiGi.Geometry.Spatial.Classes
         }
     }
 }
-

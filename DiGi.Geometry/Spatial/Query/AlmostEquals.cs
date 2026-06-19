@@ -7,10 +7,10 @@ namespace DiGi.Geometry.Spatial
     public static partial class Query
     {
         /// <summary>
-/// Determines whether two <c>Point3D?</c> points are approximately equal based on a specified distance tolerance.
+        /// Determines whether two <c>Point3D?</c> points are approximately equal based on a specified distance tolerance.
         /// </summary>
-/// <param name="point3D_1">The first <c>Point3D?</c> point to compare.</param>
-/// <param name="point3D_2">The second <c>Point3D?</c> point to compare.</param>
+        /// <param name="point3D_1">The first <c>Point3D?</c> point to compare.</param>
+        /// <param name="point3D_2">The second <c>Point3D?</c> point to compare.</param>
         /// <param name="tolerance">The <see cref="double"/> distance tolerance used to determine equality.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the two points are approximately equal.</returns>
         public static bool AlmostEquals(this Point3D? point3D_1, Point3D? point3D_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)

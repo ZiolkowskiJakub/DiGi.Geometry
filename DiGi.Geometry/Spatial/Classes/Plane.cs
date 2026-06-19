@@ -63,9 +63,9 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Plane"/> class using three points to define the plane's origin and orientation.
         /// </summary>
-/// <param name="point3D_1">The first <c>Point3D?</c>, which is used as the origin of the plane.</param>
-/// <param name="point3D_2">The second <c>Point3D?</c> used to determine the normal vector of the plane.</param>
-/// <param name="point3D_3">The third <c>Point3D?</c> used to determine the normal vector of the plane.</param>
+        /// <param name="point3D_1">The first <c>Point3D?</c>, which is used as the origin of the plane.</param>
+        /// <param name="point3D_2">The second <c>Point3D?</c> used to determine the normal vector of the plane.</param>
+        /// <param name="point3D_3">The third <c>Point3D?</c> used to determine the normal vector of the plane.</param>
         public Plane(Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3)
         {
             origin = new Point3D(point3D_1);
@@ -95,9 +95,9 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Plane"/> class using an origin point and two basis vectors.
         /// </summary>
-/// <param name="origin">The <c>Point3D?</c> representing the origin point of the plane.</param>
-/// <param name="axisX">The <c>Vector3D?</c> representing the X-axis vector of the plane.</param>
-/// <param name="axisY">The <see cref="Vector3D"/> representing the Y-axis vector of the plane.</param>
+        /// <param name="origin">The <c>Point3D?</c> representing the origin point of the plane.</param>
+        /// <param name="axisX">The <c>Vector3D?</c> representing the X-axis vector of the plane.</param>
+        /// <param name="axisY">The <see cref="Vector3D"/> representing the Y-axis vector of the plane.</param>
         public Plane(Point3D? origin, Vector3D? axisX, Vector3D? axisY)
         {
             this.origin = origin == null ? null : new Point3D(origin);
@@ -260,7 +260,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Gets or sets the origin point in 3D space.
         /// </summary>
-/// <value>A <c>Point3D?</c> representing the origin coordinates.</value>
+        /// <value>A <c>Point3D?</c> representing the origin coordinates.</value>
         [JsonIgnore]
         public Point3D? Origin
         {

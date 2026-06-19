@@ -137,8 +137,8 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Calculates the closest <see cref="Point3D"/> on the geometry to the specified <see cref="Point3D"/>.
         /// </summary>
-/// <param name="point">The <see cref="Point3D"/> used as the reference for finding the closest point.</param>
-/// <returns>The closest <see cref="Point3D"/> found, or <see langword="null"/> if the provided <see cref="Point3D"/> is <see langword="null"/> or no points are available.</returns>
+        /// <param name="point">The <see cref="Point3D"/> used as the reference for finding the closest point.</param>
+        /// <returns>The closest <see cref="Point3D"/> found, or <see langword="null"/> if the provided <see cref="Point3D"/> is <see langword="null"/> or no points are available.</returns>
         public Point3D? ClosestPoint(Point3D? point)
         {
             if (point == null || points == null || points.Count == 0)
