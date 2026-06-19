@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
@@ -359,7 +359,6 @@ namespace DiGi.Geometry.Spatial
         /// <param name="ellipse3D">The <see cref="Ellipse3D"/> to be projected.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance used to determine if the plane and the ellipse's plane are parallel.</param>
         /// <returns>A <see cref="Classes.ProjectionResult"/> containing the projected 2D ellipse, or <see langword="null"/> if either the <see cref="Classes.Plane"/> or <see cref="Ellipse3D"/> is <see langword="null"/>.</returns>
-        /// <exception cref="System.NotImplementedException">Thrown when the projection for non-parallel planes is not implemented.</exception>
         public static ProjectionResult? ProjectionResult(this Plane? plane, Ellipse3D? ellipse3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (plane == null || ellipse3D == null)
@@ -367,17 +366,98 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D? ellipse3D_Normal = ellipse3D.Plane?.Normal;
-
-            if (Query.Parallel(plane.Normal, ellipse3D_Normal, tolerance))
+            Vector3D? vector3D_EllipseNormal = ellipse3D.Plane?.Normal;
+            if (vector3D_EllipseNormal == null)
             {
-                Point3D? center = plane.Project(ellipse3D.Center);
-                Vector3D? direction = plane.Project(ellipse3D.Direction);
-
-                return new ProjectionResult(plane, new Ellipse2D(plane.Convert(center), ellipse3D.A, ellipse3D.B, plane.Convert(direction)));
+                return null;
             }
 
-            throw new System.NotImplementedException();
+            if (Query.Parallel(plane.Normal, vector3D_EllipseNormal, tolerance))
+            {
+                Point3D? point3D_Center = plane.Project(ellipse3D.Center);
+                Vector3D? vector3D_Direction = plane.Project(ellipse3D.Direction);
+
+                Point2D? point2D_ParallelCenter = plane.Convert(point3D_Center);
+                Vector2D? vector2D_ParallelDirection = plane.Convert(vector3D_Direction);
+
+                if (ellipse3D.B < tolerance)
+                {
+                    if (ellipse3D.A < tolerance)
+                    {
+                        return new ProjectionResult(plane, point2D_ParallelCenter);
+                    }
+
+                    Vector2D? vector2D_ParallelDirUnit = vector2D_ParallelDirection?.Unit;
+                    if (vector2D_ParallelDirUnit == null)
+                    {
+                        vector2D_ParallelDirUnit = Planar.Constants.Vector2D.WorldX;
+                    }
+
+                    Segment2D segment2D = new(point2D_ParallelCenter - (ellipse3D.A * vector2D_ParallelDirUnit), point2D_ParallelCenter + (ellipse3D.A * vector2D_ParallelDirUnit));
+                    if (segment2D.Length < tolerance)
+                    {
+                        return new ProjectionResult(plane, segment2D.Mid());
+                    }
+
+                    return new ProjectionResult(plane, segment2D);
+                }
+
+                return new ProjectionResult(plane, new Ellipse2D(point2D_ParallelCenter, ellipse3D.A, ellipse3D.B, vector2D_ParallelDirection));
+            }
+
+            Point3D? point3D_Center3D = ellipse3D.Center;
+            Vector3D? vector3D_U3D = ellipse3D.Direction;
+            if (point3D_Center3D == null || vector3D_U3D == null)
+            {
+                return null;
+            }
+
+            Vector3D? vector3D_V3D = vector3D_EllipseNormal.CrossProduct(vector3D_U3D);
+            if (vector3D_V3D == null)
+            {
+                return null;
+            }
+
+            Point2D? point2D_Center2D = plane.Convert(point3D_Center3D);
+            Vector2D? vector2D_A = plane.Convert(ellipse3D.A * vector3D_U3D);
+            Vector2D? vector2D_B = plane.Convert(ellipse3D.B * vector3D_V3D);
+            if (point2D_Center2D == null || vector2D_A == null || vector2D_B == null)
+            {
+                return null;
+            }
+
+            double aSquared = vector2D_A.SquaredLength;
+            double bSquared = vector2D_B.SquaredLength;
+            double dotProduct = vector2D_A.DotProduct(vector2D_B);
+
+            double m = (aSquared + bSquared) / 2.0;
+            double d = (aSquared - bSquared) / 2.0;
+            double r = System.Math.Sqrt((d * d) + (dotProduct * dotProduct));
+
+            double b2dSquared = m - r;
+            double b2d = b2dSquared > 0.0 ? System.Math.Sqrt(b2dSquared) : 0.0;
+            double a2d = System.Math.Sqrt(m + r);
+
+            double theta = 0.5 * System.Math.Atan2(dotProduct, d);
+            Vector2D? vector2D_Major = (System.Math.Cos(theta) * vector2D_A) + (System.Math.Sin(theta) * vector2D_B);
+            Vector2D? vector2D_MajorUnit = vector2D_Major?.Unit;
+            if (vector2D_MajorUnit == null)
+            {
+                vector2D_MajorUnit = vector2D_A.SquaredLength > 0.0 ? vector2D_A.Unit : Planar.Constants.Vector2D.WorldX;
+            }
+
+            if (b2d < tolerance)
+            {
+                Segment2D segment2D = new(point2D_Center2D - (a2d * vector2D_MajorUnit), point2D_Center2D + (a2d * vector2D_MajorUnit));
+                if (segment2D.Length < tolerance)
+                {
+                    return new ProjectionResult(plane, segment2D.Mid());
+                }
+
+                return new ProjectionResult(plane, segment2D);
+            }
+
+            return new ProjectionResult(plane, new Ellipse2D(point2D_Center2D, a2d, b2d, vector2D_MajorUnit));
         }
 
         /// <summary>
