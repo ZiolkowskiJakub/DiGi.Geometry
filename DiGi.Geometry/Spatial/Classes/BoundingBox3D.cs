@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -330,38 +330,92 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="bool"/> value indicating whether the range is within the specified criteria.</returns>
         public bool InRange(Point3D? point3D_1, Point3D? point3D_2, bool bounded_1, bool bounded_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point3D_1 is null || point3D_2 is null)
+            if (point3D_1 is null || point3D_2 is null || min is null || max is null)
             {
                 return false;
             }
 
-            List<Plane>? planes = Create.Planes(this);
-            if (planes == null || planes.Count == 0)
+            double originX = point3D_1.X;
+            double originY = point3D_1.Y;
+            double originZ = point3D_1.Z;
+
+            double dirX = point3D_2.X - point3D_1.X;
+            double dirY = point3D_2.Y - point3D_1.Y;
+            double dirZ = point3D_2.Z - point3D_1.Z;
+
+            double tMin = bounded_1 ? 0.0 : double.NegativeInfinity;
+            double tMax = bounded_2 ? 1.0 : double.PositiveInfinity;
+
+            // X axis
+            if (System.Math.Abs(dirX) < 1e-12)
             {
-                return false;
-            }
-
-            for (int i = 0; i < planes.Count; i++)
-            {
-                PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(planes[i], point3D_1, point3D_2, bounded_1, bounded_2, tolerance);
-                if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+                if (originX < min.X - tolerance || originX > max.X + tolerance)
                 {
-                    continue;
-                }
-
-                Point3D? point3D_Intersection = planarIntersectionResult.GetGeometry3Ds<Point3D>()?.FirstOrDefault();
-                if (point3D_Intersection == null)
-                {
-                    continue;
-                }
-
-                if (On(point3D_Intersection, tolerance))
-                {
-                    return true;
+                    return false;
                 }
             }
+            else
+            {
+                double t0 = (min.X - tolerance - originX) / dirX;
+                double t1 = (max.X + tolerance - originX) / dirX;
+                if (t0 > t1)
+                {
+                    double temp = t0;
+                    t0 = t1;
+                    t1 = temp;
+                }
+                if (t0 > tMin) tMin = t0;
+                if (t1 < tMax) tMax = t1;
+                if (tMin > tMax) return false;
+            }
 
-            return false;
+            // Y axis
+            if (System.Math.Abs(dirY) < 1e-12)
+            {
+                if (originY < min.Y - tolerance || originY > max.Y + tolerance)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                double t0 = (min.Y - tolerance - originY) / dirY;
+                double t1 = (max.Y + tolerance - originY) / dirY;
+                if (t0 > t1)
+                {
+                    double temp = t0;
+                    t0 = t1;
+                    t1 = temp;
+                }
+                if (t0 > tMin) tMin = t0;
+                if (t1 < tMax) tMax = t1;
+                if (tMin > tMax) return false;
+            }
+
+            // Z axis
+            if (System.Math.Abs(dirZ) < 1e-12)
+            {
+                if (originZ < min.Z - tolerance || originZ > max.Z + tolerance)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                double t0 = (min.Z - tolerance - originZ) / dirZ;
+                double t1 = (max.Z + tolerance - originZ) / dirZ;
+                if (t0 > t1)
+                {
+                    double temp = t0;
+                    t0 = t1;
+                    t1 = temp;
+                }
+                if (t0 > tMin) tMin = t0;
+                if (t1 < tMax) tMax = t1;
+                if (tMin > tMax) return false;
+            }
+
+            return true;
         }
 
         /// <summary>

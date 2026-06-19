@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 
 namespace DiGi.Geometry.Spatial
 {
@@ -60,10 +60,23 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            Segment3D segment3D_3 = new(segment3D_2);
-            segment3D_3.Inverse();
+            Point3D? point3D_Start1 = segment3D_1.Start;
+            Point3D? point3D_End1 = segment3D_1.End;
+            Point3D? point3D_Start2 = segment3D_2.Start;
+            Point3D? point3D_End2 = segment3D_2.End;
 
-            return segment3D_1.AlmostEquals(segment3D_2, tolerance) || segment3D_1.AlmostEquals(segment3D_3, tolerance);
+            if (point3D_Start1 == null || point3D_End1 == null || point3D_Start2 == null || point3D_End2 == null)
+            {
+                return false;
+            }
+
+            if ((point3D_Start1.AlmostEquals(point3D_Start2, tolerance) && point3D_End1.AlmostEquals(point3D_End2, tolerance)) ||
+                (point3D_Start1.AlmostEquals(point3D_End2, tolerance) && point3D_End1.AlmostEquals(point3D_Start2, tolerance)))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

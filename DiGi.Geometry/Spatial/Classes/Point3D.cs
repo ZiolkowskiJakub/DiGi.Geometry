@@ -79,7 +79,10 @@ namespace DiGi.Geometry.Spatial.Classes
                 return double.NaN;
             }
 
-            return new Vector3D(this, point3D).Length;
+            double dx = X - point3D.X;
+            double dy = Y - point3D.Y;
+            double dz = Z - point3D.Z;
+            return System.Math.Sqrt(dx * dx + dy * dy + dz * dz);
         }
 
         /// <summary>
