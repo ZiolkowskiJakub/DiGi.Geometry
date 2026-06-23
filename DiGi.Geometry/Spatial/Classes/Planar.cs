@@ -63,7 +63,8 @@ namespace DiGi.Geometry.Spatial.Classes
             this.geometry2D = DiGi.Core.Query.Clone(geometry2D);
         }
 
-        /// <summary> Gets the 2D geometry representation. </summary>
+        /// <summary> Gets the 2D geometry representation. </summary>
+
         [JsonIgnore]
         public T? Geometry2D
         {

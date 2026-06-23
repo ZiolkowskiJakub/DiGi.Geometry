@@ -596,7 +596,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            if (InRange(point3Ds[0], tolerance))
+            if (plane.On(point3Ds[0], tolerance))
             {
                 return true;
             }
@@ -604,7 +604,7 @@ namespace DiGi.Geometry.Spatial.Classes
             bool above = Query.Above(plane, point3Ds[0], tolerance);
             for (int i = 1; i < point3Ds.Count; i++)
             {
-                if (InRange(point3Ds[0], tolerance))
+                if (plane.On(point3Ds[i], tolerance))
                 {
                     return true;
                 }

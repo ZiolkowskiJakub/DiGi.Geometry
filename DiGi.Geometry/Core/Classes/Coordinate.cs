@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Math.Classes;
 using System.Text.Json.Nodes;
@@ -187,12 +187,12 @@ namespace DiGi.Geometry.Core.Classes
                 return true;
             }
 
-            if (coordinate?.GetType() == GetType())
+            if (coordinate.GetType() != GetType())
             {
                 return false;
             }
 
-            double[]? values = coordinate?.values;
+            double[]? values = coordinate.values;
             if (this.values == values)
             {
                 return true;
@@ -205,7 +205,7 @@ namespace DiGi.Geometry.Core.Classes
 
             for (int i = 0; i < values.Length; i++)
             {
-                if (DiGi.Core.Query.AlmostEquals(this.values[i], values[i], tolerance))
+                if (!DiGi.Core.Query.AlmostEquals(this.values[i], values[i], tolerance))
                 {
                     return false;
                 }
