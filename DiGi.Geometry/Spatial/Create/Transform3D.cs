@@ -447,6 +447,44 @@ namespace DiGi.Geometry.Spatial
             }
 
             /// <summary>
+            /// Creates a 3D rotation transformation matrix from Euler/Tait-Bryan angles (yaw, pitch, roll) in radians.
+            /// <para>The rotation sequence applied is Yaw (around Z), then Pitch (around Y), then Roll (around X).</para>
+            /// </summary>
+            /// <param name="yaw">The rotation angle around the Z-axis in radians.</param>
+            /// <param name="pitch">The rotation angle around the Y-axis in radians.</param>
+            /// <param name="roll">The rotation angle around the X-axis in radians.</param>
+            /// <returns>A new <see cref="Classes.Transform3D"/> representing the combined rotation transform.</returns>
+            public static Classes.Transform3D RotationYawPitchRoll(double yaw, double pitch, double roll)
+            {
+                Classes.Transform3D transform3D_RotZ = RotationZ(yaw);
+                Classes.Transform3D transform3D_RotY = RotationY(pitch);
+                Classes.Transform3D transform3D_RotX = RotationX(roll);
+
+                Classes.Transform3D? transform3D_Combined = transform3D_RotZ * transform3D_RotY * transform3D_RotX;
+                if (transform3D_Combined is null)
+                {
+                    return Identity();
+                }
+
+                return transform3D_Combined;
+            }
+
+            /// <summary>
+            /// Creates a 3D shearing transformation matrix in the XY plane relative to the Z-axis.
+            /// </summary>
+            /// <param name="factorX">The shearing factor along the X-axis relative to Z.</param>
+            /// <param name="factorY">The shearing factor along the Y-axis relative to Z.</param>
+            /// <returns>A new <see cref="Classes.Transform3D"/> representing the shearing transform.</returns>
+            public static Classes.Transform3D ShearXY(double factorX, double factorY)
+            {
+                Classes.Transform3D transform3D_Result = Identity();
+                transform3D_Result[0, 2] = factorX;
+                transform3D_Result[1, 2] = factorY;
+
+                return transform3D_Result;
+            }
+
+            /// <summary>
             /// Creates a <see cref="Classes.Transform3D"/> with an unset matrix.
             /// </summary>
             /// <returns>A <see cref="Classes.Transform3D"/> instance.</returns>

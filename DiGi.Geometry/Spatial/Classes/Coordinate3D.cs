@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Core.Classes;
+using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using DiGi.Math.Classes;
 using System.Text.Json.Nodes;
@@ -140,7 +140,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="transform">The <see cref="ITransform3D"/> object used to perform the transformation.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the transformation was successfully applied; otherwise, false.</returns>
-        public bool Transform(ITransform3D? transform)
+        public virtual bool Transform(ITransform3D? transform)
         {
             if (transform == null || values == null || values.Length < 2)
             {

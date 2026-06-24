@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a point in three-dimensional space.
     /// </summary>
-    public class Point3D : Coordinate3D, IMovable3D, IPoint<Point3D>
+    public class Point3D : Coordinate3D, IMovable3D, IPoint<Point3D>, ITransformable3D
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Point3D"/> class using the specified <see cref="JsonObject"/>.

@@ -1,5 +1,6 @@
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
+using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -9,7 +10,7 @@ namespace DiGi.Geometry.Spatial.Classes
     /// <summary>
     /// Represents a three-dimensional vector.
     /// </summary>
-    public class Vector3D : Coordinate3D, IVector
+    public class Vector3D : Coordinate3D, IVector, ITransformable3D
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Vector3D"/> class using the provided <see cref="JsonObject"/>.
@@ -459,6 +460,55 @@ namespace DiGi.Geometry.Spatial.Classes
             hashCode = hashCode * -1521134295 + base.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<double[]>.Default.GetHashCode(values);
             return hashCode;
+        }
+
+        /// <summary>
+        /// Transforms the current vector by applying the specified <see cref="ITransform3D"/> transformation, ignoring the translation component.
+        /// </summary>
+        /// <param name="transform">The <see cref="ITransform3D"/> object used to perform the transformation.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the transformation was successfully applied; otherwise, false.</returns>
+        public override bool Transform(ITransform3D? transform)
+        {
+            if (transform == null || values == null || values.Length < 3)
+            {
+                return false;
+            }
+
+            if (transform is Transform3D transform3D)
+            {
+                if (transform3D.Matrix4D == null)
+                {
+                    return false;
+                }
+
+                double x = transform3D[0, 0] * X + transform3D[0, 1] * Y + transform3D[0, 2] * Z;
+                double y = transform3D[1, 0] * X + transform3D[1, 1] * Y + transform3D[1, 2] * Z;
+                double z = transform3D[2, 0] * X + transform3D[2, 1] * Y + transform3D[2, 2] * Z;
+
+                values[0] = x;
+                values[1] = y;
+                values[2] = z;
+                return true;
+            }
+
+            if (transform is TransformGroup3D transformGroup3D)
+            {
+                foreach (ITransform3D? transform_Temp in transformGroup3D)
+                {
+                    if (transform_Temp == null)
+                    {
+                        continue;
+                    }
+
+                    if (!Transform(transform_Temp))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            return false;
         }
     }
 }
