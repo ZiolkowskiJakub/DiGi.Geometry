@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using DiGi.Math.Classes;
 
 namespace DiGi.Geometry.Spatial
@@ -243,40 +243,38 @@ namespace DiGi.Geometry.Spatial
             }
 
             /// <summary>
-            /// Rotation Transform3D around the axis. Method to be revised
+            /// Rotation Transform3D around the axis.
             /// </summary>
             /// <param name="axis">rotation axis Vector3D</param>
             /// <param name="angle">Angle in radians</param>
             /// <returns>Transform3D</returns>
             public static Classes.Transform3D? Rotation(Vector3D? axis, double angle)
             {
-                //TODO: Revise this method
-
-                Vector3D? axis_Unit = axis?.Unit;
-                if (axis_Unit is null)
+                Vector3D? vector3D_AxisUnit = axis?.Unit;
+                if (vector3D_AxisUnit is null)
                 {
                     return null;
                 }
 
-                Classes.Transform3D result = Identity();
+                Classes.Transform3D transform3D_Result = Identity();
 
-                result[0, 0] = System.Math.Cos(angle) + System.Math.Pow(axis_Unit.X, 2) * (1 - System.Math.Cos(angle));
-                result[1, 0] = axis_Unit.X * axis_Unit.Y * (1 - System.Math.Cos(angle)) - axis_Unit.Z * System.Math.Sin(angle);
-                result[2, 0] = axis_Unit.X * axis_Unit.Z * (1 - System.Math.Cos(angle)) - axis_Unit.Y * System.Math.Sin(angle);
+                transform3D_Result[0, 0] = System.Math.Cos(angle) + System.Math.Pow(vector3D_AxisUnit.X, 2) * (1 - System.Math.Cos(angle));
+                transform3D_Result[0, 1] = vector3D_AxisUnit.X * vector3D_AxisUnit.Y * (1 - System.Math.Cos(angle)) - vector3D_AxisUnit.Z * System.Math.Sin(angle);
+                transform3D_Result[0, 2] = vector3D_AxisUnit.X * vector3D_AxisUnit.Z * (1 - System.Math.Cos(angle)) + vector3D_AxisUnit.Y * System.Math.Sin(angle);
 
-                result[0, 1] = axis_Unit.X * axis_Unit.Y * (1 - System.Math.Cos(angle)) + axis_Unit.Z * System.Math.Sin(angle);
-                result[1, 1] = System.Math.Cos(angle) + System.Math.Pow(axis_Unit.Y, 2) * (1 - System.Math.Cos(angle));
-                result[2, 1] = axis_Unit.Y * axis_Unit.Z * (1 - System.Math.Cos(angle)) - axis_Unit.X * System.Math.Sin(angle);
+                transform3D_Result[1, 0] = vector3D_AxisUnit.X * vector3D_AxisUnit.Y * (1 - System.Math.Cos(angle)) + vector3D_AxisUnit.Z * System.Math.Sin(angle);
+                transform3D_Result[1, 1] = System.Math.Cos(angle) + System.Math.Pow(vector3D_AxisUnit.Y, 2) * (1 - System.Math.Cos(angle));
+                transform3D_Result[1, 2] = vector3D_AxisUnit.Y * vector3D_AxisUnit.Z * (1 - System.Math.Cos(angle)) - vector3D_AxisUnit.X * System.Math.Sin(angle);
 
-                result[0, 2] = axis_Unit.X * axis_Unit.Z * (1 - System.Math.Cos(angle)) - axis_Unit.Y * System.Math.Sin(angle);
-                result[1, 2] = axis_Unit.Y * axis_Unit.Z * (1 - System.Math.Cos(angle)) + axis_Unit.X * System.Math.Sin(angle);
-                result[2, 2] = System.Math.Cos(angle) + System.Math.Pow(axis_Unit.Z, 2) * (1 - System.Math.Cos(angle));
+                transform3D_Result[2, 0] = vector3D_AxisUnit.X * vector3D_AxisUnit.Z * (1 - System.Math.Cos(angle)) - vector3D_AxisUnit.Y * System.Math.Sin(angle);
+                transform3D_Result[2, 1] = vector3D_AxisUnit.Y * vector3D_AxisUnit.Z * (1 - System.Math.Cos(angle)) + vector3D_AxisUnit.X * System.Math.Sin(angle);
+                transform3D_Result[2, 2] = System.Math.Cos(angle) + System.Math.Pow(vector3D_AxisUnit.Z, 2) * (1 - System.Math.Cos(angle));
 
-                return result;
+                return transform3D_Result;
             }
 
             /// <summary>
-            /// Rotation Transform around given axis and origin by angle. Method to be revised
+            /// Rotation Transform around given axis and origin by angle.
             /// </summary>
             /// <param name="origin">Origin Point</param>
             /// <param name="axis">Axis</param>
@@ -284,8 +282,6 @@ namespace DiGi.Geometry.Spatial
             /// <returns></returns>
             public static Classes.Transform3D? Rotation(Point3D? origin, Vector3D? axis, double angle)
             {
-                //TODO: Revise this method
-
                 if (origin == null)
                 {
                     return null;
