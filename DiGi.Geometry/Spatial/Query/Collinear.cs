@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,19 +9,19 @@ namespace DiGi.Geometry.Spatial
         /// <summary>
         /// Determines whether three 3D points are collinear within a specified angular tolerance.
         /// </summary>
-        /// <param name="point2D_1">The first <see cref="Point3D"/>? point.</param>
-        /// <param name="point2D_2">The second <see cref="Point3D"/>? point, acting as the vertex for the angle calculation.</param>
-        /// <param name="point2D_3">The third <see cref="Point3D"/>? point.</param>
+        /// <param name="point3D_1">The first <see cref="Point3D"/>? point.</param>
+        /// <param name="point3D_2">The second <see cref="Point3D"/>? point, acting as the vertex for the angle calculation.</param>
+        /// <param name="point3D_3">The third <see cref="Point3D"/>? point.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the angular tolerance used to determine collinearity.</param>
         /// <returns>A <see cref="bool"/> indicating whether the points are collinear; returns <c>false</c> if any of the provided points are null.</returns>
-        public static bool Collinear(this Point3D? point2D_1, Point3D? point2D_2, Point3D? point2D_3, double tolerance = DiGi.Core.Constants.Tolerance.Angle)
+        public static bool Collinear(this Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3, double tolerance = DiGi.Core.Constants.Tolerance.Angle)
         {
-            if (point2D_1 == null || point2D_2 == null || point2D_3 == null)
+            if (point3D_1 == null || point3D_2 == null || point3D_3 == null)
             {
                 return false;
             }
 
-            return new Vector3D(point2D_2, point2D_1).MinAngle(new Vector3D(point2D_2, point2D_3)) < tolerance;
+            return new Vector3D(point3D_2, point3D_1).MinAngle(new Vector3D(point3D_2, point3D_3)) < tolerance;
         }
 
         /// <summary>

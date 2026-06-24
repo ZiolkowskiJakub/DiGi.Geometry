@@ -21,12 +21,12 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="BoundingBox3D"/> class using two <see cref="Point3D"/> points to define the boundaries.
         /// </summary>
-        /// <param name="point2D_1">The first <c>Point3D?</c> point used to calculate the minimum and maximum bounds.</param>
-        /// <param name="point2D_2">The second <c>Point3D?</c> point used to calculate the minimum and maximum bounds.</param>
-        public BoundingBox3D(Point3D? point2D_1, Point3D? point2D_2)
+        /// <param name="point3D_1">The first <c>Point3D?</c> point used to calculate the minimum and maximum bounds.</param>
+        /// <param name="point3D_2">The second <c>Point3D?</c> point used to calculate the minimum and maximum bounds.</param>
+        public BoundingBox3D(Point3D? point3D_1, Point3D? point3D_2)
             : base()
         {
-            min = Query.Min([point2D_1, point2D_2], out max);
+            min = Query.Min([point3D_1, point3D_2], out max);
         }
 
         /// <summary>
