@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,7 +40,7 @@ namespace DiGi.Geometry.Spatial
 
             if (count == 3)
             {
-                Point3D point3D_3 = point3Ds.ElementAt(1);
+                Point3D point3D_3 = point3Ds.ElementAt(2);
 
                 double centroidX = (point3D_1.X + point3D_2.X + point3D_3.X) / 3.0;
                 double centroidY = (point3D_1.Y + point3D_2.Y + point3D_3.Y) / 3.0;
@@ -52,7 +52,7 @@ namespace DiGi.Geometry.Spatial
             Vector3D vector3D = Constants.Vector3D.Zero;
             double area = 0;
 
-            for (var i = 2; i < count; i++)
+            for (int i = 2; i < count; i++)
             {
                 Point3D point3D_3 = point3Ds.ElementAt(i);
                 Vector3D vector3D_1 = new(point3D_1, point3D_3);

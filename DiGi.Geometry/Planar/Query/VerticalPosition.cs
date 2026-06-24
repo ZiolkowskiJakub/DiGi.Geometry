@@ -29,13 +29,9 @@ namespace DiGi.Geometry.Planar
 
             List<VerticalPosition> verticalPositions = [];
 
-            List<Segment2D>? segment2Ds_Temp = segmentable2D.GetSegments();
-            if (segment2Ds_Temp != null)
+            foreach (Segment2D segment2D in segment2Ds)
             {
-                foreach (Segment2D segment2D in segment2Ds_Temp)
-                {
-                    verticalPositions.Add(VerticalPosition(segment2D, point2D, tolerance));
-                }
+                verticalPositions.Add(VerticalPosition(segment2D, point2D, tolerance));
             }
 
             if (verticalPositions.TrueForAll(x => x == Core.Enums.VerticalPosition.Undefined))
@@ -77,6 +73,11 @@ namespace DiGi.Geometry.Planar
                 return Core.Enums.VerticalPosition.Undefined;
             }
 
+            if (segment2D.On(point2D, tolerance))
+            {
+                return Core.Enums.VerticalPosition.On;
+            }
+
             BoundingBox2D? boundingBox2D = segment2D.GetBoundingBox();
             if (boundingBox2D == null)
             {
@@ -91,13 +92,13 @@ namespace DiGi.Geometry.Planar
             SegmentableTraceResult2D? segmentableTraceResult2D = Create.SegmentableTraceResult2D(point2D, Constants.Vector2D.WorldY, [segment2D], tolerance);
             if (segmentableTraceResult2D == null)
             {
-                return Core.Enums.VerticalPosition.Undefined;
+                return Core.Enums.VerticalPosition.Above;
             }
 
             Vector2D? vector2D = segmentableTraceResult2D.Vector2D;
             if (vector2D == null)
             {
-                return Core.Enums.VerticalPosition.Below;
+                return Core.Enums.VerticalPosition.Above;
             }
 
             if (vector2D.Length < tolerance)
@@ -105,7 +106,7 @@ namespace DiGi.Geometry.Planar
                 return Core.Enums.VerticalPosition.On;
             }
 
-            return Core.Enums.VerticalPosition.Above;
+            return Core.Enums.VerticalPosition.Below;
         }
     }
 }
