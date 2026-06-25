@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
@@ -309,13 +309,30 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
-        /// Projects the specified <see cref="Point2D"/> onto the line.
+        /// Projects the specified <see cref="Point2D"/> onto the ray, clamping points behind the origin to the origin.
         /// </summary>
         /// <param name="point2D">The <see cref="Point2D"/> to project.</param>
-        /// <returns>The projected <see cref="Point2D"/>, or null if the projection could not be calculated.</returns>
+        /// <returns>The projected <see cref="Point2D"/> on the ray, or null if the input point or the ray is not properly defined.</returns>
         public Point2D? Project(Point2D? point2D)
         {
-            return Query.ClosestPoint(point2D, origin, origin + direction, false);
+            if (point2D is null || origin is null || direction is null)
+            {
+                return null;
+            }
+
+            Point2D? point2D_Projected = Query.ClosestPoint(point2D, origin, origin + direction, false);
+            if (point2D_Projected is null)
+            {
+                return null;
+            }
+
+            Vector2D vector2D_Proj = new(origin, point2D_Projected);
+            if (vector2D_Proj.DotProduct(direction) < 0.0)
+            {
+                return new Point2D(origin);
+            }
+
+            return point2D_Projected;
         }
 
         /// <summary>
@@ -330,13 +347,24 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            Point2D point2D = new(origin);
-            point2D.Move(direction);
+            Point2D point2D_Temp = new(origin);
+            point2D_Temp.Move(direction);
 
-            origin.Transform(transform);
+            Point2D point2D_OriginClone = new(origin);
+            Point2D point2D_EndClone = new(point2D_Temp);
 
-            point2D.Transform(transform);
-            direction = new(origin, point2D);
+            if (!point2D_OriginClone.Transform(transform))
+            {
+                return false;
+            }
+
+            if (!point2D_EndClone.Transform(transform))
+            {
+                return false;
+            }
+
+            origin = point2D_OriginClone;
+            direction = new(origin, point2D_EndClone);
             direction.Normalize();
 
             return true;

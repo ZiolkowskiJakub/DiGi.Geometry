@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
@@ -34,24 +34,24 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             if (triangle3D != null)
             {
-                points[0] = triangle3D.points[0];
-                points[1] = triangle3D.points[1];
-                points[2] = triangle3D.points[2];
+                points[0] = DiGi.Core.Query.Clone(triangle3D.points[0]);
+                points[1] = DiGi.Core.Query.Clone(triangle3D.points[1]);
+                points[2] = DiGi.Core.Query.Clone(triangle3D.points[2]);
             }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle3D"/> class using three specified 3D points.
         /// </summary>
-        /// <param name="point2D_1">The first <see cref="Point3D"/> point of the triangle.</param>
-        /// <param name="point2D_2">The second <see cref="Point3D"/> point of the triangle.</param>
-        /// <param name="point2D_3">The third <see cref="Point3D"/> point of the triangle.</param>
-        public Triangle3D(Point3D? point2D_1, Point3D? point2D_2, Point3D? point2D_3)
+        /// <param name="point3D_1">The first <see cref="Point3D"/> point of the triangle.</param>
+        /// <param name="point3D_2">The second <see cref="Point3D"/> point of the triangle.</param>
+        /// <param name="point3D_3">The third <see cref="Point3D"/> point of the triangle.</param>
+        public Triangle3D(Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3)
             : base()
         {
-            points[0] = point2D_1;
-            points[1] = point2D_2;
-            points[2] = point2D_3;
+            points[0] = point3D_1;
+            points[1] = point3D_2;
+            points[2] = point3D_3;
         }
 
         /// <summary>

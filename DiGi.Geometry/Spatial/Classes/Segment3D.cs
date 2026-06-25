@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -259,7 +259,18 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="double"/> representing the calculated distance.</returns>
         public double Distance(Point3D? point3D)
         {
-            throw new System.NotImplementedException();
+            if (point3D == null)
+            {
+                return double.NaN;
+            }
+
+            Point3D? point3D_Closest = ClosestPoint(point3D);
+            if (point3D_Closest == null)
+            {
+                return double.NaN;
+            }
+
+            return point3D.Distance(point3D_Closest);
         }
 
         /// <summary>
@@ -379,7 +390,34 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="bool"/> value indicating whether the transformation was successfully applied.</returns>
         public bool Transform(ITransform3D? transform)
         {
-            throw new System.NotImplementedException();
+            if (transform == null || start == null || vector == null)
+            {
+                return false;
+            }
+
+            Point3D? point3D_End = End;
+            if (point3D_End == null)
+            {
+                return false;
+            }
+
+            Point3D point3D_StartClone = new(start);
+            Point3D point3D_EndClone = new(point3D_End);
+
+            if (!point3D_StartClone.Transform(transform))
+            {
+                return false;
+            }
+
+            if (!point3D_EndClone.Transform(transform))
+            {
+                return false;
+            }
+
+            start = point3D_StartClone;
+            vector = new Vector3D(start, point3D_EndClone);
+
+            return true;
         }
     }
 }

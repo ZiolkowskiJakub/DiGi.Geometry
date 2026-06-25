@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -313,13 +313,24 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            Point3D point2D = new(origin);
-            point2D.Move(direction);
+            Point3D point3D_Temp = new(origin);
+            point3D_Temp.Move(direction);
 
-            origin.Transform(transform);
+            Point3D point3D_OriginClone = new(origin);
+            Point3D point3D_EndClone = new(point3D_Temp);
 
-            point2D.Transform(transform);
-            direction = new(origin, point2D);
+            if (!point3D_OriginClone.Transform(transform))
+            {
+                return false;
+            }
+
+            if (!point3D_EndClone.Transform(transform))
+            {
+                return false;
+            }
+
+            origin = point3D_OriginClone;
+            direction = new Vector3D(origin, point3D_EndClone);
             direction.Normalize();
 
             return true;

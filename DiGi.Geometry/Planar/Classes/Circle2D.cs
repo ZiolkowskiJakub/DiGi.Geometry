@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -315,14 +315,24 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            Point2D point2D = new(center);
-            point2D.Move(new Vector2D(1, 1) * radius);
+            Point2D point2D_Temp = new(center);
+            point2D_Temp.Move(new Vector2D(radius, 0.0));
 
-            center.Transform(transform);
+            Point2D point2D_CenterClone = new(center);
+            Point2D point2D_TempClone = new(point2D_Temp);
 
-            point2D.Transform(transform);
+            if (!point2D_CenterClone.Transform(transform))
+            {
+                return false;
+            }
 
-            radius = new Vector2D(center, point2D).Length;
+            if (!point2D_TempClone.Transform(transform))
+            {
+                return false;
+            }
+
+            center = point2D_CenterClone;
+            radius = new Vector2D(center, point2D_TempClone).Length;
 
             return true;
         }

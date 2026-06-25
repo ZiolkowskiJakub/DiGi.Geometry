@@ -43,7 +43,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="coordinate3D">The <see cref="Coordinate3D"/> instance to copy values from.</param>
         public Coordinate3D(Coordinate3D? coordinate3D)
-            : base(coordinate3D)
+            : this(coordinate3D?.values)
         {
         }
 

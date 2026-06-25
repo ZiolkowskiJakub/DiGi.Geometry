@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -218,10 +218,15 @@ namespace DiGi.Geometry.Spatial
         /// <param name="point3D_1">The first <see cref="Point3D" /> point.</param>
         /// <param name="point3D_2">The second <c>Point3D?</c> point.</param>
         /// <param name="point3D_3">The third <c>Point3D?</c> point.</param>
-        /// <returns>A <c>Vector3D?</c> representing the unit normal vector, or <c>null</c> if any of the provided points are <c>null</c>.</returns>
+        /// <returns>A <c>Vector3D?</c> representing the unit normal vector, or <c>null</c> if any of the provided points are <c>null</c> or if the points are collinear.</returns>
         public static Vector3D? Normal(this Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3)
         {
             if (point3D_1 == null || point3D_2 == null || point3D_3 == null)
+            {
+                return null;
+            }
+
+            if (point3D_1.Collinear(point3D_2, point3D_3))
             {
                 return null;
             }

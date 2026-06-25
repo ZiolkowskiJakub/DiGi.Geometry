@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
@@ -409,12 +409,15 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if inversion was successful; otherwise, false.</returns>
         public bool Inverse()
         {
-            if (vector is null)
+            if (End is not Point2D end || vector is null)
             {
                 return false;
             }
 
-            return vector.Inverse();
+            vector.Inverse();
+            start = end;
+
+            return true;
         }
 
         /// <summary>
@@ -491,12 +494,28 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            Point2D? end = End;
+            Point2D? point2D_End = End;
+            if (point2D_End is null)
+            {
+                return false;
+            }
 
-            start.Transform(transform);
-            end?.Transform(transform);
+            Point2D point2D_StartClone = new(start);
+            Point2D point2D_EndClone = new(point2D_End);
 
-            vector = new(start, end);
+            if (!point2D_StartClone.Transform(transform))
+            {
+                return false;
+            }
+
+            if (!point2D_EndClone.Transform(transform))
+            {
+                return false;
+            }
+
+            start = point2D_StartClone;
+            vector = new(start, point2D_EndClone);
+
             return true;
         }
     }

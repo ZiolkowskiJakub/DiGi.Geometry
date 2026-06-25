@@ -189,7 +189,7 @@ namespace DiGi.Geometry.Planar
 
             if (geometry.ToDiGi() is not IGeometry2D geometry2D)
             {
-                return null;
+                return [];
             }
 
             if (geometry2D is not GeometryCollection2D geometryCollection2D)
@@ -214,7 +214,7 @@ namespace DiGi.Geometry.Planar
                 }
                 else
                 {
-                    return null;
+                    return [];
                 }
             }
 
@@ -251,10 +251,6 @@ namespace DiGi.Geometry.Planar
                             }
                         }
                     }
-                }
-                else
-                {
-                    throw new System.NotImplementedException();
                 }
             }
 

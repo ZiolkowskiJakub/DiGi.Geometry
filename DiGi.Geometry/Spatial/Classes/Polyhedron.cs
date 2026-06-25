@@ -301,7 +301,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             if (point3Ds is null)
             {
-                throw new NotImplementedException();
+                return null;
             }
 
             bool even = point3Ds.Count % 2 == 0;

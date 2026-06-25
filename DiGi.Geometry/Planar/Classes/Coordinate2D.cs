@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Core.Classes;
+using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Math.Classes;
 using System.Text.Json.Nodes;
@@ -54,7 +54,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="coordinate2D">The source coordinate to clone.</param>
         public Coordinate2D(Coordinate2D? coordinate2D)
-            : base(coordinate2D)
+            : this(coordinate2D?.values)
         {
         }
 

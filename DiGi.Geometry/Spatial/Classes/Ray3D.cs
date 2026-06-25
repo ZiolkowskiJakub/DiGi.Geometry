@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -311,18 +311,30 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Projects a <see cref="Point3D"/> onto the line defined by the origin and direction.
+        /// Projects a <see cref="Point3D"/> onto the ray, clamping points behind the origin to the origin.
         /// </summary>
         /// <param name="point3D">The <see cref="Point3D"/> to project.</param>
-        /// <returns>The projected <see cref="Point3D"/>, or null if the input point is null or the line is not properly defined.</returns>
+        /// <returns>The projected <see cref="Point3D"/> on the ray, or null if the input point is null or the ray is not properly defined.</returns>
         public Point3D? Project(Point3D? point3D)
         {
-            if (origin is null || direction is null)
+            if (point3D is null || origin is null || direction is null)
             {
                 return null;
             }
 
-            return Query.ClosestPoint(point3D, origin, origin.GetMoved(direction), false);
+            Point3D? point3D_Projected = Query.ClosestPoint(point3D, origin, origin.GetMoved(direction), false);
+            if (point3D_Projected is null)
+            {
+                return null;
+            }
+
+            Vector3D vector3D_Proj = new(origin, point3D_Projected);
+            if (vector3D_Proj.DotProduct(direction) < 0.0)
+            {
+                return new Point3D(origin);
+            }
+
+            return point3D_Projected;
         }
 
         /// <summary>
@@ -337,13 +349,24 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            Point3D point2D = new(origin);
-            point2D.Move(direction);
+            Point3D point3D_Temp = new(origin);
+            point3D_Temp.Move(direction);
 
-            origin.Transform(transform);
+            Point3D point3D_OriginClone = new(origin);
+            Point3D point3D_EndClone = new(point3D_Temp);
 
-            point2D.Transform(transform);
-            direction = new(origin, point2D);
+            if (!point3D_OriginClone.Transform(transform))
+            {
+                return false;
+            }
+
+            if (!point3D_EndClone.Transform(transform))
+            {
+                return false;
+            }
+
+            origin = point3D_OriginClone;
+            direction = new Vector3D(origin, point3D_EndClone);
             direction.Normalize();
 
             return true;

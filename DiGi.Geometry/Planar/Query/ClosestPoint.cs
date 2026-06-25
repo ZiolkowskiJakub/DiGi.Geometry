@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -148,7 +148,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            return ClosestPoint(point2D, segmentable2Ds?.Segments());
+            return ClosestPoint(point2D, segmentable2Ds?.Segments(), out distance);
         }
 
         /// <summary>

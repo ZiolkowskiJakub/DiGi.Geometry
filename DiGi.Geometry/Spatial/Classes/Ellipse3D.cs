@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -236,7 +236,23 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="bool"/> value indicating whether the point is within range.</returns>
         public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            throw new System.NotImplementedException();
+            if (point3D is null || geometry2D is null || plane is null)
+            {
+                return false;
+            }
+
+            if (!plane.On(point3D, tolerance))
+            {
+                return false;
+            }
+
+            Point2D? point2D = plane.Convert(point3D);
+            if (point2D is null)
+            {
+                return false;
+            }
+
+            return geometry2D.InRange(point2D, tolerance);
         }
 
         /// <summary>
@@ -247,7 +263,23 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A bool indicating whether the point is inside the geometry.</returns>
         public bool Inside(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            throw new System.NotImplementedException();
+            if (point3D is null || geometry2D is null || plane is null)
+            {
+                return false;
+            }
+
+            if (!plane.On(point3D, tolerance))
+            {
+                return false;
+            }
+
+            Point2D? point2D = plane.Convert(point3D);
+            if (point2D is null)
+            {
+                return false;
+            }
+
+            return geometry2D.Inside(point2D, tolerance);
         }
 
         /// <summary>

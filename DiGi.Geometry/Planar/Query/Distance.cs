@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +58,7 @@ namespace DiGi.Geometry.Planar
                 return double.NaN;
             }
 
-            return Distance(point2D, segmentable2Ds?.Segments());
+            return Distance(point2D, segmentable2Ds?.Segments(), out closetPoint2D);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace DiGi.Geometry.Planar
                         }
                     }
 
-                    if (point2D != null)
+                    if (point2D != null && point2D_Closest1_Temp == null && point2D_Closest2_Temp == null)
                     {
                         point2D_Closest1 = point2D;
                         point2D_Closest2 = new Point2D(point2D);
@@ -176,7 +176,7 @@ namespace DiGi.Geometry.Planar
         /// <returns>The shortest distance as a <see cref="double"/> between the two objects.</returns>
         public static double Distance(ISegmentable2D? segmentable2D, BoundingBox2D? boundingBox2D, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            return Distance(boundingBox2D, segmentable2D, out point2D_Closest1, out point2D_Closest2, tolerance);
+            return Distance(boundingBox2D, segmentable2D, out point2D_Closest2, out point2D_Closest1, tolerance);
         }
     }
 }

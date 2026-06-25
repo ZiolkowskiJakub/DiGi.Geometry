@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
@@ -620,14 +620,41 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            Point2D point2D = new(center);
-            point2D.Move(directionA);
+            // Construct perpendicular direction for semi-minor axis
+            Vector2D vector2D_DirectionB = new(-directionA.Y, directionA.X);
 
-            center.Transform(transform);
+            Point2D point2D_A = new(center);
+            point2D_A.Move(directionA * a);
 
-            point2D.Transform(transform);
-            directionA = new(center, point2D);
-            directionA.Normalize();
+            Point2D point2D_B = new(center);
+            point2D_B.Move(vector2D_DirectionB * b);
+
+            Point2D point2D_CenterClone = new(center);
+            Point2D point2D_AClone = new(point2D_A);
+            Point2D point2D_BClone = new(point2D_B);
+
+            if (!point2D_CenterClone.Transform(transform))
+            {
+                return false;
+            }
+
+            if (!point2D_AClone.Transform(transform))
+            {
+                return false;
+            }
+
+            if (!point2D_BClone.Transform(transform))
+            {
+                return false;
+            }
+
+            Vector2D vector2D_NewA = new(point2D_CenterClone, point2D_AClone);
+            Vector2D vector2D_NewB = new(point2D_CenterClone, point2D_BClone);
+
+            center = point2D_CenterClone;
+            a = vector2D_NewA.Length;
+            b = vector2D_NewB.Length;
+            directionA = vector2D_NewA.Unit;
 
             return true;
         }

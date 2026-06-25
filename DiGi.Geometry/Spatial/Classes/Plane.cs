@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Interfaces;
+using DiGi.Geometry.Spatial.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -35,9 +35,9 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             if (plane != null)
             {
-                normal = new Vector3D(plane.normal);
-                origin = new Point3D(plane.origin);
-                axisY = new Vector3D(plane.axisY);
+                normal = plane.normal == null ? null : new Vector3D(plane.normal);
+                origin = plane.origin == null ? null : new Point3D(plane.origin);
+                axisY = plane.axisY == null ? null : new Vector3D(plane.axisY);
             }
         }
 
@@ -50,8 +50,8 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             if (plane != null)
             {
-                normal = new Vector3D(plane.normal);
-                axisY = new Vector3D(plane.axisY);
+                normal = plane.normal == null ? null : new Vector3D(plane.normal);
+                axisY = plane.axisY == null ? null : new Vector3D(plane.axisY);
             }
 
             if (origin != null)
@@ -68,9 +68,17 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="point3D_3">The third <c>Point3D?</c> used to determine the normal vector of the plane.</param>
         public Plane(Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3)
         {
-            origin = new Point3D(point3D_1);
+            if (point3D_1 is not null)
+            {
+                origin = new Point3D(point3D_1);
+            }
+
             normal = Query.Normal(point3D_1, point3D_2, point3D_3);
-            axisY = normal.AxisY();
+
+            if (normal is not null)
+            {
+                axisY = normal.AxisY();
+            }
         }
 
         /// <summary>
@@ -88,7 +96,7 @@ namespace DiGi.Geometry.Spatial.Classes
 
             if (origin != null)
             {
-                this.origin = new(origin);
+                this.origin = new Point3D(origin);
             }
         }
 
@@ -253,7 +261,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                return new(normal);
+                return normal == null ? null : new(normal);
             }
         }
 
