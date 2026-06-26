@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Geometry.Core.Interfaces;
 using QuikGraph;
 using System.Collections.Generic;
@@ -83,14 +83,14 @@ namespace DiGi.Geometry.Core.Classes
                 return -1;
             }
 
-            int count = undirectedGraph.Vertices.Count();
-
-            for (int i = 0; i < count; i++)
+            int index = 0;
+            foreach (T vertex in undirectedGraph.Vertices)
             {
-                if (point.Equals(undirectedGraph.Vertices.ElementAt(i)))
+                if (point.Equals(vertex))
                 {
-                    return i;
+                    return index;
                 }
+                index++;
             }
 
             return -1;

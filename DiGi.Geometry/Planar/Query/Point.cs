@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,18 +19,19 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            int count = point2Ds.Count();
+            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            int count = point2Ds_Local.Length;
             if (count < 2)
             {
                 return null;
             }
 
-            List<double> lengths = [];
+            List<double> lengths = new();
             double length = 0;
             for (int i = 1; i < count; i++)
             {
-                Point2D point2D_1 = point2Ds.ElementAt(i - 1);
-                Point2D point2D_2 = point2Ds.ElementAt(i);
+                Point2D point2D_1 = point2Ds_Local[i - 1];
+                Point2D point2D_2 = point2Ds_Local[i];
 
                 if (point2D_1 == null || point2D_2 == null)
                 {
@@ -45,7 +46,7 @@ namespace DiGi.Geometry.Planar
 
             double value = length * parameter;
 
-            Point2D? result = null;
+            Point2D? point2D_Result = null;
 
             int index = 0;
             while (value > 0)
@@ -62,21 +63,25 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                Point2D point2D_1 = point2Ds.ElementAt(index);
-                Point2D point2D_2 = point2Ds.ElementAt(index + 1);
+                Point2D point2D_1 = point2Ds_Local[index];
+                Point2D point2D_2 = point2Ds_Local[index + 1];
+                if (point2D_1 == null || point2D_2 == null)
+                {
+                    break;
+                }
 
                 Vector2D vector2D = new(point2D_1, point2D_2)
                 {
                     Length = value
                 };
 
-                result = new(point2D_1);
-                result.Move(vector2D);
+                point2D_Result = new(point2D_1);
+                point2D_Result.Move(vector2D);
 
                 value = value_Temp;
             }
 
-            return result;
+            return point2D_Result;
         }
     }
 }

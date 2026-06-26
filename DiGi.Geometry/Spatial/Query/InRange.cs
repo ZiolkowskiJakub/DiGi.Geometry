@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
@@ -54,17 +54,27 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            for (int i = 0; i < point3Ds.Count(); i++)
+            Point3D[] point3Ds_Local = point3Ds as Point3D[] ?? point3Ds.ToArray();
+            int count = point3Ds_Local.Length;
+
+            for (int i = 0; i < count; i++)
             {
-                if (!plane.On(point3Ds.ElementAt(i), tolerance))
+                Point3D point3D = point3Ds_Local[i];
+                if (point3D == null || !plane.On(point3D, tolerance))
                 {
                     return false;
                 }
             }
 
-            for (int i = 0; i < point3Ds.Count(); i++)
+            for (int i = 0; i < count; i++)
             {
-                Point2D? point2D = plane.Convert(point3Ds.ElementAt(i));
+                Point3D point3D = point3Ds_Local[i];
+                if (point3D == null)
+                {
+                    continue;
+                }
+
+                Point2D? point2D = plane.Convert(point3D);
                 if (point2D == null)
                 {
                     continue;

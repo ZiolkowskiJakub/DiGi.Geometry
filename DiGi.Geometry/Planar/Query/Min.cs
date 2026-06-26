@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +42,7 @@ namespace DiGi.Geometry.Planar
         public static Point2D? Min(this IEnumerable<Point2D?>? point2Ds, out Point2D? max)
         {
             max = null;
-            if (point2Ds == null || point2Ds.Count() == 0)
+            if (point2Ds == null)
             {
                 return null;
             }
@@ -51,6 +51,8 @@ namespace DiGi.Geometry.Planar
             double x_Max = double.MinValue;
             double y_Min = double.MaxValue;
             double y_Max = double.MinValue;
+            int count = 0;
+
             foreach (Point2D? point2D in point2Ds)
             {
                 if (point2D == null)
@@ -58,6 +60,7 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
+                count++;
                 if (point2D.X > x_Max)
                 {
                     x_Max = point2D.X;
@@ -79,7 +82,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            if (x_Min == double.MaxValue || x_Max == double.MinValue || y_Min == double.MaxValue || y_Max == double.MinValue)
+            if (count == 0)
             {
                 return null;
             }

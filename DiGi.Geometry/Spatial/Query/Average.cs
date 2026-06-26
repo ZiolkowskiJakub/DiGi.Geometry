@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,21 +18,26 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            int count = point3Ds.Count();
-            if (count < 1)
-            {
-                return null;
-            }
-
             double x = 0;
             double y = 0;
             double z = 0;
+            int count = 0;
 
             foreach (Point3D point3D in point3Ds)
             {
+                if (point3D == null)
+                {
+                    continue;
+                }
                 x += point3D.X;
                 y += point3D.Y;
                 z += point3D.Z;
+                count++;
+            }
+
+            if (count < 1)
+            {
+                return null;
             }
 
             return new Point3D(x / count, y / count, z / count);
@@ -50,21 +55,26 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            int count = vector3Ds.Count();
-            if (count < 1)
-            {
-                return null;
-            }
-
             double x = 0;
             double y = 0;
             double z = 0;
+            int count = 0;
 
             foreach (Vector3D vector3D in vector3Ds)
             {
+                if (vector3D == null)
+                {
+                    continue;
+                }
                 x += vector3D.X;
                 y += vector3D.Y;
                 z += vector3D.Z;
+                count++;
+            }
+
+            if (count < 1)
+            {
+                return null;
             }
 
             return new Vector3D(x / count, y / count, z / count);

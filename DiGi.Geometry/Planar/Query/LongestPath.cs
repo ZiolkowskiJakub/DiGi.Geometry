@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Core.Enums;
+using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using QuikGraph;
@@ -95,15 +95,21 @@ namespace DiGi.Geometry.Planar
                     return null;
                 }
 
-                IEnumerable<Point2D> point2Ds_All = adjacencyGraph.Vertices;
-                if (point2Ds_All == null || point2Ds_All.Count() == 0)
+                Point2D[] point2Ds_All = adjacencyGraph.Vertices as Point2D[] ?? [.. adjacencyGraph.Vertices];
+                if (point2Ds_All == null || point2Ds_All.Length == 0)
                 {
                     return null;
                 }
 
                 foreach (Point2D point2D in point2Ds_All)
                 {
-                    if (!adjacencyGraph.TryGetOutEdges(point2D, out edges) || edges == null || edges.Count() != 1)
+                    if (!adjacencyGraph.TryGetOutEdges(point2D, out edges) || edges == null)
+                    {
+                        continue;
+                    }
+
+                    using IEnumerator<Edge<Point2D>> enumerator = edges.GetEnumerator();
+                    if (!enumerator.MoveNext() || enumerator.MoveNext())
                     {
                         continue;
                     }
@@ -113,7 +119,7 @@ namespace DiGi.Geometry.Planar
 
                 if (point2Ds.Count == 0)
                 {
-                    point2Ds.Add(point2Ds_All.ElementAt(0));
+                    point2Ds.Add(point2Ds_All[0]);
                 }
             }
 
@@ -131,7 +137,6 @@ namespace DiGi.Geometry.Planar
 
                 double distance = double.MinValue;
 
-                List<string> values = [];
                 foreach (KeyValuePair<Point2D, double> keyValuePair in vertexDistanceRecorderObserver.Distances)
                 {
                     if (keyValuePair.Value > distance)
@@ -173,10 +178,10 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Point2D> result = [];
-            if (edges.Count() == 0)
+            List<Point2D> point2Ds_Result = [];
+            if (!edges.Any())
             {
-                return result;
+                return point2Ds_Result;
             }
 
             foreach (Edge<Point2D> edge_Temp in edges)
@@ -192,7 +197,7 @@ namespace DiGi.Geometry.Planar
                     }
                 }
 
-                result.Add(point2D);
+                point2Ds_Result.Add(point2D);
             }
 
             foreach (Point2D point2D_Unique in point2Ds_Unique)
@@ -204,9 +209,9 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            result.Add(point2D_End);
+            point2Ds_Result.Add(point2D_End);
 
-            return result;
+            return point2Ds_Result;
         }
     }
 }

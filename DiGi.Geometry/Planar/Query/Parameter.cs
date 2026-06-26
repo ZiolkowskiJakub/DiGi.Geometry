@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,21 +19,27 @@ namespace DiGi.Geometry.Planar
             point2D_Closest = null;
             distance = double.NaN;
 
-            int count = point2Ds.Count();
-
-            if (point2Ds == null || point2D == null || count < 2)
+            if (point2Ds == null || point2D == null)
             {
                 return double.NaN;
             }
 
-            distance = double.MaxValue;
+            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            int count = point2Ds_Local.Length;
+
+            if (count < 2)
+            {
+                return double.NaN;
+            }
+
+            double distanceSq = double.MaxValue;
             int index = -1;
 
-            List<double> lengths = [];
+            List<double> lengths = new();
             for (int i = 1; i < count; i++)
             {
-                Point2D point2D_1 = point2Ds.ElementAt(i - 1);
-                Point2D point2D_2 = point2Ds.ElementAt(i);
+                Point2D point2D_1 = point2Ds_Local[i - 1];
+                Point2D point2D_2 = point2Ds_Local[i];
 
                 if (point2D_1 == null || point2D_2 == null)
                 {
@@ -49,23 +55,27 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                double distance_Temp = point2D.Distance(point2D_Closest_Temp);
-                if (distance < distance_Temp)
+                double dx = point2D.X - point2D_Closest_Temp.X;
+                double dy = point2D.Y - point2D_Closest_Temp.Y;
+                double distanceSq_Temp = dx * dx + dy * dy;
+                if (distanceSq_Temp >= distanceSq)
                 {
                     continue;
                 }
 
-                distance = distance_Temp;
+                distanceSq = distanceSq_Temp;
                 point2D_Closest = point2D_Closest_Temp;
                 index = i;
             }
 
-            if (distance == double.MaxValue || index == -1 || point2D_Closest == null)
+            if (distanceSq == double.MaxValue || index == -1 || point2D_Closest == null)
             {
                 point2D_Closest = null;
                 distance = double.NaN;
                 return double.NaN;
             }
+
+            distance = System.Math.Sqrt(distanceSq);
 
             double length = 0;
             for (int i = 0; i < index - 1; i++)
@@ -73,7 +83,11 @@ namespace DiGi.Geometry.Planar
                 length += lengths[i];
             }
 
-            length += point2Ds.ElementAt(index - 1).Distance(point2D_Closest);
+            Point2D point2D_Prev = point2Ds_Local[index - 1];
+            if (point2D_Prev != null)
+            {
+                length += point2D_Prev.Distance(point2D_Closest);
+            }
 
             return length / lengths.Sum();
         }

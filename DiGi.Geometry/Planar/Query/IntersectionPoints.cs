@@ -86,22 +86,24 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            int count_1 = segment2Ds_1.Count();
+            Segment2D[] segment2Ds_First = segment2Ds_1 as Segment2D[] ?? segment2Ds_1.ToArray();
+            int count_1 = segment2Ds_First.Length;
             if (count_1 == 0)
             {
                 return null;
             }
 
-            int count_2 = segment2Ds_2.Count();
+            Segment2D[] segment2Ds_Second = segment2Ds_2 as Segment2D[] ?? segment2Ds_2.ToArray();
+            int count_2 = segment2Ds_Second.Length;
             if (count_2 == 0)
             {
                 return null;
             }
 
-            List<Point2D> result = [];
+            List<Point2D> point2Ds_Result = new();
             for (int i = 0; i < count_1; i++)
             {
-                Segment2D? segment2D_1 = segment2Ds_1.ElementAt(i);
+                Segment2D segment2D_1 = segment2Ds_First[i];
                 if (segment2D_1 == null)
                 {
                     continue;
@@ -109,7 +111,7 @@ namespace DiGi.Geometry.Planar
 
                 for (int j = 0; j < count_2; j++)
                 {
-                    Segment2D? segment2D_2 = segment2Ds_2.ElementAt(j);
+                    Segment2D segment2D_2 = segment2Ds_Second[j];
                     if (segment2D_2 == null)
                     {
                         continue;
@@ -121,15 +123,15 @@ namespace DiGi.Geometry.Planar
                         continue;
                     }
 
-                    result.Add(point2D);
-                    if (result.Count >= maxCount)
+                    point2Ds_Result.Add(point2D);
+                    if (point2Ds_Result.Count >= maxCount)
                     {
-                        return result;
+                        return point2Ds_Result;
                     }
                 }
             }
 
-            return result;
+            return point2Ds_Result;
         }
 
         /// <summary>

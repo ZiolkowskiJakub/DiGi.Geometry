@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
@@ -21,18 +21,18 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Polygon2D> result = [];
+            List<Polygon2D> polygon2Ds_Result = [];
             if (segmentable2D is Rectangle2D)
             {
-                result.Add(new Polygon2D(segmentable2D.GetPoints()));
+                polygon2Ds_Result.Add(new Polygon2D(segmentable2D.GetPoints()));
             }
             else if (segmentable2D is Triangle2D)
             {
-                result.Add(new Polygon2D(segmentable2D.GetPoints()));
+                polygon2Ds_Result.Add(new Polygon2D(segmentable2D.GetPoints()));
             }
             else if (segmentable2D is BoundingBox2D)
             {
-                result.Add(new Polygon2D(segmentable2D.GetPoints()));
+                polygon2Ds_Result.Add(new Polygon2D(segmentable2D.GetPoints()));
             }
             else
             {
@@ -52,7 +52,7 @@ namespace DiGi.Geometry.Planar
                                 {
                                     if (polygonal2D != null)
                                     {
-                                        result.Add(new Polygon2D(polygonal2D.GetPoints()));
+                                        polygon2Ds_Result.Add(new Polygon2D(polygonal2D.GetPoints()));
                                     }
                                 }
                             }
@@ -61,7 +61,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            return result;
+            return polygon2Ds_Result;
         }
 
         /// <summary>
@@ -72,18 +72,24 @@ namespace DiGi.Geometry.Planar
         /// <returns>A list of Polygon2D objects; otherwise, null if inputs are invalid or no polygons can be formed.</returns>
         public static List<Polygon2D>? Polygon2Ds(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (segment2Ds == null || segment2Ds.Count() < 3)
+            if (segment2Ds == null)
             {
                 return null;
             }
 
-            List<Polygon>? polygons = Polygons(segment2Ds, tolerance);
+            Segment2D[] segment2Ds_Materialized = segment2Ds as Segment2D[] ?? [.. segment2Ds];
+            if (segment2Ds_Materialized.Length < 3)
+            {
+                return null;
+            }
+
+            List<Polygon>? polygons = Polygons(segment2Ds_Materialized, tolerance);
             if (polygons == null)
             {
                 return null;
             }
 
-            List<Polygon2D> result = [];
+            List<Polygon2D> polygon2Ds_Result = [];
             foreach (Polygon polygon in polygons)
             {
                 List<Polygon2D>? polygon2Ds = polygon?.ToDiGi_Polygon2Ds();
@@ -92,10 +98,10 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                result.AddRange(polygon2Ds);
+                polygon2Ds_Result.AddRange(polygon2Ds);
             }
 
-            return result;
+            return polygon2Ds_Result;
         }
     }
 }

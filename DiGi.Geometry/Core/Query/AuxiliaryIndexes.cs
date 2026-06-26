@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DiGi.Geometry.Core
@@ -17,27 +17,28 @@ namespace DiGi.Geometry.Core
                 return null;
             }
 
-            if (!indexes.Any())
+            int[][] indexes_Cached = indexes as int[][] ?? indexes.ToArray();
+            if (indexes_Cached.Length == 0)
             {
                 return [];
             }
 
-            if (AdjacencyIndexes(indexes) is not Dictionary<int, List<int[]>> dictionary)
+            if (AdjacencyIndexes(indexes_Cached) is not Dictionary<int, List<int[]>> dictionary)
             {
                 return [];
             }
 
-            List<int[]> result = [];
+            List<int[]> intArrays_Result = [];
 
             foreach (int adjacency in dictionary.Keys)
             {
                 if (adjacency > 1)
                 {
-                    result.AddRange(dictionary[adjacency]);
+                    intArrays_Result.AddRange(dictionary[adjacency]);
                 }
             }
 
-            return result;
+            return intArrays_Result;
         }
     }
 }

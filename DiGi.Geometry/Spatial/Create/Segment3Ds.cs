@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,38 +19,39 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            int count = point3Ds.Count();
+            Point3D[] point3Ds_Local = point3Ds as Point3D[] ?? point3Ds.ToArray();
+            int count = point3Ds_Local.Length;
 
-            List<Segment3D> result = [];
+            List<Segment3D> segment3Ds_Result = new();
 
             if (count < 2)
             {
-                return result;
+                return segment3Ds_Result;
             }
 
             for (int i = 1; i < count; i++)
             {
-                Point3D point3D_1 = point3Ds.ElementAt(i - 1);
+                Point3D point3D_1 = point3Ds_Local[i - 1];
                 if (point3D_1 == null)
                 {
                     continue;
                 }
 
-                Point3D point3D_2 = point3Ds.ElementAt(i);
+                Point3D point3D_2 = point3Ds_Local[i];
                 if (point3D_2 == null)
                 {
                     continue;
                 }
 
-                result.Add(new Segment3D(new Point3D(point3D_1), new Point3D(point3D_2)));
+                segment3Ds_Result.Add(new Segment3D(new Point3D(point3D_1), new Point3D(point3D_2)));
             }
 
             if (closed)
             {
-                result.Add(new Segment3D(new Point3D(result[result.Count - 1][1]), new Point3D(result[0][0])));
+                segment3Ds_Result.Add(new Segment3D(new Point3D(segment3Ds_Result[segment3Ds_Result.Count - 1][1]), new Point3D(segment3Ds_Result[0][0])));
             }
 
-            return result;
+            return segment3Ds_Result;
         }
     }
 }

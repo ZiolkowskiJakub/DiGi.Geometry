@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,20 +22,26 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            int count = point3Ds.Count();
+            Point3D[] point3Ds_Local = point3Ds as Point3D[] ?? point3Ds.ToArray();
+            int count = point3Ds_Local.Length;
 
             if (count < 4)
             {
                 return true;
             }
 
-            List<Vector3D> vector3Ds = [];
+            Point3D point3D_Origin = point3Ds_Local[0];
+            List<Vector3D> vector3Ds_Directions = new();
             for (int i = 0; i < count - 1; i++)
             {
-                vector3Ds.Add(new Vector3D(point3Ds.ElementAt(0), point3Ds.ElementAt(i + 1)));
+                Point3D point3D_Target = point3Ds_Local[i + 1];
+                if (point3D_Origin != null && point3D_Target != null)
+                {
+                    vector3Ds_Directions.Add(new Vector3D(point3D_Origin, point3D_Target));
+                }
             }
 
-            Math.Classes.Matrix? matrix = Create.Matrix(vector3Ds);
+            Math.Classes.Matrix? matrix = Create.Matrix(vector3Ds_Directions);
             if (matrix == null)
             {
                 return false;

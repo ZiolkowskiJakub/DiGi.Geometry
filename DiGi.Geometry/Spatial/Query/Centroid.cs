@@ -18,20 +18,21 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            int count = point3Ds.Count();
+            Point3D[] point3Ds_Local = point3Ds as Point3D[] ?? point3Ds.ToArray();
+            int count = point3Ds_Local.Length;
             if (count == 0)
             {
                 return null;
             }
 
-            Point3D point3D_1 = point3Ds.ElementAt(0);
+            Point3D point3D_1 = point3Ds_Local[0];
 
             if (count == 1)
             {
                 return new Point3D(point3D_1);
             }
 
-            Point3D point3D_2 = point3Ds.ElementAt(1);
+            Point3D point3D_2 = point3Ds_Local[1];
 
             if (count == 2)
             {
@@ -40,7 +41,7 @@ namespace DiGi.Geometry.Spatial
 
             if (count == 3)
             {
-                Point3D point3D_3 = point3Ds.ElementAt(2);
+                Point3D point3D_3 = point3Ds_Local[2];
 
                 double centroidX = (point3D_1.X + point3D_2.X + point3D_3.X) / 3.0;
                 double centroidY = (point3D_1.Y + point3D_2.Y + point3D_3.Y) / 3.0;
@@ -54,7 +55,7 @@ namespace DiGi.Geometry.Spatial
 
             for (int i = 2; i < count; i++)
             {
-                Point3D point3D_3 = point3Ds.ElementAt(i);
+                Point3D point3D_3 = point3Ds_Local[i];
                 Vector3D vector3D_1 = new(point3D_1, point3D_3);
                 Vector3D vector3D_2 = new(point3D_2, point3D_3);
 

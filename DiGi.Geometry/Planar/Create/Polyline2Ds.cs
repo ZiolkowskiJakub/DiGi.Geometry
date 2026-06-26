@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using QuikGraph;
 using QuikGraph.Algorithms.Observers;
@@ -21,7 +21,13 @@ namespace DiGi.Geometry.Planar
         /// <returns>A list of Polyline2D objects; otherwise, null if the input is empty or invalid.</returns>
         public static List<Polyline2D>? Polyline2Ds<T>(this IEnumerable<T>? segmentable2Ds, Point2D? point2D_Start = null, bool split = true, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
-            if (segmentable2Ds == null || segmentable2Ds.Count() == 0)
+            if (segmentable2Ds == null)
+            {
+                return null;
+            }
+
+            IReadOnlyList<T> segmentable2Ds_List = segmentable2Ds as IReadOnlyList<T> ?? [.. segmentable2Ds];
+            if (segmentable2Ds_List.Count == 0)
             {
                 return null;
             }
@@ -29,12 +35,12 @@ namespace DiGi.Geometry.Planar
             List<Segment2D>? segment2Ds = null;
             if (split)
             {
-                segment2Ds = segmentable2Ds.Split(tolerance);
+                segment2Ds = segmentable2Ds_List.Split(tolerance);
             }
             else
             {
                 segment2Ds = [];
-                foreach (ISegmentable2D segmentable2D in segmentable2Ds)
+                foreach (ISegmentable2D segmentable2D in segmentable2Ds_List)
                 {
                     List<Segment2D>? segment2Ds_Temp = segmentable2D.GetSegments();
                     if (segment2Ds_Temp == null)
@@ -52,7 +58,13 @@ namespace DiGi.Geometry.Planar
             }
 
             AdjacencyGraph<Point2D, Edge<Point2D>>? adjacencyGraph = segment2Ds.AdjacencyGraph(tolerance);
-            if (adjacencyGraph == null || adjacencyGraph.Vertices == null || adjacencyGraph.Vertices.Count() == 0)
+            if (adjacencyGraph == null || adjacencyGraph.Vertices == null)
+            {
+                return null;
+            }
+
+            Point2D[] vertices_All = adjacencyGraph.Vertices as Point2D[] ?? [.. adjacencyGraph.Vertices];
+            if (vertices_All.Length == 0)
             {
                 return null;
             }
@@ -60,9 +72,15 @@ namespace DiGi.Geometry.Planar
             if (point2D_Start == null)
             {
                 List<Point2D> point2Ds_Temp = [];
-                foreach (Point2D point2D in adjacencyGraph.Vertices)
+                foreach (Point2D point2D in vertices_All)
                 {
-                    if (!adjacencyGraph.TryGetOutEdges(point2D, out IEnumerable<Edge<Point2D>> edges_Temp) || edges_Temp == null || edges_Temp.Count() != 1)
+                    if (!adjacencyGraph.TryGetOutEdges(point2D, out IEnumerable<Edge<Point2D>> edges_Temp) || edges_Temp == null)
+                    {
+                        continue;
+                    }
+
+                    using IEnumerator<Edge<Point2D>> enumerator = edges_Temp.GetEnumerator();
+                    if (!enumerator.MoveNext() || enumerator.MoveNext())
                     {
                         continue;
                     }
@@ -80,7 +98,7 @@ namespace DiGi.Geometry.Planar
             {
                 double distance = double.MaxValue;
                 Point2D? point2D = null;
-                foreach (Point2D point_Temp in adjacencyGraph.Vertices)
+                foreach (Point2D point_Temp in vertices_All)
                 {
                     double distance_Temp = point_Temp.Distance(point2D_Start);
                     if (distance_Temp < distance)
@@ -96,13 +114,13 @@ namespace DiGi.Geometry.Planar
 
             if (point2D_Start == null)
             {
-                double maxDistance_Vertex = Query.MaxDistance(adjacencyGraph.Vertices, out Point2D? point2D_1, out Point2D? point2D_2);
+                double maxDistance_Vertex = Query.MaxDistance(vertices_All, out Point2D? point2D_1, out Point2D? point2D_2);
                 point2D_Start = point2D_1;
             }
 
             if (point2D_Start == null)
             {
-                point2D_Start = adjacencyGraph.Vertices.First();
+                point2D_Start = vertices_All[0];
             }
 
             if (point2D_Start == null)
@@ -156,19 +174,19 @@ namespace DiGi.Geometry.Planar
 
             point2Ds.Add(edges.Last().Target);
 
-            List<Polyline2D> result = [];
-            result.Add(new Polyline2D(point2Ds));
+            List<Polyline2D> polyline2Ds_Result = [];
+            polyline2Ds_Result.Add(new Polyline2D(point2Ds));
 
             if (segment2Ds.Count > 0)
             {
                 List<Polyline2D>? polyline2Ds = Polyline2Ds(segment2Ds, null, false, tolerance);
                 if (polyline2Ds != null && polyline2Ds.Count != 0)
                 {
-                    result.AddRange(polyline2Ds);
+                    polyline2Ds_Result.AddRange(polyline2Ds);
                 }
             }
 
-            return result;
+            return polyline2Ds_Result;
         }
     }
 }

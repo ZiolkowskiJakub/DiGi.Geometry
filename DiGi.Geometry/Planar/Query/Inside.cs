@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +19,8 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            int count = point2Ds.Count();
+            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            int count = point2Ds_Local.Length;
 
             if (count < 3)
             {
@@ -28,7 +29,7 @@ namespace DiGi.Geometry.Planar
 
             if (count == 3)
             {
-                return Inside(point2D, point2Ds.ElementAt(0), point2Ds.ElementAt(1), point2Ds.ElementAt(2));
+                return Inside(point2D, point2Ds_Local[0], point2Ds_Local[1], point2Ds_Local[2]);
             }
 
             bool result = false;
@@ -36,10 +37,15 @@ namespace DiGi.Geometry.Planar
             int j = count - 1;
             for (int i = 0; i < count; i++)
             {
-                Point2D point2D_1 = point2Ds.ElementAt(i);
-                Point2D point2D_2 = point2Ds.ElementAt(j);
+                Point2D point2D_1 = point2Ds_Local[i];
+                Point2D point2D_2 = point2Ds_Local[j];
+                if (point2D_1 == null || point2D_2 == null)
+                {
+                    j = i;
+                    continue;
+                }
 
-                if (point2D_1.Y < point2D.Y && point2D_2.Y >= point2D.Y || point2D_2.Y < point2D.Y && point2D_1.Y >= point2D.Y)
+                if ((point2D_1.Y < point2D.Y && point2D_2.Y >= point2D.Y) || (point2D_2.Y < point2D.Y && point2D_1.Y >= point2D.Y))
                 {
                     if (point2D_1.X + (point2D.Y - point2D_1.Y) / (point2D_2.Y - point2D_1.Y) * (point2D_2.X - point2D_1.X) < point2D.X)
                     {

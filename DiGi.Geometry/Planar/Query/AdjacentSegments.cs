@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,23 +22,26 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Segment2D> result = [];
-            if (segmentable2Ds.Count() < 2)
-            {
-                return result;
-            }
+            List<Segment2D> segment2Ds_Result = [];
 
             List<Segment2D> segment2Ds = [];
             List<Tuple<T?, BoundingBox2D, List<Segment2D>>> tuples = [];
+            int count = 0;
             foreach (T? segmentable2D in segmentable2Ds)
             {
-                BoundingBox2D? boundingBox2D = segmentable2D?.GetBoundingBox();
+                if (segmentable2D == null)
+                {
+                    continue;
+                }
+                count++;
+
+                BoundingBox2D? boundingBox2D = segmentable2D.GetBoundingBox();
                 if (boundingBox2D == null)
                 {
                     continue;
                 }
 
-                List<Segment2D>? segment2Ds_Segmentable2D = segmentable2D?.GetSegments();
+                List<Segment2D>? segment2Ds_Segmentable2D = segmentable2D.GetSegments();
                 if (segment2Ds_Segmentable2D == null || segment2Ds_Segmentable2D.Count == 0)
                 {
                     continue;
@@ -48,15 +51,15 @@ namespace DiGi.Geometry.Planar
                 segment2Ds.AddRange(segment2Ds_Segmentable2D);
             }
 
-            if (segment2Ds.Count < 2)
+            if (count < 2 || segment2Ds.Count < 2)
             {
-                return result;
+                return segment2Ds_Result;
             }
 
             List<Segment2D>? segment2Ds_Split = Split(segment2Ds, tolerance);
             if (segment2Ds_Split == null || segment2Ds_Split.Count < 2)
             {
-                return result;
+                return segment2Ds_Result;
             }
 
             foreach (Segment2D segment2D in segment2Ds_Split)
@@ -67,7 +70,7 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                int count = 0;
+                int count_Inner = 0;
                 for (int i = 0; i < tuples.Count; i++)
                 {
                     Tuple<T?, BoundingBox2D, List<Segment2D>> tuple = tuples[i];
@@ -82,20 +85,20 @@ namespace DiGi.Geometry.Planar
                         continue;
                     }
 
-                    count++;
-                    if (count > 1)
+                    count_Inner++;
+                    if (count_Inner > 1)
                     {
                         break;
                     }
                 }
 
-                if (count > 1)
+                if (count_Inner > 1)
                 {
-                    result.Add(segment2D!);
+                    segment2Ds_Result.Add(segment2D!);
                 }
             }
 
-            return result;
+            return segment2Ds_Result;
         }
 
         /// <summary>

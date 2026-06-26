@@ -20,16 +20,17 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Point2D>? result = ConvexHull(point2Ds);
+            List<Point2D> point2Ds_List = point2Ds as List<Point2D> ?? [.. point2Ds];
+            List<Point2D>? point2Ds_Result = ConvexHull(point2Ds_List);
 
-            if (!keepOrder || result is null || result.Count < 2)
+            if (!keepOrder || point2Ds_Result is null || point2Ds_Result.Count < 2)
             {
-                return result;
+                return point2Ds_Result;
             }
 
-            HashSet<Point2D> point2Ds_ResultSet = [.. result];
+            HashSet<Point2D> point2Ds_ResultSet = [.. point2Ds_Result];
             List<Point2D> point2Ds_Temp = [];
-            foreach (Point2D point2D in point2Ds)
+            foreach (Point2D point2D in point2Ds_List)
             {
                 if (point2D != null && point2Ds_ResultSet.Contains(point2D))
                 {
@@ -37,9 +38,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            result = point2Ds_Temp;
-
-            return result;
+            return point2Ds_Temp;
         }
 
         /// <summary>

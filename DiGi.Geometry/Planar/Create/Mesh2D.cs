@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
@@ -16,16 +16,22 @@ namespace DiGi.Geometry.Planar
         /// <returns>A <see cref="Classes.Mesh2D"/> object if valid triangles are provided; otherwise, null.</returns>
         public static Mesh2D? Mesh2D(this IEnumerable<Triangle2D>? triangle2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (triangle2Ds == null || triangle2Ds.Count() == 0)
+            if (triangle2Ds == null)
+            {
+                return null;
+            }
+
+            Triangle2D[] triangle2Ds_Cached = triangle2Ds as Triangle2D[] ?? triangle2Ds.ToArray();
+            if (triangle2Ds_Cached.Length == 0)
             {
                 return null;
             }
 
             List<Point2D> point2Ds = [];
 
-            List<int[]> indexes = [];
+            List<int[]> indices = [];
 
-            foreach (Triangle2D triangle2D in triangle2Ds)
+            foreach (Triangle2D triangle2D in triangle2Ds_Cached)
             {
                 if (triangle2D == null || triangle2D.GetArea() < tolerance)
                 {
@@ -62,10 +68,10 @@ namespace DiGi.Geometry.Planar
                     point2Ds.Add(point2Ds_Triangle[2]);
                 }
 
-                indexes.Add([index_1, index_2, index_3]);
+                indices.Add([index_1, index_2, index_3]);
             }
 
-            return new Mesh2D(point2Ds, indexes);
+            return new Mesh2D(point2Ds, indices);
         }
 
         /// <summary>

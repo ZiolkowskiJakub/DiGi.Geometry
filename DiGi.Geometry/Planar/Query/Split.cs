@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -41,9 +41,9 @@ namespace DiGi.Geometry.Planar
                 Modify.Add(point2Ds!, segment2D[1], tolerance);
             }
 
-            int count = tuples.Count();
+            int count = tuples.Count;
 
-            List<List<Point2D>?> point2DsList = [.. Enumerable.Repeat<List<Point2D>?>(null, count)];
+            List<List<Point2D>?> point2Ds_BySegment = [.. Enumerable.Repeat<List<Point2D>?>(null, count)];
             for (int i = 0; i < count - 1; i++)
             {
                 BoundingBox2D boundingBox2D_1 = tuples[i].Item1;
@@ -120,38 +120,38 @@ namespace DiGi.Geometry.Planar
 
                         if (point2D_Intersection_Temp.Distance(segment2D_1.Start) > tolerance && point2D_Intersection_Temp.Distance(segment2D_1.End) > tolerance)
                         {
-                            if (point2DsList[i] == null)
+                            if (point2Ds_BySegment[i] == null)
                             {
-                                point2DsList[i] = [];
+                                point2Ds_BySegment[i] = [];
                             }
 
-                            Modify.Add(point2DsList[i]!, point2D_Intersection_Temp, tolerance);
+                            Modify.Add(point2Ds_BySegment[i]!, point2D_Intersection_Temp, tolerance);
                         }
 
                         if (point2D_Intersection_Temp.Distance(segment2D_2.Start) > tolerance && point2D_Intersection_Temp.Distance(segment2D_2.End) > tolerance)
                         {
-                            if (point2DsList[j] == null)
+                            if (point2Ds_BySegment[j] == null)
                             {
-                                point2DsList[j] = [];
+                                point2Ds_BySegment[j] = [];
                             }
 
-                            Modify.Add(point2DsList[j]!, point2D_Intersection_Temp, tolerance);
+                            Modify.Add(point2Ds_BySegment[j]!, point2D_Intersection_Temp, tolerance);
                         }
                     }
                 }
             }
 
-            List<Segment2D> result = [];
+            List<Segment2D> segment2Ds_Result = [];
             for (int i = 0; i < count; i++)
             {
                 Segment2D segment2D_Temp = tuples[i].Item2;
-                if (result.Find(x => x.Similar(segment2D_Temp, tolerance)) != null)
+                if (segment2Ds_Result.Find(x => x.Similar(segment2D_Temp, tolerance)) != null)
                     continue;
 
-                List<Point2D>? point2Ds_Temp = point2DsList[i];
+                List<Point2D>? point2Ds_Temp = point2Ds_BySegment[i];
                 if (point2Ds_Temp == null || point2Ds_Temp.Count == 0)
                 {
-                    result.Add(segment2D_Temp);
+                    segment2Ds_Result.Add(segment2D_Temp);
                     continue;
                 }
 
@@ -166,17 +166,17 @@ namespace DiGi.Geometry.Planar
                     Point2D point2D_1 = point2Ds_Temp[j];
                     Point2D point2D_2 = point2Ds_Temp[j + 1];
 
-                    Segment2D segment2D = result.Find(x => (AlmostEquals(x[0], point2D_1, tolerance) && AlmostEquals(x[1], point2D_2, tolerance)) || (AlmostEquals(x[1], point2D_1, tolerance) && AlmostEquals(x[0], point2D_2, tolerance)));
+                    Segment2D segment2D = segment2Ds_Result.Find(x => (AlmostEquals(x[0], point2D_1, tolerance) && AlmostEquals(x[1], point2D_2, tolerance)) || (AlmostEquals(x[1], point2D_1, tolerance) && AlmostEquals(x[0], point2D_2, tolerance)));
                     if (segment2D != null)
                     {
                         continue;
                     }
 
-                    result.Add(new Segment2D(point2D_1, point2D_2));
+                    segment2Ds_Result.Add(new Segment2D(point2D_1, point2D_2));
                 }
             }
 
-            return result;
+            return segment2Ds_Result;
         }
 
         /// <summary>

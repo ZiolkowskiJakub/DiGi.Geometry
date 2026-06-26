@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DiGi.Geometry.Core
@@ -20,17 +20,18 @@ namespace DiGi.Geometry.Core
                 return null;
             }
 
-            if (!indexes.Any())
+            int[][] indexes_Cached = indexes as int[][] ?? indexes.ToArray();
+            if (indexes_Cached.Length == 0)
             {
                 return [];
             }
 
-            if (AdjacencyIndexes(indexes) is not Dictionary<int, List<int[]>> dictionary)
+            if (AdjacencyIndexes(indexes_Cached) is not Dictionary<int, List<int[]>> dictionary)
             {
                 return [];
             }
 
-            List<int[]> result = [];
+            List<int[]> intArrays_Result = [];
             auxiliaryIndexes = [];
 
             foreach (KeyValuePair<int, List<int[]>> keyValuePair in dictionary)
@@ -43,11 +44,11 @@ namespace DiGi.Geometry.Core
                 }
                 else
                 {
-                    result.AddRange(indexes_Temp);
+                    intArrays_Result.AddRange(indexes_Temp);
                 }
             }
 
-            return result;
+            return intArrays_Result;
         }
 
         /// <summary>
@@ -62,19 +63,20 @@ namespace DiGi.Geometry.Core
                 return null;
             }
 
-            if (!indexes.Any())
+            int[][] indexes_Cached = indexes as int[][] ?? indexes.ToArray();
+            if (indexes_Cached.Length == 0)
             {
                 return [];
             }
 
-            if (AdjacencyIndexes(indexes) is not Dictionary<int, List<int[]>> dictionary)
+            if (AdjacencyIndexes(indexes_Cached) is not Dictionary<int, List<int[]>> dictionary)
             {
                 return [];
             }
 
-            if (dictionary.TryGetValue(1, out List<int[]> result))
+            if (dictionary.TryGetValue(1, out List<int[]> intArrays_Result))
             {
-                return result;
+                return intArrays_Result;
             }
 
             return [];

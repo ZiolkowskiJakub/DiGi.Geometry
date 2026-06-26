@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,25 +24,29 @@ namespace DiGi.Geometry.Planar
         /// <returns>A <c>List&lt;double&gt;</c> containing the calculated determinants, or null if the input is null or contains fewer than 3 <see cref="Point2D"/> elements.</returns>
         public static List<double>? Determinants(this IEnumerable<Point2D>? point2Ds)
         {
-            if (point2Ds == null || point2Ds.Count() < 3)
+            if (point2Ds == null)
             {
                 return null;
             }
 
-            List<Point2D> point2Ds_Temp = [.. point2Ds];
-
-            int index = point2Ds_Temp.Count - 1;
-
-            point2Ds_Temp.Add(point2Ds_Temp[0]);
-            point2Ds_Temp.Insert(0, point2Ds_Temp[index]);
-
-            List<double> result = [];
-            for (int i = 1; i < point2Ds_Temp.Count - 1; i++)
+            Point2D[] point2Ds_Cached = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            if (point2Ds_Cached.Length < 3)
             {
-                result.Add(Determinant(point2Ds_Temp[i - 1], point2Ds_Temp[i], point2Ds_Temp[i + 1]));
+                return null;
             }
 
-            return result;
+            List<Point2D> point2Ds_Temp = new(point2Ds_Cached.Length + 2);
+            point2Ds_Temp.Add(point2Ds_Cached[point2Ds_Cached.Length - 1]);
+            point2Ds_Temp.AddRange(point2Ds_Cached);
+            point2Ds_Temp.Add(point2Ds_Cached[0]);
+
+            List<double> double_Determinants = new(point2Ds_Cached.Length);
+            for (int i = 1; i < point2Ds_Temp.Count - 1; i++)
+            {
+                double_Determinants.Add(Determinant(point2Ds_Temp[i - 1], point2Ds_Temp[i], point2Ds_Temp[i + 1]));
+            }
+
+            return double_Determinants;
         }
     }
 }

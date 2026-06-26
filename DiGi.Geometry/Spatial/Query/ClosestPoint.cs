@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 
@@ -115,8 +115,8 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            distance = double.MaxValue;
-            Point3D? result = null;
+            double distanceSq = double.MaxValue;
+            Point3D? point3D_Result = null;
             foreach (Segment3D segment3D in segment3Ds)
             {
                 Point3D? point3D_Closest = segment3D?.ClosestPoint(point3D);
@@ -125,15 +125,19 @@ namespace DiGi.Geometry.Spatial
                     continue;
                 }
 
-                double distance_Temp = point3D_Closest.Distance(point3D);
-                if (distance_Temp < distance)
+                double dx = point3D_Closest.X - point3D.X;
+                double dy = point3D_Closest.Y - point3D.Y;
+                double dz = point3D_Closest.Z - point3D.Z;
+                double distanceSq_Temp = dx * dx + dy * dy + dz * dz;
+                if (distanceSq_Temp < distanceSq)
                 {
-                    distance = distance_Temp;
-                    result = point3D_Closest;
+                    distanceSq = distanceSq_Temp;
+                    point3D_Result = point3D_Closest;
                 }
             }
 
-            return result;
+            distance = point3D_Result != null ? System.Math.Sqrt(distanceSq) : double.NaN;
+            return point3D_Result;
         }
 
         /// <summary>
@@ -151,8 +155,8 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            distance = double.MaxValue;
-            Point3D? result = null;
+            double distanceSq = double.MaxValue;
+            Point3D? point3D_Result = null;
 
             foreach (Point3D point3D_Temp in point3Ds)
             {
@@ -161,22 +165,19 @@ namespace DiGi.Geometry.Spatial
                     continue;
                 }
 
-                double distance_Temp = point3D.Distance(point3D_Temp);
-                if (distance_Temp > distance)
+                double dx = point3D.X - point3D_Temp.X;
+                double dy = point3D.Y - point3D_Temp.Y;
+                double dz = point3D.Z - point3D_Temp.Z;
+                double distanceSq_Temp = dx * dx + dy * dy + dz * dz;
+                if (distanceSq_Temp < distanceSq)
                 {
-                    continue;
+                    distanceSq = distanceSq_Temp;
+                    point3D_Result = point3D_Temp;
                 }
-
-                distance = distance_Temp;
-                result = point3D_Temp;
             }
 
-            if (distance == double.MaxValue)
-            {
-                distance = double.NaN;
-            }
-
-            return result;
+            distance = point3D_Result != null ? System.Math.Sqrt(distanceSq) : double.NaN;
+            return point3D_Result;
         }
 
         /// <summary>

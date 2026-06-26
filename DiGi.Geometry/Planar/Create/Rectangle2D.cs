@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
@@ -16,7 +16,13 @@ namespace DiGi.Geometry.Planar
         /// <returns>A Rectangle2D that bounds the points; otherwise, null if inputs are invalid.</returns>
         public static Rectangle2D? Rectangle2D(this IEnumerable<Point2D>? point2Ds, Vector2D? direction)
         {
-            if (point2Ds == null || direction == null || point2Ds.Count() < 2)
+            if (point2Ds == null || direction == null)
+            {
+                return null;
+            }
+
+            Point2D[] point2Ds_Cached = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            if (point2Ds_Cached.Length < 2)
             {
                 return null;
             }
@@ -36,7 +42,7 @@ namespace DiGi.Geometry.Planar
             double minWidth = double.MaxValue;
             double maxWidth = double.MinValue;
 
-            foreach (Point2D point2D in point2Ds)
+            foreach (Point2D point2D in point2Ds_Cached)
             {
                 if ((Vector2D?)point2D is not Vector2D vector2D)
                 {
@@ -85,12 +91,18 @@ namespace DiGi.Geometry.Planar
         /// <returns>The smallest Rectangle2D that contains all points; otherwise, null if too few points are provided.</returns>
         public static Rectangle2D? Rectangle2D(this IEnumerable<Point2D>? point2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point2Ds == null || point2Ds.Count() <= 2)
+            if (point2Ds == null)
             {
                 return null;
             }
 
-            List<Point2D>? point2Ds_ConvexHull = Query.ConvexHull(point2Ds);
+            Point2D[] point2Ds_Cached = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            if (point2Ds_Cached.Length <= 2)
+            {
+                return null;
+            }
+
+            List<Point2D>? point2Ds_ConvexHull = Query.ConvexHull(point2Ds_Cached);
             if (point2Ds_ConvexHull == null || point2Ds_ConvexHull.Count < 2)
             {
                 return null;

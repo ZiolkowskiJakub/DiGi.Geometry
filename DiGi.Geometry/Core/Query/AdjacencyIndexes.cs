@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DiGi.Geometry.Core
@@ -17,7 +17,8 @@ namespace DiGi.Geometry.Core
                 return null;
             }
 
-            if (!indexes.Any())
+            int[][] indexes_Cached = indexes as int[][] ?? indexes.ToArray();
+            if (indexes_Cached.Length == 0)
             {
                 return [];
             }
@@ -31,7 +32,7 @@ namespace DiGi.Geometry.Core
                 return v1 < v2 ? (v1, v2) : (v2, v1);
             }
 
-            foreach (int[] triangle in indexes)
+            foreach (int[] triangle in indexes_Cached)
             {
                 if (triangle.Length < 3)
                 {

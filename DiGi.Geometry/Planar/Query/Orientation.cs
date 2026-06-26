@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Core.Enums;
+using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
@@ -57,12 +57,19 @@ namespace DiGi.Geometry.Planar
         /// <returns>The orientation of the point set.</returns>
         public static Orientation Orientation(this IEnumerable<Point2D>? point2Ds, bool convexHull = true)
         {
-            if (point2Ds == null || point2Ds.Count() < 3)
+            if (point2Ds == null)
             {
                 return Core.Enums.Orientation.Undefined;
             }
 
-            List<Point2D>? point2Ds_Temp = convexHull && point2Ds.Count() > 3 ? ConvexHull(point2Ds, true) : [.. point2Ds];
+            Point2D[] point2Ds_Materialized = point2Ds as Point2D[] ?? [.. point2Ds];
+            int count = point2Ds_Materialized.Length;
+            if (count < 3)
+            {
+                return Core.Enums.Orientation.Undefined;
+            }
+
+            List<Point2D>? point2Ds_Temp = convexHull && count > 3 ? ConvexHull(point2Ds_Materialized, true) : [.. point2Ds_Materialized];
             if (point2Ds_Temp == null || point2Ds_Temp.Count < 3)
             {
                 return Core.Enums.Orientation.Undefined;

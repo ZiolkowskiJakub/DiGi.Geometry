@@ -19,7 +19,8 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            int count = point2Ds.Count();
+            Planar.Classes.Point2D[] point2Ds_Local = point2Ds as Planar.Classes.Point2D[] ?? point2Ds.ToArray();
+            int count = point2Ds_Local.Length;
 
             if (count < 3)
             {
@@ -32,9 +33,9 @@ namespace DiGi.Geometry.Spatial
                 int index_2 = DiGi.Core.Query.Next(count, index_1);
                 int index_3 = DiGi.Core.Query.Next(count, index_2);
 
-                Point3D? point3D_1 = plane.Convert(point2Ds.ElementAt(index_1));
-                Point3D? point3D_2 = plane.Convert(point2Ds.ElementAt(index_2));
-                Point3D? point3D_3 = plane.Convert(point2Ds.ElementAt(index_3));
+                Point3D? point3D_1 = plane.Convert(point2Ds_Local[index_1]);
+                Point3D? point3D_2 = plane.Convert(point2Ds_Local[index_2]);
+                Point3D? point3D_3 = plane.Convert(point2Ds_Local[index_3]);
 
                 Vector3D? normal = Normal(point3D_1, point3D_2, point3D_3);
                 if (normal is null)
@@ -56,12 +57,18 @@ namespace DiGi.Geometry.Spatial
         /// <returns>A <see cref="Vector3D"/> representing the normal vector, or <c>null</c> if the collection is null, contains fewer than three points, or the points are collinear within the specified tolerance.</returns>
         public static Vector3D? Normal(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point3Ds == null || point3Ds.Collinear(tolerance))
+            if (point3Ds == null)
             {
                 return null;
             }
 
-            int count = point3Ds.Count();
+            Point3D[] point3Ds_Local = point3Ds as Point3D[] ?? point3Ds.ToArray();
+            if (point3Ds_Local.Collinear(tolerance))
+            {
+                return null;
+            }
+
+            int count = point3Ds_Local.Length;
 
             if (count < 3)
             {
@@ -70,23 +77,23 @@ namespace DiGi.Geometry.Spatial
 
             if (count == 3)
             {
-                return Normal(point3Ds.ElementAt(0), point3Ds.ElementAt(1), point3Ds.ElementAt(2));
+                return Normal(point3Ds_Local[0], point3Ds_Local[1], point3Ds_Local[2]);
             }
 
-            Point3D? origin = point3Ds.Average();
+            Point3D? origin = point3Ds_Local.Average();
             if (origin is null)
             {
                 return null;
             }
 
             Vector3D? normal = Constants.Vector3D.Zero;
-            if (point3Ds.Coplanar(tolerance))
+            if (point3Ds_Local.Coplanar(tolerance))
             {
                 Vector3D? vector3D_Origin = (Vector3D?)origin;
 
                 for (int i = 0; i < count - 1; i++)
                 {
-                    Vector3D? vector3D = ((Vector3D?)point3Ds.ElementAt(i) - vector3D_Origin)?.CrossProduct((Vector3D?)point3Ds.ElementAt(i + 1) - vector3D_Origin);
+                    Vector3D? vector3D = ((Vector3D?)point3Ds_Local[i] - vector3D_Origin)?.CrossProduct((Vector3D?)point3Ds_Local[i + 1] - vector3D_Origin);
                     if (vector3D is null)
                     {
                         continue;
@@ -103,9 +110,13 @@ namespace DiGi.Geometry.Spatial
 
             for (int i = 0; i < count; i++)
             {
-                normalizedPoints[i, 0] = point3Ds.ElementAt(i).X - origin.X;
-                normalizedPoints[i, 1] = point3Ds.ElementAt(i).Y - origin.Y;
-                normalizedPoints[i, 2] = point3Ds.ElementAt(i).Z - origin.Z;
+                Point3D point3D = point3Ds_Local[i];
+                if (point3D != null)
+                {
+                    normalizedPoints[i, 0] = point3D.X - origin.X;
+                    normalizedPoints[i, 1] = point3D.Y - origin.Y;
+                    normalizedPoints[i, 2] = point3D.Z - origin.Z;
+                }
             }
 
             for (int i = 0; i < 3; i++)
@@ -154,9 +165,9 @@ namespace DiGi.Geometry.Spatial
             Plane plane = new(origin, result);
 
             bool invalid = false;
-            foreach (Point3D point3D in point3Ds)
+            foreach (Point3D point3D in point3Ds_Local)
             {
-                if (plane.Distance(point3D) > tolerance)
+                if (point3D != null && plane.Distance(point3D) > tolerance)
                 {
                     invalid = true;
                     break;
@@ -171,7 +182,7 @@ namespace DiGi.Geometry.Spatial
 
                 for (int i = 0; i < count - 1; i++)
                 {
-                    Vector3D? vector3D = ((Vector3D?)point3Ds.ElementAt(i) - vector3D_Origin)?.CrossProduct((Vector3D?)point3Ds.ElementAt(i + 1) - vector3D_Origin);
+                    Vector3D? vector3D = ((Vector3D?)point3Ds_Local[i] - vector3D_Origin)?.CrossProduct((Vector3D?)point3Ds_Local[i + 1] - vector3D_Origin);
                     if (vector3D is null)
                     {
                         continue;
@@ -186,8 +197,13 @@ namespace DiGi.Geometry.Spatial
 
                 double max = double.MinValue;
                 double max_Temp = double.MinValue;
-                foreach (Point3D point3D in point3Ds)
+                foreach (Point3D point3D in point3Ds_Local)
                 {
+                    if (point3D == null)
+                    {
+                        continue;
+                    }
+
                     double distance = double.NaN;
 
                     distance = plane.Distance(point3D);

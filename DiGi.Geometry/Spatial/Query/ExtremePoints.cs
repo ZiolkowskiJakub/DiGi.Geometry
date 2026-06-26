@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,17 +35,18 @@ namespace DiGi.Geometry.Spatial
                 return;
             }
 
-            int count = point3Ds.Count();
+            Point3D?[] point3Ds_Local = point3Ds as Point3D?[] ?? point3Ds.ToArray();
+            int count = point3Ds_Local.Length;
 
             if (count < 2)
             {
                 return;
             }
 
-            double distance_Max = double.MinValue;
+            double distanceSq_Max = double.MinValue;
             for (int i = 0; i < count - 1; i++)
             {
-                Point3D? point3D_1_Temp = point3Ds.ElementAt(i);
+                Point3D? point3D_1_Temp = point3Ds_Local[i];
                 if (point3D_1_Temp is null)
                 {
                     continue;
@@ -53,25 +54,28 @@ namespace DiGi.Geometry.Spatial
 
                 for (int j = i + 1; j < count; j++)
                 {
-                    Point3D? point3D_2_Temp = point3Ds.ElementAt(j);
+                    Point3D? point3D_2_Temp = point3Ds_Local[j];
                     if (point3D_2_Temp is null)
                     {
                         continue;
                     }
 
-                    double distance_Temp = point3D_1_Temp.Distance(point3D_2_Temp);
-                    if (distance_Max < distance_Temp)
+                    double dx = point3D_1_Temp.X - point3D_2_Temp.X;
+                    double dy = point3D_1_Temp.Y - point3D_2_Temp.Y;
+                    double dz = point3D_1_Temp.Z - point3D_2_Temp.Z;
+                    double distanceSq = dx * dx + dy * dy + dz * dz;
+                    if (distanceSq_Max < distanceSq)
                     {
                         point3D_1 = point3D_1_Temp;
                         point3D_2 = point3D_2_Temp;
-                        distance_Max = distance_Temp;
+                        distanceSq_Max = distanceSq;
                     }
                 }
             }
 
-            if (distance_Max != double.MinValue)
+            if (distanceSq_Max != double.MinValue)
             {
-                distance = distance_Max;
+                distance = System.Math.Sqrt(distanceSq_Max);
             }
         }
     }

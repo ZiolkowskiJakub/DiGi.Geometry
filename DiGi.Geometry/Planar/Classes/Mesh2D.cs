@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
@@ -181,20 +181,27 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            List<Segment2D> result = [];
+            List<Segment2D> segment2Ds_Result = new();
 
-            Dictionary<int, HashSet<int>> dictionary = [];
+            Dictionary<int, HashSet<int>> dictionary = new();
             for (int i = 0; i < count; i++)
             {
-                List<int> indexes_Triangle = [.. indexes[i]];
-                indexes_Triangle.Add(indexes_Triangle.First());
-
-                for (int j = 0; j < indexes_Triangle.Count - 1; j++)
+                int[] indexes_Triangle = indexes[i];
+                if (indexes_Triangle == null || indexes_Triangle.Length < 3)
                 {
-                    int index_1 = System.Math.Max(indexes_Triangle[j], indexes_Triangle[j + 1]);
-                    int index_2 = System.Math.Min(indexes_Triangle[j], indexes_Triangle[j + 1]);
+                    continue;
+                }
 
-                    if (dictionary.TryGetValue(index_1, out HashSet<int> indexes_Index) && indexes_Index != null)
+                // A triangle has 3 edges: (0, 1), (1, 2), (2, 0)
+                for (int j = 0; j < 3; j++)
+                {
+                    int idx1 = indexes_Triangle[j];
+                    int idx2 = indexes_Triangle[(j + 1) % 3];
+
+                    int index_1 = System.Math.Max(idx1, idx2);
+                    int index_2 = System.Math.Min(idx1, idx2);
+
+                    if (dictionary.TryGetValue(index_1, out HashSet<int>? indexes_Index) && indexes_Index != null)
                     {
                         if (indexes_Index.Contains(index_2))
                         {
@@ -204,17 +211,20 @@ namespace DiGi.Geometry.Planar.Classes
 
                     if (indexes_Index == null)
                     {
-                        indexes_Index = [];
+                        indexes_Index = new();
                         dictionary[index_1] = indexes_Index;
                     }
 
                     indexes_Index.Add(index_2);
 
-                    result.Add(new Segment2D(points[indexes_Triangle[j]], points[indexes_Triangle[j + 1]]));
+                    if (idx1 < points.Count && idx2 < points.Count)
+                    {
+                        segment2Ds_Result.Add(new Segment2D(points[idx1], points[idx2]));
+                    }
                 }
             }
 
-            return result;
+            return segment2Ds_Result;
         }
 
         /// <summary>

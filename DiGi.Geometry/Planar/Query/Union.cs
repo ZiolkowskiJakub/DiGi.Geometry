@@ -40,7 +40,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<PolygonalFace2D> result = [];
+            List<PolygonalFace2D> polygonalFace2Ds_Result = [];
             for (int i = 0; i < polygons.Count; i++)
             {
                 PolygonalFace2D? polygonalFace2D = polygons[i].ToDiGi();
@@ -49,10 +49,10 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                result.Add(polygonalFace2D);
+                polygonalFace2Ds_Result.Add(polygonalFace2D);
             }
 
-            return result;
+            return polygonalFace2Ds_Result;
         }
 
         /// <summary>
@@ -112,20 +112,20 @@ namespace DiGi.Geometry.Planar
             if (polygons == null)
                 return null;
 
-            List<Polygon> result = [];
+            List<Polygon> polygons_Result = [];
 
             // Avoid multiple enumerations
             List<Polygon> polygons_List = polygons as List<Polygon> ?? [.. polygons];
 
             if (polygons_List.Count == 0)
             {
-                return result;
+                return polygons_Result;
             }
 
             if (polygons_List.Count == 1)
             {
-                result.Add(polygons_List[0]);
-                return result;
+                polygons_Result.Add(polygons_List[0]);
+                return polygons_Result;
             }
 
             // Fix invalid input geometries individually first (much faster than fixing the collection)
@@ -163,7 +163,7 @@ namespace DiGi.Geometry.Planar
 
             if (validPolygons.Count == 0)
             {
-                return result;
+                return polygons_Result;
             }
 
             NetTopologySuite.Geometries.Geometry? geometry;
@@ -178,7 +178,7 @@ namespace DiGi.Geometry.Planar
 
             if (geometry == null || geometry.IsEmpty)
             {
-                return result;
+                return polygons_Result;
             }
 
             if (geometry is MultiPolygon multiPolygon)
@@ -188,8 +188,8 @@ namespace DiGi.Geometry.Planar
 
             if (geometry is Polygon polygonResult)
             {
-                result.Add(polygonResult);
-                return result;
+                polygons_Result.Add(polygonResult);
+                return polygons_Result;
             }
 
             if (geometry is GeometryCollection geometryCollection)
@@ -198,17 +198,17 @@ namespace DiGi.Geometry.Planar
                 {
                     if (geometry_Temp is Polygon polygon_Temp)
                     {
-                        result.Add(polygon_Temp);
+                        polygons_Result.Add(polygon_Temp);
                     }
                     else if (geometry_Temp is MultiPolygon multiPolygon_Temp)
                     {
-                        result.AddRange(multiPolygon_Temp.Geometries.Cast<Polygon>());
+                        polygons_Result.AddRange(multiPolygon_Temp.Geometries.Cast<Polygon>());
                     }
                 }
-                return result;
+                return polygons_Result;
             }
 
-            return result;
+            return polygons_Result;
         }
 
         /// <summary>
@@ -224,23 +224,24 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            int count = polygonal2Ds.Count();
+            IReadOnlyList<TPolygonal2D> polygonal2Ds_List = polygonal2Ds as IReadOnlyList<TPolygonal2D> ?? [.. polygonal2Ds];
+            int count = polygonal2Ds_List.Count;
 
-            List<Polygon2D> result = [];
+            List<Polygon2D> polygon2Ds_Result = [];
 
             if (count == 0)
             {
-                return result;
+                return polygon2Ds_Result;
             }
 
             if (count == 1)
             {
-                result.Add(new Polygon2D(polygonal2Ds.ElementAt(0)));
-                return result;
+                polygon2Ds_Result.Add(new Polygon2D(polygonal2Ds_List[0]));
+                return polygon2Ds_Result;
             }
 
             List<Polygon>? polygons = [];
-            foreach (TPolygonal2D polygonal2D in polygonal2Ds)
+            foreach (TPolygonal2D polygonal2D in polygonal2Ds_List)
             {
                 if (polygonal2D?.ToNTS_Polygon() is not Polygon polygon)
                 {
@@ -264,10 +265,10 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                result.Add(new(polygonal2D));
+                polygon2Ds_Result.Add(new(polygonal2D));
             }
 
-            return result;
+            return polygon2Ds_Result;
         }
 
         /// <summary>

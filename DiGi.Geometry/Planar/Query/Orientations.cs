@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Core.Enums;
+using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,25 +19,26 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            int count = point2Ds.Count();
+            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            int count = point2Ds_Local.Length;
             if (count < 3)
             {
                 return null;
             }
 
-            List<Orientation> result =
-            [
-                Orientation(point2Ds.ElementAt(count - 1), point2Ds.ElementAt(0), point2Ds.ElementAt(1))
-            ];
+            List<Orientation> orientations_Result = new()
+            {
+                Orientation(point2Ds_Local[count - 1], point2Ds_Local[0], point2Ds_Local[1])
+            };
 
             for (int i = 1; i < count - 1; i++)
             {
-                result.Add(Orientation(point2Ds.ElementAt(i - 1), point2Ds.ElementAt(i), point2Ds.ElementAt(i + 1)));
+                orientations_Result.Add(Orientation(point2Ds_Local[i - 1], point2Ds_Local[i], point2Ds_Local[i + 1]));
             }
 
-            result.Add(Orientation(point2Ds.ElementAt(count - 2), point2Ds.ElementAt(count - 1), point2Ds.ElementAt(0)));
+            orientations_Result.Add(Orientation(point2Ds_Local[count - 2], point2Ds_Local[count - 1], point2Ds_Local[0]));
 
-            return result;
+            return orientations_Result;
         }
     }
 }

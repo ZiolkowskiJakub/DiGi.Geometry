@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Noding.Snapround;
 using NetTopologySuite.Operation.Polygonize;
@@ -22,21 +22,24 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            if (segment2Ds.Count() == 0)
-            {
-                return [];
-            }
-
             List<NetTopologySuite.Geometries.Geometry> geometries = [];
             foreach (Segment2D segment2D in segment2Ds)
             {
-                NetTopologySuite.Geometries.Geometry? geometry = segment2D.ToNTS_LineString();
-                if (geometry == null)
+                if (segment2D == null)
                 {
                     continue;
                 }
 
-                geometries.Add(geometry);
+                NetTopologySuite.Geometries.Geometry? geometry = segment2D.ToNTS_LineString();
+                if (geometry != null)
+                {
+                    geometries.Add(geometry);
+                }
+            }
+
+            if (geometries.Count == 0)
+            {
+                return [];
             }
 
             return Polygons(geometries, tolerance);
@@ -55,12 +58,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Polygon> result = [];
-
-            if (geometries.Count() == 0)
-            {
-                return result;
-            }
+            List<Polygon> polygons_Result = [];
 
             List<NetTopologySuite.Geometries.Geometry> geometries_Temp = [];
             foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in geometries)
@@ -73,9 +71,9 @@ namespace DiGi.Geometry.Planar
                 geometries_Temp.Add(geometry_Temp);
             }
 
-            if (geometries_Temp.Count() == 0)
+            if (geometries_Temp.Count == 0)
             {
-                return result;
+                return polygons_Result;
             }
 
             GeometryNoder geometryNoder = new(new PrecisionModel(1 / tolerance));
@@ -83,7 +81,7 @@ namespace DiGi.Geometry.Planar
             List<LineString> lineStrings = [.. geometryNoder.Node(geometries_Temp)];
             if (lineStrings == null || lineStrings.Count == 0)
             {
-                return result;
+                return polygons_Result;
             }
 
             Polygonizer polygonizer = new(false);
@@ -95,14 +93,15 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            if (geometries_Result.Count() == 0)
+            List<NetTopologySuite.Geometries.Geometry> geometries_ResultList = [.. geometries_Result];
+            if (geometries_ResultList.Count == 0)
             {
-                result.AddRange(geometries_Temp.FindAll(x => x is Polygon).Cast<Polygon>());
-                result.AddRange(geometries_Temp.FindAll(x => x is LinearRing).ConvertAll(x => new Polygon((LinearRing)x)));
-                return result;
+                polygons_Result.AddRange(geometries_Temp.FindAll(x => x is Polygon).Cast<Polygon>());
+                polygons_Result.AddRange(geometries_Temp.FindAll(x => x is LinearRing).ConvertAll(x => new Polygon((LinearRing)x)));
+                return polygons_Result;
             }
 
-            foreach (NetTopologySuite.Geometries.Geometry geometry in geometries_Result)
+            foreach (NetTopologySuite.Geometries.Geometry geometry in geometries_ResultList)
             {
                 Polygon? polygon = geometry as Polygon;
                 if (polygon == null)
@@ -110,10 +109,10 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                result.Add(polygon);
+                polygons_Result.Add(polygon);
             }
 
-            return result;
+            return polygons_Result;
         }
 
         /// <summary>
@@ -129,28 +128,28 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Polygon> result = [];
+            List<Polygon> polygons_Result = [];
             foreach (NetTopologySuite.Geometries.Geometry geometry in geometries)
             {
                 if (geometry is Polygon polygon)
                 {
-                    result.Add(polygon);
+                    polygons_Result.Add(polygon);
                 }
                 else if (geometry is MultiPolygon multiPolygon_Temp)
                 {
                     List<Polygon>? polygons = Polygons(multiPolygon_Temp);
                     if (polygons != null && polygons.Count > 0)
                     {
-                        result.AddRange(polygons);
+                        polygons_Result.AddRange(polygons);
                     }
                 }
                 else if (geometry is LinearRing linearRing)
                 {
-                    result.Add(new Polygon(linearRing));
+                    polygons_Result.Add(new Polygon(linearRing));
                 }
             }
 
-            return result;
+            return polygons_Result;
         }
     }
 }

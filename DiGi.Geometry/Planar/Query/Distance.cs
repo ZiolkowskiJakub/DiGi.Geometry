@@ -53,12 +53,18 @@ namespace DiGi.Geometry.Planar
         public static double Distance<T>(this Point2D? point2D, IEnumerable<T>? segmentable2Ds, out Point2D? closetPoint2D) where T : ISegmentable2D
         {
             closetPoint2D = null;
-            if (point2D == null || segmentable2Ds == null || segmentable2Ds.Count() == 0)
+            if (point2D == null || segmentable2Ds == null)
             {
                 return double.NaN;
             }
 
-            return Distance(point2D, segmentable2Ds?.Segments(), out closetPoint2D);
+            List<Segment2D>? segment2Ds = segmentable2Ds.Segments();
+            if (segment2Ds == null || segment2Ds.Count == 0)
+            {
+                return double.NaN;
+            }
+
+            return Distance(point2D, segment2Ds, out closetPoint2D);
         }
 
         /// <summary>
@@ -104,7 +110,7 @@ namespace DiGi.Geometry.Planar
                 return double.NaN;
             }
 
-            double result = double.MaxValue;
+            double resultSq = double.MaxValue;
             foreach (Segment2D segment2D_1 in segment2Ds_1)
             {
                 foreach (Segment2D segment2D_2 in segment2Ds_2)
@@ -112,17 +118,21 @@ namespace DiGi.Geometry.Planar
                     Point2D? point2D = IntersectionPoint(segment2D_1[0], segment2D_1[1], segment2D_2[0], segment2D_2[1], out Point2D? point2D_Closest1_Temp, out Point2D? point2D_Closest2_Temp, tolerance);
                     if (point2D_Closest1_Temp != null && point2D_Closest2_Temp != null)
                     {
-                        double distance = point2D_Closest1_Temp.Distance(point2D_Closest2_Temp);
-                        if (distance == 0)
-                        {
-                            return 0;
-                        }
-
-                        if (distance < result)
+                        double dx = point2D_Closest1_Temp.X - point2D_Closest2_Temp.X;
+                        double dy = point2D_Closest1_Temp.Y - point2D_Closest2_Temp.Y;
+                        double distanceSq = dx * dx + dy * dy;
+                        if (distanceSq == 0)
                         {
                             point2D_Closest1 = point2D_Closest1_Temp;
                             point2D_Closest2 = point2D_Closest2_Temp;
-                            result = distance;
+                            return 0;
+                        }
+
+                        if (distanceSq < resultSq)
+                        {
+                            point2D_Closest1 = point2D_Closest1_Temp;
+                            point2D_Closest2 = point2D_Closest2_Temp;
+                            resultSq = distanceSq;
                         }
                     }
 
@@ -135,12 +145,12 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            if (result == double.MaxValue)
+            if (resultSq == double.MaxValue)
             {
                 return double.NaN;
             }
 
-            return result;
+            return System.Math.Sqrt(resultSq);
         }
 
         /// <summary>

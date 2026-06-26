@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Planar
@@ -31,13 +31,18 @@ namespace DiGi.Geometry.Planar
             }
 
             double sum = 0;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count - 1; i++)
             {
                 Point2D current = point2Ds_Temp[i];
-                Point2D next = point2Ds_Temp[(i + 1) % count];
+                Point2D next = point2Ds_Temp[i + 1];
 
                 sum += (current.X * next.Y) - (next.X * current.Y);
             }
+
+            // Handle the closing edge separately to eliminate modulo division in the loop
+            Point2D last = point2Ds_Temp[count - 1];
+            Point2D first = point2Ds_Temp[0];
+            sum += (last.X * first.Y) - (first.X * last.Y);
 
             return System.Math.Abs(sum) * 0.5;
         }

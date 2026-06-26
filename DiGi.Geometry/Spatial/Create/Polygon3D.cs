@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
@@ -17,7 +17,7 @@ namespace DiGi.Geometry.Spatial
         /// <returns>A <see cref="Classes.Polygon3D"/> object if a valid polygon can be created; otherwise, null.</returns>
         public static Polygon3D? Polygon3D(this IEnumerable<Point3D?>? point3Ds, double tolerace = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point3Ds == null || point3Ds.Count() < 3)
+            if (point3Ds == null)
             {
                 return null;
             }
@@ -25,12 +25,15 @@ namespace DiGi.Geometry.Spatial
             List<Point3D> point3Ds_Temp = [];
             foreach (Point3D? point3D in point3Ds)
             {
-                if (point3D == null)
+                if (point3D != null)
                 {
-                    continue;
+                    point3Ds_Temp.Add(point3D);
                 }
+            }
 
-                point3Ds_Temp.Add(point3D);
+            if (point3Ds_Temp.Count < 3)
+            {
+                return null;
             }
 
             Plane? plane = Plane(point3Ds_Temp, tolerace);
@@ -62,15 +65,27 @@ namespace DiGi.Geometry.Spatial
         /// <returns>A <see cref="Classes.Polygon3D"/> if a valid polygon can be constructed; otherwise, <c>null</c>.</returns>
         public static Polygon3D? Polygon3D(this Vector3D? normal, IEnumerable<Point3D?>? point3Ds)
         {
-            if (normal == null || point3Ds == null || point3Ds.Count() < 3)
+            if (normal == null || point3Ds == null)
             {
                 return null;
             }
 
-            Plane plane = new(point3Ds.ElementAt(0), normal);
+            Point3D?[] point3Ds_Materialized = point3Ds as Point3D?[] ?? [.. point3Ds];
+            if (point3Ds_Materialized.Length < 3)
+            {
+                return null;
+            }
+
+            Point3D? point3D_First = point3Ds_Materialized[0];
+            if (point3D_First == null)
+            {
+                return null;
+            }
+
+            Plane plane = new(point3D_First, normal);
 
             List<Point2D> point2Ds = [];
-            foreach (Point3D? point3D in point3Ds)
+            foreach (Point3D? point3D in point3Ds_Materialized)
             {
                 Point2D? point2D = Query.Convert(plane, plane.Project(point3D));
                 if (point2D is not null)

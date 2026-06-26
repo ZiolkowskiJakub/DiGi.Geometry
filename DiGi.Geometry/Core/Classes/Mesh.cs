@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Geometry.Core.Interfaces;
 using System.Collections.Generic;
@@ -102,7 +102,7 @@ namespace DiGi.Geometry.Core.Classes
                 }
             }
 
-            int count = this.points.Count();
+            int count = this.points?.Count ?? 0;
 
             this.indexes = [];
             foreach (int[] vertices in indexes)

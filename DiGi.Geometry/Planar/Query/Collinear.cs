@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +55,7 @@ namespace DiGi.Geometry.Planar
                 point2Ds_Temp.Add(point2D);
             }
 
-            int count = point2Ds_Temp.Count();
+            int count = point2Ds_Temp.Count;
 
             if (count < 2)
             {

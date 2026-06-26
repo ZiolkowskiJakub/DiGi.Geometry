@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,12 +59,18 @@ namespace DiGi.Geometry.Planar
         /// <returns>True if the point lies on any of the provided geometries within the specified tolerance; otherwise, false.</returns>
         public static bool On<T>(this IEnumerable<T>? segmentable2Ds, Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where T : ISegmentable2D
         {
-            if (point2D == null || segmentable2Ds == null || segmentable2Ds.Count() == 0)
+            if (point2D == null || segmentable2Ds == null)
             {
                 return false;
             }
 
-            return On(segmentable2Ds?.Segments(), point2D, tolerance);
+            List<Segment2D>? segment2Ds = segmentable2Ds.Segments();
+            if (segment2Ds == null || segment2Ds.Count == 0)
+            {
+                return false;
+            }
+
+            return On(segment2Ds, point2D, tolerance);
         }
     }
 }

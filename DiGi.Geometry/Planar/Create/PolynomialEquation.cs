@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Math.Classes;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,20 +15,26 @@ namespace DiGi.Geometry.Planar
         /// <returns>A <see cref="PolynomialEquation"/> if the input collection is not null and contains at least two points; otherwise, <c>null</c>.</returns>
         public static PolynomialEquation? PolynomialEquation(this IEnumerable<Point2D>? point2Ds, int order = -1)
         {
-            if (point2Ds == null || point2Ds.Count() < 2)
+            if (point2Ds == null)
             {
                 return null;
             }
 
-            List<double> x = [];
-            List<double> y = [];
-            foreach (Point2D point2D in point2Ds)
+            Point2D[] point2Ds_Cached = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            if (point2Ds_Cached.Length < 2)
             {
-                x.Add(point2D.X);
-                y.Add(point2D.Y);
+                return null;
             }
 
-            return Math.Create.PolynomialEquation(x, y, order);
+            List<double> doubleXs = new(point2Ds_Cached.Length);
+            List<double> doubleYs = new(point2Ds_Cached.Length);
+            foreach (Point2D point2D in point2Ds_Cached)
+            {
+                doubleXs.Add(point2D.X);
+                doubleYs.Add(point2D.Y);
+            }
+
+            return Math.Create.PolynomialEquation(doubleXs, doubleYs, order);
         }
     }
 }

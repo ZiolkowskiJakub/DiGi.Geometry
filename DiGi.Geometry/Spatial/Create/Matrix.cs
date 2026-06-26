@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,15 +18,19 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            int count = vector3Ds.Count();
+            Vector3D[] vector3Ds_Local = vector3Ds as Vector3D[] ?? vector3Ds.ToArray();
+            int count = vector3Ds_Local.Length;
 
             Math.Classes.Matrix matrix = new(count, 3);
             for (int i = 0; i < count; i++)
             {
-                Vector3D vector3D = vector3Ds.ElementAt(i);
-                matrix[i, 0] = vector3D[0];
-                matrix[i, 1] = vector3D[1];
-                matrix[i, 2] = vector3D[2];
+                Vector3D vector3D = vector3Ds_Local[i];
+                if (vector3D != null)
+                {
+                    matrix[i, 0] = vector3D[0];
+                    matrix[i, 1] = vector3D[1];
+                    matrix[i, 2] = vector3D[2];
+                }
             }
 
             return matrix;
@@ -44,15 +48,19 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            int count = point3Ds.Count();
+            Point3D[] point3Ds_Local = point3Ds as Point3D[] ?? point3Ds.ToArray();
+            int count = point3Ds_Local.Length;
 
             Math.Classes.Matrix matrix = new(count, 3);
             for (int i = 0; i < count - 1; i++)
             {
-                Point3D point3D = point3Ds.ElementAt(i);
-                matrix[i, 0] = point3D[0];
-                matrix[i, 1] = point3D[1];
-                matrix[i, 2] = point3D[2];
+                Point3D point3D = point3Ds_Local[i];
+                if (point3D != null)
+                {
+                    matrix[i, 0] = point3D[0];
+                    matrix[i, 1] = point3D[1];
+                    matrix[i, 2] = point3D[2];
+                }
             }
 
             return matrix;

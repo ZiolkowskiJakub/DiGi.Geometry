@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,27 +22,39 @@ namespace DiGi.Geometry.Planar
                 return;
             }
 
-            int count = point2Ds.Count();
+            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            int count = point2Ds_Local.Length;
 
             if (count < 2)
             {
                 return;
             }
 
-            double distance_Max = double.MinValue;
+            double distanceSq_Max = double.MinValue;
             for (int i = 0; i < count - 1; i++)
             {
-                Point2D point2D_1_Temp = point2Ds.ElementAt(i);
+                Point2D point2D_1_Temp = point2Ds_Local[i];
+                if (point2D_1_Temp == null)
+                {
+                    continue;
+                }
+
                 for (int j = i + 1; j < count; j++)
                 {
-                    Point2D point2D_2_Temp = point2Ds.ElementAt(j);
+                    Point2D point2D_2_Temp = point2Ds_Local[j];
+                    if (point2D_2_Temp == null)
+                    {
+                        continue;
+                    }
 
-                    double distance = point2D_1_Temp.Distance(point2D_2_Temp);
-                    if (distance_Max < distance)
+                    double dx = point2D_1_Temp.X - point2D_2_Temp.X;
+                    double dy = point2D_1_Temp.Y - point2D_2_Temp.Y;
+                    double distanceSq = dx * dx + dy * dy;
+                    if (distanceSq_Max < distanceSq)
                     {
                         point2D_1 = point2D_1_Temp;
                         point2D_2 = point2D_2_Temp;
-                        distance_Max = distance;
+                        distanceSq_Max = distanceSq;
                     }
                 }
             }

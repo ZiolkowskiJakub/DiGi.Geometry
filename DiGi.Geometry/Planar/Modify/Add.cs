@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Planar
@@ -26,17 +26,19 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                if (System.Math.Abs(point2D_Temp.X - point2D.X) > tolerance)
+                double dx = point2D_Temp.X - point2D.X;
+                if (System.Math.Abs(dx) > tolerance)
                 {
                     continue;
                 }
 
-                if (System.Math.Abs(point2D_Temp.Y - point2D.Y) > tolerance)
+                double dy = point2D_Temp.Y - point2D.Y;
+                if (System.Math.Abs(dy) > tolerance)
                 {
                     continue;
                 }
 
-                if (point2D_Temp.Distance(point2D) <= tolerance)
+                if (dx * dx + dy * dy <= tolerance * tolerance)
                 {
                     return false;
                 }

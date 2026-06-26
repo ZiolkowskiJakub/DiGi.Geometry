@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,38 +19,39 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            int count = point2Ds.Count();
+            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            int count = point2Ds_Local.Length;
 
-            List<Segment2D> result = [];
+            List<Segment2D> segment2Ds_Result = new();
 
             if (count < 2)
             {
-                return result;
+                return segment2Ds_Result;
             }
 
             for (int i = 1; i < count; i++)
             {
-                Point2D point2D_1 = point2Ds.ElementAt(i - 1);
+                Point2D point2D_1 = point2Ds_Local[i - 1];
                 if (point2D_1 == null)
                 {
                     continue;
                 }
 
-                Point2D point2D_2 = point2Ds.ElementAt(i);
+                Point2D point2D_2 = point2Ds_Local[i];
                 if (point2D_2 == null)
                 {
                     continue;
                 }
 
-                result.Add(new Segment2D(new Point2D(point2D_1), new Point2D(point2D_2)));
+                segment2Ds_Result.Add(new Segment2D(new Point2D(point2D_1), new Point2D(point2D_2)));
             }
 
             if (closed)
             {
-                result.Add(new Segment2D(new Point2D(result[result.Count - 1][1]), new Point2D(result[0][0])));
+                segment2Ds_Result.Add(new Segment2D(new Point2D(segment2Ds_Result[segment2Ds_Result.Count - 1][1]), new Point2D(segment2Ds_Result[0][0])));
             }
 
-            return result;
+            return segment2Ds_Result;
         }
     }
 }

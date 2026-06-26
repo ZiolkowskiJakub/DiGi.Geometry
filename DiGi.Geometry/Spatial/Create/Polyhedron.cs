@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -162,12 +162,18 @@ namespace DiGi.Geometry.Spatial
         /// <returns>A new <see cref="Classes.Polyhedron"/> instance if the <see cref="IEnumerable{IPolygonalFace3D}"/> is not null and contains at least four elements; otherwise, null.</returns>
         public static Polyhedron? Polyhedron(this IEnumerable<IPolygonalFace3D>? polygonalFace3Ds)
         {
-            if (polygonalFace3Ds is null || polygonalFace3Ds.Count() < 4)
+            if (polygonalFace3Ds is null)
             {
                 return null;
             }
 
-            return new Polyhedron(polygonalFace3Ds);
+            IPolygonalFace3D[] polygonalFace3Ds_Cached = polygonalFace3Ds as IPolygonalFace3D[] ?? polygonalFace3Ds.ToArray();
+            if (polygonalFace3Ds_Cached.Length < 4)
+            {
+                return null;
+            }
+
+            return new Polyhedron(polygonalFace3Ds_Cached);
         }
 
         /// <summary>

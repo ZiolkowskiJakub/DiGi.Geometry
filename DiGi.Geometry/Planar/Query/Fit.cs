@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,20 +22,28 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            int count = point2Ds.Count();
+            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            int count = point2Ds_Local.Length;
             if (count < 1)
             {
                 return null;
             }
 
-            double minSX = point2Ds.ElementAt(0).X;
+            Point2D point2D_First = point2Ds_Local[0];
+            if (point2D_First == null)
+            {
+                return null;
+            }
+
+            double minSX = point2D_First.X;
             double maxSX = minSX;
-            double minSY = point2Ds.ElementAt(0).Y;
+            double minSY = point2D_First.Y;
             double maxSY = minSY;
 
             for (int i = 1; i < count; i++)
             {
-                if (point2Ds.ElementAt(i) is not Point2D point2D)
+                Point2D point2D = point2Ds_Local[i];
+                if (point2D is null)
                 {
                     continue;
                 }
@@ -69,19 +77,20 @@ namespace DiGi.Geometry.Planar
             double translateX = innerMinBX - minSX * scale;
             double translateY = innerMinBY - minSY * scale;
 
-            List<Point2D> result = [];
+            List<Point2D> point2Ds_Result = new();
 
-            foreach (Point2D point2D in point2Ds)
+            for (int i = 0; i < count; i++)
             {
+                Point2D point2D = point2Ds_Local[i];
                 if (point2D is null)
                 {
                     continue;
                 }
 
-                result.Add(new Point2D(point2D.X * scale + translateX, point2D.Y * scale + translateY));
+                point2Ds_Result.Add(new Point2D(point2D.X * scale + translateX, point2D.Y * scale + translateY));
             }
 
-            return result;
+            return point2Ds_Result;
         }
 
         /// <summary>

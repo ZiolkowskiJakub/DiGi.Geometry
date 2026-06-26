@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,7 +33,8 @@ namespace DiGi.Geometry.Planar
                 return double.NaN;
             }
 
-            int count = point2Ds.Count();
+            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            int count = point2Ds_Local.Length;
             if (count == 0)
             {
                 return double.NaN;
@@ -41,34 +42,46 @@ namespace DiGi.Geometry.Planar
 
             if (count == 1)
             {
-                point2D_1 = point2Ds.ElementAt(0);
+                point2D_1 = point2Ds_Local[0];
                 point2D_2 = point2D_1;
                 return 0;
             }
 
-            double result = double.MaxValue;
+            double resultSq = double.MaxValue;
             for (int i = 0; i < count - 1; i++)
             {
-                Point2D point2D_Temp_1 = point2Ds.ElementAt(i);
+                Point2D point2D_Temp_1 = point2Ds_Local[i];
+                if (point2D_Temp_1 == null)
+                {
+                    continue;
+                }
+
                 for (int j = i + 1; j < count; j++)
                 {
-                    Point2D point2D_Temp_2 = point2Ds.ElementAt(j);
-                    double distance_Temp = point2D_Temp_1.Distance(point2D_Temp_2);
-                    if (distance_Temp < result)
+                    Point2D point2D_Temp_2 = point2Ds_Local[j];
+                    if (point2D_Temp_2 == null)
                     {
-                        result = distance_Temp;
+                        continue;
+                    }
+
+                    double dx = point2D_Temp_1.X - point2D_Temp_2.X;
+                    double dy = point2D_Temp_1.Y - point2D_Temp_2.Y;
+                    double distanceSq = dx * dx + dy * dy;
+                    if (distanceSq < resultSq)
+                    {
+                        resultSq = distanceSq;
                         point2D_1 = point2D_Temp_1;
                         point2D_2 = point2D_Temp_2;
                     }
                 }
             }
 
-            if (result == double.MaxValue)
+            if (resultSq == double.MaxValue)
             {
-                result = double.NaN;
+                return double.NaN;
             }
 
-            return result;
+            return System.Math.Sqrt(resultSq);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -135,25 +135,31 @@ namespace DiGi.Geometry.Spatial
         /// <returns>A <see cref="Classes.Mesh3D"/> object if the input collection is not null and contains valid triangles; otherwise, <c>null</c>.</returns>
         public static Mesh3D? Mesh3D(this IEnumerable<Triangle3D>? triangle3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (triangle3Ds == null || triangle3Ds.Count() == 0)
+            if (triangle3Ds == null)
+            {
+                return null;
+            }
+
+            Triangle3D[] triangle3Ds_Cached = triangle3Ds as Triangle3D[] ?? triangle3Ds.ToArray();
+            if (triangle3Ds_Cached.Length == 0)
             {
                 return null;
             }
 
             List<Point3D> point3Ds = [];
             List<int[]> indexes = [];
-            foreach (Triangle3D triangle3D in triangle3Ds)
+            foreach (Triangle3D triangle3D in triangle3Ds_Cached)
             {
-                List<Point3D>? point3D_Triangle3D = triangle3D?.GetPoints();
-                if (point3D_Triangle3D == null || point3D_Triangle3D.Count() != 3)
+                List<Point3D>? point3Ds_Triangle3D = triangle3D?.GetPoints();
+                if (point3Ds_Triangle3D == null || point3Ds_Triangle3D.Count != 3)
                 {
                     continue;
                 }
 
                 int[] indexes_Triangle3D = new int[3];
-                for (int i = 0; i < point3D_Triangle3D.Count; i++)
+                for (int i = 0; i < point3Ds_Triangle3D.Count; i++)
                 {
-                    Point3D point3D = point3D_Triangle3D[i];
+                    Point3D point3D = point3Ds_Triangle3D[i];
 
                     int index = point3Ds.FindIndex(x => x.AlmostEquals(point3D, tolerance));
                     if (index == -1)

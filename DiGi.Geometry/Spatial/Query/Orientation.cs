@@ -106,12 +106,18 @@ namespace DiGi.Geometry.Spatial
         /// <returns>The calculated <see cref="Core.Enums.Orientation"/>, or <see cref="Orientation.Undefined"/> if the plane is null, the point collection is empty, or there are fewer than three valid points.</returns>
         public static Orientation Orientation(this Plane? plane, IEnumerable<Point2D>? point2Ds, bool convexHull = true)
         {
-            if (plane?.Normal is not Vector3D normal || point2Ds is null || !point2Ds.Any())
+            if (plane?.Normal is not Vector3D normal || point2Ds is null)
             {
                 return Core.Enums.Orientation.Undefined;
             }
 
-            List<Point2D>? point2Ds_Temp = convexHull ? Planar.Query.ConvexHull(point2Ds, true) : [.. point2Ds];
+            Point2D[] point2Ds_Cached = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            if (point2Ds_Cached.Length == 0)
+            {
+                return Core.Enums.Orientation.Undefined;
+            }
+
+            List<Point2D>? point2Ds_Temp = convexHull ? Planar.Query.ConvexHull(point2Ds_Cached, true) : [.. point2Ds_Cached];
             if (point2Ds_Temp == null || point2Ds_Temp.Count < 3)
             {
                 return Core.Enums.Orientation.Undefined;

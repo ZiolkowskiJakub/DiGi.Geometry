@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +14,16 @@ namespace DiGi.Geometry.Planar
         /// <returns>A <see cref="bool"/> value indicating whether the polygon is concave; returns <see langword="false"/> if the collection is null or contains fewer than three points.</returns>
         public static bool Concave(this IEnumerable<Point2D>? point2Ds)
         {
-            if (point2Ds == null || point2Ds.Count() < 3)
+            if (point2Ds == null)
             {
                 return false;
             }
 
-            List<Point2D> point2Ds_Temp = [.. point2Ds];
+            List<Point2D> point2Ds_Temp = point2Ds as List<Point2D> ?? [.. point2Ds];
+            if (point2Ds_Temp.Count < 3)
+            {
+                return false;
+            }
 
             int index = point2Ds_Temp.Count - 1;
 

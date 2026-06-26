@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
@@ -16,18 +16,24 @@ namespace DiGi.Geometry.Planar
         /// <returns>A <see cref="List{T}"/> of <see cref="Classes.PolygonalFace2D"/> objects if successful; otherwise, <c>null</c>.</returns>
         public static List<PolygonalFace2D>? PolygonalFace2Ds(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (segment2Ds == null || segment2Ds.Count() < 3)
+            if (segment2Ds == null)
             {
                 return null;
             }
 
-            List<Polygon>? polygons = Polygons(segment2Ds, tolerance);
+            Segment2D[] segment2Ds_Materialized = segment2Ds as Segment2D[] ?? [.. segment2Ds];
+            if (segment2Ds_Materialized.Length < 3)
+            {
+                return null;
+            }
+
+            List<Polygon>? polygons = Polygons(segment2Ds_Materialized, tolerance);
             if (polygons == null)
             {
                 return null;
             }
 
-            List<PolygonalFace2D> result = [];
+            List<PolygonalFace2D> polygonalFace2Ds_Result = [];
             foreach (Polygon polygon in polygons)
             {
                 PolygonalFace2D? polygonalFace2D = polygon?.ToDiGi();
@@ -36,10 +42,10 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                result.Add(polygonalFace2D);
+                polygonalFace2Ds_Result.Add(polygonalFace2D);
             }
 
-            return result;
+            return polygonalFace2Ds_Result;
         }
 
         /// <summary>

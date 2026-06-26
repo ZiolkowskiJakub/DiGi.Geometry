@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Classes;
@@ -113,7 +113,7 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            List<Tuple<IPolygonalFace3D, List<IPolygonalFace3D>>> tuples = [];
+            List<Tuple<IPolygonalFace3D, BoundingBox3D?, List<IPolygonalFace3D>>> tuples = [];
             for (int i = 0; i < count; i++)
             {
                 IPolygonalFace3D? polygonalFace3D = polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i);
@@ -122,7 +122,7 @@ namespace DiGi.Geometry.Spatial
                     continue;
                 }
 
-                tuples.Add(new Tuple<IPolygonalFace3D, List<IPolygonalFace3D>>(polygonalFace3D, []));
+                tuples.Add(new Tuple<IPolygonalFace3D, BoundingBox3D?, List<IPolygonalFace3D>>(polygonalFace3D, polygonalFace3D.GetBoundingBox(), []));
             }
 
             foreach (TPolyhedron polyhedron_Temp in polyhedrons)
@@ -154,9 +154,10 @@ namespace DiGi.Geometry.Spatial
 
                     for (int j = 0; j < tuples.Count; j++)
                     {
-                        if (boundingBox3D.InRange(tuples[j].Item1.GetBoundingBox(), tolerance))
+                        BoundingBox3D? boundingBox3D_Target = tuples[j].Item2;
+                        if (boundingBox3D_Target != null && boundingBox3D.InRange(boundingBox3D_Target, tolerance))
                         {
-                            tuples[j].Item2.Add(polygonalFace3D);
+                            tuples[j].Item3.Add(polygonalFace3D);
                         }
                     }
                 }
@@ -165,9 +166,9 @@ namespace DiGi.Geometry.Spatial
             List<PolygonalFace3D> polygonalFace3Ds = [];
             for (int i = 0; i < tuples.Count; i++)
             {
-                Tuple<IPolygonalFace3D, List<IPolygonalFace3D>> tuple = tuples[i];
+                Tuple<IPolygonalFace3D, BoundingBox3D?, List<IPolygonalFace3D>> tuple = tuples[i];
 
-                if (!TrySplit(tuple.Item1, tuple.Item2, out List<PolygonalFace3D>? polygonalFace3Ds_Temp, tolerance) || polygonalFace3Ds_Temp == null)
+                if (!TrySplit(tuple.Item1, tuple.Item3, out List<PolygonalFace3D>? polygonalFace3Ds_Temp, tolerance) || polygonalFace3Ds_Temp == null)
                 {
                     continue;
                 }

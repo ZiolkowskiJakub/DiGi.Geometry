@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,12 +36,8 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            int count = point2Ds.Count();
-            if (count == 0)
-            {
-                return null;
-            }
-
+            Point2D[] point2Ds_Materialized = point2Ds as Point2D[] ?? [.. point2Ds];
+            int count = point2Ds_Materialized.Length;
             if (count < 3)
             {
                 return null;
@@ -49,23 +45,23 @@ namespace DiGi.Geometry.Planar
 
             if (count == 3)
             {
-                return new Triangle2D(point2Ds.ElementAt(0), point2Ds.ElementAt(1), point2Ds.ElementAt(2));
+                return new Triangle2D(point2Ds_Materialized[0], point2Ds_Materialized[1], point2Ds_Materialized[2]);
             }
 
-            List<Point2D>? point2Ds_ConvexHull = point2Ds.ConvexHull();
+            List<Point2D>? point2Ds_ConvexHull = point2Ds_Materialized.ConvexHull();
             if (point2Ds_ConvexHull == null || point2Ds_ConvexHull.Count < 3)
             {
                 return null;
             }
 
-            double area = point2Ds.Area();
+            double area = point2Ds_Materialized.Area();
 
             if (!DiGi.Core.Query.AlmostEquals(point2Ds_ConvexHull.Area(), area, tolerance))
             {
-                return new Polygon2D(point2Ds);
+                return new Polygon2D(point2Ds_Materialized);
             }
 
-            return Rectangle2D(point2Ds);
+            return Rectangle2D(point2Ds_Materialized);
         }
     }
 }

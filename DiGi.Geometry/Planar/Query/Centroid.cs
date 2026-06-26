@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +14,13 @@ namespace DiGi.Geometry.Planar
         /// <returns>A <see cref="Point2D"/> representing the centroid, or null if the input collection is null or empty.</returns>
         public static Point2D? Centroid(this IEnumerable<Point2D>? point2Ds)
         {
-            if (point2Ds == null || point2Ds.Count() == 0)
+            if (point2Ds == null)
             {
                 return null;
             }
 
-            int count = point2Ds.Count();
+            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            int count = point2Ds_Local.Length;
 
             if (count == 0)
             {
@@ -28,22 +29,27 @@ namespace DiGi.Geometry.Planar
 
             if (count == 1)
             {
-                return point2Ds.ElementAt(0);
+                return point2Ds_Local[0];
             }
 
             if (count == 2)
             {
-                return point2Ds.ElementAt(0).Mid(point2Ds.ElementAt(1));
+                Point2D point2D_First = point2Ds_Local[0];
+                return point2D_First != null ? point2D_First.Mid(point2Ds_Local[1]) : null;
             }
 
             double area = 0;
             double x = 0;
             double y = 0;
 
-            for (int i = 0, j = point2Ds.Count() - 1; i < point2Ds.Count(); j = i++)
+            for (int i = 0, j = count - 1; i < count; j = i++)
             {
-                Point2D point2D_1 = point2Ds.ElementAt(i);
-                Point2D point2D_2 = point2Ds.ElementAt(j);
+                Point2D point2D_1 = point2Ds_Local[i];
+                Point2D point2D_2 = point2Ds_Local[j];
+                if (point2D_1 == null || point2D_2 == null)
+                {
+                    continue;
+                }
 
                 double area_Temp = point2D_1.X * point2D_2.Y - point2D_2.X * point2D_1.Y;
                 area += area_Temp;

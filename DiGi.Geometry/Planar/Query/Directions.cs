@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +19,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Dictionary<double, Vector2D> dictionary = [];
-            if (segmentable2Ds.Count() == 0)
-            {
-                return [];
-            }
-
+            Dictionary<double, Vector2D> vector2Ds_ByAngle = [];
             Vector2D vector2D_Y = Constants.Vector2D.WorldY;
 
             foreach (ISegmentable2D segmentable2D in segmentable2Ds)
@@ -45,18 +40,18 @@ namespace DiGi.Geometry.Planar
 
                     double angle = vector2D.Angle(vector2D_Y);
 
-                    if (dictionary.TryGetValue(angle, out Vector2D vector2D_Temp) && vector2D_Temp is not null)
+                    if (vector2Ds_ByAngle.TryGetValue(angle, out Vector2D vector2D_Temp) && vector2D_Temp is not null)
                     {
-                        dictionary[angle] = (vector2D + vector2D_Temp)!;
+                        vector2Ds_ByAngle[angle] = (vector2D + vector2D_Temp)!;
                     }
                     else
                     {
-                        dictionary[angle] = vector2D;
+                        vector2Ds_ByAngle[angle] = vector2D;
                     }
                 }
             }
 
-            return [.. dictionary.Values];
+            return [.. vector2Ds_ByAngle.Values];
         }
 
         /// <summary>

@@ -200,17 +200,29 @@ namespace DiGi.Geometry.Spatial.Classes
                 return double.NaN;
             }
 
-            if (points[0] is null || points[1] is null || points[2] is null)
+            Point3D? point3D_0 = points[0];
+            Point3D? point3D_1 = points[1];
+            Point3D? point3D_2 = points[2];
+
+            if (point3D_0 is null || point3D_1 is null || point3D_2 is null)
             {
                 return double.NaN;
             }
 
-            double a = points[0]!.Distance(points[1]);
-            double b = points[1]!.Distance(points[2]);
-            double c = points[2]!.Distance(points[0]);
+            double dx1 = point3D_1.X - point3D_0.X;
+            double dy1 = point3D_1.Y - point3D_0.Y;
+            double dz1 = point3D_1.Z - point3D_0.Z;
 
-            double s = (a + b + c) / 2;
-            return System.Math.Sqrt(s * (s - a) * (s - b) * (s - c));
+            double dx2 = point3D_2.X - point3D_0.X;
+            double dy2 = point3D_2.Y - point3D_0.Y;
+            double dz2 = point3D_2.Z - point3D_0.Z;
+
+            double cx = dy1 * dz2 - dz1 * dy2;
+            double cy = dz1 * dx2 - dx1 * dz2;
+            double cz = dx1 * dy2 - dy1 * dx2;
+
+            double lengthSquared = cx * cx + cy * cy + cz * cz;
+            return 0.5 * System.Math.Sqrt(lengthSquared);
         }
 
         /// <summary>

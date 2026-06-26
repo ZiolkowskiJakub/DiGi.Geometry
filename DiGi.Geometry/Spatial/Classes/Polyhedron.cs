@@ -81,17 +81,21 @@ namespace DiGi.Geometry.Spatial.Classes
         protected Polyhedron(IEnumerable<TPolygonalFace3D>? polygonalFaces)
             : base()
         {
-            if (polygonalFaces != null && polygonalFaces.Count() >= 4)
+            if (polygonalFaces != null)
             {
-                this.polygonalFaces = [];
-                foreach (TPolygonalFace3D polygonalFace in polygonalFaces)
+                TPolygonalFace3D[] polygonalFaces_Cached = polygonalFaces as TPolygonalFace3D[] ?? polygonalFaces.ToArray();
+                if (polygonalFaces_Cached.Length >= 4)
                 {
-                    if (DiGi.Core.Query.Clone(polygonalFace) is not TPolygonalFace3D polygonalFace_Temp)
+                    this.polygonalFaces = new(polygonalFaces_Cached.Length);
+                    foreach (TPolygonalFace3D polygonalFace in polygonalFaces_Cached)
                     {
-                        continue;
-                    }
+                        if (DiGi.Core.Query.Clone(polygonalFace) is not TPolygonalFace3D polygonalFace_Temp)
+                        {
+                            continue;
+                        }
 
-                    this.polygonalFaces.Add(polygonalFace_Temp);
+                        this.polygonalFaces.Add(polygonalFace_Temp);
+                    }
                 }
             }
         }

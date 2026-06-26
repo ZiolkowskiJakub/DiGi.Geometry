@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,7 +41,7 @@ namespace DiGi.Geometry.Spatial
         public static Point3D? Min(this IEnumerable<Point3D?>? point3Ds, out Point3D? max)
         {
             max = null;
-            if (point3Ds == null || point3Ds.Count() == 0)
+            if (point3Ds == null)
             {
                 return null;
             }
@@ -52,6 +52,8 @@ namespace DiGi.Geometry.Spatial
             double y_Max = double.MinValue;
             double z_Min = double.MaxValue;
             double z_Max = double.MinValue;
+            int count = 0;
+
             foreach (Point3D? point3D in point3Ds)
             {
                 if (point3D == null)
@@ -59,6 +61,7 @@ namespace DiGi.Geometry.Spatial
                     continue;
                 }
 
+                count++;
                 if (point3D.X > x_Max)
                 {
                     x_Max = point3D.X;
@@ -90,7 +93,7 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            if (x_Min == double.MaxValue || x_Max == double.MinValue || y_Min == double.MaxValue || y_Max == double.MinValue || z_Min == double.MaxValue || z_Max == double.MinValue)
+            if (count == 0)
             {
                 return null;
             }
