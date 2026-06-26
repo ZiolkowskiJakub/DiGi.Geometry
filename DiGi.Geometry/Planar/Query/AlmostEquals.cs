@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 
@@ -25,7 +25,9 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            return point2D_1.Distance(point2D_2) <= tolerance;
+            double double_Dx = point2D_1.X - point2D_2.X;
+            double double_Dy = point2D_1.Y - point2D_2.Y;
+            return (double_Dx * double_Dx + double_Dy * double_Dy) <= tolerance * tolerance;
         }
 
         /// <summary>

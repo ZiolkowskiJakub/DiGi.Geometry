@@ -25,42 +25,67 @@ namespace DiGi.Geometry.Core
 
             // Dictionary to store edge as a sorted tuple and its occurrence count
             // Using (int, int) where Item1 < Item2 to ensure edge direction doesn't matter
-            Dictionary<(int, int), int> edgeCount = [];
+            Dictionary<(int, int), int> edgeCounts = [];
 
             static (int, int) createSortedEdge(int v1, int v2)
             {
                 return v1 < v2 ? (v1, v2) : (v2, v1);
             }
 
-            foreach (int[] triangle in indexes_Cached)
+            for (int int_I = 0; int_I < indexes_Cached.Length; int_I++)
             {
-                if (triangle.Length < 3)
+                int[] intArray_Triangle = indexes_Cached[int_I];
+                if (intArray_Triangle == null || intArray_Triangle.Length < 3)
                 {
                     continue;
                 }
 
-                // Each triangle has 3 edges: (0,1), (1,2), (2,0)
-                (int, int)[] edges =
-                [
-                    createSortedEdge(triangle[0], triangle[1]),
-                    createSortedEdge(triangle[1], triangle[2]),
-                    createSortedEdge(triangle[2], triangle[0])
-                ];
-
-                foreach ((int, int) edge in edges)
+                // Edge 1
+                (int, int) tuple_Edge1 = createSortedEdge(intArray_Triangle[0], intArray_Triangle[1]);
+                if (edgeCounts.TryGetValue(tuple_Edge1, out int int_Count1))
                 {
-                    if (edgeCount.ContainsKey(edge))
+                    int int_NewCount = int_Count1 + 1;
+                    if (int_NewCount > 2)
                     {
-                        edgeCount[edge]++;
-                        if (edgeCount[edge] > 2)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
-                    else
+                    edgeCounts[tuple_Edge1] = int_NewCount;
+                }
+                else
+                {
+                    edgeCounts[tuple_Edge1] = 1;
+                }
+
+                // Edge 2
+                (int, int) tuple_Edge2 = createSortedEdge(intArray_Triangle[1], intArray_Triangle[2]);
+                if (edgeCounts.TryGetValue(tuple_Edge2, out int int_Count2))
+                {
+                    int int_NewCount = int_Count2 + 1;
+                    if (int_NewCount > 2)
                     {
-                        edgeCount[edge] = 1;
+                        return true;
                     }
+                    edgeCounts[tuple_Edge2] = int_NewCount;
+                }
+                else
+                {
+                    edgeCounts[tuple_Edge2] = 1;
+                }
+
+                // Edge 3
+                (int, int) tuple_Edge3 = createSortedEdge(intArray_Triangle[2], intArray_Triangle[0]);
+                if (edgeCounts.TryGetValue(tuple_Edge3, out int int_Count3))
+                {
+                    int int_NewCount = int_Count3 + 1;
+                    if (int_NewCount > 2)
+                    {
+                        return true;
+                    }
+                    edgeCounts[tuple_Edge3] = int_NewCount;
+                }
+                else
+                {
+                    edgeCounts[tuple_Edge3] = 1;
                 }
             }
 

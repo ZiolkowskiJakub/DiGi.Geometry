@@ -283,7 +283,37 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The closest <see cref="Point2D"/> on the segment, or null if input is null.</returns>
         public Point2D? ClosestPoint(Point2D? point2D)
         {
-            return Query.ClosestPoint(point2D, start, End, true);
+            if (point2D == null || start == null || vector == null)
+            {
+                return null;
+            }
+
+            double double_Ax = point2D.X - start.X;
+            double double_Ay = point2D.Y - start.Y;
+
+            double double_Cx = vector.X;
+            double double_Cy = vector.Y;
+
+            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy;
+            double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy;
+
+            double double_Parameter = -1;
+            if (double_SquareLength != 0.0)
+            {
+                double_Parameter = double_Dot / double_SquareLength;
+            }
+
+            if (double_Parameter < 0.0)
+            {
+                return new Point2D(start);
+            }
+
+            if (double_Parameter > 1.0)
+            {
+                return new Point2D(start.X + double_Cx, start.Y + double_Cy);
+            }
+
+            return new Point2D(start.X + double_Parameter * double_Cx, start.Y + double_Parameter * double_Cy);
         }
 
         /// <summary>
@@ -395,12 +425,39 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The <see cref="Point2D"/> of intersection, or null if no intersection is found.</returns>
         public Point2D? IntersectionPoint(Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (segment2D == null)
+            if (segment2D == null || start == null || vector == null || segment2D.start == null || segment2D.vector == null)
             {
                 return null;
             }
 
-            return Query.IntersectionPoint(start, End, segment2D.start, segment2D.End, true, tolerance);
+            double double_Dx12 = vector.X;
+            double double_Dy12 = vector.Y;
+            double double_Dx34 = segment2D.vector.X;
+            double double_Dy34 = segment2D.vector.Y;
+
+            double double_Denominator = double_Dy12 * double_Dx34 - double_Dx12 * double_Dy34;
+            if (double.IsNaN(double_Denominator) || System.Math.Abs(double_Denominator) < tolerance)
+            {
+                return null;
+            }
+
+            double double_T1 = ((start.X - segment2D.start.X) * double_Dy34 + (segment2D.start.Y - start.Y) * double_Dx34) / double_Denominator;
+            if (double.IsInfinity(double_T1) || double.IsNaN(double_T1))
+            {
+                return null;
+            }
+
+            double double_T2 = ((segment2D.start.X - start.X) * double_Dy12 + (start.Y - segment2D.start.Y) * double_Dx12) / -double_Denominator;
+
+            double double_T1Temp = DiGi.Core.Query.Round(double_T1, tolerance);
+            double double_T2Temp = DiGi.Core.Query.Round(double_T2, tolerance);
+
+            if (((double_T1Temp >= -tolerance) && (double_T1Temp <= 1.0 + tolerance) && (double_T2Temp >= -tolerance) && (double_T2Temp <= 1.0 + tolerance)))
+            {
+                return new(start.X + double_Dx12 * double_T1, start.Y + double_Dy12 * double_T1);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -458,13 +515,45 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the point is on the segment; otherwise, false.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            double distance = Distance(point2D);
-            if (double.IsNaN(distance))
+            if (point2D == null || start == null || vector == null)
             {
                 return false;
             }
 
-            return distance < tolerance;
+            double double_Ax = start.X;
+            double double_Ay = start.Y;
+            double double_Vx = vector.X;
+            double double_Vy = vector.Y;
+
+            double double_Apx = point2D.X - double_Ax;
+            double double_Apy = point2D.Y - double_Ay;
+
+            double double_Dot = double_Apx * double_Vx + double_Apy * double_Vy;
+            double double_LenSq = double_Vx * double_Vx + double_Vy * double_Vy;
+
+            double double_T = 0.0;
+            if (double_LenSq > 0.0)
+            {
+                double_T = double_Dot / double_LenSq;
+                if (double_T < 0.0)
+                {
+                    double_T = 0.0;
+                }
+                else if (double_T > 1.0)
+                {
+                    double_T = 1.0;
+                }
+            }
+
+            double double_Cx = double_Ax + double_T * double_Vx;
+            double double_Cy = double_Ay + double_T * double_Vy;
+
+            double double_Dx = point2D.X - double_Cx;
+            double double_Dy = point2D.Y - double_Cy;
+
+            double double_DistSq = double_Dx * double_Dx + double_Dy * double_Dy;
+
+            return double_DistSq < tolerance * tolerance;
         }
 
         /// <summary>

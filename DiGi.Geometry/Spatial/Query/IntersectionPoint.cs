@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 
 namespace DiGi.Geometry.Spatial
 {
@@ -84,7 +84,75 @@ namespace DiGi.Geometry.Spatial
         /// <returns>A <see cref="Point3D"/> representing the intersection point, or <c>null</c> if no intersection is found within the specified tolerance.</returns>
         public static Point3D? IntersectionPoint(Point3D? point3D_1_Start, Point3D? point3D_1_End, Point3D? point3D_2_Start, Point3D? point3D_2_End, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            return IntersectionPoint(point3D_1_Start, new Vector3D(point3D_1_Start, point3D_1_End), point3D_2_Start, new Vector3D(point3D_2_Start, point3D_2_End), true, tolerance);
+            if (point3D_1_Start == null || point3D_1_End == null || point3D_2_Start == null || point3D_2_End == null)
+            {
+                return null;
+            }
+
+            double double_X1 = point3D_1_Start.X;
+            double double_Y1 = point3D_1_Start.Y;
+            double double_Z1 = point3D_1_Start.Z;
+
+            double double_V1x = point3D_1_End.X - double_X1;
+            double double_V1y = point3D_1_End.Y - double_Y1;
+            double double_V1z = point3D_1_End.Z - double_Z1;
+
+            double double_X2 = point3D_2_Start.X;
+            double double_Y2 = point3D_2_Start.Y;
+            double double_Z2 = point3D_2_Start.Z;
+
+            double double_V2x = point3D_2_End.X - double_X2;
+            double double_V2y = point3D_2_End.Y - double_Y2;
+            double double_V2z = point3D_2_End.Z - double_Z2;
+
+            double double_T;
+            double double_Denom1 = double_V1y * double_V2x - double_V1x * double_V2y;
+            double double_Denom2 = -double_V1x * double_V2z + double_V1z * double_V2x;
+            double double_Denom3 = -double_V1z * double_V2y + double_V1y * double_V2z;
+
+            if (System.Math.Abs(double_Denom1) > tolerance)
+            {
+                double_T = (-double_Y1 * double_V2x + double_Y2 * double_V2x + double_V2y * double_X1 - double_V2y * double_X2) / double_Denom1;
+            }
+            else if (System.Math.Abs(double_Denom2) > tolerance)
+            {
+                double_T = -(-double_V2z * double_X1 + double_V2z * double_X2 + double_V2x * double_Z1 - double_V2x * double_Z2) / double_Denom2;
+            }
+            else if (System.Math.Abs(double_Denom3) > tolerance)
+            {
+                double_T = (double_Z1 * double_V2y - double_Z2 * double_V2y - double_V2z * double_Y1 + double_V2z * double_Y2) / double_Denom3;
+            }
+            else
+            {
+                return null;
+            }
+
+            double double_Rx = double_X1 + double_V1x * double_T;
+            double double_Ry = double_Y1 + double_V1y * double_T;
+            double double_Rz = double_Z1 + double_V1z * double_T;
+
+            if (double_T < 0.0 || double_T > 1.0)
+            {
+                double double_Dx1 = double_Rx - double_X1;
+                double double_Dy1 = double_Ry - double_Y1;
+                double double_Dz1 = double_Rz - double_Z1;
+                double double_DistSq1 = double_Dx1 * double_Dx1 + double_Dy1 * double_Dy1 + double_Dz1 * double_Dz1;
+                if (double_DistSq1 > tolerance * tolerance)
+                {
+                    return null;
+                }
+
+                double double_Dx2 = double_Rx - point3D_1_End.X;
+                double double_Dy2 = double_Ry - point3D_1_End.Y;
+                double double_Dz2 = double_Rz - point3D_1_End.Z;
+                double double_DistSq2 = double_Dx2 * double_Dx2 + double_Dy2 * double_Dy2 + double_Dz2 * double_Dz2;
+                if (double_DistSq2 > tolerance * tolerance)
+                {
+                    return null;
+                }
+            }
+
+            return new(double_Rx, double_Ry, double_Rz);
         }
     }
 }

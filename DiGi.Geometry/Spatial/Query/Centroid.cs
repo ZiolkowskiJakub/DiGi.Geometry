@@ -19,68 +19,112 @@ namespace DiGi.Geometry.Spatial
             }
 
             Point3D[] point3Ds_Local = point3Ds as Point3D[] ?? point3Ds.ToArray();
-            int count = point3Ds_Local.Length;
-            if (count == 0)
+            int int_Count = point3Ds_Local.Length;
+            if (int_Count == 0)
             {
                 return null;
             }
 
             Point3D point3D_1 = point3Ds_Local[0];
 
-            if (count == 1)
+            if (int_Count == 1)
             {
-                return new Point3D(point3D_1);
+                return new(point3D_1);
             }
 
             Point3D point3D_2 = point3Ds_Local[1];
 
-            if (count == 2)
+            if (int_Count == 2)
             {
-                return new Segment3D(point3D_1, point3D_2).Mid();
+                if (point3D_1 == null || point3D_2 == null)
+                {
+                    return null;
+                }
+                return new((point3D_1.X + point3D_2.X) / 2.0, (point3D_1.Y + point3D_2.Y) / 2.0, (point3D_1.Z + point3D_2.Z) / 2.0);
             }
 
-            if (count == 3)
+            if (int_Count == 3)
             {
                 Point3D point3D_3 = point3Ds_Local[2];
-
-                double centroidX = (point3D_1.X + point3D_2.X + point3D_3.X) / 3.0;
-                double centroidY = (point3D_1.Y + point3D_2.Y + point3D_3.Y) / 3.0;
-                double centroidZ = (point3D_1.Z + point3D_2.Z + point3D_3.Z) / 3.0;
-
-                return new Point3D(centroidX, centroidY, centroidZ);
-            }
-
-            Vector3D vector3D = Constants.Vector3D.Zero;
-            double area = 0;
-
-            for (int i = 2; i < count; i++)
-            {
-                Point3D point3D_3 = point3Ds_Local[i];
-                Vector3D vector3D_1 = new(point3D_1, point3D_3);
-                Vector3D vector3D_2 = new(point3D_2, point3D_3);
-
-                Vector3D? vector3D_3 = vector3D_1.CrossProduct(vector3D_2);
-                if (vector3D_3 is null)
+                if (point3D_1 == null || point3D_2 == null || point3D_3 == null)
                 {
-                    continue;
+                    return null;
                 }
 
-                double area_Temp = vector3D_3.Length / 2;
+                double double_CentroidX = (point3D_1.X + point3D_2.X + point3D_3.X) / 3.0;
+                double double_CentroidY = (point3D_1.Y + point3D_2.Y + point3D_3.Y) / 3.0;
+                double double_CentroidZ = (point3D_1.Z + point3D_2.Z + point3D_3.Z) / 3.0;
 
-                vector3D.X += area_Temp * (point3D_1.X + point3D_2.X + point3D_3.X) / 3;
-                vector3D.Y += area_Temp * (point3D_1.Y + point3D_2.Y + point3D_3.Y) / 3;
-                vector3D.Z += area_Temp * (point3D_1.Z + point3D_2.Z + point3D_3.Z) / 3;
-
-                area += area_Temp;
-                point3D_2 = point3D_3;
+                return new(double_CentroidX, double_CentroidY, double_CentroidZ);
             }
 
-            if (area == 0)
+            double double_SumX = 0.0;
+            double double_SumY = 0.0;
+            double double_SumZ = 0.0;
+            double double_TotalArea = 0.0;
+
+            if (point3D_1 == null || point3D_2 == null)
             {
                 return null;
             }
 
-            return new Point3D(vector3D.X / area, vector3D.Y / area, vector3D.Z / area);
+            double double_X1 = point3D_1.X;
+            double double_Y1 = point3D_1.Y;
+            double double_Z1 = point3D_1.Z;
+
+            double double_X2 = point3D_2.X;
+            double double_Y2 = point3D_2.Y;
+            double double_Z2 = point3D_2.Z;
+
+            for (int int_I = 2; int_I < int_Count; int_I++)
+            {
+                Point3D point3D_3 = point3Ds_Local[int_I];
+                if (point3D_3 == null)
+                {
+                    continue;
+                }
+
+                double double_X3 = point3D_3.X;
+                double double_Y3 = point3D_3.Y;
+                double double_Z3 = point3D_3.Z;
+
+                double double_V1x = double_X3 - double_X1;
+                double double_V1y = double_Y3 - double_Y1;
+                double double_V1z = double_Z3 - double_Z1;
+
+                double double_V2x = double_X3 - double_X2;
+                double double_V2y = double_Y3 - double_Y2;
+                double double_V2z = double_Z3 - double_Z2;
+
+                double double_Cx = double_V1y * double_V2z - double_V1z * double_V2y;
+                double double_Cy = double_V1z * double_V2x - double_V1x * double_V2z;
+                double double_Cz = double_V1x * double_V2y - double_V1y * double_V2x;
+
+                double double_LenSq = double_Cx * double_Cx + double_Cy * double_Cy + double_Cz * double_Cz;
+                if (double_LenSq <= 0.0)
+                {
+                    continue;
+                }
+
+                double double_AreaTemp = System.Math.Sqrt(double_LenSq) / 2.0;
+
+                double_SumX += double_AreaTemp * (double_X1 + double_X2 + double_X3) / 3.0;
+                double_SumY += double_AreaTemp * (double_Y1 + double_Y2 + double_Y3) / 3.0;
+                double_SumZ += double_AreaTemp * (double_Z1 + double_Z2 + double_Z3) / 3.0;
+
+                double_TotalArea += double_AreaTemp;
+
+                double_X2 = double_X3;
+                double_Y2 = double_Y3;
+                double_Z2 = double_Z3;
+            }
+
+            if (double_TotalArea == 0.0)
+            {
+                return null;
+            }
+
+            return new(double_SumX / double_TotalArea, double_SumY / double_TotalArea, double_SumZ / double_TotalArea);
         }
     }
 }

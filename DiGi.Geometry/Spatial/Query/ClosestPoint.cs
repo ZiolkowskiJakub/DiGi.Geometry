@@ -212,32 +212,36 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            distance = double.MaxValue;
-
-            Point3D? result = null;
+            double double_DistanceSq = double.MaxValue;
+            double double_ToleranceSq = tolerance * tolerance;
+            Point3D? point3D_Result = null;
 
             foreach (TPolygonalFace3D polygonalFace3D in polygonalFace3Ds)
             {
-                if (polygonalFace3D?.ClosestPoint(point3D) is not Point3D closestPoint_Temp)
+                if (polygonalFace3D?.ClosestPoint(point3D) is not Point3D point3D_ClosestPointTemp)
                 {
                     continue;
                 }
 
-                double distance_Temp = closestPoint_Temp.Distance(point3D);
-                if (distance_Temp < distance)
-                {
-                    result = closestPoint_Temp;
+                double double_Dx = point3D_ClosestPointTemp.X - point3D.X;
+                double double_Dy = point3D_ClosestPointTemp.Y - point3D.Y;
+                double double_Dz = point3D_ClosestPointTemp.Z - point3D.Z;
+                double double_DistanceSqTemp = double_Dx * double_Dx + double_Dy * double_Dy + double_Dz * double_Dz;
 
-                    distance = distance_Temp;
+                if (double_DistanceSqTemp < double_DistanceSq)
+                {
+                    point3D_Result = point3D_ClosestPointTemp;
+                    double_DistanceSq = double_DistanceSqTemp;
                     closestPolygonalFace3D = polygonalFace3D;
-                    if (distance < tolerance)
+                    if (double_DistanceSq < double_ToleranceSq)
                     {
                         break;
                     }
                 }
             }
 
-            return result;
+            distance = point3D_Result is not null ? System.Math.Sqrt(double_DistanceSq) : double.NaN;
+            return point3D_Result;
         }
     }
 }

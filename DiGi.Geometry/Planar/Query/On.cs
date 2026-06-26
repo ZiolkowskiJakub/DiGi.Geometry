@@ -16,6 +16,11 @@ namespace DiGi.Geometry.Planar
         /// <returns>True if the point is on the geometry, otherwise false.</returns>
         public static bool On(this ISegmentable2D? segmentable2D, Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
+            if (segmentable2D is Segment2D segment2D)
+            {
+                return segment2D.On(point2D, tolerance);
+            }
+
             return On(segmentable2D?.GetSegments(), point2D, tolerance);
         }
 
@@ -64,13 +69,20 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            List<Segment2D>? segment2Ds = segmentable2Ds.Segments();
-            if (segment2Ds == null || segment2Ds.Count == 0)
+            foreach (T segmentable2D in segmentable2Ds)
             {
-                return false;
+                if (segmentable2D == null)
+                {
+                    continue;
+                }
+
+                if (segmentable2D.On(point2D, tolerance))
+                {
+                    return true;
+                }
             }
 
-            return On(segment2Ds, point2D, tolerance);
+            return false;
         }
     }
 }

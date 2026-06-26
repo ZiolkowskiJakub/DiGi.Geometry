@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 
@@ -20,15 +20,20 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
+            if (segmentable3D is Segment3D segment3D)
+            {
+                return segment3D.On(point3D, tolerance);
+            }
+
             List<Segment3D>? segment3Ds = segmentable3D.GetSegments();
             if (segment3Ds == null)
             {
                 return false;
             }
 
-            for (int i = 0; i < segment3Ds.Count; i++)
+            for (int int_I = 0; int_I < segment3Ds.Count; int_I++)
             {
-                if (segment3Ds[i].On(point3D, tolerance))
+                if (segment3Ds[int_I].On(point3D, tolerance))
                 {
                     return true;
                 }

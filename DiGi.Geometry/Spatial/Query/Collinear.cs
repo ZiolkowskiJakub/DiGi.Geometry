@@ -21,7 +21,27 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            return new Vector3D(point3D_2, point3D_1).MinAngle(new Vector3D(point3D_2, point3D_3)) < tolerance;
+            double double_V1x = point3D_1.X - point3D_2.X;
+            double double_V1y = point3D_1.Y - point3D_2.Y;
+            double double_V1z = point3D_1.Z - point3D_2.Z;
+
+            double double_V2x = point3D_3.X - point3D_2.X;
+            double double_V2y = point3D_3.Y - point3D_2.Y;
+            double double_V2z = point3D_3.Z - point3D_2.Z;
+
+            double double_Dot = double_V1x * double_V2x + double_V1y * double_V2y + double_V1z * double_V2z;
+            double double_Len1Sq = double_V1x * double_V1x + double_V1y * double_V1y + double_V1z * double_V1z;
+            double double_Len2Sq = double_V2x * double_V2x + double_V2y * double_V2y + double_V2z * double_V2z;
+
+            if (double_Len1Sq == 0.0 || double_Len2Sq == 0.0)
+            {
+                return true;
+            }
+
+            double double_CosTol = System.Math.Cos(tolerance);
+            double double_CosTolSq = double_CosTol * double_CosTol;
+
+            return double_Dot * double_Dot > double_CosTolSq * double_Len1Sq * double_Len2Sq;
         }
 
         /// <summary>
@@ -32,47 +52,72 @@ namespace DiGi.Geometry.Spatial
         /// <returns>A <see cref="bool"/> value indicating whether the points are collinear. Returns <see langword="true"/> if there are fewer than three points; otherwise, returns <see langword="false"/> if the collection is null or the points are not collinear.</returns>
         public static bool Collinear(this IEnumerable<Point3D>? point3Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            // Inspired by BHoM
-
             if (point3Ds == null)
             {
                 return false;
             }
 
-            Point3D[] point3Ds_Local = point3Ds as Point3D[] ?? point3Ds.ToArray();
-            int count = point3Ds_Local.Length;
+            Point3D? point3D_A = null;
+            Point3D? point3D_B = null;
+            int int_NonNullCount = 0;
+            double double_Abx = 0.0;
+            double double_Aby = 0.0;
+            double double_Abz = 0.0;
+            double double_AbSq = 0.0;
+            double double_TolSq = tolerance * tolerance;
 
-            if (count < 3)
+            foreach (Point3D? point3D_C in point3Ds)
+            {
+                if (point3D_C == null)
+                {
+                    continue;
+                }
+
+                int_NonNullCount++;
+
+                if (point3D_A == null)
+                {
+                    point3D_A = point3D_C;
+                }
+                else if (point3D_B == null)
+                {
+                    double double_Dx = point3D_C.X - point3D_A.X;
+                    double double_Dy = point3D_C.Y - point3D_A.Y;
+                    double double_Dz = point3D_C.Z - point3D_A.Z;
+                    double double_DistSq = double_Dx * double_Dx + double_Dy * double_Dy + double_Dz * double_Dz;
+                    if (double_DistSq > double_TolSq)
+                    {
+                        point3D_B = point3D_C;
+                        double_Abx = double_Dx;
+                        double_Aby = double_Dy;
+                        double_Abz = double_Dz;
+                        double_AbSq = double_DistSq;
+                    }
+                }
+                else
+                {
+                    double double_Acx = point3D_C.X - point3D_A.X;
+                    double double_Acy = point3D_C.Y - point3D_A.Y;
+                    double double_Acz = point3D_C.Z - point3D_A.Z;
+
+                    double double_CrossX = double_Aby * double_Acz - double_Abz * double_Acy;
+                    double double_CrossY = double_Abz * double_Acx - double_Abx * double_Acz;
+                    double double_CrossZ = double_Abx * double_Acy - double_Aby * double_Acx;
+
+                    double double_CrossSq = double_CrossX * double_CrossX + double_CrossY * double_CrossY + double_CrossZ * double_CrossZ;
+                    if (double_CrossSq > double_TolSq * double_AbSq)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if (int_NonNullCount < 3)
             {
                 return true;
             }
 
-            Point3D point3D_Origin = point3Ds_Local[0];
-            List<Vector3D> vector3Ds_Directions = new();
-            for (int i = 0; i < count - 1; i++)
-            {
-                Point3D point3D_Target = point3Ds_Local[i + 1];
-                if (point3D_Origin != null && point3D_Target != null)
-                {
-                    vector3Ds_Directions.Add(new Vector3D(point3D_Origin, point3D_Target));
-                }
-            }
-
-            Math.Classes.Matrix? matrix = Create.Matrix(vector3Ds_Directions);
-            if (matrix == null)
-            {
-                return false;
-            }
-
-            double tolerance_REF = matrix.REFTolerance(tolerance);
-            Math.Classes.Matrix? matrix_REF = matrix.RowEchelonForm(true, tolerance_REF);
-            if (matrix_REF is null)
-            {
-                return false;
-            }
-
-            int nonZeroRows = matrix_REF.CountNonZeroRows(tolerance_REF);
-            return nonZeroRows < 2;
+            return true;
         }
     }
 }

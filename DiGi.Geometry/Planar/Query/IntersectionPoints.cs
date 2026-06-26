@@ -100,19 +100,74 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Point2D> point2Ds_Result = new();
-            for (int i = 0; i < count_1; i++)
+            double[] doubles_MinXs_1 = new double[count_1];
+            double[] doubles_MaxXs_1 = new double[count_1];
+            double[] doubles_MinYs_1 = new double[count_1];
+            double[] doubles_MaxYs_1 = new double[count_1];
+
+            for (int int_I = 0; int_I < count_1; int_I++)
             {
-                Segment2D segment2D_1 = segment2Ds_First[i];
+                Segment2D segment = segment2Ds_First[int_I];
+                if (segment != null && segment.Start is Point2D point2D_Start && segment.End is Point2D point2D_End)
+                {
+                    doubles_MinXs_1[int_I] = System.Math.Min(point2D_Start.X, point2D_End.X);
+                    doubles_MaxXs_1[int_I] = System.Math.Max(point2D_Start.X, point2D_End.X);
+                    doubles_MinYs_1[int_I] = System.Math.Min(point2D_Start.Y, point2D_End.Y);
+                    doubles_MaxYs_1[int_I] = System.Math.Max(point2D_Start.Y, point2D_End.Y);
+                }
+            }
+
+            double[] doubles_MinXs_2 = new double[count_2];
+            double[] doubles_MaxXs_2 = new double[count_2];
+            double[] doubles_MinYs_2 = new double[count_2];
+            double[] doubles_MaxYs_2 = new double[count_2];
+
+            for (int int_J = 0; int_J < count_2; int_J++)
+            {
+                Segment2D segment = segment2Ds_Second[int_J];
+                if (segment != null && segment.Start is Point2D point2D_Start && segment.End is Point2D point2D_End)
+                {
+                    doubles_MinXs_2[int_J] = System.Math.Min(point2D_Start.X, point2D_End.X);
+                    doubles_MaxXs_2[int_J] = System.Math.Max(point2D_Start.X, point2D_End.X);
+                    doubles_MinYs_2[int_J] = System.Math.Min(point2D_Start.Y, point2D_End.Y);
+                    doubles_MaxYs_2[int_J] = System.Math.Max(point2D_Start.Y, point2D_End.Y);
+                }
+            }
+
+            List<Point2D> point2Ds_Result = new();
+            for (int int_I = 0; int_I < count_1; int_I++)
+            {
+                Segment2D segment2D_1 = segment2Ds_First[int_I];
                 if (segment2D_1 == null)
                 {
                     continue;
                 }
 
-                for (int j = 0; j < count_2; j++)
+                double double_Min1X = doubles_MinXs_1[int_I] - tolerance;
+                double double_Max1X = doubles_MaxXs_1[int_I] + tolerance;
+                double double_Min1Y = doubles_MinYs_1[int_I] - tolerance;
+                double double_Max1Y = doubles_MaxYs_1[int_I] + tolerance;
+
+                for (int int_J = 0; int_J < count_2; int_J++)
                 {
-                    Segment2D segment2D_2 = segment2Ds_Second[j];
+                    Segment2D segment2D_2 = segment2Ds_Second[int_J];
                     if (segment2D_2 == null)
+                    {
+                        continue;
+                    }
+
+                    double double_Min2X = doubles_MinXs_2[int_J];
+                    double double_Max2X = doubles_MaxXs_2[int_J];
+
+                    if (double_Max1X < double_Min2X || double_Min1X > double_Max2X)
+                    {
+                        continue;
+                    }
+
+                    double double_Min2Y = doubles_MinYs_2[int_J];
+                    double double_Max2Y = doubles_MaxYs_2[int_J];
+
+                    if (double_Max1Y < double_Min2Y || double_Min1Y > double_Max2Y)
                     {
                         continue;
                     }
@@ -587,14 +642,17 @@ namespace DiGi.Geometry.Planar
             double t1 = (-Bcoef - sqrtDisc) / (2 * A);
             double t2 = (-Bcoef + sqrtDisc) / (2 * A);
 
-            foreach (var t in new[] { t1, t2 })
+            if (t1 >= -tolerance && t1 <= 1 + tolerance)
             {
-                if (t >= -tolerance && t <= 1 + tolerance)
-                {
-                    double x = point2D_1.X + t * (point2D_2.X - point2D_1.X);
-                    double y = point2D_1.Y + t * (point2D_2.Y - point2D_1.Y);
-                    results.Add((x, y));
-                }
+                double double_X = point2D_1.X + t1 * (point2D_2.X - point2D_1.X);
+                double double_Y = point2D_1.Y + t1 * (point2D_2.Y - point2D_1.Y);
+                results.Add(new(double_X, double_Y));
+            }
+            if (t2 >= -tolerance && t2 <= 1 + tolerance)
+            {
+                double double_X = point2D_1.X + t2 * (point2D_2.X - point2D_1.X);
+                double double_Y = point2D_1.Y + t2 * (point2D_2.Y - point2D_1.Y);
+                results.Add(new(double_X, double_Y));
             }
 
             return results;
@@ -609,29 +667,37 @@ namespace DiGi.Geometry.Planar
         /// <returns>A <see cref="List{Point2D}"/> containing the intersection points, or <c>null</c> if either input is null.</returns>
         public static List<Point2D>? IntersectionPoints(this Ellipse2D? ellipse2D, Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            Point2D? center = ellipse2D?.Center;
+            if (ellipse2D is null || line2D is null)
+            {
+                return null;
+            }
+
+            Point2D? center = ellipse2D.Center;
             if (center is null)
             {
                 return null;
             }
 
-            Point2D? origin = line2D?.Origin;
+            Point2D? origin = line2D.Origin;
             if (origin is null)
             {
                 return null;
             }
 
-            Vector2D? directionA = ellipse2D?.DirectionA;
+            Vector2D? directionA = ellipse2D.DirectionA;
             if (directionA is null)
             {
                 return null;
             }
 
+            Point2D point2D_2 = new(origin);
+            point2D_2.Move(line2D.Direction);
+
             // Translate points to ellipse-centered coordinates
             double dx0 = origin.X - center.X;
             double dy0 = origin.Y - center.Y;
-            double dx1 = origin.X - center.X;
-            double dy1 = origin.Y - center.Y;
+            double dx1 = point2D_2.X - center.X;
+            double dy1 = point2D_2.Y - center.Y;
 
             // Rotate into ellipse-aligned coordinates
             double ux = directionA.X;
@@ -648,7 +714,7 @@ namespace DiGi.Geometry.Planar
             double dy = y1 - y0;
 
             // Coefficients for the quadratic equation At^2 + Bt + C = 0
-            double A = (dx * dx) / (ellipse2D!.A * ellipse2D.A) + (dy * dy) / (ellipse2D.B * ellipse2D.B);
+            double A = (dx * dx) / (ellipse2D.A * ellipse2D.A) + (dy * dy) / (ellipse2D.B * ellipse2D.B);
             double Bcoef = 2 * ((x0 * dx) / (ellipse2D.A * ellipse2D.A) + (y0 * dy) / (ellipse2D.B * ellipse2D.B));
             double C = (x0 * x0) / (ellipse2D.A * ellipse2D.A) + (y0 * y0) / (ellipse2D.B * ellipse2D.B) - 1;
 
@@ -665,12 +731,13 @@ namespace DiGi.Geometry.Planar
             double t1 = (-Bcoef - sqrtDisc) / (2 * A);
             double t2 = (-Bcoef + sqrtDisc) / (2 * A);
 
-            foreach (var t in new[] { t1, t2 })
-            {
-                double x = origin.X + t * (origin.X - origin.X);
-                double y = origin.Y + t * (origin.Y - origin.Y);
-                results.Add((x, y));
-            }
+            double double_X1 = origin.X + t1 * (point2D_2.X - origin.X);
+            double double_Y1 = origin.Y + t1 * (point2D_2.Y - origin.Y);
+            results.Add(new(double_X1, double_Y1));
+
+            double double_X2 = origin.X + t2 * (point2D_2.X - origin.X);
+            double double_Y2 = origin.Y + t2 * (point2D_2.Y - origin.Y);
+            results.Add(new(double_X2, double_Y2));
 
             return results;
         }

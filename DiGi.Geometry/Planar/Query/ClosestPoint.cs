@@ -151,13 +151,54 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Segment2D>? segment2Ds = segmentable2Ds.Segments();
-            if (segment2Ds == null || segment2Ds.Count == 0)
+            double double_DistanceSq = double.MaxValue;
+            Point2D? point2D_Result = null;
+
+            foreach (T segmentable2D in segmentable2Ds)
             {
-                return null;
+                if (segmentable2D == null)
+                {
+                    continue;
+                }
+
+                List<Segment2D>? segment2Ds = segmentable2D.GetSegments();
+                if (segment2Ds == null)
+                {
+                    continue;
+                }
+
+                for (int int_I = 0; int_I < segment2Ds.Count; int_I++)
+                {
+                    Segment2D segment2D = segment2Ds[int_I];
+                    if (segment2D == null)
+                    {
+                        continue;
+                    }
+
+                    Point2D? point2D_Closest = segment2D.ClosestPoint(point2D);
+                    if (point2D_Closest == null)
+                    {
+                        continue;
+                    }
+
+                    double double_Dx = point2D_Closest.X - point2D.X;
+                    double double_Dy = point2D_Closest.Y - point2D.Y;
+                    double double_DistanceSqTemp = double_Dx * double_Dx + double_Dy * double_Dy;
+                    if (double_DistanceSqTemp < double_DistanceSq)
+                    {
+                        double_DistanceSq = double_DistanceSqTemp;
+                        point2D_Result = point2D_Closest;
+                    }
+                }
             }
 
-            return ClosestPoint(point2D, segment2Ds, out distance);
+            if (point2D_Result != null)
+            {
+                distance = System.Math.Sqrt(double_DistanceSq);
+                return point2D_Result;
+            }
+
+            return null;
         }
 
         /// <summary>

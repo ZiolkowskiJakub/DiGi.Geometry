@@ -233,7 +233,39 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>The closest <see cref="Point3D"/> found, or null if it cannot be determined.</returns>
         public Point3D? ClosestPoint(Point3D? point3D)
         {
-            return Query.ClosestPoint(point3D, start, End, true);
+            if (point3D == null || start == null || vector == null)
+            {
+                return null;
+            }
+
+            double double_Ax = point3D.X - start.X;
+            double double_Ay = point3D.Y - start.Y;
+            double double_Az = point3D.Z - start.Z;
+
+            double double_Cx = vector.X;
+            double double_Cy = vector.Y;
+            double double_Cz = vector.Z;
+
+            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy + double_Az * double_Cz;
+            double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy + double_Cz * double_Cz;
+
+            double double_Parameter = -1;
+            if (double_SquareLength != 0.0)
+            {
+                double_Parameter = double_Dot / double_SquareLength;
+            }
+
+            if (double_Parameter < 0.0)
+            {
+                return new Point3D(start);
+            }
+
+            if (double_Parameter > 1.0)
+            {
+                return new Point3D(start.X + double_Cx, start.Y + double_Cy, start.Z + double_Cz);
+            }
+
+            return new Point3D(start.X + double_Parameter * double_Cx, start.Y + double_Parameter * double_Cy, start.Z + double_Parameter * double_Cz);
         }
 
         /// <summary>
@@ -364,13 +396,50 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="bool"/> value indicating <c>true</c> if the point is within the specified tolerance; otherwise, <c>false</c>.</returns>
         public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            Point3D? point3D_Temp = ClosestPoint(point3D);
-            if (point3D_Temp == null)
+            if (point3D == null || start == null || vector == null)
             {
                 return false;
             }
 
-            return point3D!.Distance(point3D_Temp) < tolerance;
+            double double_Ax = start.X;
+            double double_Ay = start.Y;
+            double double_Az = start.Z;
+            double double_Vx = vector.X;
+            double double_Vy = vector.Y;
+            double double_Vz = vector.Z;
+
+            double double_Apx = point3D.X - double_Ax;
+            double double_Apy = point3D.Y - double_Ay;
+            double double_Apz = point3D.Z - double_Az;
+
+            double double_Dot = double_Apx * double_Vx + double_Apy * double_Vy + double_Apz * double_Vz;
+            double double_LenSq = double_Vx * double_Vx + double_Vy * double_Vy + double_Vz * double_Vz;
+
+            double double_T = 0.0;
+            if (double_LenSq > 0.0)
+            {
+                double_T = double_Dot / double_LenSq;
+                if (double_T < 0.0)
+                {
+                    double_T = 0.0;
+                }
+                else if (double_T > 1.0)
+                {
+                    double_T = 1.0;
+                }
+            }
+
+            double double_Cx = double_Ax + double_T * double_Vx;
+            double double_Cy = double_Ay + double_T * double_Vy;
+            double double_Cz = double_Az + double_T * double_Vz;
+
+            double double_Dx = point3D.X - double_Cx;
+            double double_Dy = point3D.Y - double_Cy;
+            double double_Dz = point3D.Z - double_Cz;
+
+            double double_DistSq = double_Dx * double_Dx + double_Dy * double_Dy + double_Dz * double_Dz;
+
+            return double_DistSq < tolerance * tolerance;
         }
 
         /// <summary>

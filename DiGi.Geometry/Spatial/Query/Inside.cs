@@ -24,7 +24,30 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            return Inside(planar, [point3D], tolerance);
+            Plane? plane = planar.Plane;
+            if (plane == null)
+            {
+                return false;
+            }
+
+            if (!plane.On(point3D, tolerance))
+            {
+                return false;
+            }
+
+            IPolygonal2D? polygonal2D = planar.Geometry2D;
+            if (polygonal2D == null)
+            {
+                return false;
+            }
+
+            Point2D? point2D = plane.Convert(point3D);
+            if (point2D == null)
+            {
+                return false;
+            }
+
+            return polygonal2D.Inside(point2D, tolerance);
         }
 
         /// <summary>
@@ -48,38 +71,62 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            Point3D[] point3Ds_Local = point3Ds as Point3D[] ?? point3Ds.ToArray();
-            int count = point3Ds_Local.Length;
-
-            for (int i = 0; i < count; i++)
-            {
-                Point3D point3D = point3Ds_Local[i];
-                if (point3D == null || !plane.On(point3D, tolerance))
-                {
-                    return false;
-                }
-            }
-
             IPolygonal2D? polygonal2D = planar.Geometry2D;
             if (polygonal2D == null)
             {
                 return false;
             }
 
-            for (int i = 0; i < count; i++)
+            Vector3D? vector3D_PlaneNormal = plane.Normal;
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_PlaneOrigin = plane.Origin;
+
+            if (vector3D_PlaneNormal == null || vector3D_AxisX == null || vector3D_AxisY == null || point3D_PlaneOrigin == null)
             {
-                Point3D point3D = point3Ds_Local[i];
+                return false;
+            }
+
+            double double_NormalX = vector3D_PlaneNormal.X;
+            double double_NormalY = vector3D_PlaneNormal.Y;
+            double double_NormalZ = vector3D_PlaneNormal.Z;
+
+            double double_AxisXX = vector3D_AxisX.X;
+            double double_AxisXY = vector3D_AxisX.Y;
+            double double_AxisXZ = vector3D_AxisX.Z;
+
+            double double_AxisYX = vector3D_AxisY.X;
+            double double_AxisYY = vector3D_AxisY.Y;
+            double double_AxisYZ = vector3D_AxisY.Z;
+
+            double double_OriginX = point3D_PlaneOrigin.X;
+            double double_OriginY = point3D_PlaneOrigin.Y;
+            double double_OriginZ = point3D_PlaneOrigin.Z;
+
+            foreach (Point3D point3D in point3Ds)
+            {
                 if (point3D == null)
                 {
-                    continue;
+                    return false;
                 }
 
-                Point2D? point2D = plane.Convert(point3D);
-                if (point2D == null)
+                double double_Dx = point3D.X - double_OriginX;
+                double double_Dy = point3D.Y - double_OriginY;
+                double double_Dz = point3D.Z - double_OriginZ;
+
+                double double_Dot = (double_NormalX * double_Dx) +
+                                    (double_NormalY * double_Dy) +
+                                    (double_NormalZ * double_Dz);
+
+                if (System.Math.Abs(double_Dot) >= tolerance)
                 {
-                    continue;
+                    return false;
                 }
 
+                double double_ProjX = (double_AxisXX * double_Dx) + (double_AxisXY * double_Dy) + (double_AxisXZ * double_Dz);
+                double double_ProjY = (double_AxisYX * double_Dx) + (double_AxisYY * double_Dy) + (double_AxisYZ * double_Dz);
+
+                Point2D point2D = new(double_ProjX, double_ProjY);
                 if (!polygonal2D.Inside(point2D, tolerance))
                 {
                     return false;
@@ -105,14 +152,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             Plane? plane = planar.Plane;
-
-            if (!On(plane, segmentable3D, tolerance))
-            {
-                return false;
-            }
-
-            List<Segment3D>? segment3Ds = segmentable3D.GetSegments();
-            if (segment3Ds == null)
+            if (plane == null)
             {
                 return false;
             }
@@ -123,12 +163,29 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            for (int i = 0; i < segment3Ds.Count; i++)
+            List<Segment3D>? segment3Ds = segmentable3D.GetSegments();
+            if (segment3Ds == null)
             {
-                Segment2D? segment2D = plane.Convert(segment3Ds[i]);
+                return false;
+            }
+
+            for (int int_I = 0; int_I < segment3Ds.Count; int_I++)
+            {
+                Segment3D segment3D = segment3Ds[int_I];
+                if (segment3D == null)
+                {
+                    return false;
+                }
+
+                if (!plane.On(segment3D, tolerance))
+                {
+                    return false;
+                }
+
+                Segment2D? segment2D = plane.Convert(segment3D);
                 if (segment2D == null)
                 {
-                    continue;
+                    return false;
                 }
 
                 if (!polygonal2D.Inside(segment2D, tolerance))

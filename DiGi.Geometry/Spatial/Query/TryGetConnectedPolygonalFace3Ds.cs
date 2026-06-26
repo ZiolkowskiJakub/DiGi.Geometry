@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -32,13 +32,7 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            if (polygonalFace3D.Segment3Ds() is not List<Segment3D> segment3Ds)
-            {
-                return false;
-            }
-
-            List<Tuple<BoundingBox3D, IPolygonalFace3D>> tuples = [];
-
+            List<Tuple<BoundingBox3D, IPolygonalFace3D>> tuples_Unvisited = new();
             foreach (IPolygonalFace3D polygonalFace3D_Temp in polygonalFace3Ds)
             {
                 if (polygonalFace3D_Temp is null || polygonalFace3D_Temp.GetBoundingBox() is not BoundingBox3D boundingBox3D_Temp)
@@ -46,60 +40,80 @@ namespace DiGi.Geometry.Spatial
                     continue;
                 }
 
-                tuples.Add(new(boundingBox3D_Temp, polygonalFace3D_Temp));
+                tuples_Unvisited.Add(new(boundingBox3D_Temp, polygonalFace3D_Temp));
             }
 
-            polygonalFace3Ds_Connected = [];
-            int count = polygonalFace3Ds_Connected.Count;
+            polygonalFace3Ds_Connected = new();
+            Queue<IPolygonalFace3D> polygonalFace3Ds_ToProcess = new();
+            polygonalFace3Ds_ToProcess.Enqueue(polygonalFace3D);
 
-            do
+            while (polygonalFace3Ds_ToProcess.Count > 0)
             {
-                count = polygonalFace3Ds_Connected.Count;
-                List<Tuple<BoundingBox3D, IPolygonalFace3D>> tuples_Temp = tuples.FindAll(x => boundingBox3D.InRange(x.Item1, tolerance));
-                if (tuples_Temp.Count == 0)
+                IPolygonalFace3D polygonalFace3D_Current = polygonalFace3Ds_ToProcess.Dequeue();
+                List<Segment3D>? segment3Ds_Current = polygonalFace3D_Current.Segment3Ds();
+                if (segment3Ds_Current is null || segment3Ds_Current.Count == 0)
                 {
                     continue;
                 }
 
-                foreach (Tuple<BoundingBox3D, IPolygonalFace3D> tuple_Temp in tuples_Temp)
+                BoundingBox3D? boundingBox_Current = polygonalFace3D_Current.GetBoundingBox();
+                if (boundingBox_Current is null)
                 {
-                    IPolygonalFace3D polygonalFace3D_Temp = tuple_Temp.Item2;
+                    continue;
+                }
 
-                    bool added = false;
-                    foreach (Segment3D segment3D in segment3Ds)
+                List<Tuple<BoundingBox3D, IPolygonalFace3D>> tuples_NextUnvisited = new();
+
+                for (int int_I = 0; int_I < tuples_Unvisited.Count; int_I++)
+                {
+                    Tuple<BoundingBox3D, IPolygonalFace3D> tuple_Current = tuples_Unvisited[int_I];
+                    BoundingBox3D boundingBox_Unvisited = tuple_Current.Item1;
+                    IPolygonalFace3D polygonalFace3D_Unvisited = tuple_Current.Item2;
+
+                    if (boundingBox_Current.InRange(boundingBox_Unvisited, tolerance))
                     {
-                        PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(polygonalFace3D_Temp, segment3D, tolerance);
-                        if (planarIntersectionResult == null || !planarIntersectionResult.Intersect || planarIntersectionResult.GetGeometry3Ds<ISegmentable3D>() is not List<ISegmentable3D> segmentable3Ds)
+                        bool bool_IsConnected = false;
+                        for (int int_J = 0; int_J < segment3Ds_Current.Count; int_J++)
                         {
-                            continue;
-                        }
-
-                        foreach (ISegmentable3D segmentable3D in segmentable3Ds)
-                        {
-                            if (segmentable3D.GetSegments().Any(x => polygonalFace3D_Temp.OnEdge(x.Mid(), tolerance)))
+                            Segment3D segment3D = segment3Ds_Current[int_J];
+                            PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(polygonalFace3D_Unvisited, segment3D, tolerance);
+                            if (planarIntersectionResult != null && planarIntersectionResult.Intersect && planarIntersectionResult.GetGeometry3Ds<ISegmentable3D>() is List<ISegmentable3D> segmentable3Ds)
                             {
-                                added = true;
+                                for (int int_K = 0; int_K < segmentable3Ds.Count; int_K++)
+                                {
+                                    if (segmentable3Ds[int_K].GetSegments().Any(x => polygonalFace3D_Unvisited.OnEdge(x.Mid(), tolerance)))
+                                    {
+                                        bool_IsConnected = true;
+                                        break;
+                                    }
+                                }
+                            }
 
-                                tuples.Remove(tuple_Temp);
-                                polygonalFace3Ds_Connected.Add(polygonalFace3D_Temp);
-
-                                segment3Ds.AddRange(polygonalFace3D_Temp.Segment3Ds());
-                                boundingBox3D.Add(tuple_Temp.Item1);
-
+                            if (bool_IsConnected)
+                            {
                                 break;
                             }
                         }
 
-                        if (added)
+                        if (bool_IsConnected)
                         {
-                            break;
+                            polygonalFace3Ds_Connected.Add(polygonalFace3D_Unvisited);
+                            polygonalFace3Ds_ToProcess.Enqueue(polygonalFace3D_Unvisited);
+                            continue;
                         }
                     }
-                }
-            }
-            while (polygonalFace3Ds_Connected.Count != count);
 
-            polygonalFace3Ds_Disconnected = tuples.ConvertAll(x => x.Item2);
+                    tuples_NextUnvisited.Add(tuple_Current);
+                }
+
+                tuples_Unvisited = tuples_NextUnvisited;
+            }
+
+            polygonalFace3Ds_Disconnected = new();
+            for (int int_I = 0; int_I < tuples_Unvisited.Count; int_I++)
+            {
+                polygonalFace3Ds_Disconnected.Add(tuples_Unvisited[int_I].Item2);
+            }
 
             return true;
         }

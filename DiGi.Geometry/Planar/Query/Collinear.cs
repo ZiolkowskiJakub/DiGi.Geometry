@@ -44,39 +44,53 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            List<Point2D> point2Ds_Temp = [];
-            foreach (Point2D? point2D in point2Ds)
+            Point2D? point2D_A = null;
+            Point2D? point2D_B = null;
+            int int_NonNullCount = 0;
+            double double_Abx = 0.0;
+            double double_Aby = 0.0;
+            double double_AbSq = 0.0;
+            double double_TolSq = tolerance * tolerance;
+
+            foreach (Point2D? point2D_C in point2Ds)
             {
-                if (point2D == null)
+                if (point2D_C == null)
                 {
                     continue;
                 }
 
-                point2Ds_Temp.Add(point2D);
+                int_NonNullCount++;
+
+                if (point2D_A == null)
+                {
+                    point2D_A = point2D_C;
+                }
+                else if (point2D_B == null)
+                {
+                    double double_Dx = point2D_C.X - point2D_A.X;
+                    double double_Dy = point2D_C.Y - point2D_A.Y;
+                    double double_DistSq = double_Dx * double_Dx + double_Dy * double_Dy;
+                    if (double_DistSq > double_TolSq)
+                    {
+                        point2D_B = point2D_C;
+                        double_Abx = double_Dx;
+                        double_Aby = double_Dy;
+                        double_AbSq = double_DistSq;
+                    }
+                }
+                else
+                {
+                    double double_Cross = double_Abx * (point2D_C.Y - point2D_A.Y) - double_Aby * (point2D_C.X - point2D_A.X);
+                    if (double_Cross * double_Cross > double_TolSq * double_AbSq)
+                    {
+                        return false;
+                    }
+                }
             }
 
-            int count = point2Ds_Temp.Count;
-
-            if (count < 2)
+            if (int_NonNullCount < 2)
             {
                 return false;
-            }
-
-            if (count == 2)
-            {
-                return true;
-            }
-
-            Vector2D? direction_1 = new Vector2D(point2Ds_Temp[0], point2Ds_Temp[1]).Unit;
-
-            for (int i = 1; i < count - 1; i++)
-            {
-                Vector2D? direction_2 = new Vector2D(point2Ds_Temp[i], point2Ds_Temp[i + 1]).Unit;
-
-                if (System.Math.Abs(System.Math.Abs(direction_1 * direction_2) - 1) > tolerance)
-                {
-                    return false;
-                }
             }
 
             return true;
@@ -97,7 +111,12 @@ namespace DiGi.Geometry.Planar
                 return false;
             }
 
-            return Collinear([point2D_1, point2D_2, point2D_3], tolerance);
+            double double_Abx = point2D_2.X - point2D_1.X;
+            double double_Aby = point2D_2.Y - point2D_1.Y;
+            double double_AbSq = double_Abx * double_Abx + double_Aby * double_Aby;
+
+            double double_Cross = double_Abx * (point2D_3.Y - point2D_1.Y) - double_Aby * (point2D_3.X - point2D_1.X);
+            return double_Cross * double_Cross <= tolerance * tolerance * double_AbSq;
         }
     }
 }

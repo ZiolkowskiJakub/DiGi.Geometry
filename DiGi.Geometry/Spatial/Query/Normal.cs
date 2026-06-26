@@ -27,15 +27,58 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            for (int i = 0; i < count; i++)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX == null || vector3D_AxisY == null || point3D_Origin == null)
             {
-                int index_1 = i;
-                int index_2 = DiGi.Core.Query.Next(count, index_1);
-                int index_3 = DiGi.Core.Query.Next(count, index_2);
+                return null;
+            }
 
-                Point3D? point3D_1 = plane.Convert(point2Ds_Local[index_1]);
-                Point3D? point3D_2 = plane.Convert(point2Ds_Local[index_2]);
-                Point3D? point3D_3 = plane.Convert(point2Ds_Local[index_3]);
+            double double_AxisXX = vector3D_AxisX.X;
+            double double_AxisXY = vector3D_AxisX.Y;
+            double double_AxisXZ = vector3D_AxisX.Z;
+
+            double double_AxisYX = vector3D_AxisY.X;
+            double double_AxisYY = vector3D_AxisY.Y;
+            double double_AxisYZ = vector3D_AxisY.Z;
+
+            double double_OriginX = point3D_Origin.X;
+            double double_OriginY = point3D_Origin.Y;
+            double double_OriginZ = point3D_Origin.Z;
+
+            for (int int_I = 0; int_I < count; int_I++)
+            {
+                int int_Index1 = int_I;
+                int int_Index2 = DiGi.Core.Query.Next(count, int_Index1);
+                int int_Index3 = DiGi.Core.Query.Next(count, int_Index2);
+
+                Planar.Classes.Point2D point2D_1 = point2Ds_Local[int_Index1];
+                Planar.Classes.Point2D point2D_2 = point2Ds_Local[int_Index2];
+                Planar.Classes.Point2D point2D_3 = point2Ds_Local[int_Index3];
+
+                if (point2D_1 == null || point2D_2 == null || point2D_3 == null)
+                {
+                    continue;
+                }
+
+                Point3D point3D_1 = new(
+                    double_OriginX + (double_AxisYX * point2D_1.Y) + (double_AxisXX * point2D_1.X),
+                    double_OriginY + (double_AxisYY * point2D_1.Y) + (double_AxisXY * point2D_1.X),
+                    double_OriginZ + (double_AxisYZ * point2D_1.Y) + (double_AxisXZ * point2D_1.X)
+                );
+
+                Point3D point3D_2 = new(
+                    double_OriginX + (double_AxisYX * point2D_2.Y) + (double_AxisXX * point2D_2.X),
+                    double_OriginY + (double_AxisYY * point2D_2.Y) + (double_AxisXY * point2D_2.X),
+                    double_OriginZ + (double_AxisYZ * point2D_2.Y) + (double_AxisXZ * point2D_2.X)
+                );
+
+                Point3D point3D_3 = new(
+                    double_OriginX + (double_AxisYX * point2D_3.Y) + (double_AxisXX * point2D_3.X),
+                    double_OriginY + (double_AxisYY * point2D_3.Y) + (double_AxisXY * point2D_3.X),
+                    double_OriginZ + (double_AxisYZ * point2D_3.Y) + (double_AxisXZ * point2D_3.X)
+                );
 
                 Vector3D? normal = Normal(point3D_1, point3D_2, point3D_3);
                 if (normal is null)
@@ -89,20 +132,42 @@ namespace DiGi.Geometry.Spatial
             Vector3D? normal = Constants.Vector3D.Zero;
             if (point3Ds_Local.Coplanar(tolerance))
             {
-                Vector3D? vector3D_Origin = (Vector3D?)origin;
+                double double_Nx = 0;
+                double double_Ny = 0;
+                double double_Nz = 0;
+                double double_Ox = origin.X;
+                double double_Oy = origin.Y;
+                double double_Oz = origin.Z;
 
-                for (int i = 0; i < count - 1; i++)
+                for (int int_I = 0; int_I < count - 1; int_I++)
                 {
-                    Vector3D? vector3D = ((Vector3D?)point3Ds_Local[i] - vector3D_Origin)?.CrossProduct((Vector3D?)point3Ds_Local[i + 1] - vector3D_Origin);
-                    if (vector3D is null)
+                    Point3D point3D_Current = point3Ds_Local[int_I];
+                    Point3D point3D_Next = point3Ds_Local[int_I + 1];
+                    if (point3D_Current == null || point3D_Next == null)
                     {
                         continue;
                     }
 
-                    normal += vector3D;
+                    double double_Ux = point3D_Current.X - double_Ox;
+                    double double_Uy = point3D_Current.Y - double_Oy;
+                    double double_Uz = point3D_Current.Z - double_Oz;
+
+                    double double_Vx = point3D_Next.X - double_Ox;
+                    double double_Vy = point3D_Next.Y - double_Oy;
+                    double double_Vz = point3D_Next.Z - double_Oz;
+
+                    double_Nx += double_Uy * double_Vz - double_Uz * double_Vy;
+                    double_Ny += double_Uz * double_Vx - double_Ux * double_Vz;
+                    double_Nz += double_Ux * double_Vy - double_Uy * double_Vx;
                 }
 
-                return normal!.Unit;
+                double double_LenSq = double_Nx * double_Nx + double_Ny * double_Ny + double_Nz * double_Nz;
+                if (double_LenSq > 0.0)
+                {
+                    double double_Len = System.Math.Sqrt(double_LenSq);
+                    return new(double_Nx / double_Len, double_Ny / double_Len, double_Nz / double_Len);
+                }
+                return Constants.Vector3D.Zero;
             }
 
             Math.Classes.Matrix matrix = new(3, 3);
@@ -176,22 +241,45 @@ namespace DiGi.Geometry.Spatial
 
             if (invalid)
             {
-                normal = Constants.Vector3D.Zero;
+                double double_Nx = 0;
+                double double_Ny = 0;
+                double double_Nz = 0;
+                double double_Ox = origin.X;
+                double double_Oy = origin.Y;
+                double double_Oz = origin.Z;
 
-                Vector3D? vector3D_Origin = (Vector3D?)origin;
-
-                for (int i = 0; i < count - 1; i++)
+                for (int int_I = 0; int_I < count - 1; int_I++)
                 {
-                    Vector3D? vector3D = ((Vector3D?)point3Ds_Local[i] - vector3D_Origin)?.CrossProduct((Vector3D?)point3Ds_Local[i + 1] - vector3D_Origin);
-                    if (vector3D is null)
+                    Point3D point3D_Current = point3Ds_Local[int_I];
+                    Point3D point3D_Next = point3Ds_Local[int_I + 1];
+                    if (point3D_Current == null || point3D_Next == null)
                     {
                         continue;
                     }
 
-                    normal += vector3D;
+                    double double_Ux = point3D_Current.X - double_Ox;
+                    double double_Uy = point3D_Current.Y - double_Oy;
+                    double double_Uz = point3D_Current.Z - double_Oz;
+
+                    double double_Vx = point3D_Next.X - double_Ox;
+                    double double_Vy = point3D_Next.Y - double_Oy;
+                    double double_Vz = point3D_Next.Z - double_Oz;
+
+                    double_Nx += double_Uy * double_Vz - double_Uz * double_Vy;
+                    double_Ny += double_Uz * double_Vx - double_Ux * double_Vz;
+                    double_Nz += double_Ux * double_Vy - double_Uy * double_Vx;
                 }
 
-                normal = normal!.Unit;
+                double double_LenSq = double_Nx * double_Nx + double_Ny * double_Ny + double_Nz * double_Nz;
+                if (double_LenSq > 0.0)
+                {
+                    double double_Len = System.Math.Sqrt(double_LenSq);
+                    normal = new(double_Nx / double_Len, double_Ny / double_Len, double_Nz / double_Len);
+                }
+                else
+                {
+                    normal = Constants.Vector3D.Zero;
+                }
 
                 Plane plane_Temp = new(origin, normal);
 
@@ -247,7 +335,26 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new Vector3D(point3D_1, point3D_2).CrossProduct(new Vector3D(point3D_1, point3D_3))?.Unit;
+            double double_Ux = point3D_2.X - point3D_1.X;
+            double double_Uy = point3D_2.Y - point3D_1.Y;
+            double double_Uz = point3D_2.Z - point3D_1.Z;
+
+            double double_Vx = point3D_3.X - point3D_1.X;
+            double double_Vy = point3D_3.Y - point3D_1.Y;
+            double double_Vz = point3D_3.Z - point3D_1.Z;
+
+            double double_Nx = double_Uy * double_Vz - double_Uz * double_Vy;
+            double double_Ny = double_Uz * double_Vx - double_Ux * double_Vz;
+            double double_Nz = double_Ux * double_Vy - double_Uy * double_Vx;
+
+            double double_LengthSq = double_Nx * double_Nx + double_Ny * double_Ny + double_Nz * double_Nz;
+            if (double_LengthSq == 0.0)
+            {
+                return null;
+            }
+
+            double double_Length = System.Math.Sqrt(double_LengthSq);
+            return new(double_Nx / double_Length, double_Ny / double_Length, double_Nz / double_Length);
         }
 
         /// <summary>
@@ -263,7 +370,18 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return axisX.CrossProduct(axisY)?.Unit;
+            double double_Nx = axisX.Y * axisY.Z - axisX.Z * axisY.Y;
+            double double_Ny = axisX.Z * axisY.X - axisX.X * axisY.Z;
+            double double_Nz = axisX.X * axisY.Y - axisX.Y * axisY.X;
+
+            double double_LengthSq = double_Nx * double_Nx + double_Ny * double_Ny + double_Nz * double_Nz;
+            if (double_LengthSq == 0.0)
+            {
+                return null;
+            }
+
+            double double_Length = System.Math.Sqrt(double_LengthSq);
+            return new(double_Nx / double_Length, double_Ny / double_Length, double_Nz / double_Length);
         }
     }
 }

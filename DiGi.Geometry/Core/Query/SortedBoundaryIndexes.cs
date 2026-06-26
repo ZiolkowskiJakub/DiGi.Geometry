@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace DiGi.Geometry.Core
 {
@@ -37,72 +37,90 @@ namespace DiGi.Geometry.Core
             // 2. Build an adjacency map for quick lookup
             // Each boundary vertex will have exactly 2 boundary neighbors in a manifold mesh
             Dictionary<int, List<int>> adjacency = [];
-            foreach (int[] edge in edges)
+            for (int int_I = 0; int_I < edges.Count; int_I++)
             {
-                if (!adjacency.ContainsKey(edge[0])) adjacency[edge[0]] = [];
-                if (!adjacency.ContainsKey(edge[1])) adjacency[edge[1]] = [];
+                int[] intArray_Edge = edges[int_I];
+                if (intArray_Edge == null || intArray_Edge.Length < 2)
+                {
+                    continue;
+                }
 
-                adjacency[edge[0]].Add(edge[1]);
-                adjacency[edge[1]].Add(edge[0]);
+                int int_V1 = intArray_Edge[0];
+                int int_V2 = intArray_Edge[1];
+
+                if (!adjacency.TryGetValue(int_V1, out List<int>? neighbors1) || neighbors1 is null)
+                {
+                    neighbors1 = [];
+                    adjacency[int_V1] = neighbors1;
+                }
+                if (!adjacency.TryGetValue(int_V2, out List<int>? neighbors2) || neighbors2 is null)
+                {
+                    neighbors2 = [];
+                    adjacency[int_V2] = neighbors2;
+                }
+
+                neighbors1.Add(int_V2);
+                neighbors2.Add(int_V1);
             }
 
-            List<List<int>> result = [];
+            List<List<int>> results = [];
             HashSet<int> visitedVertices = [];
 
             // 3. Traverse the adjacency map to form loops
-            foreach (int startVertex in adjacency.Keys)
+            foreach (int int_StartVertex in adjacency.Keys)
             {
-                if (visitedVertices.Contains(startVertex))
+                if (visitedVertices.Contains(int_StartVertex))
                 {
                     continue;
                 }
 
                 List<int> currentLoop = [];
-                int current = startVertex;
-                bool closed = false;
+                int int_Current = int_StartVertex;
+                bool bool_Closed = false;
 
-                while (!closed)
+                while (!bool_Closed)
                 {
-                    visitedVertices.Add(current);
-                    currentLoop.Add(current);
+                    visitedVertices.Add(int_Current);
+                    currentLoop.Add(int_Current);
 
-                    List<int> neighbors = adjacency[current];
-                    int next = -1;
+                    List<int> neighbors = adjacency[int_Current];
+                    int int_Next = -1;
 
-                    foreach (int neighbor in neighbors)
+                    for (int int_J = 0; int_J < neighbors.Count; int_J++)
                     {
-                        if (neighbor == startVertex && currentLoop.Count > 2)
+                        int int_Neighbor = neighbors[int_J];
+                        if (int_Neighbor == int_StartVertex && currentLoop.Count > 2)
                         {
                             // Loop is closed
-                            closed = true;
+                            bool_Closed = true;
                             break;
                         }
-                        if (!visitedVertices.Contains(neighbor))
+                        if (!visitedVertices.Contains(int_Neighbor))
                         {
-                            next = neighbor;
+                            int_Next = int_Neighbor;
                             break;
                         }
                     }
 
-                    if (next != -1)
+                    if (int_Next != -1)
                     {
-                        current = next;
+                        int_Current = int_Next;
                     }
                     else
                     {
                         // If we can't find a next vertex and it's not closed,
                         // it might be an open boundary (non-manifold)
-                        closed = true;
+                        bool_Closed = true;
                     }
                 }
 
                 if (currentLoop.Count > 0)
                 {
-                    result.Add(currentLoop);
+                    results.Add(currentLoop);
                 }
             }
 
-            return result;
+            return results;
         }
     }
 }

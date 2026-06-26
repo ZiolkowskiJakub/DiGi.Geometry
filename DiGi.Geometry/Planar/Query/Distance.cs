@@ -110,36 +110,113 @@ namespace DiGi.Geometry.Planar
                 return double.NaN;
             }
 
-            double resultSq = double.MaxValue;
-            foreach (Segment2D segment2D_1 in segment2Ds_1)
+            int int_Count2 = segment2Ds_2.Count;
+            Point2D?[] point2Ds_Start2 = new Point2D?[int_Count2];
+            Point2D?[] point2Ds_End2 = new Point2D?[int_Count2];
+            double[] doubles_MinX2 = new double[int_Count2];
+            double[] doubles_MaxX2 = new double[int_Count2];
+            double[] doubles_MinY2 = new double[int_Count2];
+            double[] doubles_MaxY2 = new double[int_Count2];
+
+            for (int int_I = 0; int_I < int_Count2; int_I++)
             {
-                foreach (Segment2D segment2D_2 in segment2Ds_2)
+                Segment2D segment2D_Temp = segment2Ds_2[int_I];
+                Point2D? point2D_Start = segment2D_Temp.Start;
+                Point2D? point2D_End = segment2D_Temp.End;
+
+                point2Ds_Start2[int_I] = point2D_Start;
+                point2Ds_End2[int_I] = point2D_End;
+
+                double double_Sx = point2D_Start?.X ?? double.NaN;
+                double double_Sy = point2D_Start?.Y ?? double.NaN;
+                double double_Ex = point2D_End?.X ?? double.NaN;
+                double double_Ey = point2D_End?.Y ?? double.NaN;
+
+                doubles_MinX2[int_I] = double_Sx < double_Ex ? double_Sx : double_Ex;
+                doubles_MaxX2[int_I] = double_Sx > double_Ex ? double_Sx : double_Ex;
+                doubles_MinY2[int_I] = double_Sy < double_Ey ? double_Sy : double_Ey;
+                doubles_MaxY2[int_I] = double_Sy > double_Ey ? double_Sy : double_Ey;
+            }
+
+            double resultSq = double.MaxValue;
+
+            for (int int_I = 0; int_I < segment2Ds_1.Count; int_I++)
+            {
+                Segment2D segment2D_1 = segment2Ds_1[int_I];
+                Point2D? point2D_Start1 = segment2D_1.Start;
+                Point2D? point2D_End1 = segment2D_1.End;
+
+                double double_1StartX = point2D_Start1?.X ?? double.NaN;
+                double double_1StartY = point2D_Start1?.Y ?? double.NaN;
+                double double_1EndX = point2D_End1?.X ?? double.NaN;
+                double double_1EndY = point2D_End1?.Y ?? double.NaN;
+
+                double double_1MinX = double_1StartX < double_1EndX ? double_1StartX : double_1EndX;
+                double double_1MaxX = double_1StartX > double_1EndX ? double_1StartX : double_1EndX;
+                double double_1MinY = double_1StartY < double_1EndY ? double_1StartY : double_1EndY;
+                double double_1MaxY = double_1StartY > double_1EndY ? double_1StartY : double_1EndY;
+
+                for (int int_J = 0; int_J < int_Count2; int_J++)
                 {
-                    Point2D? point2D = IntersectionPoint(segment2D_1[0], segment2D_1[1], segment2D_2[0], segment2D_2[1], out Point2D? point2D_Closest1_Temp, out Point2D? point2D_Closest2_Temp, tolerance);
+                    double double_2MinX = doubles_MinX2[int_J];
+                    double double_2MaxX = doubles_MaxX2[int_J];
+                    double double_2MinY = doubles_MinY2[int_J];
+                    double double_2MaxY = doubles_MaxY2[int_J];
+
+                    double double_Dx = 0.0;
+                    if (double_1MinX > double_2MaxX)
+                    {
+                        double_Dx = double_1MinX - double_2MaxX;
+                    }
+                    else if (double_2MinX > double_1MaxX)
+                    {
+                        double_Dx = double_2MinX - double_1MaxX;
+                    }
+
+                    double double_Dy = 0.0;
+                    if (double_1MinY > double_2MaxY)
+                    {
+                        double_Dy = double_1MinY - double_2MaxY;
+                    }
+                    else if (double_2MinY > double_1MaxY)
+                    {
+                        double_Dy = double_2MinY - double_1MaxY;
+                    }
+
+                    double double_MinBoxDistSq = double_Dx * double_Dx + double_Dy * double_Dy;
+                    if (double_MinBoxDistSq >= resultSq)
+                    {
+                        continue;
+                    }
+
+                    Point2D? point2D_Start2 = point2Ds_Start2[int_J];
+                    Point2D? point2D_End2 = point2Ds_End2[int_J];
+
+                    Point2D? point2D_Intersection = IntersectionPoint(point2D_Start1, point2D_End1, point2D_Start2, point2D_End2, out Point2D? point2D_Closest1_Temp, out Point2D? point2D_Closest2_Temp, tolerance);
                     if (point2D_Closest1_Temp != null && point2D_Closest2_Temp != null)
                     {
-                        double dx = point2D_Closest1_Temp.X - point2D_Closest2_Temp.X;
-                        double dy = point2D_Closest1_Temp.Y - point2D_Closest2_Temp.Y;
-                        double distanceSq = dx * dx + dy * dy;
-                        if (distanceSq == 0)
+                        double double_Dx_Temp = point2D_Closest1_Temp.X - point2D_Closest2_Temp.X;
+                        double double_Dy_Temp = point2D_Closest1_Temp.Y - point2D_Closest2_Temp.Y;
+                        double double_DistanceSq = double_Dx_Temp * double_Dx_Temp + double_Dy_Temp * double_Dy_Temp;
+                        if (double_DistanceSq == 0)
                         {
                             point2D_Closest1 = point2D_Closest1_Temp;
                             point2D_Closest2 = point2D_Closest2_Temp;
                             return 0;
                         }
 
-                        if (distanceSq < resultSq)
+                        if (double_DistanceSq < resultSq)
                         {
                             point2D_Closest1 = point2D_Closest1_Temp;
                             point2D_Closest2 = point2D_Closest2_Temp;
-                            resultSq = distanceSq;
+                            resultSq = double_DistanceSq;
                         }
                     }
 
-                    if (point2D != null && point2D_Closest1_Temp == null && point2D_Closest2_Temp == null)
+                    if (point2D_Intersection != null && point2D_Closest1_Temp == null && point2D_Closest2_Temp == null)
                     {
-                        point2D_Closest1 = point2D;
-                        point2D_Closest2 = new Point2D(point2D);
+                        point2D_Closest1 = point2D_Intersection;
+                        point2D_Closest2 = new Point2D(point2D_Intersection);
                         return 0;
                     }
                 }

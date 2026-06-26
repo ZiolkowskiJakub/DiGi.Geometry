@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 
@@ -25,7 +25,10 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            return point3D_1.Distance(point3D_2) <= tolerance;
+            double double_Dx = point3D_1.X - point3D_2.X;
+            double double_Dy = point3D_1.Y - point3D_2.Y;
+            double double_Dz = point3D_1.Z - point3D_2.Z;
+            return (double_Dx * double_Dx + double_Dy * double_Dy + double_Dz * double_Dz) <= tolerance * tolerance;
         }
 
         /// <summary>
