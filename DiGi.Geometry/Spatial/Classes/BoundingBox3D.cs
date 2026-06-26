@@ -211,8 +211,39 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            max = new(Query.Max(max, point3D));
-            min = new(Query.Min(min, point3D));
+            if (min == null || max == null)
+            {
+                min = new Point3D(point3D);
+                max = new Point3D(point3D);
+                return true;
+            }
+
+            if (point3D.X < min.X)
+            {
+                min.X = point3D.X;
+            }
+            if (point3D.Y < min.Y)
+            {
+                min.Y = point3D.Y;
+            }
+            if (point3D.Z < min.Z)
+            {
+                min.Z = point3D.Z;
+            }
+
+            if (point3D.X > max.X)
+            {
+                max.X = point3D.X;
+            }
+            if (point3D.Y > max.Y)
+            {
+                max.Y = point3D.Y;
+            }
+            if (point3D.Z > max.Z)
+            {
+                max.Z = point3D.Z;
+            }
+
             return true;
         }
 
@@ -223,25 +254,47 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="bool"/> value indicating whether the <see cref="BoundingBox3D"/> was successfully added; returns <c>false</c> if the provided <see cref="BoundingBox3D"/> or its minimum and maximum points are null.</returns>
         public bool Add(BoundingBox3D? boundingBox3D)
         {
-            if (boundingBox3D == null)
+            if (boundingBox3D == null || boundingBox3D.min == null || boundingBox3D.max == null)
             {
                 return false;
             }
 
-            Point3D min = boundingBox3D.Min;
-            if (min == null)
+            if (min == null || max == null)
             {
-                return false;
+                min = new Point3D(boundingBox3D.min);
+                max = new Point3D(boundingBox3D.max);
+                return true;
             }
 
-            Point3D max = boundingBox3D.Max;
-            if (max == null)
+            Point3D point3D_OtherMin = boundingBox3D.min;
+            Point3D point3D_OtherMax = boundingBox3D.max;
+
+            if (point3D_OtherMin.X < min.X)
             {
-                return false;
+                min.X = point3D_OtherMin.X;
+            }
+            if (point3D_OtherMin.Y < min.Y)
+            {
+                min.Y = point3D_OtherMin.Y;
+            }
+            if (point3D_OtherMin.Z < min.Z)
+            {
+                min.Z = point3D_OtherMin.Z;
             }
 
-            Add(min);
-            Add(max);
+            if (point3D_OtherMax.X > max.X)
+            {
+                max.X = point3D_OtherMax.X;
+            }
+            if (point3D_OtherMax.Y > max.Y)
+            {
+                max.Y = point3D_OtherMax.Y;
+            }
+            if (point3D_OtherMax.Z > max.Z)
+            {
+                max.Z = point3D_OtherMax.Z;
+            }
+
             return true;
         }
 

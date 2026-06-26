@@ -142,12 +142,24 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The closest <see cref="Point2D"/>, or <see langword="null"/> if the origin or direction is not defined.</returns>
         public Point2D? ClosestPoint(Point2D? point2D)
         {
-            if (origin == null || direction is null)
+            if (point2D == null || origin == null || direction == null)
             {
                 return null;
             }
 
-            return Query.ClosestPoint(point2D, origin, origin + direction, true, false);
+            double double_Dx = point2D.X - origin.X;
+            double double_Dy = point2D.Y - origin.Y;
+
+            double double_T = double_Dx * direction.X + double_Dy * direction.Y;
+            if (double_T < 0.0)
+            {
+                return new Point2D(origin);
+            }
+
+            return new Point2D(
+                origin.X + double_T * direction.X,
+                origin.Y + double_T * direction.Y
+            );
         }
 
         /// <summary>
@@ -168,18 +180,27 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The shortest distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the provided <see cref="Point2D"/> is null, or if the ray's origin or direction are not defined.</returns>
         public double Distance(Point2D? point2D)
         {
-            if (point2D == null || origin == null || direction is null)
+            if (point2D == null || origin == null || direction == null)
             {
                 return double.NaN;
             }
 
-            Point2D? point2D_Project = ClosestPoint(point2D);
-            if (point2D_Project is null)
+            double double_Dx = point2D.X - origin.X;
+            double double_Dy = point2D.Y - origin.Y;
+
+            double double_T = double_Dx * direction.X + double_Dy * direction.Y;
+            if (double_T < 0.0)
             {
-                return double.NaN;
+                return System.Math.Sqrt(double_Dx * double_Dx + double_Dy * double_Dy);
             }
 
-            return point2D_Project.Distance(point2D);
+            double double_ProjX = origin.X + double_T * direction.X;
+            double double_ProjY = origin.Y + double_T * direction.Y;
+
+            double double_Rx = point2D.X - double_ProjX;
+            double double_Ry = point2D.Y - double_ProjY;
+
+            return System.Math.Sqrt(double_Rx * double_Rx + double_Ry * double_Ry);
         }
 
         /// <summary>
@@ -217,24 +238,38 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>A <see cref="Point2D"/> representing the intersection point if it exists within the specified tolerance; otherwise, null.</returns>
         public Point2D? IntersectionPoint(Ray2D? ray2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (ray2D is null || origin == null || direction is null)
+            if (ray2D is null || origin == null || direction == null || ray2D.origin == null || ray2D.direction == null)
             {
                 return null;
             }
 
-            Point2D? point2D_1 = Origin;
-            point2D_1?.Move(direction);
-
-            Point2D? point2D_2 = ray2D.Origin;
-            point2D_2?.Move(ray2D.direction);
-
-            Point2D? result = Query.IntersectionPoint(origin, point2D_1, ray2D.origin, point2D_2, false, tolerance);
-            if (!ray2D.On(result, tolerance) || !On(result, tolerance))
+            double double_Det = direction.Y * ray2D.direction.X - direction.X * ray2D.direction.Y;
+            if (System.Math.Abs(double_Det) < 1e-12)
             {
                 return null;
             }
 
-            return result;
+            double double_Dx = ray2D.origin.X - origin.X;
+            double double_Dy = ray2D.origin.Y - origin.Y;
+
+            double double_T1 = (double_Dy * ray2D.direction.X - double_Dx * ray2D.direction.Y) / double_Det;
+            double double_T2 = (double_Dy * direction.X - double_Dx * direction.Y) / double_Det;
+
+            double double_Len1 = System.Math.Sqrt(direction.X * direction.X + direction.Y * direction.Y);
+            double double_Len2 = System.Math.Sqrt(ray2D.direction.X * ray2D.direction.X + ray2D.direction.Y * ray2D.direction.Y);
+
+            double double_ParamTolerance1 = double_Len1 > 1e-9 ? tolerance / double_Len1 : tolerance;
+            double double_ParamTolerance2 = double_Len2 > 1e-9 ? tolerance / double_Len2 : tolerance;
+
+            if (double_T1 < -double_ParamTolerance1 || double_T2 < -double_ParamTolerance2)
+            {
+                return null;
+            }
+
+            return new Point2D(
+                origin.X + double_T1 * direction.X,
+                origin.Y + double_T1 * direction.Y
+            );
         }
 
         /// <summary>
@@ -245,21 +280,38 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>A <see cref="Point2D"/> if an intersection point exists and lies on both segments; otherwise, <c>null</c>.</returns>
         public Point2D? IntersectionPoint(Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (segment2D is null || origin is null || direction is null)
+            if (segment2D is null || origin == null || direction == null || segment2D.Start is not Point2D point2D_Start || segment2D.Vector is not Vector2D vector2D_Vector)
             {
                 return null;
             }
 
-            Point2D? point2D = Origin;
-            point2D?.Move(direction);
-
-            Point2D? result = Query.IntersectionPoint(origin, point2D, segment2D.Start, segment2D.End, false, tolerance);
-            if (!segment2D.On(result) || !On(result))
+            double double_Det = direction.Y * vector2D_Vector.X - direction.X * vector2D_Vector.Y;
+            if (System.Math.Abs(double_Det) < 1e-12)
             {
                 return null;
             }
 
-            return result;
+            double double_Dx = point2D_Start.X - origin.X;
+            double double_Dy = point2D_Start.Y - origin.Y;
+
+            double double_T = (double_Dy * vector2D_Vector.X - double_Dx * vector2D_Vector.Y) / double_Det;
+            double double_U = (double_Dy * direction.X - double_Dx * direction.Y) / double_Det;
+
+            double double_LenRay = System.Math.Sqrt(direction.X * direction.X + direction.Y * direction.Y);
+            double double_LenSeg = System.Math.Sqrt(vector2D_Vector.X * vector2D_Vector.X + vector2D_Vector.Y * vector2D_Vector.Y);
+
+            double double_ParamToleranceRay = double_LenRay > 1e-9 ? tolerance / double_LenRay : tolerance;
+            double double_ParamToleranceSeg = double_LenSeg > 1e-9 ? tolerance / double_LenSeg : tolerance;
+
+            if (double_T < -double_ParamToleranceRay || double_U < -double_ParamToleranceSeg || double_U > 1.0 + double_ParamToleranceSeg)
+            {
+                return null;
+            }
+
+            return new Point2D(
+                origin.X + double_T * direction.X,
+                origin.Y + double_T * direction.Y
+            );
         }
 
         /// <summary>
@@ -300,12 +352,35 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>A <see cref="bool"/> value indicating whether the point is on the object within the specified tolerance.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (origin == null || direction is null || point2D == null)
+            if (point2D == null || origin == null || direction == null)
             {
                 return false;
             }
 
-            return Distance(point2D) < tolerance;
+            double double_Dx = point2D.X - origin.X;
+            double double_Dy = point2D.Y - origin.Y;
+
+            double double_T = double_Dx * direction.X + double_Dy * direction.Y;
+            double double_Rx;
+            double double_Ry;
+
+            if (double_T < 0.0)
+            {
+                double_Rx = double_Dx;
+                double_Ry = double_Dy;
+            }
+            else
+            {
+                double double_ProjX = origin.X + double_T * direction.X;
+                double double_ProjY = origin.Y + double_T * direction.Y;
+
+                double_Rx = point2D.X - double_ProjX;
+                double_Ry = point2D.Y - double_ProjY;
+            }
+
+            double double_DistSq = double_Rx * double_Rx + double_Ry * double_Ry;
+
+            return double_DistSq < tolerance * tolerance;
         }
 
         /// <summary>
@@ -315,24 +390,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The projected <see cref="Point2D"/> on the ray, or null if the input point or the ray is not properly defined.</returns>
         public Point2D? Project(Point2D? point2D)
         {
-            if (point2D is null || origin is null || direction is null)
-            {
-                return null;
-            }
-
-            Point2D? point2D_Projected = Query.ClosestPoint(point2D, origin, origin + direction, false);
-            if (point2D_Projected is null)
-            {
-                return null;
-            }
-
-            Vector2D vector2D_Proj = new(origin, point2D_Projected);
-            if (vector2D_Proj.DotProduct(direction) < 0.0)
-            {
-                return new Point2D(origin);
-            }
-
-            return point2D_Projected;
+            return ClosestPoint(point2D);
         }
 
         /// <summary>

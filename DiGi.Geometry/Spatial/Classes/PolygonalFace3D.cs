@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar;
@@ -213,7 +213,66 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="BoundingBox3D"/> representing the bounding box, or null if it cannot be determined.</returns>
         public BoundingBox3D? GetBoundingBox()
         {
-            return ExternalEdge?.GetBoundingBox();
+            if (plane == null || geometry2D == null)
+            {
+                return null;
+            }
+
+            IPolygonal2D? externalEdge = geometry2D.ExternalEdge;
+            if (externalEdge == null)
+            {
+                return null;
+            }
+
+            List<Point2D>? point2Ds = externalEdge.GetPoints();
+            if (point2Ds == null || point2Ds.Count == 0)
+            {
+                return null;
+            }
+
+            Point3D? planeOrigin = plane.Origin;
+            Vector3D? planeAxisX = plane.AxisX;
+            Vector3D? planeAxisY = plane.AxisY;
+
+            if (planeOrigin == null || planeAxisX == null || planeAxisY == null)
+            {
+                return null;
+            }
+
+            double minX = double.PositiveInfinity;
+            double minY = double.PositiveInfinity;
+            double minZ = double.PositiveInfinity;
+            double maxX = double.NegativeInfinity;
+            double maxY = double.NegativeInfinity;
+            double maxZ = double.NegativeInfinity;
+
+            for (int i = 0; i < point2Ds.Count; i++)
+            {
+                Point2D? p = point2Ds[i];
+                if (p == null)
+                {
+                    continue;
+                }
+
+                double x = planeOrigin.X + p.X * planeAxisX.X + p.Y * planeAxisY.X;
+                double y = planeOrigin.Y + p.X * planeAxisX.Y + p.Y * planeAxisY.Y;
+                double z = planeOrigin.Z + p.X * planeAxisX.Z + p.Y * planeAxisY.Z;
+
+                if (x < minX) minX = x;
+                if (y < minY) minY = y;
+                if (z < minZ) minZ = z;
+
+                if (x > maxX) maxX = x;
+                if (y > maxY) maxY = y;
+                if (z > maxZ) maxZ = z;
+            }
+
+            if (double.IsInfinity(minX))
+            {
+                return null;
+            }
+
+            return new BoundingBox3D(new Point3D(minX, minY, minZ), new Point3D(maxX, maxY, maxZ));
         }
 
         /// <summary>

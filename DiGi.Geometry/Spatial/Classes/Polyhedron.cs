@@ -174,17 +174,26 @@ namespace DiGi.Geometry.Spatial.Classes
                 return null;
             }
 
-            List<BoundingBox3D> boundingBox3Ds = [];
+            BoundingBox3D? result = null;
             for (int i = 0; i < polygonalFaces.Count; i++)
             {
-                BoundingBox3D? boundingBox3D = polygonalFaces[i]?.GetBoundingBox();
-                if (boundingBox3D != null)
+                BoundingBox3D? faceBox = polygonalFaces[i]?.GetBoundingBox();
+                if (faceBox == null)
                 {
-                    boundingBox3Ds.Add(boundingBox3D);
+                    continue;
+                }
+
+                if (result == null)
+                {
+                    result = new BoundingBox3D(faceBox);
+                }
+                else
+                {
+                    result.Add(faceBox);
                 }
             }
 
-            return Create.BoundingBox3D(boundingBox3Ds);
+            return result;
         }
 
         /// <summary>

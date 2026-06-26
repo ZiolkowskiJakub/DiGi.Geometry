@@ -148,12 +148,26 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>The closest <see cref="Point3D"/> if found; otherwise, null.</returns>
         public Point3D? ClosestPoint(Point3D? point3D)
         {
-            if (origin is null || direction is null)
+            if (point3D == null || origin == null || direction == null)
             {
                 return null;
             }
 
-            return Query.ClosestPoint(point3D, origin, origin.GetMoved(direction), true, false);
+            double double_Dx = point3D.X - origin.X;
+            double double_Dy = point3D.Y - origin.Y;
+            double double_Dz = point3D.Z - origin.Z;
+
+            double double_T = double_Dx * direction.X + double_Dy * direction.Y + double_Dz * direction.Z;
+            if (double_T < 0.0)
+            {
+                return new Point3D(origin);
+            }
+
+            return new Point3D(
+                origin.X + double_T * direction.X,
+                origin.Y + double_T * direction.Y,
+                origin.Z + double_T * direction.Z
+            );
         }
 
         /// <summary>
@@ -179,18 +193,30 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>The distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the provided <c>Point3D?</c> is null or cannot be projected.</returns>
         public double Distance(Point3D? point3D)
         {
-            if (point3D == null)
+            if (point3D == null || origin == null || direction == null)
             {
                 return double.NaN;
             }
 
-            Point3D? point3D_Project = Project(point3D);
-            if (point3D_Project == null)
+            double double_Dx = point3D.X - origin.X;
+            double double_Dy = point3D.Y - origin.Y;
+            double double_Dz = point3D.Z - origin.Z;
+
+            double double_T = double_Dx * direction.X + double_Dy * direction.Y + double_Dz * direction.Z;
+            if (double_T < 0.0)
             {
-                return double.NaN;
+                return System.Math.Sqrt(double_Dx * double_Dx + double_Dy * double_Dy + double_Dz * double_Dz);
             }
 
-            return point3D_Project.Distance(point3D);
+            double double_ProjX = origin.X + double_T * direction.X;
+            double double_ProjY = origin.Y + double_T * direction.Y;
+            double double_ProjZ = origin.Z + double_T * direction.Z;
+
+            double double_Rx = point3D.X - double_ProjX;
+            double double_Ry = point3D.Y - double_ProjY;
+            double double_Rz = point3D.Z - double_ProjZ;
+
+            return System.Math.Sqrt(double_Rx * double_Rx + double_Ry * double_Ry + double_Rz * double_Rz);
         }
 
         /// <summary>
@@ -296,18 +322,40 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="bool"/> value indicating whether the point is within the specified tolerance of the object.</returns>
         public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point3D == null)
+            if (point3D == null || origin == null || direction == null)
             {
                 return false;
             }
 
-            Point3D? point3D_Project = Project(point3D);
-            if (point3D_Project == null)
+            double double_Dx = point3D.X - origin.X;
+            double double_Dy = point3D.Y - origin.Y;
+            double double_Dz = point3D.Z - origin.Z;
+
+            double double_T = double_Dx * direction.X + double_Dy * direction.Y + double_Dz * direction.Z;
+            double double_Rx;
+            double double_Ry;
+            double double_Rz;
+
+            if (double_T < 0.0)
             {
-                return false;
+                double_Rx = double_Dx;
+                double_Ry = double_Dy;
+                double_Rz = double_Dz;
+            }
+            else
+            {
+                double double_ProjX = origin.X + double_T * direction.X;
+                double double_ProjY = origin.Y + double_T * direction.Y;
+                double double_ProjZ = origin.Z + double_T * direction.Z;
+
+                double_Rx = point3D.X - double_ProjX;
+                double_Ry = point3D.Y - double_ProjY;
+                double_Rz = point3D.Z - double_ProjZ;
             }
 
-            return point3D_Project.Distance(point3D) < tolerance;
+            double double_DistSq = double_Rx * double_Rx + double_Ry * double_Ry + double_Rz * double_Rz;
+
+            return double_DistSq < tolerance * tolerance;
         }
 
         /// <summary>
@@ -317,24 +365,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>The projected <see cref="Point3D"/> on the ray, or null if the input point is null or the ray is not properly defined.</returns>
         public Point3D? Project(Point3D? point3D)
         {
-            if (point3D is null || origin is null || direction is null)
-            {
-                return null;
-            }
-
-            Point3D? point3D_Projected = Query.ClosestPoint(point3D, origin, origin.GetMoved(direction), false);
-            if (point3D_Projected is null)
-            {
-                return null;
-            }
-
-            Vector3D vector3D_Proj = new(origin, point3D_Projected);
-            if (vector3D_Proj.DotProduct(direction) < 0.0)
-            {
-                return new Point3D(origin);
-            }
-
-            return point3D_Projected;
+            return ClosestPoint(point3D);
         }
 
         /// <summary>

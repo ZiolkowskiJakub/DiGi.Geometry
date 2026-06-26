@@ -294,13 +294,39 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the bounding box was successfully added.</returns>
         public bool Add(BoundingBox2D? boundingBox2D)
         {
-            if (boundingBox2D == null)
+            if (boundingBox2D == null || boundingBox2D.min == null || boundingBox2D.max == null)
             {
                 return false;
             }
 
-            max = Query.Max(max, boundingBox2D.Max);
-            min = Query.Min(min, boundingBox2D.Min);
+            if (min == null || max == null)
+            {
+                min = new Point2D(boundingBox2D.min);
+                max = new Point2D(boundingBox2D.max);
+                return true;
+            }
+
+            Point2D point2D_OtherMin = boundingBox2D.min;
+            Point2D point2D_OtherMax = boundingBox2D.max;
+
+            if (point2D_OtherMin.X < min.X)
+            {
+                min.X = point2D_OtherMin.X;
+            }
+            if (point2D_OtherMin.Y < min.Y)
+            {
+                min.Y = point2D_OtherMin.Y;
+            }
+
+            if (point2D_OtherMax.X > max.X)
+            {
+                max.X = point2D_OtherMax.X;
+            }
+            if (point2D_OtherMax.Y > max.Y)
+            {
+                max.Y = point2D_OtherMax.Y;
+            }
+
             return true;
         }
 
@@ -316,8 +342,31 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            max = Query.Max(max, point2D);
-            min = Query.Min(min, point2D);
+            if (min == null || max == null)
+            {
+                min = new Point2D(point2D);
+                max = new Point2D(point2D);
+                return true;
+            }
+
+            if (point2D.X < min.X)
+            {
+                min.X = point2D.X;
+            }
+            if (point2D.Y < min.Y)
+            {
+                min.Y = point2D.Y;
+            }
+
+            if (point2D.X > max.X)
+            {
+                max.X = point2D.X;
+            }
+            if (point2D.Y > max.Y)
+            {
+                max.Y = point2D.Y;
+            }
+
             return true;
         }
 

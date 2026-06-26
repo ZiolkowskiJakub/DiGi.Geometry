@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
@@ -138,12 +138,20 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The projected point on the line.</returns>
         public Point2D? ClosestPoint(Point2D? point2D)
         {
-            if (origin is null || direction is null)
+            if (point2D == null || origin == null || direction == null)
             {
                 return null;
             }
 
-            return Query.ClosestPoint(point2D, origin, origin + direction, false);
+            double dx = point2D.X - origin.X;
+            double dy = point2D.Y - origin.Y;
+
+            double t = dx * direction.X + dy * direction.Y;
+
+            return new Point2D(
+                origin.X + t * direction.X,
+                origin.Y + t * direction.Y
+            );
         }
 
         /// <summary>
@@ -164,18 +172,23 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The perpendicular distance to the line.</returns>
         public double Distance(Point2D? point2D)
         {
-            if (point2D == null || origin == null || direction is null)
+            if (point2D == null || origin == null || direction == null)
             {
                 return double.NaN;
             }
 
-            Point2D? point2D_Project = Project(point2D);
-            if (point2D_Project is null)
-            {
-                return double.NaN;
-            }
+            double dx = point2D.X - origin.X;
+            double dy = point2D.Y - origin.Y;
 
-            return point2D_Project.Distance(point2D);
+            double t = dx * direction.X + dy * direction.Y;
+
+            double projX = origin.X + t * direction.X;
+            double projY = origin.Y + t * direction.Y;
+
+            double rx = point2D.X - projX;
+            double ry = point2D.Y - projY;
+
+            return System.Math.Sqrt(rx * rx + ry * ry);
         }
 
         /// <summary>
@@ -213,18 +226,26 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The intersection point, or null if they are parallel or collinear.</returns>
         public Point2D? IntersectionPoint(Line2D? line2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (line2D is null || origin == null || direction is null)
+            if (line2D is null || origin == null || direction == null || line2D.origin == null || line2D.direction == null)
             {
                 return null;
             }
 
-            Point2D? point2D_1 = Origin;
-            point2D_1?.Move(direction);
+            double det = direction.Y * line2D.direction.X - direction.X * line2D.direction.Y;
+            if (System.Math.Abs(det) < 1e-12)
+            {
+                return null;
+            }
 
-            Point2D? point2D_2 = line2D.Origin;
-            point2D_2?.Move(line2D.direction);
+            double dx = line2D.origin.X - origin.X;
+            double dy = line2D.origin.Y - origin.Y;
 
-            return Query.IntersectionPoint(origin, point2D_1, line2D.origin, point2D_2, false, tolerance);
+            double t1 = (dy * line2D.direction.X - dx * line2D.direction.Y) / det;
+
+            return new Point2D(
+                origin.X + t1 * direction.X,
+                origin.Y + t1 * direction.Y
+            );
         }
 
         /// <summary>
@@ -235,21 +256,32 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The intersection point, or null if no intersection exists within the segment boundaries.</returns>
         public Point2D? IntersectionPoint(Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (segment2D is null || origin is null || direction is null)
+            if (segment2D is null || origin == null || direction == null || segment2D.Start is not Point2D start || segment2D.Vector is not Vector2D vector)
             {
                 return null;
             }
 
-            Point2D? point2D = Origin;
-            point2D?.Move(direction);
-
-            Point2D? result = Query.IntersectionPoint(origin, point2D, segment2D.Start, segment2D.End, false, tolerance);
-            if (!segment2D.On(result))
+            double det = direction.Y * vector.X - direction.X * vector.Y;
+            if (System.Math.Abs(det) < 1e-12)
             {
                 return null;
             }
 
-            return result;
+            double dx = start.X - origin.X;
+            double dy = start.Y - origin.Y;
+
+            double t2 = (dy * direction.X - dx * direction.Y) / det;
+            double length = System.Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            double paramTolerance = length > 1e-9 ? tolerance / length : tolerance;
+            if (t2 < -paramTolerance || t2 > 1.0 + paramTolerance)
+            {
+                return null;
+            }
+
+            return new Point2D(
+                start.X + t2 * vector.X,
+                start.Y + t2 * vector.Y
+            );
         }
 
         /// <summary>
@@ -290,12 +322,25 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the point is on the line; otherwise, false.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (origin == null || direction is null || point2D == null)
+            if (point2D == null || origin == null || direction == null)
             {
                 return false;
             }
 
-            return Distance(point2D) < tolerance;
+            double dx = point2D.X - origin.X;
+            double dy = point2D.Y - origin.Y;
+
+            double t = dx * direction.X + dy * direction.Y;
+
+            double projX = origin.X + t * direction.X;
+            double projY = origin.Y + t * direction.Y;
+
+            double rx = point2D.X - projX;
+            double ry = point2D.Y - projY;
+
+            double distSq = rx * rx + ry * ry;
+
+            return distSq < tolerance * tolerance;
         }
 
         /// <summary>
