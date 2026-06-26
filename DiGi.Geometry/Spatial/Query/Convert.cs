@@ -59,33 +59,34 @@ namespace DiGi.Geometry.Spatial
         /// <returns>A <see cref="Point3D"/> representing the 2D point in 3D space, or null if the <see cref="Plane"/>, the <see cref="Point2D"/>, or the plane's axes are null.</returns>
         public static Point3D? Convert(this Plane? plane, Point2D? point2D)
         {
-            if (point2D == null)
+            if (point2D == null || plane == null)
             {
                 return null;
             }
 
-            Vector3D? axisX = plane?.AxisX;
-            if (axisX is null)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            if (vector3D_AxisX is null)
             {
                 return null;
             }
 
-            Vector3D? axisY = plane!.AxisY;
-            if (axisY is null)
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            if (vector3D_AxisY is null)
             {
                 return null;
             }
 
-            Point3D? origin = plane!.Origin;
-            if (origin is null)
+            Point3D? point3D_Origin = plane.Origin;
+            if (point3D_Origin is null)
             {
                 return null;
             }
 
-            Vector3D u = new(axisY.X * point2D.Y, axisY.Y * point2D.Y, axisY.Z * point2D.Y);
-            Vector3D v = new(axisX.X * point2D.X, axisX.Y * point2D.X, axisX.Z * point2D.X);
-
-            return new(origin.X + u.X + v.X, origin.Y + u.Y + v.Y, origin.Z + u.Z + v.Z);
+            return new Point3D(
+                point3D_Origin.X + (vector3D_AxisY.X * point2D.Y) + (vector3D_AxisX.X * point2D.X),
+                point3D_Origin.Y + (vector3D_AxisY.Y * point2D.Y) + (vector3D_AxisX.Y * point2D.X),
+                point3D_Origin.Z + (vector3D_AxisY.Z * point2D.Y) + (vector3D_AxisX.Z * point2D.X)
+            );
         }
 
         /// <summary>
@@ -101,22 +102,23 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D? axisX = plane.AxisX;
-            if (axisX is null)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            if (vector3D_AxisX is null)
             {
                 return null;
             }
 
-            Vector3D? axisY = plane.AxisY;
-            if (axisY is null)
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            if (vector3D_AxisY is null)
             {
                 return null;
             }
 
-            Vector3D u = new(axisY.X * vector2D.Y, axisY.Y * vector2D.Y, axisY.Z * vector2D.Y);
-            Vector3D v = new(axisX.X * vector2D.X, axisX.Y * vector2D.X, axisX.Z * vector2D.X);
-
-            return new(u.X + v.X, u.Y + v.Y, u.Z + v.Z);
+            return new Vector3D(
+                (vector3D_AxisY.X * vector2D.Y) + (vector3D_AxisX.X * vector2D.X),
+                (vector3D_AxisY.Y * vector2D.Y) + (vector3D_AxisX.Y * vector2D.X),
+                (vector3D_AxisY.Z * vector2D.Y) + (vector3D_AxisX.Z * vector2D.X)
+            );
         }
 
         /// <summary>
@@ -132,19 +134,34 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Point3D? start = plane.Convert(segment2D.Start);
-            if (start == null)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
             {
                 return null;
             }
 
-            Point3D? end = plane.Convert(segment2D.End);
-            if (end == null)
+            Point2D? point2D_Start = segment2D.Start;
+            Point2D? point2D_End = segment2D.End;
+            if (point2D_Start == null || point2D_End == null)
             {
                 return null;
             }
 
-            return new(start, end);
+            Point3D point3D_StartConverted = new Point3D(
+                point3D_Origin.X + (vector3D_AxisY.X * point2D_Start.Y) + (vector3D_AxisX.X * point2D_Start.X),
+                point3D_Origin.Y + (vector3D_AxisY.Y * point2D_Start.Y) + (vector3D_AxisX.Y * point2D_Start.X),
+                point3D_Origin.Z + (vector3D_AxisY.Z * point2D_Start.Y) + (vector3D_AxisX.Z * point2D_Start.X)
+            );
+
+            Point3D point3D_EndConverted = new Point3D(
+                point3D_Origin.X + (vector3D_AxisY.X * point2D_End.Y) + (vector3D_AxisX.X * point2D_End.X),
+                point3D_Origin.Y + (vector3D_AxisY.Y * point2D_End.Y) + (vector3D_AxisX.Y * point2D_End.X),
+                point3D_Origin.Z + (vector3D_AxisY.Z * point2D_End.Y) + (vector3D_AxisX.Z * point2D_End.X)
+            );
+
+            return new Segment3D(point3D_StartConverted, point3D_EndConverted);
         }
 
         /// <summary>
@@ -189,30 +206,47 @@ namespace DiGi.Geometry.Spatial
             }
 
             List<Point2D>? point2Ds = triangle2D.GetPoints();
-            if (point2Ds == null)
+            if (point2Ds == null || point2Ds.Count < 3)
             {
                 return null;
             }
 
-            Point3D? point3D_1 = plane.Convert(point2Ds[0]);
-            if (point3D_1 == null)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
             {
                 return null;
             }
 
-            Point3D? point3D_2 = plane.Convert(point2Ds[1]);
-            if (point3D_2 == null)
+            Point2D point2D_1 = point2Ds[0];
+            Point2D point2D_2 = point2Ds[1];
+            Point2D point2D_3 = point2Ds[2];
+
+            if (point2D_1 == null || point2D_2 == null || point2D_3 == null)
             {
                 return null;
             }
 
-            Point3D? point3D_3 = plane.Convert(point2Ds[2]);
-            if (point3D_3 == null)
-            {
-                return null;
-            }
+            Point3D point3D_1 = new Point3D(
+                point3D_Origin.X + (vector3D_AxisY.X * point2D_1.Y) + (vector3D_AxisX.X * point2D_1.X),
+                point3D_Origin.Y + (vector3D_AxisY.Y * point2D_1.Y) + (vector3D_AxisX.Y * point2D_1.X),
+                point3D_Origin.Z + (vector3D_AxisY.Z * point2D_1.Y) + (vector3D_AxisX.Z * point2D_1.X)
+            );
 
-            return new(point3D_1, point3D_2, point3D_3);
+            Point3D point3D_2 = new Point3D(
+                point3D_Origin.X + (vector3D_AxisY.X * point2D_2.Y) + (vector3D_AxisX.X * point2D_2.X),
+                point3D_Origin.Y + (vector3D_AxisY.Y * point2D_2.Y) + (vector3D_AxisX.Y * point2D_2.X),
+                point3D_Origin.Z + (vector3D_AxisY.Z * point2D_2.Y) + (vector3D_AxisX.Z * point2D_2.X)
+            );
+
+            Point3D point3D_3 = new Point3D(
+                point3D_Origin.X + (vector3D_AxisY.X * point2D_3.Y) + (vector3D_AxisX.X * point2D_3.X),
+                point3D_Origin.Y + (vector3D_AxisY.Y * point2D_3.Y) + (vector3D_AxisX.Y * point2D_3.X),
+                point3D_Origin.Z + (vector3D_AxisY.Z * point2D_3.Y) + (vector3D_AxisX.Z * point2D_3.X)
+            );
+
+            return new Triangle3D(point3D_1, point3D_2, point3D_3);
         }
 
         /// <summary>
@@ -276,26 +310,32 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D? axisX = plane.AxisX;
-            if (axisX is null)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            if (vector3D_AxisX is null)
             {
                 return null;
             }
 
-            Vector3D? axisY = plane.AxisY;
-            if (axisY is null)
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            if (vector3D_AxisY is null)
             {
                 return null;
             }
 
-            Point3D? origin = plane.Origin;
-            if (origin is null)
+            Point3D? point3D_Origin = plane.Origin;
+            if (point3D_Origin is null)
             {
                 return null;
             }
 
-            Vector3D vector3D = new(point3D.X - origin.X, point3D.Y - origin.Y, point3D.Z - origin.Z);
-            return new(axisX.DotProduct(vector3D), axisY.DotProduct(vector3D));
+            double double_Dx = point3D.X - point3D_Origin.X;
+            double double_Dy = point3D.Y - point3D_Origin.Y;
+            double double_Dz = point3D.Z - point3D_Origin.Z;
+
+            return new Point2D(
+                vector3D_AxisX.X * double_Dx + vector3D_AxisX.Y * double_Dy + vector3D_AxisX.Z * double_Dz,
+                vector3D_AxisY.X * double_Dx + vector3D_AxisY.Y * double_Dy + vector3D_AxisY.Z * double_Dz
+            );
         }
 
         /// <summary>
@@ -311,19 +351,22 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D? axisX = plane.AxisX;
-            if (axisX is null)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            if (vector3D_AxisX is null)
             {
                 return null;
             }
 
-            Vector3D? axisY = plane.AxisY;
-            if (axisY is null)
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            if (vector3D_AxisY is null)
             {
                 return null;
             }
 
-            return new(axisX.DotProduct(vector3D), axisY.DotProduct(vector3D));
+            return new Vector2D(
+                vector3D_AxisX.X * vector3D.X + vector3D_AxisX.Y * vector3D.Y + vector3D_AxisX.Z * vector3D.Z,
+                vector3D_AxisY.X * vector3D.X + vector3D_AxisY.Y * vector3D.Y + vector3D_AxisY.Z * vector3D.Z
+            );
         }
 
         /// <summary>
@@ -339,19 +382,40 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Point2D? start = plane.Convert(segment3D.Start);
-            if (start == null)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
             {
                 return null;
             }
 
-            Point2D? end = plane.Convert(segment3D.End);
-            if (end == null)
+            Point3D? point3D_Start = segment3D.Start;
+            Point3D? point3D_End = segment3D.End;
+            if (point3D_Start == null || point3D_End == null)
             {
                 return null;
             }
 
-            return new(start, end);
+            double double_Dx1 = point3D_Start.X - point3D_Origin.X;
+            double double_Dy1 = point3D_Start.Y - point3D_Origin.Y;
+            double double_Dz1 = point3D_Start.Z - point3D_Origin.Z;
+
+            double double_Dx2 = point3D_End.X - point3D_Origin.X;
+            double double_Dy2 = point3D_End.Y - point3D_Origin.Y;
+            double double_Dz2 = point3D_End.Z - point3D_Origin.Z;
+
+            Point2D point2D_StartConverted = new Point2D(
+                vector3D_AxisX.X * double_Dx1 + vector3D_AxisX.Y * double_Dy1 + vector3D_AxisX.Z * double_Dz1,
+                vector3D_AxisY.X * double_Dx1 + vector3D_AxisY.Y * double_Dy1 + vector3D_AxisY.Z * double_Dz1
+            );
+
+            Point2D point2D_EndConverted = new Point2D(
+                vector3D_AxisX.X * double_Dx2 + vector3D_AxisX.Y * double_Dy2 + vector3D_AxisX.Z * double_Dz2,
+                vector3D_AxisY.X * double_Dx2 + vector3D_AxisY.Y * double_Dy2 + vector3D_AxisY.Z * double_Dz2
+            );
+
+            return new Segment2D(point2D_StartConverted, point2D_EndConverted);
         }
 
         /// <summary>
@@ -396,30 +460,56 @@ namespace DiGi.Geometry.Spatial
             }
 
             List<Point3D>? point3Ds = triangle3D.GetPoints();
-            if (point3Ds == null)
+            if (point3Ds == null || point3Ds.Count < 3)
             {
                 return null;
             }
 
-            Point2D? point2D_1 = plane.Convert(point3Ds[0]);
-            if (point2D_1 == null)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
             {
                 return null;
             }
 
-            Point2D? point2D_2 = plane.Convert(point3Ds[1]);
-            if (point2D_2 == null)
+            Point3D point3D_1 = point3Ds[0];
+            Point3D point3D_2 = point3Ds[1];
+            Point3D point3D_3 = point3Ds[2];
+
+            if (point3D_1 == null || point3D_2 == null || point3D_3 == null)
             {
                 return null;
             }
 
-            Point2D? point2D_3 = plane.Convert(point3Ds[2]);
-            if (point2D_3 == null)
-            {
-                return null;
-            }
+            double double_Dx1 = point3D_1.X - point3D_Origin.X;
+            double double_Dy1 = point3D_1.Y - point3D_Origin.Y;
+            double double_Dz1 = point3D_1.Z - point3D_Origin.Z;
 
-            return new(point2D_1, point2D_2, point2D_3);
+            double double_Dx2 = point3D_2.X - point3D_Origin.X;
+            double double_Dy2 = point3D_2.Y - point3D_Origin.Y;
+            double double_Dz2 = point3D_2.Z - point3D_Origin.Z;
+
+            double double_Dx3 = point3D_3.X - point3D_Origin.X;
+            double double_Dy3 = point3D_3.Y - point3D_Origin.Y;
+            double double_Dz3 = point3D_3.Z - point3D_Origin.Z;
+
+            Point2D point2D_1Converted = new Point2D(
+                vector3D_AxisX.X * double_Dx1 + vector3D_AxisX.Y * double_Dy1 + vector3D_AxisX.Z * double_Dz1,
+                vector3D_AxisY.X * double_Dx1 + vector3D_AxisY.Y * double_Dy1 + vector3D_AxisY.Z * double_Dz1
+            );
+
+            Point2D point2D_2Converted = new Point2D(
+                vector3D_AxisX.X * double_Dx2 + vector3D_AxisX.Y * double_Dy2 + vector3D_AxisX.Z * double_Dz2,
+                vector3D_AxisY.X * double_Dx2 + vector3D_AxisY.Y * double_Dy2 + vector3D_AxisY.Z * double_Dz2
+            );
+
+            Point2D point2D_3Converted = new Point2D(
+                vector3D_AxisX.X * double_Dx3 + vector3D_AxisX.Y * double_Dy3 + vector3D_AxisX.Z * double_Dz3,
+                vector3D_AxisY.X * double_Dx3 + vector3D_AxisY.Y * double_Dy3 + vector3D_AxisY.Z * double_Dz3
+            );
+
+            return new Triangle2D(point2D_1Converted, point2D_2Converted, point2D_3Converted);
         }
 
         /// <summary>
@@ -441,19 +531,34 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            List<Point2D> point2Ds = [];
-            for (int i = 0; i < point3Ds.Count; i++)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
             {
-                Point2D? point2D = plane.Convert(point3Ds[i]);
-                if (point2D is null)
+                return null;
+            }
+
+            List<Point2D> point2Ds_Result = new List<Point2D>(point3Ds.Count);
+            for (int int_I = 0; int_I < point3Ds.Count; int_I++)
+            {
+                Point3D point3D_Temp = point3Ds[int_I];
+                if (point3D_Temp == null)
                 {
                     continue;
                 }
 
-                point2Ds.Add(point2D);
+                double double_Dx = point3D_Temp.X - point3D_Origin.X;
+                double double_Dy = point3D_Temp.Y - point3D_Origin.Y;
+                double double_Dz = point3D_Temp.Z - point3D_Origin.Z;
+
+                point2Ds_Result.Add(new Point2D(
+                    vector3D_AxisX.X * double_Dx + vector3D_AxisX.Y * double_Dy + vector3D_AxisX.Z * double_Dz,
+                    vector3D_AxisY.X * double_Dx + vector3D_AxisY.Y * double_Dy + vector3D_AxisY.Z * double_Dz
+                ));
             }
 
-            return new(point2Ds);
+            return new Polygon2D(point2Ds_Result);
         }
 
         //public static IPolygonal2D? Convert(this Plane? plane, IPolygonal3D? polygonal3D)
@@ -548,19 +653,31 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            List<Point3D> point3Ds = [];
-            for (int i = 0; i < point2Ds.Count; i++)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
             {
-                Point3D? point3D = plane.Convert(point2Ds[i]);
-                if (point3D is null)
+                return null;
+            }
+
+            List<Point3D> point3Ds_Result = new List<Point3D>(point2Ds.Count);
+            for (int int_I = 0; int_I < point2Ds.Count; int_I++)
+            {
+                Point2D point2D_Temp = point2Ds[int_I];
+                if (point2D_Temp == null)
                 {
                     continue;
                 }
 
-                point3Ds.Add(point3D);
+                point3Ds_Result.Add(new Point3D(
+                    point3D_Origin.X + (vector3D_AxisY.X * point2D_Temp.Y) + (vector3D_AxisX.X * point2D_Temp.X),
+                    point3D_Origin.Y + (vector3D_AxisY.Y * point2D_Temp.Y) + (vector3D_AxisX.Y * point2D_Temp.X),
+                    point3D_Origin.Z + (vector3D_AxisY.Z * point2D_Temp.Y) + (vector3D_AxisX.Z * point2D_Temp.X)
+                ));
             }
 
-            return new(point3Ds);
+            return new Polyline3D(point3Ds_Result);
         }
 
         /// <summary>
