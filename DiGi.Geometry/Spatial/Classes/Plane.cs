@@ -233,9 +233,6 @@ namespace DiGi.Geometry.Spatial.Classes
             }
         }
 
-        /// <summary>
-        /// Scalar constant relating origin point to normal vector.
-        /// </summary>
         [JsonIgnore]
         public double K
         {
@@ -246,7 +243,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     return double.NaN;
                 }
 
-                return normal.DotProduct((Vector3D)origin!);
+                return normal.X * origin.X + normal.Y * origin.Y + normal.Z * origin.Z;
             }
         }
 
@@ -289,13 +286,15 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>The closest <see cref="Point3D"/> on the plane, or null if the provided <see cref="Point3D"/> or the plane normal is null.</returns>
         public Point3D? ClosestPoint(Point3D? point3D)
         {
-            if (point3D is null || normal is null)
+            if (point3D is null || normal is null || origin is null)
             {
                 return null;
             }
 
-            double factor = ((Vector3D)point3D!).DotProduct(normal) - K;
-            return new(point3D.X - (normal.X * factor), point3D.Y - (normal.Y * factor), point3D.Z - (normal.Z * factor));
+            double double_PtDot = point3D.X * normal.X + point3D.Y * normal.Y + point3D.Z * normal.Z;
+            double double_K = origin.X * normal.X + origin.Y * normal.Y + origin.Z * normal.Z;
+            double double_Factor = double_PtDot - double_K;
+            return new Point3D(point3D.X - (normal.X * double_Factor), point3D.Y - (normal.Y * double_Factor), point3D.Z - (normal.Z * double_Factor));
         }
 
         /// <summary>
@@ -321,18 +320,17 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="double"/> representing the distance, or <see cref="double.NaN"/> if the provided point is null or a closest point cannot be determined.</returns>
         public double Distance(Point3D? point3D)
         {
-            if (point3D is null)
+            if (point3D is null || normal is null || origin is null)
             {
                 return double.NaN;
             }
 
-            Point3D? closestPoint = ClosestPoint(point3D);
-            if (closestPoint == null)
-            {
-                return double.NaN;
-            }
+            double double_Dx = point3D.X - origin.X;
+            double double_Dy = point3D.Y - origin.Y;
+            double double_Dz = point3D.Z - origin.Z;
+            double double_Dist = double_Dx * normal.X + double_Dy * normal.Y + double_Dz * normal.Z;
 
-            return closestPoint.Distance(point3D);
+            return System.Math.Abs(double_Dist);
         }
 
         /// <summary>

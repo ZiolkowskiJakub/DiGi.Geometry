@@ -56,19 +56,17 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            Vector3D? normal = plane.Normal;
-            if (normal == null)
+            double double_A = plane.A;
+            double double_B = plane.B;
+            double double_C = plane.C;
+            double double_D = plane.D;
+
+            if (double.IsNaN(double_A) || double.IsNaN(double_B) || double.IsNaN(double_C) || double.IsNaN(double_D))
             {
                 return false;
             }
 
-            Point3D? origin = plane.Origin;
-            if (origin == null)
-            {
-                return false;
-            }
-
-            return System.Math.Abs((normal.X * (point3D.X - origin.X)) + (normal.Y * (point3D.Y - origin.Y)) + (normal.Z * (point3D.Z - origin.Z))) < tolerance;
+            return System.Math.Abs(double_A * point3D.X + double_B * point3D.Y + double_C * point3D.Z + double_D) < tolerance;
         }
 
         /// <summary>
@@ -133,25 +131,25 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            Point3D? point3D_1 = plane.Origin;
-            if (point3D_1 == null)
+            double double_A = plane.A;
+            double double_B = plane.B;
+            double double_C = plane.C;
+
+            if (double.IsNaN(double_A) || double.IsNaN(double_B) || double.IsNaN(double_C))
             {
                 return false;
             }
 
-            Point3D? point3D_2 = point3D_1.GetMoved(vector3D);
-            if (point3D_2 == null)
-            {
-                return false;
-            }
+            double double_Dot = vector3D.X * double_A + vector3D.Y * double_B + vector3D.Z * double_C;
 
-            Point3D? point3D_Temp = plane.Project(point3D_2);
-            if (point3D_Temp == null)
-            {
-                return false;
-            }
+            double double_ProjX = vector3D.X - double_Dot * double_A;
+            double double_ProjY = vector3D.Y - double_Dot * double_B;
+            double double_ProjZ = vector3D.Z - double_Dot * double_C;
 
-            return System.Math.Abs(point3D_1.Distance(point3D_2) - point3D_1.Distance(point3D_Temp)) < tolerance;
+            double double_LenOrig = System.Math.Sqrt(vector3D.X * vector3D.X + vector3D.Y * vector3D.Y + vector3D.Z * vector3D.Z);
+            double double_LenProj = System.Math.Sqrt(double_ProjX * double_ProjX + double_ProjY * double_ProjY + double_ProjZ * double_ProjZ);
+
+            return System.Math.Abs(double_LenOrig - double_LenProj) < tolerance;
         }
     }
 }

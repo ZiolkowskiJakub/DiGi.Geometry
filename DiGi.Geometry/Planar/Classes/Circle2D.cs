@@ -186,7 +186,12 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            return center.Distance(point2D) < radius + tolerance;
+            double double_Dx = point2D.X - center.X;
+            double double_Dy = point2D.Y - center.Y;
+            double double_DistSq = double_Dx * double_Dx + double_Dy * double_Dy;
+            double double_Limit = radius + tolerance;
+
+            return double_DistSq < double_Limit * double_Limit;
         }
 
         /// <summary>
@@ -243,7 +248,17 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            return center.Distance(point2D) < radius - tolerance;
+            double double_Limit = radius - tolerance;
+            if (double_Limit < 0.0)
+            {
+                return false;
+            }
+
+            double double_Dx = point2D.X - center.X;
+            double double_Dy = point2D.Y - center.Y;
+            double double_DistSq = double_Dx * double_Dx + double_Dy * double_Dy;
+
+            return double_DistSq < double_Limit * double_Limit;
         }
 
         /// <summary>
@@ -300,7 +315,19 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            return System.Math.Abs(center.Distance(point2D) - radius) <= tolerance;
+            double double_Min = radius - tolerance;
+            double double_Max = radius + tolerance;
+
+            double double_Dx = point2D.X - center.X;
+            double double_Dy = point2D.Y - center.Y;
+            double double_DistSq = double_Dx * double_Dx + double_Dy * double_Dy;
+
+            if (double_Min < 0.0)
+            {
+                return double_DistSq <= double_Max * double_Max;
+            }
+
+            return double_Min * double_Min <= double_DistSq && double_DistSq <= double_Max * double_Max;
         }
 
         /// <summary>
@@ -315,11 +342,11 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            Point2D point2D_Temp = new(center);
-            point2D_Temp.Move(new Vector2D(radius, 0.0));
+            double double_TempX = center.X + radius;
+            double double_TempY = center.Y;
 
-            Point2D point2D_CenterClone = new(center);
-            Point2D point2D_TempClone = new(point2D_Temp);
+            Point2D point2D_CenterClone = new Point2D(center);
+            Point2D point2D_TempClone = new Point2D(double_TempX, double_TempY);
 
             if (!point2D_CenterClone.Transform(transform))
             {
@@ -332,7 +359,9 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             center = point2D_CenterClone;
-            radius = new Vector2D(center, point2D_TempClone).Length;
+            double double_Dx = point2D_CenterClone.X - point2D_TempClone.X;
+            double double_Dy = point2D_CenterClone.Y - point2D_TempClone.Y;
+            radius = System.Math.Sqrt(double_Dx * double_Dx + double_Dy * double_Dy);
 
             return true;
         }

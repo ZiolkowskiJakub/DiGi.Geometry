@@ -323,25 +323,33 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            Vector2D? vector2D = (a > b ? directionA : DirectionB) * C;
-            if (vector2D is null)
+            double double_C = C;
+            if (double.IsNaN(double_C))
             {
                 return null;
             }
 
-            Point2D? point2D_1 = center.GetMoved(vector2D);
-            if (point2D_1 is null)
+            double double_DirX;
+            double double_DirY;
+
+            if (a > b)
             {
-                return null;
+                double_DirX = directionA.X;
+                double_DirY = directionA.Y;
+            }
+            else
+            {
+                double_DirX = -directionA.Y;
+                double_DirY = directionA.X;
             }
 
-            Point2D? point2D_2 = center.GetMoved(vector2D.GetInversed());
-            if (point2D_2 is null)
-            {
-                return null;
-            }
+            double double_OffsetX = double_DirX * double_C;
+            double double_OffsetY = double_DirY * double_C;
 
-            return [point2D_1, point2D_2];
+            Point2D point2D_1 = new Point2D(center.X + double_OffsetX, center.Y + double_OffsetY);
+            Point2D point2D_2 = new Point2D(center.X - double_OffsetX, center.Y - double_OffsetY);
+
+            return new Point2D[] { point2D_1, point2D_2 };
         }
 
         /// <summary>
@@ -529,16 +537,38 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The projected point on the ellipse boundary.</returns>
         public Point2D? Project(Point2D? point2D)
         {
-            if (point2D == null || center == null)
+            if (point2D == null || center == null || directionA == null)
             {
                 return null;
             }
 
-            Vector2D vector2D = new(center, point2D);
+            double double_Dx = point2D.X - center.X;
+            double double_Dy = point2D.Y - center.Y;
+            double double_Len = System.Math.Sqrt(double_Dx * double_Dx + double_Dy * double_Dy);
+            if (double_Len == 0.0)
+            {
+                return null;
+            }
 
-            vector2D.Scale(System.Math.Max(a, b) * 2);
+            double double_DirX = double_Dx / double_Len;
+            double double_DirY = double_Dy / double_Len;
 
-            return Query.IntersectionPoints(this, new Segment2D(center, vector2D), 0)?.FirstOrDefault();
+            double double_Ux = directionA.X;
+            double double_Uy = directionA.Y;
+            double double_Vx = -double_Uy;
+            double double_Vy = double_Ux;
+
+            double double_DxRot = double_DirX * double_Ux + double_DirY * double_Uy;
+            double double_DyRot = double_DirX * double_Vx + double_DirY * double_Vy;
+
+            double double_Scale = 1.0 / System.Math.Sqrt((double_DxRot * double_DxRot) / (a * a) + (double_DyRot * double_DyRot) / (b * b));
+            double double_Xr = double_DxRot * double_Scale;
+            double double_Yr = double_DyRot * double_Scale;
+
+            double double_XGlobal = double_Xr * double_Ux + double_Yr * double_Vx + center.X;
+            double double_YGlobal = double_Xr * double_Uy + double_Yr * double_Vy + center.Y;
+
+            return new Point2D(double_XGlobal, double_YGlobal);
         }
 
         /// <summary>
@@ -620,18 +650,21 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            // Construct perpendicular direction for semi-minor axis
-            Vector2D vector2D_DirectionB = new(-directionA.Y, directionA.X);
+            double double_CentX = center.X;
+            double double_CentY = center.Y;
+            double double_Ax = directionA.X;
+            double double_Ay = directionA.Y;
+            double double_Bx = -double_Ay;
+            double double_By = double_Ax;
 
-            Point2D point2D_A = new(center);
-            point2D_A.Move(directionA * a);
+            double double_PtAx = double_CentX + double_Ax * a;
+            double double_PtAy = double_CentY + double_Ay * a;
+            double double_PtBx = double_CentX + double_Bx * b;
+            double double_PtBy = double_CentY + double_By * b;
 
-            Point2D point2D_B = new(center);
-            point2D_B.Move(vector2D_DirectionB * b);
-
-            Point2D point2D_CenterClone = new(center);
-            Point2D point2D_AClone = new(point2D_A);
-            Point2D point2D_BClone = new(point2D_B);
+            Point2D point2D_CenterClone = new Point2D(double_CentX, double_CentY);
+            Point2D point2D_AClone = new Point2D(double_PtAx, double_PtAy);
+            Point2D point2D_BClone = new Point2D(double_PtBx, double_PtBy);
 
             if (!point2D_CenterClone.Transform(transform))
             {
@@ -648,13 +681,26 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            Vector2D vector2D_NewA = new(point2D_CenterClone, point2D_AClone);
-            Vector2D vector2D_NewB = new(point2D_CenterClone, point2D_BClone);
+            double double_NewAx = point2D_AClone.X - point2D_CenterClone.X;
+            double double_NewAy = point2D_AClone.Y - point2D_CenterClone.Y;
+            double double_LenA = System.Math.Sqrt(double_NewAx * double_NewAx + double_NewAy * double_NewAy);
+
+            double double_NewBx = point2D_BClone.X - point2D_CenterClone.X;
+            double double_NewBy = point2D_BClone.Y - point2D_CenterClone.Y;
+            double double_LenB = System.Math.Sqrt(double_NewBx * double_NewBx + double_NewBy * double_NewBy);
 
             center = point2D_CenterClone;
-            a = vector2D_NewA.Length;
-            b = vector2D_NewB.Length;
-            directionA = vector2D_NewA.Unit;
+            a = double_LenA;
+            b = double_LenB;
+
+            if (double_LenA > 0.0)
+            {
+                directionA = new Vector2D(double_NewAx / double_LenA, double_NewAy / double_LenA);
+            }
+            else
+            {
+                directionA = new Vector2D(0.0, 0.0);
+            }
 
             return true;
         }

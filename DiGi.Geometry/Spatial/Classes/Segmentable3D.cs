@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -129,9 +129,74 @@ namespace DiGi.Geometry.Spatial.Classes
                 return double.NaN;
             }
 
-            Query.ClosestPoint(point, GetSegments(), out double result);
+            if (points.Count == 1)
+            {
+                return point.Distance(points[0]);
+            }
 
-            return result;
+            bool isClosed = this is Polyloop;
+            double double_MinDistanceSq = double.MaxValue;
+            int limit = isClosed ? points.Count : points.Count - 1;
+
+            for (int int_I = 0; int_I < limit; int_I++)
+            {
+                Point3D point_Start = points[int_I];
+                Point3D point_End = points[(int_I + 1) % points.Count];
+                if (point_Start == null || point_End == null)
+                {
+                    continue;
+                }
+
+                double double_Cx = point_End.X - point_Start.X;
+                double double_Cy = point_End.Y - point_Start.Y;
+                double double_Cz = point_End.Z - point_Start.Z;
+
+                double double_Ax = point.X - point_Start.X;
+                double double_Ay = point.Y - point_Start.Y;
+                double double_Az = point.Z - point_Start.Z;
+
+                double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy + double_Az * double_Cz;
+                double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy + double_Cz * double_Cz;
+
+                double double_Parameter = -1;
+                if (double_SquareLength != 0.0)
+                {
+                    double_Parameter = double_Dot / double_SquareLength;
+                }
+
+                double double_ClosestX, double_ClosestY, double_ClosestZ;
+
+                if (double_Parameter < 0.0)
+                {
+                    double_ClosestX = point_Start.X;
+                    double_ClosestY = point_Start.Y;
+                    double_ClosestZ = point_Start.Z;
+                }
+                else if (double_Parameter > 1.0)
+                {
+                    double_ClosestX = point_End.X;
+                    double_ClosestY = point_End.Y;
+                    double_ClosestZ = point_End.Z;
+                }
+                else
+                {
+                    double_ClosestX = point_Start.X + double_Parameter * double_Cx;
+                    double_ClosestY = point_Start.Y + double_Parameter * double_Cy;
+                    double_ClosestZ = point_Start.Z + double_Parameter * double_Cz;
+                }
+
+                double double_Dx = point.X - double_ClosestX;
+                double double_Dy = point.Y - double_ClosestY;
+                double double_Dz = point.Z - double_ClosestZ;
+                double double_DistanceSq = double_Dx * double_Dx + double_Dy * double_Dy + double_Dz * double_Dz;
+
+                if (double_DistanceSq < double_MinDistanceSq)
+                {
+                    double_MinDistanceSq = double_DistanceSq;
+                }
+            }
+
+            return System.Math.Sqrt(double_MinDistanceSq);
         }
 
         /// <summary>
@@ -146,7 +211,85 @@ namespace DiGi.Geometry.Spatial.Classes
                 return null;
             }
 
-            return Query.ClosestPoint(point, GetSegments());
+            if (points.Count == 1)
+            {
+                return new Point3D(points[0]);
+            }
+
+            bool isClosed = this is Polyloop;
+            double double_MinDistanceSq = double.MaxValue;
+            Point3D? point3D_BestClosest = null;
+            int limit = isClosed ? points.Count : points.Count - 1;
+
+            for (int int_I = 0; int_I < limit; int_I++)
+            {
+                Point3D point_Start = points[int_I];
+                Point3D point_End = points[(int_I + 1) % points.Count];
+                if (point_Start == null || point_End == null)
+                {
+                    continue;
+                }
+
+                double double_Cx = point_End.X - point_Start.X;
+                double double_Cy = point_End.Y - point_Start.Y;
+                double double_Cz = point_End.Z - point_Start.Z;
+
+                double double_Ax = point.X - point_Start.X;
+                double double_Ay = point.Y - point_Start.Y;
+                double double_Az = point.Z - point_Start.Z;
+
+                double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy + double_Az * double_Cz;
+                double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy + double_Cz * double_Cz;
+
+                double double_Parameter = -1;
+                if (double_SquareLength != 0.0)
+                {
+                    double_Parameter = double_Dot / double_SquareLength;
+                }
+
+                double double_ClosestX, double_ClosestY, double_ClosestZ;
+
+                if (double_Parameter < 0.0)
+                {
+                    double_ClosestX = point_Start.X;
+                    double_ClosestY = point_Start.Y;
+                    double_ClosestZ = point_Start.Z;
+                }
+                else if (double_Parameter > 1.0)
+                {
+                    double_ClosestX = point_End.X;
+                    double_ClosestY = point_End.Y;
+                    double_ClosestZ = point_End.Z;
+                }
+                else
+                {
+                    double_ClosestX = point_Start.X + double_Parameter * double_Cx;
+                    double_ClosestY = point_Start.Y + double_Parameter * double_Cy;
+                    double_ClosestZ = point_Start.Z + double_Parameter * double_Cz;
+                }
+
+                double double_Dx = point.X - double_ClosestX;
+                double double_Dy = point.Y - double_ClosestY;
+                double double_Dz = point.Z - double_ClosestZ;
+                double double_DistanceSq = double_Dx * double_Dx + double_Dy * double_Dy + double_Dz * double_Dz;
+
+                if (double_DistanceSq < double_MinDistanceSq)
+                {
+                    double_MinDistanceSq = double_DistanceSq;
+                    if (point3D_BestClosest == null)
+                    {
+                        point3D_BestClosest = new Point3D(double_ClosestX, double_ClosestY, double_ClosestZ);
+                    }
+                    else
+                    {
+                        point3D_BestClosest.X = double_ClosestX;
+                        point3D_BestClosest.Y = double_ClosestY;
+                        point3D_BestClosest.Z = double_ClosestZ;
+                    }
+                }
+            }
+
+            return point3D_BestClosest;
         }
 
         /// <summary>

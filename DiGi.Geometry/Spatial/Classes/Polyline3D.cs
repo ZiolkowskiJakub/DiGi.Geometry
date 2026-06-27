@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -138,28 +138,163 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>The <see cref="Point3D"/> nearest to the provided point, or <c>null</c> if no closest point is found.</returns>
         public Point3D? ClosestPoint(Point3D? point3D)
         {
-            return Query.ClosestPoint(point3D, this);
+            if (point3D == null || points == null || points.Count == 0)
+            {
+                return null;
+            }
+
+            if (points.Count == 1)
+            {
+                return new Point3D(points[0]);
+            }
+
+            double double_MinDistanceSq = double.MaxValue;
+            Point3D? point3D_BestClosest = null;
+
+            for (int int_I = 0; int_I < points.Count - 1; int_I++)
+            {
+                Point3D point_Start = points[int_I];
+                Point3D point_End = points[int_I + 1];
+                if (point_Start == null || point_End == null)
+                {
+                    continue;
+                }
+
+                double double_Cx = point_End.X - point_Start.X;
+                double double_Cy = point_End.Y - point_Start.Y;
+                double double_Cz = point_End.Z - point_Start.Z;
+
+                double double_Ax = point3D.X - point_Start.X;
+                double double_Ay = point3D.Y - point_Start.Y;
+                double double_Az = point3D.Z - point_Start.Z;
+
+                double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy + double_Az * double_Cz;
+                double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy + double_Cz * double_Cz;
+
+                double double_Parameter = -1;
+                if (double_SquareLength != 0.0)
+                {
+                    double_Parameter = double_Dot / double_SquareLength;
+                }
+
+                double double_ClosestX, double_ClosestY, double_ClosestZ;
+
+                if (double_Parameter < 0.0)
+                {
+                    double_ClosestX = point_Start.X;
+                    double_ClosestY = point_Start.Y;
+                    double_ClosestZ = point_Start.Z;
+                }
+                else if (double_Parameter > 1.0)
+                {
+                    double_ClosestX = point_End.X;
+                    double_ClosestY = point_End.Y;
+                    double_ClosestZ = point_End.Z;
+                }
+                else
+                {
+                    double_ClosestX = point_Start.X + double_Parameter * double_Cx;
+                    double_ClosestY = point_Start.Y + double_Parameter * double_Cy;
+                    double_ClosestZ = point_Start.Z + double_Parameter * double_Cz;
+                }
+
+                double double_Dx = point3D.X - double_ClosestX;
+                double double_Dy = point3D.Y - double_ClosestY;
+                double double_Dz = point3D.Z - double_ClosestZ;
+                double double_DistanceSq = double_Dx * double_Dx + double_Dy * double_Dy + double_Dz * double_Dz;
+
+                if (double_DistanceSq < double_MinDistanceSq)
+                {
+                    double_MinDistanceSq = double_DistanceSq;
+                    if (point3D_BestClosest == null)
+                    {
+                        point3D_BestClosest = new Point3D(double_ClosestX, double_ClosestY, double_ClosestZ);
+                    }
+                    else
+                    {
+                        point3D_BestClosest.X = double_ClosestX;
+                        point3D_BestClosest.Y = double_ClosestY;
+                        point3D_BestClosest.Z = double_ClosestZ;
+                    }
+                }
+            }
+
+            return point3D_BestClosest;
         }
 
-        /// <summary>
-        /// Calculates the distance from a specified <see cref="Point3D"/> to the closest point in the collection.
-        /// </summary>
-        /// <param name="point3D">The <see cref="Point3D"/> to measure the distance from. This parameter can be null.</param>
-        /// <returns>A <see cref="double"/> representing the distance to the closest point, or <see cref="double.NaN"/> if the provided <see cref="Point3D"/> is null, the internal points collection is null, or no closest point is found.</returns>
         public double Distance(Point3D? point3D)
         {
-            if (point3D == null || points == null)
+            if (point3D == null || points == null || points.Count == 0)
             {
                 return double.NaN;
             }
 
-            Point3D? point3D_Closest = Query.ClosestPoint(point3D, this, out double result);
-            if (point3D_Closest == null)
+            if (points.Count == 1)
             {
-                return double.NaN;
+                return point3D.Distance(points[0]);
             }
 
-            return result;
+            double double_MinDistanceSq = double.MaxValue;
+
+            for (int int_I = 0; int_I < points.Count - 1; int_I++)
+            {
+                Point3D point_Start = points[int_I];
+                Point3D point_End = points[int_I + 1];
+                if (point_Start == null || point_End == null)
+                {
+                    continue;
+                }
+
+                double double_Cx = point_End.X - point_Start.X;
+                double double_Cy = point_End.Y - point_Start.Y;
+                double double_Cz = point_End.Z - point_Start.Z;
+
+                double double_Ax = point3D.X - point_Start.X;
+                double double_Ay = point3D.Y - point_Start.Y;
+                double double_Az = point3D.Z - point_Start.Z;
+
+                double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy + double_Az * double_Cz;
+                double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy + double_Cz * double_Cz;
+
+                double double_Parameter = -1;
+                if (double_SquareLength != 0.0)
+                {
+                    double_Parameter = double_Dot / double_SquareLength;
+                }
+
+                double double_ClosestX, double_ClosestY, double_ClosestZ;
+
+                if (double_Parameter < 0.0)
+                {
+                    double_ClosestX = point_Start.X;
+                    double_ClosestY = point_Start.Y;
+                    double_ClosestZ = point_Start.Z;
+                }
+                else if (double_Parameter > 1.0)
+                {
+                    double_ClosestX = point_End.X;
+                    double_ClosestY = point_End.Y;
+                    double_ClosestZ = point_End.Z;
+                }
+                else
+                {
+                    double_ClosestX = point_Start.X + double_Parameter * double_Cx;
+                    double_ClosestY = point_Start.Y + double_Parameter * double_Cy;
+                    double_ClosestZ = point_Start.Z + double_Parameter * double_Cz;
+                }
+
+                double double_Dx = point3D.X - double_ClosestX;
+                double double_Dy = point3D.Y - double_ClosestY;
+                double double_Dz = point3D.Z - double_ClosestZ;
+                double double_DistanceSq = double_Dx * double_Dx + double_Dy * double_Dy + double_Dz * double_Dz;
+
+                if (double_DistanceSq < double_MinDistanceSq)
+                {
+                    double_MinDistanceSq = double_DistanceSq;
+                }
+            }
+
+            return System.Math.Sqrt(double_MinDistanceSq);
         }
 
         /// <summary>

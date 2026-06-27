@@ -155,19 +155,28 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="BoundingBox3D"/> representing the bounding box, or <see langword="null"/> if the geometry is empty or the plane is not defined.</returns>
         public BoundingBox3D? GetBoundingBox()
         {
-            List<Point2D>? point2Ds = Geometry2D?.GetBoundingBox()?.GetPoints();
+            if (plane == null || geometry2D == null)
+            {
+                return null;
+            }
+
+            List<Point2D>? point2Ds = geometry2D.GetBoundingBox()?.GetPoints();
             if (point2Ds == null || point2Ds.Count == 0)
             {
                 return null;
             }
 
-            Plane? plane = Plane;
-            if (plane == null)
+            List<Point3D> resultPoints = [];
+            for (int i = 0; i < point2Ds.Count; i++)
             {
-                return null;
+                Point3D? point3D_Converted = plane.Convert(point2Ds[i]);
+                if (point3D_Converted != null)
+                {
+                    resultPoints.Add(point3D_Converted);
+                }
             }
 
-            return new BoundingBox3D(point2Ds.ConvertAll(x => plane.Convert(x)));
+            return new BoundingBox3D(resultPoints);
         }
 
         /// <summary>
@@ -236,7 +245,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="bool"/> value indicating whether the point is within range.</returns>
         public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point3D is null || geometry2D is null || plane is null)
+            if (point3D is null || geometry2D is null || plane is null || tolerance < 0.0)
             {
                 return false;
             }
@@ -246,13 +255,23 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            Point2D? point2D = plane.Convert(point3D);
-            if (point2D is null)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
             {
                 return false;
             }
 
-            return geometry2D.InRange(point2D, tolerance);
+            double double_Dx = point3D.X - point3D_Origin.X;
+            double double_Dy = point3D.Y - point3D_Origin.Y;
+            double double_Dz = point3D.Z - point3D_Origin.Z;
+
+            double double_U = vector3D_AxisX.X * double_Dx + vector3D_AxisX.Y * double_Dy + vector3D_AxisX.Z * double_Dz;
+            double double_V = vector3D_AxisY.X * double_Dx + vector3D_AxisY.Y * double_Dy + vector3D_AxisY.Z * double_Dz;
+
+            Point2D point2D_Local = new Point2D(double_U, double_V);
+            return geometry2D.InRange(point2D_Local, tolerance);
         }
 
         /// <summary>
@@ -273,13 +292,23 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            Point2D? point2D = plane.Convert(point3D);
-            if (point2D is null)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
             {
                 return false;
             }
 
-            return geometry2D.Inside(point2D, tolerance);
+            double double_Dx = point3D.X - point3D_Origin.X;
+            double double_Dy = point3D.Y - point3D_Origin.Y;
+            double double_Dz = point3D.Z - point3D_Origin.Z;
+
+            double double_U = vector3D_AxisX.X * double_Dx + vector3D_AxisX.Y * double_Dy + vector3D_AxisX.Z * double_Dz;
+            double double_V = vector3D_AxisY.X * double_Dx + vector3D_AxisY.Y * double_Dy + vector3D_AxisY.Z * double_Dz;
+
+            Point2D point2D_Local = new Point2D(double_U, double_V);
+            return geometry2D.Inside(point2D_Local, tolerance);
         }
 
         /// <summary>

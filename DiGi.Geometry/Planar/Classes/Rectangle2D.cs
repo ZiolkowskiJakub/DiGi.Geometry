@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
@@ -236,17 +236,52 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The closest point on the rectangle's boundary or interior, or null if input is invalid.</returns>
         public Point2D? ClosestPoint(Point2D? point2D)
         {
-            return Query.ClosestPoint(point2D, this);
+            if (point2D == null || origin == null || heightDirection == null || double.IsNaN(width) || double.IsNaN(height))
+            {
+                return null;
+            }
+
+            double double_Dx = point2D.X - origin.X;
+            double double_Dy = point2D.Y - origin.Y;
+
+            double double_Hx = heightDirection.X;
+            double double_Hy = heightDirection.Y;
+
+            double double_ProjW = double_Dx * double_Hy - double_Dy * double_Hx;
+            double double_ProjH = double_Dx * double_Hx + double_Dy * double_Hy;
+
+            double double_ClampedW = System.Math.Max(0.0, System.Math.Min(double_ProjW, width));
+            double double_ClampedH = System.Math.Max(0.0, System.Math.Min(double_ProjH, height));
+
+            double double_ClosestX = origin.X + double_ClampedW * double_Hy + double_ClampedH * double_Hx;
+            double double_ClosestY = origin.Y - double_ClampedW * double_Hx + double_ClampedH * double_Hy;
+
+            return new Point2D(double_ClosestX, double_ClosestY);
         }
 
-        /// <summary>
-        /// Calculates the shortest distance from the rectangle to the specified point.
-        /// </summary>
-        /// <param name="point2D">The target point.</param>
-        /// <returns>The shortest distance between the rectangle and the point.</returns>
         public double Distance(Point2D? point2D)
         {
-            return Query.Distance(point2D, this);
+            if (point2D == null || origin == null || heightDirection == null || double.IsNaN(width) || double.IsNaN(height))
+            {
+                return double.NaN;
+            }
+
+            double double_Dx = point2D.X - origin.X;
+            double double_Dy = point2D.Y - origin.Y;
+
+            double double_Hx = heightDirection.X;
+            double double_Hy = heightDirection.Y;
+
+            double double_ProjW = double_Dx * double_Hy - double_Dy * double_Hx;
+            double double_ProjH = double_Dx * double_Hx + double_Dy * double_Hy;
+
+            double double_ClampedW = System.Math.Max(0.0, System.Math.Min(double_ProjW, width));
+            double double_ClampedH = System.Math.Max(0.0, System.Math.Min(double_ProjH, height));
+
+            double double_DiffW = double_ProjW - double_ClampedW;
+            double double_DiffH = double_ProjH - double_ClampedH;
+
+            return System.Math.Sqrt(double_DiffW * double_DiffW + double_DiffH * double_DiffH);
         }
 
         /// <summary>
@@ -415,18 +450,34 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the point is in range, otherwise false.</returns>
         public bool InRange(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point2D == null)
+            if (point2D == null || origin == null || heightDirection == null || double.IsNaN(width) || double.IsNaN(height))
             {
                 return false;
             }
 
-            List<Point2D>? point2Ds = GetPoints();
-            if (point2Ds == null || point2Ds.Count < 2)
+            double double_Dx = point2D.X - origin.X;
+            double double_Dy = point2D.Y - origin.Y;
+
+            double double_Hx = heightDirection.X;
+            double double_Hy = heightDirection.Y;
+
+            double double_ProjW = double_Dx * double_Hy - double_Dy * double_Hx;
+            double double_ProjH = double_Dx * double_Hx + double_Dy * double_Hy;
+
+            double double_ClampedW = System.Math.Max(0.0, System.Math.Min(double_ProjW, width));
+            double double_ClampedH = System.Math.Max(0.0, System.Math.Min(double_ProjH, height));
+
+            double double_DiffW = double_ProjW - double_ClampedW;
+            double double_DiffH = double_ProjH - double_ClampedH;
+
+            double double_DistSq = double_DiffW * double_DiffW + double_DiffH * double_DiffH;
+
+            if (tolerance < 0.0)
             {
                 return false;
             }
 
-            return new Polygon2D(point2Ds).InRange(point2D, tolerance);
+            return double_DistSq <= tolerance * tolerance;
         }
 
         /// <summary>
@@ -475,18 +526,22 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the point is inside, otherwise false.</returns>
         public bool Inside(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point2D == null)
+            if (point2D == null || origin == null || heightDirection == null || double.IsNaN(width) || double.IsNaN(height))
             {
                 return false;
             }
 
-            List<Point2D>? point2Ds = GetPoints();
-            if (point2Ds == null || point2Ds.Count < 2)
-            {
-                return false;
-            }
+            double double_Dx = point2D.X - origin.X;
+            double double_Dy = point2D.Y - origin.Y;
 
-            return new Polygon2D(point2Ds).Inside(point2D, tolerance);
+            double double_Hx = heightDirection.X;
+            double double_Hy = heightDirection.Y;
+
+            double double_ProjW = double_Dx * double_Hy - double_Dy * double_Hx;
+            double double_ProjH = double_Dx * double_Hx + double_Dy * double_Hy;
+
+            return double_ProjW >= tolerance && double_ProjW <= width - tolerance &&
+                   double_ProjH >= tolerance && double_ProjH <= height - tolerance;
         }
 
         /// <summary>
@@ -538,7 +593,42 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the point is on the boundary, otherwise false.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            return Query.On(this, point2D, tolerance);
+            if (point2D == null || origin == null || heightDirection == null || double.IsNaN(width) || double.IsNaN(height))
+            {
+                return false;
+            }
+
+            double double_Dx = point2D.X - origin.X;
+            double double_Dy = point2D.Y - origin.Y;
+
+            double double_Hx = heightDirection.X;
+            double double_Hy = heightDirection.Y;
+
+            double double_ProjW = double_Dx * double_Hy - double_Dy * double_Hx;
+            double double_ProjH = double_Dx * double_Hx + double_Dy * double_Hy;
+
+            double double_MinW = -tolerance;
+            double double_MaxW = width + tolerance;
+            double double_MinH = -tolerance;
+            double double_MaxH = height + tolerance;
+
+            if (double_ProjW >= double_MinW && double_ProjW <= double_MaxW &&
+                double_ProjH >= double_MinH && double_ProjH <= double_MaxH)
+            {
+                if ((System.Math.Abs(double_ProjW) <= tolerance || System.Math.Abs(double_ProjW - width) <= tolerance) &&
+                    double_ProjH >= double_MinH && double_ProjH <= double_MaxH)
+                {
+                    return true;
+                }
+
+                if ((System.Math.Abs(double_ProjH) <= tolerance || System.Math.Abs(double_ProjH - height) <= tolerance) &&
+                    double_ProjW >= double_MinW && double_ProjW <= double_MaxW)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -102,13 +102,10 @@ namespace DiGi.Geometry.Spatial.Classes
                 return null;
             }
 
-            Vector3D? extent = Extent;
-            if (extent is null)
-            {
-                return null;
-            }
+            Point3D point3D_Min = new Point3D(center.X - radius, center.Y - radius, center.Z - radius);
+            Point3D point3D_Max = new Point3D(center.X + radius, center.Y + radius, center.Z + radius);
 
-            return new BoundingBox3D((center - extent)!, (center + extent)!);
+            return new BoundingBox3D(point3D_Min, point3D_Max);
         }
 
         /// <summary>

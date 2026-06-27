@@ -429,13 +429,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="List{Triangle3D}"/> containing the generated triangles, or <c>null</c> if the object cannot be triangulated.</returns>
         public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
-            List<Point3D>? point3Ds = GetPoints();
-            if (point3Ds == null || point3Ds.Count != 3)
-            {
-                return null;
-            }
-
-            return [new Triangle3D(points[0], points[1], points[2])];
+            return new List<Triangle3D>() { new Triangle3D(this) };
         }
     }
 }

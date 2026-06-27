@@ -334,12 +334,46 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The distance result, or NaN if input is null.</returns>
         public double Distance(Point2D? point2D)
         {
-            if (point2D == null)
+            if (point2D == null || start == null || vector == null)
             {
                 return double.NaN;
             }
 
-            return point2D.Distance(ClosestPoint(point2D));
+            double double_Ax = point2D.X - start.X;
+            double double_Ay = point2D.Y - start.Y;
+
+            double double_Cx = vector.X;
+            double double_Cy = vector.Y;
+
+            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy;
+            double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy;
+
+            double double_Parameter = -1.0;
+            if (double_SquareLength != 0.0)
+            {
+                double_Parameter = double_Dot / double_SquareLength;
+            }
+
+            double double_Dx;
+            double double_Dy;
+
+            if (double_Parameter < 0.0)
+            {
+                double_Dx = double_Ax;
+                double_Dy = double_Ay;
+            }
+            else if (double_Parameter > 1.0)
+            {
+                double_Dx = point2D.X - (start.X + double_Cx);
+                double_Dy = point2D.Y - (start.Y + double_Cy);
+            }
+            else
+            {
+                double_Dx = point2D.X - (start.X + double_Parameter * double_Cx);
+                double_Dy = point2D.Y - (start.Y + double_Parameter * double_Cy);
+            }
+
+            return System.Math.Sqrt(double_Dx * double_Dx + double_Dy * double_Dy);
         }
 
         /// <summary>
@@ -563,12 +597,27 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The projected <see cref="Point2D"/> on the infinite line, or null if input is missing.</returns>
         public Point2D? Project(Point2D? point2D)
         {
-            if (point2D is null || start is null)
+            if (point2D == null || start == null || vector == null)
             {
                 return null;
             }
 
-            return Query.ClosestPoint(point2D, start, End, false);
+            double double_Ax = point2D.X - start.X;
+            double double_Ay = point2D.Y - start.Y;
+
+            double double_Cx = vector.X;
+            double double_Cy = vector.Y;
+
+            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy;
+            double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy;
+
+            if (double_SquareLength == 0.0)
+            {
+                return new Point2D(start);
+            }
+
+            double double_Parameter = double_Dot / double_SquareLength;
+            return new Point2D(start.X + double_Parameter * double_Cx, start.Y + double_Parameter * double_Cy);
         }
 
         /// <summary>
@@ -583,14 +632,13 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            Point2D? point2D_End = End;
-            if (point2D_End is null)
-            {
-                return false;
-            }
+            double double_StartX = start.X;
+            double double_StartY = start.Y;
+            double double_EndX = start.X + vector.X;
+            double double_EndY = start.Y + vector.Y;
 
-            Point2D point2D_StartClone = new(start);
-            Point2D point2D_EndClone = new(point2D_End);
+            Point2D point2D_StartClone = new Point2D(double_StartX, double_StartY);
+            Point2D point2D_EndClone = new Point2D(double_EndX, double_EndY);
 
             if (!point2D_StartClone.Transform(transform))
             {
@@ -603,7 +651,7 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             start = point2D_StartClone;
-            vector = new(start, point2D_EndClone);
+            vector = new Vector2D(point2D_EndClone.X - point2D_StartClone.X, point2D_EndClone.Y - point2D_StartClone.Y);
 
             return true;
         }

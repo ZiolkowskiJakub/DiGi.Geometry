@@ -291,18 +291,52 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="double"/> representing the calculated distance.</returns>
         public double Distance(Point3D? point3D)
         {
-            if (point3D == null)
+            if (point3D == null || start == null || vector == null)
             {
                 return double.NaN;
             }
 
-            Point3D? point3D_Closest = ClosestPoint(point3D);
-            if (point3D_Closest == null)
+            double double_Ax = point3D.X - start.X;
+            double double_Ay = point3D.Y - start.Y;
+            double double_Az = point3D.Z - start.Z;
+
+            double double_Cx = vector.X;
+            double double_Cy = vector.Y;
+            double double_Cz = vector.Z;
+
+            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy + double_Az * double_Cz;
+            double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy + double_Cz * double_Cz;
+
+            double double_Parameter = -1.0;
+            if (double_SquareLength != 0.0)
             {
-                return double.NaN;
+                double_Parameter = double_Dot / double_SquareLength;
             }
 
-            return point3D.Distance(point3D_Closest);
+            double double_Dx;
+            double double_Dy;
+            double double_Dz;
+
+            if (double_Parameter < 0.0)
+            {
+                double_Dx = double_Ax;
+                double_Dy = double_Ay;
+                double_Dz = double_Az;
+            }
+            else if (double_Parameter > 1.0)
+            {
+                double_Dx = point3D.X - (start.X + double_Cx);
+                double_Dy = point3D.Y - (start.Y + double_Cy);
+                double_Dz = point3D.Z - (start.Z + double_Cz);
+            }
+            else
+            {
+                double_Dx = point3D.X - (start.X + double_Parameter * double_Cx);
+                double_Dy = point3D.Y - (start.Y + double_Parameter * double_Cy);
+                double_Dz = point3D.Z - (start.Z + double_Parameter * double_Cz);
+            }
+
+            return System.Math.Sqrt(double_Dx * double_Dx + double_Dy * double_Dy + double_Dz * double_Dz);
         }
 
         /// <summary>
@@ -449,7 +483,29 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>The projected <see cref="Point3D"/>, or null if the projection cannot be determined.</returns>
         public Point3D? Project(Point3D? point3D)
         {
-            return Query.ClosestPoint(point3D, start, End, false);
+            if (point3D == null || start == null || vector == null)
+            {
+                return null;
+            }
+
+            double double_Ax = point3D.X - start.X;
+            double double_Ay = point3D.Y - start.Y;
+            double double_Az = point3D.Z - start.Z;
+
+            double double_Cx = vector.X;
+            double double_Cy = vector.Y;
+            double double_Cz = vector.Z;
+
+            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy + double_Az * double_Cz;
+            double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy + double_Cz * double_Cz;
+
+            if (double_SquareLength == 0.0)
+            {
+                return new Point3D(start);
+            }
+
+            double double_Parameter = double_Dot / double_SquareLength;
+            return new Point3D(start.X + double_Parameter * double_Cx, start.Y + double_Parameter * double_Cy, start.Z + double_Parameter * double_Cz);
         }
 
         /// <summary>
@@ -464,14 +520,15 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            Point3D? point3D_End = End;
-            if (point3D_End == null)
-            {
-                return false;
-            }
+            double double_StartX = start.X;
+            double double_StartY = start.Y;
+            double double_StartZ = start.Z;
+            double double_EndX = start.X + vector.X;
+            double double_EndY = start.Y + vector.Y;
+            double double_EndZ = start.Z + vector.Z;
 
-            Point3D point3D_StartClone = new(start);
-            Point3D point3D_EndClone = new(point3D_End);
+            Point3D point3D_StartClone = new Point3D(double_StartX, double_StartY, double_StartZ);
+            Point3D point3D_EndClone = new Point3D(double_EndX, double_EndY, double_EndZ);
 
             if (!point3D_StartClone.Transform(transform))
             {
@@ -484,7 +541,7 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             start = point3D_StartClone;
-            vector = new Vector3D(start, point3D_EndClone);
+            vector = new Vector3D(point3D_EndClone.X - point3D_StartClone.X, point3D_EndClone.Y - point3D_StartClone.Y, point3D_EndClone.Z - point3D_StartClone.Z);
 
             return true;
         }

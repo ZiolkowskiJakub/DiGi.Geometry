@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -135,12 +135,38 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>The closest <see cref="Point3D"/> found, or null if the provided <see cref="Point3D"/> is null or the geometry is not available.</returns>
         public Point3D? ClosestPoint(Point3D? point3D)
         {
-            if (point3D == null || geometry2D == null)
+            if (point3D == null || geometry2D == null || plane == null)
             {
                 return null;
             }
 
-            return Query.ClosestPoint(point3D, this);
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
+            {
+                return null;
+            }
+
+            double double_Dx = point3D.X - point3D_Origin.X;
+            double double_Dy = point3D.Y - point3D_Origin.Y;
+            double double_Dz = point3D.Z - point3D_Origin.Z;
+
+            double double_U = vector3D_AxisX.X * double_Dx + vector3D_AxisX.Y * double_Dy + vector3D_AxisX.Z * double_Dz;
+            double double_V = vector3D_AxisY.X * double_Dx + vector3D_AxisY.Y * double_Dy + vector3D_AxisY.Z * double_Dz;
+
+            Point2D point2D_Local = new Point2D(double_U, double_V);
+            Point2D? point2D_ClosestLocal = geometry2D.ClosestPoint(point2D_Local);
+            if (point2D_ClosestLocal == null)
+            {
+                return null;
+            }
+
+            return new Point3D(
+                point3D_Origin.X + (vector3D_AxisY.X * point2D_ClosestLocal.Y) + (vector3D_AxisX.X * point2D_ClosestLocal.X),
+                point3D_Origin.Y + (vector3D_AxisY.Y * point2D_ClosestLocal.Y) + (vector3D_AxisX.Y * point2D_ClosestLocal.X),
+                point3D_Origin.Z + (vector3D_AxisY.Z * point2D_ClosestLocal.Y) + (vector3D_AxisX.Z * point2D_ClosestLocal.X)
+            );
         }
 
         /// <summary>
@@ -150,18 +176,31 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>The distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the provided <see cref="Point3D"/> is null, the geometry is null, or no closest point can be determined.</returns>
         public double Distance(Point3D? point3D)
         {
-            if (point3D == null || geometry2D == null)
+            if (point3D == null || geometry2D == null || plane == null)
             {
                 return double.NaN;
             }
 
-            Point3D? point3D_Closest = Query.ClosestPoint(point3D, this, out double result);
-            if (point3D_Closest == null)
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
             {
                 return double.NaN;
             }
 
-            return result;
+            double double_Dx = point3D.X - point3D_Origin.X;
+            double double_Dy = point3D.Y - point3D_Origin.Y;
+            double double_Dz = point3D.Z - point3D_Origin.Z;
+
+            double double_U = vector3D_AxisX.X * double_Dx + vector3D_AxisX.Y * double_Dy + vector3D_AxisX.Z * double_Dz;
+            double double_V = vector3D_AxisY.X * double_Dx + vector3D_AxisY.Y * double_Dy + vector3D_AxisY.Z * double_Dz;
+
+            Point2D point2D_Local = new Point2D(double_U, double_V);
+            double double_D2D = geometry2D.Distance(point2D_Local);
+            double double_H = plane.Distance(point3D);
+
+            return System.Math.Sqrt(double_H * double_H + double_D2D * double_D2D);
         }
 
         /// <summary>
@@ -302,12 +341,32 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="bool"/> value indicating whether the point is within range; otherwise, <see langword="false"/>.</returns>
         public bool InRange(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point3D == null || geometry2D == null || plane == null)
+            if (point3D == null || geometry2D == null || plane == null || tolerance < 0.0)
             {
                 return false;
             }
 
-            return Query.InRange(this, point3D, tolerance);
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
+            {
+                return false;
+            }
+
+            double double_Dx = point3D.X - point3D_Origin.X;
+            double double_Dy = point3D.Y - point3D_Origin.Y;
+            double double_Dz = point3D.Z - point3D_Origin.Z;
+
+            double double_U = vector3D_AxisX.X * double_Dx + vector3D_AxisX.Y * double_Dy + vector3D_AxisX.Z * double_Dz;
+            double double_V = vector3D_AxisY.X * double_Dx + vector3D_AxisY.Y * double_Dy + vector3D_AxisY.Z * double_Dz;
+
+            Point2D point2D_Local = new Point2D(double_U, double_V);
+            double double_D2D = geometry2D.Distance(point2D_Local);
+            double double_H = plane.Distance(point3D);
+
+            double double_DistSq = double_H * double_H + double_D2D * double_D2D;
+            return double_DistSq <= tolerance * tolerance;
         }
 
         /// <summary>
@@ -339,7 +398,28 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            return Query.Inside(this, point3D, tolerance);
+            if (!plane.On(point3D, tolerance))
+            {
+                return false;
+            }
+
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
+            {
+                return false;
+            }
+
+            double double_Dx = point3D.X - point3D_Origin.X;
+            double double_Dy = point3D.Y - point3D_Origin.Y;
+            double double_Dz = point3D.Z - point3D_Origin.Z;
+
+            double double_U = vector3D_AxisX.X * double_Dx + vector3D_AxisX.Y * double_Dy + vector3D_AxisX.Z * double_Dz;
+            double double_V = vector3D_AxisY.X * double_Dx + vector3D_AxisY.Y * double_Dy + vector3D_AxisY.Z * double_Dz;
+
+            Point2D point2D_Local = new Point2D(double_U, double_V);
+            return geometry2D.Inside(point2D_Local, tolerance);
         }
 
         /// <summary>
@@ -364,12 +444,33 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="bool"/> value indicating whether the point is on the geometry.</returns>
         public bool On(Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point3D == null || geometry2D == null)
+            if (point3D == null || geometry2D == null || plane == null)
             {
                 return false;
             }
 
-            return Query.On(this, point3D, tolerance);
+            if (!plane.On(point3D, tolerance))
+            {
+                return false;
+            }
+
+            Vector3D? vector3D_AxisX = plane.AxisX;
+            Vector3D? vector3D_AxisY = plane.AxisY;
+            Point3D? point3D_Origin = plane.Origin;
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
+            {
+                return false;
+            }
+
+            double double_Dx = point3D.X - point3D_Origin.X;
+            double double_Dy = point3D.Y - point3D_Origin.Y;
+            double double_Dz = point3D.Z - point3D_Origin.Z;
+
+            double double_U = vector3D_AxisX.X * double_Dx + vector3D_AxisX.Y * double_Dy + vector3D_AxisX.Z * double_Dz;
+            double double_V = vector3D_AxisY.X * double_Dx + vector3D_AxisY.Y * double_Dy + vector3D_AxisY.Z * double_Dz;
+
+            Point2D point2D_Local = new Point2D(double_U, double_V);
+            return geometry2D.On(point2D_Local, tolerance);
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
@@ -70,13 +70,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>A <c>List&lt;Triangle2D&gt;</c> containing the resulting triangles, or null if the object cannot be triangulated.</returns>
         public override List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
-            List<Point2D>? point2Ds = GetPoints();
-            if (point2Ds == null || point2Ds.Count != 3)
-            {
-                return null;
-            }
-
-            return [new Triangle2D(point2Ds[0], point2Ds[1], point2Ds[2])];
+            return new List<Triangle2D>() { new Triangle2D(this) };
         }
     }
 }
