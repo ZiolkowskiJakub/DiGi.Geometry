@@ -148,6 +148,56 @@ namespace DiGi.Geometry.Spatial
 
             List<Point3D> point3Ds = [];
             List<int[]> indexes = [];
+
+            // Spatial hash grid: points are bucketed by their tolerance-sized cell so lookups avoid an O(n) linear scan per point.
+            Dictionary<(long X, long Y, long Z), List<int>> indexes_ByCell = [];
+
+            int GetOrAddPointIndex(Point3D point3D_Triangle3D)
+            {
+                long cellX = (long)System.Math.Round(point3D_Triangle3D.X / tolerance);
+                long cellY = (long)System.Math.Round(point3D_Triangle3D.Y / tolerance);
+                long cellZ = (long)System.Math.Round(point3D_Triangle3D.Z / tolerance);
+
+                for (long x = cellX - 1; x <= cellX + 1; x++)
+                {
+                    for (long y = cellY - 1; y <= cellY + 1; y++)
+                    {
+                        for (long z = cellZ - 1; z <= cellZ + 1; z++)
+                        {
+                            if (indexes_ByCell.TryGetValue((x, y, z), out List<int>? indexes_Cell) && indexes_Cell != null)
+                            {
+                                foreach (int index_Cell in indexes_Cell)
+                                {
+                                    if (point3Ds[index_Cell].AlmostEquals(point3D_Triangle3D, tolerance))
+                                    {
+                                        Point3D? point3D_Mid = point3Ds[index_Cell].Mid(point3D_Triangle3D);
+                                        if (point3D_Mid is not null)
+                                        {
+                                            point3Ds[index_Cell] = point3D_Mid;
+                                        }
+
+                                        return index_Cell;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                int index_New = point3Ds.Count;
+                point3Ds.Add(point3D_Triangle3D);
+
+                (long X, long Y, long Z) cell = (cellX, cellY, cellZ);
+                if (!indexes_ByCell.TryGetValue(cell, out List<int>? indexes_New))
+                {
+                    indexes_New = [];
+                    indexes_ByCell[cell] = indexes_New;
+                }
+                indexes_New.Add(index_New);
+
+                return index_New;
+            }
+
             foreach (Triangle3D triangle3D in triangle3Ds_Cached)
             {
                 List<Point3D>? point3Ds_Triangle3D = triangle3D?.GetPoints();
@@ -159,24 +209,7 @@ namespace DiGi.Geometry.Spatial
                 int[] indexes_Triangle3D = new int[3];
                 for (int i = 0; i < point3Ds_Triangle3D.Count; i++)
                 {
-                    Point3D point3D = point3Ds_Triangle3D[i];
-
-                    int index = point3Ds.FindIndex(x => x.AlmostEquals(point3D, tolerance));
-                    if (index == -1)
-                    {
-                        index = point3Ds.Count;
-                        point3Ds.Add(point3D);
-                    }
-                    else
-                    {
-                        Point3D? point3D_Temp = point3Ds[index].Mid(point3D);
-                        if (point3D_Temp is not null)
-                        {
-                            point3Ds[index] = point3D_Temp;
-                        }
-                    }
-
-                    indexes_Triangle3D[i] = index;
+                    indexes_Triangle3D[i] = GetOrAddPointIndex(point3Ds_Triangle3D[i]);
                 }
 
                 indexes.Add(indexes_Triangle3D);

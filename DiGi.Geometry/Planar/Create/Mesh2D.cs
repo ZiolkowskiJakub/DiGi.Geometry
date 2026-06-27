@@ -31,6 +31,45 @@ namespace DiGi.Geometry.Planar
 
             List<int[]> indices = [];
 
+            // Spatial hash grid: points are bucketed by their tolerance-sized cell so lookups avoid an O(n) linear scan per point.
+            Dictionary<(long X, long Y), List<int>> indexes_ByCell = [];
+
+            int GetOrAddPointIndex(Point2D point2D_Triangle)
+            {
+                long cellX = (long)System.Math.Round(point2D_Triangle.X / tolerance);
+                long cellY = (long)System.Math.Round(point2D_Triangle.Y / tolerance);
+
+                for (long x = cellX - 1; x <= cellX + 1; x++)
+                {
+                    for (long y = cellY - 1; y <= cellY + 1; y++)
+                    {
+                        if (indexes_ByCell.TryGetValue((x, y), out List<int>? indexes_Cell) && indexes_Cell != null)
+                        {
+                            foreach (int index_Cell in indexes_Cell)
+                            {
+                                if (Query.AlmostEquals(point2Ds[index_Cell], point2D_Triangle, tolerance))
+                                {
+                                    return index_Cell;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                int index_New = point2Ds.Count;
+                point2Ds.Add(point2D_Triangle);
+
+                (long X, long Y) cell = (cellX, cellY);
+                if (!indexes_ByCell.TryGetValue(cell, out List<int>? indexes_New))
+                {
+                    indexes_New = [];
+                    indexes_ByCell[cell] = indexes_New;
+                }
+                indexes_New.Add(index_New);
+
+                return index_New;
+            }
+
             foreach (Triangle2D triangle2D in triangle2Ds_Cached)
             {
                 if (triangle2D == null || triangle2D.GetArea() < tolerance)
@@ -44,29 +83,9 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                int index_1 = -1;
-                index_1 = point2Ds.FindIndex(x => Query.AlmostEquals(x, point2Ds_Triangle[0], tolerance));
-                if (index_1 == -1)
-                {
-                    index_1 = point2Ds.Count;
-                    point2Ds.Add(point2Ds_Triangle[0]);
-                }
-
-                int index_2 = -1;
-                index_2 = point2Ds.FindIndex(x => Query.AlmostEquals(x, point2Ds_Triangle[1], tolerance));
-                if (index_2 == -1)
-                {
-                    index_2 = point2Ds.Count;
-                    point2Ds.Add(point2Ds_Triangle[1]);
-                }
-
-                int index_3 = -1;
-                index_3 = point2Ds.FindIndex(x => Query.AlmostEquals(x, point2Ds_Triangle[2], tolerance));
-                if (index_3 == -1)
-                {
-                    index_3 = point2Ds.Count;
-                    point2Ds.Add(point2Ds_Triangle[2]);
-                }
+                int index_1 = GetOrAddPointIndex(point2Ds_Triangle[0]);
+                int index_2 = GetOrAddPointIndex(point2Ds_Triangle[1]);
+                int index_3 = GetOrAddPointIndex(point2Ds_Triangle[2]);
 
                 indices.Add([index_1, index_2, index_3]);
             }

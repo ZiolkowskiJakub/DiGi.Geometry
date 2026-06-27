@@ -52,7 +52,7 @@ namespace DiGi.Geometry.Spatial
             int count = point3Ds_Local.Length;
 
             Math.Classes.Matrix matrix = new(count, 3);
-            for (int i = 0; i < count - 1; i++)
+            for (int i = 0; i < count; i++)
             {
                 Point3D point3D = point3Ds_Local[i];
                 if (point3D != null)

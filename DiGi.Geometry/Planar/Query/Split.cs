@@ -111,7 +111,7 @@ namespace DiGi.Geometry.Planar
 
                     foreach (Point2D point2D_Intersection in point2Ds_Intersection)
                     {
-                        Point2D point2D_Intersection_Temp = point2Ds.Find(x => AlmostEquals(point2D_Intersection, x, tolerance));
+                        Point2D? point2D_Intersection_Temp = Modify.FindNear(point2Ds!, point2D_Intersection, tolerance);
                         if (point2D_Intersection_Temp == null)
                         {
                             point2D_Intersection_Temp = point2D_Intersection;
@@ -142,15 +142,71 @@ namespace DiGi.Geometry.Planar
             }
 
             List<Segment2D> segment2Ds_Result = [];
+
+            // Spatial hash grid: result segments are bucketed by the tolerance-sized cell of each endpoint, so duplicate/"Similar" lookups avoid an O(n) scan over the growing result list.
+            Dictionary<(long X, long Y), List<int>> indexes_ByCell = [];
+
+            (long X, long Y) GetCell(Point2D? point2D_Cell)
+            {
+                return ((long)System.Math.Round(point2D_Cell!.X / tolerance), (long)System.Math.Round(point2D_Cell.Y / tolerance));
+            }
+
+            void RegisterSegment(int index_Segment, Segment2D segment2D_New)
+            {
+                foreach ((long X, long Y) cell in new[] { GetCell(segment2D_New[0]), GetCell(segment2D_New[1]) })
+                {
+                    if (!indexes_ByCell.TryGetValue(cell, out List<int>? indexes_Cell))
+                    {
+                        indexes_Cell = [];
+                        indexes_ByCell[cell] = indexes_Cell;
+                    }
+
+                    indexes_Cell.Add(index_Segment);
+                }
+            }
+
+            bool ContainsSimilarSegment(Segment2D segment2D_Candidate)
+            {
+                (long X, long Y) cell = GetCell(segment2D_Candidate[0]);
+
+                HashSet<int> indexes_Checked = [];
+                for (long x = cell.X - 1; x <= cell.X + 1; x++)
+                {
+                    for (long y = cell.Y - 1; y <= cell.Y + 1; y++)
+                    {
+                        if (!indexes_ByCell.TryGetValue((x, y), out List<int>? indexes_Cell))
+                        {
+                            continue;
+                        }
+
+                        foreach (int index_Cell in indexes_Cell)
+                        {
+                            if (!indexes_Checked.Add(index_Cell))
+                            {
+                                continue;
+                            }
+
+                            if (segment2Ds_Result[index_Cell].Similar(segment2D_Candidate, tolerance))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                return false;
+            }
+
             for (int i = 0; i < count; i++)
             {
                 Segment2D segment2D_Temp = tuples[i].Item2;
-                if (segment2Ds_Result.Find(x => x.Similar(segment2D_Temp, tolerance)) != null)
+                if (ContainsSimilarSegment(segment2D_Temp))
                     continue;
 
                 List<Point2D>? point2Ds_Temp = point2Ds_BySegment[i];
                 if (point2Ds_Temp == null || point2Ds_Temp.Count == 0)
                 {
+                    RegisterSegment(segment2Ds_Result.Count, segment2D_Temp);
                     segment2Ds_Result.Add(segment2D_Temp);
                     continue;
                 }
@@ -166,13 +222,14 @@ namespace DiGi.Geometry.Planar
                     Point2D point2D_1 = point2Ds_Temp[j];
                     Point2D point2D_2 = point2Ds_Temp[j + 1];
 
-                    Segment2D segment2D = segment2Ds_Result.Find(x => (AlmostEquals(x[0], point2D_1, tolerance) && AlmostEquals(x[1], point2D_2, tolerance)) || (AlmostEquals(x[1], point2D_1, tolerance) && AlmostEquals(x[0], point2D_2, tolerance)));
-                    if (segment2D != null)
+                    Segment2D segment2D_Candidate = new(point2D_1, point2D_2);
+                    if (ContainsSimilarSegment(segment2D_Candidate))
                     {
                         continue;
                     }
 
-                    segment2Ds_Result.Add(new Segment2D(point2D_1, point2D_2));
+                    RegisterSegment(segment2Ds_Result.Count, segment2D_Candidate);
+                    segment2Ds_Result.Add(segment2D_Candidate);
                 }
             }
 

@@ -113,6 +113,62 @@ namespace DiGi.Geometry.Planar
 
             Vector2D vector2D = Constants.Vector2D.WorldY;
 
+            // Spatial hash of the convex hull points bucketed by tolerance-sized cell, so the "how many points lie on the hull" tie-breaker below avoids an O(n) Find scan over the hull for every candidate point.
+            Dictionary<(long X, long Y), List<Point2D>> point2Ds_ConvexHullByCell = [];
+            foreach (Point2D point2D_ConvexHull in point2Ds_ConvexHull)
+            {
+                (long X, long Y) cell = ((long)System.Math.Round(point2D_ConvexHull.X / tolerance), (long)System.Math.Round(point2D_ConvexHull.Y / tolerance));
+                if (!point2Ds_ConvexHullByCell.TryGetValue(cell, out List<Point2D>? point2Ds_Cell))
+                {
+                    point2Ds_Cell = [];
+                    point2Ds_ConvexHullByCell[cell] = point2Ds_Cell;
+                }
+
+                point2Ds_Cell.Add(point2D_ConvexHull);
+            }
+
+            int CountOnConvexHull(List<Point2D>? point2Ds_Candidates)
+            {
+                if (point2Ds_Candidates == null)
+                {
+                    return 0;
+                }
+
+                int count = 0;
+                foreach (Point2D point2D_Candidate in point2Ds_Candidates)
+                {
+                    (long X, long Y) cell = ((long)System.Math.Round(point2D_Candidate.X / tolerance), (long)System.Math.Round(point2D_Candidate.Y / tolerance));
+
+                    bool found = false;
+                    for (long x = cell.X - 1; x <= cell.X + 1 && !found; x++)
+                    {
+                        for (long y = cell.Y - 1; y <= cell.Y + 1 && !found; y++)
+                        {
+                            if (!point2Ds_ConvexHullByCell.TryGetValue((x, y), out List<Point2D>? point2Ds_Cell))
+                            {
+                                continue;
+                            }
+
+                            foreach (Point2D point2D_Cell in point2Ds_Cell)
+                            {
+                                if (Query.AlmostEquals(point2D_Cell, point2D_Candidate, tolerance))
+                                {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (found)
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+
             HashSet<double> angleHashSet = [];
             for (int i = 0; i < point2Ds_ConvexHull.Count - 1; i++)
             {
@@ -130,11 +186,8 @@ namespace DiGi.Geometry.Planar
                     double area_Temp = rectangle_Temp.GetArea();
                     if (DiGi.Core.Query.AlmostEquals(area_Temp, area, tolerance))
                     {
-                        List<Point2D>? point2Ds_1 = result?.GetPoints();
-                        List<Point2D>? point2Ds_2 = rectangle_Temp?.GetPoints();
-
-                        int count_1 = point2Ds_1.Count(x => point2Ds_ConvexHull.Find(y => Query.AlmostEquals(y, x, tolerance)) != null);
-                        int count_2 = point2Ds_2.Count(x => point2Ds_ConvexHull.Find(y => Query.AlmostEquals(y, x, tolerance)) != null);
+                        int count_1 = CountOnConvexHull(result?.GetPoints());
+                        int count_2 = CountOnConvexHull(rectangle_Temp?.GetPoints());
 
                         if (count_2 > count_1)
                         {
