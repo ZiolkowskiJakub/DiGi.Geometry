@@ -88,8 +88,9 @@ All operations, queries, and manipulations on data models must be implemented as
 To maintain codebase health, performance, and compatibility within Visual Studio 2026 / C# 10+ environments:
 
 1. **English Only**: All naming, variables, comments, and documentation must be strictly in English.
-2. **Explicit Typing Mandatory**: Never use implicit typing (`var`) unless it is strictly required by the compiler (e.g., returning anonymous types). Declare types explicitly.
-   - **Target-Typed New (`new()`)**: To avoid IDE0090 analyzer messages, use target-typed new expressions (`new()`) instead of repeating the type when the target type is explicitly declared (e.g., `PointNode pointNode = new();` instead of `PointNode pointNode = new PointNode();`).
+2. **Explicit Typing Mandatory:** Never use implicit typing (`var`) unless it is strictly required by the compiler (declare all types explicitly).
+   * **Target-Typed New (`new(...)`):** To avoid IDE0090 analyzer messages, always use target-typed new expressions (`new(...)`) instead of explicit type instantiation when the target type is explicitly declared (e.g., write `PointNode pointNode = new();` instead of `PointNode pointNode = new PointNode();`).
+   * **Collection Expressions (`[]`):** To avoid IDE0028 analyzer messages ("Collection initialization can be simplified"), use collection expressions (`[]`) for initializing collections (e.g., write `List<int> numbers = [];` or `int[] array = [1, 2, 3];` instead of `new List<int>()` or `new int[] { 1, 2, 3 }`).
 3. **Variable Naming Conventions**:
    - Variable/object names must start with the type name in camelCase (e.g., `PointNode pointNode_Base`, `Vector3D vector3D_Direction`). Use an underscore to append more descriptive parts.
    - **Collections**: For collections (`IEnumerable`, `List`, `Array`, etc.), do NOT prefix names with collection types (e.g., avoid `listConditions`). Instead, name them based on the element type using plural naming (e.g., `FilterConditions`, `Point2Ds`).
