@@ -133,28 +133,45 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Polygon> polygons = [];
+            // Convert inputs, repairing any invalid geometry up front. Without this an invalid
+            // (e.g. self-intersecting) input makes the overlay operation below throw a
+            // TopologyException, unlike the sibling Union/Difference operations which repair first.
+            List<NetTopologySuite.Geometries.Geometry> geometries = [];
 
             foreach (T polygonal2D in polygonal2Ds)
             {
-                if (polygonal2D.ToNTS_Polygon() is Polygon polygon)
+                if (polygonal2D.ToNTS_Polygon() is not Polygon polygon)
                 {
-                    polygons.Add(polygon);
+                    continue;
+                }
+
+                if (polygon.IsValid)
+                {
+                    geometries.Add(polygon);
+                    continue;
+                }
+
+                // A repaired self-intersecting polygon may become a MultiPolygon. It is kept as a
+                // single operand so the intersection semantics of the input set are preserved
+                // (splitting it into separate operands would intersect its parts against each other).
+                if (GeometryFixer.Fix(polygon) is NetTopologySuite.Geometries.Geometry geometry_Fixed && !geometry_Fixed.IsEmpty)
+                {
+                    geometries.Add(geometry_Fixed);
                 }
             }
 
-            if (polygons is null || polygons.Count == 0)
+            if (geometries.Count == 0)
             {
                 return [];
             }
 
-            if (polygons.Count > 1)
+            if (geometries.Count > 1)
             {
                 // Early check: see if all envelopes share a common overlapping region
-                Envelope envelope_Common = polygons[0].EnvelopeInternal;
-                for (int i = 1; i < polygons.Count; i++)
+                Envelope envelope_Common = geometries[0].EnvelopeInternal;
+                for (int i = 1; i < geometries.Count; i++)
                 {
-                    envelope_Common = envelope_Common.Intersection(polygons[i].EnvelopeInternal);
+                    envelope_Common = envelope_Common.Intersection(geometries[i].EnvelopeInternal);
                     if (envelope_Common.IsNull)
                     {
                         return [];
@@ -162,21 +179,28 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            NetTopologySuite.Geometries.Geometry geometry = polygons[0];
+            NetTopologySuite.Geometries.Geometry geometry = geometries[0];
 
-            if (polygons.Count > 1)
+            if (geometries.Count > 1)
             {
-                for (int i = 1; i < polygons.Count; i++)
+                for (int i = 1; i < geometries.Count; i++)
                 {
-                    // Optimization: if current intermediate geometry envelope does not intersect next polygon's envelope,
+                    // Optimization: if current intermediate geometry envelope does not intersect next geometry's envelope,
                     // their intersection is guaranteed to be empty.
-                    if (!geometry.EnvelopeInternal.Intersects(polygons[i].EnvelopeInternal))
+                    if (!geometry.EnvelopeInternal.Intersects(geometries[i].EnvelopeInternal))
                     {
                         return [];
                     }
 
-                    // Intersect current result with the next polygon
-                    geometry = geometry.Intersection(polygons[i]);
+                    // Intersect current result with the next geometry
+                    try
+                    {
+                        geometry = geometry.Intersection(geometries[i]);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
 
                     // Optimization: if at any point the intersection is empty,
                     // there is no common area for the whole set.

@@ -355,6 +355,17 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
+            // Early rejection: a point outside the polyhedron's overall bounding box can be neither on the
+            // surface nor inside, so the expensive ray-casting below can be skipped entirely. The box is
+            // expanded by 2 * tolerance because that is the largest distance, on any single world axis, a
+            // point still classified as "On" a face can lie outside the box (up to tolerance perpendicular
+            // to the face plane plus tolerance in-plane).
+            BoundingBox3D? boundingBox3D = GetBoundingBox();
+            if (boundingBox3D != null && !boundingBox3D.InRange(point3D, System.Math.Max(tolerance, 0.0) * 2.0))
+            {
+                return false;
+            }
+
             if (On(point3D, tolerance))
             {
                 return true;

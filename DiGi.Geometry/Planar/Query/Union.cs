@@ -124,8 +124,15 @@ namespace DiGi.Geometry.Planar
 
             if (polygons_List.Count == 1)
             {
-                polygons_Result.Add(polygons_List[0]);
-                return polygons_Result;
+                // Only short-circuit when the single polygon is already valid; a null or invalid
+                // (self-intersecting) one must fall through to the repair path below so Union never
+                // returns an invalid polygon (consistent with the multi-polygon case).
+                Polygon polygon_Single = polygons_List[0];
+                if (polygon_Single != null && polygon_Single.IsValid)
+                {
+                    polygons_Result.Add(polygon_Single);
+                    return polygons_Result;
+                }
             }
 
             // Fix invalid input geometries individually first (much faster than fixing the collection)
