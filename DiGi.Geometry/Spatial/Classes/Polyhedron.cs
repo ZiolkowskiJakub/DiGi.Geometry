@@ -4,7 +4,6 @@ using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;

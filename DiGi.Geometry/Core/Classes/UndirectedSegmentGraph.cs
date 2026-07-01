@@ -2,7 +2,6 @@ using DiGi.Core.Classes;
 using DiGi.Geometry.Core.Interfaces;
 using QuikGraph;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Geometry.Core.Classes
