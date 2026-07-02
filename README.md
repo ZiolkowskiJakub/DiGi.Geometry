@@ -56,10 +56,12 @@ graph TD
         Q[Query Class]
         M[Modify Class]
         Cr[Create Class]
+        Cv[Convert Class]
     end
     C -->|Query / Read| Q
     C -->|Modify / Mutate| M
     C -->|Create / Instantiate| Cr
+    C -->|Convert / Transform| Cv
 ```
 
 ### 1. Data Models (Classes, Interfaces, Enums)
@@ -70,7 +72,7 @@ graph TD
   - Enums are stored in `/Enums` (e.g., [DiGi.Geometry/Planar/Enums](DiGi.Geometry/DiGi.Geometry/Planar/Enums)).
 
 ### 2. Business Logic (Extension Methods)
-All operations, queries, and manipulations on data models must be implemented as C# **Extension Methods** inside one of three static partial classes:
+All operations, queries, and manipulations on data models must be implemented as C# **Extension Methods** inside one of four static partial classes:
 * **Query** (Read/Extract - returns calculation results, does not mutate state):
   - Class: `public static partial class Query`
   - Directory: `/Query` (e.g., `Planar/Query/DistanceTo.cs`)
@@ -80,6 +82,9 @@ All operations, queries, and manipulations on data models must be implemented as
 * **Create** (Instantiate - constructs and returns a new object based on inputs):
   - Class: `public static partial class Create`
   - Directory: `/Create` (e.g., `Planar/Create/Circle.cs`)
+* **Convert** (Parse/Format/Transform - converts an object or raw components into another representation):
+  - Class: `public static partial class Convert`
+  - Directory: `/Convert/To[TargetArea]` (e.g., `Planar/Convert/ToSystem/Point3D.cs`)
 
 ---
 
@@ -114,7 +119,7 @@ This project strictly separates data models from business logic using Anemic Mod
 - **Enums:** Place in the `/Enums` directory (Namespace: `[Project].Enums`).
 
 ### 2. Business Logic (Extension Methods)
-ALL complex functionalities, including operations on classes, interfaces, and enums, MUST be implemented as **Extension Methods** inside one of three specific static partial classes. Do not create new manager/service classes. 
+ALL complex functionalities, including operations on classes, interfaces, and enums, MUST be implemented as **Extension Methods** inside one of four specific static partial classes. Do not create new manager/service classes. 
 
 * **Query (Read/Extract):**
     * **Directory:** `/Query`
@@ -128,6 +133,10 @@ ALL complex functionalities, including operations on classes, interfaces, and en
     * **Directory:** `/Create`
     * **Class:** `public static partial class Create`
     * **Purpose:** Complex functionalities that create and return a completely new object based on input data.
+* **Convert (Parse/Format/Transform):**
+    * **Directory:** `/Convert` (organized in `/Convert/To[TargetArea]` subdirectories, e.g., `/Convert/ToSystem`, `/Convert/ToEPW`, `/Convert/ToDiGi`)
+    * **Class:** `public static partial class Convert`
+    * **Purpose:** Complex functionalities that convert, format, or transform an object or raw components into another representation. Extension methods should follow the naming pattern `To[TargetArea]_[TargetType]` (e.g., `ToSystem_String`, `ToSystem_DateTime`, `ToEPW_DateTime`).
 
 ---
 
