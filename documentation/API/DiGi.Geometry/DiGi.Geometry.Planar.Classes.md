@@ -2994,6 +2994,29 @@ internal IntersectionResult2D(System.Collections.Generic.IEnumerable<DiGi.Geomet
 
 The collection of geometries resulting from the intersection\.
 
+<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.IntersectionResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool)'></a>
+
+## IntersectionResult2D\(List\<IGeometry2D\>, bool\) Constructor
+
+Initializes a new instance of the [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') class from a prebuilt list of geometries\.
+
+```csharp
+internal IntersectionResult2D(System.Collections.Generic.List<DiGi.Geometry.Planar.Interfaces.IGeometry2D>? geometry2Ds, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.IntersectionResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool).geometry2Ds'></a>
+
+`geometry2Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The list of geometries resulting from the intersection\.
+
+<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.IntersectionResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), each geometry is cloned defensively; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied list is adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created geometries that are not shared\.
+
 <a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.IntersectionResult2D(System.Text.Json.Nodes.JsonObject)'></a>
 
 ## IntersectionResult2D\(JsonObject\) Constructor

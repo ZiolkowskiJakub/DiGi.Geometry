@@ -77,6 +77,37 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="IntersectionResult2D"/> class from a prebuilt list of geometries.
+        /// </summary>
+        /// <param name="geometry2Ds">The list of geometries resulting from the intersection.</param>
+        /// <param name="clone">When <see langword="true"/>, each geometry is cloned defensively; when <see langword="false"/>, the supplied list is adopted directly without cloning. Use <see langword="false"/> only when the caller owns freshly created geometries that are not shared.</param>
+        internal IntersectionResult2D(List<IGeometry2D>? geometry2Ds, bool clone)
+        {
+            if (geometry2Ds == null)
+            {
+                return;
+            }
+
+            if (!clone)
+            {
+                this.geometry2Ds = geometry2Ds;
+                return;
+            }
+
+            this.geometry2Ds = [];
+            for (int i = 0; i < geometry2Ds.Count; i++)
+            {
+                IGeometry2D? geometry2D_Temp = geometry2Ds[i]?.Clone<IGeometry2D>();
+                if (geometry2D_Temp == null)
+                {
+                    continue;
+                }
+
+                this.geometry2Ds.Add(geometry2D_Temp);
+            }
+        }
+
+        /// <summary>
         /// Gets the number of geometries in the intersection result.
         /// </summary>
         [JsonIgnore]

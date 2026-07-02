@@ -763,6 +763,39 @@ public static class Create
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → Create
 ### Methods
 
+<a name='DiGi.Geometry.Planar.Create.AddUniqueByDistance(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,DiGi.Geometry.Planar.Classes.Point2D,double)'></a>
+
+## Create\.AddUniqueByDistance\(List\<Point2D\>, Point2D, double\) Method
+
+Adds a point to a collection unless a point within the squared tolerance already exists\.
+
+```csharp
+private static bool AddUniqueByDistance(System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Point2D> point2Ds, DiGi.Geometry.Planar.Classes.Point2D point2D, double tolerance_Squared);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.AddUniqueByDistance(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,DiGi.Geometry.Planar.Classes.Point2D,double).point2Ds'></a>
+
+`point2Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The accumulated points\.
+
+<a name='DiGi.Geometry.Planar.Create.AddUniqueByDistance(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,DiGi.Geometry.Planar.Classes.Point2D,double).point2D'></a>
+
+`point2D` [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The candidate point\.
+
+<a name='DiGi.Geometry.Planar.Create.AddUniqueByDistance(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,DiGi.Geometry.Planar.Classes.Point2D,double).tolerance_Squared'></a>
+
+`tolerance_Squared` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The squared distance tolerance used to detect duplicates\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the point was added; otherwise, false\.
+
 <a name='DiGi.Geometry.Planar.Create.AdjacencyGraph(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.ISegmentable2D_,double)'></a>
 
 ## Create\.AdjacencyGraph\(this IEnumerable\<ISegmentable2D\>, double\) Method
@@ -950,6 +983,78 @@ The distance tolerance used for similarity and intersection checks\.
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A simplified list of unique geometries; otherwise, null if input is null\.
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionGeometry2D(DiGi.Geometry.Planar.Classes.Line2D,DiGi.Geometry.Planar.Classes.Segment2D,double)'></a>
+
+## Create\.IntersectionGeometry2D\(Line2D, Segment2D, double\) Method
+
+Computes the raw intersection geometry between a line and a segment without allocating an [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') or cloning redundantly\.
+
+```csharp
+private static DiGi.Geometry.Planar.Interfaces.IGeometry2D? IntersectionGeometry2D(DiGi.Geometry.Planar.Classes.Line2D line2D, DiGi.Geometry.Planar.Classes.Segment2D segment2D, double tolerance);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionGeometry2D(DiGi.Geometry.Planar.Classes.Line2D,DiGi.Geometry.Planar.Classes.Segment2D,double).line2D'></a>
+
+`line2D` [Line2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Line2D 'DiGi\.Geometry\.Planar\.Classes\.Line2D')
+
+The line \(must be non\-null\)\.
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionGeometry2D(DiGi.Geometry.Planar.Classes.Line2D,DiGi.Geometry.Planar.Classes.Segment2D,double).segment2D'></a>
+
+`segment2D` [Segment2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Segment2D 'DiGi\.Geometry\.Planar\.Classes\.Segment2D')
+
+The segment \(must be non\-null\)\.
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionGeometry2D(DiGi.Geometry.Planar.Classes.Line2D,DiGi.Geometry.Planar.Classes.Segment2D,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance\.
+
+#### Returns
+[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')  
+A freshly owned [Segment2D\(this Line2D, IPolygonal2D, double\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Segment2D(thisDiGi.Geometry.Planar.Classes.Line2D,DiGi.Geometry.Planar.Interfaces.IPolygonal2D,double) 'DiGi\.Geometry\.Planar\.Create\.Segment2D\(this DiGi\.Geometry\.Planar\.Classes\.Line2D, DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D, double\)') when the segment lies on the line, a [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') when they cross, or null when they do not intersect\.
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionGeometry2D(DiGi.Geometry.Planar.Classes.Segment2D,DiGi.Geometry.Planar.Classes.Segment2D,double,bool)'></a>
+
+## Create\.IntersectionGeometry2D\(Segment2D, Segment2D, double, bool\) Method
+
+Computes the raw intersection geometry between two segments without allocating an [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') or cloning redundantly\.
+
+```csharp
+private static DiGi.Geometry.Planar.Interfaces.IGeometry2D? IntersectionGeometry2D(DiGi.Geometry.Planar.Classes.Segment2D segment2D_1, DiGi.Geometry.Planar.Classes.Segment2D segment2D_2, double tolerance, out bool handled);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionGeometry2D(DiGi.Geometry.Planar.Classes.Segment2D,DiGi.Geometry.Planar.Classes.Segment2D,double,bool).segment2D_1'></a>
+
+`segment2D_1` [Segment2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Segment2D 'DiGi\.Geometry\.Planar\.Classes\.Segment2D')
+
+The first segment \(must be non\-null\)\.
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionGeometry2D(DiGi.Geometry.Planar.Classes.Segment2D,DiGi.Geometry.Planar.Classes.Segment2D,double,bool).segment2D_2'></a>
+
+`segment2D_2` [Segment2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Segment2D 'DiGi\.Geometry\.Planar\.Classes\.Segment2D')
+
+The second segment \(must be non\-null\)\.
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionGeometry2D(DiGi.Geometry.Planar.Classes.Segment2D,DiGi.Geometry.Planar.Classes.Segment2D,double,bool).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance\.
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionGeometry2D(DiGi.Geometry.Planar.Classes.Segment2D,DiGi.Geometry.Planar.Classes.Segment2D,double,bool).handled'></a>
+
+`handled` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+Set to [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only for the degenerate fall\-through case where no intersection topology could be resolved; otherwise [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
+#### Returns
+[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')  
+A freshly owned [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') or [Segment2D\(this Line2D, IPolygonal2D, double\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Segment2D(thisDiGi.Geometry.Planar.Classes.Line2D,DiGi.Geometry.Planar.Interfaces.IPolygonal2D,double) 'DiGi\.Geometry\.Planar\.Create\.Segment2D\(this DiGi\.Geometry\.Planar\.Classes\.Line2D, DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D, double\)'), or null when the segments do not intersect\.
 
 <a name='DiGi.Geometry.Planar.Create.IntersectionResult2D(thisDiGi.Geometry.Planar.Classes.Line2D,DiGi.Geometry.Planar.Classes.Line2D,double)'></a>
 
@@ -2434,6 +2539,75 @@ The length of the vector\.
 #### Returns
 [Vector2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Vector2D 'DiGi\.Geometry\.Planar\.Classes\.Vector2D')  
 A Vector2D with specified angle and length; otherwise, null\.
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionAccumulator'></a>
+
+## Create\.IntersectionAccumulator Class
+
+Accumulates unique intersection points and segments, deduplicating within a distance tolerance\.
+Points use a linear scan while few, then transparently switch to a uniform spatial\-hash grid
+\(cell size equal to the tolerance\) so lookups stay near O\(1\) as the result set grows\.
+First\-seen ordering is preserved\.
+
+```csharp
+private sealed class Create.IntersectionAccumulator
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → IntersectionAccumulator
+### Constructors
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionAccumulator.IntersectionAccumulator(double)'></a>
+
+## IntersectionAccumulator\(double\) Constructor
+
+Initializes a new accumulator using the supplied distance tolerance\.
+
+```csharp
+public IntersectionAccumulator(double tolerance);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionAccumulator.IntersectionAccumulator(double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance used for deduplication\.
+### Methods
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionAccumulator.Add(DiGi.Geometry.Planar.Interfaces.IGeometry2D)'></a>
+
+## Create\.IntersectionAccumulator\.Add\(IGeometry2D\) Method
+
+Adds a candidate intersection geometry unless a similar one is already present\.
+
+```csharp
+public bool Add(DiGi.Geometry.Planar.Interfaces.IGeometry2D? geometry2D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionAccumulator.Add(DiGi.Geometry.Planar.Interfaces.IGeometry2D).geometry2D'></a>
+
+`geometry2D` [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')
+
+The candidate intersection geometry\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the geometry is a point or a segment \(an intersection event\); otherwise, false\.
+
+<a name='DiGi.Geometry.Planar.Create.IntersectionAccumulator.ToResult()'></a>
+
+## Create\.IntersectionAccumulator\.ToResult\(\) Method
+
+Builds the final result, adopting the accumulated geometries without cloning\.
+
+```csharp
+public DiGi.Geometry.Planar.Classes.IntersectionResult2D ToResult();
+```
+
+#### Returns
+[IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D')  
+An [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') that owns the accumulated geometries\.
 
 <a name='DiGi.Geometry.Planar.Create.Transform2D'></a>
 

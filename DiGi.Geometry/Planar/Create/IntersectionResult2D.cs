@@ -39,67 +39,18 @@ namespace DiGi.Geometry.Planar
                 return new IntersectionResult2D();
             }
 
-            bool on_1 = segment2D_1.On(segment2D_2[0], tolerance);
-            bool on_2 = segment2D_1.On(segment2D_2[1], tolerance);
-            bool on_3 = segment2D_2.On(segment2D_1[0], tolerance);
-            bool on_4 = segment2D_2.On(segment2D_1[1], tolerance);
-
-            if (!on_1 && !on_2 && !on_3 && !on_4)
+            IGeometry2D? geometry2D = IntersectionGeometry2D(segment2D_1, segment2D_2, tolerance, out bool handled);
+            if (!handled)
             {
-                return new IntersectionResult2D(segment2D_1.IntersectionPoint(segment2D_2, tolerance));
+                return null;
             }
 
-            if (on_1 && on_2)
+            if (geometry2D == null)
             {
-                return new IntersectionResult2D(segment2D_2);
+                return new IntersectionResult2D();
             }
 
-            if (on_3 && on_4)
-            {
-                return new IntersectionResult2D(segment2D_1);
-            }
-
-            if (on_2 && on_3)
-            {
-                if (Query.AlmostEquals(segment2D_2[1], segment2D_1[0], tolerance))
-                {
-                    return new IntersectionResult2D(segment2D_2[1]);
-                }
-
-                return new IntersectionResult2D(new Segment2D(segment2D_2[1], segment2D_1[0]));
-            }
-
-            if (on_1 && on_3)
-            {
-                if (Query.AlmostEquals(segment2D_2[0], segment2D_1[0], tolerance))
-                {
-                    return new IntersectionResult2D(segment2D_2[0]);
-                }
-
-                return new IntersectionResult2D(new Segment2D(segment2D_2[0], segment2D_1[0]));
-            }
-
-            if (on_2 && on_4)
-            {
-                if (Query.AlmostEquals(segment2D_2[1], segment2D_1[1], tolerance))
-                {
-                    return new IntersectionResult2D(segment2D_2[1]);
-                }
-
-                return new IntersectionResult2D(new Segment2D(segment2D_2[1], segment2D_1[1]));
-            }
-
-            if (on_1 && on_4)
-            {
-                if (Query.AlmostEquals(segment2D_2[0], segment2D_1[1], tolerance))
-                {
-                    return new IntersectionResult2D(segment2D_2[0]);
-                }
-
-                return new IntersectionResult2D(new Segment2D(segment2D_2[0], segment2D_1[1]));
-            }
-
-            return null;
+            return new IntersectionResult2D([geometry2D], false);
         }
 
         /// <summary>
@@ -150,8 +101,7 @@ namespace DiGi.Geometry.Planar
                 return new IntersectionResult2D();
             }
 
-            List<Point2D> point2Ds_Intersection = [];
-            List<Segment2D> segment2Ds_Intersection = [];
+            IntersectionAccumulator accumulator = new(tolerance);
             foreach (Segment2D segment2D_Temp in segment2Ds)
             {
                 if (segment2D_Temp == null)
@@ -165,62 +115,11 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                IntersectionResult2D? intersectionResult2D = IntersectionResult2D(segment2D, segment2D_Temp, tolerance);
-                if (intersectionResult2D == null || !intersectionResult2D.Intersect)
-                {
-                    continue;
-                }
-
-                List<IGeometry2D>? geometry2Ds_Temp = intersectionResult2D.GetGeometry2Ds<IGeometry2D>();
-                IGeometry2D? geometry2D = (geometry2Ds_Temp != null && geometry2Ds_Temp.Count > 0) ? geometry2Ds_Temp[0] : null;
-                if (geometry2D is Point2D point2D_Intersection)
-                {
-                    bool similarExists = false;
-                    for (int i = 0; i < point2Ds_Intersection.Count; i++)
-                    {
-                        if (point2Ds_Intersection[i].Similar(point2D_Intersection, tolerance))
-                        {
-                            similarExists = true;
-                            break;
-                        }
-                    }
-
-                    if (!similarExists)
-                    {
-                        point2Ds_Intersection.Add(point2D_Intersection);
-                    }
-                }
-                else if (geometry2D is Segment2D segment2D_Intersection)
-                {
-                    bool similarExists = false;
-                    for (int i = 0; i < segment2Ds_Intersection.Count; i++)
-                    {
-                        if (segment2Ds_Intersection[i].Similar(segment2D_Intersection, tolerance))
-                        {
-                            similarExists = true;
-                            break;
-                        }
-                    }
-
-                    if (!similarExists)
-                    {
-                        segment2Ds_Intersection.Add(segment2D_Intersection);
-                    }
-                }
+                IGeometry2D? geometry2D = IntersectionGeometry2D(segment2D, segment2D_Temp, tolerance, out _);
+                accumulator.Add(geometry2D);
             }
 
-            List<IGeometry2D> geometry2Ds = [];
-            for (int i = 0; i < point2Ds_Intersection.Count; i++)
-            {
-                geometry2Ds.Add(point2Ds_Intersection[i]);
-            }
-
-            for (int i = 0; i < segment2Ds_Intersection.Count; i++)
-            {
-                geometry2Ds.Add(segment2Ds_Intersection[i]);
-            }
-
-            return new IntersectionResult2D(geometry2Ds);
+            return accumulator.ToResult();
         }
 
         /// <summary>
@@ -238,11 +137,17 @@ namespace DiGi.Geometry.Planar
             }
 
             List<Segment2D> segment2Ds_Source1 = [];
+            List<BoundingBox2D> boundingBox2Ds_Source1 = [];
             foreach (Segment2D segment2D in segment2Ds_1)
             {
                 if (segment2D != null)
                 {
-                    segment2Ds_Source1.Add(segment2D);
+                    BoundingBox2D? boundingBox2D = segment2D.GetBoundingBox();
+                    if (boundingBox2D != null)
+                    {
+                        segment2Ds_Source1.Add(segment2D);
+                        boundingBox2Ds_Source1.Add(boundingBox2D);
+                    }
                 }
             }
 
@@ -266,17 +171,12 @@ namespace DiGi.Geometry.Planar
                 return new IntersectionResult2D();
             }
 
-            List<Point2D> point2Ds_Intersection = [];
-            List<Segment2D> segment2Ds_Intersection = [];
+            IntersectionAccumulator accumulator = new(tolerance);
 
             for (int i = 0; i < segment2Ds_Source1.Count; i++)
             {
                 Segment2D segment2D_1 = segment2Ds_Source1[i];
-                BoundingBox2D? boundingBox2D_1 = segment2D_1.GetBoundingBox();
-                if (boundingBox2D_1 == null)
-                {
-                    continue;
-                }
+                BoundingBox2D boundingBox2D_1 = boundingBox2Ds_Source1[i];
 
                 for (int j = 0; j < segment2Ds_Source2.Count; j++)
                 {
@@ -286,63 +186,12 @@ namespace DiGi.Geometry.Planar
                         continue;
                     }
 
-                    IntersectionResult2D? intersectionResult2D = IntersectionResult2D(segment2D_1, segment2Ds_Source2[j], tolerance);
-                    if (intersectionResult2D == null || !intersectionResult2D.Intersect)
-                    {
-                        continue;
-                    }
-
-                    List<IGeometry2D>? geometry2Ds_Temp = intersectionResult2D.GetGeometry2Ds<IGeometry2D>();
-                    IGeometry2D? geometry2D = (geometry2Ds_Temp != null && geometry2Ds_Temp.Count > 0) ? geometry2Ds_Temp[0] : null;
-                    if (geometry2D is Point2D point2D_Intersection)
-                    {
-                        bool similarExists = false;
-                        for (int k = 0; k < point2Ds_Intersection.Count; k++)
-                        {
-                            if (point2Ds_Intersection[k].Similar(point2D_Intersection, tolerance))
-                            {
-                                similarExists = true;
-                                break;
-                            }
-                        }
-
-                        if (!similarExists)
-                        {
-                            point2Ds_Intersection.Add(point2D_Intersection);
-                        }
-                    }
-                    else if (geometry2D is Segment2D segment2D_Intersection)
-                    {
-                        bool similarExists = false;
-                        for (int k = 0; k < segment2Ds_Intersection.Count; k++)
-                        {
-                            if (segment2Ds_Intersection[k].Similar(segment2D_Intersection, tolerance))
-                            {
-                                similarExists = true;
-                                break;
-                            }
-                        }
-
-                        if (!similarExists)
-                        {
-                            segment2Ds_Intersection.Add(segment2D_Intersection);
-                        }
-                    }
+                    IGeometry2D? geometry2D = IntersectionGeometry2D(segment2D_1, segment2Ds_Source2[j], tolerance, out _);
+                    accumulator.Add(geometry2D);
                 }
             }
 
-            List<IGeometry2D> geometry2Ds = [];
-            for (int i = 0; i < point2Ds_Intersection.Count; i++)
-            {
-                geometry2Ds.Add(point2Ds_Intersection[i]);
-            }
-
-            for (int i = 0; i < segment2Ds_Intersection.Count; i++)
-            {
-                geometry2Ds.Add(segment2Ds_Intersection[i]);
-            }
-
-            return new IntersectionResult2D(geometry2Ds);
+            return accumulator.ToResult();
         }
 
         /// <summary>
@@ -376,18 +225,13 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            if (line2D.On(segment2D[0], tolerance) && line2D.On(segment2D[1]))
-            {
-                return new IntersectionResult2D(new Segment2D(segment2D));
-            }
-
-            Point2D? point2D = line2D.IntersectionPoint(segment2D, tolerance);
-            if (point2D == null)
+            IGeometry2D? geometry2D = IntersectionGeometry2D(line2D, segment2D, tolerance);
+            if (geometry2D == null)
             {
                 return new IntersectionResult2D();
             }
 
-            return new IntersectionResult2D(point2D);
+            return new IntersectionResult2D([geometry2D], false);
         }
 
         /// <summary>
@@ -404,8 +248,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Point2D> point2Ds_Intersection = [];
-            List<Segment2D> segment2Ds_Intersection = [];
+            IntersectionAccumulator accumulator = new(tolerance);
             foreach (Segment2D segment2D_Temp in segment2Ds)
             {
                 if (segment2D_Temp == null)
@@ -419,62 +262,11 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                IntersectionResult2D? intersectionResult2D = IntersectionResult2D(line2D, segment2D_Temp, tolerance);
-                if (intersectionResult2D == null || !intersectionResult2D.Intersect)
-                {
-                    continue;
-                }
-
-                List<IGeometry2D>? geometry2Ds_Temp = intersectionResult2D.GetGeometry2Ds<IGeometry2D>();
-                IGeometry2D? geometry2D = (geometry2Ds_Temp != null && geometry2Ds_Temp.Count > 0) ? geometry2Ds_Temp[0] : null;
-                if (geometry2D is Point2D point2D_Intersection)
-                {
-                    bool similarExists = false;
-                    for (int i = 0; i < point2Ds_Intersection.Count; i++)
-                    {
-                        if (point2Ds_Intersection[i].Similar(point2D_Intersection, tolerance))
-                        {
-                            similarExists = true;
-                            break;
-                        }
-                    }
-
-                    if (!similarExists)
-                    {
-                        point2Ds_Intersection.Add(point2D_Intersection);
-                    }
-                }
-                else if (geometry2D is Segment2D segment2D_Intersection)
-                {
-                    bool similarExists = false;
-                    for (int i = 0; i < segment2Ds_Intersection.Count; i++)
-                    {
-                        if (segment2Ds_Intersection[i].Similar(segment2D_Intersection, tolerance))
-                        {
-                            similarExists = true;
-                            break;
-                        }
-                    }
-
-                    if (!similarExists)
-                    {
-                        segment2Ds_Intersection.Add(segment2D_Intersection);
-                    }
-                }
+                IGeometry2D? geometry2D = IntersectionGeometry2D(line2D, segment2D_Temp, tolerance);
+                accumulator.Add(geometry2D);
             }
 
-            List<IGeometry2D> geometry2Ds = [];
-            for (int i = 0; i < point2Ds_Intersection.Count; i++)
-            {
-                geometry2Ds.Add(point2Ds_Intersection[i]);
-            }
-
-            for (int i = 0; i < segment2Ds_Intersection.Count; i++)
-            {
-                geometry2Ds.Add(segment2Ds_Intersection[i]);
-            }
-
-            return new IntersectionResult2D(geometry2Ds);
+            return accumulator.ToResult();
         }
 
         /// <summary>
@@ -524,8 +316,7 @@ namespace DiGi.Geometry.Planar
 
             int count = 0;
 
-            List<Point2D> point2Ds_Intersection = [];
-            List<Segment2D> segment2Ds_Intersection = [];
+            IntersectionAccumulator accumulator = new(tolerance);
 
             // Precompute bounding boxes to avoid redundant calculations inside nested loops
             List<BoundingBox2D?> boundingBox2Ds = new(count_Segment2Ds);
@@ -549,27 +340,26 @@ namespace DiGi.Geometry.Planar
                         continue;
                     }
 
-                    IntersectionResult2D? intersectionResult2D = IntersectionResult2D(segment2D_1, segment2D_2, tolerance);
-                    if (intersectionResult2D != null && intersectionResult2D.Intersect)
+                    IGeometry2D? geometry2D_Raw = IntersectionGeometry2D(segment2D_1, segment2D_2, tolerance, out _);
+                    if (geometry2D_Raw != null)
                     {
                         bool adjacent = i + 1 == j;
                         bool last = i == 0 && j == count_Segment2Ds - 1;
 
-                        IGeometry2D? geometry2D = null;
+                        IGeometry2D? geometry2D;
 
                         if (!adjacent && !last)
                         {
-                            List<IGeometry2D>? geometry2Ds_Temp = intersectionResult2D.GetGeometry2Ds<IGeometry2D>();
-                            geometry2D = (geometry2Ds_Temp != null && geometry2Ds_Temp.Count > 0) ? geometry2Ds_Temp[0] : null;
+                            geometry2D = geometry2D_Raw;
                         }
-                        else if (intersectionResult2D.Contains<Segment2D>())
+                        else if (geometry2D_Raw is Segment2D)
                         {
-                            geometry2D = intersectionResult2D.GetGeometry2Ds<Segment2D>().FirstOrDefault();
+                            geometry2D = geometry2D_Raw;
                         }
                         else
                         {
-                            Point2D point2D = intersectionResult2D.GetGeometry2Ds<Point2D>().FirstOrDefault();
-                            if (point2D != null)
+                            geometry2D = null;
+                            if (geometry2D_Raw is Point2D point2D)
                             {
                                 Point2D? point2D_Endpoint1 = segment2D_1[1];
                                 Point2D? point2D_Endpoint0 = segment2D_1[0];
@@ -585,46 +375,8 @@ namespace DiGi.Geometry.Planar
                             }
                         }
 
-                        if (geometry2D == null)
+                        if (geometry2D != null && accumulator.Add(geometry2D))
                         {
-                            continue;
-                        }
-
-                        if (geometry2D is Point2D point2D_Intersection)
-                        {
-                            bool similarExists = false;
-                            for (int k = 0; k < point2Ds_Intersection.Count; k++)
-                            {
-                                if (point2Ds_Intersection[k].Similar(point2D_Intersection, tolerance))
-                                {
-                                    similarExists = true;
-                                    break;
-                                }
-                            }
-
-                            if (!similarExists)
-                            {
-                                point2Ds_Intersection.Add(point2D_Intersection);
-                            }
-                            count++;
-                        }
-                        else if (geometry2D is Segment2D segment2D_Intersection)
-                        {
-                            bool similarExists = false;
-                            for (int k = 0; k < segment2Ds_Intersection.Count; k++)
-                            {
-                                if (segment2Ds_Intersection[k].Similar(segment2D_Intersection, tolerance))
-                                {
-                                    similarExists = true;
-                                    break;
-                                }
-                            }
-
-                            if (!similarExists)
-                            {
-                                segment2Ds_Intersection.Add(segment2D_Intersection);
-                            }
-
                             count++;
                         }
                     }
@@ -641,18 +393,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            List<IGeometry2D> geometry2Ds = [];
-            for (int i = 0; i < point2Ds_Intersection.Count; i++)
-            {
-                geometry2Ds.Add(point2Ds_Intersection[i]);
-            }
-
-            for (int i = 0; i < segment2Ds_Intersection.Count; i++)
-            {
-                geometry2Ds.Add(segment2Ds_Intersection[i]);
-            }
-
-            return new IntersectionResult2D(geometry2Ds);
+            return accumulator.ToResult();
         }
 
         /// <summary>
@@ -674,6 +415,8 @@ namespace DiGi.Geometry.Planar
             {
                 return null;
             }
+
+            double tolerance_Squared = tolerance * tolerance;
 
             List<Point2D> point2Ds = [];
             if (linear2D is ISegmentable2D segmentable2D)
@@ -709,63 +452,24 @@ namespace DiGi.Geometry.Planar
                     Point2D? point2D_Start = segment2D.Start;
                     if (point2D_Start != null && linear2D.On(point2D_Start, tolerance))
                     {
-                        bool duplicate = false;
-                        for (int k = 0; k < point2Ds.Count; k++)
-                        {
-                            if (point2Ds[k].Distance(point2D_Start) < tolerance)
-                            {
-                                duplicate = true;
-                                break;
-                            }
-                        }
-
-                        if (!duplicate)
-                        {
-                            point2Ds.Add(point2D_Start);
-                        }
+                        AddUniqueByDistance(point2Ds, point2D_Start, tolerance_Squared);
                     }
 
                     Point2D? point2D_End = segment2D.End;
                     if (point2D_End != null && linear2D.On(point2D_End, tolerance))
                     {
-                        bool duplicate = false;
-                        for (int k = 0; k < point2Ds.Count; k++)
-                        {
-                            if (point2Ds[k].Distance(point2D_End) < tolerance)
-                            {
-                                duplicate = true;
-                                break;
-                            }
-                        }
-
-                        if (!duplicate)
-                        {
-                            point2Ds.Add(point2D_End);
-                        }
+                        AddUniqueByDistance(point2Ds, point2D_End, tolerance_Squared);
                     }
 
                     Point2D? point2D_Intersection = linear2D.IntersectionPoint(segment2D, tolerance);
                     if (point2D_Intersection != null)
                     {
-                        bool duplicate = false;
-                        for (int k = 0; k < point2Ds.Count; k++)
-                        {
-                            if (point2Ds[k].Distance(point2D_Intersection) < tolerance)
-                            {
-                                duplicate = true;
-                                break;
-                            }
-                        }
-
-                        if (!duplicate)
-                        {
-                            point2Ds.Add(point2D_Intersection);
-                        }
+                        AddUniqueByDistance(point2Ds, point2D_Intersection, tolerance_Squared);
                     }
                 }
             }
 
-            if (point2Ds == null || point2Ds.Count == 0)
+            if (point2Ds.Count == 0)
             {
                 return new IntersectionResult2D();
             }
@@ -813,7 +517,7 @@ namespace DiGi.Geometry.Planar
                 geometry2Ds.Add(point2Ds[count - 1]);
             }
 
-            return new IntersectionResult2D(geometry2Ds);
+            return new IntersectionResult2D(geometry2Ds, false);
         }
 
         /// <summary>
@@ -890,7 +594,285 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            return new IntersectionResult2D(geometry2Ds);
+            return new IntersectionResult2D(geometry2Ds, false);
+        }
+
+        /// <summary>
+        /// Computes the raw intersection geometry between two segments without allocating an <see cref="Classes.IntersectionResult2D"/> or cloning redundantly.
+        /// </summary>
+        /// <param name="segment2D_1">The first segment (must be non-null).</param>
+        /// <param name="segment2D_2">The second segment (must be non-null).</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <param name="handled">Set to <see langword="false"/> only for the degenerate fall-through case where no intersection topology could be resolved; otherwise <see langword="true"/>.</param>
+        /// <returns>A freshly owned <see cref="Point2D"/> or <see cref="Segment2D"/>, or null when the segments do not intersect.</returns>
+        private static IGeometry2D? IntersectionGeometry2D(Segment2D segment2D_1, Segment2D segment2D_2, double tolerance, out bool handled)
+        {
+            handled = true;
+
+            Point2D? point2D_Start1 = segment2D_1[0];
+            Point2D? point2D_End1 = segment2D_1[1];
+            Point2D? point2D_Start2 = segment2D_2[0];
+            Point2D? point2D_End2 = segment2D_2[1];
+
+            bool on_1 = segment2D_1.On(point2D_Start2, tolerance);
+            bool on_2 = segment2D_1.On(point2D_End2, tolerance);
+            bool on_3 = segment2D_2.On(point2D_Start1, tolerance);
+            bool on_4 = segment2D_2.On(point2D_End1, tolerance);
+
+            if (!on_1 && !on_2 && !on_3 && !on_4)
+            {
+                return segment2D_1.IntersectionPoint(segment2D_2, tolerance);
+            }
+
+            if (on_1 && on_2)
+            {
+                return new Segment2D(segment2D_2);
+            }
+
+            if (on_3 && on_4)
+            {
+                return new Segment2D(segment2D_1);
+            }
+
+            if (on_2 && on_3)
+            {
+                if (Query.AlmostEquals(point2D_End2, point2D_Start1, tolerance))
+                {
+                    return point2D_End2;
+                }
+
+                return new Segment2D(point2D_End2, point2D_Start1);
+            }
+
+            if (on_1 && on_3)
+            {
+                if (Query.AlmostEquals(point2D_Start2, point2D_Start1, tolerance))
+                {
+                    return point2D_Start2;
+                }
+
+                return new Segment2D(point2D_Start2, point2D_Start1);
+            }
+
+            if (on_2 && on_4)
+            {
+                if (Query.AlmostEquals(point2D_End2, point2D_End1, tolerance))
+                {
+                    return point2D_End2;
+                }
+
+                return new Segment2D(point2D_End2, point2D_End1);
+            }
+
+            if (on_1 && on_4)
+            {
+                if (Query.AlmostEquals(point2D_Start2, point2D_End1, tolerance))
+                {
+                    return point2D_Start2;
+                }
+
+                return new Segment2D(point2D_Start2, point2D_End1);
+            }
+
+            handled = false;
+            return null;
+        }
+
+        /// <summary>
+        /// Computes the raw intersection geometry between a line and a segment without allocating an <see cref="Classes.IntersectionResult2D"/> or cloning redundantly.
+        /// </summary>
+        /// <param name="line2D">The line (must be non-null).</param>
+        /// <param name="segment2D">The segment (must be non-null).</param>
+        /// <param name="tolerance">The distance tolerance.</param>
+        /// <returns>A freshly owned <see cref="Segment2D"/> when the segment lies on the line, a <see cref="Point2D"/> when they cross, or null when they do not intersect.</returns>
+        private static IGeometry2D? IntersectionGeometry2D(Line2D line2D, Segment2D segment2D, double tolerance)
+        {
+            Point2D? point2D_Start = segment2D[0];
+            Point2D? point2D_End = segment2D[1];
+
+            if (point2D_Start != null && point2D_End != null && line2D.On(point2D_Start, tolerance) && line2D.On(point2D_End))
+            {
+                return new Segment2D(segment2D);
+            }
+
+            return line2D.IntersectionPoint(segment2D, tolerance);
+        }
+
+        /// <summary>
+        /// Accumulates unique intersection points and segments, deduplicating within a distance tolerance.
+        /// Points use a linear scan while few, then transparently switch to a uniform spatial-hash grid
+        /// (cell size equal to the tolerance) so lookups stay near O(1) as the result set grows.
+        /// First-seen ordering is preserved.
+        /// </summary>
+        private sealed class IntersectionAccumulator
+        {
+            private const int HashThreshold = 16;
+
+            private readonly double tolerance;
+            private readonly double tolerance_Squared;
+            private readonly List<Point2D> point2Ds = [];
+            private readonly List<Segment2D> segment2Ds = [];
+            private Dictionary<(long, long), List<Point2D>>? pointBuckets;
+
+            /// <summary>
+            /// Initializes a new accumulator using the supplied distance tolerance.
+            /// </summary>
+            /// <param name="tolerance">The distance tolerance used for deduplication.</param>
+            public IntersectionAccumulator(double tolerance)
+            {
+                this.tolerance = tolerance;
+                tolerance_Squared = tolerance * tolerance;
+            }
+
+            /// <summary>
+            /// Adds a candidate intersection geometry unless a similar one is already present.
+            /// </summary>
+            /// <param name="geometry2D">The candidate intersection geometry.</param>
+            /// <returns>True if the geometry is a point or a segment (an intersection event); otherwise, false.</returns>
+            public bool Add(IGeometry2D? geometry2D)
+            {
+                if (geometry2D is Point2D point2D)
+                {
+                    AddPoint(point2D);
+                    return true;
+                }
+
+                if (geometry2D is Segment2D segment2D)
+                {
+                    for (int i = 0; i < segment2Ds.Count; i++)
+                    {
+                        if (segment2Ds[i].Similar(segment2D, tolerance))
+                        {
+                            return true;
+                        }
+                    }
+
+                    segment2Ds.Add(segment2D);
+                    return true;
+                }
+
+                return false;
+            }
+
+            /// <summary>
+            /// Builds the final result, adopting the accumulated geometries without cloning.
+            /// </summary>
+            /// <returns>An <see cref="Classes.IntersectionResult2D"/> that owns the accumulated geometries.</returns>
+            public IntersectionResult2D ToResult()
+            {
+                List<IGeometry2D> geometry2Ds = new(point2Ds.Count + segment2Ds.Count);
+                for (int i = 0; i < point2Ds.Count; i++)
+                {
+                    geometry2Ds.Add(point2Ds[i]);
+                }
+
+                for (int i = 0; i < segment2Ds.Count; i++)
+                {
+                    geometry2Ds.Add(segment2Ds[i]);
+                }
+
+                return new IntersectionResult2D(geometry2Ds, false);
+            }
+
+            private void AddPoint(Point2D point2D)
+            {
+                if (pointBuckets != null)
+                {
+                    if (!ContainsSimilar(point2D))
+                    {
+                        point2Ds.Add(point2D);
+                        AddToBucket(point2D);
+                    }
+
+                    return;
+                }
+
+                for (int i = 0; i < point2Ds.Count; i++)
+                {
+                    double double_Dx = point2Ds[i].X - point2D.X;
+                    double double_Dy = point2Ds[i].Y - point2D.Y;
+                    if (double_Dx * double_Dx + double_Dy * double_Dy <= tolerance_Squared)
+                    {
+                        return;
+                    }
+                }
+
+                point2Ds.Add(point2D);
+
+                if (point2Ds.Count >= HashThreshold && tolerance > 0.0)
+                {
+                    pointBuckets = [];
+                    for (int i = 0; i < point2Ds.Count; i++)
+                    {
+                        AddToBucket(point2Ds[i]);
+                    }
+                }
+            }
+
+            private bool ContainsSimilar(Point2D point2D)
+            {
+                long cellX = (long)System.Math.Floor(point2D.X / tolerance);
+                long cellY = (long)System.Math.Floor(point2D.Y / tolerance);
+
+                for (long dxCell = -1; dxCell <= 1; dxCell++)
+                {
+                    for (long dyCell = -1; dyCell <= 1; dyCell++)
+                    {
+                        if (pointBuckets != null && pointBuckets.TryGetValue((cellX + dxCell, cellY + dyCell), out List<Point2D>? bucket))
+                        {
+                            for (int i = 0; i < bucket.Count; i++)
+                            {
+                                double double_Dx = bucket[i].X - point2D.X;
+                                double double_Dy = bucket[i].Y - point2D.Y;
+                                if (double_Dx * double_Dx + double_Dy * double_Dy <= tolerance_Squared)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return false;
+            }
+
+            private void AddToBucket(Point2D point2D)
+            {
+                (long, long) key = ((long)System.Math.Floor(point2D.X / tolerance), (long)System.Math.Floor(point2D.Y / tolerance));
+                if (pointBuckets != null)
+                {
+                    if (!pointBuckets.TryGetValue(key, out List<Point2D>? bucket))
+                    {
+                        bucket = [];
+                        pointBuckets[key] = bucket;
+                    }
+
+                    bucket.Add(point2D);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a point to a collection unless a point within the squared tolerance already exists.
+        /// </summary>
+        /// <param name="point2Ds">The accumulated points.</param>
+        /// <param name="point2D">The candidate point.</param>
+        /// <param name="tolerance_Squared">The squared distance tolerance used to detect duplicates.</param>
+        /// <returns>True if the point was added; otherwise, false.</returns>
+        private static bool AddUniqueByDistance(List<Point2D> point2Ds, Point2D point2D, double tolerance_Squared)
+        {
+            for (int i = 0; i < point2Ds.Count; i++)
+            {
+                double double_Dx = point2Ds[i].X - point2D.X;
+                double double_Dy = point2Ds[i].Y - point2D.Y;
+                if (double_Dx * double_Dx + double_Dy * double_Dy < tolerance_Squared)
+                {
+                    return false;
+                }
+            }
+
+            point2Ds.Add(point2D);
+            return true;
         }
     }
 }
