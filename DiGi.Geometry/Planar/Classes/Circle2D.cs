@@ -236,6 +236,41 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
+        /// Checks if an axis-aligned bounding box is within or intersects the circle.
+        /// </summary>
+        /// <param name="boundingBox2D">The bounding box to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the bounding box is in range of the circle.</returns>
+        public bool InRange(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            if (boundingBox2D == null || center == null || double.IsNaN(radius))
+            {
+                return false;
+            }
+
+            double double_MinX = boundingBox2D.Min.X;
+            double double_MinY = boundingBox2D.Min.Y;
+            double double_MaxX = boundingBox2D.Max.X;
+            double double_MaxY = boundingBox2D.Max.Y;
+
+            if (double.IsNaN(double_MinX) || double.IsNaN(double_MinY) || double.IsNaN(double_MaxX) || double.IsNaN(double_MaxY))
+            {
+                return false;
+            }
+
+            // Closest point on the axis-aligned bounding box to the circle centre.
+            double double_ClosestX = center.X < double_MinX ? double_MinX : (center.X > double_MaxX ? double_MaxX : center.X);
+            double double_ClosestY = center.Y < double_MinY ? double_MinY : (center.Y > double_MaxY ? double_MaxY : center.Y);
+
+            double double_Dx = center.X - double_ClosestX;
+            double double_Dy = center.Y - double_ClosestY;
+            double double_DistSq = double_Dx * double_Dx + double_Dy * double_Dy;
+            double double_Limit = radius + tolerance;
+
+            return double_DistSq < double_Limit * double_Limit;
+        }
+
+        /// <summary>
         /// Checks if a point is strictly inside the circle boundaries.
         /// </summary>
         /// <param name="point2D">The point to check.</param>

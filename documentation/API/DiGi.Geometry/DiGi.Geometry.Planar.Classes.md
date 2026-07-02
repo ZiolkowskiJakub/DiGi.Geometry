@@ -1108,6 +1108,33 @@ Implements [GetPerimeter\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.
 [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
 The length of the boundary\.
 
+<a name='DiGi.Geometry.Planar.Classes.Circle2D.InRange(DiGi.Geometry.Planar.Classes.BoundingBox2D,double)'></a>
+
+## Circle2D\.InRange\(BoundingBox2D, double\) Method
+
+Checks if an axis\-aligned bounding box is within or intersects the circle\.
+
+```csharp
+public bool InRange(DiGi.Geometry.Planar.Classes.BoundingBox2D? boundingBox2D, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Circle2D.InRange(DiGi.Geometry.Planar.Classes.BoundingBox2D,double).boundingBox2D'></a>
+
+`boundingBox2D` [BoundingBox2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BoundingBox2D 'DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D')
+
+The bounding box to check\.
+
+<a name='DiGi.Geometry.Planar.Classes.Circle2D.InRange(DiGi.Geometry.Planar.Classes.BoundingBox2D,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance for the check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the bounding box is in range of the circle\.
+
 <a name='DiGi.Geometry.Planar.Classes.Circle2D.InRange(DiGi.Geometry.Planar.Classes.Point2D,double)'></a>
 
 ## Circle2D\.InRange\(Point2D, double\) Method
