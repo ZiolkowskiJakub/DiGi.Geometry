@@ -41,7 +41,17 @@ namespace DiGi.Geometry.Planar
                 return point2D_Centroid;
             }
 
-            // Fallback 1: Use NetTopologySuite's highly optimized and robust InteriorPoint computation
+            // Fallback 1: Mean (average) center of the vertices. Unlike the area centroid it is a
+            // convex combination of the boundary points, so it frequently lands inside for convex and
+            // mildly concave polygons. It is near-free to compute and catches those cases before paying
+            // for the NetTopologySuite computation below.
+            Point2D? point2D_MeanCenter = Average(point2Ds_List);
+            if (point2D_MeanCenter != null && Inside(point2Ds_List, point2D_MeanCenter) && !On(segment2Ds, point2D_MeanCenter, tolerance))
+            {
+                return point2D_MeanCenter;
+            }
+
+            // Fallback 2: Use NetTopologySuite's highly optimized and robust InteriorPoint computation
             try
             {
                 Polygon2D polygon2D_Temp = new(point2Ds_List);
@@ -64,7 +74,7 @@ namespace DiGi.Geometry.Planar
                 // Fall back to algorithmic search
             }
 
-            // Fallback 2: Check consecutive triplets. Every simple polygon has at least two ears
+            // Fallback 3: Check consecutive triplets. Every simple polygon has at least two ears
             // (Two-Ears Theorem), meaning at least one consecutive triplet's centroid is strictly inside.
             // This runs in O(N^2) time compared to the original O(N^4) brute force search over all triplets.
             int count = point2Ds_List.Count;
