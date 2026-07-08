@@ -51,11 +51,28 @@ namespace DiGi.Geometry.Planar
 
                 List<NetTopologySuite.Geometries.Geometry> geometries_Temp = [];
 
-                IPreparedGeometry preparedGeometry = PreparedGeometryFactory.Prepare(geometry);
+                // The conforming Delaunay triangulation covers the whole convex domain, so it also
+                // produces triangles inside the holes and inside the envelope padding that was added
+                // only to bound the triangulation. Those must be discarded, keeping just the triangles
+                // that fall inside the face (outside every hole).
+                //
+                // The keep test uses each triangle's representative interior point against the polygon,
+                // NOT a whole-triangle NetTopologySuite.Geometries.Geometry.Contains(triangle):
+                //   * The Delaunay vertices are snapped to the triangulation precision grid, which does
+                //     not coincide exactly with the polygon boundary. A triangle that genuinely lies
+                //     inside the face but shares an edge/vertex with the boundary then fails the strict
+                //     whole-triangle containment test and is dropped, punching holes in the mesh (for a
+                //     courtyard footprint this discarded roughly a third of the cap area).
+                //   * The interior point is guaranteed strictly inside the triangle, so it is immune to
+                //     that boundary snapping. Triangles that slightly overshoot the boundary or a hole
+                //     are still clipped back to the exact face by the intersection pass below.
+                // The predicate is prepared over the polygon alone, not the [polygon, envelope]
+                // collection used as the triangulation domain, so the hole and the padding are excluded.
+                IPreparedGeometry preparedGeometry = PreparedGeometryFactory.Prepare(polygon);
 
                 foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in geometryCollection)
                 {
-                    if (preparedGeometry.Contains(geometry_Temp))
+                    if (preparedGeometry.Contains(geometry_Temp.InteriorPoint))
                     {
                         geometries_Temp.Add(geometry_Temp);
                     }
@@ -124,7 +141,16 @@ namespace DiGi.Geometry.Planar
 
                 foreach (Polygon polygon_Intersection in polygons_Intersection)
                 {
-                    if (DiGi.Core.Query.AlmostEquals(polygon_Temp.Area, polygon_Intersection.Area, tolerance))
+                    // Accept the clipped piece as-is only when it is already a triangle (a closed ring
+                    // of three distinct vertices has four coordinates) and its area still matches the
+                    // source triangle, i.e. the triangle sat inside the face and was not really clipped.
+                    // The coordinate-count guard is essential: a triangle that overshoots the boundary
+                    // by a negligible area is clipped to a quadrilateral whose area still matches, and
+                    // without the guard that quadrilateral would be returned even though this method
+                    // contracts to return triangles only. Callers such as PolygonalFace2D.Triangulate
+                    // keep only four-coordinate triangles, so a returned quadrilateral would be dropped
+                    // and leave a hole in the mesh.
+                    if (polygon_Intersection.Coordinates.Length == 4 && DiGi.Core.Query.AlmostEquals(polygon_Temp.Area, polygon_Intersection.Area, tolerance))
                     {
                         result.Add(polygon_Intersection);
                         continue;
