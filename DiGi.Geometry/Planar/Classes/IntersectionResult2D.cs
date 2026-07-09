@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
@@ -120,15 +120,12 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
-        /// Gets a value indicating whether an intersection occurred.
+        /// Determines whether an intersection occurred.
         /// </summary>
-        [JsonIgnore]
-        public bool Intersect
+        /// <returns><c>true</c> if any geometries are present; otherwise, <c>false</c>.</returns>
+        public bool Any()
         {
-            get
-            {
-                return geometry2Ds != null && geometry2Ds.Count != 0;
-            }
+            return geometry2Ds != null && geometry2Ds.Count != 0;
         }
 
         /// <summary>

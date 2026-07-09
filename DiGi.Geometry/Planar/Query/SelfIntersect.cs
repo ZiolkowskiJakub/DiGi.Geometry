@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 
 namespace DiGi.Geometry.Planar
@@ -15,7 +15,7 @@ namespace DiGi.Geometry.Planar
         {
             IntersectionResult2D? intersectionResult2D = Create.IntersectionResult2D(segmentable2D, 1, tolerance);
 
-            return intersectionResult2D != null && intersectionResult2D.Intersect;
+            return intersectionResult2D != null && intersectionResult2D.Any();
         }
     }
 }

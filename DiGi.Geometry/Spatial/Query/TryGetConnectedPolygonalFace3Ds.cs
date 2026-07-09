@@ -77,7 +77,7 @@ namespace DiGi.Geometry.Spatial
                         {
                             Segment3D segment3D = segment3Ds_Current[int_J];
                             PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(polygonalFace3D_Unvisited, segment3D, tolerance);
-                            if (planarIntersectionResult != null && planarIntersectionResult.Intersect && planarIntersectionResult.GetGeometry3Ds<ISegmentable3D>() is List<ISegmentable3D> segmentable3Ds)
+                            if (planarIntersectionResult != null && planarIntersectionResult.Any() && planarIntersectionResult.GetGeometry3Ds<ISegmentable3D>() is List<ISegmentable3D> segmentable3Ds)
                             {
                                 for (int int_K = 0; int_K < segmentable3Ds.Count; int_K++)
                                 {

@@ -285,7 +285,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     }
 
                     PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(new PolygonalFace3D(polygonalFaces[i].ExternalEdge), internalPoint, internalPoint + result, true, false, tolerance);
-                    if (planarIntersectionResult is null || !planarIntersectionResult.Intersect)
+                    if (planarIntersectionResult is null || !planarIntersectionResult.Any())
                     {
                         continue;
                     }
@@ -401,7 +401,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     }
 
                     IntersectionResult3D? planarIntersectionResult = Create.IntersectionResult3D(this, new Ray3D(point3D, point3D_Temp), tolerance);
-                    if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+                    if (planarIntersectionResult == null || !planarIntersectionResult.Any())
                     {
                         continue;
                     }

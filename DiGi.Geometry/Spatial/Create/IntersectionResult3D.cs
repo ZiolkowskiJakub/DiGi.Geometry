@@ -76,7 +76,7 @@ namespace DiGi.Geometry.Spatial
                     planarIntersectionResult = PlanarIntersectionResult(polyhedron[i], linear3D as dynamic, tolerance);
                 }
 
-                if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+                if (planarIntersectionResult == null || !planarIntersectionResult.Any())
                 {
                     continue;
                 }
@@ -406,7 +406,7 @@ namespace DiGi.Geometry.Spatial
                 foreach (IPolygonalFace3D f2 in list_Overlapping)
                 {
                     PlanarIntersectionResult? faceIntersection = PlanarIntersectionResult(f1, f2, tolerance);
-                    if (faceIntersection == null || !faceIntersection.Intersect)
+                    if (faceIntersection == null || !faceIntersection.Any())
                     {
                         continue;
                     }
@@ -520,7 +520,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            if (!intersectionResult3D.Intersect)
+            if (!intersectionResult3D.Any())
             {
                 return intersectionResult3D;
             }

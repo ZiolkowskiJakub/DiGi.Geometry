@@ -28,7 +28,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(polygonalFace3D, polygonalFace3Ds, tolerance);
-            if (planarIntersectionResult == null || !planarIntersectionResult.Intersect)
+            if (planarIntersectionResult == null || !planarIntersectionResult.Any())
             {
                 return false;
             }
@@ -285,7 +285,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(plane, polyhedron, tolerance);
-            if (planarIntersectionResult is null || !planarIntersectionResult.Intersect || planarIntersectionResult.GetGeometry3Ds<IPolygonalFace3D>() is not List<IPolygonalFace3D> polygonalFace3Ds_Plane || polygonalFace3Ds_Plane.Count == 0)
+            if (planarIntersectionResult is null || !planarIntersectionResult.Any() || planarIntersectionResult.GetGeometry3Ds<IPolygonalFace3D>() is not List<IPolygonalFace3D> polygonalFace3Ds_Plane || polygonalFace3Ds_Plane.Count == 0)
             {
                 return false;
             }
@@ -387,7 +387,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(plane, polygonalFace3D, tolerance);
-            if (planarIntersectionResult is null || !planarIntersectionResult.Intersect || planarIntersectionResult.GetGeometry3Ds<Segment3D>() is not List<Segment3D> segment3Ds || segment3Ds.Count == 0)
+            if (planarIntersectionResult is null || !planarIntersectionResult.Any() || planarIntersectionResult.GetGeometry3Ds<Segment3D>() is not List<Segment3D> segment3Ds || segment3Ds.Count == 0)
             {
                 return false;
             }

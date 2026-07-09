@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +22,7 @@ namespace DiGi.Geometry.Planar
             }
 
             IntersectionResult2D? intersectionResult2D = IntersectionResult2D(polygonal2D, line2D, tolerance);
-            if (intersectionResult2D == null || !intersectionResult2D.Intersect)
+            if (intersectionResult2D == null || !intersectionResult2D.Any())
             {
                 return null;
             }

@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
@@ -81,15 +81,12 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Gets a value of type bool indicating whether there are any 3D geometries present.
+        /// Determines whether there are any 3D geometries present.
         /// </summary>
-        [JsonIgnore]
-        public bool Intersect
+        /// <returns><c>true</c> if any geometries are present; otherwise, <c>false</c>.</returns>
+        public bool Any()
         {
-            get
-            {
-                return geometry3Ds != null && geometry3Ds.Count != 0;
-            }
+            return geometry3Ds != null && geometry3Ds.Count != 0;
         }
 
         /// <summary>

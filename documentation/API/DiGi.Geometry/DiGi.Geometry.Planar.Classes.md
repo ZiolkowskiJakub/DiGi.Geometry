@@ -2957,7 +2957,7 @@ public class IntersectionResult2D : DiGi.Core.Classes.SerializableObject, DiGi.G
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → IntersectionResult2D
 
-Implements [DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.core.interfaces.iintersectionresult 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+Implements [IIntersectionResult](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IIntersectionResult 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
 ### Constructors
 
 <a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.IntersectionResult2D()'></a>
@@ -3075,21 +3075,6 @@ public int Count { get; }
 #### Property Value
 [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
 
-<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.Intersect'></a>
-
-## IntersectionResult2D\.Intersect Property
-
-Gets a value indicating whether an intersection occurred\.
-
-```csharp
-public bool Intersect { get; }
-```
-
-Implements [Intersect](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.core.interfaces.iintersectionresult.intersect 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult\.Intersect')
-
-#### Property Value
-[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
-
 <a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.this[int]'></a>
 
 ## IntersectionResult2D\.this\[int\] Property
@@ -3110,6 +3095,22 @@ The zero\-based index of the geometry to get\.
 #### Property Value
 [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')
 ### Methods
+
+<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.Any()'></a>
+
+## IntersectionResult2D\.Any\(\) Method
+
+Determines whether an intersection occurred\.
+
+```csharp
+public bool Any();
+```
+
+Implements [Any\(\)](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IIntersectionResult.Any() 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult\.Any\(\)')
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+`true` if any geometries are present; otherwise, `false`\.
 
 <a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.Clone()'></a>
 

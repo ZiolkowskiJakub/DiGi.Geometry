@@ -7,6 +7,7 @@
 | [DiGi\.Geometry\.Core](DiGi.Geometry.Core.md 'DiGi\.Geometry\.Core') | |
 | [DiGi\.Geometry\.Core\.Classes](DiGi.Geometry.Core.Classes.md 'DiGi\.Geometry\.Core\.Classes') | |
 | [DiGi\.Geometry\.Core\.Enums](DiGi.Geometry.Core.Enums.md 'DiGi\.Geometry\.Core\.Enums') | |
+| [DiGi\.Geometry\.Core\.Interfaces](DiGi.Geometry.Core.Interfaces.md 'DiGi\.Geometry\.Core\.Interfaces') | |
 | [DiGi\.Geometry\.Planar](DiGi.Geometry.Planar.md 'DiGi\.Geometry\.Planar') | |
 | [DiGi\.Geometry\.Planar\.Classes](DiGi.Geometry.Planar.Classes.md 'DiGi\.Geometry\.Planar\.Classes') | |
 | [DiGi\.Geometry\.Planar\.Constants](DiGi.Geometry.Planar.Constants.md 'DiGi\.Geometry\.Planar\.Constants') | |

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
@@ -173,7 +173,7 @@ namespace DiGi.Geometry.Planar.Classes
                 for (int j = 0; j < segment2Ds_2.Count; j++)
                 {
                     IntersectionResult2D? intersectionResult2D = Create.IntersectionResult2D(segment2Ds_1[i], segment2Ds_2[j], tolerance);
-                    if (intersectionResult2D != null && intersectionResult2D.Intersect)
+                    if (intersectionResult2D != null && intersectionResult2D.Any())
                     {
                         return true;
                     }

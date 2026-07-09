@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -68,16 +68,12 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Gets a value indicating whether an intersection exists.
+        /// Determines whether an intersection exists.
         /// </summary>
-        /// <value>A <see cref="bool"/> value that is true if the count of intersecting elements is greater than zero; otherwise, false.</value>
-        [JsonIgnore]
-        public bool Intersect
+        /// <returns>A <see cref="bool"/> value that is true if the count of intersecting elements is greater than zero; otherwise, false.</returns>
+        public bool Any()
         {
-            get
-            {
-                return Count > 0;
-            }
+            return Count > 0;
         }
 
         /// <summary>
