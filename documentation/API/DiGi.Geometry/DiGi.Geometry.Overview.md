@@ -1,4 +1,4 @@
-#### [DiGi\.Geometry](index.md 'index')
+#### [DiGi\.Geometry](DiGi.Geometry.Overview.md 'DiGi\.Geometry\.Overview')
 
 ## DiGi\.Geometry Assembly
 
@@ -17,3 +17,4 @@
 | [DiGi\.Geometry\.Spatial\.Classes](DiGi.Geometry.Spatial.Classes.md 'DiGi\.Geometry\.Spatial\.Classes') | |
 | [DiGi\.Geometry\.Spatial\.Constants](DiGi.Geometry.Spatial.Constants.md 'DiGi\.Geometry\.Spatial\.Constants') | |
 | [DiGi\.Geometry\.Spatial\.Enums](DiGi.Geometry.Spatial.Enums.md 'DiGi\.Geometry\.Spatial\.Enums') | |
+| [DiGi\.Geometry\.Spatial\.Interfaces](DiGi.Geometry.Spatial.Interfaces.md 'DiGi\.Geometry\.Spatial\.Interfaces') | |

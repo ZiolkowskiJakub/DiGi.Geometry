@@ -1,4 +1,4 @@
-#### [DiGi\.Geometry](index.md 'index')
+#### [DiGi\.Geometry](DiGi.Geometry.Overview.md 'DiGi\.Geometry\.Overview')
 
 ## DiGi\.Geometry\.Planar\.Classes Namespace
 ### Classes

@@ -1,7 +1,189 @@
-#### [DiGi\.Geometry](index.md 'index')
+#### [DiGi\.Geometry](DiGi.Geometry.Overview.md 'DiGi\.Geometry\.Overview')
 
 ## DiGi\.Geometry\.Spatial\.Classes Namespace
 ### Classes
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D'></a>
+
+## BooleanOperationResult3D Class
+
+Represents the abstract base class for a 3D boolean operation result\.
+
+```csharp
+public abstract class BooleanOperationResult3D : DiGi.Core.Classes.SerializableObject, DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → BooleanOperationResult3D
+
+Derived  
+↳ [IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D')
+
+Implements [IBooleanOperationResult3D](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+### Constructors
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.BooleanOperationResult3D()'></a>
+
+## BooleanOperationResult3D\(\) Constructor
+
+Initializes a new instance of the [BooleanOperationResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D') class\.
+
+```csharp
+protected BooleanOperationResult3D();
+```
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.BooleanOperationResult3D(DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D)'></a>
+
+## BooleanOperationResult3D\(BooleanOperationResult3D\) Constructor
+
+Initializes a new instance of the [BooleanOperationResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D') class using another instance\.
+
+```csharp
+protected BooleanOperationResult3D(DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D? booleanOperationResult3D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.BooleanOperationResult3D(DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D).booleanOperationResult3D'></a>
+
+`booleanOperationResult3D` [BooleanOperationResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D')
+
+The instance to copy from\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.BooleanOperationResult3D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Spatial.Interfaces.IGeometry3D_)'></a>
+
+## BooleanOperationResult3D\(IEnumerable\<IGeometry3D\>\) Constructor
+
+Initializes a new instance of the [BooleanOperationResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D') class with the specified geometries\.
+
+```csharp
+protected BooleanOperationResult3D(System.Collections.Generic.IEnumerable<DiGi.Geometry.Spatial.Interfaces.IGeometry3D>? geometry3Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.BooleanOperationResult3D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Spatial.Interfaces.IGeometry3D_).geometry3Ds'></a>
+
+`geometry3Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The geometries to store in the result\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.BooleanOperationResult3D(System.Text.Json.Nodes.JsonObject)'></a>
+
+## BooleanOperationResult3D\(JsonObject\) Constructor
+
+Initializes a new instance of the [BooleanOperationResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D') class using the specified [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')\.
+
+```csharp
+protected BooleanOperationResult3D(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.BooleanOperationResult3D(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject') used to initialize the instance\.
+### Properties
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.Count'></a>
+
+## BooleanOperationResult3D\.Count Property
+
+Gets the total number of [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D') elements\.
+
+```csharp
+public int Count { get; }
+```
+
+Implements [Count](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D.Count 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D\.Count')
+
+#### Property Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.this[int]'></a>
+
+## BooleanOperationResult3D\.this\[int\] Property
+
+Gets the 3D geometry at the specified index\.
+
+```csharp
+public DiGi.Geometry.Spatial.Interfaces.IGeometry3D? this[int index] { get; }
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.this[int].index'></a>
+
+`index` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The zero\-based index of the geometry to retrieve\.
+
+Implements [this\[int\]](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D.this[int] 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D\.this\[int\]')
+
+#### Property Value
+[DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D')
+### Methods
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.Any()'></a>
+
+## BooleanOperationResult3D\.Any\(\) Method
+
+Determines whether there are any 3D geometries present\.
+
+```csharp
+public bool Any();
+```
+
+Implements [Any\(\)](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D.Any() 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D\.Any\(\)')
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+`true` if any geometries are present; otherwise, `false`\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.Contains_T_()'></a>
+
+## BooleanOperationResult3D\.Contains\<T\>\(\) Method
+
+Determines whether the collection contains any object of the specified type [T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.Contains_T_().T 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D\.Contains\<T\>\(\)\.T')\.
+
+```csharp
+public bool Contains<T>()
+    where T : DiGi.Geometry.Spatial.Interfaces.IGeometry3D;
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.Contains_T_().T'></a>
+
+`T`
+
+The type of geometry to search for\.
+
+Implements [Contains&lt;T&gt;\(\)](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D.Contains_T_() 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D\.Contains\<T\>\(\)')
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+`true` if an object of type [T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.Contains_T_().T 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D\.Contains\<T\>\(\)\.T') is present; otherwise, `false`\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.GetGeometry3Ds_T_()'></a>
+
+## BooleanOperationResult3D\.GetGeometry3Ds\<T\>\(\) Method
+
+Retrieves a list of 3D geometries of the specified type [T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.GetGeometry3Ds_T_().T 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D\.GetGeometry3Ds\<T\>\(\)\.T')\.
+
+```csharp
+public System.Collections.Generic.List<T>? GetGeometry3Ds<T>()
+    where T : DiGi.Geometry.Spatial.Interfaces.IGeometry3D;
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.GetGeometry3Ds_T_().T'></a>
+
+`T`
+
+The type of geometry to retrieve, which must implement the [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D') interface\.
+
+Implements [GetGeometry3Ds&lt;T&gt;\(\)](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D.GetGeometry3Ds_T_() 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D\.GetGeometry3Ds\<T\>\(\)')
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.GetGeometry3Ds_T_().T 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D\.GetGeometry3Ds\<T\>\(\)\.T')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A list of matching geometries, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if no geometries are present\.
 
 <a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D'></a>
 
@@ -2339,10 +2521,10 @@ A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 
 Represents the result of a 3D intersection operation\.
 
 ```csharp
-public class IntersectionResult3D : DiGi.Core.Classes.SerializableObject, DiGi.Geometry.Spatial.Interfaces.IIntersectionResult3D, DiGi.Geometry.Core.Interfaces.IIntersectionResult, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+public class IntersectionResult3D : DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D, DiGi.Geometry.Spatial.Interfaces.IIntersectionResult3D, DiGi.Geometry.Core.Interfaces.IIntersectionResult, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → IntersectionResult3D
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → [BooleanOperationResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D') → IntersectionResult3D
 
 Implements [DiGi\.Geometry\.Spatial\.Interfaces\.IIntersectionResult3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.iintersectionresult3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IIntersectionResult3D'), [IIntersectionResult](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IIntersectionResult 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
 ### Constructors
@@ -2424,57 +2606,7 @@ public IntersectionResult3D(System.Text.Json.Nodes.JsonObject? jsonObject);
 `jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
 
 The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject') used to initialize the instance\.
-### Properties
-
-<a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.Count'></a>
-
-## IntersectionResult3D\.Count Property
-
-Gets the total number of [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D') elements contained in the collection\.
-
-```csharp
-public int Count { get; }
-```
-
-#### Property Value
-[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
-
-<a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.this[int]'></a>
-
-## IntersectionResult3D\.this\[int\] Property
-
-Gets the 3D geometry at the specified index\. The returned geometry is a clone of the original object to ensure encapsulation\.
-
-```csharp
-public DiGi.Geometry.Spatial.Interfaces.IGeometry3D? this[int index] { get; }
-```
-#### Parameters
-
-<a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.this[int].index'></a>
-
-`index` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
-
-The zero\-based index of the geometry to retrieve\.
-
-#### Property Value
-[DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D')
 ### Methods
-
-<a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.Any()'></a>
-
-## IntersectionResult3D\.Any\(\) Method
-
-Determines whether there are any 3D geometries present\.
-
-```csharp
-public bool Any();
-```
-
-Implements [Any\(\)](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IIntersectionResult.Any() 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult\.Any\(\)')
-
-#### Returns
-[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
-`true` if any geometries are present; otherwise, `false`\.
 
 <a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.Clone()'></a>
 
@@ -2491,52 +2623,6 @@ Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.in
 #### Returns
 [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
 A new [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject') instance that is a clone of the current object\.
-
-<a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.Contains_T_()'></a>
-
-## IntersectionResult3D\.Contains\<T\>\(\) Method
-
-Determines whether the collection contains any object of the specified type [T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D.Contains_T_().T 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D\.Contains\<T\>\(\)\.T')\.
-
-```csharp
-public bool Contains<T>()
-    where T : DiGi.Geometry.Spatial.Interfaces.IGeometry3D;
-```
-#### Type parameters
-
-<a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.Contains_T_().T'></a>
-
-`T`
-
-The type of geometry to search for, which must implement the [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D') interface\.
-
-#### Returns
-[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
-A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether an object of type [T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D.Contains_T_().T 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D\.Contains\<T\>\(\)\.T') is present in the collection\.
-
-<a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.GetGeometry3Ds_T_()'></a>
-
-## IntersectionResult3D\.GetGeometry3Ds\<T\>\(\) Method
-
-Retrieves a list of 3D geometries of the specified type [T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D.GetGeometry3Ds_T_().T 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D\.GetGeometry3Ds\<T\>\(\)\.T')\. Each matching geometry is cloned before being added to the result list\.
-
-```csharp
-public System.Collections.Generic.List<T>? GetGeometry3Ds<T>()
-    where T : DiGi.Geometry.Spatial.Interfaces.IGeometry3D;
-```
-#### Type parameters
-
-<a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.GetGeometry3Ds_T_().T'></a>
-
-`T`
-
-The type of geometry to retrieve, which must implement the [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D') interface\.
-
-Implements [GetGeometry3Ds&lt;T&gt;\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.iintersectionresult3d.getgeometry3ds--1 'DiGi\.Geometry\.Spatial\.Interfaces\.IIntersectionResult3D\.GetGeometry3Ds\`\`1')
-
-#### Returns
-[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D.GetGeometry3Ds_T_().T 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D\.GetGeometry3Ds\<T\>\(\)\.T')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
-A [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing clones of the geometries of type [T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D.GetGeometry3Ds_T_().T 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D\.GetGeometry3Ds\<T\>\(\)\.T'), or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if the internal geometry collection is null\.
 
 <a name='DiGi.Geometry.Spatial.Classes.Line3D'></a>
 
