@@ -142,19 +142,6 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Calculates the intersection result between two <see cref="Polyhedron{TPolygonalFace3D}"/> objects.
-        /// </summary>
-        /// <typeparam name="TPolygonalFace3D">The type of polygonal face, which must implement <see cref="IPolygonalFace3D"/>.</typeparam>
-        /// <param name="polyhedron_1">The first <see cref="Polyhedron{TPolygonalFace3D}"/>.</param>
-        /// <param name="polyhedron_2">The second <see cref="Polyhedron{TPolygonalFace3D}"/>.</param>
-        /// <param name="tolerance">A <see cref="double"/> representing the distance tolerance.</param>
-        /// <returns>An <see cref="Classes.IntersectionResult3D"/> containing the intersection, or <c>null</c> if either input is null.</returns>
-        public static IntersectionResult3D? IntersectionResult3D<TPolygonalFace3D>(this Polyhedron<TPolygonalFace3D>? polyhedron_1, Polyhedron<TPolygonalFace3D>? polyhedron_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
-        {
-            return CalculateIntersection(polyhedron_1, polyhedron_2, tolerance);
-        }
-
-        /// <summary>
         /// Calculates the 3D boolean intersection between two polyhedra defined by TPolygonalFace3D faces.
         /// </summary>
         /// <typeparam name="TPolygonalFace3D">The type of polygonal face, which must implement <see cref="IPolygonalFace3D"/>.</typeparam>
@@ -162,7 +149,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polyhedron_2">The second polyhedron to intersect.</param>
         /// <param name="tolerance">The distance tolerance for intersection computations.</param>
         /// <returns>An <see cref="Classes.IntersectionResult3D"/> containing the intersection geometry, or null if either input is null.</returns>
-        public static IntersectionResult3D? CalculateIntersection<TPolygonalFace3D>(this Polyhedron<TPolygonalFace3D>? polyhedron_1, Polyhedron<TPolygonalFace3D>? polyhedron_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
+        public static IntersectionResult3D? IntersectionResult3D<TPolygonalFace3D>(this Polyhedron<TPolygonalFace3D>? polyhedron_1, Polyhedron<TPolygonalFace3D>? polyhedron_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
         {
             if (polyhedron_1 == null || polyhedron_2 == null)
             {

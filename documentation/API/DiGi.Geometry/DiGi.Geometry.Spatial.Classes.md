@@ -16,7 +16,9 @@ public abstract class BooleanOperationResult3D : DiGi.Core.Classes.SerializableO
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → BooleanOperationResult3D
 
 Derived  
-↳ [IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D')
+↳ [DifferenceResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.DifferenceResult3D 'DiGi\.Geometry\.Spatial\.Classes\.DifferenceResult3D')  
+↳ [IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D')  
+↳ [UnionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.UnionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.UnionResult3D')
 
 Implements [IBooleanOperationResult3D](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
 ### Constructors
@@ -82,6 +84,21 @@ protected BooleanOperationResult3D(System.Text.Json.Nodes.JsonObject? jsonObject
 
 The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject') used to initialize the instance\.
 ### Properties
+
+<a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.BooleanOpertaionType'></a>
+
+## BooleanOperationResult3D\.BooleanOpertaionType Property
+
+Gets the type of the boolean operation\.
+
+```csharp
+public abstract DiGi.Geometry.Core.Enums.BooleanOpertaionType BooleanOpertaionType { get; }
+```
+
+Implements [BooleanOpertaionType](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D.BooleanOpertaionType 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D\.BooleanOpertaionType')
+
+#### Property Value
+[BooleanOpertaionType](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType')
 
 <a name='DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D.Count'></a>
 
@@ -1557,6 +1574,132 @@ Implements [Move\(Vector3D\)](https://learn.microsoft.com/en-us/dotnet/api/digi.
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A bool indicating whether the move operation was successful\.
 
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D'></a>
+
+## DifferenceResult3D Class
+
+Represents the result of a 3D difference operation\.
+
+```csharp
+public class DifferenceResult3D : DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D, DiGi.Geometry.Spatial.Interfaces.IDifferenceResult3D, DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → [BooleanOperationResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D') → DifferenceResult3D
+
+Implements [IDifferenceResult3D](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IDifferenceResult3D 'DiGi\.Geometry\.Spatial\.Interfaces\.IDifferenceResult3D'), [IBooleanOperationResult3D](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+### Constructors
+
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D.DifferenceResult3D()'></a>
+
+## DifferenceResult3D\(\) Constructor
+
+Initializes a new instance of the [DifferenceResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.DifferenceResult3D 'DiGi\.Geometry\.Spatial\.Classes\.DifferenceResult3D') class\.
+
+```csharp
+public DifferenceResult3D();
+```
+
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D.DifferenceResult3D(DiGi.Geometry.Spatial.Classes.DifferenceResult3D)'></a>
+
+## DifferenceResult3D\(DifferenceResult3D\) Constructor
+
+Initializes a new instance of the [DifferenceResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.DifferenceResult3D 'DiGi\.Geometry\.Spatial\.Classes\.DifferenceResult3D') class using another [DifferenceResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.DifferenceResult3D 'DiGi\.Geometry\.Spatial\.Classes\.DifferenceResult3D') instance\.
+
+```csharp
+public DifferenceResult3D(DiGi.Geometry.Spatial.Classes.DifferenceResult3D? differenceResult3D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D.DifferenceResult3D(DiGi.Geometry.Spatial.Classes.DifferenceResult3D).differenceResult3D'></a>
+
+`differenceResult3D` [DifferenceResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.DifferenceResult3D 'DiGi\.Geometry\.Spatial\.Classes\.DifferenceResult3D')
+
+The [DifferenceResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.DifferenceResult3D 'DiGi\.Geometry\.Spatial\.Classes\.DifferenceResult3D') instance to copy from\.
+
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D.DifferenceResult3D(DiGi.Geometry.Spatial.Interfaces.IGeometry3D)'></a>
+
+## DifferenceResult3D\(IGeometry3D\) Constructor
+
+Initializes a new instance of the [DifferenceResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.DifferenceResult3D 'DiGi\.Geometry\.Spatial\.Classes\.DifferenceResult3D') class with the specified [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D')\.
+
+```csharp
+public DifferenceResult3D(DiGi.Geometry.Spatial.Interfaces.IGeometry3D? geometry3D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D.DifferenceResult3D(DiGi.Geometry.Spatial.Interfaces.IGeometry3D).geometry3D'></a>
+
+`geometry3D` [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D')
+
+The [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D') to initialize the result with\. This value can be null\.
+
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D.DifferenceResult3D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Spatial.Interfaces.IGeometry3D_)'></a>
+
+## DifferenceResult3D\(IEnumerable\<IGeometry3D\>\) Constructor
+
+Initializes a new instance of the [DifferenceResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.DifferenceResult3D 'DiGi\.Geometry\.Spatial\.Classes\.DifferenceResult3D') class\.
+
+```csharp
+public DifferenceResult3D(System.Collections.Generic.IEnumerable<DiGi.Geometry.Spatial.Interfaces.IGeometry3D>? geometry3Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D.DifferenceResult3D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Spatial.Interfaces.IGeometry3D_).geometry3Ds'></a>
+
+`geometry3Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+An optional collection of [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D') objects to be cloned and stored in the result\.
+
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D.DifferenceResult3D(System.Text.Json.Nodes.JsonObject)'></a>
+
+## DifferenceResult3D\(JsonObject\) Constructor
+
+Initializes a new instance of the [DifferenceResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.DifferenceResult3D 'DiGi\.Geometry\.Spatial\.Classes\.DifferenceResult3D') class using the specified [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')\.
+
+```csharp
+public DifferenceResult3D(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D.DifferenceResult3D(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject') used to initialize the instance\.
+### Properties
+
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D.BooleanOpertaionType'></a>
+
+## DifferenceResult3D\.BooleanOpertaionType Property
+
+Gets the type of the boolean operation, which is [Difference](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType.Difference 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType\.Difference')\.
+
+```csharp
+public override DiGi.Geometry.Core.Enums.BooleanOpertaionType BooleanOpertaionType { get; }
+```
+
+Implements [BooleanOpertaionType](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D.BooleanOpertaionType 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D\.BooleanOpertaionType')
+
+#### Property Value
+[BooleanOpertaionType](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType')
+### Methods
+
+<a name='DiGi.Geometry.Spatial.Classes.DifferenceResult3D.Clone()'></a>
+
+## DifferenceResult3D\.Clone\(\) Method
+
+Creates a copy of the current [DifferenceResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.DifferenceResult3D 'DiGi\.Geometry\.Spatial\.Classes\.DifferenceResult3D') instance\.
+
+```csharp
+public override DiGi.Core.Interfaces.ISerializableObject? Clone();
+```
+
+Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1.clone 'DiGi\.Core\.Interfaces\.ICloneableObject\`1\.Clone')
+
+#### Returns
+[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
+A new [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject') instance that is a clone of the current object\.
+
 <a name='DiGi.Geometry.Spatial.Classes.Ellipse3D'></a>
 
 ## Ellipse3D Class
@@ -2606,6 +2749,22 @@ public IntersectionResult3D(System.Text.Json.Nodes.JsonObject? jsonObject);
 `jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
 
 The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject') used to initialize the instance\.
+### Properties
+
+<a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.BooleanOpertaionType'></a>
+
+## IntersectionResult3D\.BooleanOpertaionType Property
+
+Gets the type of the boolean operation, which is [Intersection](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType.Intersection 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType\.Intersection')\.
+
+```csharp
+public override DiGi.Geometry.Core.Enums.BooleanOpertaionType BooleanOpertaionType { get; }
+```
+
+Implements [BooleanOpertaionType](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D.BooleanOpertaionType 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D\.BooleanOpertaionType')
+
+#### Property Value
+[BooleanOpertaionType](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType')
 ### Methods
 
 <a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.Clone()'></a>
@@ -10467,6 +10626,132 @@ Implements [Triangulate\(double\)](https://learn.microsoft.com/en-us/dotnet/api/
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Triangle3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Triangle3D 'DiGi\.Geometry\.Spatial\.Classes\.Triangle3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the generated triangles, or `null` if the object cannot be triangulated\.
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D'></a>
+
+## UnionResult3D Class
+
+Represents the result of a 3D union operation\.
+
+```csharp
+public class UnionResult3D : DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D, DiGi.Geometry.Spatial.Interfaces.IUnionResult3D, DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → [BooleanOperationResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D') → UnionResult3D
+
+Implements [IUnionResult3D](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IUnionResult3D 'DiGi\.Geometry\.Spatial\.Interfaces\.IUnionResult3D'), [IBooleanOperationResult3D](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+### Constructors
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D.UnionResult3D()'></a>
+
+## UnionResult3D\(\) Constructor
+
+Initializes a new instance of the [UnionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.UnionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.UnionResult3D') class\.
+
+```csharp
+public UnionResult3D();
+```
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D.UnionResult3D(DiGi.Geometry.Spatial.Classes.UnionResult3D)'></a>
+
+## UnionResult3D\(UnionResult3D\) Constructor
+
+Initializes a new instance of the [UnionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.UnionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.UnionResult3D') class using another [UnionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.UnionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.UnionResult3D') instance\.
+
+```csharp
+public UnionResult3D(DiGi.Geometry.Spatial.Classes.UnionResult3D? unionResult3D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D.UnionResult3D(DiGi.Geometry.Spatial.Classes.UnionResult3D).unionResult3D'></a>
+
+`unionResult3D` [UnionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.UnionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.UnionResult3D')
+
+The [UnionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.UnionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.UnionResult3D') instance to copy from\.
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D.UnionResult3D(DiGi.Geometry.Spatial.Interfaces.IGeometry3D)'></a>
+
+## UnionResult3D\(IGeometry3D\) Constructor
+
+Initializes a new instance of the [UnionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.UnionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.UnionResult3D') class with the specified [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D')\.
+
+```csharp
+public UnionResult3D(DiGi.Geometry.Spatial.Interfaces.IGeometry3D? geometry3D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D.UnionResult3D(DiGi.Geometry.Spatial.Interfaces.IGeometry3D).geometry3D'></a>
+
+`geometry3D` [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D')
+
+The [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D') to initialize the result with\. This value can be null\.
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D.UnionResult3D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Spatial.Interfaces.IGeometry3D_)'></a>
+
+## UnionResult3D\(IEnumerable\<IGeometry3D\>\) Constructor
+
+Initializes a new instance of the [UnionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.UnionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.UnionResult3D') class\.
+
+```csharp
+public UnionResult3D(System.Collections.Generic.IEnumerable<DiGi.Geometry.Spatial.Interfaces.IGeometry3D>? geometry3Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D.UnionResult3D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Spatial.Interfaces.IGeometry3D_).geometry3Ds'></a>
+
+`geometry3Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+An optional collection of [DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D') objects to be cloned and stored in the result\.
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D.UnionResult3D(System.Text.Json.Nodes.JsonObject)'></a>
+
+## UnionResult3D\(JsonObject\) Constructor
+
+Initializes a new instance of the [UnionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.UnionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.UnionResult3D') class using the specified [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')\.
+
+```csharp
+public UnionResult3D(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D.UnionResult3D(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject') used to initialize the instance\.
+### Properties
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D.BooleanOpertaionType'></a>
+
+## UnionResult3D\.BooleanOpertaionType Property
+
+Gets the type of the boolean operation, which is [Union](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType.Union 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType\.Union')\.
+
+```csharp
+public override DiGi.Geometry.Core.Enums.BooleanOpertaionType BooleanOpertaionType { get; }
+```
+
+Implements [BooleanOpertaionType](DiGi.Geometry.Spatial.Interfaces.md#DiGi.Geometry.Spatial.Interfaces.IBooleanOperationResult3D.BooleanOpertaionType 'DiGi\.Geometry\.Spatial\.Interfaces\.IBooleanOperationResult3D\.BooleanOpertaionType')
+
+#### Property Value
+[BooleanOpertaionType](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType')
+### Methods
+
+<a name='DiGi.Geometry.Spatial.Classes.UnionResult3D.Clone()'></a>
+
+## UnionResult3D\.Clone\(\) Method
+
+Creates a copy of the current [UnionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.UnionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.UnionResult3D') instance\.
+
+```csharp
+public override DiGi.Core.Interfaces.ISerializableObject? Clone();
+```
+
+Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1.clone 'DiGi\.Core\.Interfaces\.ICloneableObject\`1\.Clone')
+
+#### Returns
+[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
+A new [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject') instance that is a clone of the current object\.
 
 <a name='DiGi.Geometry.Spatial.Classes.Vector3D'></a>
 

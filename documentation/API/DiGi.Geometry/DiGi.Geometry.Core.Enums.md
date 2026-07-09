@@ -33,6 +33,35 @@ Represents horizontal alignment\.
 
 Specifies vertical alignment\.
 
+<a name='DiGi.Geometry.Core.Enums.BooleanOpertaionType'></a>
+
+## BooleanOpertaionType Enum
+
+Specifies the type of 3D boolean operation\.
+
+```csharp
+public enum BooleanOpertaionType
+```
+### Fields
+
+<a name='DiGi.Geometry.Core.Enums.BooleanOpertaionType.Intersection'></a>
+
+`Intersection` 0
+
+Represents an intersection operation\.
+
+<a name='DiGi.Geometry.Core.Enums.BooleanOpertaionType.Union'></a>
+
+`Union` 1
+
+Represents a union operation\.
+
+<a name='DiGi.Geometry.Core.Enums.BooleanOpertaionType.Difference'></a>
+
+`Difference` 2
+
+Represents a difference operation\.
+
 <a name='DiGi.Geometry.Core.Enums.Corner'></a>
 
 ## Corner Enum
