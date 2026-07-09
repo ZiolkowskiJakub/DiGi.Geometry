@@ -6875,6 +6875,75 @@ Implements [Update\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.i
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether any of the values were successfully updated\.
 
+<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver'></a>
+
+## PolyhedronPointRelationSolver Class
+
+Classifies points against a closed polyhedron boundary as [Inside](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.Inside 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.Inside'),
+[On](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.On 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.On') or [Outside](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.Outside 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.Outside') using a prebuilt
+Bounding Volume Hierarchy \(BVH\) for accelerated parity ray\-casting queries\.
+
+The solver is built once per polyhedron and reused for many point queries during constructive solid
+geometry (CSG) boolean operations. A single query answers Inside, On and Outside at once, avoiding the
+repeated face extraction, face cloning and bounding box recomputation that the general purpose
+[Inside\(Point3D, double\)](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.Inside(DiGi.Geometry.Spatial.Classes.Point3D,double) 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>\.Inside\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, double\)') and [On\(Point3D, double\)](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.On(DiGi.Geometry.Spatial.Classes.Point3D,double) 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>\.On\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, double\)')
+methods incur on every call.
+
+Not thread-safe: instances keep an internal scratch buffer and are intended for single-threaded use
+within one boolean operation.
+
+```csharp
+internal class PolyhedronPointRelationSolver
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → PolyhedronPointRelationSolver
+### Constructors
+
+<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver.PolyhedronPointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double)'></a>
+
+## PolyhedronPointRelationSolver\(BVHNode\<IPolygonalFace3D\>, double\) Constructor
+
+Initializes a new instance of the [PolyhedronPointRelationSolver](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver 'DiGi\.Geometry\.Spatial\.Classes\.PolyhedronPointRelationSolver') class\.
+
+```csharp
+internal PolyhedronPointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> bVHNode, double tolerance);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver.PolyhedronPointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double).bVHNode'></a>
+
+`bVHNode` [DiGi\.Geometry\.Spatial\.Classes\.BVHNode&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')
+
+The prebuilt Bounding Volume Hierarchy \(BVH\) of the polyhedron faces\. Its root box defines the query bounds\.
+
+<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver.PolyhedronPointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance used for On\-boundary classification and crossing tests\.
+### Methods
+
+<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver.GetPointRelation(DiGi.Geometry.Spatial.Classes.Point3D)'></a>
+
+## PolyhedronPointRelationSolver\.GetPointRelation\(Point3D\) Method
+
+Gets the spatial relation of the specified point to the polyhedron boundary\.
+
+```csharp
+internal DiGi.Geometry.Core.Enums.PointRelation GetPointRelation(DiGi.Geometry.Spatial.Classes.Point3D? point3D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver.GetPointRelation(DiGi.Geometry.Spatial.Classes.Point3D).point3D'></a>
+
+`point3D` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+The [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') to classify\.
+
+#### Returns
+[PointRelation](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation 'DiGi\.Geometry\.Core\.Enums\.PointRelation')  
+A [PointRelation](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation 'DiGi\.Geometry\.Core\.Enums\.PointRelation') value describing the relation of the point to the volume\.
+
 <a name='DiGi.Geometry.Spatial.Classes.Polyline3D'></a>
 
 ## Polyline3D Class

@@ -88,6 +88,127 @@ public static class Create
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → Create
 ### Methods
 
+<a name='DiGi.Geometry.Spatial.Create.AddBooleanOperationCandidates(System.Collections.Generic.List_DiGi.Geometry.Spatial.Create.BooleanOperationCandidate_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,bool,double)'></a>
+
+## Create\.AddBooleanOperationCandidates\(List\<BooleanOperationCandidate\>, List\<IPolygonalFace3D\>, BVHNode, bool, double\) Method
+
+Splits every face of [polygonalFace3Ds](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.AddBooleanOperationCandidates(System.Collections.Generic.List_DiGi.Geometry.Spatial.Create.BooleanOperationCandidate_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,bool,double).polygonalFace3Ds 'DiGi\.Geometry\.Spatial\.Create\.AddBooleanOperationCandidates\(System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Create\.BooleanOperationCandidate\>, System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BVHNode, bool, double\)\.polygonalFace3Ds') by the faces of the other polyhedron that
+overlap it \(culled through [bVHNode](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.AddBooleanOperationCandidates(System.Collections.Generic.List_DiGi.Geometry.Spatial.Create.BooleanOperationCandidate_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,bool,double).bVHNode 'DiGi\.Geometry\.Spatial\.Create\.AddBooleanOperationCandidates\(System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Create\.BooleanOperationCandidate\>, System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BVHNode, bool, double\)\.bVHNode')\) and appends the resulting fragments \(or the
+unsplit face\) to [booleanOperationCandidates](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.AddBooleanOperationCandidates(System.Collections.Generic.List_DiGi.Geometry.Spatial.Create.BooleanOperationCandidate_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,bool,double).booleanOperationCandidates 'DiGi\.Geometry\.Spatial\.Create\.AddBooleanOperationCandidates\(System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Create\.BooleanOperationCandidate\>, System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BVHNode, bool, double\)\.booleanOperationCandidates')\.
+
+```csharp
+private static void AddBooleanOperationCandidates(System.Collections.Generic.List<DiGi.Geometry.Spatial.Create.BooleanOperationCandidate> booleanOperationCandidates, System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> polygonalFace3Ds, DiGi.Geometry.Spatial.Classes.BVHNode bVHNode, bool fromFirst, double tolerance);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.AddBooleanOperationCandidates(System.Collections.Generic.List_DiGi.Geometry.Spatial.Create.BooleanOperationCandidate_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,bool,double).booleanOperationCandidates'></a>
+
+`booleanOperationCandidates` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[BooleanOperationCandidate](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.BooleanOperationCandidate 'DiGi\.Geometry\.Spatial\.Create\.BooleanOperationCandidate')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+<a name='DiGi.Geometry.Spatial.Create.AddBooleanOperationCandidates(System.Collections.Generic.List_DiGi.Geometry.Spatial.Create.BooleanOperationCandidate_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,bool,double).polygonalFace3Ds'></a>
+
+`polygonalFace3Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+<a name='DiGi.Geometry.Spatial.Create.AddBooleanOperationCandidates(System.Collections.Generic.List_DiGi.Geometry.Spatial.Create.BooleanOperationCandidate_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,bool,double).bVHNode'></a>
+
+`bVHNode` [BVHNode](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode')
+
+<a name='DiGi.Geometry.Spatial.Create.AddBooleanOperationCandidates(System.Collections.Generic.List_DiGi.Geometry.Spatial.Create.BooleanOperationCandidate_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,bool,double).fromFirst'></a>
+
+`fromFirst` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+<a name='DiGi.Geometry.Spatial.Create.AddBooleanOperationCandidates(System.Collections.Generic.List_DiGi.Geometry.Spatial.Create.BooleanOperationCandidate_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,bool,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationGeometry3Ds(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_)'></a>
+
+## Create\.BooleanOperationGeometry3Ds\(List\<IPolygonalFace3D\>\) Method
+
+Assembles the final boolean operation geometry from the deduplicated boundary faces: a single solid
+[Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron') when the faces form a valid closed volume, the individual faces as a
+fallback for non\-solid remnants, or null when no geometry remains\.
+
+```csharp
+private static System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IGeometry3D>? BooleanOperationGeometry3Ds(System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> polygonalFace3Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationGeometry3Ds(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_).polygonalFace3Ds'></a>
+
+`polygonalFace3Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.igeometry3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationPolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,double)'></a>
+
+## Create\.BooleanOperationPolygonalFace3Ds\<TPolygonalFace3D\>\(BooleanOpertaionType, Polyhedron\<TPolygonalFace3D\>, Polyhedron\<TPolygonalFace3D\>, List\<IPolygonalFace3D\>, List\<IPolygonalFace3D\>, BVHNode, double\) Method
+
+Shared core of the 3D boolean operations \(Union, Intersection, Difference\): splits the faces of each
+polyhedron by the overlapping faces of the other, classifies every resulting fragment against the other
+volume with a single BVH\-accelerated point\-relation query, and deduplicates coplanar overlapping
+fragments via a spatial hash\.
+
+```csharp
+internal static System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> BooleanOperationPolygonalFace3Ds<TPolygonalFace3D>(DiGi.Geometry.Core.Enums.BooleanOpertaionType booleanOpertaionType, DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D> polyhedron_1, DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D> polyhedron_2, System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> polygonalFace3Ds_1, System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> polygonalFace3Ds_2, out DiGi.Geometry.Spatial.Classes.BVHNode bVHNode_2, double tolerance)
+    where TPolygonalFace3D : DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D;
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationPolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,double).TPolygonalFace3D'></a>
+
+`TPolygonalFace3D`
+
+The type of polygonal face, which must implement [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')\.
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationPolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,double).booleanOpertaionType'></a>
+
+`booleanOpertaionType` [BooleanOpertaionType](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType')
+
+The boolean operation deciding which fragments are kept\.
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationPolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,double).polyhedron_1'></a>
+
+`polyhedron_1` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.BooleanOperationPolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Create\.BooleanOperationPolygonalFace3Ds\<TPolygonalFace3D\>\(DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BVHNode, double\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+The first polyhedron \(used only for the rare exact outward\-normal fallback\)\.
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationPolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,double).polyhedron_2'></a>
+
+`polyhedron_2` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.BooleanOperationPolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Create\.BooleanOperationPolygonalFace3Ds\<TPolygonalFace3D\>\(DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BVHNode, double\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+The second polyhedron \(used only for the rare exact outward\-normal fallback\)\.
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationPolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,double).polygonalFace3Ds_1'></a>
+
+`polygonalFace3Ds_1` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The faces of the first polyhedron \(non\-empty\)\.
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationPolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,double).polygonalFace3Ds_2'></a>
+
+`polygonalFace3Ds_2` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The faces of the second polyhedron \(non\-empty\)\.
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationPolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,double).bVHNode_2'></a>
+
+`bVHNode_2` [BVHNode](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode')
+
+The Bounding Volume Hierarchy \(BVH\) built for the second polyhedron, reusable by the caller\.
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationPolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance for the boolean computations\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+The deduplicated boundary faces of the result volume \(never null; possibly empty\)\. Difference results have the retained second\-polyhedron fragments inverted\.
+
 <a name='DiGi.Geometry.Spatial.Create.BooleanOperationResult3D_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double)'></a>
 
 ## Create\.BooleanOperationResult3D\<TPolygonalFace3D\>\(this BooleanOpertaionType, Polyhedron\<TPolygonalFace3D\>, Polyhedron\<TPolygonalFace3D\>, double\) Method
@@ -255,11 +376,11 @@ A [DifferenceResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Cl
 
 The boundary of the difference polyhedron `A \ B` is composed of:
 - Faces of A that lie outside the volume of B.
-- Faces of B that lie inside the volume of A, with their orientations inverted (normals flipped) 
+- Faces of B that lie inside the volume of A, with their orientations inverted (normals flipped)
               to face outward from the resulting solid difference volume.
 
 If the remaining boundary pieces do not form a closed solid volume (less than 4 faces, or non-closed shell),
-the method falls back to returning the individual [PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D') elements representing the 
+the method falls back to returning the individual [PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D') elements representing the
 remaining boundary surfaces.
 
 <a name='DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double)'></a>
@@ -306,6 +427,61 @@ A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'S
 #### Returns
 [Ellipsoid](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Ellipsoid 'DiGi\.Geometry\.Spatial\.Classes\.Ellipsoid')  
 An [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double) 'DiGi\.Geometry\.Spatial\.Create\.Ellipsoid\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.Point3D, double, double, double\)') object if the parameters are valid and a valid ellipsoid can be constructed; otherwise, null\.
+
+<a name='DiGi.Geometry.Spatial.Create.InteriorSideInsideOther_TPolygonalFace3D_(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double)'></a>
+
+## Create\.InteriorSideInsideOther\<TPolygonalFace3D\>\(BooleanOperationCandidate, Point3D, PolyhedronPointRelationSolver, PolyhedronPointRelationSolver, Polyhedron\<TPolygonalFace3D\>, Polyhedron\<TPolygonalFace3D\>, double\) Method
+
+For a candidate fragment lying on the other volume's boundary, determines whether the parent\-volume
+interior side of the \(coplanar\) boundary lies inside the other volume\.
+
+The probe is evaluated on both sides of the face plane, so the sign of the face normal is irrelevant -
+this avoids the expensive outward-normal orientation ray cast of
+[GetNormal\(int, bool, Nullable&lt;Side&gt;, double\)](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.GetNormal(int,bool,System.Nullable_DiGi.Geometry.Core.Enums.Side_,double) 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>\.GetNormal\(int, bool, System\.Nullable\<DiGi\.Geometry\.Core\.Enums\.Side\>, double\)') in the common case.
+The exact outward normal is only computed as a rare fallback (very thin parent volume or a probe near
+a parent edge).
+
+```csharp
+private static bool InteriorSideInsideOther<TPolygonalFace3D>(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate booleanOperationCandidate, DiGi.Geometry.Spatial.Classes.Point3D point3D, DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver polyhedronPointRelationSolver_Parent, DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver polyhedronPointRelationSolver_Other, DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D> polyhedron_1, DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D> polyhedron_2, double tolerance)
+    where TPolygonalFace3D : DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D;
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Spatial.Create.InteriorSideInsideOther_TPolygonalFace3D_(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).TPolygonalFace3D'></a>
+
+`TPolygonalFace3D`
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.InteriorSideInsideOther_TPolygonalFace3D_(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).booleanOperationCandidate'></a>
+
+`booleanOperationCandidate` [BooleanOperationCandidate](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.BooleanOperationCandidate 'DiGi\.Geometry\.Spatial\.Create\.BooleanOperationCandidate')
+
+<a name='DiGi.Geometry.Spatial.Create.InteriorSideInsideOther_TPolygonalFace3D_(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).point3D'></a>
+
+`point3D` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+<a name='DiGi.Geometry.Spatial.Create.InteriorSideInsideOther_TPolygonalFace3D_(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).polyhedronPointRelationSolver_Parent'></a>
+
+`polyhedronPointRelationSolver_Parent` [PolyhedronPointRelationSolver](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver 'DiGi\.Geometry\.Spatial\.Classes\.PolyhedronPointRelationSolver')
+
+<a name='DiGi.Geometry.Spatial.Create.InteriorSideInsideOther_TPolygonalFace3D_(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).polyhedronPointRelationSolver_Other'></a>
+
+`polyhedronPointRelationSolver_Other` [PolyhedronPointRelationSolver](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver 'DiGi\.Geometry\.Spatial\.Classes\.PolyhedronPointRelationSolver')
+
+<a name='DiGi.Geometry.Spatial.Create.InteriorSideInsideOther_TPolygonalFace3D_(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).polyhedron_1'></a>
+
+`polyhedron_1` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.InteriorSideInsideOther_TPolygonalFace3D_(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Create\.InteriorSideInsideOther\<TPolygonalFace3D\>\(DiGi\.Geometry\.Spatial\.Create\.BooleanOperationCandidate, DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.PolyhedronPointRelationSolver, DiGi\.Geometry\.Spatial\.Classes\.PolyhedronPointRelationSolver, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, double\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+<a name='DiGi.Geometry.Spatial.Create.InteriorSideInsideOther_TPolygonalFace3D_(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).polyhedron_2'></a>
+
+`polyhedron_2` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.InteriorSideInsideOther_TPolygonalFace3D_(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Create\.InteriorSideInsideOther\<TPolygonalFace3D\>\(DiGi\.Geometry\.Spatial\.Create\.BooleanOperationCandidate, DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.PolyhedronPointRelationSolver, DiGi\.Geometry\.Spatial\.Classes\.PolyhedronPointRelationSolver, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, double\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+<a name='DiGi.Geometry.Spatial.Create.InteriorSideInsideOther_TPolygonalFace3D_(DiGi.Geometry.Spatial.Create.BooleanOperationCandidate,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
 
 <a name='DiGi.Geometry.Spatial.Create.IntersectionResult3D(thisDiGi.Geometry.Spatial.Classes.BoundingBox3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Vector3D,double)'></a>
 
@@ -515,7 +691,7 @@ The [Polyhedron&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.G
 
 `linear3D` [DiGi\.Geometry\.Spatial\.Interfaces\.ILinear3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ilinear3d 'DiGi\.Geometry\.Spatial\.Interfaces\.ILinear3D')
 
-The [DiGi\.Geometry\.Spatial\.Interfaces\.ILinear3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ilinear3d 'DiGi\.Geometry\.Spatial\.Interfaces\.ILinear3D') object to intersect with the polyhedron\.
+The [DiGi\.Geometry\.Spatial\.Interfaces\.ILinear3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ilinear3d 'DiGi\.Geometry\.Spatial\.Interfaces\.ILinear3D') object to intersect with the polyhedron\. Supported implementations are [Line3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Line3D 'DiGi\.Geometry\.Spatial\.Classes\.Line3D'), [Ray3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Ray3D 'DiGi\.Geometry\.Spatial\.Classes\.Ray3D') and [Segment3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Segment3D 'DiGi\.Geometry\.Spatial\.Classes\.Segment3D')\.
 
 <a name='DiGi.Geometry.Spatial.Create.IntersectionResult3D_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Interfaces.ILinear3D,double).tolerance'></a>
 
@@ -525,7 +701,7 @@ A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'S
 
 #### Returns
 [IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D')  
-An [IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D') containing the intersection details, or `null` if either input is null or the bounding box cannot be determined\.
+An [IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D') containing the intersection details, or `null` if either input is null, the linear type is not supported or the bounding box cannot be determined\.
 
 <a name='DiGi.Geometry.Spatial.Create.Matrix(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Spatial.Classes.Point3D_)'></a>
 
@@ -1857,6 +2033,35 @@ The [Planar&lt;T&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Cla
 [PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D')  
 A [PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D') if the conversion is successful; otherwise, null\.
 
+<a name='DiGi.Geometry.Spatial.Create.PolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_)'></a>
+
+## Create\.PolygonalFace3Ds\<TPolygonalFace3D\>\(Polyhedron\<TPolygonalFace3D\>\) Method
+
+Extracts the faces of the given polyhedron without cloning them\.
+
+```csharp
+private static System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> PolygonalFace3Ds<TPolygonalFace3D>(DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D> polyhedron)
+    where TPolygonalFace3D : DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D;
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Spatial.Create.PolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_).TPolygonalFace3D'></a>
+
+`TPolygonalFace3D`
+
+The type of polygonal face, which must implement [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')\.
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.PolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_).polyhedron'></a>
+
+`polyhedron` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.PolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Create\.PolygonalFace3Ds\<TPolygonalFace3D\>\(DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+The source polyhedron\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A list of the polyhedron faces \(never null; possibly empty\)\.
+
 <a name='DiGi.Geometry.Spatial.Create.Polyhedron(thisDiGi.Geometry.Spatial.Classes.BoundingBox3D)'></a>
 
 ## Create\.Polyhedron\(this BoundingBox3D\) Method
@@ -2447,8 +2652,32 @@ The boundary of the union polyhedron `A U B` is composed of:
 - Faces of B that lie outside the volume of A.
 
 If the remaining boundary pieces do not form a closed solid volume (less than 4 faces, or non-closed shell),
-the method falls back to returning the individual [PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D') elements representing the 
+the method falls back to returning the individual [PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D') elements representing the
 remaining boundary surfaces.
+
+<a name='DiGi.Geometry.Spatial.Create.UniquePolygonalFace3Ds(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double)'></a>
+
+## Create\.UniquePolygonalFace3Ds\(List\<IPolygonalFace3D\>, double\) Method
+
+Deduplicates coplanar faces with coincident centroids using a spatial hash on the centroid coordinates,
+replacing the quadratic all\-pairs comparison with an expected linear\-time pass\. Centroids are computed
+once per face instead of once per comparison\.
+
+```csharp
+private static System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> UniquePolygonalFace3Ds(System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> polygonalFace3Ds, double tolerance);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.UniquePolygonalFace3Ds(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double).polygonalFace3Ds'></a>
+
+`polygonalFace3Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+<a name='DiGi.Geometry.Spatial.Create.UniquePolygonalFace3Ds(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
 
 <a name='DiGi.Geometry.Spatial.Create.Vector3D(DiGi.Geometry.Spatial.Classes.Vector3D,bool)'></a>
 
@@ -6624,3 +6853,55 @@ The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the split was successful\.
+### Structs
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationCandidate'></a>
+
+## Create\.BooleanOperationCandidate Struct
+
+Candidate boundary fragment produced by the face\-splitting stage of a 3D boolean operation\.
+Value type \- avoids the per\-candidate heap allocations a Tuple\-based candidate list would incur\.
+
+```csharp
+private readonly struct Create.BooleanOperationCandidate
+```
+### Fields
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationCandidate.FromFirst'></a>
+
+## Create\.BooleanOperationCandidate\.FromFirst Field
+
+True when the fragment originates from the first polyhedron; false for the second polyhedron\.
+
+```csharp
+public readonly bool FromFirst;
+```
+
+#### Field Value
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationCandidate.ParentIndex'></a>
+
+## Create\.BooleanOperationCandidate\.ParentIndex Field
+
+The index of the parent face in the source polyhedron the fragment originates from\.
+
+```csharp
+public readonly int ParentIndex;
+```
+
+#### Field Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Geometry.Spatial.Create.BooleanOperationCandidate.PolygonalFace3D'></a>
+
+## Create\.BooleanOperationCandidate\.PolygonalFace3D Field
+
+The candidate face fragment\.
+
+```csharp
+public readonly IPolygonalFace3D PolygonalFace3D;
+```
+
+#### Field Value
+[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')

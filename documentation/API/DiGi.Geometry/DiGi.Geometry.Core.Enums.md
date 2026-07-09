@@ -169,6 +169,41 @@ Specifies that the point connection method uses the ends\.
 
 Specifies that the connection between points is established using a projection method\.
 
+<a name='DiGi.Geometry.Core.Enums.PointRelation'></a>
+
+## PointRelation Enum
+
+Represents the spatial relation of a point to the boundary of a closed 3D volume\.
+
+```csharp
+public enum PointRelation
+```
+### Fields
+
+<a name='DiGi.Geometry.Core.Enums.PointRelation.Undefined'></a>
+
+`Undefined` 0
+
+The relation could not be determined\.
+
+<a name='DiGi.Geometry.Core.Enums.PointRelation.Outside'></a>
+
+`Outside` 1
+
+The point lies outside the volume\.
+
+<a name='DiGi.Geometry.Core.Enums.PointRelation.On'></a>
+
+`On` 2
+
+The point lies on the boundary surface \(within tolerance\)\.
+
+<a name='DiGi.Geometry.Core.Enums.PointRelation.Inside'></a>
+
+`Inside` 3
+
+The point lies strictly inside the volume\.
+
 <a name='DiGi.Geometry.Core.Enums.Side'></a>
 
 ## Side Enum

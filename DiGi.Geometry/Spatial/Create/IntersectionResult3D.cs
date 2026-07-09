@@ -1,10 +1,7 @@
-using DiGi.Geometry.Planar.Interfaces;
+using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
-using DiGi.Geometry.Core.Enums;
-using System;
 
 namespace DiGi.Geometry.Spatial
 {
@@ -15,9 +12,9 @@ namespace DiGi.Geometry.Spatial
         /// </summary>
         /// <typeparam name="TPolygonalFace3D">The type of polygonal face, which must implement <see cref="IPolygonalFace3D"/>.</typeparam>
         /// <param name="polyhedron">The <see cref="Polyhedron{TPolygonalFace3D}"/> to check for intersection.</param>
-        /// <param name="linear3D">The <see cref="ILinear3D"/> object to intersect with the polyhedron.</param>
+        /// <param name="linear3D">The <see cref="ILinear3D"/> object to intersect with the polyhedron. Supported implementations are <see cref="Line3D"/>, <see cref="Ray3D"/> and <see cref="Segment3D"/>.</param>
         /// <param name="tolerance">A <see cref="double"/> value representing the distance tolerance used for calculations.</param>
-        /// <returns>An <see cref="Classes.IntersectionResult3D"/> containing the intersection details, or <c>null</c> if either input is null or the bounding box cannot be determined.</returns>
+        /// <returns>An <see cref="Classes.IntersectionResult3D"/> containing the intersection details, or <c>null</c> if either input is null, the linear type is not supported or the bounding box cannot be determined.</returns>
         public static IntersectionResult3D? IntersectionResult3D<TPolygonalFace3D>(this Polyhedron<TPolygonalFace3D>? polyhedron, ILinear3D? linear3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
         {
             if (polyhedron == null || linear3D == null)
@@ -31,24 +28,17 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            bool inRange = false;
-            if (linear3D is Line3D line3D)
+            // Static typed dispatch - avoids the runtime binder cost and allocations of dynamic dispatch
+            Line3D? line3D = linear3D as Line3D;
+            Ray3D? ray3D = linear3D as Ray3D;
+            Segment3D? segment3D_Linear = linear3D as Segment3D;
+
+            if (line3D == null && ray3D == null && segment3D_Linear == null)
             {
-                inRange = boundingBox3D.InRange(line3D, tolerance);
-            }
-            else if (linear3D is Ray3D ray3D)
-            {
-                inRange = boundingBox3D.InRange(ray3D, tolerance);
-            }
-            else if (linear3D is Segment3D segment3D)
-            {
-                inRange = boundingBox3D.InRange(segment3D, tolerance);
-            }
-            else
-            {
-                inRange = boundingBox3D.InRange(linear3D as dynamic, tolerance);
+                return null;
             }
 
+            bool inRange = line3D != null ? boundingBox3D.InRange(line3D, tolerance) : ray3D != null ? boundingBox3D.InRange(ray3D, tolerance) : boundingBox3D.InRange(segment3D_Linear, tolerance);
             if (!inRange)
             {
                 return new IntersectionResult3D();
@@ -58,65 +48,58 @@ namespace DiGi.Geometry.Spatial
             List<Segment3D> segment3Ds = [];
             for (int i = 0; i < polyhedron.Count; i++)
             {
-                PlanarIntersectionResult? planarIntersectionResult = null;
-                if (linear3D is Line3D line3D_Temp)
+                // GetPolygonalFace3D returns the internal face without cloning - the indexer would clone every face
+                if (polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is not IPolygonalFace3D polygonalFace3D)
                 {
-                    planarIntersectionResult = PlanarIntersectionResult(polyhedron[i], line3D_Temp, tolerance);
-                }
-                else if (linear3D is Ray3D ray3D_Temp)
-                {
-                    planarIntersectionResult = PlanarIntersectionResult(polyhedron[i], ray3D_Temp, tolerance);
-                }
-                else if (linear3D is Segment3D segment3D_Temp)
-                {
-                    planarIntersectionResult = PlanarIntersectionResult(polyhedron[i], segment3D_Temp, tolerance);
-                }
-                else
-                {
-                    planarIntersectionResult = PlanarIntersectionResult(polyhedron[i], linear3D as dynamic, tolerance);
+                    continue;
                 }
 
+                PlanarIntersectionResult? planarIntersectionResult = line3D != null ? PlanarIntersectionResult(polygonalFace3D, line3D, tolerance) : ray3D != null ? PlanarIntersectionResult(polygonalFace3D, ray3D, tolerance) : PlanarIntersectionResult(polygonalFace3D, segment3D_Linear, tolerance);
                 if (planarIntersectionResult == null || !planarIntersectionResult.Any())
                 {
                     continue;
                 }
 
                 List<IGeometry3D>? iGeometry3Ds_Temp = planarIntersectionResult.GetGeometry3Ds<IGeometry3D>();
-                if (iGeometry3Ds_Temp != null)
+                if (iGeometry3Ds_Temp == null)
                 {
-                    foreach (IGeometry3D iGeometry3D in iGeometry3Ds_Temp)
+                    continue;
+                }
+
+                foreach (IGeometry3D iGeometry3D in iGeometry3Ds_Temp)
+                {
+                    if (iGeometry3D is Point3D point3D)
                     {
-                        if (iGeometry3D is Point3D point3D)
+                        bool similarExists = false;
+                        for (int j = 0; j < point3Ds.Count; j++)
                         {
-                            bool similarExists = false;
-                            for (int j = 0; j < point3Ds.Count; j++)
+                            if (point3D.Similar(point3Ds[j], tolerance))
                             {
-                                if (point3D.Similar(point3Ds[j], tolerance))
-                                {
-                                    similarExists = true;
-                                    break;
-                                }
-                            }
-                            if (!similarExists)
-                            {
-                                point3Ds.Add(point3D);
+                                similarExists = true;
+                                break;
                             }
                         }
-                        else if (iGeometry3D is Segment3D segment3D)
+
+                        if (!similarExists)
                         {
-                            bool similarExists = false;
-                            for (int j = 0; j < segment3Ds.Count; j++)
+                            point3Ds.Add(point3D);
+                        }
+                    }
+                    else if (iGeometry3D is Segment3D segment3D)
+                    {
+                        bool similarExists = false;
+                        for (int j = 0; j < segment3Ds.Count; j++)
+                        {
+                            if (segment3D.Similar(segment3Ds[j], tolerance))
                             {
-                                if (segment3D.Similar(segment3Ds[j], tolerance))
-                                {
-                                    similarExists = true;
-                                    break;
-                                }
+                                similarExists = true;
+                                break;
                             }
-                            if (!similarExists)
-                            {
-                                segment3Ds.Add(segment3D);
-                            }
+                        }
+
+                        if (!similarExists)
+                        {
+                            segment3Ds.Add(segment3D);
                         }
                     }
                 }
@@ -127,7 +110,7 @@ namespace DiGi.Geometry.Spatial
                 return new IntersectionResult3D();
             }
 
-            List<IGeometry3D> iGeometry3Ds = [];
+            List<IGeometry3D> iGeometry3Ds = new(point3Ds.Count + segment3Ds.Count);
             for (int i = 0; i < point3Ds.Count; i++)
             {
                 iGeometry3Ds.Add(point3Ds[i]);
@@ -164,304 +147,116 @@ namespace DiGi.Geometry.Spatial
                 return new IntersectionResult3D();
             }
 
-            // Retrieve and collect all faces of both polyhedra
-            List<IPolygonalFace3D> polygonalFace3Ds_1 = [];
-            for (int i = 0; i < polyhedron_1.Count; i++)
-            {
-                if (polyhedron_1.GetPolygonalFace3D<IPolygonalFace3D>(i) is IPolygonalFace3D face)
-                {
-                    polygonalFace3Ds_1.Add(face);
-                }
-            }
-
-            List<IPolygonalFace3D> polygonalFace3Ds_2 = [];
-            for (int i = 0; i < polyhedron_2.Count; i++)
-            {
-                if (polyhedron_2.GetPolygonalFace3D<IPolygonalFace3D>(i) is IPolygonalFace3D face)
-                {
-                    polygonalFace3Ds_2.Add(face);
-                }
-            }
+            List<IPolygonalFace3D> polygonalFace3Ds_1 = PolygonalFace3Ds(polyhedron_1);
+            List<IPolygonalFace3D> polygonalFace3Ds_2 = PolygonalFace3Ds(polyhedron_2);
 
             if (polygonalFace3Ds_1.Count == 0 || polygonalFace3Ds_2.Count == 0)
             {
                 return new IntersectionResult3D();
             }
 
-            // Cache outward normals of the original faces using ray-casting based solver
-            Vector3D[] vector3Ds_OutwardNormals_1 = new Vector3D[polygonalFace3Ds_1.Count];
+            List<IPolygonalFace3D> polygonalFace3Ds_Unique = BooleanOperationPolygonalFace3Ds(BooleanOpertaionType.Intersection, polyhedron_1, polyhedron_2, polygonalFace3Ds_1, polygonalFace3Ds_2, out BVHNode bVHNode_2, tolerance);
+
+            // Construct 3D intersection volume if valid (requires >= 4 faces for a solid closed polyhedron)
+            if (polygonalFace3Ds_Unique.Count >= 4 && Polyhedron(polygonalFace3Ds_Unique) is Polyhedron polyhedron)
+            {
+                return new IntersectionResult3D((IGeometry3D)polyhedron);
+            }
+
+            // If empty or lower-dimensional boundary touch, collect intersection elements (polygons, segments, points),
+            // reusing the BVH built for polyhedron 2 to cull non-overlapping face pairs
+            List<IGeometry3D> geometry3Ds_Lower = [];
+            List<IPolygonalFace3D> polygonalFace3Ds_Overlapping = [];
             for (int i = 0; i < polygonalFace3Ds_1.Count; i++)
             {
-                vector3Ds_OutwardNormals_1[i] = polyhedron_1.GetNormal(i, out bool _, Side.External, tolerance) ?? polygonalFace3Ds_1[i].Plane?.Normal ?? new Vector3D(0, 0, 1);
-            }
+                IPolygonalFace3D polygonalFace3D_1 = polygonalFace3Ds_1[i];
 
-            Vector3D[] vector3Ds_OutwardNormals_2 = new Vector3D[polygonalFace3Ds_2.Count];
-            for (int i = 0; i < polygonalFace3Ds_2.Count; i++)
-            {
-                vector3Ds_OutwardNormals_2[i] = polyhedron_2.GetNormal(i, out bool _, Side.External, tolerance) ?? polygonalFace3Ds_2[i].Plane?.Normal ?? new Vector3D(0, 0, 1);
-            }
-
-            // Build Bounding Volume Hierarchy (BVH) trees for spatial culling
-            BVHNode bvhNode_1 = new(polygonalFace3Ds_1);
-            BVHNode bvhNode_2 = new(polygonalFace3Ds_2);
-
-
-
-            // Candidates list: Tuple<face, parentFaceIndex, parentPolyhedronIndex>
-            List<Tuple<IPolygonalFace3D, int, int>> tuples_Candidates = [];
-
-            // Split faces of polyhedron 1 using overlapping faces of polyhedron 2
-            for (int i = 0; i < polygonalFace3Ds_1.Count; i++)
-            {
-                IPolygonalFace3D face = polygonalFace3Ds_1[i];
-                BoundingBox3D? bbox = face.GetBoundingBox();
-                if (bbox == null)
+                BoundingBox3D? boundingBox3D = polygonalFace3D_1.GetBoundingBox();
+                if (boundingBox3D == null)
                 {
                     continue;
                 }
 
-                List<IPolygonalFace3D> list_Overlapping = [];
-                list_Overlapping.AddOverlappingFaces(bvhNode_2, bbox, tolerance);
+                polygonalFace3Ds_Overlapping.Clear();
+                polygonalFace3Ds_Overlapping.AddOverlappingFaces(bVHNode_2, boundingBox3D, tolerance);
 
-                if (list_Overlapping.Count == 0)
+                for (int j = 0; j < polygonalFace3Ds_Overlapping.Count; j++)
                 {
-                    tuples_Candidates.Add(new Tuple<IPolygonalFace3D, int, int>(face, i, 1));
-                }
-                else
-                {
-                    if (Query.TrySplit(face, list_Overlapping, out List<PolygonalFace3D>? splitResult, tolerance) && splitResult != null && splitResult.Count > 0)
-                    {
-                        foreach (PolygonalFace3D splitFace in splitResult)
-                        {
-                            tuples_Candidates.Add(new Tuple<IPolygonalFace3D, int, int>(splitFace, i, 1));
-                        }
-                    }
-                    else
-                    {
-                        tuples_Candidates.Add(new Tuple<IPolygonalFace3D, int, int>(face, i, 1));
-                    }
-                }
-            }
-
-            // Split faces of polyhedron 2 using overlapping faces of polyhedron 1
-            for (int i = 0; i < polygonalFace3Ds_2.Count; i++)
-            {
-                IPolygonalFace3D face = polygonalFace3Ds_2[i];
-                BoundingBox3D? bbox = face.GetBoundingBox();
-                if (bbox == null)
-                {
-                    continue;
-                }
-
-                List<IPolygonalFace3D> list_Overlapping = [];
-                list_Overlapping.AddOverlappingFaces(bvhNode_1, bbox, tolerance);
-
-                if (list_Overlapping.Count == 0)
-                {
-                    tuples_Candidates.Add(new Tuple<IPolygonalFace3D, int, int>(face, i, 2));
-                }
-                else
-                {
-                    if (Query.TrySplit(face, list_Overlapping, out List<PolygonalFace3D>? splitResult, tolerance) && splitResult != null && splitResult.Count > 0)
-                    {
-                        foreach (PolygonalFace3D splitFace in splitResult)
-                        {
-                            tuples_Candidates.Add(new Tuple<IPolygonalFace3D, int, int>(splitFace, i, 2));
-                        }
-                    }
-                    else
-                    {
-                        tuples_Candidates.Add(new Tuple<IPolygonalFace3D, int, int>(face, i, 2));
-                    }
-                }
-            }
-
-            // Classify split/unsplit candidate faces (keep if inside the other volume)
-            List<IPolygonalFace3D> list_KeptFaces = [];
-            double double_Epsilon = tolerance * 2.0;
-
-            foreach (Tuple<IPolygonalFace3D, int, int> candidate in tuples_Candidates)
-            {
-                IPolygonalFace3D face = candidate.Item1;
-                int parentIndex = candidate.Item2;
-                int parentPoly = candidate.Item3;
-
-                Point3D? point3D_Internal = face.GetInternalPoint(tolerance) ?? face.ExternalEdge?.GetCentroid();
-                if (point3D_Internal == null)
-                {
-                    continue;
-                }
-
-                bool keep = false;
-                if (parentPoly == 1)
-                {
-                    if (polyhedron_2.Inside(point3D_Internal, tolerance))
-                    {
-                        keep = true;
-                    }
-                    else if (polyhedron_2.On(point3D_Internal, tolerance))
-                    {
-                        // For coplanar boundaries, offset inward to classify overlap direction
-                        Vector3D normal = vector3Ds_OutwardNormals_1[parentIndex];
-                        Point3D? point3D_Inward = point3D_Internal - double_Epsilon * normal;
-                        if (point3D_Inward != null && polyhedron_2.Inside(point3D_Inward, tolerance))
-                        {
-                            keep = true;
-                        }
-                    }
-                }
-                else
-                {
-                    if (polyhedron_1.Inside(point3D_Internal, tolerance))
-                    {
-                        keep = true;
-                    }
-                    else if (polyhedron_1.On(point3D_Internal, tolerance))
-                    {
-                        // For coplanar boundaries, offset inward to classify overlap direction
-                        Vector3D normal = vector3Ds_OutwardNormals_2[parentIndex];
-                        Point3D? point3D_Inward = point3D_Internal - double_Epsilon * normal;
-                        if (point3D_Inward != null && polyhedron_1.Inside(point3D_Inward, tolerance))
-                        {
-                            keep = true;
-                        }
-                    }
-                }
-
-                if (keep)
-                {
-                    list_KeptFaces.Add(face);
-                }
-            }
-
-
-
-            // Deduplicate overlapping boundaries and coplanar regions
-            List<IPolygonalFace3D> list_UniqueFaces = [];
-            foreach (IPolygonalFace3D face in list_KeptFaces)
-            {
-                bool duplicate = false;
-                Point3D? centroid = face.ExternalEdge?.GetCentroid() ?? face.GetInternalPoint(tolerance);
-                if (centroid == null)
-                {
-                    continue;
-                }
-
-                foreach (IPolygonalFace3D existing in list_UniqueFaces)
-                {
-                    Point3D? existingCentroid = existing.ExternalEdge?.GetCentroid() ?? existing.GetInternalPoint(tolerance);
-                    if (existingCentroid != null && centroid.Similar(existingCentroid, tolerance))
-                    {
-                        if (face.Plane != null && existing.Plane != null && face.Plane.Coplanar(existing.Plane, tolerance))
-                        {
-                            duplicate = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!duplicate)
-                {
-                    list_UniqueFaces.Add(face);
-                }
-            }
-
-            // Construct 3D intersection volume if valid
-            if (list_UniqueFaces.Count >= 4)
-            {
-                Polyhedron? resultPoly = Create.Polyhedron(list_UniqueFaces);
-                if (resultPoly != null)
-                {
-                    return new IntersectionResult3D((IGeometry3D)resultPoly);
-                }
-            }
-
-            // If empty or lower-dimensional boundary touch, collect intersection elements (polygons, segments, points)
-            List<IGeometry3D> list_LowerGeometries = [];
-            for (int i = 0; i < polygonalFace3Ds_1.Count; i++)
-            {
-                IPolygonalFace3D f1 = polygonalFace3Ds_1[i];
-                BoundingBox3D? bbox1 = f1.GetBoundingBox();
-                if (bbox1 == null)
-                {
-                    continue;
-                }
-
-                List<IPolygonalFace3D> list_Overlapping = [];
-                list_Overlapping.AddOverlappingFaces(bvhNode_2, bbox1, tolerance);
-
-                foreach (IPolygonalFace3D f2 in list_Overlapping)
-                {
-                    PlanarIntersectionResult? faceIntersection = PlanarIntersectionResult(f1, f2, tolerance);
-                    if (faceIntersection == null || !faceIntersection.Any())
+                    PlanarIntersectionResult? planarIntersectionResult = PlanarIntersectionResult(polygonalFace3D_1, polygonalFace3Ds_Overlapping[j], tolerance);
+                    if (planarIntersectionResult == null || !planarIntersectionResult.Any())
                     {
                         continue;
                     }
 
-                    List<IGeometry3D>? geometries = faceIntersection.GetGeometry3Ds<IGeometry3D>();
-                    if (geometries != null)
+                    List<IGeometry3D>? geometry3Ds_Temp = planarIntersectionResult.GetGeometry3Ds<IGeometry3D>();
+                    if (geometry3Ds_Temp == null)
                     {
-                        foreach (IGeometry3D geom in geometries)
+                        continue;
+                    }
+
+                    foreach (IGeometry3D geometry3D in geometry3Ds_Temp)
+                    {
+                        if (geometry3D == null)
                         {
-                            if (geom == null)
-                            {
-                                continue;
-                            }
+                            continue;
+                        }
 
-                            bool exists = false;
-                            if (geom is Point3D pt)
+                        bool exists = false;
+                        if (geometry3D is Point3D point3D)
+                        {
+                            foreach (IGeometry3D geometry3D_Existing in geometry3Ds_Lower)
                             {
-                                foreach (IGeometry3D existing in list_LowerGeometries)
+                                if (geometry3D_Existing is Point3D point3D_Existing && point3D.Similar(point3D_Existing, tolerance))
                                 {
-                                    if (existing is Point3D existingPt && pt.Similar(existingPt, tolerance))
+                                    exists = true;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (geometry3D is Segment3D segment3D)
+                        {
+                            foreach (IGeometry3D geometry3D_Existing in geometry3Ds_Lower)
+                            {
+                                if (geometry3D_Existing is Segment3D segment3D_Existing && segment3D.Similar(segment3D_Existing, tolerance))
+                                {
+                                    exists = true;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (geometry3D is Polygon3D polygon3D)
+                        {
+                            Point3D? point3D_Centroid = polygon3D.GetCentroid();
+                            if (point3D_Centroid != null)
+                            {
+                                foreach (IGeometry3D geometry3D_Existing in geometry3Ds_Lower)
+                                {
+                                    if (geometry3D_Existing is not Polygon3D polygon3D_Existing)
+                                    {
+                                        continue;
+                                    }
+
+                                    Point3D? point3D_CentroidExisting = polygon3D_Existing.GetCentroid();
+                                    if (point3D_CentroidExisting != null && point3D_Centroid.Similar(point3D_CentroidExisting, tolerance) &&
+                                        polygon3D.Plane != null && polygon3D_Existing.Plane != null && polygon3D.Plane.Coplanar(polygon3D_Existing.Plane, tolerance))
                                     {
                                         exists = true;
                                         break;
                                     }
                                 }
                             }
-                            else if (geom is Segment3D seg)
-                            {
-                                foreach (IGeometry3D existing in list_LowerGeometries)
-                                {
-                                    if (existing is Segment3D existingSeg && seg.Similar(existingSeg, tolerance))
-                                    {
-                                        exists = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            else if (geom is Polygon3D poly)
-                            {
-                                foreach (IGeometry3D existing in list_LowerGeometries)
-                                {
-                                    if (existing is Polygon3D existingPoly)
-                                    {
-                                        Point3D? c1 = poly.GetCentroid();
-                                        Point3D? c2 = existingPoly.GetCentroid();
-                                        if (c1 != null && c2 != null && c1.Similar(c2, tolerance) &&
-                                            poly.Plane != null && existingPoly.Plane != null && poly.Plane.Coplanar(existingPoly.Plane, tolerance))
-                                        {
-                                            exists = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
+                        }
 
-                            if (!exists)
-                            {
-                                list_LowerGeometries.Add(geom);
-                            }
+                        if (!exists)
+                        {
+                            geometry3Ds_Lower.Add(geometry3D);
                         }
                     }
                 }
             }
 
-            return new IntersectionResult3D(list_LowerGeometries);
+            return new IntersectionResult3D(geometry3Ds_Lower);
         }
-
-
 
         /// <summary>
         /// Calculates the intersection between a <see cref="Classes.BoundingBox3D"/> and an <see cref="ILinear3D"/>.
