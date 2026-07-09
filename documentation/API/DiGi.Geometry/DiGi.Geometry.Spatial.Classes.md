@@ -644,6 +644,264 @@ The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the point is on the entity\.
 
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode'></a>
+
+## BVHNode Class
+
+Represents a concrete, non\-generic split\-axis Bounding Volume Hierarchy \(BVH\) node
+that stores [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D') elements\.
+
+```csharp
+public class BVHNode : DiGi.Geometry.Spatial.Classes.BVHNode<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D>
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → [DiGi\.Geometry\.Spatial\.Classes\.BVHNode&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>') → BVHNode
+### Constructors
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode.BVHNode(DiGi.Geometry.Spatial.Classes.BVHNode)'></a>
+
+## BVHNode\(BVHNode\) Constructor
+
+Initializes a new instance of the [BVHNode](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode') class by copying from another node\.
+
+```csharp
+public BVHNode(DiGi.Geometry.Spatial.Classes.BVHNode? other);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode.BVHNode(DiGi.Geometry.Spatial.Classes.BVHNode).other'></a>
+
+`other` [BVHNode](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode')
+
+The source node to copy from\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode.BVHNode(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_)'></a>
+
+## BVHNode\(List\<IPolygonalFace3D\>\) Constructor
+
+Initializes a new instance of the [BVHNode](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode') class by partitioning the input list of faces\.
+
+```csharp
+public BVHNode(System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D>? polygonalFace3Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode.BVHNode(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_).polygonalFace3Ds'></a>
+
+`polygonalFace3Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The list of polygonal faces to partition\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode.BVHNode(System.Text.Json.Nodes.JsonObject)'></a>
+
+## BVHNode\(JsonObject\) Constructor
+
+Initializes a new instance of the [BVHNode](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode') class using the specified [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')\.
+
+```csharp
+public BVHNode(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode.BVHNode(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The JSON object containing the data to deserialize\.
+### Methods
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode.Clone()'></a>
+
+## BVHNode\.Clone\(\) Method
+
+Deep copies the current BVH tree\.
+
+```csharp
+public override DiGi.Core.Interfaces.ISerializableObject? Clone();
+```
+
+Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1.clone 'DiGi\.Core\.Interfaces\.ICloneableObject\`1\.Clone')
+
+#### Returns
+[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
+A new [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject') that is a cloned copy of the current node\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode.CreateNode(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_)'></a>
+
+## BVHNode\.CreateNode\(List\<IPolygonalFace3D\>\) Method
+
+Creates a concrete child node of type [BVHNode](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode')\.
+
+```csharp
+protected override DiGi.Geometry.Spatial.Classes.BVHNode<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D>? CreateNode(System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> polygonalFace3Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode.CreateNode(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_).polygonalFace3Ds'></a>
+
+`polygonalFace3Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The list of polygonal faces to assign to the child node\.
+
+#### Returns
+[DiGi\.Geometry\.Spatial\.Classes\.BVHNode&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')  
+A concrete child instance of [BVHNode](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode')\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_'></a>
+
+## BVHNode\<TPolygonalFace3D\> Class
+
+Represents an abstract, generic split\-axis Bounding Volume Hierarchy \(BVH\) node 
+designed to accelerate constructive solid geometry \(CSG\) queries on 3D polyhedra\.
+This structure partitions 3D polygonal faces hierarchically for fast spatial overlap culling
+during boolean operations such as Intersection, Union, and Difference\.
+
+```csharp
+public abstract class BVHNode<TPolygonalFace3D> : DiGi.Core.Classes.SerializableObject
+    where TPolygonalFace3D : DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.TPolygonalFace3D'></a>
+
+`TPolygonalFace3D`
+
+The type of 3D polygonal face, implementing [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')\.
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → BVHNode\<TPolygonalFace3D\>
+
+Derived  
+↳ [BVHNode](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode')
+### Constructors
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.BVHNode(DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_)'></a>
+
+## BVHNode\(BVHNode\<TPolygonalFace3D\>\) Constructor
+
+Initializes a new instance of the [BVHNode&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>') class 
+by copying the properties from an existing node\.
+
+```csharp
+protected BVHNode(DiGi.Geometry.Spatial.Classes.BVHNode<TPolygonalFace3D>? other);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.BVHNode(DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_).other'></a>
+
+`other` [DiGi\.Geometry\.Spatial\.Classes\.BVHNode&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')
+
+The source node to copy values from\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.BVHNode(System.Collections.Generic.List_TPolygonalFace3D_)'></a>
+
+## BVHNode\(List\<TPolygonalFace3D\>\) Constructor
+
+Initializes a new instance of the [BVHNode&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>') class 
+by partitioning the input list of faces hierarchically\.
+
+```csharp
+protected BVHNode(System.Collections.Generic.List<TPolygonalFace3D>? polygonalFace3Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.BVHNode(System.Collections.Generic.List_TPolygonalFace3D_).polygonalFace3Ds'></a>
+
+`polygonalFace3Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[TPolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>\.TPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The list of polygonal faces to organize inside the spatial hierarchy\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.BVHNode(System.Text.Json.Nodes.JsonObject)'></a>
+
+## BVHNode\(JsonObject\) Constructor
+
+Initializes a new instance of the [BVHNode&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>') class using the specified [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')\.
+
+```csharp
+protected BVHNode(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.BVHNode(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The JSON object containing the data to initialize the node\.
+### Properties
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.Box'></a>
+
+## BVHNode\<TPolygonalFace3D\>\.Box Property
+
+Gets the bounding box that encompasses all geometry in this node and its children\.
+
+```csharp
+public DiGi.Geometry.Spatial.Classes.BoundingBox3D? Box { get; }
+```
+
+#### Property Value
+[BoundingBox3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BoundingBox3D 'DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D')
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.Faces'></a>
+
+## BVHNode\<TPolygonalFace3D\>\.Faces Property
+
+Gets the list of polygonal faces stored directly in this leaf node \(null or empty if this is an internal node\)\.
+
+```csharp
+public System.Collections.Generic.List<TPolygonalFace3D>? Faces { get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[TPolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>\.TPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.Left'></a>
+
+## BVHNode\<TPolygonalFace3D\>\.Left Property
+
+Gets the left child node in the spatial hierarchy\.
+
+```csharp
+public DiGi.Geometry.Spatial.Classes.BVHNode<TPolygonalFace3D>? Left { get; }
+```
+
+#### Property Value
+[DiGi\.Geometry\.Spatial\.Classes\.BVHNode&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.Right'></a>
+
+## BVHNode\<TPolygonalFace3D\>\.Right Property
+
+Gets the right child node in the spatial hierarchy\.
+
+```csharp
+public DiGi.Geometry.Spatial.Classes.BVHNode<TPolygonalFace3D>? Right { get; }
+```
+
+#### Property Value
+[DiGi\.Geometry\.Spatial\.Classes\.BVHNode&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')
+### Methods
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.CreateNode(System.Collections.Generic.List_TPolygonalFace3D_)'></a>
+
+## BVHNode\<TPolygonalFace3D\>\.CreateNode\(List\<TPolygonalFace3D\>\) Method
+
+Creates a child node of the concrete hierarchy type\.
+
+```csharp
+protected abstract DiGi.Geometry.Spatial.Classes.BVHNode<TPolygonalFace3D>? CreateNode(System.Collections.Generic.List<TPolygonalFace3D> polygonalFace3Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.CreateNode(System.Collections.Generic.List_TPolygonalFace3D_).polygonalFace3Ds'></a>
+
+`polygonalFace3Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[TPolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>\.TPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The list of polygonal faces to assign to the child node\.
+
+#### Returns
+[DiGi\.Geometry\.Spatial\.Classes\.BVHNode&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')  
+A concrete child instance of [BVHNode&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')\.
+
 <a name='DiGi.Geometry.Spatial.Classes.Coordinate3D'></a>
 
 ## Coordinate3D Class

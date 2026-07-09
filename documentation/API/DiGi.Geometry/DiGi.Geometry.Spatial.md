@@ -142,6 +142,68 @@ An [System\.Collections\.Generic\.IEnumerable&lt;&gt;](https://learn.microsoft.c
 [BoundingBox3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BoundingBox3D 'DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D')  
 A [BoundingBox3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BoundingBox3D 'DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D') representing the union of all input bounding boxes, or `null` if the collection is null or contains no valid bounding boxes\.
 
+<a name='DiGi.Geometry.Spatial.Create.BoundingBox3D(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_)'></a>
+
+## Create\.BoundingBox3D\(this IEnumerable\<IPolygonalFace3D\>\) Method
+
+Calculates a [BoundingBox3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BoundingBox3D 'DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D') that encompasses all provided polygonal faces\.
+
+```csharp
+public static DiGi.Geometry.Spatial.Classes.BoundingBox3D? BoundingBox3D(this System.Collections.Generic.IEnumerable<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D>? polygonalFace3Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.BoundingBox3D(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_).polygonalFace3Ds'></a>
+
+`polygonalFace3Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+An [System\.Collections\.Generic\.IEnumerable&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1') of faces to process\.
+
+#### Returns
+[BoundingBox3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BoundingBox3D 'DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D')  
+A [BoundingBox3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BoundingBox3D 'DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D') representing the bounding box, or `null` if the collection is null or contains no valid bounding boxes\.
+
+<a name='DiGi.Geometry.Spatial.Create.CalculateIntersection_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double)'></a>
+
+## Create\.CalculateIntersection\<TPolygonalFace3D\>\(this Polyhedron\<TPolygonalFace3D\>, Polyhedron\<TPolygonalFace3D\>, double\) Method
+
+Calculates the 3D boolean intersection between two polyhedra defined by TPolygonalFace3D faces\.
+
+```csharp
+public static DiGi.Geometry.Spatial.Classes.IntersectionResult3D? CalculateIntersection<TPolygonalFace3D>(this DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D>? polyhedron_1, DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D>? polyhedron_2, double tolerance=1E-06)
+    where TPolygonalFace3D : DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D;
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Spatial.Create.CalculateIntersection_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).TPolygonalFace3D'></a>
+
+`TPolygonalFace3D`
+
+The type of polygonal face, which must implement [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')\.
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.CalculateIntersection_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).polyhedron_1'></a>
+
+`polyhedron_1` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.CalculateIntersection_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Create\.CalculateIntersection\<TPolygonalFace3D\>\(this DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, double\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+The first polyhedron to intersect\.
+
+<a name='DiGi.Geometry.Spatial.Create.CalculateIntersection_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).polyhedron_2'></a>
+
+`polyhedron_2` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.CalculateIntersection_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Create\.CalculateIntersection\<TPolygonalFace3D\>\(this DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, double\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+The second polyhedron to intersect\.
+
+<a name='DiGi.Geometry.Spatial.Create.CalculateIntersection_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance for intersection computations\.
+
+#### Returns
+[IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D')  
+An [IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D') containing the intersection geometry, or null if either input is null\.
+
 <a name='DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double)'></a>
 
 ## Create\.Ellipsoid\(Point3D, Point3D, double, double, double\) Method
@@ -324,6 +386,47 @@ A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'S
 #### Returns
 [IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D')  
 An [IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D') containing the result of the intersection, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if either the sphere or segment is null\.
+
+<a name='DiGi.Geometry.Spatial.Create.IntersectionResult3D_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double)'></a>
+
+## Create\.IntersectionResult3D\<TPolygonalFace3D\>\(this Polyhedron\<TPolygonalFace3D\>, Polyhedron\<TPolygonalFace3D\>, double\) Method
+
+Calculates the intersection result between two [Polyhedron&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>') objects\.
+
+```csharp
+public static DiGi.Geometry.Spatial.Classes.IntersectionResult3D? IntersectionResult3D<TPolygonalFace3D>(this DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D>? polyhedron_1, DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D>? polyhedron_2, double tolerance=1E-06)
+    where TPolygonalFace3D : DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D;
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Spatial.Create.IntersectionResult3D_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).TPolygonalFace3D'></a>
+
+`TPolygonalFace3D`
+
+The type of polygonal face, which must implement [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')\.
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.IntersectionResult3D_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).polyhedron_1'></a>
+
+`polyhedron_1` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.IntersectionResult3D_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Create\.IntersectionResult3D\<TPolygonalFace3D\>\(this DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, double\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+The first [Polyhedron&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')\.
+
+<a name='DiGi.Geometry.Spatial.Create.IntersectionResult3D_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).polyhedron_2'></a>
+
+`polyhedron_2` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.IntersectionResult3D_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Create\.IntersectionResult3D\<TPolygonalFace3D\>\(this DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, double\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+The second [Polyhedron&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')\.
+
+<a name='DiGi.Geometry.Spatial.Create.IntersectionResult3D_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') representing the distance tolerance\.
+
+#### Returns
+[IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D')  
+An [IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D') containing the intersection, or `null` if either input is null\.
 
 <a name='DiGi.Geometry.Spatial.Create.IntersectionResult3D_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Interfaces.ILinear3D,double)'></a>
 
@@ -2964,6 +3067,48 @@ The double value representing the Y coordinate of the point\.
 `z` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
 
 The double value representing the Z coordinate of the point\.
+
+<a name='DiGi.Geometry.Spatial.Modify.AddOverlappingFaces(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BoundingBox3D,double)'></a>
+
+## Modify\.AddOverlappingFaces\(this List\<IPolygonalFace3D\>, BVHNode\<IPolygonalFace3D\>, BoundingBox3D, double\) Method
+
+Recursively traverses a Bounding Volume Hierarchy \(BVH\) tree starting at [bVHNode](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Modify.AddOverlappingFaces(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BoundingBox3D,double).bVHNode 'DiGi\.Geometry\.Spatial\.Modify\.AddOverlappingFaces\(this System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D, double\)\.bVHNode')
+and adds all [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D') elements that overlap with [boundingBox3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Modify.AddOverlappingFaces(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BoundingBox3D,double).boundingBox3D 'DiGi\.Geometry\.Spatial\.Modify\.AddOverlappingFaces\(this System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D, double\)\.boundingBox3D')
+\(within distance [tolerance](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Modify.AddOverlappingFaces(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BoundingBox3D,double).tolerance 'DiGi\.Geometry\.Spatial\.Modify\.AddOverlappingFaces\(this System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D, double\)\.tolerance')\) into the [result](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Modify.AddOverlappingFaces(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BoundingBox3D,double).result 'DiGi\.Geometry\.Spatial\.Modify\.AddOverlappingFaces\(this System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D, double\)\.result') list\.
+
+<b>CSG Reusability:</b> This method serves as the standard performance-culling query for all 3D constructive
+            solid geometry (CSG) boolean operations (Intersection, Union, and Difference) between two polyhedra.
+            For each face of Polyhedron A, query the BVH tree built for Polyhedron B to cull non-intersecting faces,
+            narrowing candidates down from \(O(N \cdot M)\) to \(O(N \log M)\) before computing splits.
+
+```csharp
+public static void AddOverlappingFaces(this System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> result, DiGi.Geometry.Spatial.Classes.BVHNode<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D>? bVHNode, DiGi.Geometry.Spatial.Classes.BoundingBox3D boundingBox3D, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Modify.AddOverlappingFaces(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BoundingBox3D,double).result'></a>
+
+`result` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The destination [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') where overlapping faces will be collected\.
+
+<a name='DiGi.Geometry.Spatial.Modify.AddOverlappingFaces(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BoundingBox3D,double).bVHNode'></a>
+
+`bVHNode` [DiGi\.Geometry\.Spatial\.Classes\.BVHNode&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')
+
+The root or subtree node of the Bounding Volume Hierarchy \(BVH\) to traverse\.
+
+<a name='DiGi.Geometry.Spatial.Modify.AddOverlappingFaces(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BoundingBox3D,double).boundingBox3D'></a>
+
+`boundingBox3D` [BoundingBox3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BoundingBox3D 'DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D')
+
+The target [BoundingBox3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BoundingBox3D 'DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D') representing the search query bounds\.
+
+<a name='DiGi.Geometry.Spatial.Modify.AddOverlappingFaces(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.BoundingBox3D,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance for coordinate comparison and bounding box overlap checks\.
 
 <a name='DiGi.Geometry.Spatial.Modify.Orient(thisDiGi.Geometry.Spatial.Interfaces.IPolygonal3D,DiGi.Geometry.Core.Enums.Orientation,bool)'></a>
 
