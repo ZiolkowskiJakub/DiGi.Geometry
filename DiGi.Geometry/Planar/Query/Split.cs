@@ -9,6 +9,41 @@ namespace DiGi.Geometry.Planar
     public static partial class Query
     {
         /// <summary>
+        /// Comparer for sorting points along a segment based on their projection parameter.
+        /// </summary>
+        private struct PointAlongSegmentComparer : IComparer<Point2D>
+        {
+            private readonly Point2D start;
+            private readonly Vector2D vector;
+
+            public PointAlongSegmentComparer(Point2D start, Vector2D vector)
+            {
+                this.start = start;
+                this.vector = vector;
+            }
+
+            public int Compare(Point2D? point2D_1, Point2D? point2D_2)
+            {
+                if (point2D_1 == null && point2D_2 == null)
+                {
+                    return 0;
+                }
+                if (point2D_1 == null)
+                {
+                    return -1;
+                }
+                if (point2D_2 == null)
+                {
+                    return 1;
+                }
+
+                double t1 = (point2D_1.X - start.X) * vector.X + (point2D_1.Y - start.Y) * vector.Y;
+                double t2 = (point2D_2.X - start.X) * vector.X + (point2D_2.Y - start.Y) * vector.Y;
+                return t1.CompareTo(t2);
+            }
+        }
+
+        /// <summary>
         /// Splits a collection of segments into smaller segments based on their intersections.
         /// </summary>
         /// <param name="segment2Ds">The collection of segments to split.</param>
@@ -21,49 +56,143 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Tuple<BoundingBox2D, Segment2D>> tuples = [];
-            List<Point2D> point2Ds = [];
+            int capacity = segment2Ds is IReadOnlyCollection<Segment2D> roc ? roc.Count : (segment2Ds is ICollection<Segment2D> col ? col.Count : 16);
+            List<(BoundingBox2D BoundingBox, Segment2D Segment, int Index)> segmentInfos = new(capacity);
+            List<Segment2D> originalSegments = new(capacity);
+            List<Point2D> point2Ds = new(capacity * 2);
+
+            // Local spatial hash grid for O(1) point deduplication
+            Dictionary<(long X, long Y), List<Point2D>> points_ByCell = [];
+
+            (long X, long Y) GetPointCell(Point2D point)
+            {
+                return ((long)System.Math.Round(point.X / tolerance), (long)System.Math.Round(point.Y / tolerance));
+            }
+
+            Point2D AddUniquePoint(Point2D point)
+            {
+                (long X, long Y) cell = GetPointCell(point);
+                for (long x = cell.X - 1; x <= cell.X + 1; x++)
+                {
+                    for (long y = cell.Y - 1; y <= cell.Y + 1; y++)
+                    {
+                        if (points_ByCell.TryGetValue((x, y), out List<Point2D>? cellPoints))
+                        {
+                            for (int k = 0; k < cellPoints.Count; k++)
+                            {
+                                Point2D existing = cellPoints[k];
+                                double dx = existing.X - point.X;
+                                double dy = existing.Y - point.Y;
+                                if (dx * dx + dy * dy <= tolerance * tolerance)
+                                {
+                                    return existing;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!points_ByCell.TryGetValue(cell, out List<Point2D>? list))
+                {
+                    list = [];
+                    points_ByCell[cell] = list;
+                }
+                list.Add(point);
+                point2Ds.Add(point);
+                return point;
+            }
+
+            int originalIndex = 0;
             foreach (Segment2D segment2D in segment2Ds)
             {
-                BoundingBox2D? boundingBox2D = segment2D?.GetBoundingBox();
+                if (segment2D == null)
+                {
+                    continue;
+                }
+
+                BoundingBox2D? boundingBox2D = segment2D.GetBoundingBox();
                 if (boundingBox2D is null)
                 {
                     continue;
                 }
 
-                if (segment2D!.Length < tolerance)
+                if (segment2D.Length < tolerance)
                 {
                     continue;
                 }
 
-                tuples.Add(new Tuple<BoundingBox2D, Segment2D>(boundingBox2D, segment2D));
-                Modify.Add(point2Ds!, segment2D[0], tolerance);
-                Modify.Add(point2Ds!, segment2D[1], tolerance);
+                segmentInfos.Add((boundingBox2D, segment2D, originalIndex));
+                originalSegments.Add(segment2D);
+                AddUniquePoint(segment2D[0]!);
+                AddUniquePoint(segment2D[1]!);
+                originalIndex++;
             }
 
-            int count = tuples.Count;
+            int count = segmentInfos.Count;
 
-            List<List<Point2D>?> point2Ds_BySegment = [.. Enumerable.Repeat<List<Point2D>?>(null, count)];
+            List<List<Point2D>?> point2Ds_BySegment = new(count);
+            for (int i = 0; i < count; i++)
+            {
+                point2Ds_BySegment.Add(null);
+            }
+
+            void AddPointToSegment(int segmentIndex, Point2D point)
+            {
+                List<Point2D>? segmentPoints = point2Ds_BySegment[segmentIndex];
+                if (segmentPoints == null)
+                {
+                    segmentPoints = [];
+                    point2Ds_BySegment[segmentIndex] = segmentPoints;
+                }
+
+                for (int k = 0; k < segmentPoints.Count; k++)
+                {
+                    Point2D existing = segmentPoints[k];
+                    double dx = existing.X - point.X;
+                    double dy = existing.Y - point.Y;
+                    if (dx * dx + dy * dy <= tolerance * tolerance)
+                    {
+                        return;
+                    }
+                }
+
+                segmentPoints.Add(point);
+            }
+
+            // Sweep and Prune: sort segmentInfos by Min.X coordinate
+            segmentInfos.Sort((x, y) => x.BoundingBox.Min.X.CompareTo(y.BoundingBox.Min.X));
+
+            List<Point2D> point2Ds_Intersection = [];
+
             for (int i = 0; i < count - 1; i++)
             {
-                BoundingBox2D boundingBox2D_1 = tuples[i].Item1;
-                Segment2D segment2D_1 = tuples[i].Item2;
+                BoundingBox2D boundingBox2D_1 = segmentInfos[i].BoundingBox;
+                Segment2D segment2D_1 = segmentInfos[i].Segment;
+                int idx_1 = segmentInfos[i].Index;
+                double maxLimitX = boundingBox2D_1.Max.X + tolerance;
 
                 for (int j = i + 1; j < count; j++)
                 {
-                    BoundingBox2D boundingBox2D_2 = tuples[j].Item1;
-                    if (!boundingBox2D_1.InRange(boundingBox2D_2, tolerance))
+                    BoundingBox2D boundingBox2D_2 = segmentInfos[j].BoundingBox;
+                    if (boundingBox2D_2.Min.X > maxLimitX)
+                    {
+                        break;
+                    }
+
+                    // Check Y overlap
+                    if (boundingBox2D_1.Min.Y > boundingBox2D_2.Max.Y + tolerance ||
+                        boundingBox2D_2.Min.Y > boundingBox2D_1.Max.Y + tolerance)
                     {
                         continue;
                     }
 
-                    Segment2D segment2D_2 = tuples[j].Item2;
+                    Segment2D segment2D_2 = segmentInfos[j].Segment;
                     if (segment2D_1.Similar(segment2D_2, tolerance))
                     {
                         continue;
                     }
 
-                    List<Point2D> point2Ds_Intersection = [];
+                    point2Ds_Intersection.Clear();
 
                     if (segment2D_1.On(segment2D_2[0], tolerance))
                     {
@@ -88,54 +217,40 @@ namespace DiGi.Geometry.Planar
                     if (point2Ds_Intersection.Count == 0)
                     {
                         Point2D? point2D_Intersection = IntersectionPoint(segment2D_1, segment2D_2, out Point2D? point2D_Closest1, out Point2D? point2D_Closest2, tolerance);
-                        if (point2D_Intersection == null)
+                        if (point2D_Intersection != null)
                         {
-                            continue;
-                        }
-
-                        if (point2D_Closest1 != null && point2D_Closest2 != null)
-                        {
-                            if (point2D_Closest1.Distance(point2D_Closest2) > tolerance)
+                            if (point2D_Closest1 != null && point2D_Closest2 != null)
                             {
-                                continue;
+                                if (point2D_Closest1.Distance(point2D_Closest2) <= tolerance)
+                                {
+                                    point2Ds_Intersection.Add(point2D_Intersection);
+                                }
+                            }
+                            else
+                            {
+                                point2Ds_Intersection.Add(point2D_Intersection);
                             }
                         }
-
-                        point2Ds_Intersection.Add(point2D_Intersection);
                     }
 
-                    if (point2Ds_Intersection == null || point2Ds_Intersection.Count == 0)
+                    if (point2Ds_Intersection.Count == 0)
                     {
                         continue;
                     }
 
-                    foreach (Point2D point2D_Intersection in point2Ds_Intersection)
+                    for (int k = 0; k < point2Ds_Intersection.Count; k++)
                     {
-                        Point2D? point2D_Intersection_Temp = Modify.FindNear(point2Ds!, point2D_Intersection, tolerance);
-                        if (point2D_Intersection_Temp == null)
-                        {
-                            point2D_Intersection_Temp = point2D_Intersection;
-                            Modify.Add(point2Ds!, point2D_Intersection_Temp, tolerance);
-                        }
+                        Point2D point2D_Intersection_Temp = AddUniquePoint(point2Ds_Intersection[k]);
 
                         if (point2D_Intersection_Temp.Distance(segment2D_1.Start) > tolerance && point2D_Intersection_Temp.Distance(segment2D_1.End) > tolerance)
                         {
-                            if (point2Ds_BySegment[i] == null)
-                            {
-                                point2Ds_BySegment[i] = [];
-                            }
-
-                            Modify.Add(point2Ds_BySegment[i]!, point2D_Intersection_Temp, tolerance);
+                            AddPointToSegment(idx_1, point2D_Intersection_Temp);
                         }
 
                         if (point2D_Intersection_Temp.Distance(segment2D_2.Start) > tolerance && point2D_Intersection_Temp.Distance(segment2D_2.End) > tolerance)
                         {
-                            if (point2Ds_BySegment[j] == null)
-                            {
-                                point2Ds_BySegment[j] = [];
-                            }
-
-                            Modify.Add(point2Ds_BySegment[j]!, point2D_Intersection_Temp, tolerance);
+                            int idx_2 = segmentInfos[j].Index;
+                            AddPointToSegment(idx_2, point2D_Intersection_Temp);
                         }
                     }
                 }
@@ -143,7 +258,7 @@ namespace DiGi.Geometry.Planar
 
             List<Segment2D> segment2Ds_Result = [];
 
-            // Spatial hash grid: result segments are bucketed by the tolerance-sized cell of each endpoint, so duplicate/"Similar" lookups avoid an O(n) scan over the growing result list.
+            // Spatial hash grid for duplicate checks in result list
             Dictionary<(long X, long Y), List<int>> indexes_ByCell = [];
 
             (long X, long Y) GetCell(Point2D? point2D_Cell)
@@ -153,15 +268,24 @@ namespace DiGi.Geometry.Planar
 
             void RegisterSegment(int index_Segment, Segment2D segment2D_New)
             {
-                foreach ((long X, long Y) cell in new[] { GetCell(segment2D_New[0]), GetCell(segment2D_New[1]) })
-                {
-                    if (!indexes_ByCell.TryGetValue(cell, out List<int>? indexes_Cell))
-                    {
-                        indexes_Cell = [];
-                        indexes_ByCell[cell] = indexes_Cell;
-                    }
+                (long X, long Y) cell_1 = GetCell(segment2D_New[0]);
+                (long X, long Y) cell_2 = GetCell(segment2D_New[1]);
 
-                    indexes_Cell.Add(index_Segment);
+                if (!indexes_ByCell.TryGetValue(cell_1, out List<int>? indexes_Cell1))
+                {
+                    indexes_Cell1 = [];
+                    indexes_ByCell[cell_1] = indexes_Cell1;
+                }
+                indexes_Cell1.Add(index_Segment);
+
+                if (cell_2 != cell_1)
+                {
+                    if (!indexes_ByCell.TryGetValue(cell_2, out List<int>? indexes_Cell2))
+                    {
+                        indexes_Cell2 = [];
+                        indexes_ByCell[cell_2] = indexes_Cell2;
+                    }
+                    indexes_Cell2.Add(index_Segment);
                 }
             }
 
@@ -169,26 +293,19 @@ namespace DiGi.Geometry.Planar
             {
                 (long X, long Y) cell = GetCell(segment2D_Candidate[0]);
 
-                HashSet<int> indexes_Checked = [];
                 for (long x = cell.X - 1; x <= cell.X + 1; x++)
                 {
                     for (long y = cell.Y - 1; y <= cell.Y + 1; y++)
                     {
-                        if (!indexes_ByCell.TryGetValue((x, y), out List<int>? indexes_Cell))
+                        if (indexes_ByCell.TryGetValue((x, y), out List<int>? indexes_Cell))
                         {
-                            continue;
-                        }
-
-                        foreach (int index_Cell in indexes_Cell)
-                        {
-                            if (!indexes_Checked.Add(index_Cell))
+                            for (int k = 0; k < indexes_Cell.Count; k++)
                             {
-                                continue;
-                            }
-
-                            if (segment2Ds_Result[index_Cell].Similar(segment2D_Candidate, tolerance))
-                            {
-                                return true;
+                                int index_Cell = indexes_Cell[k];
+                                if (segment2Ds_Result[index_Cell].Similar(segment2D_Candidate, tolerance))
+                                {
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -199,9 +316,11 @@ namespace DiGi.Geometry.Planar
 
             for (int i = 0; i < count; i++)
             {
-                Segment2D segment2D_Temp = tuples[i].Item2;
+                Segment2D segment2D_Temp = originalSegments[i];
                 if (ContainsSimilarSegment(segment2D_Temp))
+                {
                     continue;
+                }
 
                 List<Point2D>? point2Ds_Temp = point2Ds_BySegment[i];
                 if (point2Ds_Temp == null || point2Ds_Temp.Count == 0)
@@ -211,11 +330,13 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                Modify.Add(point2Ds_Temp!, segment2D_Temp[0], tolerance);
-                Modify.Add(point2Ds_Temp!, segment2D_Temp[1], tolerance);
+                AddPointToSegment(i, segment2D_Temp[0]!);
+                AddPointToSegment(i, segment2D_Temp[1]!);
 
-                Point2D? point2D = segment2D_Temp[0];
-                DiGi.Core.Modify.Sort(point2Ds_Temp, x => x.Distance(point2D));
+                Point2D point2D_Start = segment2D_Temp.Start!;
+                Vector2D vector2D_Dir = segment2D_Temp.Vector!;
+
+                point2Ds_Temp.Sort(new PointAlongSegmentComparer(point2D_Start, vector2D_Dir));
 
                 for (int j = 0; j < point2Ds_Temp.Count - 1; j++)
                 {

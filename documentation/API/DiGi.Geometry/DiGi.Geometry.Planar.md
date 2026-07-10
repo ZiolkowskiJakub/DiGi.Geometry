@@ -8776,3 +8776,16 @@ The distance tolerance used for the calculation\.
 #### Returns
 [VerticalPosition](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.VerticalPosition 'DiGi\.Geometry\.Core\.Enums\.VerticalPosition')  
 A [VerticalPosition](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.VerticalPosition 'DiGi\.Geometry\.Core\.Enums\.VerticalPosition') value indicating whether the point is above, below, or undefined relative to the geometry\.
+### Structs
+
+<a name='DiGi.Geometry.Planar.Query.PointAlongSegmentComparer'></a>
+
+## Query\.PointAlongSegmentComparer Struct
+
+Comparer for sorting points along a segment based on their projection parameter\.
+
+```csharp
+private struct Query.PointAlongSegmentComparer : System.Collections.Generic.IComparer<DiGi.Geometry.Planar.Classes.Point2D>
+```
+
+Implements [System\.Collections\.Generic\.IComparer&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.icomparer-1 'System\.Collections\.Generic\.IComparer\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.icomparer-1 'System\.Collections\.Generic\.IComparer\`1')
