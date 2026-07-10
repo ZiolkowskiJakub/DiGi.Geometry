@@ -329,6 +329,29 @@ The [System\.Drawing\.SizeF](https://learn.microsoft.com/en-us/dotnet/api/system
 [Vector2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Vector2D 'DiGi\.Geometry\.Planar\.Classes\.Vector2D')  
 A new [Vector2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Vector2D 'DiGi\.Geometry\.Planar\.Classes\.Vector2D') created from the width and height of the [System\.Drawing\.SizeF](https://learn.microsoft.com/en-us/dotnet/api/system.drawing.sizef 'System\.Drawing\.SizeF') instance\.
 
+<a name='DiGi.Geometry.Planar.Convert.ToDiGi_Geometry2Ds(thisGeometry)'></a>
+
+## Convert\.ToDiGi\_Geometry2Ds\(this Geometry\) Method
+
+Converts a [NetTopologySuite\.Geometries\.Geometry](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.geometry 'NetTopologySuite\.Geometries\.Geometry') of any dimension to a flat list of [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D') objects\.
+
+Nested [NetTopologySuite\.Geometries\.GeometryCollection](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.geometrycollection 'NetTopologySuite\.Geometries\.GeometryCollection') instances (including [NetTopologySuite\.Geometries\.MultiPolygon](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.multipolygon 'NetTopologySuite\.Geometries\.MultiPolygon'), [NetTopologySuite\.Geometries\.MultiLineString](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.multilinestring 'NetTopologySuite\.Geometries\.MultiLineString') and [NetTopologySuite\.Geometries\.MultiPoint](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.multipoint 'NetTopologySuite\.Geometries\.MultiPoint')) are flattened. Polygons convert to [PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D'), linear rings to [Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D'), two-point line strings to [Segment2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Segment2D 'DiGi\.Geometry\.Planar\.Classes\.Segment2D'), longer line strings to [Polyline2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polyline2D 'DiGi\.Geometry\.Planar\.Classes\.Polyline2D') and points to [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D'). Empty components are skipped.
+
+```csharp
+public static System.Collections.Generic.List<DiGi.Geometry.Planar.Interfaces.IGeometry2D>? ToDiGi_Geometry2Ds(this Geometry? geometry);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Convert.ToDiGi_Geometry2Ds(thisGeometry).geometry'></a>
+
+`geometry` [NetTopologySuite\.Geometries\.Geometry](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.geometry 'NetTopologySuite\.Geometries\.Geometry')
+
+The [NetTopologySuite\.Geometries\.Geometry](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.geometry 'NetTopologySuite\.Geometries\.Geometry') instance to convert\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A list of [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D') objects \(possibly empty\), or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if the provided geometry is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null')\.
+
 <a name='DiGi.Geometry.Planar.Convert.ToDiGi_Polygon2Ds(thisPolygon)'></a>
 
 ## Convert\.ToDiGi\_Polygon2Ds\(this Polygon\) Method
@@ -823,6 +846,39 @@ The distance tolerance used for rounding points\.
 [QuikGraph\.AdjacencyGraph](https://learn.microsoft.com/en-us/dotnet/api/quikgraph.adjacencygraph 'QuikGraph\.AdjacencyGraph')  
 An adjacency graph representing the connectivity; otherwise, null if input is null\.
 
+<a name='DiGi.Geometry.Planar.Create.BooleanOperationResult2D(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D)'></a>
+
+## Create\.BooleanOperationResult2D\(this BooleanOpertaionType, IPolygonalFace2D, IPolygonalFace2D\) Method
+
+Calculates the 2D boolean operation result between two polygonal faces based on the specified operation type\.
+
+```csharp
+public static DiGi.Geometry.Planar.Classes.BooleanOperationResult2D? BooleanOperationResult2D(this DiGi.Geometry.Core.Enums.BooleanOpertaionType booleanOpertaionType, DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D? polygonalFace2D_1, DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D? polygonalFace2D_2);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.BooleanOperationResult2D(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D).booleanOpertaionType'></a>
+
+`booleanOpertaionType` [BooleanOpertaionType](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType')
+
+The type of the boolean operation\.
+
+<a name='DiGi.Geometry.Planar.Create.BooleanOperationResult2D(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D).polygonalFace2D_1'></a>
+
+`polygonalFace2D_1` [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')
+
+The first polygonal face\.
+
+<a name='DiGi.Geometry.Planar.Create.BooleanOperationResult2D(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D).polygonalFace2D_2'></a>
+
+`polygonalFace2D_2` [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')
+
+The second polygonal face\.
+
+#### Returns
+[BooleanOperationResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D')  
+A [BooleanOperationResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D') containing the result of the operation, or null if the operation type is not supported\.
+
 <a name='DiGi.Geometry.Planar.Create.BoundingBox2D(thisDiGi.Geometry.Planar.Classes.Point2D,double,double)'></a>
 
 ## Create\.BoundingBox2D\(this Point2D, double, double\) Method
@@ -956,6 +1012,39 @@ The vector representing the Y\-axis\.
 #### Returns
 [CoordinateSystem2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.CoordinateSystem2D 'DiGi\.Geometry\.Planar\.Classes\.CoordinateSystem2D')  
 A new CoordinateSystem2D; otherwise, null if any input is null\.
+
+<a name='DiGi.Geometry.Planar.Create.DifferenceResult2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D)'></a>
+
+## Create\.DifferenceResult2D\(this IPolygonalFace2D, IPolygonalFace2D\) Method
+
+Calculates the 2D boolean difference between two polygonal faces\.
+
+```csharp
+public static DiGi.Geometry.Planar.Classes.DifferenceResult2D? DifferenceResult2D(this DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D? polygonalFace2D_1, DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D? polygonalFace2D_2);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.DifferenceResult2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D).polygonalFace2D_1'></a>
+
+`polygonalFace2D_1` [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')
+
+The first polygonal face \(from which to subtract\)\.
+
+<a name='DiGi.Geometry.Planar.Create.DifferenceResult2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D).polygonalFace2D_2'></a>
+
+`polygonalFace2D_2` [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')
+
+The second polygonal face \(to subtract\)\.
+
+#### Returns
+[DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D')  
+A [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D') containing the difference geometry, or null if polygonalFace2D\_1 is null or the computation fails\.
+
+### Remarks
+
+Invalid (self-intersecting) inputs are repaired before the overlay is computed.
+
+If the first face is degenerate (zero area, collapsing under repair), the difference is lower-dimensional: the parts of the face boundary linework lying outside the second face are returned as [Segment2D\(this Line2D, IPolygonal2D, double\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Segment2D(thisDiGi.Geometry.Planar.Classes.Line2D,DiGi.Geometry.Planar.Interfaces.IPolygonal2D,double) 'DiGi\.Geometry\.Planar\.Create\.Segment2D\(this DiGi\.Geometry\.Planar\.Classes\.Line2D, DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D, double\)')/[Polyline2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polyline2D 'DiGi\.Geometry\.Planar\.Classes\.Polyline2D')/[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') elements.
 
 <a name='DiGi.Geometry.Planar.Create.Geometry2Ds(System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,double)'></a>
 
@@ -1279,7 +1368,13 @@ The second polygonal face\.
 
 #### Returns
 [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D')  
-An IntersectionResult2D containing the intersection geometry; otherwise, null if either input is null\.
+An IntersectionResult2D containing the intersection geometry; otherwise, null if either input is null or the computation fails\.
+
+### Remarks
+
+Invalid (self-intersecting) inputs are repaired before the overlay is computed.
+
+Boundary-only intersections are lower-dimensional: shared edges are returned as [Segment2D\(this Line2D, IPolygonal2D, double\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Segment2D(thisDiGi.Geometry.Planar.Classes.Line2D,DiGi.Geometry.Planar.Interfaces.IPolygonal2D,double) 'DiGi\.Geometry\.Planar\.Create\.Segment2D\(this DiGi\.Geometry\.Planar\.Classes\.Line2D, DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D, double\)')/[Polyline2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polyline2D 'DiGi\.Geometry\.Planar\.Classes\.Polyline2D') elements and touching vertices as [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') elements.
 
 <a name='DiGi.Geometry.Planar.Create.IntersectionResult2D(thisDiGi.Geometry.Planar.Interfaces.ISegmentable2D,DiGi.Geometry.Planar.Classes.Line2D,double)'></a>
 
@@ -2470,6 +2565,37 @@ The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 
 #### Returns
 [QuikGraph\.UndirectedGraph](https://learn.microsoft.com/en-us/dotnet/api/quikgraph.undirectedgraph 'QuikGraph\.UndirectedGraph')  
 An `UndirectedGraph<Point2D, Edge<Point2D>>` representing the network of points and edges, or `null` if the [segmentable2Ds](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.UndirectedGraph(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.ISegmentable2D_,double).segmentable2Ds 'DiGi\.Geometry\.Planar\.Create\.UndirectedGraph\(this System\.Collections\.Generic\.IEnumerable\<DiGi\.Geometry\.Planar\.Interfaces\.ISegmentable2D\>, double\)\.segmentable2Ds') collection is `null`\.
+
+<a name='DiGi.Geometry.Planar.Create.UnionResult2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D)'></a>
+
+## Create\.UnionResult2D\(this IPolygonalFace2D, IPolygonalFace2D\) Method
+
+Calculates the 2D boolean union between two polygonal faces\.
+
+```csharp
+public static DiGi.Geometry.Planar.Classes.UnionResult2D? UnionResult2D(this DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D? polygonalFace2D_1, DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D? polygonalFace2D_2);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.UnionResult2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D).polygonalFace2D_1'></a>
+
+`polygonalFace2D_1` [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')
+
+The first polygonal face\.
+
+<a name='DiGi.Geometry.Planar.Create.UnionResult2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D).polygonalFace2D_2'></a>
+
+`polygonalFace2D_2` [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')
+
+The second polygonal face\.
+
+#### Returns
+[UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D')  
+A [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D') containing the union geometry, or null if both inputs are null or the computation fails\.
+
+### Remarks
+
+Invalid (self-intersecting) inputs are repaired before the overlay is computed. Disjoint inputs produce a result containing both faces.
 
 <a name='DiGi.Geometry.Planar.Create.Vector2D(DiGi.Geometry.Core.Enums.Alignment)'></a>
 
@@ -4469,6 +4595,9 @@ The second [PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Plana
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the resulting faces of the difference operation, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if either input is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') or conversion fails\.
+
+### Remarks
+The computation is delegated to [DifferenceResult2D\(this IPolygonalFace2D, IPolygonalFace2D\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.DifferenceResult2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D) 'DiGi\.Geometry\.Planar\.Create\.DifferenceResult2D\(this DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D, DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D\)'); only the polygonal faces of the result are returned\. Use the result object directly to access lower\-dimensional \(segment/point\) difference geometries\.
 
 <a name='DiGi.Geometry.Planar.Query.Difference(thisDiGi.Geometry.Planar.Interfaces.IPolygonal2D,DiGi.Geometry.Planar.Interfaces.IPolygonal2D)'></a>
 
@@ -8639,6 +8768,9 @@ The second polygonal face to unify\.
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A list of [PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D') objects representing the resulting union, or `null` if either input is null\.
+
+### Remarks
+The computation is delegated to [UnionResult2D\(this IPolygonalFace2D, IPolygonalFace2D\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.UnionResult2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D) 'DiGi\.Geometry\.Planar\.Create\.UnionResult2D\(this DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D, DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D\)'); the polygonal faces of the result are returned\.
 
 <a name='DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_)'></a>
 

@@ -13,6 +13,7 @@ public interface IBooleanOperationResult : DiGi.Core.Interfaces.ISerializableRes
 
 Derived  
 ↳ [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D')  
+↳ [IIntersectionResult2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IIntersectionResult2D 'DiGi\.Geometry\.Planar\.Interfaces\.IIntersectionResult2D')  
 ↳ [IntersectionResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.IntersectionResult3D 'DiGi\.Geometry\.Spatial\.Classes\.IntersectionResult3D')  
 ↳ [PlanarIntersectionResult](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult 'DiGi\.Geometry\.Spatial\.Classes\.PlanarIntersectionResult')
 

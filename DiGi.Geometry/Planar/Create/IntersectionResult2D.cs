@@ -1,8 +1,8 @@
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries.Utilities;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.Geometry.Planar
 {
@@ -531,14 +531,26 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the intersection result of two polygonal faces.
         /// </summary>
+        /// <remarks>
+        /// <para>Invalid (self-intersecting) inputs are repaired before the overlay is computed.</para>
+        /// <para>Boundary-only intersections are lower-dimensional: shared edges are returned as <see cref="Segment2D"/>/<see cref="Polyline2D"/> elements and touching vertices as <see cref="Point2D"/> elements.</para>
+        /// </remarks>
         /// <param name="polygonalFace2D_1">The first polygonal face.</param>
         /// <param name="polygonalFace2D_2">The second polygonal face.</param>
-        /// <returns>An IntersectionResult2D containing the intersection geometry; otherwise, null if either input is null.</returns>
+        /// <returns>An IntersectionResult2D containing the intersection geometry; otherwise, null if either input is null or the computation fails.</returns>
         public static IntersectionResult2D? IntersectionResult2D(this IPolygonalFace2D? polygonalFace2D_1, IPolygonalFace2D? polygonalFace2D_2)
         {
             if (polygonalFace2D_1 == null || polygonalFace2D_2 == null)
             {
                 return null;
+            }
+
+            // Early-out Axis-Aligned Bounding Box (AABB) intersection check
+            BoundingBox2D? boundingBox2D_1 = polygonalFace2D_1.GetBoundingBox();
+            BoundingBox2D? boundingBox2D_2 = polygonalFace2D_2.GetBoundingBox();
+            if (boundingBox2D_1 != null && boundingBox2D_2 != null && !boundingBox2D_1.InRange(boundingBox2D_2))
+            {
+                return new IntersectionResult2D();
             }
 
             Polygon? polygon_1 = Convert.ToNTS(polygonalFace2D_1);
@@ -553,53 +565,38 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
+            // Repair invalid inputs before any topological operation
+            NetTopologySuite.Geometries.Geometry geometry_1 = polygon_1;
+            if (!geometry_1.IsValid)
+            {
+                geometry_1 = GeometryFixer.Fix(geometry_1);
+            }
+
+            NetTopologySuite.Geometries.Geometry geometry_2 = polygon_2;
+            if (!geometry_2.IsValid)
+            {
+                geometry_2 = GeometryFixer.Fix(geometry_2);
+            }
+
+            if (geometry_1 == null || geometry_2 == null)
+            {
+                return null;
+            }
+
             NetTopologySuite.Geometries.Geometry? geometry;
             try
             {
-                geometry = polygon_1.Intersection(polygon_2);
+                geometry = geometry_1.Intersection(geometry_2);
             }
             catch
             {
                 return null;
             }
 
-            List<NetTopologySuite.Geometries.Geometry>? geometries = geometry is GeometryCollection geometryCollection ? geometryCollection.Geometries?.ToList() : [geometry];
-            if (geometries == null || geometries.Count == 0)
+            List<IGeometry2D>? geometry2Ds = geometry.ToDiGi_Geometry2Ds();
+            if (geometry2Ds == null)
             {
                 return new IntersectionResult2D();
-            }
-
-            List<IGeometry2D> geometry2Ds = [];
-            foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in geometries)
-            {
-                if (geometry_Temp is MultiPolygon multipolygon)
-                {
-                    geometry2Ds.AddRange(multipolygon.ToDiGi_PolygonalFace2Ds());
-                }
-                else if (geometry_Temp is Polygon polygon)
-                {
-                    PolygonalFace2D? polygonalFace2D = polygon.ToDiGi();
-                    if (polygonalFace2D != null)
-                    {
-                        geometry2Ds.Add(polygonalFace2D);
-                    }
-                }
-                else if (geometry_Temp is LineString lineString)
-                {
-                    IGeometry2D? geometry2D = lineString.ToDiGi();
-                    if (geometry2D is not null)
-                    {
-                        geometry2Ds.Add(geometry2D);
-                    }
-                }
-                else if (geometry_Temp is LinearRing lineRing)
-                {
-                    IGeometry2D? geometry2D = (lineRing).ToDiGi();
-                    if (geometry2D is not null)
-                    {
-                        geometry2Ds.Add(geometry2D);
-                    }
-                }
             }
 
             return new IntersectionResult2D(geometry2Ds, false);

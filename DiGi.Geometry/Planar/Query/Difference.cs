@@ -67,6 +67,9 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the difference between two <see cref="PolygonalFace2D"/> objects.
         /// </summary>
+        /// <remarks>
+        /// The computation is delegated to <see cref="Create.DifferenceResult2D(IPolygonalFace2D?, IPolygonalFace2D?)"/>; only the polygonal faces of the result are returned. Use the result object directly to access lower-dimensional (segment/point) difference geometries.
+        /// </remarks>
         /// <param name="polygonalFace2D_1">The first <see cref="PolygonalFace2D"/> object from which the second is subtracted.</param>
         /// <param name="polygonalFace2D_2">The second <see cref="PolygonalFace2D"/> object to subtract from the first.</param>
         /// <returns>A <see cref="List{PolygonalFace2D}"/> containing the resulting faces of the difference operation, or <see langword="null"/> if either input is <see langword="null"/> or conversion fails.</returns>
@@ -77,41 +80,13 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            BoundingBox2D? boundingBox2D_1 = polygonalFace2D_1.GetBoundingBox();
-            BoundingBox2D? boundingBox2D_2 = polygonalFace2D_2.GetBoundingBox();
-            if (boundingBox2D_1 != null && boundingBox2D_2 != null && !boundingBox2D_1.InRange(boundingBox2D_2))
-            {
-                return [new PolygonalFace2D(polygonalFace2D_1)];
-            }
-
-            Polygon? polygon_1 = polygonalFace2D_1.ToNTS();
-            if (polygon_1 == null)
+            DifferenceResult2D? differenceResult2D = Create.DifferenceResult2D(polygonalFace2D_1, polygonalFace2D_2);
+            if (differenceResult2D == null)
             {
                 return null;
             }
 
-            Polygon? polygon_2 = polygonalFace2D_2.ToNTS();
-            if (polygon_2 == null)
-            {
-                return null;
-            }
-
-            List<Polygon>? polygons = Difference(polygon_1, polygon_2);
-            if (polygons == null)
-            {
-                return null;
-            }
-
-            List<PolygonalFace2D> result = [];
-            foreach (Polygon polygon in polygons)
-            {
-                if (polygon.ToDiGi() is PolygonalFace2D polygonalFace2D)
-                {
-                    result.Add(polygonalFace2D);
-                }
-            }
-
-            return result;
+            return differenceResult2D.GetGeometry2Ds<PolygonalFace2D>() ?? [];
         }
 
         /// <summary>

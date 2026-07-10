@@ -58,6 +58,9 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Calculates the geometric union of two polygonal faces.
         /// </summary>
+        /// <remarks>
+        /// The computation is delegated to <see cref="Create.UnionResult2D(IPolygonalFace2D?, IPolygonalFace2D?)"/>; the polygonal faces of the result are returned.
+        /// </remarks>
         /// <param name="polygonalFace2D_1">The first polygonal face to unify.</param>
         /// <param name="polygonalFace2D_2">The second polygonal face to unify.</param>
         /// <returns>A list of <see cref="PolygonalFace2D"/> objects representing the resulting union, or <c>null</c> if either input is null.</returns>
@@ -68,38 +71,13 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            BoundingBox2D? boundingBox2D_1 = polygonalFace2D_1.GetBoundingBox();
-            BoundingBox2D? boundingBox2D_2 = polygonalFace2D_2.GetBoundingBox();
-            if (boundingBox2D_1 != null && boundingBox2D_2 != null && !boundingBox2D_1.InRange(boundingBox2D_2))
+            UnionResult2D? unionResult2D = Create.UnionResult2D(polygonalFace2D_1, polygonalFace2D_2);
+            if (unionResult2D == null)
             {
-                List<PolygonalFace2D> polygonalFace2Ds_Disjoint = [];
-                if (polygonalFace2D_1 is PolygonalFace2D PolygonalFace2D_1_Temp)
-                {
-                    polygonalFace2Ds_Disjoint.Add(new PolygonalFace2D(PolygonalFace2D_1_Temp));
-                }
-                else
-                {
-                    PolygonalFace2D? face1Converted = polygonalFace2D_1.ToNTS().ToDiGi();
-                    if (face1Converted != null) polygonalFace2Ds_Disjoint.Add(face1Converted);
-                }
-
-                if (polygonalFace2D_2 is PolygonalFace2D PolygonalFace2D_2_Temp)
-                {
-                    polygonalFace2Ds_Disjoint.Add(new PolygonalFace2D(PolygonalFace2D_2_Temp));
-                }
-                else
-                {
-                    PolygonalFace2D? polygonalFace2D_Converted = polygonalFace2D_2.ToNTS().ToDiGi();
-                    if (polygonalFace2D_Converted != null)
-                    {
-                        polygonalFace2Ds_Disjoint.Add(polygonalFace2D_Converted);
-                    }
-                }
-
-                return polygonalFace2Ds_Disjoint;
+                return null;
             }
 
-            return Union([polygonalFace2D_1, polygonalFace2D_2]);
+            return unionResult2D.GetGeometry2Ds<PolygonalFace2D>() ?? [];
         }
 
         /// <summary>

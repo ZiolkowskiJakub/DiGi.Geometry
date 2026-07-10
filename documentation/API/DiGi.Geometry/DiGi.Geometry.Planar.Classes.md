@@ -3,6 +3,228 @@
 ## DiGi\.Geometry\.Planar\.Classes Namespace
 ### Classes
 
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D'></a>
+
+## BooleanOperationResult2D Class
+
+Represents the abstract base class for a 2D boolean operation result\.
+
+```csharp
+public abstract class BooleanOperationResult2D : DiGi.Core.Classes.SerializableObject, DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → BooleanOperationResult2D
+
+Derived  
+↳ [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D')  
+↳ [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D')  
+↳ [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D')
+
+Implements [IBooleanOperationResult2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+### Constructors
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.BooleanOperationResult2D()'></a>
+
+## BooleanOperationResult2D\(\) Constructor
+
+Initializes a new instance of the [BooleanOperationResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D') class\.
+
+```csharp
+protected BooleanOperationResult2D();
+```
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.BooleanOperationResult2D(DiGi.Geometry.Planar.Classes.BooleanOperationResult2D)'></a>
+
+## BooleanOperationResult2D\(BooleanOperationResult2D\) Constructor
+
+Initializes a new instance of the [BooleanOperationResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D') class using another instance\.
+
+```csharp
+protected BooleanOperationResult2D(DiGi.Geometry.Planar.Classes.BooleanOperationResult2D? booleanOperationResult2D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.BooleanOperationResult2D(DiGi.Geometry.Planar.Classes.BooleanOperationResult2D).booleanOperationResult2D'></a>
+
+`booleanOperationResult2D` [BooleanOperationResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D')
+
+The instance to copy from\.
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.BooleanOperationResult2D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IGeometry2D_)'></a>
+
+## BooleanOperationResult2D\(IEnumerable\<IGeometry2D\>\) Constructor
+
+Initializes a new instance of the [BooleanOperationResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D') class with the specified geometries\.
+
+```csharp
+protected BooleanOperationResult2D(System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Interfaces.IGeometry2D>? geometry2Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.BooleanOperationResult2D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IGeometry2D_).geometry2Ds'></a>
+
+`geometry2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The geometries to store in the result\.
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.BooleanOperationResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool)'></a>
+
+## BooleanOperationResult2D\(List\<IGeometry2D\>, bool\) Constructor
+
+Initializes a new instance of the [BooleanOperationResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D') class from a prebuilt list of geometries\.
+
+```csharp
+protected BooleanOperationResult2D(System.Collections.Generic.List<DiGi.Geometry.Planar.Interfaces.IGeometry2D>? geometry2Ds, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.BooleanOperationResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool).geometry2Ds'></a>
+
+`geometry2Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The list of geometries to store in the result\.
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.BooleanOperationResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), each geometry is cloned defensively; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied list is adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created geometries that are not shared\.
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.BooleanOperationResult2D(System.Text.Json.Nodes.JsonObject)'></a>
+
+## BooleanOperationResult2D\(JsonObject\) Constructor
+
+Initializes a new instance of the [BooleanOperationResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D') class using the specified [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')\.
+
+```csharp
+protected BooleanOperationResult2D(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.BooleanOperationResult2D(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject') used to initialize the instance\.
+### Properties
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.BooleanOpertaionType'></a>
+
+## BooleanOperationResult2D\.BooleanOpertaionType Property
+
+Gets the type of the boolean operation\.
+
+```csharp
+public abstract DiGi.Geometry.Core.Enums.BooleanOpertaionType BooleanOpertaionType { get; }
+```
+
+Implements [BooleanOpertaionType](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D.BooleanOpertaionType 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D\.BooleanOpertaionType')
+
+#### Property Value
+[BooleanOpertaionType](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType')
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.Count'></a>
+
+## BooleanOperationResult2D\.Count Property
+
+Gets the total number of [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D') elements\.
+
+```csharp
+public int Count { get; }
+```
+
+Implements [Count](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D.Count 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D\.Count')
+
+#### Property Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.this[int]'></a>
+
+## BooleanOperationResult2D\.this\[int\] Property
+
+Gets the 2D geometry at the specified index\.
+
+```csharp
+public DiGi.Geometry.Planar.Interfaces.IGeometry2D? this[int index] { get; }
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.this[int].index'></a>
+
+`index` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The zero\-based index of the geometry to retrieve\.
+
+Implements [this\[int\]](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D.this[int] 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D\.this\[int\]')
+
+#### Property Value
+[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')
+### Methods
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.Any()'></a>
+
+## BooleanOperationResult2D\.Any\(\) Method
+
+Determines whether there are any 2D geometries present\.
+
+```csharp
+public bool Any();
+```
+
+Implements [Any\(\)](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D.Any() 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D\.Any\(\)')
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+`true` if any geometries are present; otherwise, `false`\.
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.Contains_T_()'></a>
+
+## BooleanOperationResult2D\.Contains\<T\>\(\) Method
+
+Determines whether the collection contains any object of the specified type [T](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.Contains_T_().T 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D\.Contains\<T\>\(\)\.T')\.
+
+```csharp
+public bool Contains<T>()
+    where T : DiGi.Geometry.Planar.Interfaces.IGeometry2D;
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.Contains_T_().T'></a>
+
+`T`
+
+The type of geometry to search for\.
+
+Implements [Contains&lt;T&gt;\(\)](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D.Contains_T_() 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D\.Contains\<T\>\(\)')
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+`true` if an object of type [T](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.Contains_T_().T 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D\.Contains\<T\>\(\)\.T') is present; otherwise, `false`\.
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.GetGeometry2Ds_T_()'></a>
+
+## BooleanOperationResult2D\.GetGeometry2Ds\<T\>\(\) Method
+
+Retrieves a list of 2D geometries of the specified type [T](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.GetGeometry2Ds_T_().T 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D\.GetGeometry2Ds\<T\>\(\)\.T')\.
+
+```csharp
+public System.Collections.Generic.List<T>? GetGeometry2Ds<T>()
+    where T : DiGi.Geometry.Planar.Interfaces.IGeometry2D;
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.GetGeometry2Ds_T_().T'></a>
+
+`T`
+
+The type of geometry to retrieve, which must implement the [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D') interface\.
+
+Implements [GetGeometry2Ds&lt;T&gt;\(\)](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D.GetGeometry2Ds_T_() 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D\.GetGeometry2Ds\<T\>\(\)')
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[T](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D.GetGeometry2Ds_T_().T 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D\.GetGeometry2Ds\<T\>\(\)\.T')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A list of matching geometries, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if no geometries are present\.
+
 <a name='DiGi.Geometry.Planar.Classes.BoundingBox2D'></a>
 
 ## BoundingBox2D Class
@@ -1766,6 +1988,155 @@ The transformation to apply\.
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the transformation was successful\.
 
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D'></a>
+
+## DifferenceResult2D Class
+
+Represents the result of a 2D difference operation\.
+
+```csharp
+public class DifferenceResult2D : DiGi.Geometry.Planar.Classes.BooleanOperationResult2D, DiGi.Geometry.Planar.Interfaces.IDifferenceResult2D, DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → [BooleanOperationResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D') → DifferenceResult2D
+
+Implements [IDifferenceResult2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IDifferenceResult2D 'DiGi\.Geometry\.Planar\.Interfaces\.IDifferenceResult2D'), [IBooleanOperationResult2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+### Constructors
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D()'></a>
+
+## DifferenceResult2D\(\) Constructor
+
+Initializes a new instance of the [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D') class\.
+
+```csharp
+public DifferenceResult2D();
+```
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D(DiGi.Geometry.Planar.Classes.DifferenceResult2D)'></a>
+
+## DifferenceResult2D\(DifferenceResult2D\) Constructor
+
+Initializes a new instance of the [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D') class using another [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D') instance\.
+
+```csharp
+public DifferenceResult2D(DiGi.Geometry.Planar.Classes.DifferenceResult2D? differenceResult2D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D(DiGi.Geometry.Planar.Classes.DifferenceResult2D).differenceResult2D'></a>
+
+`differenceResult2D` [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D')
+
+The [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D') instance to copy from\.
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D(DiGi.Geometry.Planar.Interfaces.IGeometry2D)'></a>
+
+## DifferenceResult2D\(IGeometry2D\) Constructor
+
+Initializes a new instance of the [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D') class with the specified [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')\.
+
+```csharp
+public DifferenceResult2D(DiGi.Geometry.Planar.Interfaces.IGeometry2D? geometry2D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D(DiGi.Geometry.Planar.Interfaces.IGeometry2D).geometry2D'></a>
+
+`geometry2D` [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')
+
+The [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D') to initialize the result with\. This value can be null\.
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IGeometry2D_)'></a>
+
+## DifferenceResult2D\(IEnumerable\<IGeometry2D\>\) Constructor
+
+Initializes a new instance of the [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D') class\.
+
+```csharp
+public DifferenceResult2D(System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Interfaces.IGeometry2D>? geometry2Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IGeometry2D_).geometry2Ds'></a>
+
+`geometry2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+An optional collection of [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D') objects to be cloned and stored in the result\.
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool)'></a>
+
+## DifferenceResult2D\(List\<IGeometry2D\>, bool\) Constructor
+
+Initializes a new instance of the [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D') class from a prebuilt list of geometries\.
+
+```csharp
+internal DifferenceResult2D(System.Collections.Generic.List<DiGi.Geometry.Planar.Interfaces.IGeometry2D>? geometry2Ds, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool).geometry2Ds'></a>
+
+`geometry2Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The list of geometries resulting from the difference\.
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), each geometry is cloned defensively; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied list is adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created geometries that are not shared\.
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D(System.Text.Json.Nodes.JsonObject)'></a>
+
+## DifferenceResult2D\(JsonObject\) Constructor
+
+Initializes a new instance of the [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D') class using the specified [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')\.
+
+```csharp
+public DifferenceResult2D(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.DifferenceResult2D(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject') used to initialize the instance\.
+### Properties
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.BooleanOpertaionType'></a>
+
+## DifferenceResult2D\.BooleanOpertaionType Property
+
+Gets the type of the boolean operation, which is [Difference](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType.Difference 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType\.Difference')\.
+
+```csharp
+public override DiGi.Geometry.Core.Enums.BooleanOpertaionType BooleanOpertaionType { get; }
+```
+
+Implements [BooleanOpertaionType](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D.BooleanOpertaionType 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D\.BooleanOpertaionType')
+
+#### Property Value
+[BooleanOpertaionType](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType')
+### Methods
+
+<a name='DiGi.Geometry.Planar.Classes.DifferenceResult2D.Clone()'></a>
+
+## DifferenceResult2D\.Clone\(\) Method
+
+Creates a copy of the current [DifferenceResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.DifferenceResult2D 'DiGi\.Geometry\.Planar\.Classes\.DifferenceResult2D') instance\.
+
+```csharp
+public override DiGi.Core.Interfaces.ISerializableObject? Clone();
+```
+
+Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1.clone 'DiGi\.Core\.Interfaces\.ICloneableObject\`1\.Clone')
+
+#### Returns
+[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
+A new [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject') instance that is a clone of the current object\.
+
 <a name='DiGi.Geometry.Planar.Classes.DouglasPeuckerUpdater'></a>
 
 ## DouglasPeuckerUpdater Class
@@ -2990,15 +3361,15 @@ True if the transformation was successful\.
 
 ## IntersectionResult2D Class
 
-Represents the result of a two\-dimensional intersection operation\.
+Represents the result of a 2D intersection operation\.
 
 ```csharp
-public class IntersectionResult2D : DiGi.Core.Classes.SerializableObject, DiGi.Geometry.Core.Interfaces.IIntersectionResult, DiGi.Geometry.Core.Interfaces.IBooleanOperationResult, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+public class IntersectionResult2D : DiGi.Geometry.Planar.Classes.BooleanOperationResult2D, DiGi.Geometry.Planar.Interfaces.IIntersectionResult2D, DiGi.Geometry.Core.Interfaces.IIntersectionResult, DiGi.Geometry.Core.Interfaces.IBooleanOperationResult, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → IntersectionResult2D
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → [BooleanOperationResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D') → IntersectionResult2D
 
-Implements [DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.core.interfaces.iintersectionresult 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult'), [IBooleanOperationResult](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IBooleanOperationResult 'DiGi\.Geometry\.Core\.Interfaces\.IBooleanOperationResult'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+Implements [IIntersectionResult2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IIntersectionResult2D 'DiGi\.Geometry\.Planar\.Interfaces\.IIntersectionResult2D'), [DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.core.interfaces.iintersectionresult 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult'), [IBooleanOperationResult](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IBooleanOperationResult 'DiGi\.Geometry\.Core\.Interfaces\.IBooleanOperationResult'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
 ### Constructors
 
 <a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.IntersectionResult2D()'></a>
@@ -3015,7 +3386,7 @@ public IntersectionResult2D();
 
 ## IntersectionResult2D\(IntersectionResult2D\) Constructor
 
-Initializes a new instance of the [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') class by cloning an existing intersection result\.
+Initializes a new instance of the [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') class using another [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') instance\.
 
 ```csharp
 public IntersectionResult2D(DiGi.Geometry.Planar.Classes.IntersectionResult2D? intersectionResult2D);
@@ -3026,16 +3397,16 @@ public IntersectionResult2D(DiGi.Geometry.Planar.Classes.IntersectionResult2D? i
 
 `intersectionResult2D` [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D')
 
-The source intersection result to clone\.
+The [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') instance to copy from\.
 
 <a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.IntersectionResult2D(DiGi.Geometry.Planar.Interfaces.IGeometry2D)'></a>
 
 ## IntersectionResult2D\(IGeometry2D\) Constructor
 
-Initializes a new instance of the [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') class containing a single geometry\.
+Initializes a new instance of the [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') class with the specified [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')\.
 
 ```csharp
-internal IntersectionResult2D(DiGi.Geometry.Planar.Interfaces.IGeometry2D? geometry2D);
+public IntersectionResult2D(DiGi.Geometry.Planar.Interfaces.IGeometry2D? geometry2D);
 ```
 #### Parameters
 
@@ -3043,16 +3414,16 @@ internal IntersectionResult2D(DiGi.Geometry.Planar.Interfaces.IGeometry2D? geome
 
 `geometry2D` [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')
 
-The geometry resulting from the intersection\.
+The [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D') to initialize the result with\. This value can be null\.
 
 <a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.IntersectionResult2D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IGeometry2D_)'></a>
 
 ## IntersectionResult2D\(IEnumerable\<IGeometry2D\>\) Constructor
 
-Initializes a new instance of the [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') class containing multiple geometries\.
+Initializes a new instance of the [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') class\.
 
 ```csharp
-internal IntersectionResult2D(System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Interfaces.IGeometry2D>? geometry2Ds);
+public IntersectionResult2D(System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Interfaces.IGeometry2D>? geometry2Ds);
 ```
 #### Parameters
 
@@ -3060,7 +3431,7 @@ internal IntersectionResult2D(System.Collections.Generic.IEnumerable<DiGi.Geomet
 
 `geometry2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
 
-The collection of geometries resulting from the intersection\.
+An optional collection of [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D') objects to be cloned and stored in the result\.
 
 <a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.IntersectionResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool)'></a>
 
@@ -3089,7 +3460,7 @@ When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/bu
 
 ## IntersectionResult2D\(JsonObject\) Constructor
 
-Initializes a new instance of the [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') class from a JSON object\.
+Initializes a new instance of the [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') class using the specified [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')\.
 
 ```csharp
 public IntersectionResult2D(System.Text.Json.Nodes.JsonObject? jsonObject);
@@ -3100,64 +3471,30 @@ public IntersectionResult2D(System.Text.Json.Nodes.JsonObject? jsonObject);
 
 `jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
 
-The JSON object containing intersection result data\.
+The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject') used to initialize the instance\.
 ### Properties
 
-<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.Count'></a>
+<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.BooleanOpertaionType'></a>
 
-## IntersectionResult2D\.Count Property
+## IntersectionResult2D\.BooleanOpertaionType Property
 
-Gets the number of geometries in the intersection result\.
-
-```csharp
-public int Count { get; }
-```
-
-#### Property Value
-[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
-
-<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.this[int]'></a>
-
-## IntersectionResult2D\.this\[int\] Property
-
-Gets the geometry at the specified index\.
+Gets the type of the boolean operation, which is [Intersection](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType.Intersection 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType\.Intersection')\.
 
 ```csharp
-public DiGi.Geometry.Planar.Interfaces.IGeometry2D? this[int index] { get; }
+public override DiGi.Geometry.Core.Enums.BooleanOpertaionType BooleanOpertaionType { get; }
 ```
-#### Parameters
 
-<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.this[int].index'></a>
-
-`index` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
-
-The zero\-based index of the geometry to get\.
+Implements [BooleanOpertaionType](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D.BooleanOpertaionType 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D\.BooleanOpertaionType')
 
 #### Property Value
-[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')
+[BooleanOpertaionType](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType')
 ### Methods
-
-<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.Any()'></a>
-
-## IntersectionResult2D\.Any\(\) Method
-
-Determines whether an intersection occurred\.
-
-```csharp
-public bool Any();
-```
-
-Implements [Any\(\)](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IBooleanOperationResult.Any() 'DiGi\.Geometry\.Core\.Interfaces\.IBooleanOperationResult\.Any\(\)')
-
-#### Returns
-[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
-`true` if any geometries are present; otherwise, `false`\.
 
 <a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.Clone()'></a>
 
 ## IntersectionResult2D\.Clone\(\) Method
 
-Creates a clone of the current intersection result\.
+Creates a copy of the current [IntersectionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D') instance\.
 
 ```csharp
 public override DiGi.Core.Interfaces.ISerializableObject? Clone();
@@ -3167,51 +3504,7 @@ Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.in
 
 #### Returns
 [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
-A cloned instance of the intersection result\.
-
-<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.Contains_T_()'></a>
-
-## IntersectionResult2D\.Contains\<T\>\(\) Method
-
-Checks if the intersection result contains at least one geometry of the specified type\.
-
-```csharp
-public bool Contains<T>()
-    where T : DiGi.Geometry.Planar.Interfaces.IGeometry2D;
-```
-#### Type parameters
-
-<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.Contains_T_().T'></a>
-
-`T`
-
-The type of geometry to look for\.
-
-#### Returns
-[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
-True if a geometry of the specified type is found; otherwise, false\.
-
-<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.GetGeometry2Ds_T_()'></a>
-
-## IntersectionResult2D\.GetGeometry2Ds\<T\>\(\) Method
-
-Retrieves all geometries of the specified type from the intersection result\.
-
-```csharp
-public System.Collections.Generic.List<T>? GetGeometry2Ds<T>()
-    where T : DiGi.Geometry.Planar.Interfaces.IGeometry2D;
-```
-#### Type parameters
-
-<a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.GetGeometry2Ds_T_().T'></a>
-
-`T`
-
-The type of geometry to retrieve\.
-
-#### Returns
-[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[T](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.IntersectionResult2D.GetGeometry2Ds_T_().T 'DiGi\.Geometry\.Planar\.Classes\.IntersectionResult2D\.GetGeometry2Ds\<T\>\(\)\.T')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
-A list of geometries of the specified type, or null if none are found\.
+A new [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject') instance that is a clone of the current object\.
 
 <a name='DiGi.Geometry.Planar.Classes.Line2D'></a>
 
@@ -8380,6 +8673,155 @@ Implements [Triangulate\(double\)](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geome
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Triangle2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Triangle2D 'DiGi\.Geometry\.Planar\.Classes\.Triangle2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A `List<Triangle2D>` containing the resulting triangles, or null if the object cannot be triangulated\.
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D'></a>
+
+## UnionResult2D Class
+
+Represents the result of a 2D union operation\.
+
+```csharp
+public class UnionResult2D : DiGi.Geometry.Planar.Classes.BooleanOperationResult2D, DiGi.Geometry.Planar.Interfaces.IUnionResult2D, DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → [BooleanOperationResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Classes\.BooleanOperationResult2D') → UnionResult2D
+
+Implements [IUnionResult2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IUnionResult2D 'DiGi\.Geometry\.Planar\.Interfaces\.IUnionResult2D'), [IBooleanOperationResult2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+### Constructors
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D()'></a>
+
+## UnionResult2D\(\) Constructor
+
+Initializes a new instance of the [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D') class\.
+
+```csharp
+public UnionResult2D();
+```
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D(DiGi.Geometry.Planar.Classes.UnionResult2D)'></a>
+
+## UnionResult2D\(UnionResult2D\) Constructor
+
+Initializes a new instance of the [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D') class using another [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D') instance\.
+
+```csharp
+public UnionResult2D(DiGi.Geometry.Planar.Classes.UnionResult2D? unionResult2D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D(DiGi.Geometry.Planar.Classes.UnionResult2D).unionResult2D'></a>
+
+`unionResult2D` [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D')
+
+The [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D') instance to copy from\.
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D(DiGi.Geometry.Planar.Interfaces.IGeometry2D)'></a>
+
+## UnionResult2D\(IGeometry2D\) Constructor
+
+Initializes a new instance of the [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D') class with the specified [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')\.
+
+```csharp
+public UnionResult2D(DiGi.Geometry.Planar.Interfaces.IGeometry2D? geometry2D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D(DiGi.Geometry.Planar.Interfaces.IGeometry2D).geometry2D'></a>
+
+`geometry2D` [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')
+
+The [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D') to initialize the result with\. This value can be null\.
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IGeometry2D_)'></a>
+
+## UnionResult2D\(IEnumerable\<IGeometry2D\>\) Constructor
+
+Initializes a new instance of the [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D') class\.
+
+```csharp
+public UnionResult2D(System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Interfaces.IGeometry2D>? geometry2Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IGeometry2D_).geometry2Ds'></a>
+
+`geometry2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+An optional collection of [DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D') objects to be cloned and stored in the result\.
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool)'></a>
+
+## UnionResult2D\(List\<IGeometry2D\>, bool\) Constructor
+
+Initializes a new instance of the [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D') class from a prebuilt list of geometries\.
+
+```csharp
+internal UnionResult2D(System.Collections.Generic.List<DiGi.Geometry.Planar.Interfaces.IGeometry2D>? geometry2Ds, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool).geometry2Ds'></a>
+
+`geometry2Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.igeometry2d 'DiGi\.Geometry\.Planar\.Interfaces\.IGeometry2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The list of geometries resulting from the union\.
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IGeometry2D_,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), each geometry is cloned defensively; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied list is adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created geometries that are not shared\.
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D(System.Text.Json.Nodes.JsonObject)'></a>
+
+## UnionResult2D\(JsonObject\) Constructor
+
+Initializes a new instance of the [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D') class using the specified [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')\.
+
+```csharp
+public UnionResult2D(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.UnionResult2D(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject') used to initialize the instance\.
+### Properties
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.BooleanOpertaionType'></a>
+
+## UnionResult2D\.BooleanOpertaionType Property
+
+Gets the type of the boolean operation, which is [Union](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType.Union 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType\.Union')\.
+
+```csharp
+public override DiGi.Geometry.Core.Enums.BooleanOpertaionType BooleanOpertaionType { get; }
+```
+
+Implements [BooleanOpertaionType](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IBooleanOperationResult2D.BooleanOpertaionType 'DiGi\.Geometry\.Planar\.Interfaces\.IBooleanOperationResult2D\.BooleanOpertaionType')
+
+#### Property Value
+[BooleanOpertaionType](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType')
+### Methods
+
+<a name='DiGi.Geometry.Planar.Classes.UnionResult2D.Clone()'></a>
+
+## UnionResult2D\.Clone\(\) Method
+
+Creates a copy of the current [UnionResult2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.UnionResult2D 'DiGi\.Geometry\.Planar\.Classes\.UnionResult2D') instance\.
+
+```csharp
+public override DiGi.Core.Interfaces.ISerializableObject? Clone();
+```
+
+Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1.clone 'DiGi\.Core\.Interfaces\.ICloneableObject\`1\.Clone')
+
+#### Returns
+[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
+A new [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject') instance that is a clone of the current object\.
 
 <a name='DiGi.Geometry.Planar.Classes.Vector2D'></a>
 
