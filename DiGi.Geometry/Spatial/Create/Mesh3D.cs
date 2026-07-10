@@ -11,99 +11,125 @@ namespace DiGi.Geometry.Spatial
         /// Generates a <see cref="Classes.Mesh3D"/> from the specified <see cref="Ellipsoid"/>.
         /// </summary>
         /// <param name="ellipsoid">The <see cref="Ellipsoid"/> to convert into a mesh.</param>
-        /// <param name="stacks">The number of stacks (latitude divisions) as an <see cref="int"/> used to generate the mesh.</param>
-        /// <param name="slices">The number of slices (longitude divisions) as an <see cref="int"/> used to generate the mesh.</param>
-        /// <returns>A <see cref="Classes.Mesh3D"/> representing the ellipsoid, or <c>null</c> if the provided <see cref="Ellipsoid"/> is <c>null</c>.</returns>
+        /// <param name="stacks">The number of stacks (latitude divisions) as an <see cref="int"/> used to generate the mesh. Must be at least 2.</param>
+        /// <param name="slices">The number of slices (longitude divisions) as an <see cref="int"/> used to generate the mesh. Must be at least 3.</param>
+        /// <returns>A <see cref="Classes.Mesh3D"/> representing the ellipsoid, or <c>null</c> if the provided <see cref="Ellipsoid"/> is <c>null</c>, incomplete, or the resolution values are out of range.</returns>
         public static Mesh3D? Mesh3D(this Ellipsoid? ellipsoid, int stacks, int slices)
         {
-            if (ellipsoid == null)
+            if (ellipsoid == null || stacks < 2 || slices < 3)
             {
                 return null;
             }
 
-            List<Point3D> point3Ds = [];
-
-            // 1. Generate Vertices for a Unit Sphere (UV Sphere method)
-            // Adjust for poles
-            point3Ds.Add(new Point3D(0, 0, 1)); // North Pole
-            for (int i = 1; i < stacks; i++) // Stacks (latitude)
+            Point3D? center = ellipsoid.Center;
+            Vector3D? directionA = ellipsoid.DirectionA;
+            Vector3D? directionB = ellipsoid.DirectionB;
+            Vector3D? directionC = ellipsoid.DirectionC;
+            if (center is null || directionA is null || directionB is null || directionC is null)
             {
-                double phi = System.Math.PI * i / stacks; // Angle from North Pole
-                for (int j = 0; j < slices; j++) // Slices (longitude)
-                {
-                    double theta = 2 * System.Math.PI * j / slices; // Angle around Z-axis
-
-                    double x = System.Math.Sin(phi) * System.Math.Cos(theta);
-                    double y = System.Math.Sin(phi) * System.Math.Sin(theta);
-                    double z = System.Math.Cos(phi);
-
-                    point3Ds.Add(new Point3D(x, y, z));
-                }
-            }
-            point3Ds.Add(new Point3D(0, 0, -1)); // South Pole
-
-            // 2. Transform Unit Sphere Vertices to Ellipsoid Vertices
-            // Iterate through all generated vertices and apply the transformation
-            for (int i = 0; i < point3Ds.Count; i++)
-            {
-                Point3D unitSphereVertex = point3Ds[i];
-
-                // Scale
-                double scaledX = unitSphereVertex.X * ellipsoid.A;
-                double scaledY = unitSphereVertex.Y * ellipsoid.B;
-                double scaledZ = unitSphereVertex.Z * ellipsoid.C;
-
-                // Rotate and Translate
-                // Assuming VectorX, VectorY, VectorZ are properties of ellipsoid
-                // and are correctly normalized and orthogonal.
-                Point3D? ellipsoidVertex = ellipsoid.Center + (ellipsoid.DirectionA * scaledX) + (ellipsoid.DirectionB * scaledY) + (ellipsoid.DirectionC * scaledZ);
-                if (ellipsoidVertex is null)
-                {
-                    continue;
-                }
-
-                point3Ds[i] = ellipsoidVertex; // Update the vertex
+                return null;
             }
 
-            // 3. Generate Triangles (Indices)
+            double x_Center = center.X;
+            double y_Center = center.Y;
+            double z_Center = center.Z;
 
-            List<int[]> indices = [];
-            // North Pole triangles
+            // Basis columns pre-scaled by the semi-axis lengths, so each vertex is a single fused scale-rotate-translate evaluation
+            double a = ellipsoid.A;
+            double x_A = directionA.X * a;
+            double y_A = directionA.Y * a;
+            double z_A = directionA.Z * a;
+
+            double b = ellipsoid.B;
+            double x_B = directionB.X * b;
+            double y_B = directionB.Y * b;
+            double z_B = directionB.Z * b;
+
+            double c = ellipsoid.C;
+            double x_C = directionC.X * c;
+            double y_C = directionC.Y * c;
+            double z_C = directionC.Z * c;
+
+            // Longitude trigonometry is shared by all stacks, so it is computed once
+            double[] cosThetas = new double[slices];
+            double[] sinThetas = new double[slices];
+            double theta_Delta = 2 * System.Math.PI / slices;
             for (int j = 0; j < slices; j++)
             {
-                indices.Add([0, (j + 1) % slices + 1, j + 1]);
+                double theta = theta_Delta * j;
+                cosThetas[j] = System.Math.Cos(theta);
+                sinThetas[j] = System.Math.Sin(theta);
             }
 
-            // Middle quads
-            for (int i = 0; i < stacks - 2; i++)
+            List<Point3D> point3Ds = new(((stacks - 1) * slices) + 2)
             {
-                int currentStackStart = 1 + i * slices;
-                int nextStackStart = 1 + (i + 1) * slices;
+                // North Pole (unit sphere point (0, 0, 1))
+                new Point3D(x_Center + x_C, y_Center + y_C, z_Center + z_C)
+            };
+
+            for (int i = 1; i < stacks; i++)
+            {
+                double phi = System.Math.PI * i / stacks;
+                double sinPhi = System.Math.Sin(phi);
+                double cosPhi = System.Math.Cos(phi);
+
+                double x_Stack = x_Center + (x_C * cosPhi);
+                double y_Stack = y_Center + (y_C * cosPhi);
+                double z_Stack = z_Center + (z_C * cosPhi);
 
                 for (int j = 0; j < slices; j++)
                 {
-                    int v1 = currentStackStart + j;
-                    int v2 = currentStackStart + (j + 1) % slices;
-                    int v3 = nextStackStart + (j + 1) % slices;
-                    int v4 = nextStackStart + j;
+                    double x = sinPhi * cosThetas[j];
+                    double y = sinPhi * sinThetas[j];
 
-                    // Triangle 1
-                    indices.Add([v1, v2, v3]);
+                    point3Ds.Add(new Point3D(x_Stack + (x_A * x) + (x_B * y), y_Stack + (y_A * x) + (y_B * y), z_Stack + (z_A * x) + (z_B * y)));
+                }
+            }
 
-                    // Triangle 2
-                    indices.Add([v1, v3, v4]);
+            // South Pole (unit sphere point (0, 0, -1))
+            point3Ds.Add(new Point3D(x_Center - x_C, y_Center - y_C, z_Center - z_C));
+
+            List<int[]> indexes = new(2 * slices * (stacks - 1));
+
+            // North Pole triangles
+            for (int j = 0; j < slices; j++)
+            {
+                int j_Next = j + 1 == slices ? 0 : j + 1;
+
+                indexes.Add([0, j_Next + 1, j + 1]);
+            }
+
+            // Middle quads split into two triangles
+            for (int i = 0; i < stacks - 2; i++)
+            {
+                int start_Current = 1 + (i * slices);
+                int start_Next = start_Current + slices;
+
+                for (int j = 0; j < slices; j++)
+                {
+                    int j_Next = j + 1 == slices ? 0 : j + 1;
+
+                    int index_1 = start_Current + j;
+                    int index_2 = start_Current + j_Next;
+                    int index_3 = start_Next + j_Next;
+                    int index_4 = start_Next + j;
+
+                    indexes.Add([index_1, index_2, index_3]);
+                    indexes.Add([index_1, index_3, index_4]);
                 }
             }
 
             // South Pole triangles
-            int southPoleIndex = point3Ds.Count - 1;
-            int lastStackStart = 1 + (stacks - 2) * slices;
+            int index_SouthPole = point3Ds.Count - 1;
+            int start_Last = 1 + ((stacks - 2) * slices);
             for (int j = 0; j < slices; j++)
             {
-                indices.Add([southPoleIndex, lastStackStart + j, lastStackStart + (j + 1) % slices]);
+                int j_Next = j + 1 == slices ? 0 : j + 1;
+
+                indexes.Add([index_SouthPole, start_Last + j, start_Last + j_Next]);
             }
 
-            return new Mesh3D(point3Ds, indices);
+            return new Mesh3D(point3Ds, indexes, false);
         }
 
         /// <summary>
@@ -111,7 +137,7 @@ namespace DiGi.Geometry.Spatial
         /// </summary>
         /// <param name="ellipsoid">The <see cref="Ellipsoid"/> instance to be converted into a mesh.</param>
         /// <param name="angleFactor">A <see cref="double"/> value used to calculate the number of stacks and slices for the resulting mesh.</param>
-        /// <returns>A <see cref="Classes.Mesh3D"/> object representing the ellipsoid, or <c>null</c> if the provided <see cref="Ellipsoid"/> is <c>null</c>.</returns>
+        /// <returns>A <see cref="Classes.Mesh3D"/> object representing the ellipsoid, or <c>null</c> if the provided <see cref="Ellipsoid"/> is <c>null</c> or the angle factor does not yield a positive angular step.</returns>
         public static Mesh3D? Mesh3D(this Ellipsoid? ellipsoid, double angleFactor)
         {
             if (ellipsoid == null)
@@ -120,6 +146,10 @@ namespace DiGi.Geometry.Spatial
             }
 
             double factor = angleFactor % System.Math.PI;
+            if (!(factor > 0))
+            {
+                return null;
+            }
 
             int stacks = (int)(System.Math.PI / factor);
             int slices = (int)(2 * System.Math.PI / factor);
@@ -147,7 +177,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             List<Point3D> point3Ds = [];
-            List<int[]> indexes = [];
+            List<int[]> indexes = new(triangle3Ds_Cached.Length);
 
             // Spatial hash grid: points are bucketed by their tolerance-sized cell so lookups avoid an O(n) linear scan per point.
             Dictionary<(long X, long Y, long Z), List<int>> indexes_ByCell = [];
@@ -168,13 +198,13 @@ namespace DiGi.Geometry.Spatial
                             {
                                 foreach (int index_Cell in indexes_Cell)
                                 {
-                                    if (point3Ds[index_Cell].AlmostEquals(point3D_Triangle3D, tolerance))
+                                    Point3D point3D_Existing = point3Ds[index_Cell];
+                                    if (point3D_Existing.AlmostEquals(point3D_Triangle3D, tolerance))
                                     {
-                                        Point3D? point3D_Mid = point3Ds[index_Cell].Mid(point3D_Triangle3D);
-                                        if (point3D_Mid is not null)
-                                        {
-                                            point3Ds[index_Cell] = point3D_Mid;
-                                        }
+                                        // The stored point is owned by this method, so the midpoint is applied in place without allocating
+                                        point3D_Existing.X = (point3D_Existing.X + point3D_Triangle3D.X) * 0.5;
+                                        point3D_Existing.Y = (point3D_Existing.Y + point3D_Triangle3D.Y) * 0.5;
+                                        point3D_Existing.Z = (point3D_Existing.Z + point3D_Triangle3D.Z) * 0.5;
 
                                         return index_Cell;
                                     }
@@ -185,7 +215,7 @@ namespace DiGi.Geometry.Spatial
                 }
 
                 int index_New = point3Ds.Count;
-                point3Ds.Add(point3D_Triangle3D);
+                point3Ds.Add(new Point3D(point3D_Triangle3D.X, point3D_Triangle3D.Y, point3D_Triangle3D.Z));
 
                 (long X, long Y, long Z) cell = (cellX, cellY, cellZ);
                 if (!indexes_ByCell.TryGetValue(cell, out List<int>? indexes_New))
@@ -215,7 +245,7 @@ namespace DiGi.Geometry.Spatial
                 indexes.Add(indexes_Triangle3D);
             }
 
-            return new Mesh3D(point3Ds, indexes);
+            return new Mesh3D(point3Ds, indexes, false);
         }
 
         /// <summary>
@@ -236,7 +266,7 @@ namespace DiGi.Geometry.Spatial
             foreach (IPolygonalFace3D polygonalFace3D in polygonalFace3Ds)
             {
                 List<Triangle3D>? triangle3Ds_PolygonalFace3D = polygonalFace3D?.Triangulate(tolerance);
-                if (triangle3Ds_PolygonalFace3D != null && triangle3Ds_PolygonalFace3D.Count == 0)
+                if (triangle3Ds_PolygonalFace3D == null || triangle3Ds_PolygonalFace3D.Count == 0)
                 {
                     continue;
                 }

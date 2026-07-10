@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,12 +34,12 @@ namespace DiGi.Geometry.Planar
 
             bool TryAddResult(Segment2D segment2D_Candidate)
             {
-                (long X, long Y) cell = GetCell(segment2D_Candidate[0]);
+                (long X, long Y) = GetCell(segment2D_Candidate[0]);
 
                 HashSet<int> indexes_Checked = [];
-                for (long x = cell.X - 1; x <= cell.X + 1; x++)
+                for (long x = X - 1; x <= X + 1; x++)
                 {
-                    for (long y = cell.Y - 1; y <= cell.Y + 1; y++)
+                    for (long y = Y - 1; y <= Y + 1; y++)
                     {
                         if (!indexes_ByCell.TryGetValue((x, y), out List<int>? indexes_Cell))
                         {

@@ -435,9 +435,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 double t1 = (max.Y + tolerance - originY) / dirY;
                 if (t0 > t1)
                 {
-                    double temp = t0;
-                    t0 = t1;
-                    t1 = temp;
+                    (t1, t0) = (t0, t1);
                 }
                 if (t0 > tMin) tMin = t0;
                 if (t1 < tMax) tMax = t1;

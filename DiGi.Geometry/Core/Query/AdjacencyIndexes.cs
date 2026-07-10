@@ -17,61 +17,40 @@ namespace DiGi.Geometry.Core
                 return null;
             }
 
-            int[][] indexes_Cached = indexes as int[][] ?? indexes.ToArray();
+            int[][] indexes_Cached = indexes as int[][] ?? [.. indexes];
             if (indexes_Cached.Length == 0)
             {
                 return [];
             }
 
-            // Dictionary to store edge as a sorted tuple and its occurrence count
-            // Using (int, int) where Item1 < Item2 to ensure edge direction doesn't matter
-            Dictionary<(int, int), int> edgeCounts = [];
-
-            static (int, int) createSortedEdge(int v1, int v2)
+            // Edges are undirected, so each edge key stores the smaller index first.
+            // ValueTuple keys are used deliberately: their seeded rotate-combine hash distributes the highly regular edge index pairs
+            // of structured meshes far better than a packed 64-bit integer key, whose default hash (low ^ high) degenerates into long collision chains.
+            static (int, int) edgeKey(int index_1, int index_2)
             {
-                return v1 < v2 ? (v1, v2) : (v2, v1);
+                return index_1 < index_2 ? (index_1, index_2) : (index_2, index_1);
             }
 
-            for (int int_I = 0; int_I < indexes_Cached.Length; int_I++)
+            Dictionary<(int, int), int> edgeCounts = new(indexes_Cached.Length * 3 / 2 + 1);
+            for (int i = 0; i < indexes_Cached.Length; i++)
             {
-                int[] intArray_Triangle = indexes_Cached[int_I];
-                if (intArray_Triangle == null || intArray_Triangle.Length < 3)
+                int[] indexes_Triangle = indexes_Cached[i];
+                if (indexes_Triangle == null || indexes_Triangle.Length < 3)
                 {
                     continue;
                 }
 
-                // Edge 1
-                (int, int) tuple_Edge1 = createSortedEdge(intArray_Triangle[0], intArray_Triangle[1]);
-                if (edgeCounts.TryGetValue(tuple_Edge1, out int int_Count1))
-                {
-                    edgeCounts[tuple_Edge1] = int_Count1 + 1;
-                }
-                else
-                {
-                    edgeCounts[tuple_Edge1] = 1;
-                }
+                (int, int) key_1 = edgeKey(indexes_Triangle[0], indexes_Triangle[1]);
+                edgeCounts.TryGetValue(key_1, out int count_1);
+                edgeCounts[key_1] = count_1 + 1;
 
-                // Edge 2
-                (int, int) tuple_Edge2 = createSortedEdge(intArray_Triangle[1], intArray_Triangle[2]);
-                if (edgeCounts.TryGetValue(tuple_Edge2, out int int_Count2))
-                {
-                    edgeCounts[tuple_Edge2] = int_Count2 + 1;
-                }
-                else
-                {
-                    edgeCounts[tuple_Edge2] = 1;
-                }
+                (int, int) key_2 = edgeKey(indexes_Triangle[1], indexes_Triangle[2]);
+                edgeCounts.TryGetValue(key_2, out int count_2);
+                edgeCounts[key_2] = count_2 + 1;
 
-                // Edge 3
-                (int, int) tuple_Edge3 = createSortedEdge(intArray_Triangle[2], intArray_Triangle[0]);
-                if (edgeCounts.TryGetValue(tuple_Edge3, out int int_Count3))
-                {
-                    edgeCounts[tuple_Edge3] = int_Count3 + 1;
-                }
-                else
-                {
-                    edgeCounts[tuple_Edge3] = 1;
-                }
+                (int, int) key_3 = edgeKey(indexes_Triangle[2], indexes_Triangle[0]);
+                edgeCounts.TryGetValue(key_3, out int count_3);
+                edgeCounts[key_3] = count_3 + 1;
             }
 
             Dictionary<int, List<int[]>> results = [];

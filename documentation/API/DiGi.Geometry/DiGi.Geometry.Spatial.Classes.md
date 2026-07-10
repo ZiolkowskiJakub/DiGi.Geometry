@@ -3296,6 +3296,35 @@ An [System\.Collections\.Generic\.IEnumerable&lt;&gt;](https://learn.microsoft.c
 
 An [System\.Collections\.Generic\.IEnumerable&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1') of [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32') arrays representing the vertex indices for each face of the mesh\.
 
+<a name='DiGi.Geometry.Spatial.Classes.Mesh3D.Mesh3D(System.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Point3D_,System.Collections.Generic.List_int[]_,bool)'></a>
+
+## Mesh3D\(List\<Point3D\>, List\<int\[\]\>, bool\) Constructor
+
+Initializes a new instance of the [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') class from prebuilt lists\.
+
+```csharp
+internal Mesh3D(System.Collections.Generic.List<DiGi.Geometry.Spatial.Classes.Point3D>? point3Ds, System.Collections.Generic.List<int[]>? indexes, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.Mesh3D.Mesh3D(System.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Point3D_,System.Collections.Generic.List_int[]_,bool).point3Ds'></a>
+
+`point3Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the vertices of the mesh\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Mesh3D.Mesh3D(System.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Point3D_,System.Collections.Generic.List_int[]_,bool).indexes'></a>
+
+`indexes` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')[\[\]](https://learn.microsoft.com/en-us/dotnet/api/system.array 'System\.Array')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') of `int[]` defining the triangle indices of the mesh\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Mesh3D.Mesh3D(System.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Point3D_,System.Collections.Generic.List_int[]_,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the inputs are defensively copied and validated; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied lists are adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created, valid data that is not shared\.
+
 <a name='DiGi.Geometry.Spatial.Classes.Mesh3D.Mesh3D(System.Text.Json.Nodes.JsonObject)'></a>
 
 ## Mesh3D\(JsonObject\) Constructor
@@ -3329,6 +3358,22 @@ Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.in
 #### Returns
 [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
 A new [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject') instance that is a clone of the current object, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null')\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Mesh3D.GetArea()'></a>
+
+## Mesh3D\.GetArea\(\) Method
+
+Calculates the total surface area of the mesh as the sum of the areas of its triangles\.
+
+Uses scalar coordinate arithmetic only, without allocating intermediate vector objects.
+
+```csharp
+public double GetArea();
+```
+
+#### Returns
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') representing the total surface area, or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if the points or indexes are unavailable\.
 
 <a name='DiGi.Geometry.Spatial.Classes.Mesh3D.GetAuxiliarySegments()'></a>
 
@@ -3429,6 +3474,22 @@ public System.Collections.Generic.List<DiGi.Geometry.Spatial.Classes.Triangle3D>
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Triangle3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Triangle3D 'DiGi\.Geometry\.Spatial\.Classes\.Triangle3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the triangles if the data is valid; otherwise, null\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Mesh3D.GetVolume()'></a>
+
+## Mesh3D\.GetVolume\(\) Method
+
+Calculates the enclosed volume of the mesh using the divergence theorem \(sum of signed tetrahedron volumes relative to the origin\)\.
+
+The result is only meaningful for a closed mesh with consistently oriented triangles; use [IsClosed\(\)](DiGi.Geometry.Core.Classes.md#DiGi.Geometry.Core.Classes.Mesh_TPoint_.IsClosed() 'DiGi\.Geometry\.Core\.Classes\.Mesh\<TPoint\>\.IsClosed\(\)') to verify closedness first.
+
+```csharp
+public double GetVolume();
+```
+
+#### Returns
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') representing the absolute enclosed volume, or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if the points or indexes are unavailable\.
 
 <a name='DiGi.Geometry.Spatial.Classes.Mesh3D.Move(DiGi.Geometry.Spatial.Classes.Vector3D)'></a>
 
@@ -3559,6 +3620,35 @@ The [Plane](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Plana
 `geometry2D` [T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Planar_T_.T 'DiGi\.Geometry\.Spatial\.Classes\.Planar\<T\>\.T')
 
 The 2D geometry of type \<typeparam ref="T" /\> to be associated with this instance\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Planar_T_.Planar(DiGi.Geometry.Spatial.Classes.Plane,T,bool)'></a>
+
+## Planar\(Plane, T, bool\) Constructor
+
+Initializes a new instance of the [Planar&lt;T&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Planar_T_ 'DiGi\.Geometry\.Spatial\.Classes\.Planar\<T\>') class from a prebuilt plane and 2D geometry\.
+
+```csharp
+internal Planar(DiGi.Geometry.Spatial.Classes.Plane? plane, T? geometry2D, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.Planar_T_.Planar(DiGi.Geometry.Spatial.Classes.Plane,T,bool).plane'></a>
+
+`plane` [Plane](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Plane 'DiGi\.Geometry\.Spatial\.Classes\.Plane')
+
+The [Plane](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Planar_T_.Plane 'DiGi\.Geometry\.Spatial\.Classes\.Planar\<T\>\.Plane') that defines the planar surface\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Planar_T_.Planar(DiGi.Geometry.Spatial.Classes.Plane,T,bool).geometry2D'></a>
+
+`geometry2D` [T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Planar_T_.T 'DiGi\.Geometry\.Spatial\.Classes\.Planar\<T\>\.T')
+
+The 2D geometry of type [T](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Planar_T_.T 'DiGi\.Geometry\.Spatial\.Classes\.Planar\<T\>\.T') to be associated with this instance\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Planar_T_.Planar(DiGi.Geometry.Spatial.Classes.Plane,T,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the inputs are defensively cloned; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied instances are adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created instances that are not shared\.
 
 <a name='DiGi.Geometry.Spatial.Classes.Planar_T_.Planar(System.Text.Json.Nodes.JsonObject)'></a>
 
@@ -5319,6 +5409,35 @@ The [Plane](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Plane
 
 The [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D') representation of the polygonal face in 2D space\.
 
+<a name='DiGi.Geometry.Spatial.Classes.PolygonalFace3D.PolygonalFace3D(DiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,bool)'></a>
+
+## PolygonalFace3D\(Plane, IPolygonalFace2D, bool\) Constructor
+
+Initializes a new instance of the [PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D') class from a prebuilt plane and 2D face\.
+
+```csharp
+internal PolygonalFace3D(DiGi.Geometry.Spatial.Classes.Plane? plane, DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D? polygonalFace2D, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.PolygonalFace3D.PolygonalFace3D(DiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,bool).plane'></a>
+
+`plane` [Plane](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Plane 'DiGi\.Geometry\.Spatial\.Classes\.Plane')
+
+The [Plane](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Plane 'DiGi\.Geometry\.Spatial\.Classes\.Plane') that defines the surface of the polygonal face\.
+
+<a name='DiGi.Geometry.Spatial.Classes.PolygonalFace3D.PolygonalFace3D(DiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,bool).polygonalFace2D'></a>
+
+`polygonalFace2D` [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')
+
+The [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D') representation of the polygonal face in 2D space\.
+
+<a name='DiGi.Geometry.Spatial.Classes.PolygonalFace3D.PolygonalFace3D(DiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the inputs are defensively cloned; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied instances are adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created instances that are not shared\.
+
 <a name='DiGi.Geometry.Spatial.Classes.PolygonalFace3D.PolygonalFace3D(DiGi.Geometry.Spatial.Classes.PolygonalFace3D)'></a>
 
 ## PolygonalFace3D\(PolygonalFace3D\) Constructor
@@ -5991,6 +6110,29 @@ public Polyhedron(DiGi.Geometry.Spatial.Classes.Polyhedron? polyhedron);
 
 The [Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron') object to copy from\.
 
+<a name='DiGi.Geometry.Spatial.Classes.Polyhedron.Polyhedron(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,bool)'></a>
+
+## Polyhedron\(List\<IPolygonalFace3D\>, bool\) Constructor
+
+Initializes a new instance of the [Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron') class from a prebuilt list of polygonal faces\.
+
+```csharp
+internal Polyhedron(System.Collections.Generic.List<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D>? polygonalFaces, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.Polyhedron.Polyhedron(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,bool).polygonalFaces'></a>
+
+`polygonalFaces` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the polygonal faces of the polyhedron\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Polyhedron.Polyhedron(System.Collections.Generic.List_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the faces are defensively cloned; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied list is adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created faces that are not shared\.
+
 <a name='DiGi.Geometry.Spatial.Classes.Polyhedron.Polyhedron(System.Text.Json.Nodes.JsonObject)'></a>
 
 ## Polyhedron\(JsonObject\) Constructor
@@ -6067,6 +6209,29 @@ public Polyhedron(DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D>? po
 `polyhedron` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
 
 The [Polyhedron&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>') instance to copy from\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.Polyhedron(System.Collections.Generic.List_TPolygonalFace3D_,bool)'></a>
+
+## Polyhedron\(List\<TPolygonalFace3D\>, bool\) Constructor
+
+Initializes a new instance of the [Polyhedron&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>') class from a prebuilt list of polygonal faces\.
+
+```csharp
+protected Polyhedron(System.Collections.Generic.List<TPolygonalFace3D>? polygonalFaces, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.Polyhedron(System.Collections.Generic.List_TPolygonalFace3D_,bool).polygonalFaces'></a>
+
+`polygonalFaces` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[TPolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>\.TPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the polygonal faces of the polyhedron\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.Polyhedron(System.Collections.Generic.List_TPolygonalFace3D_,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the faces are defensively cloned; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied list is adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created faces that are not shared\.
 
 <a name='DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.Polyhedron(System.Text.Json.Nodes.JsonObject)'></a>
 

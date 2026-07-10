@@ -36,6 +36,17 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class from a prebuilt plane and 2D face.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> that defines the surface of the polygonal face.</param>
+        /// <param name="polygonalFace2D">The <see cref="IPolygonalFace2D"/> representation of the polygonal face in 2D space.</param>
+        /// <param name="clone">When <see langword="true"/>, the inputs are defensively cloned; when <see langword="false"/>, the supplied instances are adopted directly without cloning. Use <see langword="false"/> only when the caller owns freshly created instances that are not shared.</param>
+        internal PolygonalFace3D(Plane? plane, IPolygonalFace2D? polygonalFace2D, bool clone)
+            : base(plane, polygonalFace2D, clone)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PolygonalFace3D"/> class using the specified external edge.
         /// </summary>
         /// <param name="externalEdge">The <see cref="IPolygonal3D"/> object representing the external edge used to initialize the face. This value can be null.</param>

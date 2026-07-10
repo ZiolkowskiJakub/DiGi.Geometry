@@ -26,7 +26,7 @@ namespace DiGi.Geometry.Spatial
             double double_InvTol = 1.0 / tolerance_Temp;
 
             // Spatial grid using ValueTuple coordinates to avoid Point3D heap allocations
-            Dictionary<(long X, long Y, long Z), List<((double X, double Y, double Z) Start, (double X, double Y, double Z) End)>> edges_ByCell = new();
+            Dictionary<(long X, long Y, long Z), List<((double X, double Y, double Z) Start, (double X, double Y, double Z) End)>> edges_ByCell = [];
 
             (long X, long Y, long Z) GetCell((double X, double Y, double Z) point3D_Cell)
             {

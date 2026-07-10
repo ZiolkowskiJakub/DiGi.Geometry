@@ -40,6 +40,16 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Polyhedron"/> class from a prebuilt list of polygonal faces.
+        /// </summary>
+        /// <param name="polygonalFaces">The <see cref="List{IPolygonalFace3D}"/> containing the polygonal faces of the polyhedron.</param>
+        /// <param name="clone">When <see langword="true"/>, the faces are defensively cloned; when <see langword="false"/>, the supplied list is adopted directly without cloning. Use <see langword="false"/> only when the caller owns freshly created faces that are not shared.</param>
+        internal Polyhedron(List<IPolygonalFace3D>? polygonalFaces, bool clone)
+            : base(polygonalFaces, clone)
+        {
+        }
+
+        /// <summary>
         /// Creates a clone of the current instance.
         /// </summary>
         /// <returns>A new <see cref="ISerializableObject"/> that is a copy of the current instance, or null.</returns>
@@ -97,6 +107,34 @@ namespace DiGi.Geometry.Spatial.Classes
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polyhedron{TPolygonalFace3D}"/> class from a prebuilt list of polygonal faces.
+        /// </summary>
+        /// <param name="polygonalFaces">The <see cref="List{TPolygonalFace3D}"/> containing the polygonal faces of the polyhedron.</param>
+        /// <param name="clone">When <see langword="true"/>, the faces are defensively cloned; when <see langword="false"/>, the supplied list is adopted directly without cloning. Use <see langword="false"/> only when the caller owns freshly created faces that are not shared.</param>
+        protected Polyhedron(List<TPolygonalFace3D>? polygonalFaces, bool clone)
+            : base()
+        {
+            if (clone)
+            {
+                if (polygonalFaces != null && polygonalFaces.Count >= 4)
+                {
+                    this.polygonalFaces = new(polygonalFaces.Count);
+                    foreach (TPolygonalFace3D polygonalFace in polygonalFaces)
+                    {
+                        if (DiGi.Core.Query.Clone(polygonalFace) is TPolygonalFace3D polygonalFace_Temp)
+                        {
+                            this.polygonalFaces.Add(polygonalFace_Temp);
+                        }
+                    }
+                }
+
+                return;
+            }
+
+            this.polygonalFaces = polygonalFaces;
         }
 
         /// <summary>

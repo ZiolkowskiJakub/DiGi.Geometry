@@ -123,6 +123,116 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
+        /// Generates a <see cref="Classes.Polyhedron"/> from the specified <see cref="Ellipsoid"/>.
+        /// </summary>
+        /// <param name="ellipsoid">The <see cref="Ellipsoid"/> to convert into a polyhedron.</param>
+        /// <param name="stacks">The number of stacks (latitude divisions) as an <see cref="int"/> used to generate the polyhedron. Must be at least 2.</param>
+        /// <param name="slices">The number of slices (longitude divisions) as an <see cref="int"/> used to generate the polyhedron. Must be at least 3.</param>
+        /// <returns>A <see cref="Classes.Polyhedron"/> composed of triangular faces representing the ellipsoid, or <c>null</c> if the provided <see cref="Ellipsoid"/> is <c>null</c>, incomplete, or the resolution values are out of range.</returns>
+        public static Polyhedron? Polyhedron(this Ellipsoid? ellipsoid, int stacks, int slices)
+        {
+            return Polyhedron(Mesh3D(ellipsoid, stacks, slices));
+        }
+
+        /// <summary>
+        /// Generates a <see cref="Classes.Polyhedron"/> from the specified <see cref="Ellipsoid"/> using an angle factor to determine the resolution of stacks and slices.
+        /// </summary>
+        /// <param name="ellipsoid">The <see cref="Ellipsoid"/> instance to be converted into a polyhedron.</param>
+        /// <param name="angleFactor">A <see cref="double"/> value used to calculate the number of stacks and slices for the resulting polyhedron.</param>
+        /// <returns>A <see cref="Classes.Polyhedron"/> composed of triangular faces representing the ellipsoid, or <c>null</c> if the provided <see cref="Ellipsoid"/> is <c>null</c> or the angle factor does not yield a positive angular step.</returns>
+        public static Polyhedron? Polyhedron(this Ellipsoid? ellipsoid, double angleFactor)
+        {
+            return Polyhedron(Mesh3D(ellipsoid, angleFactor));
+        }
+
+        /// <summary>
+        /// Converts the specified <see cref="Classes.Mesh3D"/> to a <see cref="Classes.Polyhedron"/> by creating a triangular polygonal face for each mesh triangle.
+        /// <para>Faces are built with scalar plane-coordinate arithmetic and adopted directly into the polyhedron without defensive cloning, so the conversion runs without reflection-based copies.</para>
+        /// </summary>
+        /// <param name="mesh3D">The <see cref="Classes.Mesh3D"/> instance to convert.</param>
+        /// <returns>A <see cref="Classes.Polyhedron"/> composed of triangular faces, or <c>null</c> if the <see cref="Classes.Mesh3D"/> is <c>null</c>, invalid, or yields fewer than four valid faces.</returns>
+        public static Polyhedron? Polyhedron(this Mesh3D? mesh3D)
+        {
+            List<Point3D>? point3Ds = mesh3D?.GetPoints();
+            if (point3Ds == null)
+            {
+                return null;
+            }
+
+            List<int[]>? indexes = mesh3D!.GetIndexes();
+            if (indexes == null || indexes.Count < 4)
+            {
+                return null;
+            }
+
+            int count = point3Ds.Count;
+
+            List<IPolygonalFace3D> polygonalFace3Ds = new(indexes.Count);
+            for (int i = 0; i < indexes.Count; i++)
+            {
+                int[] indexes_Triangle = indexes[i];
+
+                int index_1 = indexes_Triangle[0];
+                int index_2 = indexes_Triangle[1];
+                int index_3 = indexes_Triangle[2];
+
+                if (index_1 < 0 || index_1 >= count || index_2 < 0 || index_2 >= count || index_3 < 0 || index_3 >= count)
+                {
+                    continue;
+                }
+
+                Point3D point3D_1 = point3Ds[index_1];
+                Point3D point3D_2 = point3Ds[index_2];
+                Point3D point3D_3 = point3Ds[index_3];
+
+                Plane plane = new(point3D_1, point3D_2, point3D_3);
+
+                // AxisX and AxisY allocate on every access, so they are read once per face and reduced to scalars
+                Vector3D? axisX = plane.AxisX;
+                Vector3D? axisY = plane.AxisY;
+                if (axisX is null || axisY is null)
+                {
+                    continue;
+                }
+
+                double x_AxisX = axisX.X;
+                double y_AxisX = axisX.Y;
+                double z_AxisX = axisX.Z;
+
+                double x_AxisY = axisY.X;
+                double y_AxisY = axisY.Y;
+                double z_AxisY = axisY.Z;
+
+                // The plane origin is the first triangle point, so its plane coordinates are exactly (0, 0)
+                double x_2 = point3D_2.X - point3D_1.X;
+                double y_2 = point3D_2.Y - point3D_1.Y;
+                double z_2 = point3D_2.Z - point3D_1.Z;
+
+                double x_3 = point3D_3.X - point3D_1.X;
+                double y_3 = point3D_3.Y - point3D_1.Y;
+                double z_3 = point3D_3.Z - point3D_1.Z;
+
+                List<Point2D> point2Ds =
+                [
+                    new Point2D(0, 0),
+                    new Point2D((x_2 * x_AxisX) + (y_2 * y_AxisX) + (z_2 * z_AxisX), (x_2 * x_AxisY) + (y_2 * y_AxisY) + (z_2 * z_AxisY)),
+                    new Point2D((x_3 * x_AxisX) + (y_3 * y_AxisX) + (z_3 * z_AxisX), (x_3 * x_AxisY) + (y_3 * y_AxisY) + (z_3 * z_AxisY)),
+                ];
+
+                PolygonalFace2D polygonalFace2D = new(new Polygon2D(point2Ds), null, false);
+
+                polygonalFace3Ds.Add(new PolygonalFace3D(plane, polygonalFace2D, false));
+            }
+
+            if (polygonalFace3Ds.Count < 4)
+            {
+                return null;
+            }
+
+            return new Polyhedron(polygonalFace3Ds, false);
+        }
+
+        /// <summary>
         /// Converts the specified <see cref="Classes.BoundingBox3D"/> to a <see cref="Classes.Polyhedron"/>.
         /// </summary>
         /// <param name="boundingBox3D">The <see cref="Classes.BoundingBox3D"/> instance to convert.</param>

@@ -770,7 +770,7 @@ A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'S
 
 #### Returns
 [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')  
-A [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') object representing the ellipsoid, or `null` if the provided [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double) 'DiGi\.Geometry\.Spatial\.Create\.Ellipsoid\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.Point3D, double, double, double\)') is `null`\.
+A [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') object representing the ellipsoid, or `null` if the provided [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double) 'DiGi\.Geometry\.Spatial\.Create\.Ellipsoid\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.Point3D, double, double, double\)') is `null` or the angle factor does not yield a positive angular step\.
 
 <a name='DiGi.Geometry.Spatial.Create.Mesh3D(thisDiGi.Geometry.Spatial.Classes.Ellipsoid,int,int)'></a>
 
@@ -793,17 +793,17 @@ The [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatia
 
 `stacks` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
 
-The number of stacks \(latitude divisions\) as an [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32') used to generate the mesh\.
+The number of stacks \(latitude divisions\) as an [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32') used to generate the mesh\. Must be at least 2\.
 
 <a name='DiGi.Geometry.Spatial.Create.Mesh3D(thisDiGi.Geometry.Spatial.Classes.Ellipsoid,int,int).slices'></a>
 
 `slices` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
 
-The number of slices \(longitude divisions\) as an [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32') used to generate the mesh\.
+The number of slices \(longitude divisions\) as an [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32') used to generate the mesh\. Must be at least 3\.
 
 #### Returns
 [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')  
-A [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') representing the ellipsoid, or `null` if the provided [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double) 'DiGi\.Geometry\.Spatial\.Create\.Ellipsoid\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.Point3D, double, double, double\)') is `null`\.
+A [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') representing the ellipsoid, or `null` if the provided [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double) 'DiGi\.Geometry\.Spatial\.Create\.Ellipsoid\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.Point3D, double, double, double\)') is `null`, incomplete, or the resolution values are out of range\.
 
 <a name='DiGi.Geometry.Spatial.Create.Mesh3D(thisDiGi.Geometry.Spatial.Classes.Polyhedron,double)'></a>
 
@@ -2082,6 +2082,89 @@ The [BoundingBox3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Class
 #### Returns
 [Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron')  
 A [Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron') representing the bounding box, or `null` if the provided [BoundingBox3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BoundingBox3D 'DiGi\.Geometry\.Spatial\.Classes\.BoundingBox3D') is `null` or cannot be converted into a valid polyhedron\.
+
+<a name='DiGi.Geometry.Spatial.Create.Polyhedron(thisDiGi.Geometry.Spatial.Classes.Ellipsoid,double)'></a>
+
+## Create\.Polyhedron\(this Ellipsoid, double\) Method
+
+Generates a [Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron') from the specified [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double) 'DiGi\.Geometry\.Spatial\.Create\.Ellipsoid\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.Point3D, double, double, double\)') using an angle factor to determine the resolution of stacks and slices\.
+
+```csharp
+public static DiGi.Geometry.Spatial.Classes.Polyhedron? Polyhedron(this DiGi.Geometry.Spatial.Classes.Ellipsoid? ellipsoid, double angleFactor);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.Polyhedron(thisDiGi.Geometry.Spatial.Classes.Ellipsoid,double).ellipsoid'></a>
+
+`ellipsoid` [Ellipsoid](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Ellipsoid 'DiGi\.Geometry\.Spatial\.Classes\.Ellipsoid')
+
+The [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double) 'DiGi\.Geometry\.Spatial\.Create\.Ellipsoid\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.Point3D, double, double, double\)') instance to be converted into a polyhedron\.
+
+<a name='DiGi.Geometry.Spatial.Create.Polyhedron(thisDiGi.Geometry.Spatial.Classes.Ellipsoid,double).angleFactor'></a>
+
+`angleFactor` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') value used to calculate the number of stacks and slices for the resulting polyhedron\.
+
+#### Returns
+[Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron')  
+A [Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron') composed of triangular faces representing the ellipsoid, or `null` if the provided [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double) 'DiGi\.Geometry\.Spatial\.Create\.Ellipsoid\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.Point3D, double, double, double\)') is `null` or the angle factor does not yield a positive angular step\.
+
+<a name='DiGi.Geometry.Spatial.Create.Polyhedron(thisDiGi.Geometry.Spatial.Classes.Ellipsoid,int,int)'></a>
+
+## Create\.Polyhedron\(this Ellipsoid, int, int\) Method
+
+Generates a [Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron') from the specified [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double) 'DiGi\.Geometry\.Spatial\.Create\.Ellipsoid\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.Point3D, double, double, double\)')\.
+
+```csharp
+public static DiGi.Geometry.Spatial.Classes.Polyhedron? Polyhedron(this DiGi.Geometry.Spatial.Classes.Ellipsoid? ellipsoid, int stacks, int slices);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.Polyhedron(thisDiGi.Geometry.Spatial.Classes.Ellipsoid,int,int).ellipsoid'></a>
+
+`ellipsoid` [Ellipsoid](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Ellipsoid 'DiGi\.Geometry\.Spatial\.Classes\.Ellipsoid')
+
+The [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double) 'DiGi\.Geometry\.Spatial\.Create\.Ellipsoid\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.Point3D, double, double, double\)') to convert into a polyhedron\.
+
+<a name='DiGi.Geometry.Spatial.Create.Polyhedron(thisDiGi.Geometry.Spatial.Classes.Ellipsoid,int,int).stacks'></a>
+
+`stacks` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The number of stacks \(latitude divisions\) as an [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32') used to generate the polyhedron\. Must be at least 2\.
+
+<a name='DiGi.Geometry.Spatial.Create.Polyhedron(thisDiGi.Geometry.Spatial.Classes.Ellipsoid,int,int).slices'></a>
+
+`slices` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The number of slices \(longitude divisions\) as an [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32') used to generate the polyhedron\. Must be at least 3\.
+
+#### Returns
+[Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron')  
+A [Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron') composed of triangular faces representing the ellipsoid, or `null` if the provided [Ellipsoid\(Point3D, Point3D, double, double, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.Ellipsoid(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double,double,double) 'DiGi\.Geometry\.Spatial\.Create\.Ellipsoid\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, DiGi\.Geometry\.Spatial\.Classes\.Point3D, double, double, double\)') is `null`, incomplete, or the resolution values are out of range\.
+
+<a name='DiGi.Geometry.Spatial.Create.Polyhedron(thisDiGi.Geometry.Spatial.Classes.Mesh3D)'></a>
+
+## Create\.Polyhedron\(this Mesh3D\) Method
+
+Converts the specified [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') to a [Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron') by creating a triangular polygonal face for each mesh triangle\.
+
+Faces are built with scalar plane-coordinate arithmetic and adopted directly into the polyhedron without defensive cloning, so the conversion runs without reflection-based copies.
+
+```csharp
+public static DiGi.Geometry.Spatial.Classes.Polyhedron? Polyhedron(this DiGi.Geometry.Spatial.Classes.Mesh3D? mesh3D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.Polyhedron(thisDiGi.Geometry.Spatial.Classes.Mesh3D).mesh3D'></a>
+
+`mesh3D` [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')
+
+The [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') instance to convert\.
+
+#### Returns
+[Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron')  
+A [Polyhedron](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron') composed of triangular faces, or `null` if the [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') is `null`, invalid, or yields fewer than four valid faces\.
 
 <a name='DiGi.Geometry.Spatial.Create.Polyhedron(thisDiGi.Geometry.Spatial.Classes.PolygonalFaceExtrusion,double)'></a>
 

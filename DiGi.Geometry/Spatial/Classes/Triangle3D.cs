@@ -140,7 +140,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             get
             {
-                return DiGi.Core.Query.Clone(points[index]);
+                return points[index]?.Clone() as Point3D;
             }
         }
 
@@ -278,7 +278,16 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <c>List&lt;Point3D&gt;</c> containing the filtered points, or <see langword="null"/> if the source is <see langword="null"/>.</returns>
         public List<Point3D>? GetPoints()
         {
-            return DiGi.Core.Query.Clone(points)?.FilterNulls();
+            List<Point3D> result = new(3);
+            for (int i = 0; i < points.Length; i++)
+            {
+                if (points[i] is Point3D point3D)
+                {
+                    result.Add(point3D);
+                }
+            }
+
+            return result;
         }
 
         /// <summary>

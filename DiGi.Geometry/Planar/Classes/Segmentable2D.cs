@@ -37,7 +37,20 @@ namespace DiGi.Geometry.Planar.Classes
         public Segmentable2D(Segmentable2D? segmentable2D)
             : base(segmentable2D)
         {
-            points = segmentable2D?.points.Clone()?.FilterNulls() ?? [];
+            List<Point2D>? points_Source = segmentable2D?.points;
+            if (points_Source == null)
+            {
+                return;
+            }
+
+            points = new List<Point2D>(points_Source.Count);
+            for (int i = 0; i < points_Source.Count; i++)
+            {
+                if (points_Source[i]?.Clone() is Point2D point2D)
+                {
+                    points.Add(point2D);
+                }
+            }
         }
 
         /// <summary>
@@ -46,7 +59,23 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="point2Ds">The vertices of the geometry.</param>
         public Segmentable2D(IEnumerable<Point2D>? point2Ds)
         {
-            points = point2Ds?.Clone()?.FilterNulls() ?? [];
+            if (point2Ds == null)
+            {
+                return;
+            }
+
+            if (point2Ds is ICollection<Point2D> point2Ds_Collection)
+            {
+                points = new List<Point2D>(point2Ds_Collection.Count);
+            }
+
+            foreach (Point2D point2D in point2Ds)
+            {
+                if (point2D?.Clone() is Point2D point2D_Temp)
+                {
+                    points.Add(point2D_Temp);
+                }
+            }
         }
 
         /// <summary>
@@ -129,7 +158,21 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>A cloned list of vertices, or null if none exist.</returns>
         public List<Point2D>? GetPoints()
         {
-            return points?.Clone()?.FilterNulls();
+            if (points == null)
+            {
+                return null;
+            }
+
+            List<Point2D> result = new(points.Count);
+            for (int i = 0; i < points.Count; i++)
+            {
+                if (points[i]?.Clone() is Point2D point2D)
+                {
+                    result.Add(point2D);
+                }
+            }
+
+            return result;
         }
 
         /// <summary>

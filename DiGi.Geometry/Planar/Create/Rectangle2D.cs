@@ -137,12 +137,12 @@ namespace DiGi.Geometry.Planar
                 int count = 0;
                 foreach (Point2D point2D_Candidate in point2Ds_Candidates)
                 {
-                    (long X, long Y) cell = ((long)System.Math.Round(point2D_Candidate.X / tolerance), (long)System.Math.Round(point2D_Candidate.Y / tolerance));
+                    (long X, long Y) = ((long)System.Math.Round(point2D_Candidate.X / tolerance), (long)System.Math.Round(point2D_Candidate.Y / tolerance));
 
                     bool found = false;
-                    for (long x = cell.X - 1; x <= cell.X + 1 && !found; x++)
+                    for (long x = X - 1; x <= X + 1 && !found; x++)
                     {
-                        for (long y = cell.Y - 1; y <= cell.Y + 1 && !found; y++)
+                        for (long y = Y - 1; y <= Y + 1 && !found; y++)
                         {
                             if (!point2Ds_ConvexHullByCell.TryGetValue((x, y), out List<Point2D>? point2Ds_Cell))
                             {

@@ -40,6 +40,22 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Mesh2D"/> class from prebuilt lists.
+        /// </summary>
+        /// <param name="point2Ds">The <see cref="List{Point2D}"/> containing the vertices of the mesh.</param>
+        /// <param name="indexes">The <see cref="List{T}"/> of <c>int[]</c> defining the triangle indices of the mesh.</param>
+        /// <param name="clone">When <see langword="true"/>, the inputs are defensively copied and validated; when <see langword="false"/>, the supplied lists are adopted directly without cloning. Use <see langword="false"/> only when the caller owns freshly created, valid data that is not shared.</param>
+        internal Mesh2D(List<Point2D>? point2Ds, List<int[]>? indexes, bool clone)
+            : base(clone ? point2Ds : null, clone ? indexes : null)
+        {
+            if (!clone)
+            {
+                points = point2Ds;
+                this.indexes = indexes;
+            }
+        }
+
+        /// <summary>
         /// Creates a clone of the current mesh.
         /// </summary>
         /// <returns>A cloned instance of the mesh.</returns>
@@ -65,7 +81,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            List<Segment2D> result = [];
+            List<Segment2D> result = new(auxiliaryIndexes.Count);
             foreach (int[] indexes_Segment2D in auxiliaryIndexes)
             {
                 result.Add(new Segment2D(points[indexes_Segment2D[0]], points[indexes_Segment2D[1]]));
@@ -91,10 +107,10 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            List<Polygon2D>? result = [];
+            List<Polygon2D>? result = new(indexesList.Count);
             foreach (List<int> indexes_Polygon2D in indexesList)
             {
-                List<Point2D> point2Ds = [];
+                List<Point2D> point2Ds = new(indexes_Polygon2D.Count);
                 foreach (int index in indexes_Polygon2D)
                 {
                     point2Ds.Add(points[index]);
@@ -123,7 +139,7 @@ namespace DiGi.Geometry.Planar.Classes
             List<List<int>>? indexesList = Core.Query.SortedBoundaryIndexes(indexes, out List<int[]>? auxiliaryIndexes);
             if (auxiliaryIndexes != null)
             {
-                auxiliarySegments = [];
+                auxiliarySegments = new List<Segment2D>(auxiliaryIndexes.Count);
                 foreach (int[] indexes_Segment2D in auxiliaryIndexes)
                 {
                     auxiliarySegments.Add(new Segment2D(points[indexes_Segment2D[0]], points[indexes_Segment2D[1]]));
@@ -133,10 +149,10 @@ namespace DiGi.Geometry.Planar.Classes
             List<Polygon2D>? result = null;
             if (indexesList is not null)
             {
-                result = [];
+                result = new List<Polygon2D>(indexesList.Count);
                 foreach (List<int> indexes_Polygon2D in indexesList)
                 {
-                    List<Point2D> point2Ds = [];
+                    List<Point2D> point2Ds = new(indexes_Polygon2D.Count);
                     foreach (int index in indexes_Polygon2D)
                     {
                         point2Ds.Add(points[index]);
@@ -164,26 +180,68 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
+        /// Calculates the total area of the mesh as the sum of the areas of its triangles.
+        /// <para>Uses scalar coordinate arithmetic only, without allocating intermediate objects.</para>
+        /// </summary>
+        /// <returns>A <see cref="double"/> representing the total area, or <see cref="double.NaN"/> if the points or indexes are unavailable.</returns>
+        public double GetArea()
+        {
+            if (points == null || indexes == null)
+            {
+                return double.NaN;
+            }
+
+            int count = points.Count;
+
+            double result = 0;
+            for (int i = 0; i < indexes.Count; i++)
+            {
+                int[] indexes_Triangle = indexes[i];
+
+                int index_1 = indexes_Triangle[0];
+                int index_2 = indexes_Triangle[1];
+                int index_3 = indexes_Triangle[2];
+
+                if (index_1 < 0 || index_1 >= count || index_2 < 0 || index_2 >= count || index_3 < 0 || index_3 >= count)
+                {
+                    continue;
+                }
+
+                Point2D point2D_1 = points[index_1];
+                Point2D point2D_2 = points[index_2];
+                Point2D point2D_3 = points[index_3];
+
+                double cross = ((point2D_2.X - point2D_1.X) * (point2D_3.Y - point2D_1.Y)) - ((point2D_2.Y - point2D_1.Y) * (point2D_3.X - point2D_1.X));
+
+                result += System.Math.Abs(cross);
+            }
+
+            return result * 0.5;
+        }
+
+        /// <summary>
         /// Retrieves all unique segments (edges) of the mesh.
         /// </summary>
         /// <returns>A list of all edges in the mesh, or null if the mesh is invalid.</returns>
-        public List<Segment2D>? GetSegements()
+        public List<Segment2D>? GetSegments()
         {
             if (points == null || indexes == null)
             {
                 return null;
             }
 
-            int count = TrianglesCount;
-            if (count == -1)
+            // ValueTuple keys are used deliberately: their seeded rotate-combine hash distributes the highly regular edge index pairs
+            // of structured meshes far better than a packed 64-bit integer key, whose default hash (low ^ high) degenerates into long collision chains.
+            static (int, int) edgeKey(int index_1, int index_2)
             {
-                return null;
+                return index_1 < index_2 ? (index_1, index_2) : (index_2, index_1);
             }
 
-            List<Segment2D> segment2Ds_Result = new();
+            int count = points.Count;
 
-            Dictionary<int, HashSet<int>> dictionary = new();
-            for (int i = 0; i < count; i++)
+            List<Segment2D> result = new(indexes.Count * 3 / 2 + 1);
+            HashSet<(int, int)> edges = [];
+            for (int i = 0; i < indexes.Count; i++)
             {
                 int[] indexes_Triangle = indexes[i];
                 if (indexes_Triangle == null || indexes_Triangle.Length < 3)
@@ -191,39 +249,24 @@ namespace DiGi.Geometry.Planar.Classes
                     continue;
                 }
 
-                // A triangle has 3 edges: (0, 1), (1, 2), (2, 0)
                 for (int j = 0; j < 3; j++)
                 {
-                    int idx1 = indexes_Triangle[j];
-                    int idx2 = indexes_Triangle[(j + 1) % 3];
+                    int index_1 = indexes_Triangle[j];
+                    int index_2 = indexes_Triangle[j == 2 ? 0 : j + 1];
 
-                    int index_1 = System.Math.Max(idx1, idx2);
-                    int index_2 = System.Math.Min(idx1, idx2);
-
-                    if (dictionary.TryGetValue(index_1, out HashSet<int>? indexes_Index) && indexes_Index != null)
+                    if (!edges.Add(edgeKey(index_1, index_2)))
                     {
-                        if (indexes_Index.Contains(index_2))
-                        {
-                            continue;
-                        }
+                        continue;
                     }
 
-                    if (indexes_Index == null)
+                    if (index_1 >= 0 && index_1 < count && index_2 >= 0 && index_2 < count)
                     {
-                        indexes_Index = new();
-                        dictionary[index_1] = indexes_Index;
-                    }
-
-                    indexes_Index.Add(index_2);
-
-                    if (idx1 < points.Count && idx2 < points.Count)
-                    {
-                        segment2Ds_Result.Add(new Segment2D(points[idx1], points[idx2]));
+                        result.Add(new Segment2D(points[index_1], points[index_2]));
                     }
                 }
             }
 
-            return segment2Ds_Result;
+            return result;
         }
 
         /// <summary>
@@ -275,27 +318,23 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            int count = TrianglesCount;
-            if (count == -1)
-            {
-                return null;
-            }
+            int count = points.Count;
 
-            List<Triangle2D> result = [];
-            if (count == 0)
+            List<Triangle2D> result = new(indexes.Count);
+            for (int i = 0; i < indexes.Count; i++)
             {
-                return result;
-            }
+                int[] indexes_Triangle = indexes[i];
 
-            for (int i = 0; i < TrianglesCount; i++)
-            {
-                Triangle2D? triangle2D = GetTriangle(i);
-                if (triangle2D == null)
+                int index_1 = indexes_Triangle[0];
+                int index_2 = indexes_Triangle[1];
+                int index_3 = indexes_Triangle[2];
+
+                if (index_1 < 0 || index_1 >= count || index_2 < 0 || index_2 >= count || index_3 < 0 || index_3 >= count)
                 {
                     continue;
                 }
 
-                result.Add(triangle2D);
+                result.Add(new Triangle2D(points[index_1], points[index_2], points[index_3]));
             }
 
             return result;

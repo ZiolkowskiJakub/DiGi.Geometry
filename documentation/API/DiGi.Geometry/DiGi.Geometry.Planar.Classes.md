@@ -3676,6 +3676,35 @@ The collection of vertices\.
 
 The index arrays defining triangles\.
 
+<a name='DiGi.Geometry.Planar.Classes.Mesh2D.Mesh2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,System.Collections.Generic.List_int[]_,bool)'></a>
+
+## Mesh2D\(List\<Point2D\>, List\<int\[\]\>, bool\) Constructor
+
+Initializes a new instance of the [Mesh2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Mesh2D 'DiGi\.Geometry\.Planar\.Classes\.Mesh2D') class from prebuilt lists\.
+
+```csharp
+internal Mesh2D(System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Point2D>? point2Ds, System.Collections.Generic.List<int[]>? indexes, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Mesh2D.Mesh2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,System.Collections.Generic.List_int[]_,bool).point2Ds'></a>
+
+`point2Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the vertices of the mesh\.
+
+<a name='DiGi.Geometry.Planar.Classes.Mesh2D.Mesh2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,System.Collections.Generic.List_int[]_,bool).indexes'></a>
+
+`indexes` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')[\[\]](https://learn.microsoft.com/en-us/dotnet/api/system.array 'System\.Array')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') of `int[]` defining the triangle indices of the mesh\.
+
+<a name='DiGi.Geometry.Planar.Classes.Mesh2D.Mesh2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,System.Collections.Generic.List_int[]_,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the inputs are defensively copied and validated; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied lists are adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created, valid data that is not shared\.
+
 <a name='DiGi.Geometry.Planar.Classes.Mesh2D.Mesh2D(System.Text.Json.Nodes.JsonObject)'></a>
 
 ## Mesh2D\(JsonObject\) Constructor
@@ -3709,6 +3738,22 @@ Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.in
 #### Returns
 [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
 A cloned instance of the mesh\.
+
+<a name='DiGi.Geometry.Planar.Classes.Mesh2D.GetArea()'></a>
+
+## Mesh2D\.GetArea\(\) Method
+
+Calculates the total area of the mesh as the sum of the areas of its triangles\.
+
+Uses scalar coordinate arithmetic only, without allocating intermediate objects.
+
+```csharp
+public double GetArea();
+```
+
+#### Returns
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') representing the total area, or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if the points or indexes are unavailable\.
 
 <a name='DiGi.Geometry.Planar.Classes.Mesh2D.GetAuxiliarySegments()'></a>
 
@@ -3775,14 +3820,14 @@ Implements [GetBoundingBox\(\)](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry
 [BoundingBox2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BoundingBox2D 'DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D')  
 The bounding box encompassing all points in the mesh\.
 
-<a name='DiGi.Geometry.Planar.Classes.Mesh2D.GetSegements()'></a>
+<a name='DiGi.Geometry.Planar.Classes.Mesh2D.GetSegments()'></a>
 
-## Mesh2D\.GetSegements\(\) Method
+## Mesh2D\.GetSegments\(\) Method
 
 Retrieves all unique segments \(edges\) of the mesh\.
 
 ```csharp
-public System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Segment2D>? GetSegements();
+public System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Segment2D>? GetSegments();
 ```
 
 #### Returns
@@ -4740,6 +4785,35 @@ The outer boundary of the face\.
 `internalEdges` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[IPolygonal2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonal2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
 
 The inner boundaries \(holes\) of the face\.
+
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2D.PolygonalFace2D(DiGi.Geometry.Planar.Interfaces.IPolygonal2D,System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IPolygonal2D_,bool)'></a>
+
+## PolygonalFace2D\(IPolygonal2D, List\<IPolygonal2D\>, bool\) Constructor
+
+Initializes a new instance of the [PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D') class from prebuilt edges\.
+
+```csharp
+internal PolygonalFace2D(DiGi.Geometry.Planar.Interfaces.IPolygonal2D? externalEdge, System.Collections.Generic.List<DiGi.Geometry.Planar.Interfaces.IPolygonal2D>? internalEdges, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2D.PolygonalFace2D(DiGi.Geometry.Planar.Interfaces.IPolygonal2D,System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IPolygonal2D_,bool).externalEdge'></a>
+
+`externalEdge` [IPolygonal2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonal2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D')
+
+The outer boundary of the face\.
+
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2D.PolygonalFace2D(DiGi.Geometry.Planar.Interfaces.IPolygonal2D,System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IPolygonal2D_,bool).internalEdges'></a>
+
+`internalEdges` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[IPolygonal2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonal2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The inner boundaries \(holes\) of the face\.
+
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2D.PolygonalFace2D(DiGi.Geometry.Planar.Interfaces.IPolygonal2D,System.Collections.Generic.List_DiGi.Geometry.Planar.Interfaces.IPolygonal2D_,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the edges are defensively cloned; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied edges are adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created edges that are not shared\.
 
 <a name='DiGi.Geometry.Planar.Classes.PolygonalFace2D.PolygonalFace2D(System.Text.Json.Nodes.JsonObject)'></a>
 

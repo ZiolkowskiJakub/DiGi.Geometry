@@ -1063,6 +1063,22 @@ The [TPoint](DiGi.Geometry.Core.Classes.md#DiGi.Geometry.Core.Classes.Mesh_TPoin
 [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')  
 The zero\-based index of the first occurrence of the specified [TPoint](DiGi.Geometry.Core.Classes.md#DiGi.Geometry.Core.Classes.Mesh_TPoint_.TPoint 'DiGi\.Geometry\.Core\.Classes\.Mesh\<TPoint\>\.TPoint') object if found; otherwise, \-1\.
 
+<a name='DiGi.Geometry.Core.Classes.Mesh_TPoint_.IsClosed()'></a>
+
+## Mesh\<TPoint\>\.IsClosed\(\) Method
+
+Determines whether the mesh forms a closed \(watertight, manifold\) surface, i\.e\. every edge is shared by exactly two triangles\.
+
+Runs in a single pass over the triangles using packed 64-bit edge keys and exits early when a non-manifold edge (shared by more than two triangles) or a degenerate triangle is found.
+
+```csharp
+public bool IsClosed();
+```
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') if every edge of the mesh is shared by exactly two triangles; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\. Returns [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') if the indexes are unavailable or the mesh has fewer than four triangles\.
+
 <a name='DiGi.Geometry.Core.Classes.UndirectedSegmentGraph_T,X_'></a>
 
 ## UndirectedSegmentGraph\<T,X\> Class

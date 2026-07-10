@@ -29,7 +29,7 @@ namespace DiGi.Geometry.Planar
 
             List<Point2D> point2Ds = [];
 
-            List<int[]> indices = [];
+            List<int[]> indices = new(triangle2Ds_Cached.Length);
 
             // Spatial hash grid: points are bucketed by their tolerance-sized cell so lookups avoid an O(n) linear scan per point.
             Dictionary<(long X, long Y), List<int>> indexes_ByCell = [];
@@ -90,7 +90,8 @@ namespace DiGi.Geometry.Planar
                 indices.Add([index_1, index_2, index_3]);
             }
 
-            return new Mesh2D(point2Ds, indices);
+            // The points are clones owned by this method and the indices are valid by construction, so the lists are adopted without a defensive copy
+            return new Mesh2D(point2Ds, indices, false);
         }
 
         /// <summary>
@@ -118,12 +119,12 @@ namespace DiGi.Geometry.Planar
 
                 if (point2Ds.Count == 3)
                 {
-                    return new Mesh2D(point2Ds, [[0, 1, 2]]);
+                    return new Mesh2D(point2Ds, [[0, 1, 2]], false);
                 }
 
                 if (point2Ds.Count == 4)
                 {
-                    return new Mesh2D(point2Ds, [[0, 1, 2], [2, 3, 0]]);
+                    return new Mesh2D(point2Ds, [[0, 1, 2], [2, 3, 0]], false);
                 }
             }
 

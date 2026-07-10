@@ -1,8 +1,6 @@
-using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Geometry.Core.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -37,32 +35,32 @@ namespace DiGi.Geometry.Core.Classes
         {
             if (mesh != null)
             {
-                List<TPoint?>? points_Temp = mesh?.points?.Clone();
-                if (points_Temp != null)
+                List<TPoint>? points_Source = mesh.points;
+                if (points_Source != null)
                 {
-                    points = [];
-                    foreach (TPoint? point in points_Temp)
+                    points = new List<TPoint>(points_Source.Count);
+                    for (int i = 0; i < points_Source.Count; i++)
                     {
+                        TPoint point = points_Source[i];
                         if (point == null)
                         {
                             continue;
                         }
 
-                        TPoint? point_Temp = point.Clone<TPoint>();
-                        if (point_Temp == null)
+                        if (point.Clone() is TPoint point_Temp)
                         {
-                            continue;
+                            points.Add(point_Temp);
                         }
-
-                        points.Add(point_Temp);
                     }
                 }
 
-                if (mesh?.indexes != null)
+                List<int[]>? indexes_Source = mesh.indexes;
+                if (indexes_Source != null)
                 {
-                    indexes = [];
-                    foreach (int[] vertices in mesh.indexes)
+                    indexes = new List<int[]>(indexes_Source.Count);
+                    for (int i = 0; i < indexes_Source.Count; i++)
                     {
+                        int[] vertices = indexes_Source[i];
                         indexes.Add([vertices[0], vertices[1], vertices[2]]);
                     }
                 }
@@ -81,30 +79,23 @@ namespace DiGi.Geometry.Core.Classes
                 return;
             }
 
-            List<TPoint?>? points_Temp = points?.Clone();
-            if (points_Temp != null)
+            this.points = points is ICollection<TPoint> points_Collection ? new List<TPoint>(points_Collection.Count) : [];
+            foreach (TPoint point in points)
             {
-                this.points = [];
-                foreach (TPoint? point in points_Temp)
+                if (point == null)
                 {
-                    if (point == null)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    TPoint? point_Temp = point.Clone<TPoint>();
-                    if (point_Temp == null)
-                    {
-                        continue;
-                    }
-
+                if (point.Clone() is TPoint point_Temp)
+                {
                     this.points.Add(point_Temp);
                 }
             }
 
-            int count = this.points?.Count ?? 0;
+            int count = this.points.Count;
 
-            this.indexes = [];
+            this.indexes = indexes is ICollection<int[]> indexes_Collection ? new List<int[]>(indexes_Collection.Count) : [];
             foreach (int[] vertices in indexes)
             {
                 if (vertices == null || vertices.Length < 3)
@@ -112,12 +103,16 @@ namespace DiGi.Geometry.Core.Classes
                     continue;
                 }
 
-                if (vertices[0] >= count || vertices[1] >= count || vertices[2] >= count)
+                int index_1 = vertices[0];
+                int index_2 = vertices[1];
+                int index_3 = vertices[2];
+
+                if (index_1 < 0 || index_1 >= count || index_2 < 0 || index_2 >= count || index_3 < 0 || index_3 >= count)
                 {
                     continue;
                 }
 
-                this.indexes.Add([vertices[0], vertices[1], vertices[2]]);
+                this.indexes.Add([index_1, index_2, index_3]);
             }
         }
 
@@ -172,17 +167,27 @@ namespace DiGi.Geometry.Core.Classes
             }
 
             HashSet<int> result = [];
-            foreach (int[] indexes_Temp in indexes)
+            for (int i = 0; i < indexes.Count; i++)
             {
-                if (indexes_Temp.Contains(index))
+                int[] indexes_Temp = indexes[i];
+                if (indexes_Temp[0] != index && indexes_Temp[1] != index && indexes_Temp[2] != index)
                 {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        if (indexes_Temp[0] != index)
-                        {
-                            result.Add(indexes_Temp[0]);
-                        }
-                    }
+                    continue;
+                }
+
+                if (indexes_Temp[0] != index)
+                {
+                    result.Add(indexes_Temp[0]);
+                }
+
+                if (indexes_Temp[1] != index)
+                {
+                    result.Add(indexes_Temp[1]);
+                }
+
+                if (indexes_Temp[2] != index)
+                {
+                    result.Add(indexes_Temp[2]);
                 }
             }
 
@@ -210,10 +215,9 @@ namespace DiGi.Geometry.Core.Classes
             HashSet<TPoint> result = [];
             foreach (int index_Temp in indexes_Temp)
             {
-                TPoint? t = points[index_Temp].Clone<TPoint>();
-                if (t != null)
+                if (points[index_Temp]?.Clone() is TPoint point_Temp)
                 {
-                    result.Add(t);
+                    result.Add(point_Temp);
                 }
             }
 
@@ -231,10 +235,11 @@ namespace DiGi.Geometry.Core.Classes
                 return null;
             }
 
-            List<int[]> result = [];
+            List<int[]> result = new(indexes.Count);
             for (int i = 0; i < indexes.Count; i++)
             {
-                result.Add([indexes[i][0], indexes[i][1], indexes[i][2]]);
+                int[] indexes_Triangle = indexes[i];
+                result.Add([indexes_Triangle[0], indexes_Triangle[1], indexes_Triangle[2]]);
             }
 
             return result;
@@ -268,21 +273,19 @@ namespace DiGi.Geometry.Core.Classes
                 return null;
             }
 
-            List<TPoint> result = [];
-            foreach (TPoint point in points)
+            List<TPoint> result = new(points.Count);
+            for (int i = 0; i < points.Count; i++)
             {
+                TPoint point = points[i];
                 if (point == null)
                 {
                     continue;
                 }
 
-                TPoint? point_Temp = point.Clone<TPoint>();
-                if (point_Temp == null)
+                if (point.Clone() is TPoint point_Temp)
                 {
-                    continue;
+                    result.Add(point_Temp);
                 }
-
-                result.Add(point_Temp);
             }
 
             return result;
@@ -309,6 +312,79 @@ namespace DiGi.Geometry.Core.Classes
             }
 
             return -1;
+        }
+
+        /// <summary>
+        /// Determines whether the mesh forms a closed (watertight, manifold) surface, i.e. every edge is shared by exactly two triangles.
+        /// <para>Runs in a single pass over the triangles using packed 64-bit edge keys and exits early when a non-manifold edge (shared by more than two triangles) or a degenerate triangle is found.</para>
+        /// </summary>
+        /// <returns><see langword="true"/> if every edge of the mesh is shared by exactly two triangles; otherwise, <see langword="false"/>. Returns <see langword="false"/> if the indexes are unavailable or the mesh has fewer than four triangles.</returns>
+        public bool IsClosed()
+        {
+            if (indexes == null || indexes.Count < 4)
+            {
+                return false;
+            }
+
+            // ValueTuple keys are used deliberately: their seeded rotate-combine hash distributes the highly regular edge index pairs
+            // of structured meshes far better than a packed 64-bit integer key, whose default hash (low ^ high) degenerates into long collision chains.
+            static (int, int) edgeKey(int index_1, int index_2)
+            {
+                return index_1 < index_2 ? (index_1, index_2) : (index_2, index_1);
+            }
+
+            Dictionary<(int, int), int> edgeCounts = new(indexes.Count * 3 / 2 + 1);
+            for (int i = 0; i < indexes.Count; i++)
+            {
+                int[] indexes_Triangle = indexes[i];
+                if (indexes_Triangle == null || indexes_Triangle.Length < 3)
+                {
+                    return false;
+                }
+
+                int index_1 = indexes_Triangle[0];
+                int index_2 = indexes_Triangle[1];
+                int index_3 = indexes_Triangle[2];
+
+                if (index_1 == index_2 || index_2 == index_3 || index_3 == index_1)
+                {
+                    return false;
+                }
+
+                (int, int) key_1 = edgeKey(index_1, index_2);
+                edgeCounts.TryGetValue(key_1, out int count_1);
+                if (count_1 >= 2)
+                {
+                    return false;
+                }
+                edgeCounts[key_1] = count_1 + 1;
+
+                (int, int) key_2 = edgeKey(index_2, index_3);
+                edgeCounts.TryGetValue(key_2, out int count_2);
+                if (count_2 >= 2)
+                {
+                    return false;
+                }
+                edgeCounts[key_2] = count_2 + 1;
+
+                (int, int) key_3 = edgeKey(index_3, index_1);
+                edgeCounts.TryGetValue(key_3, out int count_3);
+                if (count_3 >= 2)
+                {
+                    return false;
+                }
+                edgeCounts[key_3] = count_3 + 1;
+            }
+
+            foreach (KeyValuePair<(int, int), int> keyValuePair in edgeCounts)
+            {
+                if (keyValuePair.Value != 2)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>

@@ -65,11 +65,11 @@ namespace DiGi.Geometry.Planar
 
         private static Point2D? FindNear(PointIndex2D pointIndex2D, List<Point2D?> point2Ds, Point2D point2D, double tolerance)
         {
-            (long X, long Y) cell = GetCell(point2D, tolerance);
+            (long X, long Y) = GetCell(point2D, tolerance);
 
-            for (long x = cell.X - 1; x <= cell.X + 1; x++)
+            for (long x = X - 1; x <= X + 1; x++)
             {
-                for (long y = cell.Y - 1; y <= cell.Y + 1; y++)
+                for (long y = Y - 1; y <= Y + 1; y++)
                 {
                     if (!pointIndex2D.IndexesByCell.TryGetValue((x, y), out List<int>? indexes_Cell))
                     {

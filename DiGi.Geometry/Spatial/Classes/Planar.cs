@@ -63,6 +63,26 @@ namespace DiGi.Geometry.Spatial.Classes
             this.geometry2D = DiGi.Core.Query.Clone(geometry2D);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Planar{T}"/> class from a prebuilt plane and 2D geometry.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> that defines the planar surface.</param>
+        /// <param name="geometry2D">The 2D geometry of type <typeparamref name="T"/> to be associated with this instance.</param>
+        /// <param name="clone">When <see langword="true"/>, the inputs are defensively cloned; when <see langword="false"/>, the supplied instances are adopted directly without cloning. Use <see langword="false"/> only when the caller owns freshly created instances that are not shared.</param>
+        internal Planar(Plane? plane, T? geometry2D, bool clone)
+            : base()
+        {
+            if (clone)
+            {
+                this.plane = plane == null ? null : new(plane);
+                this.geometry2D = DiGi.Core.Query.Clone(geometry2D);
+                return;
+            }
+
+            this.plane = plane;
+            this.geometry2D = geometry2D;
+        }
+
         /// <summary> Gets the 2D geometry representation. </summary>
 
         [JsonIgnore]

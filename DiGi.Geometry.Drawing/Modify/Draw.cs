@@ -207,7 +207,7 @@ namespace DiGi.Geometry.Drawing
             }
             else
             {
-                List<Segment2D>? segment2Ds = mesh2D.GetSegements();
+                List<Segment2D>? segment2Ds = mesh2D.GetSegments();
                 if (segment2Ds == null)
                 {
                     return;

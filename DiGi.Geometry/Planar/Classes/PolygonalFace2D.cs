@@ -54,6 +54,25 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="PolygonalFace2D"/> class from prebuilt edges.
+        /// </summary>
+        /// <param name="externalEdge">The outer boundary of the face.</param>
+        /// <param name="internalEdges">The inner boundaries (holes) of the face.</param>
+        /// <param name="clone">When <see langword="true"/>, the edges are defensively cloned; when <see langword="false"/>, the supplied edges are adopted directly without cloning. Use <see langword="false"/> only when the caller owns freshly created edges that are not shared.</param>
+        internal PolygonalFace2D(IPolygonal2D? externalEdge, List<IPolygonal2D>? internalEdges, bool clone)
+        {
+            if (clone)
+            {
+                this.externalEdge = DiGi.Core.Query.Clone(externalEdge);
+                this.internalEdges = DiGi.Core.Query.Clone(internalEdges)?.FilterNulls();
+                return;
+            }
+
+            this.externalEdge = externalEdge;
+            this.internalEdges = internalEdges;
+        }
+
+        /// <summary>
         /// Gets all edges of the polygonal face, including both external and internal boundaries.
         /// </summary>
         [JsonIgnore]
