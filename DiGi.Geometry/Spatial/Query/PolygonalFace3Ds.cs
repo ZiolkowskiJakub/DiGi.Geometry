@@ -165,8 +165,8 @@ namespace DiGi.Geometry.Spatial
                 return CastResult(polygonalFace3Ds_Result);
             }
 
-            PolyhedronPointRelationSolver? polyhedronPointRelationSolver_1 = !inlcudePolyhedron_1 ? new PolyhedronPointRelationSolver(new BVHNode(polygonalFace3Ds_1), tolerance) : null;
-            PolyhedronPointRelationSolver? polyhedronPointRelationSolver_2 = !inlcudePolyhedron_2 ? new PolyhedronPointRelationSolver(new BVHNode(polygonalFace3Ds_2), tolerance) : null;
+            BVHNodePointRelationSolver? bVHNodePointRelationSolver_1 = !inlcudePolyhedron_1 ? new BVHNodePointRelationSolver(new BVHNode(polygonalFace3Ds_1), tolerance) : null;
+            BVHNodePointRelationSolver? bVHNodePointRelationSolver_2 = !inlcudePolyhedron_2 ? new BVHNodePointRelationSolver(new BVHNode(polygonalFace3Ds_2), tolerance) : null;
 
             List<TPolygonalFace3D> result = new(polygonalFace3Ds_Result.Count);
             for(int i = 0; i < polygonalFace3Ds_Result.Count; i++)
@@ -179,21 +179,31 @@ namespace DiGi.Geometry.Spatial
                 bool keep = true;
                 Point3D? point3D = null;
 
-                if(polyhedronPointRelationSolver_1 != null)
+                if(bVHNodePointRelationSolver_1 != null)
                 {
                     point3D = tPolygonalFace3D.GetInternalPoint(tolerance);
-                    if(point3D != null && polyhedronPointRelationSolver_1.GetPointRelation(point3D) != PointRelation.Outside)
+                    if(point3D != null)
                     {
-                        keep = false;
+                        bVHNodePointRelationSolver_1.Input = point3D;
+                        bVHNodePointRelationSolver_1.Solve();
+                        if(bVHNodePointRelationSolver_1.Output != PointRelation.Outside)
+                        {
+                            keep = false;
+                        }
                     }
                 }
 
-                if(keep && polyhedronPointRelationSolver_2 != null)
+                if(keep && bVHNodePointRelationSolver_2 != null)
                 {
                     point3D ??= tPolygonalFace3D.GetInternalPoint(tolerance);
-                    if(point3D != null && polyhedronPointRelationSolver_2.GetPointRelation(point3D) != PointRelation.Outside)
+                    if(point3D != null)
                     {
-                        keep = false;
+                        bVHNodePointRelationSolver_2.Input = point3D;
+                        bVHNodePointRelationSolver_2.Solve();
+                        if(bVHNodePointRelationSolver_2.Output != PointRelation.Outside)
+                        {
+                            keep = false;
+                        }
                     }
                 }
 

@@ -359,18 +359,26 @@ namespace DiGi.Geometry.Planar
                         else
                         {
                             geometry2D = null;
-                            if (geometry2D_Raw is Point2D point2D)
+                            if (geometry2D_Raw is Point2D point2D && segment2D_1.TryGetCoordinates(out double x_Start, out double y_Start, out double x_End, out double y_End))
                             {
-                                Point2D? point2D_Endpoint1 = segment2D_1[1];
-                                Point2D? point2D_Endpoint0 = segment2D_1[0];
+                                double tolerance_Squared = tolerance * tolerance;
 
-                                if (adjacent && point2D_Endpoint1 != null && !Query.AlmostEquals(point2D_Endpoint1, point2D, tolerance))
+                                double double_Dx = x_End - point2D.X;
+                                double double_Dy = y_End - point2D.Y;
+
+                                if (adjacent && double_Dx * double_Dx + double_Dy * double_Dy > tolerance_Squared)
                                 {
                                     geometry2D = point2D;
                                 }
-                                else if (last && point2D_Endpoint0 != null && !Query.AlmostEquals(point2D_Endpoint0, point2D, tolerance))
+                                else
                                 {
-                                    geometry2D = point2D;
+                                    double_Dx = x_Start - point2D.X;
+                                    double_Dy = y_Start - point2D.Y;
+
+                                    if (last && double_Dx * double_Dx + double_Dy * double_Dy > tolerance_Squared)
+                                    {
+                                        geometry2D = point2D;
+                                    }
                                 }
                             }
                         }
@@ -609,15 +617,16 @@ namespace DiGi.Geometry.Planar
         {
             handled = true;
 
-            Point2D? point2D_Start1 = segment2D_1[0];
-            Point2D? point2D_End1 = segment2D_1[1];
-            Point2D? point2D_Start2 = segment2D_2[0];
-            Point2D? point2D_End2 = segment2D_2[1];
+            if (!segment2D_1.TryGetCoordinates(out double x_Start1, out double y_Start1, out double x_End1, out double y_End1) ||
+                !segment2D_2.TryGetCoordinates(out double x_Start2, out double y_Start2, out double x_End2, out double y_End2))
+            {
+                return null;
+            }
 
-            bool on_1 = segment2D_1.On(point2D_Start2, tolerance);
-            bool on_2 = segment2D_1.On(point2D_End2, tolerance);
-            bool on_3 = segment2D_2.On(point2D_Start1, tolerance);
-            bool on_4 = segment2D_2.On(point2D_End1, tolerance);
+            bool on_1 = segment2D_1.On(x_Start2, y_Start2, tolerance);
+            bool on_2 = segment2D_1.On(x_End2, y_End2, tolerance);
+            bool on_3 = segment2D_2.On(x_Start1, y_Start1, tolerance);
+            bool on_4 = segment2D_2.On(x_End1, y_End1, tolerance);
 
             if (!on_1 && !on_2 && !on_3 && !on_4)
             {
@@ -634,44 +643,39 @@ namespace DiGi.Geometry.Planar
                 return new Segment2D(segment2D_1);
             }
 
-            if (on_2 && on_3)
+            double tolerance_Squared = tolerance * tolerance;
+
+            // Overlap end point pair: a point when the two coordinates coincide within tolerance, otherwise the connecting segment.
+            IGeometry2D PointOrSegment(double x_1, double y_1, double x_2, double y_2)
             {
-                if (Query.AlmostEquals(point2D_End2, point2D_Start1, tolerance))
+                double double_Dx = x_1 - x_2;
+                double double_Dy = y_1 - y_2;
+                if (double_Dx * double_Dx + double_Dy * double_Dy <= tolerance_Squared)
                 {
-                    return point2D_End2;
+                    return new Point2D(x_1, y_1);
                 }
 
-                return new Segment2D(point2D_End2, point2D_Start1);
+                return new Segment2D(x_1, y_1, x_2, y_2);
+            }
+
+            if (on_2 && on_3)
+            {
+                return PointOrSegment(x_End2, y_End2, x_Start1, y_Start1);
             }
 
             if (on_1 && on_3)
             {
-                if (Query.AlmostEquals(point2D_Start2, point2D_Start1, tolerance))
-                {
-                    return point2D_Start2;
-                }
-
-                return new Segment2D(point2D_Start2, point2D_Start1);
+                return PointOrSegment(x_Start2, y_Start2, x_Start1, y_Start1);
             }
 
             if (on_2 && on_4)
             {
-                if (Query.AlmostEquals(point2D_End2, point2D_End1, tolerance))
-                {
-                    return point2D_End2;
-                }
-
-                return new Segment2D(point2D_End2, point2D_End1);
+                return PointOrSegment(x_End2, y_End2, x_End1, y_End1);
             }
 
             if (on_1 && on_4)
             {
-                if (Query.AlmostEquals(point2D_Start2, point2D_End1, tolerance))
-                {
-                    return point2D_Start2;
-                }
-
-                return new Segment2D(point2D_Start2, point2D_End1);
+                return PointOrSegment(x_Start2, y_Start2, x_End1, y_End1);
             }
 
             handled = false;
@@ -687,10 +691,8 @@ namespace DiGi.Geometry.Planar
         /// <returns>A freshly owned <see cref="Segment2D"/> when the segment lies on the line, a <see cref="Point2D"/> when they cross, or null when they do not intersect.</returns>
         private static IGeometry2D? IntersectionGeometry2D(Line2D line2D, Segment2D segment2D, double tolerance)
         {
-            Point2D? point2D_Start = segment2D[0];
-            Point2D? point2D_End = segment2D[1];
-
-            if (point2D_Start != null && point2D_End != null && line2D.On(point2D_Start, tolerance) && line2D.On(point2D_End))
+            if (segment2D.TryGetCoordinates(out double x_Start, out double y_Start, out double x_End, out double y_End) &&
+                line2D.On(x_Start, y_Start, tolerance) && line2D.On(x_End, y_End, DiGi.Core.Constants.Tolerance.Distance))
             {
                 return new Segment2D(segment2D);
             }

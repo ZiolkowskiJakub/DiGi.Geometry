@@ -256,22 +256,25 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The intersection point, or null if no intersection exists within the segment boundaries.</returns>
         public Point2D? IntersectionPoint(Segment2D? segment2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (segment2D is null || origin == null || direction == null || segment2D.Start is not Point2D start || segment2D.Vector is not Vector2D vector)
+            if (origin == null || direction == null || segment2D is null || !segment2D.TryGetCoordinates(out double x_Start, out double y_Start, out double x_End, out double y_End))
             {
                 return null;
             }
 
-            double det = direction.Y * vector.X - direction.X * vector.Y;
+            double x_Vector = x_End - x_Start;
+            double y_Vector = y_End - y_Start;
+
+            double det = direction.Y * x_Vector - direction.X * y_Vector;
             if (System.Math.Abs(det) < 1e-12)
             {
                 return null;
             }
 
-            double dx = start.X - origin.X;
-            double dy = start.Y - origin.Y;
+            double dx = x_Start - origin.X;
+            double dy = y_Start - origin.Y;
 
             double t2 = (dy * direction.X - dx * direction.Y) / det;
-            double length = System.Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            double length = System.Math.Sqrt(x_Vector * x_Vector + y_Vector * y_Vector);
             double paramTolerance = length > 1e-9 ? tolerance / length : tolerance;
             if (t2 < -paramTolerance || t2 > 1.0 + paramTolerance)
             {
@@ -279,8 +282,8 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return new Point2D(
-                start.X + t2 * vector.X,
-                start.Y + t2 * vector.Y
+                x_Start + t2 * x_Vector,
+                y_Start + t2 * y_Vector
             );
         }
 
@@ -322,21 +325,33 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the point is on the line; otherwise, false.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point2D == null || origin == null || direction == null)
+            return point2D != null && On(point2D.X, point2D.Y, tolerance);
+        }
+
+        /// <summary>
+        /// Checks if the point given by its coordinates lies on the line within the specified tolerance, without allocating.
+        /// </summary>
+        /// <param name="x">The X coordinate of the point to check.</param>
+        /// <param name="y">The Y coordinate of the point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is on the line; otherwise, false.</returns>
+        internal bool On(double x, double y, double tolerance)
+        {
+            if (origin == null || direction == null)
             {
                 return false;
             }
 
-            double dx = point2D.X - origin.X;
-            double dy = point2D.Y - origin.Y;
+            double dx = x - origin.X;
+            double dy = y - origin.Y;
 
             double t = dx * direction.X + dy * direction.Y;
 
             double projX = origin.X + t * direction.X;
             double projY = origin.Y + t * direction.Y;
 
-            double rx = point2D.X - projX;
-            double ry = point2D.Y - projY;
+            double rx = x - projX;
+            double ry = y - projY;
 
             double distSq = rx * rx + ry * ry;
 
@@ -351,6 +366,32 @@ namespace DiGi.Geometry.Planar.Classes
         public Point2D? Project(Point2D? point2D)
         {
             return ClosestPoint(point2D);
+        }
+
+        /// <summary>
+        /// Gets the origin and direction coordinates of the line without allocating intermediate objects.
+        /// </summary>
+        /// <param name="x_Origin">When this method returns true, the X coordinate of the origin point.</param>
+        /// <param name="y_Origin">When this method returns true, the Y coordinate of the origin point.</param>
+        /// <param name="x_Direction">When this method returns true, the X component of the direction vector.</param>
+        /// <param name="y_Direction">When this method returns true, the Y component of the direction vector.</param>
+        /// <returns>True if the line has a valid origin and direction; otherwise, false.</returns>
+        internal bool TryGetCoordinates(out double x_Origin, out double y_Origin, out double x_Direction, out double y_Direction)
+        {
+            if (origin is null || direction is null)
+            {
+                x_Origin = double.NaN;
+                y_Origin = double.NaN;
+                x_Direction = double.NaN;
+                y_Direction = double.NaN;
+                return false;
+            }
+
+            x_Origin = origin.X;
+            y_Origin = origin.Y;
+            x_Direction = direction.X;
+            y_Direction = direction.Y;
+            return true;
         }
 
         /// <summary>

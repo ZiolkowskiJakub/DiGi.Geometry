@@ -116,8 +116,8 @@ namespace DiGi.Geometry.Spatial
             bVHNode_2 = new(polygonalFace3Ds_2);
 
             // Point classifiers answering Inside/On/Outside in a single BVH-accelerated ray cast
-            PolyhedronPointRelationSolver polyhedronPointRelationSolver_1 = new(bVHNode_1, tolerance);
-            PolyhedronPointRelationSolver polyhedronPointRelationSolver_2 = new(bVHNode_2, tolerance);
+            BVHNodePointRelationSolver bVHNodePointRelationSolver_1 = new(bVHNode_1, tolerance);
+            BVHNodePointRelationSolver bVHNodePointRelationSolver_2 = new(bVHNode_2, tolerance);
 
             // Split faces of each polyhedron using overlapping faces of the other
             List<BooleanOperationCandidate> booleanOperationCandidates = new(polygonalFace3Ds_1.Count + polygonalFace3Ds_2.Count);
@@ -137,10 +137,12 @@ namespace DiGi.Geometry.Spatial
                     continue;
                 }
 
-                PolyhedronPointRelationSolver polyhedronPointRelationSolver_Other = booleanOperationCandidate.FromFirst ? polyhedronPointRelationSolver_2 : polyhedronPointRelationSolver_1;
-                PolyhedronPointRelationSolver polyhedronPointRelationSolver_Parent = booleanOperationCandidate.FromFirst ? polyhedronPointRelationSolver_1 : polyhedronPointRelationSolver_2;
+                BVHNodePointRelationSolver bVHNodePointRelationSolver_Other = booleanOperationCandidate.FromFirst ? bVHNodePointRelationSolver_2 : bVHNodePointRelationSolver_1;
+                BVHNodePointRelationSolver bVHNodePointRelationSolver_Parent = booleanOperationCandidate.FromFirst ? bVHNodePointRelationSolver_1 : bVHNodePointRelationSolver_2;
 
-                PointRelation pointRelation = polyhedronPointRelationSolver_Other.GetPointRelation(point3D_Internal);
+                bVHNodePointRelationSolver_Other.Input = point3D_Internal;
+                bVHNodePointRelationSolver_Other.Solve();
+                PointRelation pointRelation = bVHNodePointRelationSolver_Other.Output;
 
                 bool keep = false;
                 switch (booleanOpertaionType)
@@ -149,14 +151,14 @@ namespace DiGi.Geometry.Spatial
                         // Keep fragments inside the other volume; on shared coplanar boundaries keep the fragment
                         // when the parent-interior side of the boundary lies inside the other volume.
                         keep = pointRelation == PointRelation.Inside
-                            || (pointRelation == PointRelation.On && InteriorSideInsideOther(booleanOperationCandidate, point3D_Internal, polyhedronPointRelationSolver_Parent, polyhedronPointRelationSolver_Other, polyhedron_1, polyhedron_2, tolerance));
+                            || (pointRelation == PointRelation.On && InteriorSideInsideOther(booleanOperationCandidate, point3D_Internal, bVHNodePointRelationSolver_Parent, bVHNodePointRelationSolver_Other, polyhedron_1, polyhedron_2, tolerance));
                         break;
 
                     case BooleanOpertaionType.Union:
                         // Keep fragments outside the other volume; on shared coplanar boundaries keep the fragment
                         // once (from the volume whose interior side lies inside the other volume).
                         keep = pointRelation == PointRelation.Outside
-                            || (pointRelation == PointRelation.On && InteriorSideInsideOther(booleanOperationCandidate, point3D_Internal, polyhedronPointRelationSolver_Parent, polyhedronPointRelationSolver_Other, polyhedron_1, polyhedron_2, tolerance));
+                            || (pointRelation == PointRelation.On && InteriorSideInsideOther(booleanOperationCandidate, point3D_Internal, bVHNodePointRelationSolver_Parent, bVHNodePointRelationSolver_Other, polyhedron_1, polyhedron_2, tolerance));
                         break;
 
                     case BooleanOpertaionType.Difference:
@@ -165,7 +167,7 @@ namespace DiGi.Geometry.Spatial
                             // A \ B keeps A-boundary outside B; coplanar boundaries are kept when the A-interior
                             // side is not covered by B.
                             keep = pointRelation == PointRelation.Outside
-                                || (pointRelation == PointRelation.On && !InteriorSideInsideOther(booleanOperationCandidate, point3D_Internal, polyhedronPointRelationSolver_Parent, polyhedronPointRelationSolver_Other, polyhedron_1, polyhedron_2, tolerance));
+                                || (pointRelation == PointRelation.On && !InteriorSideInsideOther(booleanOperationCandidate, point3D_Internal, bVHNodePointRelationSolver_Parent, bVHNodePointRelationSolver_Other, polyhedron_1, polyhedron_2, tolerance));
                         }
                         else
                         {
@@ -248,8 +250,8 @@ namespace DiGi.Geometry.Spatial
         private static bool InteriorSideInsideOther<TPolygonalFace3D>(
             BooleanOperationCandidate booleanOperationCandidate,
             Point3D point3D,
-            PolyhedronPointRelationSolver polyhedronPointRelationSolver_Parent,
-            PolyhedronPointRelationSolver polyhedronPointRelationSolver_Other,
+            BVHNodePointRelationSolver bVHNodePointRelationSolver_Parent,
+            BVHNodePointRelationSolver bVHNodePointRelationSolver_Other,
             Polyhedron<TPolygonalFace3D> polyhedron_1,
             Polyhedron<TPolygonalFace3D> polyhedron_2,
             double tolerance) where TPolygonalFace3D : IPolygonalFace3D
@@ -259,10 +261,18 @@ namespace DiGi.Geometry.Spatial
             double offset = tolerance * 2.0;
 
             Point3D? point3D_Interior = point3D - (offset * vector3D_Normal);
-            if (point3D_Interior == null || polyhedronPointRelationSolver_Parent.GetPointRelation(point3D_Interior) != PointRelation.Inside)
+
+            bVHNodePointRelationSolver_Parent.Input = point3D_Interior;
+            bVHNodePointRelationSolver_Parent.Solve();
+
+            if (point3D_Interior == null || bVHNodePointRelationSolver_Parent.Output != PointRelation.Inside)
             {
                 Point3D? point3D_Opposite = point3D + (offset * vector3D_Normal);
-                if (point3D_Opposite != null && polyhedronPointRelationSolver_Parent.GetPointRelation(point3D_Opposite) == PointRelation.Inside)
+
+                bVHNodePointRelationSolver_Parent.Input = point3D_Opposite;
+                bVHNodePointRelationSolver_Parent.Solve();
+
+                if (point3D_Opposite != null && bVHNodePointRelationSolver_Parent.Output == PointRelation.Inside)
                 {
                     point3D_Interior = point3D_Opposite;
                 }
@@ -275,7 +285,15 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            return point3D_Interior != null && polyhedronPointRelationSolver_Other.GetPointRelation(point3D_Interior) == PointRelation.Inside;
+            if (point3D_Interior == null)
+            {
+                return false;
+            }
+
+            bVHNodePointRelationSolver_Other.Input = point3D_Interior;
+            bVHNodePointRelationSolver_Other.Solve();
+
+            return bVHNodePointRelationSolver_Other.Output == PointRelation.Inside;
         }
 
         /// <summary>

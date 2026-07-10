@@ -1101,6 +1101,103 @@ The list of polygonal faces to assign to the child node\.
 [DiGi\.Geometry\.Spatial\.Classes\.BVHNode&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_.TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')  
 A concrete child instance of [BVHNode&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')\.
 
+<a name='DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver'></a>
+
+## BVHNodePointRelationSolver Class
+
+Classifies points against a closed polyhedron boundary as [Inside](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.Inside 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.Inside'),
+[On](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.On 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.On') or [Outside](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.Outside 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.Outside') using a prebuilt
+Bounding Volume Hierarchy \(BVH\) for accelerated parity ray\-casting queries\.
+
+The solver is built once per polyhedron and reused for many point queries during constructive solid
+geometry (CSG) boolean operations: set [Input](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.Input 'DiGi\.Geometry\.Spatial\.Classes\.BVHNodePointRelationSolver\.Input') to the query point, call [Solve\(\)](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.Solve() 'DiGi\.Geometry\.Spatial\.Classes\.BVHNodePointRelationSolver\.Solve\(\)'),
+then read [Output](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.Output 'DiGi\.Geometry\.Spatial\.Classes\.BVHNodePointRelationSolver\.Output'). This avoids the repeated face extraction, face cloning and bounding box
+recomputation that the general purpose [Inside\(Point3D, double\)](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.Inside(DiGi.Geometry.Spatial.Classes.Point3D,double) 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>\.Inside\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, double\)') and
+[On\(Point3D, double\)](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.On(DiGi.Geometry.Spatial.Classes.Point3D,double) 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>\.On\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, double\)') methods incur on every call.
+
+Not thread-safe: instances keep an internal scratch buffer and are intended for single-threaded use
+within one boolean operation.
+
+```csharp
+internal class BVHNodePointRelationSolver : DiGi.Core.Interfaces.IOneToOneSolver<DiGi.Geometry.Spatial.Classes.Point3D, DiGi.Geometry.Core.Enums.PointRelation>, DiGi.Core.Interfaces.ISolver, DiGi.Core.Interfaces.IEvaluator
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → BVHNodePointRelationSolver
+
+Implements [DiGi\.Core\.Interfaces\.IOneToOneSolver&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ionetoonesolver-2 'DiGi\.Core\.Interfaces\.IOneToOneSolver\`2')[Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[,](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ionetoonesolver-2 'DiGi\.Core\.Interfaces\.IOneToOneSolver\`2')[PointRelation](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation 'DiGi\.Geometry\.Core\.Enums\.PointRelation')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ionetoonesolver-2 'DiGi\.Core\.Interfaces\.IOneToOneSolver\`2'), [DiGi\.Core\.Interfaces\.ISolver](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.isolver 'DiGi\.Core\.Interfaces\.ISolver'), [DiGi\.Core\.Interfaces\.IEvaluator](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ievaluator 'DiGi\.Core\.Interfaces\.IEvaluator')
+### Constructors
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.BVHNodePointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double)'></a>
+
+## BVHNodePointRelationSolver\(BVHNode\<IPolygonalFace3D\>, double\) Constructor
+
+Initializes a new instance of the [BVHNodePointRelationSolver](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver 'DiGi\.Geometry\.Spatial\.Classes\.BVHNodePointRelationSolver') class\.
+
+```csharp
+internal BVHNodePointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> bVHNode, double tolerance);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.BVHNodePointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double).bVHNode'></a>
+
+`bVHNode` [DiGi\.Geometry\.Spatial\.Classes\.BVHNode&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')
+
+The prebuilt Bounding Volume Hierarchy \(BVH\) of the polyhedron faces\. Its root box defines the query bounds\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.BVHNodePointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance used for On\-boundary classification and crossing tests\.
+### Properties
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.Input'></a>
+
+## BVHNodePointRelationSolver\.Input Property
+
+Sets the query point to classify against the polyhedron boundary on the next [Solve\(\)](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.Solve() 'DiGi\.Geometry\.Spatial\.Classes\.BVHNodePointRelationSolver\.Solve\(\)') call\.
+
+```csharp
+public DiGi.Geometry.Spatial.Classes.Point3D? Input { set; }
+```
+
+Implements [Input](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ionetoonesolver-2.input 'DiGi\.Core\.Interfaces\.IOneToOneSolver\`2\.Input')
+
+#### Property Value
+[Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.Output'></a>
+
+## BVHNodePointRelationSolver\.Output Property
+
+Gets the spatial relation of the last solved point to the polyhedron boundary\.
+
+```csharp
+public DiGi.Geometry.Core.Enums.PointRelation Output { get; }
+```
+
+Implements [Output](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ionetoonesolver-2.output 'DiGi\.Core\.Interfaces\.IOneToOneSolver\`2\.Output')
+
+#### Property Value
+[PointRelation](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation 'DiGi\.Geometry\.Core\.Enums\.PointRelation')
+### Methods
+
+<a name='DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.Solve()'></a>
+
+## BVHNodePointRelationSolver\.Solve\(\) Method
+
+Classifies [Input](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.Input 'DiGi\.Geometry\.Spatial\.Classes\.BVHNodePointRelationSolver\.Input') against the polyhedron boundary and stores the result in [Output](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.Output 'DiGi\.Geometry\.Spatial\.Classes\.BVHNodePointRelationSolver\.Output')\.
+
+```csharp
+public bool Solve();
+```
+
+Implements [Solve\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.isolver.solve 'DiGi\.Core\.Interfaces\.ISolver\.Solve')
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the point was classified; false if [Input](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNodePointRelationSolver.Input 'DiGi\.Geometry\.Spatial\.Classes\.BVHNodePointRelationSolver\.Input') is null or the solver has no bounding box\.
+
 <a name='DiGi.Geometry.Spatial.Classes.Coordinate3D'></a>
 
 ## Coordinate3D Class
@@ -2664,12 +2761,12 @@ A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 
 Represents the result of a 3D intersection operation\.
 
 ```csharp
-public class IntersectionResult3D : DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D, DiGi.Geometry.Spatial.Interfaces.IIntersectionResult3D, DiGi.Geometry.Core.Interfaces.IIntersectionResult, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+public class IntersectionResult3D : DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D, DiGi.Geometry.Spatial.Interfaces.IIntersectionResult3D, DiGi.Geometry.Core.Interfaces.IIntersectionResult, DiGi.Geometry.Core.Interfaces.IBooleanOperationResult, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → [BooleanOperationResult3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BooleanOperationResult3D 'DiGi\.Geometry\.Spatial\.Classes\.BooleanOperationResult3D') → IntersectionResult3D
 
-Implements [DiGi\.Geometry\.Spatial\.Interfaces\.IIntersectionResult3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.iintersectionresult3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IIntersectionResult3D'), [IIntersectionResult](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IIntersectionResult 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+Implements [DiGi\.Geometry\.Spatial\.Interfaces\.IIntersectionResult3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.iintersectionresult3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IIntersectionResult3D'), [DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.core.interfaces.iintersectionresult 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult'), [IBooleanOperationResult](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IBooleanOperationResult 'DiGi\.Geometry\.Core\.Interfaces\.IBooleanOperationResult'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
 ### Constructors
 
 <a name='DiGi.Geometry.Spatial.Classes.IntersectionResult3D.IntersectionResult3D()'></a>
@@ -3759,12 +3856,12 @@ A boolean value indicating whether the movement was successful\.
 Represents the result of a planar intersection operation in 3D space\.
 
 ```csharp
-public class PlanarIntersectionResult : DiGi.Geometry.Spatial.Classes.PlanarResult, DiGi.Geometry.Spatial.Interfaces.IIntersectionResult3D, DiGi.Geometry.Core.Interfaces.IIntersectionResult, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+public class PlanarIntersectionResult : DiGi.Geometry.Spatial.Classes.PlanarResult, DiGi.Geometry.Spatial.Interfaces.IIntersectionResult3D, DiGi.Geometry.Core.Interfaces.IIntersectionResult, DiGi.Geometry.Core.Interfaces.IBooleanOperationResult, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → [PlanarResult](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PlanarResult 'DiGi\.Geometry\.Spatial\.Classes\.PlanarResult') → PlanarIntersectionResult
 
-Implements [DiGi\.Geometry\.Spatial\.Interfaces\.IIntersectionResult3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.iintersectionresult3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IIntersectionResult3D'), [IIntersectionResult](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IIntersectionResult 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+Implements [DiGi\.Geometry\.Spatial\.Interfaces\.IIntersectionResult3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.iintersectionresult3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IIntersectionResult3D'), [DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.core.interfaces.iintersectionresult 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult'), [IBooleanOperationResult](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IBooleanOperationResult 'DiGi\.Geometry\.Core\.Interfaces\.IBooleanOperationResult'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
 ### Constructors
 
 <a name='DiGi.Geometry.Spatial.Classes.PlanarIntersectionResult.PlanarIntersectionResult()'></a>
@@ -3885,7 +3982,7 @@ Determines whether an intersection exists\.
 public bool Any();
 ```
 
-Implements [Any\(\)](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IIntersectionResult.Any() 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult\.Any\(\)')
+Implements [Any\(\)](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IBooleanOperationResult.Any() 'DiGi\.Geometry\.Core\.Interfaces\.IBooleanOperationResult\.Any\(\)')
 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
@@ -7039,75 +7136,6 @@ Implements [Update\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.i
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether any of the values were successfully updated\.
-
-<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver'></a>
-
-## PolyhedronPointRelationSolver Class
-
-Classifies points against a closed polyhedron boundary as [Inside](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.Inside 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.Inside'),
-[On](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.On 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.On') or [Outside](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.Outside 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.Outside') using a prebuilt
-Bounding Volume Hierarchy \(BVH\) for accelerated parity ray\-casting queries\.
-
-The solver is built once per polyhedron and reused for many point queries during constructive solid
-geometry (CSG) boolean operations. A single query answers Inside, On and Outside at once, avoiding the
-repeated face extraction, face cloning and bounding box recomputation that the general purpose
-[Inside\(Point3D, double\)](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.Inside(DiGi.Geometry.Spatial.Classes.Point3D,double) 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>\.Inside\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, double\)') and [On\(Point3D, double\)](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.On(DiGi.Geometry.Spatial.Classes.Point3D,double) 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>\.On\(DiGi\.Geometry\.Spatial\.Classes\.Point3D, double\)')
-methods incur on every call.
-
-Not thread-safe: instances keep an internal scratch buffer and are intended for single-threaded use
-within one boolean operation.
-
-```csharp
-internal class PolyhedronPointRelationSolver
-```
-
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → PolyhedronPointRelationSolver
-### Constructors
-
-<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver.PolyhedronPointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double)'></a>
-
-## PolyhedronPointRelationSolver\(BVHNode\<IPolygonalFace3D\>, double\) Constructor
-
-Initializes a new instance of the [PolyhedronPointRelationSolver](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver 'DiGi\.Geometry\.Spatial\.Classes\.PolyhedronPointRelationSolver') class\.
-
-```csharp
-internal PolyhedronPointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode<DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D> bVHNode, double tolerance);
-```
-#### Parameters
-
-<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver.PolyhedronPointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double).bVHNode'></a>
-
-`bVHNode` [DiGi\.Geometry\.Spatial\.Classes\.BVHNode&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')[DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>')
-
-The prebuilt Bounding Volume Hierarchy \(BVH\) of the polyhedron faces\. Its root box defines the query bounds\.
-
-<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver.PolyhedronPointRelationSolver(DiGi.Geometry.Spatial.Classes.BVHNode_DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D_,double).tolerance'></a>
-
-`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
-
-The distance tolerance used for On\-boundary classification and crossing tests\.
-### Methods
-
-<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver.GetPointRelation(DiGi.Geometry.Spatial.Classes.Point3D)'></a>
-
-## PolyhedronPointRelationSolver\.GetPointRelation\(Point3D\) Method
-
-Gets the spatial relation of the specified point to the polyhedron boundary\.
-
-```csharp
-internal DiGi.Geometry.Core.Enums.PointRelation GetPointRelation(DiGi.Geometry.Spatial.Classes.Point3D? point3D);
-```
-#### Parameters
-
-<a name='DiGi.Geometry.Spatial.Classes.PolyhedronPointRelationSolver.GetPointRelation(DiGi.Geometry.Spatial.Classes.Point3D).point3D'></a>
-
-`point3D` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
-
-The [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') to classify\.
-
-#### Returns
-[PointRelation](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation 'DiGi\.Geometry\.Core\.Enums\.PointRelation')  
-A [PointRelation](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation 'DiGi\.Geometry\.Core\.Enums\.PointRelation') value describing the relation of the point to the volume\.
 
 <a name='DiGi.Geometry.Spatial.Classes.Polyline3D'></a>
 

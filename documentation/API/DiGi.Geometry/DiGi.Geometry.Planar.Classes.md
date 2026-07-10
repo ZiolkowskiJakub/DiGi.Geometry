@@ -116,6 +116,47 @@ The width of the bounding box\.
 
 The height of the bounding box\.
 
+<a name='DiGi.Geometry.Planar.Classes.BoundingBox2D.BoundingBox2D(double,double,double,double,bool)'></a>
+
+## BoundingBox2D\(double, double, double, double, bool\) Constructor
+
+Initializes a new instance of the [BoundingBox2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BoundingBox2D 'DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D') class directly from corner coordinates, without intermediate allocations\.
+
+```csharp
+internal BoundingBox2D(double x_1, double y_1, double x_2, double y_2, bool sorted);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.BoundingBox2D.BoundingBox2D(double,double,double,double,bool).x_1'></a>
+
+`x_1` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The X coordinate of the first corner\.
+
+<a name='DiGi.Geometry.Planar.Classes.BoundingBox2D.BoundingBox2D(double,double,double,double,bool).y_1'></a>
+
+`y_1` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The Y coordinate of the first corner\.
+
+<a name='DiGi.Geometry.Planar.Classes.BoundingBox2D.BoundingBox2D(double,double,double,double,bool).x_2'></a>
+
+`x_2` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The X coordinate of the second corner\.
+
+<a name='DiGi.Geometry.Planar.Classes.BoundingBox2D.BoundingBox2D(double,double,double,double,bool).y_2'></a>
+
+`y_2` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The Y coordinate of the second corner\.
+
+<a name='DiGi.Geometry.Planar.Classes.BoundingBox2D.BoundingBox2D(double,double,double,double,bool).sorted'></a>
+
+`sorted` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the caller guarantees the first corner is the minimum and the second the maximum; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the coordinates are normalized\.
+
 <a name='DiGi.Geometry.Planar.Classes.BoundingBox2D.BoundingBox2D(System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.BoundingBox2D_)'></a>
 
 ## BoundingBox2D\(IEnumerable\<BoundingBox2D\>\) Constructor
@@ -2952,12 +2993,12 @@ True if the transformation was successful\.
 Represents the result of a two\-dimensional intersection operation\.
 
 ```csharp
-public class IntersectionResult2D : DiGi.Core.Classes.SerializableObject, DiGi.Geometry.Core.Interfaces.IIntersectionResult, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+public class IntersectionResult2D : DiGi.Core.Classes.SerializableObject, DiGi.Geometry.Core.Interfaces.IIntersectionResult, DiGi.Geometry.Core.Interfaces.IBooleanOperationResult, DiGi.Core.Interfaces.ISerializableResult, DiGi.Core.Interfaces.IResult, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → IntersectionResult2D
 
-Implements [IIntersectionResult](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IIntersectionResult 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+Implements [DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.core.interfaces.iintersectionresult 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult'), [IBooleanOperationResult](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IBooleanOperationResult 'DiGi\.Geometry\.Core\.Interfaces\.IBooleanOperationResult'), [DiGi\.Core\.Interfaces\.ISerializableResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableresult 'DiGi\.Core\.Interfaces\.ISerializableResult'), [DiGi\.Core\.Interfaces\.IResult](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iresult 'DiGi\.Core\.Interfaces\.IResult'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject')
 ### Constructors
 
 <a name='DiGi.Geometry.Planar.Classes.IntersectionResult2D.IntersectionResult2D()'></a>
@@ -3106,7 +3147,7 @@ Determines whether an intersection occurred\.
 public bool Any();
 ```
 
-Implements [Any\(\)](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IIntersectionResult.Any() 'DiGi\.Geometry\.Core\.Interfaces\.IIntersectionResult\.Any\(\)')
+Implements [Any\(\)](DiGi.Geometry.Core.Interfaces.md#DiGi.Geometry.Core.Interfaces.IBooleanOperationResult.Any() 'DiGi\.Geometry\.Core\.Interfaces\.IBooleanOperationResult\.Any\(\)')
 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
@@ -3501,6 +3542,39 @@ Implements [On\(Point2D, double\)](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geome
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the point is on the line; otherwise, false\.
 
+<a name='DiGi.Geometry.Planar.Classes.Line2D.On(double,double,double)'></a>
+
+## Line2D\.On\(double, double, double\) Method
+
+Checks if the point given by its coordinates lies on the line within the specified tolerance, without allocating\.
+
+```csharp
+internal bool On(double x, double y, double tolerance);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Line2D.On(double,double,double).x'></a>
+
+`x` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The X coordinate of the point to check\.
+
+<a name='DiGi.Geometry.Planar.Classes.Line2D.On(double,double,double).y'></a>
+
+`y` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The Y coordinate of the point to check\.
+
+<a name='DiGi.Geometry.Planar.Classes.Line2D.On(double,double,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance for the check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the point is on the line; otherwise, false\.
+
 <a name='DiGi.Geometry.Planar.Classes.Line2D.Project(DiGi.Geometry.Planar.Classes.Point2D)'></a>
 
 ## Line2D\.Project\(Point2D\) Method
@@ -3544,6 +3618,45 @@ The transformation to apply\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the transformation was successful\.
+
+<a name='DiGi.Geometry.Planar.Classes.Line2D.TryGetCoordinates(double,double,double,double)'></a>
+
+## Line2D\.TryGetCoordinates\(double, double, double, double\) Method
+
+Gets the origin and direction coordinates of the line without allocating intermediate objects\.
+
+```csharp
+internal bool TryGetCoordinates(out double x_Origin, out double y_Origin, out double x_Direction, out double y_Direction);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Line2D.TryGetCoordinates(double,double,double,double).x_Origin'></a>
+
+`x_Origin` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+When this method returns true, the X coordinate of the origin point\.
+
+<a name='DiGi.Geometry.Planar.Classes.Line2D.TryGetCoordinates(double,double,double,double).y_Origin'></a>
+
+`y_Origin` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+When this method returns true, the Y coordinate of the origin point\.
+
+<a name='DiGi.Geometry.Planar.Classes.Line2D.TryGetCoordinates(double,double,double,double).x_Direction'></a>
+
+`x_Direction` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+When this method returns true, the X component of the direction vector\.
+
+<a name='DiGi.Geometry.Planar.Classes.Line2D.TryGetCoordinates(double,double,double,double).y_Direction'></a>
+
+`y_Direction` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+When this method returns true, the Y component of the direction vector\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the line has a valid origin and direction; otherwise, false\.
 ### Operators
 
 <a name='DiGi.Geometry.Planar.Classes.Line2D.op_Equality(DiGi.Geometry.Planar.Classes.Line2D,DiGi.Geometry.Planar.Classes.Line2D)'></a>
@@ -7188,6 +7301,39 @@ Implements [On\(Point2D, double\)](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geome
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the point is on the segment; otherwise, false\.
 
+<a name='DiGi.Geometry.Planar.Classes.Segment2D.On(double,double,double)'></a>
+
+## Segment2D\.On\(double, double, double\) Method
+
+Checks if the point given by its coordinates lies on the segment within a given tolerance, without allocating\.
+
+```csharp
+internal bool On(double x, double y, double tolerance);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Segment2D.On(double,double,double).x'></a>
+
+`x` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The X coordinate of the target point\.
+
+<a name='DiGi.Geometry.Planar.Classes.Segment2D.On(double,double,double).y'></a>
+
+`y` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The Y coordinate of the target point\.
+
+<a name='DiGi.Geometry.Planar.Classes.Segment2D.On(double,double,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance for the check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the point is on the segment; otherwise, false\.
+
 <a name='DiGi.Geometry.Planar.Classes.Segment2D.Project(DiGi.Geometry.Planar.Classes.Point2D)'></a>
 
 ## Segment2D\.Project\(Point2D\) Method
@@ -7231,6 +7377,45 @@ The transform to apply\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if transformation was successful; otherwise, false\.
+
+<a name='DiGi.Geometry.Planar.Classes.Segment2D.TryGetCoordinates(double,double,double,double)'></a>
+
+## Segment2D\.TryGetCoordinates\(double, double, double, double\) Method
+
+Gets the endpoint coordinates of the segment without allocating intermediate points\.
+
+```csharp
+internal bool TryGetCoordinates(out double x_Start, out double y_Start, out double x_End, out double y_End);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Segment2D.TryGetCoordinates(double,double,double,double).x_Start'></a>
+
+`x_Start` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+When this method returns true, the X coordinate of the start point\.
+
+<a name='DiGi.Geometry.Planar.Classes.Segment2D.TryGetCoordinates(double,double,double,double).y_Start'></a>
+
+`y_Start` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+When this method returns true, the Y coordinate of the start point\.
+
+<a name='DiGi.Geometry.Planar.Classes.Segment2D.TryGetCoordinates(double,double,double,double).x_End'></a>
+
+`x_End` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+When this method returns true, the X coordinate of the end point\.
+
+<a name='DiGi.Geometry.Planar.Classes.Segment2D.TryGetCoordinates(double,double,double,double).y_End'></a>
+
+`y_End` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+When this method returns true, the Y coordinate of the end point\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the segment has a valid start point and vector; otherwise, false\.
 ### Operators
 
 <a name='DiGi.Geometry.Planar.Classes.Segment2D.op_Equality(DiGi.Geometry.Planar.Classes.Segment2D,DiGi.Geometry.Planar.Classes.Segment2D)'></a>

@@ -142,6 +142,32 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
+            // Fast paths dispatching to the allocation-free class implementations; the generic fallback below remains for Ray2D combinations.
+            if (linear2D_1 is Segment2D segment2D_1_Fast)
+            {
+                if (linear2D_2 is Segment2D segment2D_2_Fast)
+                {
+                    return segment2D_1_Fast.IntersectionPoint(segment2D_2_Fast, tolerance);
+                }
+
+                if (linear2D_2 is Line2D line2D_2_Fast)
+                {
+                    return line2D_2_Fast.IntersectionPoint(segment2D_1_Fast, tolerance);
+                }
+            }
+            else if (linear2D_1 is Line2D line2D_1_Fast)
+            {
+                if (linear2D_2 is Segment2D segment2D_2_Fast)
+                {
+                    return line2D_1_Fast.IntersectionPoint(segment2D_2_Fast, tolerance);
+                }
+
+                if (linear2D_2 is Line2D line2D_2_Fast)
+                {
+                    return line2D_1_Fast.IntersectionPoint(line2D_2_Fast, tolerance);
+                }
+            }
+
             Point2D? point2D_1_1;
             Point2D? point2D_1_2;
 

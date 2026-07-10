@@ -121,6 +121,33 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="BoundingBox2D"/> class directly from corner coordinates, without intermediate allocations.
+        /// </summary>
+        /// <param name="x_1">The X coordinate of the first corner.</param>
+        /// <param name="y_1">The Y coordinate of the first corner.</param>
+        /// <param name="x_2">The X coordinate of the second corner.</param>
+        /// <param name="y_2">The Y coordinate of the second corner.</param>
+        /// <param name="sorted">When <see langword="true"/>, the caller guarantees the first corner is the minimum and the second the maximum; when <see langword="false"/>, the coordinates are normalized.</param>
+        internal BoundingBox2D(double x_1, double y_1, double x_2, double y_2, bool sorted)
+        {
+            if (!sorted)
+            {
+                if (x_2 < x_1)
+                {
+                    (x_1, x_2) = (x_2, x_1);
+                }
+
+                if (y_2 < y_1)
+                {
+                    (y_1, y_2) = (y_2, y_1);
+                }
+            }
+
+            min = new Point2D(x_1, y_1);
+            max = new Point2D(x_2, y_2);
+        }
+
+        /// <summary>
         /// Gets the bottom-left corner of the bounding box.
         /// </summary>
         [JsonIgnore]
@@ -544,35 +571,17 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the bounding box is on or inside this bounding box.</returns>
         public bool InRange(BoundingBox2D? boundingBox2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (boundingBox2D == null)
+            if (boundingBox2D == null || min == null || max == null || boundingBox2D.min == null || boundingBox2D.max == null)
             {
                 return false;
             }
 
-            double max_1;
-            double min_1;
-
-            double max_2;
-            double min_2;
-
-            max_1 = Max.X + tolerance;
-            min_1 = Min.X - tolerance;
-
-            max_2 = boundingBox2D.Max.X;
-            min_2 = boundingBox2D.Min.X;
-
-            if (max_1 < min_2 || min_1 > max_2)
+            if (max.X + tolerance < boundingBox2D.min.X || min.X - tolerance > boundingBox2D.max.X)
             {
                 return false;
             }
 
-            max_1 = Max.Y + tolerance;
-            min_1 = Min.Y - tolerance;
-
-            max_2 = boundingBox2D.Max.Y;
-            min_2 = boundingBox2D.Min.Y;
-
-            if (max_1 < min_2 || min_1 > max_2)
+            if (max.Y + tolerance < boundingBox2D.min.Y || min.Y - tolerance > boundingBox2D.max.Y)
             {
                 return false;
             }
@@ -593,9 +602,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            Point2D? point2D_Origin = line2D.Origin;
-            Vector2D? vector2D_Direction = line2D.Direction;
-            if (point2D_Origin == null || vector2D_Direction == null)
+            if (!line2D.TryGetCoordinates(out double x_Origin, out double y_Origin, out double x_Direction, out double y_Direction))
             {
                 return false;
             }
@@ -610,10 +617,10 @@ namespace DiGi.Geometry.Planar.Classes
 
             for (int i = 0; i < 2; i++)
             {
-                double p = (i == 0) ? vector2D_Direction.X : vector2D_Direction.Y;
+                double p = (i == 0) ? x_Direction : y_Direction;
                 double minB = (i == 0) ? minX : minY;
                 double maxB = (i == 0) ? maxX : maxY;
-                double p0Val = (i == 0) ? point2D_Origin.X : point2D_Origin.Y;
+                double p0Val = (i == 0) ? x_Origin : y_Origin;
 
                 if (System.Math.Abs(p) < tolerance)
                 {
@@ -657,17 +664,10 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            if (segment2D?[0] is not Point2D point2D_Start)
+            if (segment2D is null || !segment2D.TryGetCoordinates(out double x_Start, out double y_Start, out double x_End, out double y_End))
             {
                 return false;
             }
-
-            if (segment2D[1] is not Point2D point2D_End)
-            {
-                return false;
-            }
-
-            Vector2D vector2D = new(point2D_Start, point2D_End); // use actual delta vector, not normalized direction
 
             double minX = min.X - tolerance;
             double minY = min.Y - tolerance;
@@ -677,13 +677,13 @@ namespace DiGi.Geometry.Planar.Classes
             double t0 = 0.0;
             double t1 = 1.0;
 
-            // For each axis (X and Y)
+            // For each axis (X and Y); use actual delta vector, not normalized direction
             for (int i = 0; i < 2; i++)
             {
-                double p = (i == 0) ? vector2D.X : vector2D.Y;
+                double p = (i == 0) ? x_End - x_Start : y_End - y_Start;
                 double minB = (i == 0) ? minX : minY;
                 double maxB = (i == 0) ? maxX : maxY;
-                double p0Val = (i == 0) ? point2D_Start.X : point2D_Start.Y;
+                double p0Val = (i == 0) ? x_Start : y_Start;
 
                 if (System.Math.Abs(p) < tolerance)
                 {

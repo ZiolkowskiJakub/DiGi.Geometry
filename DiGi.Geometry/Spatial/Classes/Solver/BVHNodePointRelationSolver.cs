@@ -1,3 +1,4 @@
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
@@ -10,17 +11,17 @@ namespace DiGi.Geometry.Spatial.Classes
     /// Bounding Volume Hierarchy (BVH) for accelerated parity ray-casting queries.
     /// <para>
     /// The solver is built once per polyhedron and reused for many point queries during constructive solid
-    /// geometry (CSG) boolean operations. A single query answers Inside, On and Outside at once, avoiding the
-    /// repeated face extraction, face cloning and bounding box recomputation that the general purpose
-    /// <see cref="Polyhedron{TPolygonalFace3D}.Inside"/> and <see cref="Polyhedron{TPolygonalFace3D}.On"/>
-    /// methods incur on every call.
+    /// geometry (CSG) boolean operations: set <see cref="Input"/> to the query point, call <see cref="Solve"/>,
+    /// then read <see cref="Output"/>. This avoids the repeated face extraction, face cloning and bounding box
+    /// recomputation that the general purpose <see cref="Polyhedron{TPolygonalFace3D}.Inside"/> and
+    /// <see cref="Polyhedron{TPolygonalFace3D}.On"/> methods incur on every call.
     /// </para>
     /// <para>
     /// Not thread-safe: instances keep an internal scratch buffer and are intended for single-threaded use
     /// within one boolean operation.
     /// </para>
     /// </summary>
-    internal class PolyhedronPointRelationSolver
+    internal class BVHNodePointRelationSolver : IOneToOneSolver<Point3D, PointRelation>
     {
         // Non-axis-aligned unit ray directions used for parity ray casting. Components are irrational-like to
         // minimize the chance of hitting edges or vertices of axis-aligned geometry; subsequent directions are
@@ -43,12 +44,15 @@ namespace DiGi.Geometry.Spatial.Classes
         private readonly double rayLength;
         private readonly List<IPolygonalFace3D> polygonalFace3Ds_Scratch = [];
 
+        private Point3D? point3D_Input = null;
+        private PointRelation output = PointRelation.Undefined;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="PolyhedronPointRelationSolver"/> class.
+        /// Initializes a new instance of the <see cref="BVHNodePointRelationSolver"/> class.
         /// </summary>
         /// <param name="bVHNode">The prebuilt Bounding Volume Hierarchy (BVH) of the polyhedron faces. Its root box defines the query bounds.</param>
         /// <param name="tolerance">The distance tolerance used for On-boundary classification and crossing tests.</param>
-        internal PolyhedronPointRelationSolver(BVHNode<IPolygonalFace3D> bVHNode, double tolerance)
+        internal BVHNodePointRelationSolver(BVHNode<IPolygonalFace3D> bVHNode, double tolerance)
         {
             this.bVHNode = bVHNode;
             this.tolerance = tolerance;
@@ -70,27 +74,52 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Gets the spatial relation of the specified point to the polyhedron boundary.
+        /// Sets the query point to classify against the polyhedron boundary on the next <see cref="Solve"/> call.
         /// </summary>
-        /// <param name="point3D">The <see cref="Point3D"/> to classify.</param>
-        /// <returns>A <see cref="PointRelation"/> value describing the relation of the point to the volume.</returns>
-        internal PointRelation GetPointRelation(Point3D? point3D)
+        public Point3D? Input
         {
-            if (point3D == null || boundingBox3D == null)
+            set
             {
-                return PointRelation.Undefined;
+                point3D_Input = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the spatial relation of the last solved point to the polyhedron boundary.
+        /// </summary>
+        public PointRelation Output
+        {
+            get
+            {
+                return output;
+            }
+        }
+
+        /// <summary>
+        /// Classifies <see cref="Input"/> against the polyhedron boundary and stores the result in <see cref="Output"/>.
+        /// </summary>
+        /// <returns>True if the point was classified; false if <see cref="Input"/> is null or the solver has no bounding box.</returns>
+        public bool Solve()
+        {
+            output = PointRelation.Undefined;
+
+            if (point3D_Input is not Point3D point3D || boundingBox3D == null)
+            {
+                return false;
             }
 
             // A point further than 2 * tolerance (on any axis) from the bounding box can be neither on the
             // boundary nor inside the volume.
             if (!boundingBox3D.InRange(point3D, System.Math.Max(tolerance, 0.0) * 2.0))
             {
-                return PointRelation.Outside;
+                output = PointRelation.Outside;
+                return true;
             }
 
             if (On(point3D))
             {
-                return PointRelation.On;
+                output = PointRelation.On;
+                return true;
             }
 
             bool inside = false;
@@ -98,7 +127,8 @@ namespace DiGi.Geometry.Spatial.Classes
             {
                 if (TryCountRayCrossings(point3D, rayDirections[i], out int count))
                 {
-                    return count % 2 == 1 ? PointRelation.Inside : PointRelation.Outside;
+                    output = count % 2 == 1 ? PointRelation.Inside : PointRelation.Outside;
+                    return true;
                 }
 
                 inside = count % 2 == 1;
@@ -106,7 +136,8 @@ namespace DiGi.Geometry.Spatial.Classes
 
             // All ray directions were ambiguous (degenerate or non-manifold input) - fall back to the parity
             // of the last cast, counting only unambiguous crossings.
-            return inside ? PointRelation.Inside : PointRelation.Outside;
+            output = inside ? PointRelation.Inside : PointRelation.Outside;
+            return true;
         }
 
         private bool On(Point3D point3D)

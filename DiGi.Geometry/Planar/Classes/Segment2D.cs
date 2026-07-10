@@ -413,7 +413,12 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            return new BoundingBox2D(start, End);
+            double x_Start = start.X;
+            double y_Start = start.Y;
+            double x_End = x_Start + vector.X;
+            double y_End = y_Start + vector.Y;
+
+            return new BoundingBox2D(x_Start < x_End ? x_Start : x_End, y_Start < y_End ? y_Start : y_End, x_Start < x_End ? x_End : x_Start, y_Start < y_End ? y_End : y_Start, true);
         }
 
         /// <summary>
@@ -549,7 +554,19 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the point is on the segment; otherwise, false.</returns>
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point2D == null || start == null || vector == null)
+            return point2D != null && On(point2D.X, point2D.Y, tolerance);
+        }
+
+        /// <summary>
+        /// Checks if the point given by its coordinates lies on the segment within a given tolerance, without allocating.
+        /// </summary>
+        /// <param name="x">The X coordinate of the target point.</param>
+        /// <param name="y">The Y coordinate of the target point.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is on the segment; otherwise, false.</returns>
+        internal bool On(double x, double y, double tolerance)
+        {
+            if (start == null || vector == null)
             {
                 return false;
             }
@@ -559,8 +576,8 @@ namespace DiGi.Geometry.Planar.Classes
             double double_Vx = vector.X;
             double double_Vy = vector.Y;
 
-            double double_Apx = point2D.X - double_Ax;
-            double double_Apy = point2D.Y - double_Ay;
+            double double_Apx = x - double_Ax;
+            double double_Apy = y - double_Ay;
 
             double double_Dot = double_Apx * double_Vx + double_Apy * double_Vy;
             double double_LenSq = double_Vx * double_Vx + double_Vy * double_Vy;
@@ -582,8 +599,8 @@ namespace DiGi.Geometry.Planar.Classes
             double double_Cx = double_Ax + double_T * double_Vx;
             double double_Cy = double_Ay + double_T * double_Vy;
 
-            double double_Dx = point2D.X - double_Cx;
-            double double_Dy = point2D.Y - double_Cy;
+            double double_Dx = x - double_Cx;
+            double double_Dy = y - double_Cy;
 
             double double_DistSq = double_Dx * double_Dx + double_Dy * double_Dy;
 
@@ -618,6 +635,32 @@ namespace DiGi.Geometry.Planar.Classes
 
             double double_Parameter = double_Dot / double_SquareLength;
             return new Point2D(start.X + double_Parameter * double_Cx, start.Y + double_Parameter * double_Cy);
+        }
+
+        /// <summary>
+        /// Gets the endpoint coordinates of the segment without allocating intermediate points.
+        /// </summary>
+        /// <param name="x_Start">When this method returns true, the X coordinate of the start point.</param>
+        /// <param name="y_Start">When this method returns true, the Y coordinate of the start point.</param>
+        /// <param name="x_End">When this method returns true, the X coordinate of the end point.</param>
+        /// <param name="y_End">When this method returns true, the Y coordinate of the end point.</param>
+        /// <returns>True if the segment has a valid start point and vector; otherwise, false.</returns>
+        internal bool TryGetCoordinates(out double x_Start, out double y_Start, out double x_End, out double y_End)
+        {
+            if (start is null || vector is null)
+            {
+                x_Start = double.NaN;
+                y_Start = double.NaN;
+                x_End = double.NaN;
+                y_End = double.NaN;
+                return false;
+            }
+
+            x_Start = start.X;
+            y_Start = start.Y;
+            x_End = x_Start + vector.X;
+            y_End = y_Start + vector.Y;
+            return true;
         }
 
         /// <summary>
