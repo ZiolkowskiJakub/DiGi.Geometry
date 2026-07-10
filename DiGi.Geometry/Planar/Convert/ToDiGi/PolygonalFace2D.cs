@@ -1,4 +1,5 @@
 ﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 
@@ -30,7 +31,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Polygon2D> internalEdges = [];
+            List<IPolygonal2D> internalEdges = [];
 
             LineString[] lineStrings = polygon.InteriorRings;
             if (lineStrings != null && lineStrings.Length > 0)
@@ -53,7 +54,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            return new PolygonalFace2D(externalEdge, internalEdges);
+            return new PolygonalFace2D(externalEdge, internalEdges, false);
         }
     }
 }

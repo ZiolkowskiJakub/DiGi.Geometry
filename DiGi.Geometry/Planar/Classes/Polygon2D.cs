@@ -46,6 +46,16 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Polygon2D"/> class from a prebuilt list of points.
+        /// </summary>
+        /// <param name="point2Ds">The vertices of the polygon.</param>
+        /// <param name="clone">When <see langword="true"/>, the points are defensively cloned; when <see langword="false"/>, the supplied list is adopted directly without cloning. Use <see langword="false"/> only when the caller owns freshly created points that are not shared.</param>
+        internal Polygon2D(List<Point2D>? point2Ds, bool clone)
+            : base(point2Ds, clone)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Polygon2D"/> class from another polygonal geometry.
         /// </summary>
         /// <param name="polygonal2D">The source polygonal geometry.</param>

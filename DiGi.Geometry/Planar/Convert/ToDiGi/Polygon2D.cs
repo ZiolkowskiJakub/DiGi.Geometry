@@ -30,7 +30,7 @@ namespace DiGi.Geometry.Planar
                 point2Ds.RemoveAt(count - 1);
             }
 
-            return new Polygon2D(point2Ds);
+            return new Polygon2D(point2Ds, false);
         }
     }
 }

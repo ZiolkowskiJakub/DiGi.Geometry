@@ -19,6 +19,17 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
+            if (polygonal2D is Segmentable2D segmentable2D)
+            {
+                Coordinate[]? coordinates = segmentable2D.ToNTS_Coordinates(true);
+                if (coordinates == null || coordinates.Length < 4)
+                {
+                    return null;
+                }
+
+                return new LinearRing(coordinates);
+            }
+
             List<Point2D>? point2Ds = polygonal2D.GetPoints();
             if (point2Ds == null || point2Ds.Count < 3)
             {

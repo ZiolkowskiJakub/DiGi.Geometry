@@ -32,5 +32,46 @@ namespace DiGi.Geometry.Planar
 
             return result;
         }
+
+        /// <summary>
+        /// Converts the points of a <see cref="Segmentable2D"/> to an array of NTS <see cref="Coordinate"/> objects without cloning the points.
+        /// </summary>
+        /// <param name="segmentable2D">The <see cref="Segmentable2D"/> instance to convert.</param>
+        /// <param name="close">When <see langword="true"/>, the first coordinate is appended at the end to close the ring.</param>
+        /// <returns>An array of <see cref="Coordinate"/> objects, or <see langword="null"/> if there are no points.</returns>
+        public static Coordinate[]? ToNTS_Coordinates(this Segmentable2D? segmentable2D, bool close)
+        {
+            List<Point2D>? point2Ds = segmentable2D?.GetPoints(false);
+            if (point2Ds == null || point2Ds.Count == 0)
+            {
+                return null;
+            }
+
+            int count = point2Ds.Count;
+
+            List<Coordinate> coordinates = new(count + 1);
+            for (int i = 0; i < count; i++)
+            {
+                Point2D point2D = point2Ds[i];
+                if (point2D == null)
+                {
+                    continue;
+                }
+
+                coordinates.Add(new Coordinate(point2D.X, point2D.Y));
+            }
+
+            if (coordinates.Count == 0)
+            {
+                return null;
+            }
+
+            if (close)
+            {
+                coordinates.Add(coordinates[0]);
+            }
+
+            return [.. coordinates];
+        }
     }
 }

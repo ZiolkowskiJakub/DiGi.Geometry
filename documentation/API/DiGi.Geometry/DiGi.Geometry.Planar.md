@@ -712,6 +712,33 @@ The IEnumerable\<Point2D\> containing the points to convert\.
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[NetTopologySuite\.Geometries\.Coordinate](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.coordinate 'NetTopologySuite\.Geometries\.Coordinate')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A `List<Coordinate>` containing the converted coordinates, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if the input collection is null\.
 
+<a name='DiGi.Geometry.Planar.Convert.ToNTS_Coordinates(thisDiGi.Geometry.Planar.Classes.Segmentable2D,bool)'></a>
+
+## Convert\.ToNTS\_Coordinates\(this Segmentable2D, bool\) Method
+
+Converts the points of a [Segmentable2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Segmentable2D 'DiGi\.Geometry\.Planar\.Classes\.Segmentable2D') to an array of NTS [NetTopologySuite\.Geometries\.Coordinate](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.coordinate 'NetTopologySuite\.Geometries\.Coordinate') objects without cloning the points\.
+
+```csharp
+public static Coordinate[]? ToNTS_Coordinates(this DiGi.Geometry.Planar.Classes.Segmentable2D? segmentable2D, bool close);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Convert.ToNTS_Coordinates(thisDiGi.Geometry.Planar.Classes.Segmentable2D,bool).segmentable2D'></a>
+
+`segmentable2D` [Segmentable2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Segmentable2D 'DiGi\.Geometry\.Planar\.Classes\.Segmentable2D')
+
+The [Segmentable2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Segmentable2D 'DiGi\.Geometry\.Planar\.Classes\.Segmentable2D') instance to convert\.
+
+<a name='DiGi.Geometry.Planar.Convert.ToNTS_Coordinates(thisDiGi.Geometry.Planar.Classes.Segmentable2D,bool).close'></a>
+
+`close` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the first coordinate is appended at the end to close the ring\.
+
+#### Returns
+[NetTopologySuite\.Geometries\.Coordinate](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.coordinate 'NetTopologySuite\.Geometries\.Coordinate')[\[\]](https://learn.microsoft.com/en-us/dotnet/api/system.array 'System\.Array')  
+An array of [NetTopologySuite\.Geometries\.Coordinate](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.coordinate 'NetTopologySuite\.Geometries\.Coordinate') objects, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if there are no points\.
+
 <a name='DiGi.Geometry.Planar.Convert.ToNTS_LineString(thisDiGi.Geometry.Planar.Classes.Segment2D)'></a>
 
 ## Convert\.ToNTS\_LineString\(this Segment2D\) Method

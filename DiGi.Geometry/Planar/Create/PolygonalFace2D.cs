@@ -23,9 +23,21 @@ namespace DiGi.Geometry.Planar
             List<IPolygonal2D>? internalEdges_Inside = null;
             if (internalEdges != null)
             {
+                BoundingBox2D? boundingBox2D_ExternalEdge = externalEdge.GetBoundingBox();
+
                 internalEdges_Inside = [];
                 foreach (IPolygonal2D internalEdge in internalEdges)
                 {
+                    if (internalEdge == null)
+                    {
+                        continue;
+                    }
+
+                    if (boundingBox2D_ExternalEdge != null && !boundingBox2D_ExternalEdge.InRange(internalEdge.GetBoundingBox(), tolerace))
+                    {
+                        continue;
+                    }
+
                     if (externalEdge.Inside(internalEdge, tolerace))
                     {
                         internalEdges_Inside.Add(internalEdge);
@@ -34,28 +46,57 @@ namespace DiGi.Geometry.Planar
 
                 if (internalEdges_Inside.Count > 1)
                 {
-                    DiGi.Core.Modify.Sort(internalEdges_Inside, x => x.GetArea());
-                    internalEdges_Inside.Reverse();
+                    int count = internalEdges_Inside.Count;
 
-                    List<IPolygonal2D> internalEdges_Temp = [];
-
-                    while (internalEdges_Inside.Count > 0)
+                    double[] areas = new double[count];
+                    IPolygonal2D[] polygonal2Ds = new IPolygonal2D[count];
+                    for (int i = 0; i < count; i++)
                     {
-                        IPolygonal2D internalEdge = internalEdges_Inside[0];
+                        IPolygonal2D internalEdge = internalEdges_Inside[i];
+                        areas[i] = internalEdge.GetArea();
+                        polygonal2Ds[i] = internalEdge;
+                    }
 
-                        internalEdges_Temp.Add(internalEdge);
-                        internalEdges_Inside.RemoveAt(0);
+                    System.Array.Sort(areas, polygonal2Ds);
 
-                        for (int i = internalEdges_Inside.Count - 1; i >= 0; i--)
+                    BoundingBox2D?[] boundingBox2Ds = new BoundingBox2D?[count];
+                    for (int i = 0; i < count; i++)
+                    {
+                        boundingBox2Ds[i] = polygonal2Ds[i].GetBoundingBox();
+                    }
+
+                    internalEdges_Inside.Clear();
+
+                    bool[] removed = new bool[count];
+                    for (int i = count - 1; i >= 0; i--)
+                    {
+                        if (removed[i])
                         {
-                            if (internalEdge.InRange(internalEdges_Inside[i], tolerace))
+                            continue;
+                        }
+
+                        IPolygonal2D internalEdge = polygonal2Ds[i];
+                        internalEdges_Inside.Add(internalEdge);
+
+                        BoundingBox2D? boundingBox2D = boundingBox2Ds[i];
+                        for (int j = i - 1; j >= 0; j--)
+                        {
+                            if (removed[j])
                             {
-                                internalEdges_Inside.RemoveAt(i);
+                                continue;
+                            }
+
+                            if (boundingBox2D != null && !boundingBox2D.InRange(boundingBox2Ds[j], tolerace))
+                            {
+                                continue;
+                            }
+
+                            if (internalEdge.InRange(polygonal2Ds[j], tolerace))
+                            {
+                                removed[j] = true;
                             }
                         }
                     }
-
-                    internalEdges_Inside = internalEdges_Temp;
                 }
 
                 if (internalEdges_Inside.Count == 0)

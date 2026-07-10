@@ -32,7 +32,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<PolygonalFace2D> polygonalFace2Ds_Result = [];
+            List<PolygonalFace2D> polygonalFace2Ds_Result = new(polygons.Count);
             foreach (Polygon polygon in polygons)
             {
                 PolygonalFace2D? polygonalFace2D = polygon?.ToDiGi();
@@ -60,7 +60,42 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            return PolygonalFace2Ds(polygonal2Ds.Segments(), tolerace);
+            List<NetTopologySuite.Geometries.Geometry> geometries = [];
+            foreach (IPolygonal2D polygonal2D in polygonal2Ds)
+            {
+                LinearRing? linearRing = polygonal2D?.ToNTS();
+                if (linearRing == null)
+                {
+                    continue;
+                }
+
+                geometries.Add(linearRing);
+            }
+
+            if (geometries.Count == 0)
+            {
+                return null;
+            }
+
+            List<Polygon>? polygons = Polygons(geometries, tolerace);
+            if (polygons == null)
+            {
+                return null;
+            }
+
+            List<PolygonalFace2D> polygonalFace2Ds_Result = new(polygons.Count);
+            foreach (Polygon polygon in polygons)
+            {
+                PolygonalFace2D? polygonalFace2D = polygon?.ToDiGi();
+                if (polygonalFace2D == null)
+                {
+                    continue;
+                }
+
+                polygonalFace2Ds_Result.Add(polygonalFace2D);
+            }
+
+            return polygonalFace2Ds_Result;
         }
     }
 }

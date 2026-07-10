@@ -4667,6 +4667,29 @@ public Polygon2D(System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Cla
 
 The vertices of the polygon\.
 
+<a name='DiGi.Geometry.Planar.Classes.Polygon2D.Polygon2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool)'></a>
+
+## Polygon2D\(List\<Point2D\>, bool\) Constructor
+
+Initializes a new instance of the [Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D') class from a prebuilt list of points\.
+
+```csharp
+internal Polygon2D(System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Point2D>? point2Ds, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Polygon2D.Polygon2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool).point2Ds'></a>
+
+`point2Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The vertices of the polygon\.
+
+<a name='DiGi.Geometry.Planar.Classes.Polygon2D.Polygon2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the points are defensively cloned; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied list is adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created points that are not shared\.
+
 <a name='DiGi.Geometry.Planar.Classes.Polygon2D.Polygon2D(System.Text.Json.Nodes.JsonObject)'></a>
 
 ## Polygon2D\(JsonObject\) Constructor
@@ -7828,6 +7851,29 @@ public Segmentable2D(System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar
 
 The vertices of the geometry\.
 
+<a name='DiGi.Geometry.Planar.Classes.Segmentable2D.Segmentable2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool)'></a>
+
+## Segmentable2D\(List\<Point2D\>, bool\) Constructor
+
+Initializes a new instance of the [Segmentable2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Segmentable2D 'DiGi\.Geometry\.Planar\.Classes\.Segmentable2D') class from a prebuilt list of points\.
+
+```csharp
+internal Segmentable2D(System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Point2D>? point2Ds, bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Segmentable2D.Segmentable2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool).point2Ds'></a>
+
+`point2Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The vertices of the geometry\.
+
+<a name='DiGi.Geometry.Planar.Classes.Segmentable2D.Segmentable2D(System.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the points are defensively cloned; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the supplied list is adopted directly without cloning\. Use [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') only when the caller owns freshly created points that are not shared\.
+
 <a name='DiGi.Geometry.Planar.Classes.Segmentable2D.Segmentable2D(System.Text.Json.Nodes.JsonObject)'></a>
 
 ## Segmentable2D\(JsonObject\) Constructor
@@ -7935,6 +7981,27 @@ Implements [GetPoints\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.geo
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A cloned list of vertices, or null if none exist\.
+
+<a name='DiGi.Geometry.Planar.Classes.Segmentable2D.GetPoints(bool)'></a>
+
+## Segmentable2D\.GetPoints\(bool\) Method
+
+Gets the collection of points that define the geometry\.
+
+```csharp
+public System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Point2D>? GetPoints(bool clone);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Segmentable2D.GetPoints(bool).clone'></a>
+
+`clone` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the returned list contains cloned points; when [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), the internal list is returned directly without cloning and must not be mutated by the caller\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+The vertices of the geometry, or null if none exist\.
 
 <a name='DiGi.Geometry.Planar.Classes.Segmentable2D.GetSegments()'></a>
 

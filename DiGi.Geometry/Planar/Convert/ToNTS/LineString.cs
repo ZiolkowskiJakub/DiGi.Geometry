@@ -29,13 +29,12 @@ namespace DiGi.Geometry.Planar
         /// <returns>An NTS <see cref="LineString"/> if the conversion is successful; otherwise, <c>null</c>.</returns>
         public static LineString? ToNTS_LineString(this Segment2D? segment2D)
         {
-            List<Coordinate>? coordinates = segment2D?.GetPoints()?.ToNTS();
-            if (coordinates == null)
+            if (segment2D == null || !segment2D.TryGetCoordinates(out double x_Start, out double y_Start, out double x_End, out double y_End))
             {
                 return null;
             }
 
-            return new LineString([.. coordinates]);
+            return new LineString([new Coordinate(x_Start, y_Start), new Coordinate(x_End, y_End)]);
         }
     }
 }

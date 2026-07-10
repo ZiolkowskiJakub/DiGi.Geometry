@@ -3,7 +3,6 @@ using NetTopologySuite.Geometries;
 using NetTopologySuite.Noding.Snapround;
 using NetTopologySuite.Operation.Polygonize;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.Geometry.Planar
 {
@@ -78,38 +77,51 @@ namespace DiGi.Geometry.Planar
 
             GeometryNoder geometryNoder = new(new PrecisionModel(1 / tolerance));
 
-            List<LineString> lineStrings = [.. geometryNoder.Node(geometries_Temp)];
+            IList<LineString>? lineStrings = geometryNoder.Node(geometries_Temp);
             if (lineStrings == null || lineStrings.Count == 0)
             {
                 return polygons_Result;
             }
 
             Polygonizer polygonizer = new(false);
-            polygonizer.Add([.. lineStrings]);
+            for (int i = 0; i < lineStrings.Count; i++)
+            {
+                polygonizer.Add(lineStrings[i]);
+            }
 
-            IEnumerable<NetTopologySuite.Geometries.Geometry> geometries_Result = polygonizer.GetPolygons();
+            ICollection<NetTopologySuite.Geometries.Geometry>? geometries_Result = polygonizer.GetPolygons();
             if (geometries_Result == null)
             {
                 return null;
             }
 
-            List<NetTopologySuite.Geometries.Geometry> geometries_ResultList = [.. geometries_Result];
-            if (geometries_ResultList.Count == 0)
+            if (geometries_Result.Count == 0)
             {
-                polygons_Result.AddRange(geometries_Temp.FindAll(x => x is Polygon).Cast<Polygon>());
-                polygons_Result.AddRange(geometries_Temp.FindAll(x => x is LinearRing).ConvertAll(x => new Polygon((LinearRing)x)));
+                for (int i = 0; i < geometries_Temp.Count; i++)
+                {
+                    if (geometries_Temp[i] is Polygon polygon)
+                    {
+                        polygons_Result.Add(polygon);
+                    }
+                }
+
+                for (int i = 0; i < geometries_Temp.Count; i++)
+                {
+                    if (geometries_Temp[i] is LinearRing linearRing)
+                    {
+                        polygons_Result.Add(new Polygon(linearRing));
+                    }
+                }
+
                 return polygons_Result;
             }
 
-            foreach (NetTopologySuite.Geometries.Geometry geometry in geometries_ResultList)
+            foreach (NetTopologySuite.Geometries.Geometry geometry in geometries_Result)
             {
-                Polygon? polygon = geometry as Polygon;
-                if (polygon == null)
+                if (geometry is Polygon polygon)
                 {
-                    continue;
+                    polygons_Result.Add(polygon);
                 }
-
-                polygons_Result.Add(polygon);
             }
 
             return polygons_Result;

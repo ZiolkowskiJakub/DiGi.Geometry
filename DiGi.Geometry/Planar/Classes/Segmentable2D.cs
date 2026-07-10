@@ -79,6 +79,34 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Segmentable2D"/> class from a prebuilt list of points.
+        /// </summary>
+        /// <param name="point2Ds">The vertices of the geometry.</param>
+        /// <param name="clone">When <see langword="true"/>, the points are defensively cloned; when <see langword="false"/>, the supplied list is adopted directly without cloning. Use <see langword="false"/> only when the caller owns freshly created points that are not shared.</param>
+        internal Segmentable2D(List<Point2D>? point2Ds, bool clone)
+        {
+            if (point2Ds == null)
+            {
+                return;
+            }
+
+            if (!clone)
+            {
+                points = point2Ds;
+                return;
+            }
+
+            points = new List<Point2D>(point2Ds.Count);
+            for (int i = 0; i < point2Ds.Count; i++)
+            {
+                if (point2Ds[i]?.Clone() is Point2D point2D)
+                {
+                    points.Add(point2D);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the total length of the segments that form the geometry.
         /// </summary>
         [JsonIgnore]
@@ -173,6 +201,21 @@ namespace DiGi.Geometry.Planar.Classes
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets the collection of points that define the geometry.
+        /// </summary>
+        /// <param name="clone">When <see langword="true"/>, the returned list contains cloned points; when <see langword="false"/>, the internal list is returned directly without cloning and must not be mutated by the caller.</param>
+        /// <returns>The vertices of the geometry, or null if none exist.</returns>
+        public List<Point2D>? GetPoints(bool clone)
+        {
+            if (!clone)
+            {
+                return points;
+            }
+
+            return GetPoints();
         }
 
         /// <summary>
