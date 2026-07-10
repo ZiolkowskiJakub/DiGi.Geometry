@@ -6290,6 +6290,82 @@ A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'S
 [Vector3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Vector3D 'DiGi\.Geometry\.Spatial\.Classes\.Vector3D')  
 A [Vector3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Vector3D 'DiGi\.Geometry\.Spatial\.Classes\.Vector3D') that is perpendicular to the input vector, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if the input [Vector3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Vector3D 'DiGi\.Geometry\.Spatial\.Classes\.Vector3D') is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null')\.
 
+<a name='DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double)'></a>
+
+## Query\.PolygonalFace3Ds\<TPolygonalFace3D\>\(this BooleanOpertaionType, Polyhedron\<TPolygonalFace3D\>, Polyhedron\<TPolygonalFace3D\>, bool, bool, double\) Method
+
+Performs a boolean operation on two polyhedrons and returns a list of polygonal faces resulting from the operation\.
+
+```csharp
+public static System.Collections.Generic.List<TPolygonalFace3D>? PolygonalFace3Ds<TPolygonalFace3D>(this DiGi.Geometry.Core.Enums.BooleanOpertaionType booleanOpertaionType, DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D>? polyhedron_1, DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D>? polyhedron_2, bool inlcudePolyhedron_1, bool inlcudePolyhedron_2, double tolerance=1E-06)
+    where TPolygonalFace3D : DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D;
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).TPolygonalFace3D'></a>
+
+`TPolygonalFace3D`
+
+The type of polygonal face, which must implement [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')\.
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).booleanOpertaionType'></a>
+
+`booleanOpertaionType` [BooleanOpertaionType](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType')
+
+The type of the boolean operation to perform\.
+
+<a name='DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).polyhedron_1'></a>
+
+`polyhedron_1` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Query\.PolygonalFace3Ds\<TPolygonalFace3D\>\(this DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, bool, bool, double\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+The first polyhedron\.
+
+<a name='DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).polyhedron_2'></a>
+
+`polyhedron_2` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Query\.PolygonalFace3Ds\<TPolygonalFace3D\>\(this DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, bool, bool, double\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+The second polyhedron\.
+
+<a name='DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).inlcudePolyhedron_1'></a>
+
+`inlcudePolyhedron_1` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+Whether to include faces originating from the first polyhedron in the result\.
+
+<a name='DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).inlcudePolyhedron_2'></a>
+
+`inlcudePolyhedron_2` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+Whether to include faces originating from the second polyhedron in the result\.
+
+<a name='DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance for geometric computations and classification\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Query\.PolygonalFace3Ds\<TPolygonalFace3D\>\(this DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, bool, bool, double\)\.TPolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A list of [TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Query\.PolygonalFace3Ds\<TPolygonalFace3D\>\(this DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, bool, bool, double\)\.TPolygonalFace3D') faces resulting from the boolean operation \(may be empty\), or `null` if either polyhedron is `null`\.
+
+### Remarks
+
+The boolean operation splits the faces of each polyhedron by the faces of the other, classifies every resulting fragment
+against the opposite volume, and deduplicates overlapping coplanar boundaries. The operation type determines which fragments are kept:
+- [Union](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType.Union 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType\.Union'): faces of A outside B plus faces of B outside A.
+- [Intersection](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType.Intersection 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType\.Intersection'): faces of A inside B plus faces of B inside A.
+- [Difference](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.BooleanOpertaionType.Difference 'DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType\.Difference'): faces of A outside B plus faces of B inside A (with inverted normals).
+
+The output can be further constrained by source polyhedron via [inlcudePolyhedron\_1](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).inlcudePolyhedron_1 'DiGi\.Geometry\.Spatial\.Query\.PolygonalFace3Ds\<TPolygonalFace3D\>\(this DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, bool, bool, double\)\.inlcudePolyhedron\_1') and [inlcudePolyhedron\_2](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Query.PolygonalFace3Ds_TPolygonalFace3D_(thisDiGi.Geometry.Core.Enums.BooleanOpertaionType,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,bool,double).inlcudePolyhedron_2 'DiGi\.Geometry\.Spatial\.Query\.PolygonalFace3Ds\<TPolygonalFace3D\>\(this DiGi\.Geometry\.Core\.Enums\.BooleanOpertaionType, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, bool, bool, double\)\.inlcudePolyhedron\_2'):
+setting either to `false` excludes faces whose internal point lies on or inside the corresponding polyhedron volume.
+When both flags are `true`, all faces from the boolean result are returned without additional filtering overhead.
+
+The method returns early for trivial cases without executing the CSG pipeline:
+- Intersection with disjoint bounding boxes or either polyhedron having no faces returns an empty list.
+- Difference with disjoint bounding boxes or an empty second polyhedron returns the faces of the first polyhedron (subject to include flags).
+- Union with disjoint bounding boxes returns the faces of both polyhedrons (subject to include flags).
+
 <a name='DiGi.Geometry.Spatial.Query.Project(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Classes.Point3D)'></a>
 
 ## Query\.Project\(this Plane, Point3D\) Method
