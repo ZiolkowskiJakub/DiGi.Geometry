@@ -277,7 +277,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            IPolygonalFace3D[] polygonalFace3Ds_Cached = polygonalFace3Ds as IPolygonalFace3D[] ?? polygonalFace3Ds.ToArray();
+            IPolygonalFace3D[] polygonalFace3Ds_Cached = polygonalFace3Ds as IPolygonalFace3D[] ?? [.. polygonalFace3Ds];
             if (polygonalFace3Ds_Cached.Length < 4)
             {
                 return null;

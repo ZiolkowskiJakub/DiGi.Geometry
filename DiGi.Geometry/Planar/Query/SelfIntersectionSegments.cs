@@ -20,7 +20,7 @@ namespace DiGi.Geometry.Planar
                 return null;
 
             // Cache once so a lazy source is not re-enumerated on every outer iteration below.
-            Segment2D[] segment2Ds_Cached = segment2Ds as Segment2D[] ?? segment2Ds.ToArray();
+            Segment2D[] segment2Ds_Cached = segment2Ds as Segment2D[] ?? [.. segment2Ds];
 
             List<Segment2D> result = [];
 

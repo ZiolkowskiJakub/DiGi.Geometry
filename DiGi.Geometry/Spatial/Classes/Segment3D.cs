@@ -527,8 +527,8 @@ namespace DiGi.Geometry.Spatial.Classes
             double double_EndY = start.Y + vector.Y;
             double double_EndZ = start.Z + vector.Z;
 
-            Point3D point3D_StartClone = new Point3D(double_StartX, double_StartY, double_StartZ);
-            Point3D point3D_EndClone = new Point3D(double_EndX, double_EndY, double_EndZ);
+            Point3D point3D_StartClone = new (double_StartX, double_StartY, double_StartZ);
+            Point3D point3D_EndClone = new (double_EndX, double_EndY, double_EndZ);
 
             if (!point3D_StartClone.Transform(transform))
             {

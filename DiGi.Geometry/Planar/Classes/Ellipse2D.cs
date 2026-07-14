@@ -345,10 +345,10 @@ namespace DiGi.Geometry.Planar.Classes
             double double_OffsetX = double_DirX * double_C;
             double double_OffsetY = double_DirY * double_C;
 
-            Point2D point2D_1 = new Point2D(center.X + double_OffsetX, center.Y + double_OffsetY);
-            Point2D point2D_2 = new Point2D(center.X - double_OffsetX, center.Y - double_OffsetY);
+            Point2D point2D_1 = new (center.X + double_OffsetX, center.Y + double_OffsetY);
+            Point2D point2D_2 = new (center.X - double_OffsetX, center.Y - double_OffsetY);
 
-            return new Point2D[] { point2D_1, point2D_2 };
+            return [point2D_1, point2D_2];
         }
 
         /// <summary>

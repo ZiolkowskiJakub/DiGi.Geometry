@@ -18,7 +18,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Point3D[] point3Ds_Local = point3Ds as Point3D[] ?? point3Ds.ToArray();
+            Point3D[] point3Ds_Local = point3Ds as Point3D[] ?? [.. point3Ds];
             int int_Count = point3Ds_Local.Length;
             if (int_Count == 0)
             {

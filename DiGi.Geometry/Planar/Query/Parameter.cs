@@ -35,7 +35,7 @@ namespace DiGi.Geometry.Planar
             double distanceSq = double.MaxValue;
             int index = -1;
 
-            List<double> lengths = new();
+            List<double> lengths = [];
             for (int i = 1; i < count; i++)
             {
                 Point2D point2D_1 = point2Ds_Local[i - 1];

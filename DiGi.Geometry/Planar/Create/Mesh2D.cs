@@ -2,7 +2,6 @@ using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.Geometry.Planar
 {
@@ -21,7 +20,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Triangle2D[] triangle2Ds_Cached = triangle2Ds as Triangle2D[] ?? triangle2Ds.ToArray();
+            Triangle2D[] triangle2Ds_Cached = triangle2Ds as Triangle2D[] ?? [.. triangle2Ds];
             if (triangle2Ds_Cached.Length == 0)
             {
                 return null;

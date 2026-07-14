@@ -31,7 +31,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             Point3D point3D_Origin = point3Ds_Local[0];
-            List<Vector3D> vector3Ds_Directions = new();
+            List<Vector3D> vector3Ds_Directions = [];
             for (int i = 0; i < count - 1; i++)
             {
                 Point3D point3D_Target = point3Ds_Local[i + 1];

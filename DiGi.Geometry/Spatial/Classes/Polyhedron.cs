@@ -92,7 +92,7 @@ namespace DiGi.Geometry.Spatial.Classes
         {
             if (polygonalFaces != null)
             {
-                TPolygonalFace3D[] polygonalFaces_Cached = polygonalFaces as TPolygonalFace3D[] ?? polygonalFaces.ToArray();
+                TPolygonalFace3D[] polygonalFaces_Cached = polygonalFaces as TPolygonalFace3D[] ?? [.. polygonalFaces];
                 if (polygonalFaces_Cached.Length >= 4)
                 {
                     this.polygonalFaces = new(polygonalFaces_Cached.Length);

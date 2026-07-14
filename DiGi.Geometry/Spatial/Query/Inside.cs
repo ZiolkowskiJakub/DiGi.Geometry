@@ -23,6 +23,11 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
+            if (planar is Triangle3D triangle3D)
+            {
+                return triangle3D.Inside(point3D, tolerance);
+            }
+
             Plane? plane = planar.Plane;
             if (plane == null)
             {
@@ -62,6 +67,19 @@ namespace DiGi.Geometry.Spatial
             if (point3Ds == null || planar == null)
             {
                 return false;
+            }
+
+            if (planar is Triangle3D triangle3D)
+            {
+                foreach (Point3D point3D in point3Ds)
+                {
+                    if (point3D == null || !triangle3D.Inside(point3D, tolerance))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             Plane? plane = planar.Plane;
@@ -194,6 +212,75 @@ namespace DiGi.Geometry.Spatial
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Determines whether a point is located inside the triangle formed by three points within a given tolerance.
+        /// </summary>
+        /// <param name="point3D">The <see cref="Point3D"/> point to check.</param>
+        /// <param name="point3D_1">The first vertex of the triangle.</param>
+        /// <param name="point3D_2">The second vertex of the triangle.</param>
+        /// <param name="point3D_3">The third vertex of the triangle.</param>
+        /// <param name="tolerance">The distance tolerance value.</param>
+        /// <returns>True if the point lies inside or on the boundary of the triangle; otherwise, false.</returns>
+        public static bool Inside(this Point3D? point3D, Point3D? point3D_1, Point3D? point3D_2, Point3D? point3D_3, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            if (point3D == null || point3D_1 == null || point3D_2 == null || point3D_3 == null)
+            {
+                return false;
+            }
+
+            Vector3D ab = new(point3D_1, point3D_2);
+            Vector3D ac = new(point3D_1, point3D_3);
+            Vector3D ap = new(point3D_1, point3D);
+
+            Vector3D? crossProduct = ab.CrossProduct(ac);
+            if (crossProduct == null)
+            {
+                return false;
+            }
+
+            double squaredLength = crossProduct.SquaredLength;
+            double squaredTolerance = tolerance * tolerance;
+
+            if (squaredLength <= squaredTolerance)
+            {
+                return false;
+            }
+
+            Vector3D? unitNormal = crossProduct.Unit;
+            if (unitNormal == null)
+            {
+                return false;
+            }
+
+            double signedDistance = ap.DotProduct(unitNormal);
+
+            if (System.Math.Abs(signedDistance) > tolerance)
+            {
+                return false;
+            }
+
+            double dot00 = ab.DotProduct(ab);
+            double dot01 = ab.DotProduct(ac);
+            double dot02 = ab.DotProduct(ap);
+            double dot11 = ac.DotProduct(ac);
+            double dot12 = ac.DotProduct(ap);
+
+            double denom = dot00 * dot11 - dot01 * dot01;
+            if (System.Math.Abs(denom) < 1e-15)
+            {
+                return false;
+            }
+
+            double invDenom = 1.0 / denom;
+            double u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+            double v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+            double w = 1.0 - u - v;
+
+            return (u >= -tolerance && u <= 1.0 + tolerance) &&
+                   (v >= -tolerance && v <= 1.0 + tolerance) &&
+                   (w >= -tolerance && w <= 1.0 + tolerance);
         }
     }
 }

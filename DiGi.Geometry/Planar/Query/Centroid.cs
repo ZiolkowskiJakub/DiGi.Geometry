@@ -35,7 +35,7 @@ namespace DiGi.Geometry.Planar
             if (count == 2)
             {
                 Point2D point2D_First = point2Ds_Local[0];
-                return point2D_First != null ? point2D_First.Mid(point2Ds_Local[1]) : null;
+                return point2D_First?.Mid(point2Ds_Local[1]);
             }
 
             double area = 0;

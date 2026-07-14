@@ -222,13 +222,14 @@ namespace DiGi.Geometry.Planar
                 {
                     if (geometry2D is IPolygonalFace2D polygonalFace2D)
                     {
-                        if (polygonalFace2D.Edges is List<IPolygonal2D> polygonal2Ds_Temp)
+                        switch (polygonalFace2D.Edges)
                         {
-                            geometryCollection2D = [.. polygonalFace2D.Edges];
-                        }
-                        else
-                        {
-                            return [];
+                            case List<IPolygonal2D> polygonal2Ds_Temp:
+                                geometryCollection2D = [.. polygonalFace2D.Edges];
+                                break;
+
+                            default:
+                                return [];
                         }
                     }
                     else

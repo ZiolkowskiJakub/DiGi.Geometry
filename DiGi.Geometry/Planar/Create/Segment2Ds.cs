@@ -19,10 +19,10 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? [.. point2Ds];
             int count = point2Ds_Local.Length;
 
-            List<Segment2D> segment2Ds_Result = new();
+            List<Segment2D> segment2Ds_Result = [];
 
             if (count < 2)
             {

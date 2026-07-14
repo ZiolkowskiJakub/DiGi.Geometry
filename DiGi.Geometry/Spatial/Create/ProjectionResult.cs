@@ -387,11 +387,7 @@ namespace DiGi.Geometry.Spatial
                         return new ProjectionResult(plane, point2D_ParallelCenter);
                     }
 
-                    Vector2D? vector2D_ParallelDirUnit = vector2D_ParallelDirection?.Unit;
-                    if (vector2D_ParallelDirUnit == null)
-                    {
-                        vector2D_ParallelDirUnit = Planar.Constants.Vector2D.WorldX;
-                    }
+                    Vector2D? vector2D_ParallelDirUnit = (vector2D_ParallelDirection?.Unit) ?? Planar.Constants.Vector2D.WorldX;
 
                     Segment2D segment2D = new(point2D_ParallelCenter - (ellipse3D.A * vector2D_ParallelDirUnit), point2D_ParallelCenter + (ellipse3D.A * vector2D_ParallelDirUnit));
                     if (segment2D.Length < tolerance)

@@ -23,17 +23,13 @@ namespace DiGi.Geometry.Spatial
             double tolerance = DiGi.Core.Constants.Tolerance.Distance)
             where TPolygonalFace3D : IPolygonalFace3D
         {
-            switch (booleanOpertaionType)
+            return booleanOpertaionType switch
             {
-                case BooleanOpertaionType.Intersection:
-                    return IntersectionResult3D(polyhedron_1, polyhedron_2, tolerance);
-                case BooleanOpertaionType.Difference:
-                    return DifferenceResult3D(polyhedron_1, polyhedron_2, tolerance);
-                case BooleanOpertaionType.Union:
-                    return UnionResult3D(polyhedron_1, polyhedron_2, tolerance);
-                default:
-                    return null;
-            }
+                BooleanOpertaionType.Intersection => IntersectionResult3D(polyhedron_1, polyhedron_2, tolerance),
+                BooleanOpertaionType.Difference => DifferenceResult3D(polyhedron_1, polyhedron_2, tolerance),
+                BooleanOpertaionType.Union => UnionResult3D(polyhedron_1, polyhedron_2, tolerance),
+                _ => null,
+            };
         }
 
         /// <summary>

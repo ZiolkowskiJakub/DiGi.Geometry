@@ -170,7 +170,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Triangle3D[] triangle3Ds_Cached = triangle3Ds as Triangle3D[] ?? triangle3Ds.ToArray();
+            Triangle3D[] triangle3Ds_Cached = triangle3Ds as Triangle3D[] ?? [.. triangle3Ds];
             if (triangle3Ds_Cached.Length == 0)
             {
                 return null;

@@ -109,7 +109,7 @@ namespace DiGi.Geometry.Spatial
                 tuples_Unvisited = tuples_NextUnvisited;
             }
 
-            polygonalFace3Ds_Disconnected = new();
+            polygonalFace3Ds_Disconnected = [];
             for (int int_I = 0; int_I < tuples_Unvisited.Count; int_I++)
             {
                 polygonalFace3Ds_Disconnected.Add(tuples_Unvisited[int_I].Item2);

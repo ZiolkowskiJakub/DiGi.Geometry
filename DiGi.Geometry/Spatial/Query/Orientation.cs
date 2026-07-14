@@ -111,7 +111,7 @@ namespace DiGi.Geometry.Spatial
                 return Core.Enums.Orientation.Undefined;
             }
 
-            Point2D[] point2Ds_Cached = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            Point2D[] point2Ds_Cached = point2Ds as Point2D[] ?? [.. point2Ds];
             if (point2Ds_Cached.Length == 0)
             {
                 return Core.Enums.Orientation.Undefined;

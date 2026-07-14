@@ -17,7 +17,7 @@ namespace DiGi.Geometry.Core
                 return false;
             }
 
-            int[][] indexes_Cached = indexes as int[][] ?? indexes.ToArray();
+            int[][] indexes_Cached = indexes as int[][] ?? [.. indexes];
             if (indexes_Cached.Length == 0)
             {
                 return false;

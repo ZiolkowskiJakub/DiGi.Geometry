@@ -5379,6 +5379,51 @@ A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'S
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating `true` if the points are within range; otherwise, `false`\.
 
+<a name='DiGi.Geometry.Spatial.Query.Inside(thisDiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double)'></a>
+
+## Query\.Inside\(this Point3D, Point3D, Point3D, Point3D, double\) Method
+
+Determines whether a point is located inside the triangle formed by three points within a given tolerance\.
+
+```csharp
+public static bool Inside(this DiGi.Geometry.Spatial.Classes.Point3D? point3D, DiGi.Geometry.Spatial.Classes.Point3D? point3D_1, DiGi.Geometry.Spatial.Classes.Point3D? point3D_2, DiGi.Geometry.Spatial.Classes.Point3D? point3D_3, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Query.Inside(thisDiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double).point3D'></a>
+
+`point3D` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+The [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') point to check\.
+
+<a name='DiGi.Geometry.Spatial.Query.Inside(thisDiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double).point3D_1'></a>
+
+`point3D_1` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+The first vertex of the triangle\.
+
+<a name='DiGi.Geometry.Spatial.Query.Inside(thisDiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double).point3D_2'></a>
+
+`point3D_2` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+The second vertex of the triangle\.
+
+<a name='DiGi.Geometry.Spatial.Query.Inside(thisDiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double).point3D_3'></a>
+
+`point3D_3` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+The third vertex of the triangle\.
+
+<a name='DiGi.Geometry.Spatial.Query.Inside(thisDiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance value\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the point lies inside or on the boundary of the triangle; otherwise, false\.
+
 <a name='DiGi.Geometry.Spatial.Query.Inside_T_(DiGi.Geometry.Spatial.Interfaces.IPlanar_T_,DiGi.Geometry.Spatial.Classes.Point3D,double)'></a>
 
 ## Query\.Inside\<T\>\(IPlanar\<T\>, Point3D, double\) Method
@@ -5501,6 +5546,51 @@ A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'S
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating `true` if all provided points are on the plane within the specified tolerance; otherwise, `false`\.
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(thisDiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D,DiGi.Geometry.Spatial.Classes.Segment3D,double,bool,bool)'></a>
+
+## Query\.Intersect\(this IPolygonalFace3D, Segment3D, double, bool, bool\) Method
+
+Determines whether a specified [Segment3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Segment3D 'DiGi\.Geometry\.Spatial\.Classes\.Segment3D') intersects the given [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D') object within a certain tolerance\.
+
+```csharp
+public static bool Intersect(this DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D? polygonalFace3D, DiGi.Geometry.Spatial.Classes.Segment3D? segment3D, double tolerance=1E-06, bool includeStart=false, bool includeEnd=false);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(thisDiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D,DiGi.Geometry.Spatial.Classes.Segment3D,double,bool,bool).polygonalFace3D'></a>
+
+`polygonalFace3D` [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')
+
+The [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D') to check against\.
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(thisDiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D,DiGi.Geometry.Spatial.Classes.Segment3D,double,bool,bool).segment3D'></a>
+
+`segment3D` [Segment3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Segment3D 'DiGi\.Geometry\.Spatial\.Classes\.Segment3D')
+
+The [Segment3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Segment3D 'DiGi\.Geometry\.Spatial\.Classes\.Segment3D') segment to check\.
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(thisDiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D,DiGi.Geometry.Spatial.Classes.Segment3D,double,bool,bool).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance value\.
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(thisDiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D,DiGi.Geometry.Spatial.Classes.Segment3D,double,bool,bool).includeStart'></a>
+
+`includeStart` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+If true, includes intersection at the start point of the segment\.
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(thisDiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D,DiGi.Geometry.Spatial.Classes.Segment3D,double,bool,bool).includeEnd'></a>
+
+`includeEnd` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+If true, includes intersection at the end point of the segment\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the segment intersects the face; otherwise, false\.
 
 <a name='DiGi.Geometry.Spatial.Query.IntersectionPoint(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D,double)'></a>
 

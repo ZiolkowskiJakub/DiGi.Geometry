@@ -134,7 +134,7 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            List<Point2D> point2Ds_Result = new();
+            List<Point2D> point2Ds_Result = [];
             for (int int_I = 0; int_I < count_1; int_I++)
             {
                 Segment2D segment2D_1 = segment2Ds_First[int_I];

@@ -15,17 +15,13 @@ namespace DiGi.Geometry.Planar
         /// <returns>A <see cref="Classes.BooleanOperationResult2D"/> containing the result of the operation, or null if the operation type is not supported.</returns>
         public static BooleanOperationResult2D? BooleanOperationResult2D(this BooleanOpertaionType booleanOpertaionType, IPolygonalFace2D? polygonalFace2D_1, IPolygonalFace2D? polygonalFace2D_2)
         {
-            switch (booleanOpertaionType)
+            return booleanOpertaionType switch
             {
-                case BooleanOpertaionType.Intersection:
-                    return IntersectionResult2D(polygonalFace2D_1, polygonalFace2D_2);
-                case BooleanOpertaionType.Difference:
-                    return DifferenceResult2D(polygonalFace2D_1, polygonalFace2D_2);
-                case BooleanOpertaionType.Union:
-                    return UnionResult2D(polygonalFace2D_1, polygonalFace2D_2);
-                default:
-                    return null;
-            }
+                BooleanOpertaionType.Intersection => IntersectionResult2D(polygonalFace2D_1, polygonalFace2D_2),
+                BooleanOpertaionType.Difference => DifferenceResult2D(polygonalFace2D_1, polygonalFace2D_2),
+                BooleanOpertaionType.Union => UnionResult2D(polygonalFace2D_1, polygonalFace2D_2),
+                _ => null,
+            };
         }
     }
 }

@@ -377,7 +377,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            return Query.Inside(this, point3D, tolerance);
+            return Query.Inside(point3D, points[0], points[1], points[2], tolerance);
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="List{Triangle3D}"/> containing the generated triangles, or <c>null</c> if the object cannot be triangulated.</returns>
         public List<Triangle3D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
-            return new List<Triangle3D>() { new Triangle3D(this) };
+            return [new Triangle3D(this)];
         }
     }
 }

@@ -75,7 +75,7 @@ namespace DiGi.Geometry.Spatial.Classes
                     int_Axis = 2;
                 }
 
-                List<TPolygonalFace3D> list_Sorted = new(polygonalFace3Ds);
+                List<TPolygonalFace3D> list_Sorted = [.. polygonalFace3Ds];
                 list_Sorted.Sort((f1, f2) =>
                 {
                     double double_C1 = GetCentroidCoordinate(f1, int_Axis);

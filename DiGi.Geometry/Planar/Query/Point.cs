@@ -26,7 +26,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<double> lengths = new();
+            List<double> lengths = [];
             double length = 0;
             for (int i = 1; i < count; i++)
             {

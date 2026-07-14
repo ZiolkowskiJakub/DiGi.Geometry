@@ -129,7 +129,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D? normal = Constants.Vector3D.Zero;
+            Vector3D? normal;
             if (point3Ds_Local.Coplanar(tolerance))
             {
                 double double_Nx = 0;
@@ -281,7 +281,7 @@ namespace DiGi.Geometry.Spatial
                     normal = Constants.Vector3D.Zero;
                 }
 
-                Plane plane_Temp = new(origin, normal);
+                Plane plane_Temp = new(origin, (Vector3D?)Constants.Vector3D.Zero);
 
                 double max = double.MinValue;
                 double max_Temp = double.MinValue;
@@ -309,7 +309,7 @@ namespace DiGi.Geometry.Spatial
 
                 if (max_Temp < max)
                 {
-                    result = normal;
+                    result = (Vector3D?)Constants.Vector3D.Zero;
                 }
             }
 

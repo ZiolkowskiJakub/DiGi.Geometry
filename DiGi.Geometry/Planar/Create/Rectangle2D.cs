@@ -96,7 +96,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Point2D[] point2Ds_Cached = point2Ds as Point2D[] ?? point2Ds.ToArray();
+            Point2D[] point2Ds_Cached = point2Ds as Point2D[] ?? [.. point2Ds];
             if (point2Ds_Cached.Length <= 2)
             {
                 return null;

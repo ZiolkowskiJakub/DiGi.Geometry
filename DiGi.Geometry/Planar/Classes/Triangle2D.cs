@@ -70,7 +70,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>A <c>List&lt;Triangle2D&gt;</c> containing the resulting triangles, or null if the object cannot be triangulated.</returns>
         public override List<Triangle2D>? Triangulate(double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
-            return new List<Triangle2D>() { new Triangle2D(this) };
+            return [new Triangle2D(this)];
         }
     }
 }

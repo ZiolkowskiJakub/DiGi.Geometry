@@ -56,7 +56,7 @@ namespace DiGi.Geometry.Spatial
             if (boundingBox3D_1 == null || boundingBox3D_2 == null || !boundingBox3D_1.InRange(boundingBox3D_2, tolerance))
             {
                 // Disjoint union consists of both disjoint solid volumes
-                return new UnionResult3D(new IGeometry3D[] { polyhedron_1, polyhedron_2 });
+                return new UnionResult3D([polyhedron_1, polyhedron_2]);
             }
 
             List<IPolygonalFace3D> polygonalFace3Ds_1 = PolygonalFace3Ds(polyhedron_1);
