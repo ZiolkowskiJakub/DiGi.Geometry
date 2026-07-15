@@ -204,6 +204,14 @@ namespace DiGi.Geometry.Spatial
 
                         ((double X, double Y, double Z) Start, (double X, double Y, double Z) End) edge_Candidate = (point3D_Start, point3D_End);
 
+                        double dx = point3D_Start.X - point3D_End.X;
+                        double dy = point3D_Start.Y - point3D_End.Y;
+                        double dz = point3D_Start.Z - point3D_End.Z;
+                        if (dx * dx + dy * dy + dz * dz <= tolerance_Temp * tolerance_Temp)
+                        {
+                            continue;
+                        }
+
                         (long X, long Y, long Z) cell_Start = GetCell(edge_Candidate.Start);
                         ((double X, double Y, double Z) Start, (double X, double Y, double Z) End)? edge_Matched = null;
 
