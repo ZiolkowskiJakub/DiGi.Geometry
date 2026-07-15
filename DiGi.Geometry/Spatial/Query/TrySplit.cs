@@ -407,5 +407,274 @@ namespace DiGi.Geometry.Spatial
 
             return result is not null && result.Count != 0;
         }
+
+        /// <summary>
+        /// Attempts to split a mesh by the specified plane, separating triangles into above and below connected components.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> used as the splitting surface.</param>
+        /// <param name="mesh3D">The <see cref="Mesh3D"/> to split.</param>
+        /// <param name="mesh3Ds_Above">When this method returns, contains a <see cref="List{Mesh3D}"/> of connected components above the plane, or null.</param>
+        /// <param name="mesh3Ds_Below">When this method returns, contains a <see cref="List{Mesh3D}"/> of connected components below the plane, or null.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance for classification and intersection calculations.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the split was successful.</returns>
+        public static bool TrySplit(this Plane? plane, Mesh3D? mesh3D, out List<Mesh3D>? mesh3Ds_Above, out List<Mesh3D>? mesh3Ds_Below, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            mesh3Ds_Above = null;
+            mesh3Ds_Below = null;
+
+            if (plane == null || mesh3D == null)
+            {
+                return false;
+            }
+
+            Vector3D? normal = plane.Normal;
+            if (normal == null)
+            {
+                return false;
+            }
+
+            Point3D? origin = plane.Origin;
+            if (origin == null)
+            {
+                return false;
+            }
+
+            List<Point3D>? points = mesh3D.GetPoints();
+            List<int[]>? indexes = mesh3D.GetIndexes();
+            if (points == null || indexes == null || points.Count == 0 || indexes.Count == 0)
+            {
+                return false;
+            }
+
+            double SignedDistance(Point3D point3D)
+            {
+                return normal.X * (point3D.X - origin.X) + normal.Y * (point3D.Y - origin.Y) + normal.Z * (point3D.Z - origin.Z);
+            }
+
+            int Classify(Point3D point3D)
+            {
+                double d = SignedDistance(point3D);
+                if (d > tolerance)
+                {
+                    return 1;
+                }
+
+                if (d < -tolerance)
+                {
+                    return -1;
+                }
+
+                return 0;
+            }
+
+            List<Point3D> allPoints = new(points.Count + 64);
+            for (int i = 0; i < points.Count; i++)
+            {
+                allPoints.Add(new Point3D(points[i]));
+            }
+
+            Dictionary<(int, int), int> edgeIntersections = new();
+            List<(int, int, int)> aboveTriangles = [];
+            List<(int, int, int)> belowTriangles = [];
+
+            int GetIntersectionIndex(int i1, int i2, double d1, double d2)
+            {
+                (int, int) key = i1 < i2 ? (i1, i2) : (i2, i1);
+                if (edgeIntersections.TryGetValue(key, out int existingIndex))
+                {
+                    return existingIndex;
+                }
+
+                double t = d1 / (d1 - d2);
+                Point3D p1 = points[i1];
+                Point3D p2 = points[i2];
+                Point3D intersection = new(p1.X + t * (p2.X - p1.X), p1.Y + t * (p2.Y - p1.Y), p1.Z + t * (p2.Z - p1.Z));
+
+                int newIndex = allPoints.Count;
+                allPoints.Add(intersection);
+                edgeIntersections[key] = newIndex;
+                return newIndex;
+            }
+
+            for (int t = 0; t < indexes.Count; t++)
+            {
+                int[] idx = indexes[t];
+                int idx0 = idx[0], idx1 = idx[1], idx2 = idx[2];
+
+                if (idx0 < 0 || idx0 >= points.Count || idx1 < 0 || idx1 >= points.Count || idx2 < 0 || idx2 >= points.Count)
+                {
+                    continue;
+                }
+
+                int c0 = Classify(points[idx0]);
+                int c1 = Classify(points[idx1]);
+                int c2 = Classify(points[idx2]);
+
+                int aboveCount = (c0 == 1 ? 1 : 0) + (c1 == 1 ? 1 : 0) + (c2 == 1 ? 1 : 0);
+                int belowCount = (c0 == -1 ? 1 : 0) + (c1 == -1 ? 1 : 0) + (c2 == -1 ? 1 : 0);
+
+                if (belowCount == 0 && aboveCount > 0)
+                {
+                    aboveTriangles.Add((idx0, idx1, idx2));
+                }
+                else if (aboveCount == 0 && belowCount > 0)
+                {
+                    belowTriangles.Add((idx0, idx1, idx2));
+                }
+                else if (aboveCount == 0 && belowCount == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    double d0 = SignedDistance(points[idx0]);
+                    double d1 = SignedDistance(points[idx1]);
+                    double d2 = SignedDistance(points[idx2]);
+
+                    // Find edges that cross the plane (one endpoint above, one below)
+                    int i01 = (c0 == 1 && c1 == -1) || (c0 == -1 && c1 == 1) ? GetIntersectionIndex(idx0, idx1, d0, d1) : -1;
+                    int i12 = (c1 == 1 && c2 == -1) || (c1 == -1 && c2 == 1) ? GetIntersectionIndex(idx1, idx2, d1, d2) : -1;
+                    int i20 = (c2 == 1 && c0 == -1) || (c2 == -1 && c0 == 1) ? GetIntersectionIndex(idx2, idx0, d2, d0) : -1;
+
+                    if (aboveCount == 1 && belowCount == 2)
+                    {
+                        // One vertex above, two below: edge from above to each below crosses
+                        if (c0 == 1)
+                        {
+                            aboveTriangles.Add((idx0, i01, i20));
+                            belowTriangles.Add((idx1, idx2, i20));
+                            belowTriangles.Add((idx1, i20, i01));
+                        }
+                        else if (c1 == 1)
+                        {
+                            aboveTriangles.Add((idx1, i12, i01));
+                            belowTriangles.Add((idx2, idx0, i01));
+                            belowTriangles.Add((idx2, i01, i12));
+                        }
+                        else
+                        {
+                            aboveTriangles.Add((idx2, i20, i12));
+                            belowTriangles.Add((idx0, idx1, i12));
+                            belowTriangles.Add((idx0, i12, i20));
+                        }
+                    }
+                    else if (aboveCount == 2 && belowCount == 1)
+                    {
+                        // Two vertices above, one below: two edges cross
+                        if (c0 == -1)
+                        {
+                            belowTriangles.Add((idx0, i01, i20));
+                            aboveTriangles.Add((idx1, idx2, i20));
+                            aboveTriangles.Add((idx1, i20, i01));
+                        }
+                        else if (c1 == -1)
+                        {
+                            belowTriangles.Add((idx1, i12, i01));
+                            aboveTriangles.Add((idx2, idx0, i01));
+                            aboveTriangles.Add((idx2, i01, i12));
+                        }
+                        else
+                        {
+                            belowTriangles.Add((idx2, i20, i12));
+                            aboveTriangles.Add((idx0, idx1, i12));
+                            aboveTriangles.Add((idx0, i12, i20));
+                        }
+                    }
+                    else if (aboveCount == 1 && belowCount == 1)
+                    {
+                        // One above, one below, one on: single edge crosses
+                        int crossingIndex = i01 != -1 ? i01 : i12 != -1 ? i12 : i20;
+
+                        int onVertex = c0 == 0 ? idx0 : c1 == 0 ? idx1 : idx2;
+                        int aboveVertex = c0 == 1 ? idx0 : c1 == 1 ? idx1 : idx2;
+                        int belowVertex = c0 == -1 ? idx0 : c1 == -1 ? idx1 : idx2;
+
+                        aboveTriangles.Add((aboveVertex, onVertex, crossingIndex));
+                        belowTriangles.Add((belowVertex, crossingIndex, onVertex));
+                    }
+                }
+            }
+
+            Mesh3D? BuildMesh(List<(int, int, int)> triangleTriples)
+            {
+                if (triangleTriples == null || triangleTriples.Count == 0)
+                {
+                    return null;
+                }
+
+                Dictionary<int, int> indexRemap = new();
+                List<Point3D> compactPoints = [];
+                List<int[]> compactIndexes = new(triangleTriples.Count);
+
+                foreach ((int i0, int i1, int i2) in triangleTriples)
+                {
+                    int Remap(int originalIndex)
+                    {
+                        if (!indexRemap.TryGetValue(originalIndex, out int remappedIndex))
+                        {
+                            remappedIndex = compactPoints.Count;
+                            compactPoints.Add(new Point3D(allPoints[originalIndex]));
+                            indexRemap[originalIndex] = remappedIndex;
+                        }
+                        return remappedIndex;
+                    }
+
+                    if (i0 == i1 || i1 == i2 || i2 == i0)
+                    {
+                        continue;
+                    }
+
+                    compactIndexes.Add([Remap(i0), Remap(i1), Remap(i2)]);
+                }
+
+                if (compactIndexes.Count == 0)
+                {
+                    return null;
+                }
+
+                return new Mesh3D(compactPoints, compactIndexes, false);
+            }
+
+            Mesh3D? aboveMesh = BuildMesh(aboveTriangles);
+            Mesh3D? belowMesh = BuildMesh(belowTriangles);
+
+            mesh3Ds_Above = aboveMesh?.Mesh3Ds();
+            mesh3Ds_Below = belowMesh?.Mesh3Ds();
+
+            if (mesh3Ds_Above == null || mesh3Ds_Above.Count == 0)
+            {
+                mesh3Ds_Above = null;
+            }
+
+            if (mesh3Ds_Below == null || mesh3Ds_Below.Count == 0)
+            {
+                mesh3Ds_Below = null;
+            }
+
+            if (mesh3Ds_Above == null && mesh3Ds_Below == null)
+            {
+                return false;
+            }
+
+            mesh3Ds_Above ??= [];
+            mesh3Ds_Below ??= [];
+
+            return true;
+        }
+
+        public static bool TrySplit(this Plane? plane, Mesh3D? mesh3D, out List<Mesh3D>? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            if(!TrySplit(plane, mesh3D, out List<Mesh3D>? mesh3Ds_Above, out List<Mesh3D>? mesh3Ds_Below, tolerance))
+            {
+                result = null;
+                return false;
+            }
+
+            result = [];
+            result.AddRange(mesh3Ds_Above ?? []);
+            result.AddRange(mesh3Ds_Below ?? []);
+
+            return true;
+        }
     }
 }
