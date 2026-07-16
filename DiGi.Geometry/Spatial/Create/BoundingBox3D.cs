@@ -29,7 +29,7 @@ namespace DiGi.Geometry.Spatial
 
                 if (result == null)
                 {
-                    if (boundingBox3D.Min != null && boundingBox3D.Max != null)
+                    if (!double.IsNaN(boundingBox3D.MinX) && !double.IsNaN(boundingBox3D.MaxX))
                     {
                         result = new BoundingBox3D(boundingBox3D);
                     }
@@ -70,14 +70,14 @@ namespace DiGi.Geometry.Spatial
                 }
 
                 BoundingBox3D? boundingBox3D = polygonalFace3D.GetBoundingBox();
-                if (boundingBox3D != null)
+                if (boundingBox3D != null && !double.IsNaN(boundingBox3D.MinX))
                 {
-                    double_MinX = System.Math.Min(double_MinX, boundingBox3D.Min.X);
-                    double_MinY = System.Math.Min(double_MinY, boundingBox3D.Min.Y);
-                    double_MinZ = System.Math.Min(double_MinZ, boundingBox3D.Min.Z);
-                    double_MaxX = System.Math.Max(double_MaxX, boundingBox3D.Max.X);
-                    double_MaxY = System.Math.Max(double_MaxY, boundingBox3D.Max.Y);
-                    double_MaxZ = System.Math.Max(double_MaxZ, boundingBox3D.Max.Z);
+                    double_MinX = System.Math.Min(double_MinX, boundingBox3D.MinX);
+                    double_MinY = System.Math.Min(double_MinY, boundingBox3D.MinY);
+                    double_MinZ = System.Math.Min(double_MinZ, boundingBox3D.MinZ);
+                    double_MaxX = System.Math.Max(double_MaxX, boundingBox3D.MaxX);
+                    double_MaxY = System.Math.Max(double_MaxY, boundingBox3D.MaxY);
+                    double_MaxZ = System.Math.Max(double_MaxZ, boundingBox3D.MaxZ);
                     bool_Any = true;
                 }
             }

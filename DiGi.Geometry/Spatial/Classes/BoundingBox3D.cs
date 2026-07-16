@@ -156,6 +156,60 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
+        /// Gets the X-coordinate of the maximum bound without allocating a <see cref="Point3D"/>, or <see cref="double.NaN"/> if the maximum point is null.
+        /// </summary>
+        /// <value>A <see cref="double"/> representing the maximum X-coordinate.</value>
+        [JsonIgnore]
+        public double MaxX
+        {
+            get
+            {
+                if (max == null)
+                {
+                    return double.NaN;
+                }
+
+                return max.X;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Y-coordinate of the maximum bound without allocating a <see cref="Point3D"/>, or <see cref="double.NaN"/> if the maximum point is null.
+        /// </summary>
+        /// <value>A <see cref="double"/> representing the maximum Y-coordinate.</value>
+        [JsonIgnore]
+        public double MaxY
+        {
+            get
+            {
+                if (max == null)
+                {
+                    return double.NaN;
+                }
+
+                return max.Y;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Z-coordinate of the maximum bound without allocating a <see cref="Point3D"/>, or <see cref="double.NaN"/> if the maximum point is null.
+        /// </summary>
+        /// <value>A <see cref="double"/> representing the maximum Z-coordinate.</value>
+        [JsonIgnore]
+        public double MaxZ
+        {
+            get
+            {
+                if (max == null)
+                {
+                    return double.NaN;
+                }
+
+                return max.Z;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the minimum <see cref="Point3D"/> point of the boundary.
         /// </summary>
         /// <value>The <see cref="Point3D"/> representing the minimum coordinates.</value>
@@ -175,9 +229,64 @@ namespace DiGi.Geometry.Spatial.Classes
                 }
                 else
                 {
-                    max = Query.Max(max, value);
-                    min = Query.Min(max, value);
+                    Point3D? max_Existing = max;
+                    max = Query.Max(max_Existing, value);
+                    min = Query.Min(max_Existing, value);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets the X-coordinate of the minimum bound without allocating a <see cref="Point3D"/>, or <see cref="double.NaN"/> if the minimum point is null.
+        /// </summary>
+        /// <value>A <see cref="double"/> representing the minimum X-coordinate.</value>
+        [JsonIgnore]
+        public double MinX
+        {
+            get
+            {
+                if (min == null)
+                {
+                    return double.NaN;
+                }
+
+                return min.X;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Y-coordinate of the minimum bound without allocating a <see cref="Point3D"/>, or <see cref="double.NaN"/> if the minimum point is null.
+        /// </summary>
+        /// <value>A <see cref="double"/> representing the minimum Y-coordinate.</value>
+        [JsonIgnore]
+        public double MinY
+        {
+            get
+            {
+                if (min == null)
+                {
+                    return double.NaN;
+                }
+
+                return min.Y;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Z-coordinate of the minimum bound without allocating a <see cref="Point3D"/>, or <see cref="double.NaN"/> if the minimum point is null.
+        /// </summary>
+        /// <value>A <see cref="double"/> representing the minimum Z-coordinate.</value>
+        [JsonIgnore]
+        public double MinZ
+        {
+            get
+            {
+                if (min == null)
+                {
+                    return double.NaN;
+                }
+
+                return min.Z;
             }
         }
 
@@ -327,20 +436,25 @@ namespace DiGi.Geometry.Spatial.Classes
                 return null;
             }
 
-            double x = Width;
-            double y = Depth;
+            double minX = min.X;
+            double minY = min.Y;
+            double minZ = min.Z;
+
+            double maxX = max.X;
+            double maxY = max.Y;
+            double maxZ = max.Z;
 
             return
             [
-                new (min),
-                new (min.X + x, min.Y, Min.Z),
-                new (min.X + x, min.Y + y, Min.Z),
-                new (min.X, min.Y + y, Min.Z),
+                new (minX, minY, minZ),
+                new (maxX, minY, minZ),
+                new (maxX, maxY, minZ),
+                new (minX, maxY, minZ),
 
-                new (max),
-                new (max.X + x, max.Y, max.Z),
-                new (max.X + x, max.Y + y, max.Z),
-                new (max.X, max.Y + y, max.Z),
+                new (minX, minY, maxZ),
+                new (maxX, minY, maxZ),
+                new (maxX, maxY, maxZ),
+                new (minX, maxY, maxZ),
             ];
         }
 
@@ -350,25 +464,12 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>The calculated volume as a <see cref="double"/>, or <see cref="double.NaN"/> if any of the dimensions are <see cref="double.NaN"/>.</returns>
         public double GetVolume()
         {
-            double width = Width;
-            if (double.IsNaN(width))
+            if (min == null || max == null)
             {
                 return double.NaN;
             }
 
-            double height = Height;
-            if (double.IsNaN(height))
-            {
-                return double.NaN;
-            }
-
-            double depth = Depth;
-            if (double.IsNaN(depth))
-            {
-                return double.NaN;
-            }
-
-            return width * height * depth;
+            return (max.X - min.X) * (max.Y - min.Y) * (max.Z - min.Z);
         }
 
         /// <summary>
@@ -583,6 +684,77 @@ namespace DiGi.Geometry.Spatial.Classes
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="Triangle3D"/> overlaps this bounding box, considering a given tolerance.
+        /// <para>Uses an exact triangle-versus-axis-aligned-box separating-axis test, so a triangle whose face passes through the box while all three of its vertices lie outside is still reported as in range.</para>
+        /// </summary>
+        /// <param name="triangle3D">The <see cref="Triangle3D"/> to evaluate.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance by which the box is expanded on each axis before the overlap test.</param>
+        /// <returns>A <see cref="bool"/> value indicating <c>true</c> if the triangle is within range of the box; otherwise, <c>false</c>.</returns>
+        public bool InRange(Triangle3D? triangle3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            if (triangle3D == null || min == null || max == null)
+            {
+                return false;
+            }
+
+            double centerX = (min.X + max.X) * 0.5;
+            double centerY = (min.Y + max.Y) * 0.5;
+            double centerZ = (min.Z + max.Z) * 0.5;
+
+            double halfX = (max.X - min.X) * 0.5 + tolerance;
+            double halfY = (max.Y - min.Y) * 0.5 + tolerance;
+            double halfZ = (max.Z - min.Z) * 0.5 + tolerance;
+
+            return Query.Intersect(centerX, centerY, centerZ, halfX, halfY, halfZ, triangle3D);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="Mesh3D"/> is within range of this bounding box, considering a given tolerance.
+        /// <para>A cheap bounding-box overlap of the mesh against this box rejects fully disjoint meshes before any per-triangle work; the remaining triangles are tested individually with an exact triangle-versus-box overlap test. No containment logic is applied, so a box floating inside a hollow mesh without touching any triangle is not reported as in range.</para>
+        /// </summary>
+        /// <param name="mesh3D">The <see cref="Mesh3D"/> to evaluate.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance by which the box is expanded on each axis before the overlap test.</param>
+        /// <returns>A <see cref="bool"/> value indicating <c>true</c> if any triangle of the mesh is within range of the box; otherwise, <c>false</c>.</returns>
+        public bool InRange(Mesh3D? mesh3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            if (mesh3D == null || min == null || max == null)
+            {
+                return false;
+            }
+
+            BoundingBox3D? boundingBox3D = mesh3D.GetBoundingBox();
+            if (boundingBox3D == null || !InRange(boundingBox3D, tolerance))
+            {
+                return false;
+            }
+
+            int trianglesCount = mesh3D.TrianglesCount;
+            if (trianglesCount <= 0)
+            {
+                return false;
+            }
+
+            double centerX = (min.X + max.X) * 0.5;
+            double centerY = (min.Y + max.Y) * 0.5;
+            double centerZ = (min.Z + max.Z) * 0.5;
+
+            double halfX = (max.X - min.X) * 0.5 + tolerance;
+            double halfY = (max.Y - min.Y) * 0.5 + tolerance;
+            double halfZ = (max.Z - min.Z) * 0.5 + tolerance;
+
+            for (int i = 0; i < trianglesCount; i++)
+            {
+                Triangle3D? triangle3D = mesh3D.GetTriangle(i);
+                if (Query.Intersect(centerX, centerY, centerZ, halfX, halfY, halfZ, triangle3D))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>

@@ -5568,6 +5568,65 @@ A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'S
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating `true` if all provided points are on the plane within the specified tolerance; otherwise, `false`\.
 
+<a name='DiGi.Geometry.Spatial.Query.Intersect(double,double,double,double,double,double,DiGi.Geometry.Spatial.Classes.Triangle3D)'></a>
+
+## Query\.Intersect\(double, double, double, double, double, double, Triangle3D\) Method
+
+Determines whether the specified [Triangle3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Triangle3D 'DiGi\.Geometry\.Spatial\.Classes\.Triangle3D') overlaps an axis\-aligned box given by its center and per\-axis half\-extents, using the Akenine\-Möller separating\-axis theorem \(thirteen candidate axes: three box face normals, one triangle face normal, and nine edge cross products\)\.
+
+All arithmetic is performed on scalar doubles in the box's local frame, allocating nothing. A degenerate triangle whose normal is zero degrades gracefully to the box-axis and edge tests.
+
+```csharp
+public static bool Intersect(double centerX, double centerY, double centerZ, double halfX, double halfY, double halfZ, DiGi.Geometry.Spatial.Classes.Triangle3D? triangle3D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(double,double,double,double,double,double,DiGi.Geometry.Spatial.Classes.Triangle3D).centerX'></a>
+
+`centerX` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The X\-coordinate of the box center\.
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(double,double,double,double,double,double,DiGi.Geometry.Spatial.Classes.Triangle3D).centerY'></a>
+
+`centerY` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The Y\-coordinate of the box center\.
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(double,double,double,double,double,double,DiGi.Geometry.Spatial.Classes.Triangle3D).centerZ'></a>
+
+`centerZ` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The Z\-coordinate of the box center\.
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(double,double,double,double,double,double,DiGi.Geometry.Spatial.Classes.Triangle3D).halfX'></a>
+
+`halfX` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The half\-extent of the box along the X axis, already expanded by any tolerance\.
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(double,double,double,double,double,double,DiGi.Geometry.Spatial.Classes.Triangle3D).halfY'></a>
+
+`halfY` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The half\-extent of the box along the Y axis, already expanded by any tolerance\.
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(double,double,double,double,double,double,DiGi.Geometry.Spatial.Classes.Triangle3D).halfZ'></a>
+
+`halfZ` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The half\-extent of the box along the Z axis, already expanded by any tolerance\.
+
+<a name='DiGi.Geometry.Spatial.Query.Intersect(double,double,double,double,double,double,DiGi.Geometry.Spatial.Classes.Triangle3D).triangle3D'></a>
+
+`triangle3D` [Triangle3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Triangle3D 'DiGi\.Geometry\.Spatial\.Classes\.Triangle3D')
+
+The [Triangle3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Triangle3D 'DiGi\.Geometry\.Spatial\.Classes\.Triangle3D') to test for overlap\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating `true` when no separating axis exists \(the triangle overlaps the box\); otherwise, `false`\.
+
 <a name='DiGi.Geometry.Spatial.Query.Intersect(thisDiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D,DiGi.Geometry.Spatial.Classes.Segment3D,double,bool,bool)'></a>
 
 ## Query\.Intersect\(this IPolygonalFace3D, Segment3D, double, bool, bool\) Method

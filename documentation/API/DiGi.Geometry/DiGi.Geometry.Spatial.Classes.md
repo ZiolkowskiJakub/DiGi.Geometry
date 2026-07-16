@@ -384,6 +384,48 @@ Implements [Max](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.core
 [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')  
 The [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') representing the maximum coordinates\.
 
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.MaxX'></a>
+
+## BoundingBox3D\.MaxX Property
+
+Gets the X\-coordinate of the maximum bound without allocating a [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D'), or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if the maximum point is null\.
+
+```csharp
+public double MaxX { get; }
+```
+
+#### Property Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') representing the maximum X\-coordinate\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.MaxY'></a>
+
+## BoundingBox3D\.MaxY Property
+
+Gets the Y\-coordinate of the maximum bound without allocating a [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D'), or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if the maximum point is null\.
+
+```csharp
+public double MaxY { get; }
+```
+
+#### Property Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') representing the maximum Y\-coordinate\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.MaxZ'></a>
+
+## BoundingBox3D\.MaxZ Property
+
+Gets the Z\-coordinate of the maximum bound without allocating a [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D'), or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if the maximum point is null\.
+
+```csharp
+public double MaxZ { get; }
+```
+
+#### Property Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') representing the maximum Z\-coordinate\.
+
 <a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.Min'></a>
 
 ## BoundingBox3D\.Min Property
@@ -399,6 +441,48 @@ Implements [Min](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.core
 #### Property Value
 [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')  
 The [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') representing the minimum coordinates\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.MinX'></a>
+
+## BoundingBox3D\.MinX Property
+
+Gets the X\-coordinate of the minimum bound without allocating a [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D'), or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if the minimum point is null\.
+
+```csharp
+public double MinX { get; }
+```
+
+#### Property Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') representing the minimum X\-coordinate\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.MinY'></a>
+
+## BoundingBox3D\.MinY Property
+
+Gets the Y\-coordinate of the minimum bound without allocating a [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D'), or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if the minimum point is null\.
+
+```csharp
+public double MinY { get; }
+```
+
+#### Property Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') representing the minimum Y\-coordinate\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.MinZ'></a>
+
+## BoundingBox3D\.MinZ Property
+
+Gets the Z\-coordinate of the minimum bound without allocating a [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D'), or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if the minimum point is null\.
+
+```csharp
+public double MinZ { get; }
+```
+
+#### Property Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') representing the minimum Z\-coordinate\.
 
 <a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.Width'></a>
 
@@ -569,6 +653,35 @@ The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the object is within range of the line\.
 
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.InRange(DiGi.Geometry.Spatial.Classes.Mesh3D,double)'></a>
+
+## BoundingBox3D\.InRange\(Mesh3D, double\) Method
+
+Determines whether the specified [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') is within range of this bounding box, considering a given tolerance\.
+
+A cheap bounding-box overlap of the mesh against this box rejects fully disjoint meshes before any per-triangle work; the remaining triangles are tested individually with an exact triangle-versus-box overlap test. No containment logic is applied, so a box floating inside a hollow mesh without touching any triangle is not reported as in range.
+
+```csharp
+public bool InRange(DiGi.Geometry.Spatial.Classes.Mesh3D? mesh3D, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.InRange(DiGi.Geometry.Spatial.Classes.Mesh3D,double).mesh3D'></a>
+
+`mesh3D` [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')
+
+The [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') to evaluate\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.InRange(DiGi.Geometry.Spatial.Classes.Mesh3D,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') distance tolerance by which the box is expanded on each axis before the overlap test\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating `true` if any triangle of the mesh is within range of the box; otherwise, `false`\.
+
 <a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.InRange(DiGi.Geometry.Spatial.Classes.Plane,double)'></a>
 
 ## BoundingBox3D\.InRange\(Plane, double\) Method
@@ -721,6 +834,35 @@ The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the [Segment3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Segment3D 'DiGi\.Geometry\.Spatial\.Classes\.Segment3D') is within the range\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.InRange(DiGi.Geometry.Spatial.Classes.Triangle3D,double)'></a>
+
+## BoundingBox3D\.InRange\(Triangle3D, double\) Method
+
+Determines whether the specified [Triangle3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Triangle3D 'DiGi\.Geometry\.Spatial\.Classes\.Triangle3D') overlaps this bounding box, considering a given tolerance\.
+
+Uses an exact triangle-versus-axis-aligned-box separating-axis test, so a triangle whose face passes through the box while all three of its vertices lie outside is still reported as in range.
+
+```csharp
+public bool InRange(DiGi.Geometry.Spatial.Classes.Triangle3D? triangle3D, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.InRange(DiGi.Geometry.Spatial.Classes.Triangle3D,double).triangle3D'></a>
+
+`triangle3D` [Triangle3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Triangle3D 'DiGi\.Geometry\.Spatial\.Classes\.Triangle3D')
+
+The [Triangle3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Triangle3D 'DiGi\.Geometry\.Spatial\.Classes\.Triangle3D') to evaluate\.
+
+<a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.InRange(DiGi.Geometry.Spatial.Classes.Triangle3D,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') distance tolerance by which the box is expanded on each axis before the overlap test\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating `true` if the triangle is within range of the box; otherwise, `false`\.
 
 <a name='DiGi.Geometry.Spatial.Classes.BoundingBox3D.InRange(DiGi.Geometry.Spatial.Interfaces.ISegmentable3D,double)'></a>
 
