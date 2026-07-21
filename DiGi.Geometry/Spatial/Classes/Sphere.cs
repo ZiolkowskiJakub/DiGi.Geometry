@@ -102,8 +102,8 @@ namespace DiGi.Geometry.Spatial.Classes
                 return null;
             }
 
-            Point3D point3D_Min = new (center.X - radius, center.Y - radius, center.Z - radius);
-            Point3D point3D_Max = new (center.X + radius, center.Y + radius, center.Z + radius);
+            Point3D point3D_Min = new(center.X - radius, center.Y - radius, center.Z - radius);
+            Point3D point3D_Max = new(center.X + radius, center.Y + radius, center.Z + radius);
 
             return new BoundingBox3D(point3D_Min, point3D_Max);
         }

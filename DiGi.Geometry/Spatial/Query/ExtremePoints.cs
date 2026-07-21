@@ -1,6 +1,5 @@
 using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.Geometry.Spatial
 {

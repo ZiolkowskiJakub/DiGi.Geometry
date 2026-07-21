@@ -380,8 +380,8 @@ namespace DiGi.Geometry.Planar.Classes
             double double_TempX = center.X + radius;
             double double_TempY = center.Y;
 
-            Point2D point2D_CenterClone = new (center);
-            Point2D point2D_TempClone = new (double_TempX, double_TempY);
+            Point2D point2D_CenterClone = new(center);
+            Point2D point2D_TempClone = new(double_TempX, double_TempY);
 
             if (!point2D_CenterClone.Transform(transform))
             {

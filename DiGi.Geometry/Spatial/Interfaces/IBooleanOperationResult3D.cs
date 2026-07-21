@@ -13,6 +13,7 @@ namespace DiGi.Geometry.Spatial.Interfaces
         /// Gets the type of the boolean operation.
         /// </summary>
         BooleanOpertaionType BooleanOpertaionType { get; }
+
         /// <summary>
         /// Determines whether any 3D geometries are present in the result.
         /// </summary>

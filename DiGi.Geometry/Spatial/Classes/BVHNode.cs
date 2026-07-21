@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 namespace DiGi.Geometry.Spatial.Classes
 {
     /// <summary>
-    /// Represents an abstract, generic split-axis Bounding Volume Hierarchy (BVH) node 
+    /// Represents an abstract, generic split-axis Bounding Volume Hierarchy (BVH) node
     /// designed to accelerate constructive solid geometry (CSG) queries on 3D polyhedra.
     /// This structure partitions 3D polygonal faces hierarchically for fast spatial overlap culling
     /// during boolean operations such as Intersection, Union, and Difference.
@@ -29,7 +29,7 @@ namespace DiGi.Geometry.Spatial.Classes
         private readonly List<TPolygonalFace3D>? faces;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BVHNode{TPolygonalFace3D}"/> class 
+        /// Initializes a new instance of the <see cref="BVHNode{TPolygonalFace3D}"/> class
         /// by partitioning the input list of faces hierarchically.
         /// </summary>
         /// <param name="polygonalFace3Ds">The list of polygonal faces to organize inside the spatial hierarchy.</param>
@@ -90,7 +90,7 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BVHNode{TPolygonalFace3D}"/> class 
+        /// Initializes a new instance of the <see cref="BVHNode{TPolygonalFace3D}"/> class
         /// by copying the properties from an existing node.
         /// </summary>
         /// <param name="other">The source node to copy values from.</param>

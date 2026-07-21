@@ -44,7 +44,7 @@ namespace DiGi.Geometry.Spatial
         /// <returns>A list of <typeparamref name="TPolygonalFace3D"/> faces resulting from the boolean operation (may be empty), or <c>null</c> if either polyhedron is <c>null</c>.</returns>
         public static List<TPolygonalFace3D>? PolygonalFace3Ds<TPolygonalFace3D>(this BooleanOpertaionType booleanOpertaionType, Polyhedron<TPolygonalFace3D>? polyhedron_1, Polyhedron<TPolygonalFace3D>? polyhedron_2, bool inlcudePolyhedron_1, bool inlcudePolyhedron_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolygonalFace3D : IPolygonalFace3D
         {
-            if(polyhedron_1 is null || polyhedron_2 is null)
+            if (polyhedron_1 is null || polyhedron_2 is null)
             {
                 return null;
             }
@@ -53,9 +53,9 @@ namespace DiGi.Geometry.Spatial
             {
                 int count = polyhedron.Count;
                 List<IPolygonalFace3D> result = new(count);
-                for(int i = 0; i < count; i++)
+                for (int i = 0; i < count; i++)
                 {
-                    if(polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is IPolygonalFace3D polygonalFace3D)
+                    if (polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is IPolygonalFace3D polygonalFace3D)
                     {
                         result.Add(polygonalFace3D);
                     }
@@ -67,9 +67,9 @@ namespace DiGi.Geometry.Spatial
             static List<TPolygonalFace3D> CastResult(List<IPolygonalFace3D> polygonalFace3Ds)
             {
                 List<TPolygonalFace3D> result = new(polygonalFace3Ds.Count);
-                for(int i = 0; i < polygonalFace3Ds.Count; i++)
+                for (int i = 0; i < polygonalFace3Ds.Count; i++)
                 {
-                    if(polygonalFace3Ds[i] is TPolygonalFace3D tPolygonalFace3D)
+                    if (polygonalFace3Ds[i] is TPolygonalFace3D tPolygonalFace3D)
                     {
                         result.Add(tPolygonalFace3D);
                     }
@@ -82,9 +82,9 @@ namespace DiGi.Geometry.Spatial
             {
                 int count = polyhedron.Count;
                 List<TPolygonalFace3D> result = new(count);
-                for(int i = 0; i < count; i++)
+                for (int i = 0; i < count; i++)
                 {
-                    if(polyhedron.GetPolygonalFace3D<TPolygonalFace3D>(i) is TPolygonalFace3D tPolygonalFace3D)
+                    if (polyhedron.GetPolygonalFace3D<TPolygonalFace3D>(i) is TPolygonalFace3D tPolygonalFace3D)
                     {
                         result.Add(tPolygonalFace3D);
                     }
@@ -100,10 +100,10 @@ namespace DiGi.Geometry.Spatial
             BoundingBox3D? boundingBox3D_2 = polyhedron_2.GetBoundingBox();
             bool aabbIntersect = boundingBox3D_1 != null && boundingBox3D_2 != null && boundingBox3D_1.InRange(boundingBox3D_2, tolerance);
 
-            switch(booleanOpertaionType)
+            switch (booleanOpertaionType)
             {
                 case BooleanOpertaionType.Intersection:
-                    if(!aabbIntersect || polygonalFace3Ds_1.Count == 0 || polygonalFace3Ds_2.Count == 0)
+                    if (!aabbIntersect || polygonalFace3Ds_1.Count == 0 || polygonalFace3Ds_2.Count == 0)
                     {
                         return [];
                     }
@@ -111,12 +111,12 @@ namespace DiGi.Geometry.Spatial
                     break;
 
                 case BooleanOpertaionType.Difference:
-                    if(!aabbIntersect || polygonalFace3Ds_2.Count == 0)
+                    if (!aabbIntersect || polygonalFace3Ds_2.Count == 0)
                     {
                         return inlcudePolyhedron_1 ? ExtractTypedFaces(polyhedron_1) : [];
                     }
 
-                    if(polygonalFace3Ds_1.Count == 0)
+                    if (polygonalFace3Ds_1.Count == 0)
                     {
                         return [];
                     }
@@ -124,15 +124,15 @@ namespace DiGi.Geometry.Spatial
                     break;
 
                 case BooleanOpertaionType.Union:
-                    if(!aabbIntersect)
+                    if (!aabbIntersect)
                     {
                         List<TPolygonalFace3D> result_Disjoint = [];
-                        if(inlcudePolyhedron_1)
+                        if (inlcudePolyhedron_1)
                         {
                             result_Disjoint.AddRange(ExtractTypedFaces(polyhedron_1));
                         }
 
-                        if(inlcudePolyhedron_2)
+                        if (inlcudePolyhedron_2)
                         {
                             result_Disjoint.AddRange(ExtractTypedFaces(polyhedron_2));
                         }
@@ -140,17 +140,17 @@ namespace DiGi.Geometry.Spatial
                         return result_Disjoint;
                     }
 
-                    if(polygonalFace3Ds_1.Count == 0 && polygonalFace3Ds_2.Count == 0)
+                    if (polygonalFace3Ds_1.Count == 0 && polygonalFace3Ds_2.Count == 0)
                     {
                         return [];
                     }
 
-                    if(polygonalFace3Ds_1.Count == 0)
+                    if (polygonalFace3Ds_1.Count == 0)
                     {
                         return inlcudePolyhedron_2 ? ExtractTypedFaces(polyhedron_2) : [];
                     }
 
-                    if(polygonalFace3Ds_2.Count == 0)
+                    if (polygonalFace3Ds_2.Count == 0)
                     {
                         return inlcudePolyhedron_1 ? ExtractTypedFaces(polyhedron_1) : [];
                     }
@@ -160,7 +160,7 @@ namespace DiGi.Geometry.Spatial
 
             List<IPolygonalFace3D> polygonalFace3Ds_Result = Create.BooleanOperationPolygonalFace3Ds(booleanOpertaionType, polyhedron_1, polyhedron_2, polygonalFace3Ds_1, polygonalFace3Ds_2, out BVHNode _, tolerance);
 
-            if(inlcudePolyhedron_1 && inlcudePolyhedron_2)
+            if (inlcudePolyhedron_1 && inlcudePolyhedron_2)
             {
                 return CastResult(polygonalFace3Ds_Result);
             }
@@ -169,9 +169,9 @@ namespace DiGi.Geometry.Spatial
             BVHNodePointRelationSolver? bVHNodePointRelationSolver_2 = !inlcudePolyhedron_2 ? new BVHNodePointRelationSolver(new BVHNode(polygonalFace3Ds_2), tolerance) : null;
 
             List<TPolygonalFace3D> result = new(polygonalFace3Ds_Result.Count);
-            for(int i = 0; i < polygonalFace3Ds_Result.Count; i++)
+            for (int i = 0; i < polygonalFace3Ds_Result.Count; i++)
             {
-                if(polygonalFace3Ds_Result[i] is not TPolygonalFace3D tPolygonalFace3D)
+                if (polygonalFace3Ds_Result[i] is not TPolygonalFace3D tPolygonalFace3D)
                 {
                     continue;
                 }
@@ -179,35 +179,35 @@ namespace DiGi.Geometry.Spatial
                 bool keep = true;
                 Point3D? point3D = null;
 
-                if(bVHNodePointRelationSolver_1 != null)
+                if (bVHNodePointRelationSolver_1 != null)
                 {
                     point3D = tPolygonalFace3D.GetInternalPoint(tolerance);
-                    if(point3D != null)
+                    if (point3D != null)
                     {
                         bVHNodePointRelationSolver_1.Input = point3D;
                         bVHNodePointRelationSolver_1.Solve();
-                        if(bVHNodePointRelationSolver_1.Output != PointRelation.Outside)
+                        if (bVHNodePointRelationSolver_1.Output != PointRelation.Outside)
                         {
                             keep = false;
                         }
                     }
                 }
 
-                if(keep && bVHNodePointRelationSolver_2 != null)
+                if (keep && bVHNodePointRelationSolver_2 != null)
                 {
                     point3D ??= tPolygonalFace3D.GetInternalPoint(tolerance);
-                    if(point3D != null)
+                    if (point3D != null)
                     {
                         bVHNodePointRelationSolver_2.Input = point3D;
                         bVHNodePointRelationSolver_2.Solve();
-                        if(bVHNodePointRelationSolver_2.Output != PointRelation.Outside)
+                        if (bVHNodePointRelationSolver_2.Output != PointRelation.Outside)
                         {
                             keep = false;
                         }
                     }
                 }
 
-                if(keep)
+                if (keep)
                 {
                     result.Add(tPolygonalFace3D);
                 }

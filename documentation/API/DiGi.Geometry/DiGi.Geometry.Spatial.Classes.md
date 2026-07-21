@@ -1092,7 +1092,7 @@ A concrete child instance of [BVHNode](DiGi.Geometry.Spatial.Classes.md#DiGi.Geo
 
 ## BVHNode\<TPolygonalFace3D\> Class
 
-Represents an abstract, generic split\-axis Bounding Volume Hierarchy \(BVH\) node 
+Represents an abstract, generic split\-axis Bounding Volume Hierarchy \(BVH\) node
 designed to accelerate constructive solid geometry \(CSG\) queries on 3D polyhedra\.
 This structure partitions 3D polygonal faces hierarchically for fast spatial overlap culling
 during boolean operations such as Intersection, Union, and Difference\.
@@ -1119,7 +1119,7 @@ Derived
 
 ## BVHNode\(BVHNode\<TPolygonalFace3D\>\) Constructor
 
-Initializes a new instance of the [BVHNode&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>') class 
+Initializes a new instance of the [BVHNode&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>') class
 by copying the properties from an existing node\.
 
 ```csharp
@@ -1137,7 +1137,7 @@ The source node to copy values from\.
 
 ## BVHNode\(List\<TPolygonalFace3D\>\) Constructor
 
-Initializes a new instance of the [BVHNode&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>') class 
+Initializes a new instance of the [BVHNode&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.BVHNode_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.BVHNode\<TPolygonalFace3D\>') class
 by partitioning the input list of faces hierarchically\.
 
 ```csharp

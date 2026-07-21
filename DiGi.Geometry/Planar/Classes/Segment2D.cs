@@ -680,8 +680,8 @@ namespace DiGi.Geometry.Planar.Classes
             double double_EndX = start.X + vector.X;
             double double_EndY = start.Y + vector.Y;
 
-            Point2D point2D_StartClone = new (double_StartX, double_StartY);
-            Point2D point2D_EndClone = new (double_EndX, double_EndY);
+            Point2D point2D_StartClone = new(double_StartX, double_StartY);
+            Point2D point2D_EndClone = new(double_EndX, double_EndY);
 
             if (!point2D_StartClone.Transform(transform))
             {

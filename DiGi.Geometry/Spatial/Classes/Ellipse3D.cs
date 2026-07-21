@@ -307,7 +307,7 @@ namespace DiGi.Geometry.Spatial.Classes
             double double_U = vector3D_AxisX.X * double_Dx + vector3D_AxisX.Y * double_Dy + vector3D_AxisX.Z * double_Dz;
             double double_V = vector3D_AxisY.X * double_Dx + vector3D_AxisY.Y * double_Dy + vector3D_AxisY.Z * double_Dz;
 
-            Point2D point2D_Local = new (double_U, double_V);
+            Point2D point2D_Local = new(double_U, double_V);
             return geometry2D.Inside(point2D_Local, tolerance);
         }
 

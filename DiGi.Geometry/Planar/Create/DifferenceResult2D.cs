@@ -2,7 +2,6 @@ using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
-using System.Collections.Generic;
 
 namespace DiGi.Geometry.Planar
 {

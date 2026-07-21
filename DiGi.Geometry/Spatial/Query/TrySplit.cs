@@ -664,7 +664,7 @@ namespace DiGi.Geometry.Spatial
 
         public static bool TrySplit(this Plane? plane, Mesh3D? mesh3D, out List<Mesh3D>? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if(!TrySplit(plane, mesh3D, out List<Mesh3D>? mesh3Ds_Above, out List<Mesh3D>? mesh3Ds_Below, tolerance))
+            if (!TrySplit(plane, mesh3D, out List<Mesh3D>? mesh3Ds_Above, out List<Mesh3D>? mesh3Ds_Below, tolerance))
             {
                 result = null;
                 return false;

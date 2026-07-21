@@ -21,6 +21,7 @@ namespace DiGi.Geometry.Spatial.Classes
                 return BooleanOpertaionType.Intersection;
             }
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="IntersectionResult3D"/> class.
         /// </summary>

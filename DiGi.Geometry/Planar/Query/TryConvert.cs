@@ -41,7 +41,7 @@ namespace DiGi.Geometry.Planar
 
             if (typeof(TPolygonal2D) == typeof(Rectangle2D))
             {
-                if (Query.Rectangular(polygonal2D, out Rectangle2D? rectangle2D_Temp, tolerance))
+                if (Rectangular(polygonal2D, out Rectangle2D? rectangle2D_Temp, tolerance))
                 {
                     if (rectangle2D_Temp is not null)
                     {
