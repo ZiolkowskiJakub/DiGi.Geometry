@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 
@@ -25,11 +25,16 @@ namespace DiGi.Geometry.Planar
             List<ISegmentable2D> segmentable2Ds = [];
             List<IPolygonalFace2D> polygonalFace2Ds = [];
 
-            foreach (IGeometry2D geometry2D in geometry2Ds)
+            foreach (IGeometry2D? geometry2D in geometry2Ds)
             {
+                if (geometry2D is null)
+                {
+                    continue;
+                }
+
                 if (geometry2D is Point2D point2D)
                 {
-                    DiGi.Core.Modify.Add(point2Ds, point2D, x => x.Similar(point2D, tolerance));
+                    DiGi.Core.Modify.Add(point2Ds, point2D, x => System.Math.Abs(x.X - point2D.X) <= tolerance && System.Math.Abs(x.Y - point2D.Y) <= tolerance && x.Similar(point2D, tolerance));
                 }
                 else if (geometry2D is ISegmentable2D segmentable2D)
                 {
@@ -45,21 +50,22 @@ namespace DiGi.Geometry.Planar
                 }
             }
 
-            if (polygonalFace2Ds != null && polygonalFace2Ds.Count != 0)
+            if (polygonalFace2Ds.Count != 0)
             {
                 result.AddRange(polygonalFace2Ds);
             }
 
             List<Segment2D>? segment2Ds = null;
+            List<Segment2D> activeSegment2Ds = [];
 
-            if (segmentable2Ds != null && segmentable2Ds.Count != 0)
+            if (segmentable2Ds.Count != 0)
             {
-                if (polygonalFace2Ds != null && polygonalFace2Ds.Count != 0)
+                if (polygonalFace2Ds.Count != 0)
                 {
-                    List<Segment2D>? segment2Ds_PolgonalFace2D = polygonalFace2Ds.Segment2Ds();
-                    if (segment2Ds_PolgonalFace2D != null)
+                    List<Segment2D>? segment2Ds_PolygonalFace2D = polygonalFace2Ds.Segment2Ds();
+                    if (segment2Ds_PolygonalFace2D != null)
                     {
-                        segmentable2Ds.AddRange(segment2Ds_PolgonalFace2D);
+                        segmentable2Ds.AddRange(segment2Ds_PolygonalFace2D);
                     }
                 }
 
@@ -67,7 +73,7 @@ namespace DiGi.Geometry.Planar
 
                 if (segment2Ds != null && segment2Ds.Count != 0)
                 {
-                    if (polygonalFace2Ds != null && polygonalFace2Ds.Count != 0)
+                    if (polygonalFace2Ds.Count != 0)
                     {
                         foreach (IPolygonalFace2D polygonalFace2D in polygonalFace2Ds)
                         {
@@ -88,8 +94,10 @@ namespace DiGi.Geometry.Planar
 
                     if (segment2Ds != null && segment2Ds.Count != 0)
                     {
+                        activeSegment2Ds = [.. segment2Ds];
+
                         List<Polygon2D>? polygon2Ds = segment2Ds.Polygon2Ds(tolerance);
-                        if (polygon2Ds != null)
+                        if (polygon2Ds != null && polygon2Ds.Count != 0)
                         {
                             result.AddRange(polygon2Ds);
 
@@ -142,15 +150,13 @@ namespace DiGi.Geometry.Planar
                                 }
                             }
                         }
-
-                        //result.AddRange(segment2Ds);
                     }
                 }
             }
 
-            if (point2Ds != null && point2Ds.Count != 0)
+            if (point2Ds.Count != 0)
             {
-                if (polygonalFace2Ds != null && polygonalFace2Ds.Count != 0)
+                if (polygonalFace2Ds.Count != 0)
                 {
                     for (int i = 0; i < polygonalFace2Ds.Count; i++)
                     {
@@ -169,24 +175,38 @@ namespace DiGi.Geometry.Planar
                     }
                 }
 
-                if (point2Ds != null && point2Ds.Count != 0)
+                if (point2Ds.Count != 0 && activeSegment2Ds.Count != 0)
                 {
-                    if (segment2Ds != null && segment2Ds.Count != 0)
+                    for (int i = 0; i < activeSegment2Ds.Count; i++)
                     {
-                        for (int i = 0; i < segment2Ds.Count; i++)
+                        Segment2D activeSegment = activeSegment2Ds[i];
+                        Point2D? start = activeSegment.Start;
+                        Point2D? end = activeSegment.End;
+                        if (start == null || end == null)
                         {
-                            for (int j = point2Ds.Count - 1; j >= 0; j--)
+                            continue;
+                        }
+
+                        double minX = System.Math.Min(start.X, end.X) - tolerance;
+                        double maxX = System.Math.Max(start.X, end.X) + tolerance;
+                        double minY = System.Math.Min(start.Y, end.Y) - tolerance;
+                        double maxY = System.Math.Max(start.Y, end.Y) + tolerance;
+
+                        for (int j = point2Ds.Count - 1; j >= 0; j--)
+                        {
+                            Point2D point2D = point2Ds[j];
+                            if (point2D.X >= minX && point2D.X <= maxX && point2D.Y >= minY && point2D.Y <= maxY)
                             {
-                                if (segment2Ds[i].On(point2Ds[j], tolerance))
+                                if (activeSegment.On(point2D, tolerance))
                                 {
                                     point2Ds.RemoveAt(j);
                                 }
                             }
+                        }
 
-                            if (point2Ds.Count == 0)
-                            {
-                                break;
-                            }
+                        if (point2Ds.Count == 0)
+                        {
+                            break;
                         }
                     }
                 }
