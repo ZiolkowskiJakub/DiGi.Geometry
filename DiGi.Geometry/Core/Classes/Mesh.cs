@@ -316,7 +316,8 @@ namespace DiGi.Geometry.Core.Classes
 
         /// <summary>
         /// Determines whether the mesh forms a closed (watertight, manifold) surface, i.e. every edge is shared by exactly two triangles.
-        /// <para>Runs in a single pass over the triangles using packed 64-bit edge keys and exits early when a non-manifold edge (shared by more than two triangles) or a degenerate triangle is found.</para>
+        /// <para>Runs in a single pass over the triangles, keying each edge on its ordered pair of vertex indices, and exits early when a non-manifold edge (shared by more than two triangles) or a degenerate triangle is found.</para>
+        /// <para>This is the index-based counterpart of <c>DiGi.Geometry.Spatial.Query.IsClosed</c> for a polyhedron, which has no shared vertex table and so must weld coincident vertices within a tolerance before it can count edges the same way.</para>
         /// </summary>
         /// <returns><see langword="true"/> if every edge of the mesh is shared by exactly two triangles; otherwise, <see langword="false"/>. Returns <see langword="false"/> if the indexes are unavailable or the mesh has fewer than four triangles.</returns>
         public bool IsClosed()

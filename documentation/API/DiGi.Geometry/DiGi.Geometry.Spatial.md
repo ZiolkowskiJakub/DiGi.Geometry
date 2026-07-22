@@ -5767,11 +5767,60 @@ Tolerance
 #### Returns
 [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
 
+<a name='DiGi.Geometry.Spatial.Query.IsClosed_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,double)'></a>
+
+## Query\.IsClosed\<TPolygonalFace3D\>\(this Polyhedron\<TPolygonalFace3D\>, bool, double\) Method
+
+Determines whether the specified [Polyhedron&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>') is fully closed within the given distance tolerance\.
+
+Face vertices are welded into shared indices using a tolerance-sized spatial hash, and each resulting edge is counted. Edges collapsing onto a single welded vertex are ignored.
+
+Returns [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') for a [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') polyhedron, for fewer than four faces (the minimum for a closed solid), and for any structurally malformed face - a face with no plane, no 2D geometry, no edges, a ring holding fewer than three points, or a [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') point within a ring. A face that cannot be read in full is never treated as contributing no edges, because that would let a broken face pass as closed.
+
+Known limitations. Winding is not checked: two faces sharing an edge in the same direction are accepted, whereas a consistently oriented solid traverses a shared edge in opposite directions - use [Orient\(Nullable&lt;Orientation&gt;, Nullable&lt;Orientation&gt;\)](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_.Orient(System.Nullable_DiGi.Geometry.Core.Enums.Orientation_,System.Nullable_DiGi.Geometry.Core.Enums.Orientation_) 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>\.Orient\(System\.Nullable\<DiGi\.Geometry\.Core\.Enums\.Orientation\>, System\.Nullable\<DiGi\.Geometry\.Core\.Enums\.Orientation\>\)') for that. T-junctions report open: when one face's long edge is met by two shorter faces whose shared vertex lies mid-span, no vertex pair matches. Welding is not transitive, so a chain of vertices each within tolerance of the next can weld together even though the chain spans more than the tolerance.
+
+```csharp
+public static bool IsClosed<TPolygonalFace3D>(this DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D>? polyhedron, bool manifold, double tolerance=1E-06)
+    where TPolygonalFace3D : DiGi.Geometry.Spatial.Interfaces.IPolygonalFace3D;
+```
+#### Type parameters
+
+<a name='DiGi.Geometry.Spatial.Query.IsClosed_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,double).TPolygonalFace3D'></a>
+
+`TPolygonalFace3D`
+
+The type of the polygonal face, which must implement [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonalface3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonalFace3D')\.
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Query.IsClosed_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,double).polyhedron'></a>
+
+`polyhedron` [DiGi\.Geometry\.Spatial\.Classes\.Polyhedron&lt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')[TPolygonalFace3D](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Query.IsClosed_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,double).TPolygonalFace3D 'DiGi\.Geometry\.Spatial\.Query\.IsClosed\<TPolygonalFace3D\>\(this DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>, bool, double\)\.TPolygonalFace3D')[&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>')
+
+The [Polyhedron&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>') to evaluate\.
+
+<a name='DiGi.Geometry.Spatial.Query.IsClosed_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,double).manifold'></a>
+
+`manifold` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+When [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), every edge must be used exactly twice \(a strict 2\-manifold surface\), so an edge shared by three or more faces is rejected\. When [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool'), every edge must be used an even number of times, which accepts an edge shared by four faces\.
+
+<a name='DiGi.Geometry.Spatial.Query.IsClosed_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,bool,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') distance tolerance used to weld coincident vertices\. Values of zero or less fall back to [DiGi\.Core\.Constants\.Tolerance\.MicroDistance](https://learn.microsoft.com/en-us/dotnet/api/digi.core.constants.tolerance.microdistance 'DiGi\.Core\.Constants\.Tolerance\.MicroDistance')\. Defaults to [DiGi\.Core\.Constants\.Tolerance\.Distance](https://learn.microsoft.com/en-us/dotnet/api/digi.core.constants.tolerance.distance 'DiGi\.Core\.Constants\.Tolerance\.Distance')\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the polyhedron is fully closed\.
+
 <a name='DiGi.Geometry.Spatial.Query.IsClosed_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double)'></a>
 
 ## Query\.IsClosed\<TPolygonalFace3D\>\(this Polyhedron\<TPolygonalFace3D\>, double\) Method
 
 Determines whether the specified [Polyhedron&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_ 'DiGi\.Geometry\.Spatial\.Classes\.Polyhedron\<TPolygonalFace3D\>') is fully closed \(i\.e\., has no naked edges\) within the given distance tolerance\.
+
+Every edge must be used an even number of times. Use the overload taking a `manifold` flag to require that every edge is used exactly twice.
 
 ```csharp
 public static bool IsClosed<TPolygonalFace3D>(this DiGi.Geometry.Spatial.Classes.Polyhedron<TPolygonalFace3D>? polyhedron, double tolerance=1E-06)
@@ -5796,7 +5845,7 @@ The [Polyhedron&lt;TPolygonalFace3D&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.G
 
 `tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
 
-The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') distance tolerance\. Defaults to [DiGi\.Core\.Constants\.Tolerance\.Distance](https://learn.microsoft.com/en-us/dotnet/api/digi.core.constants.tolerance.distance 'DiGi\.Core\.Constants\.Tolerance\.Distance')\.
+The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') distance tolerance used to weld coincident vertices\. Values of zero or less fall back to [DiGi\.Core\.Constants\.Tolerance\.MicroDistance](https://learn.microsoft.com/en-us/dotnet/api/digi.core.constants.tolerance.microdistance 'DiGi\.Core\.Constants\.Tolerance\.MicroDistance')\. Defaults to [DiGi\.Core\.Constants\.Tolerance\.Distance](https://learn.microsoft.com/en-us/dotnet/api/digi.core.constants.tolerance.distance 'DiGi\.Core\.Constants\.Tolerance\.Distance')\.
 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  

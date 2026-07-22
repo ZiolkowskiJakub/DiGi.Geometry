@@ -1069,7 +1069,9 @@ The zero\-based index of the first occurrence of the specified [TPoint](DiGi.Geo
 
 Determines whether the mesh forms a closed \(watertight, manifold\) surface, i\.e\. every edge is shared by exactly two triangles\.
 
-Runs in a single pass over the triangles using packed 64-bit edge keys and exits early when a non-manifold edge (shared by more than two triangles) or a degenerate triangle is found.
+Runs in a single pass over the triangles, keying each edge on its ordered pair of vertex indices, and exits early when a non-manifold edge (shared by more than two triangles) or a degenerate triangle is found.
+
+This is the index-based counterpart of `DiGi.Geometry.Spatial.Query.IsClosed` for a polyhedron, which has no shared vertex table and so must weld coincident vertices within a tolerance before it can count edges the same way.
 
 ```csharp
 public bool IsClosed();
