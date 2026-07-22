@@ -16,11 +16,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polyhedron_2">The second polyhedron.</param>
         /// <param name="tolerance">The distance tolerance for the boolean computations.</param>
         /// <returns>A <see cref="Classes.BooleanOperationResult3D"/> containing the result of the operation, or null if the operation type is not supported.</returns>
-        public static BooleanOperationResult3D? BooleanOperationResult3D<TPolygonalFace3D>(
-            this BooleanOpertaionType booleanOpertaionType,
-            Polyhedron<TPolygonalFace3D>? polyhedron_1,
-            Polyhedron<TPolygonalFace3D>? polyhedron_2,
-            double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static BooleanOperationResult3D? BooleanOperationResult3D<TPolygonalFace3D>(this BooleanOpertaionType booleanOpertaionType, Polyhedron<TPolygonalFace3D>? polyhedron_1, Polyhedron<TPolygonalFace3D>? polyhedron_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
             where TPolygonalFace3D : IPolygonalFace3D
         {
             return booleanOpertaionType switch
@@ -30,57 +26,6 @@ namespace DiGi.Geometry.Spatial
                 BooleanOpertaionType.Union => UnionResult3D(polyhedron_1, polyhedron_2, tolerance),
                 _ => null,
             };
-        }
-
-        /// <summary>
-        /// Candidate boundary fragment produced by the face-splitting stage of a 3D boolean operation.
-        /// Value type - avoids the per-candidate heap allocations a Tuple-based candidate list would incur.
-        /// </summary>
-        private readonly struct BooleanOperationCandidate
-        {
-            /// <summary>
-            /// The candidate face fragment.
-            /// </summary>
-            public readonly IPolygonalFace3D PolygonalFace3D;
-
-            /// <summary>
-            /// The index of the parent face in the source polyhedron the fragment originates from.
-            /// </summary>
-            public readonly int ParentIndex;
-
-            /// <summary>
-            /// True when the fragment originates from the first polyhedron; false for the second polyhedron.
-            /// </summary>
-            public readonly bool FromFirst;
-
-            public BooleanOperationCandidate(IPolygonalFace3D polygonalFace3D, int parentIndex, bool fromFirst)
-            {
-                PolygonalFace3D = polygonalFace3D;
-                ParentIndex = parentIndex;
-                FromFirst = fromFirst;
-            }
-        }
-
-        /// <summary>
-        /// Extracts the faces of the given polyhedron without cloning them.
-        /// </summary>
-        /// <typeparam name="TPolygonalFace3D">The type of polygonal face, which must implement <see cref="IPolygonalFace3D"/>.</typeparam>
-        /// <param name="polyhedron">The source polyhedron.</param>
-        /// <returns>A list of the polyhedron faces (never null; possibly empty).</returns>
-        private static List<IPolygonalFace3D> PolygonalFace3Ds<TPolygonalFace3D>(Polyhedron<TPolygonalFace3D> polyhedron) where TPolygonalFace3D : IPolygonalFace3D
-        {
-            int count = polyhedron.Count;
-
-            List<IPolygonalFace3D> result = new(count);
-            for (int i = 0; i < count; i++)
-            {
-                if (polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is IPolygonalFace3D polygonalFace3D)
-                {
-                    result.Add(polygonalFace3D);
-                }
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -98,14 +43,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="bVHNode_2">The Bounding Volume Hierarchy (BVH) built for the second polyhedron, reusable by the caller.</param>
         /// <param name="tolerance">The distance tolerance for the boolean computations.</param>
         /// <returns>The deduplicated boundary faces of the result volume (never null; possibly empty). Difference results have the retained second-polyhedron fragments inverted.</returns>
-        internal static List<IPolygonalFace3D> BooleanOperationPolygonalFace3Ds<TPolygonalFace3D>(
-            BooleanOpertaionType booleanOpertaionType,
-            Polyhedron<TPolygonalFace3D> polyhedron_1,
-            Polyhedron<TPolygonalFace3D> polyhedron_2,
-            List<IPolygonalFace3D> polygonalFace3Ds_1,
-            List<IPolygonalFace3D> polygonalFace3Ds_2,
-            out BVHNode bVHNode_2,
-            double tolerance) where TPolygonalFace3D : IPolygonalFace3D
+        internal static List<IPolygonalFace3D> BooleanOperationPolygonalFace3Ds<TPolygonalFace3D>(BooleanOpertaionType booleanOpertaionType, Polyhedron<TPolygonalFace3D> polyhedron_1, Polyhedron<TPolygonalFace3D> polyhedron_2, List<IPolygonalFace3D> polygonalFace3Ds_1, List<IPolygonalFace3D> polygonalFace3Ds_2, out BVHNode bVHNode_2, double tolerance) where TPolygonalFace3D : IPolygonalFace3D
         {
             // Build Bounding Volume Hierarchy (BVH) trees for spatial culling
             BVHNode bVHNode_1 = new(polygonalFace3Ds_1);
@@ -233,6 +171,33 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
+        /// Assembles the final boolean operation geometry from the deduplicated boundary faces: a single solid
+        /// <see cref="Classes.Polyhedron"/> when the faces form a valid closed volume, the individual faces as a
+        /// fallback for non-solid remnants, or null when no geometry remains.
+        /// </summary>
+        private static List<IGeometry3D>? BooleanOperationGeometry3Ds(List<IPolygonalFace3D> polygonalFace3Ds)
+        {
+            // A solid closed polyhedron requires at least 4 faces
+            if (polygonalFace3Ds.Count >= 4 && Polyhedron(polygonalFace3Ds) is Polyhedron polyhedron)
+            {
+                return [polyhedron];
+            }
+
+            if (polygonalFace3Ds.Count > 0)
+            {
+                List<IGeometry3D> result = new(polygonalFace3Ds.Count);
+                for (int i = 0; i < polygonalFace3Ds.Count; i++)
+                {
+                    result.Add(polygonalFace3Ds[i]);
+                }
+
+                return result;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// For a candidate fragment lying on the other volume's boundary, determines whether the parent-volume
         /// interior side of the (coplanar) boundary lies inside the other volume.
         /// <para>
@@ -243,14 +208,7 @@ namespace DiGi.Geometry.Spatial
         /// a parent edge).
         /// </para>
         /// </summary>
-        private static bool InteriorSideInsideOther<TPolygonalFace3D>(
-            BooleanOperationCandidate booleanOperationCandidate,
-            Point3D point3D,
-            BVHNodePointRelationSolver bVHNodePointRelationSolver_Parent,
-            BVHNodePointRelationSolver bVHNodePointRelationSolver_Other,
-            Polyhedron<TPolygonalFace3D> polyhedron_1,
-            Polyhedron<TPolygonalFace3D> polyhedron_2,
-            double tolerance) where TPolygonalFace3D : IPolygonalFace3D
+        private static bool InteriorSideInsideOther<TPolygonalFace3D>(BooleanOperationCandidate booleanOperationCandidate, Point3D point3D, BVHNodePointRelationSolver bVHNodePointRelationSolver_Parent, BVHNodePointRelationSolver bVHNodePointRelationSolver_Other, Polyhedron<TPolygonalFace3D> polyhedron_1, Polyhedron<TPolygonalFace3D> polyhedron_2, double tolerance) where TPolygonalFace3D : IPolygonalFace3D
         {
             Vector3D vector3D_Normal = booleanOperationCandidate.PolygonalFace3D.Plane?.Normal ?? new Vector3D(0, 0, 1);
 
@@ -290,6 +248,28 @@ namespace DiGi.Geometry.Spatial
             bVHNodePointRelationSolver_Other.Solve();
 
             return bVHNodePointRelationSolver_Other.Output == PointRelation.Inside;
+        }
+
+        /// <summary>
+        /// Extracts the faces of the given polyhedron without cloning them.
+        /// </summary>
+        /// <typeparam name="TPolygonalFace3D">The type of polygonal face, which must implement <see cref="IPolygonalFace3D"/>.</typeparam>
+        /// <param name="polyhedron">The source polyhedron.</param>
+        /// <returns>A list of the polyhedron faces (never null; possibly empty).</returns>
+        private static List<IPolygonalFace3D> PolygonalFace3Ds<TPolygonalFace3D>(Polyhedron<TPolygonalFace3D> polyhedron) where TPolygonalFace3D : IPolygonalFace3D
+        {
+            int count = polyhedron.Count;
+
+            List<IPolygonalFace3D> result = new(count);
+            for (int i = 0; i < count; i++)
+            {
+                if (polyhedron.GetPolygonalFace3D<IPolygonalFace3D>(i) is IPolygonalFace3D polygonalFace3D)
+                {
+                    result.Add(polygonalFace3D);
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -377,30 +357,32 @@ namespace DiGi.Geometry.Spatial
         }
 
         /// <summary>
-        /// Assembles the final boolean operation geometry from the deduplicated boundary faces: a single solid
-        /// <see cref="Classes.Polyhedron"/> when the faces form a valid closed volume, the individual faces as a
-        /// fallback for non-solid remnants, or null when no geometry remains.
+        /// Candidate boundary fragment produced by the face-splitting stage of a 3D boolean operation.
+        /// Value type - avoids the per-candidate heap allocations a Tuple-based candidate list would incur.
         /// </summary>
-        private static List<IGeometry3D>? BooleanOperationGeometry3Ds(List<IPolygonalFace3D> polygonalFace3Ds)
+        private readonly struct BooleanOperationCandidate
         {
-            // A solid closed polyhedron requires at least 4 faces
-            if (polygonalFace3Ds.Count >= 4 && Polyhedron(polygonalFace3Ds) is Polyhedron polyhedron)
+            /// <summary>
+            /// True when the fragment originates from the first polyhedron; false for the second polyhedron.
+            /// </summary>
+            public readonly bool FromFirst;
+
+            /// <summary>
+            /// The index of the parent face in the source polyhedron the fragment originates from.
+            /// </summary>
+            public readonly int ParentIndex;
+
+            /// <summary>
+            /// The candidate face fragment.
+            /// </summary>
+            public readonly IPolygonalFace3D PolygonalFace3D;
+
+            public BooleanOperationCandidate(IPolygonalFace3D polygonalFace3D, int parentIndex, bool fromFirst)
             {
-                return [polyhedron];
+                PolygonalFace3D = polygonalFace3D;
+                ParentIndex = parentIndex;
+                FromFirst = fromFirst;
             }
-
-            if (polygonalFace3Ds.Count > 0)
-            {
-                List<IGeometry3D> result = new(polygonalFace3Ds.Count);
-                for (int i = 0; i < polygonalFace3Ds.Count; i++)
-                {
-                    result.Add(polygonalFace3Ds[i]);
-                }
-
-                return result;
-            }
-
-            return null;
         }
     }
 }
