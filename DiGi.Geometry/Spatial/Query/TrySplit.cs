@@ -105,9 +105,7 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            int count;
-
-            count = polyhedron.Count;
+            int count = polyhedron.Count;
             if (count == 0)
             {
                 return false;
@@ -163,23 +161,25 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
-            List<PolygonalFace3D> polygonalFace3Ds = [];
+            List<IPolygonalFace3D> polygonalFace3Ds = [];
+            bool splitAny = false;
+
             for (int i = 0; i < tuples.Count; i++)
             {
                 Tuple<IPolygonalFace3D, BoundingBox3D?, List<IPolygonalFace3D>> tuple = tuples[i];
 
-                if (!TrySplit(tuple.Item1, tuple.Item3, out List<PolygonalFace3D>? polygonalFace3Ds_Temp, tolerance) || polygonalFace3Ds_Temp == null)
+                if (tuple.Item3.Count > 0 && TrySplit(tuple.Item1, tuple.Item3, out List<PolygonalFace3D>? polygonalFace3Ds_Temp, tolerance) && polygonalFace3Ds_Temp != null && polygonalFace3Ds_Temp.Count != 0)
                 {
-                    continue;
+                    polygonalFace3Ds.AddRange(polygonalFace3Ds_Temp);
+                    splitAny = true;
                 }
-
-                foreach (PolygonalFace3D polygonalFace3D_Temp in polygonalFace3Ds_Temp)
+                else
                 {
-                    polygonalFace3Ds.Add(polygonalFace3D_Temp);
+                    polygonalFace3Ds.Add(tuple.Item1);
                 }
             }
 
-            if (polygonalFace3Ds.Count == 0)
+            if (!splitAny || polygonalFace3Ds.Count == 0)
             {
                 return false;
             }
@@ -196,7 +196,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="result">When this method returns, contains the <see cref="List{Polyhedron}"/> of resulting polyhedrons if the operation succeeded; otherwise, null.</param>
         /// <param name="tolerance">The <see cref="double"/> tolerance value used to determine splitting boundaries.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the split was successful.</returns>
-        public static bool TrySplit<TPolyhedron>(this IEnumerable<TPolyhedron> polyhedrons, out List<Polyhedron>? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolyhedron : IPolyhedron
+        public static bool TrySplit<TPolyhedron>(this IEnumerable<TPolyhedron>? polyhedrons, out List<Polyhedron>? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolyhedron : IPolyhedron
         {
             result = null;
 
@@ -217,6 +217,8 @@ namespace DiGi.Geometry.Spatial
             }
 
             result = [];
+            bool splitAny = false;
+
             for (int i = 0; i < tuples.Count; i++)
             {
                 Tuple<BoundingBox3D, TPolyhedron> tuple_1 = tuples[i];
@@ -241,24 +243,29 @@ namespace DiGi.Geometry.Spatial
 
                 Polyhedron? polyhedron = null;
 
-                if (polyhedrons_Temp == null || polyhedrons_Temp.Count == 0)
+                if (polyhedrons_Temp.Count > 0 && TrySplit(tuple_1.Item2, polyhedrons_Temp, out Polyhedron? polyhedron_Temp, tolerance) && polyhedron_Temp is not null)
+                {
+                    polyhedron = polyhedron_Temp;
+                    splitAny = true;
+                }
+                else
                 {
                     polyhedron = Create.Polyhedron(tuple_1.Item2);
                 }
-                else if (TrySplit(tuple_1.Item2, polyhedrons_Temp, out Polyhedron? polyhedron_Temp, tolerance) && polyhedron_Temp is not null)
-                {
-                    polyhedron = polyhedron_Temp;
-                }
 
-                if (polyhedron is null)
+                if (polyhedron is not null)
                 {
-                    continue;
+                    result.Add(polyhedron);
                 }
-
-                result.Add(polyhedron);
             }
 
-            return result.Count != 0;
+            if (!splitAny || result.Count == 0)
+            {
+                result = null;
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -314,23 +321,23 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            Func<List<IPolygonalFace3D>?, List<Polyhedron>> createPolyhedrons = new(x =>
+            List<Polyhedron> CreatePolyhedrons(List<IPolygonalFace3D>? polygonalFace3Ds_Input)
             {
                 List<Polyhedron> result = [];
 
-                if (x is null)
+                if (polygonalFace3Ds_Input is null)
                 {
                     return result;
                 }
 
-                x.AddRange(polygonalFace3Ds_Plane);
+                polygonalFace3Ds_Input.AddRange(polygonalFace3Ds_Plane);
 
-                while (x.Count > 0)
+                while (polygonalFace3Ds_Input.Count > 0)
                 {
-                    IPolygonalFace3D polygonalFace3D = x[0];
-                    x.RemoveAt(0);
+                    IPolygonalFace3D polygonalFace3D = polygonalFace3Ds_Input[0];
+                    polygonalFace3Ds_Input.RemoveAt(0);
 
-                    if (!TryGetConnectedPolygonalFace3Ds(polygonalFace3D, x, out List<IPolygonalFace3D>? polygonalFace3Ds_Connected, out List<IPolygonalFace3D>? polygonalFace3Ds_Disconnected, tolerance))
+                    if (!TryGetConnectedPolygonalFace3Ds(polygonalFace3D, polygonalFace3Ds_Input, out List<IPolygonalFace3D>? polygonalFace3Ds_Connected, out List<IPolygonalFace3D>? polygonalFace3Ds_Disconnected, tolerance))
                     {
                         continue;
                     }
@@ -342,7 +349,7 @@ namespace DiGi.Geometry.Spatial
 
                     polygonalFace3Ds_Connected.Add(polygonalFace3D);
 
-                    x = polygonalFace3Ds_Disconnected ?? [];
+                    polygonalFace3Ds_Input = polygonalFace3Ds_Disconnected ?? [];
 
                     Polyhedron? polyhedron_Temp = new(polygonalFace3Ds_Connected);
                     if (polyhedron_Temp is null)
@@ -354,12 +361,12 @@ namespace DiGi.Geometry.Spatial
                 }
 
                 return result;
-            });
+            }
 
             polyhedrons = [];
 
-            polyhedrons.AddRange(createPolyhedrons.Invoke(polygonalFace3Ds_Above));
-            polyhedrons.AddRange(createPolyhedrons.Invoke(polygonalFace3Ds_Below));
+            polyhedrons.AddRange(CreatePolyhedrons(polygonalFace3Ds_Above));
+            polyhedrons.AddRange(CreatePolyhedrons(polygonalFace3Ds_Below));
 
             return polyhedrons.Count != 0;
         }
@@ -477,49 +484,49 @@ namespace DiGi.Geometry.Spatial
             List<(int, int, int)> aboveTriangles = [];
             List<(int, int, int)> belowTriangles = [];
 
-            int GetIntersectionIndex(int i1, int i2, double d1, double d2)
+            int GetIntersectionIndex(int index_1, int index_2, double distance_1, double distance_2)
             {
-                (int, int) key = i1 < i2 ? (i1, i2) : (i2, i1);
+                (int, int) key = index_1 < index_2 ? (index_1, index_2) : (index_2, index_1);
                 if (edgeIntersections.TryGetValue(key, out int existingIndex))
                 {
                     return existingIndex;
                 }
 
-                double t = d1 / (d1 - d2);
-                Point3D p1 = points[i1];
-                Point3D p2 = points[i2];
-                Point3D intersection = new(p1.X + t * (p2.X - p1.X), p1.Y + t * (p2.Y - p1.Y), p1.Z + t * (p2.Z - p1.Z));
+                double t = distance_1 / (distance_1 - distance_2);
+                Point3D point3D_1 = points[index_1];
+                Point3D point3D_2 = points[index_2];
+                Point3D point3D_Intersection = new(point3D_1.X + t * (point3D_2.X - point3D_1.X), point3D_1.Y + t * (point3D_2.Y - point3D_1.Y), point3D_1.Z + t * (point3D_2.Z - point3D_1.Z));
 
                 int newIndex = allPoints.Count;
-                allPoints.Add(intersection);
+                allPoints.Add(point3D_Intersection);
                 edgeIntersections[key] = newIndex;
                 return newIndex;
             }
 
-            for (int t = 0; t < indexes.Count; t++)
+            for (int i = 0; i < indexes.Count; i++)
             {
-                int[] idx = indexes[t];
-                int idx0 = idx[0], idx1 = idx[1], idx2 = idx[2];
+                int[] idx = indexes[i];
+                int index_0 = idx[0], index_1 = idx[1], index_2 = idx[2];
 
-                if (idx0 < 0 || idx0 >= points.Count || idx1 < 0 || idx1 >= points.Count || idx2 < 0 || idx2 >= points.Count)
+                if (index_0 < 0 || index_0 >= points.Count || index_1 < 0 || index_1 >= points.Count || index_2 < 0 || index_2 >= points.Count)
                 {
                     continue;
                 }
 
-                int c0 = Classify(points[idx0]);
-                int c1 = Classify(points[idx1]);
-                int c2 = Classify(points[idx2]);
+                int classify_0 = Classify(points[index_0]);
+                int classify_1 = Classify(points[index_1]);
+                int classify_2 = Classify(points[index_2]);
 
-                int aboveCount = (c0 == 1 ? 1 : 0) + (c1 == 1 ? 1 : 0) + (c2 == 1 ? 1 : 0);
-                int belowCount = (c0 == -1 ? 1 : 0) + (c1 == -1 ? 1 : 0) + (c2 == -1 ? 1 : 0);
+                int aboveCount = (classify_0 == 1 ? 1 : 0) + (classify_1 == 1 ? 1 : 0) + (classify_2 == 1 ? 1 : 0);
+                int belowCount = (classify_0 == -1 ? 1 : 0) + (classify_1 == -1 ? 1 : 0) + (classify_2 == -1 ? 1 : 0);
 
                 if (belowCount == 0 && aboveCount > 0)
                 {
-                    aboveTriangles.Add((idx0, idx1, idx2));
+                    aboveTriangles.Add((index_0, index_1, index_2));
                 }
                 else if (aboveCount == 0 && belowCount > 0)
                 {
-                    belowTriangles.Add((idx0, idx1, idx2));
+                    belowTriangles.Add((index_0, index_1, index_2));
                 }
                 else if (aboveCount == 0 && belowCount == 0)
                 {
@@ -527,67 +534,67 @@ namespace DiGi.Geometry.Spatial
                 }
                 else
                 {
-                    double d0 = SignedDistance(points[idx0]);
-                    double d1 = SignedDistance(points[idx1]);
-                    double d2 = SignedDistance(points[idx2]);
+                    double distance_0 = SignedDistance(points[index_0]);
+                    double distance_1 = SignedDistance(points[index_1]);
+                    double distance_2 = SignedDistance(points[index_2]);
 
                     // Find edges that cross the plane (one endpoint above, one below)
-                    int i01 = (c0 == 1 && c1 == -1) || (c0 == -1 && c1 == 1) ? GetIntersectionIndex(idx0, idx1, d0, d1) : -1;
-                    int i12 = (c1 == 1 && c2 == -1) || (c1 == -1 && c2 == 1) ? GetIntersectionIndex(idx1, idx2, d1, d2) : -1;
-                    int i20 = (c2 == 1 && c0 == -1) || (c2 == -1 && c0 == 1) ? GetIntersectionIndex(idx2, idx0, d2, d0) : -1;
+                    int index01 = (classify_0 == 1 && classify_1 == -1) || (classify_0 == -1 && classify_1 == 1) ? GetIntersectionIndex(index_0, index_1, distance_0, distance_1) : -1;
+                    int index12 = (classify_1 == 1 && classify_2 == -1) || (classify_1 == -1 && classify_2 == 1) ? GetIntersectionIndex(index_1, index_2, distance_1, distance_2) : -1;
+                    int index20 = (classify_2 == 1 && classify_0 == -1) || (classify_2 == -1 && classify_0 == 1) ? GetIntersectionIndex(index_2, index_0, distance_2, distance_0) : -1;
 
                     if (aboveCount == 1 && belowCount == 2)
                     {
                         // One vertex above, two below: edge from above to each below crosses
-                        if (c0 == 1)
+                        if (classify_0 == 1)
                         {
-                            aboveTriangles.Add((idx0, i01, i20));
-                            belowTriangles.Add((idx1, idx2, i20));
-                            belowTriangles.Add((idx1, i20, i01));
+                            aboveTriangles.Add((index_0, index01, index20));
+                            belowTriangles.Add((index_1, index_2, index20));
+                            belowTriangles.Add((index_1, index20, index01));
                         }
-                        else if (c1 == 1)
+                        else if (classify_1 == 1)
                         {
-                            aboveTriangles.Add((idx1, i12, i01));
-                            belowTriangles.Add((idx2, idx0, i01));
-                            belowTriangles.Add((idx2, i01, i12));
+                            aboveTriangles.Add((index_1, index12, index01));
+                            belowTriangles.Add((index_2, index_0, index01));
+                            belowTriangles.Add((index_2, index01, index12));
                         }
                         else
                         {
-                            aboveTriangles.Add((idx2, i20, i12));
-                            belowTriangles.Add((idx0, idx1, i12));
-                            belowTriangles.Add((idx0, i12, i20));
+                            aboveTriangles.Add((index_2, index20, index12));
+                            belowTriangles.Add((index_0, index_1, index12));
+                            belowTriangles.Add((index_0, index12, index20));
                         }
                     }
                     else if (aboveCount == 2 && belowCount == 1)
                     {
                         // Two vertices above, one below: two edges cross
-                        if (c0 == -1)
+                        if (classify_0 == -1)
                         {
-                            belowTriangles.Add((idx0, i01, i20));
-                            aboveTriangles.Add((idx1, idx2, i20));
-                            aboveTriangles.Add((idx1, i20, i01));
+                            belowTriangles.Add((index_0, index01, index20));
+                            aboveTriangles.Add((index_1, index_2, index20));
+                            aboveTriangles.Add((index_1, index20, index01));
                         }
-                        else if (c1 == -1)
+                        else if (classify_1 == -1)
                         {
-                            belowTriangles.Add((idx1, i12, i01));
-                            aboveTriangles.Add((idx2, idx0, i01));
-                            aboveTriangles.Add((idx2, i01, i12));
+                            belowTriangles.Add((index_1, index12, index01));
+                            aboveTriangles.Add((index_2, index_0, index01));
+                            aboveTriangles.Add((index_2, index01, index12));
                         }
                         else
                         {
-                            belowTriangles.Add((idx2, i20, i12));
-                            aboveTriangles.Add((idx0, idx1, i12));
-                            aboveTriangles.Add((idx0, i12, i20));
+                            belowTriangles.Add((index_2, index20, index12));
+                            aboveTriangles.Add((index_0, index_1, index12));
+                            aboveTriangles.Add((index_0, index12, index20));
                         }
                     }
                     else if (aboveCount == 1 && belowCount == 1)
                     {
                         // One above, one below, one on: single edge crosses
-                        int crossingIndex = i01 != -1 ? i01 : i12 != -1 ? i12 : i20;
+                        int crossingIndex = index01 != -1 ? index01 : index12 != -1 ? index12 : index20;
 
-                        int onVertex = c0 == 0 ? idx0 : c1 == 0 ? idx1 : idx2;
-                        int aboveVertex = c0 == 1 ? idx0 : c1 == 1 ? idx1 : idx2;
-                        int belowVertex = c0 == -1 ? idx0 : c1 == -1 ? idx1 : idx2;
+                        int onVertex = classify_0 == 0 ? index_0 : classify_1 == 0 ? index_1 : index_2;
+                        int aboveVertex = classify_0 == 1 ? index_0 : classify_1 == 1 ? index_1 : index_2;
+                        int belowVertex = classify_0 == -1 ? index_0 : classify_1 == -1 ? index_1 : index_2;
 
                         aboveTriangles.Add((aboveVertex, onVertex, crossingIndex));
                         belowTriangles.Add((belowVertex, crossingIndex, onVertex));
@@ -662,6 +669,14 @@ namespace DiGi.Geometry.Spatial
             return true;
         }
 
+        /// <summary>
+        /// Attempts to split a mesh by the specified plane, combining connected components from above and below into a single result list.
+        /// </summary>
+        /// <param name="plane">The <see cref="Plane"/> used as the splitting surface.</param>
+        /// <param name="mesh3D">The <see cref="Mesh3D"/> to split.</param>
+        /// <param name="result">When this method returns, contains a <see cref="List{Mesh3D}"/> of the resulting meshes from both sides of the plane if the operation succeeded; otherwise, null.</param>
+        /// <param name="tolerance">The <see cref="double"/> distance tolerance for classification and intersection calculations.</param>
+        /// <returns>A <see cref="bool"/> value indicating whether the split was successful.</returns>
         public static bool TrySplit(this Plane? plane, Mesh3D? mesh3D, out List<Mesh3D>? result, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (!TrySplit(plane, mesh3D, out List<Mesh3D>? mesh3Ds_Above, out List<Mesh3D>? mesh3Ds_Below, tolerance))

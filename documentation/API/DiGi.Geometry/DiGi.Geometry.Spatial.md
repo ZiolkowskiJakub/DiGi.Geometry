@@ -7027,6 +7027,45 @@ The distance [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/syste
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the operation was successful\.
 
+<a name='DiGi.Geometry.Spatial.Query.TrySplit(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Mesh3D_,double)'></a>
+
+## Query\.TrySplit\(this Plane, Mesh3D, List\<Mesh3D\>, double\) Method
+
+Attempts to split a mesh by the specified plane, combining connected components from above and below into a single result list\.
+
+```csharp
+public static bool TrySplit(this DiGi.Geometry.Spatial.Classes.Plane? plane, DiGi.Geometry.Spatial.Classes.Mesh3D? mesh3D, out System.Collections.Generic.List<DiGi.Geometry.Spatial.Classes.Mesh3D>? result, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Query.TrySplit(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Mesh3D_,double).plane'></a>
+
+`plane` [Plane](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Plane 'DiGi\.Geometry\.Spatial\.Classes\.Plane')
+
+The [Plane](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Plane 'DiGi\.Geometry\.Spatial\.Classes\.Plane') used as the splitting surface\.
+
+<a name='DiGi.Geometry.Spatial.Query.TrySplit(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Mesh3D_,double).mesh3D'></a>
+
+`mesh3D` [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')
+
+The [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') to split\.
+
+<a name='DiGi.Geometry.Spatial.Query.TrySplit(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Mesh3D_,double).result'></a>
+
+`result` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+When this method returns, contains a [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') of the resulting meshes from both sides of the plane if the operation succeeded; otherwise, null\.
+
+<a name='DiGi.Geometry.Spatial.Query.TrySplit(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Mesh3D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') distance tolerance for classification and intersection calculations\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the split was successful\.
+
 <a name='DiGi.Geometry.Spatial.Query.TrySplit(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Mesh3D_,System.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Mesh3D_,double)'></a>
 
 ## Query\.TrySplit\(this Plane, Mesh3D, List\<Mesh3D\>, List\<Mesh3D\>, double\) Method
@@ -7243,7 +7282,7 @@ A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 
 Attempts to split a collection of polyhedrons based on a specified tolerance\.
 
 ```csharp
-public static bool TrySplit<TPolyhedron>(this System.Collections.Generic.IEnumerable<TPolyhedron> polyhedrons, out System.Collections.Generic.List<DiGi.Geometry.Spatial.Classes.Polyhedron>? result, double tolerance=1E-06)
+public static bool TrySplit<TPolyhedron>(this System.Collections.Generic.IEnumerable<TPolyhedron>? polyhedrons, out System.Collections.Generic.List<DiGi.Geometry.Spatial.Classes.Polyhedron>? result, double tolerance=1E-06)
     where TPolyhedron : DiGi.Geometry.Spatial.Interfaces.IPolyhedron;
 ```
 #### Type parameters
