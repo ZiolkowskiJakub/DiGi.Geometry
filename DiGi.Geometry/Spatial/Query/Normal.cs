@@ -129,32 +129,33 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Vector3D? normal;
-            if (point3Ds_Local.Coplanar(tolerance))
+            double double_OriginX = origin.X;
+            double double_OriginY = origin.Y;
+            double double_OriginZ = origin.Z;
+
+            // Area weighted normal of the closed ring, which stays meaningful for a ring which is not exactly planar. The closing edge is part of the sum, otherwise the magnitude of the result does not match the area of the ring.
+            Vector3D? Newell()
             {
                 double double_Nx = 0;
                 double double_Ny = 0;
                 double double_Nz = 0;
-                double double_Ox = origin.X;
-                double double_Oy = origin.Y;
-                double double_Oz = origin.Z;
 
-                for (int int_I = 0; int_I < count - 1; int_I++)
+                for (int int_I = 0; int_I < count; int_I++)
                 {
                     Point3D point3D_Current = point3Ds_Local[int_I];
-                    Point3D point3D_Next = point3Ds_Local[int_I + 1];
+                    Point3D point3D_Next = point3Ds_Local[DiGi.Core.Query.Next(count, int_I)];
                     if (point3D_Current == null || point3D_Next == null)
                     {
                         continue;
                     }
 
-                    double double_Ux = point3D_Current.X - double_Ox;
-                    double double_Uy = point3D_Current.Y - double_Oy;
-                    double double_Uz = point3D_Current.Z - double_Oz;
+                    double double_Ux = point3D_Current.X - double_OriginX;
+                    double double_Uy = point3D_Current.Y - double_OriginY;
+                    double double_Uz = point3D_Current.Z - double_OriginZ;
 
-                    double double_Vx = point3D_Next.X - double_Ox;
-                    double double_Vy = point3D_Next.Y - double_Oy;
-                    double double_Vz = point3D_Next.Z - double_Oz;
+                    double double_Vx = point3D_Next.X - double_OriginX;
+                    double double_Vy = point3D_Next.Y - double_OriginY;
+                    double double_Vz = point3D_Next.Z - double_OriginZ;
 
                     double_Nx += double_Uy * double_Vz - double_Uz * double_Vy;
                     double_Ny += double_Uz * double_Vx - double_Ux * double_Vz;
@@ -162,12 +163,18 @@ namespace DiGi.Geometry.Spatial
                 }
 
                 double double_LenSq = double_Nx * double_Nx + double_Ny * double_Ny + double_Nz * double_Nz;
-                if (double_LenSq > 0.0)
+                if (double_LenSq <= 0.0)
                 {
-                    double double_Len = System.Math.Sqrt(double_LenSq);
-                    return new(double_Nx / double_Len, double_Ny / double_Len, double_Nz / double_Len);
+                    return null;
                 }
-                return Constants.Vector3D.Zero;
+
+                double double_Len = System.Math.Sqrt(double_LenSq);
+                return new(double_Nx / double_Len, double_Ny / double_Len, double_Nz / double_Len);
+            }
+
+            if (point3Ds_Local.Coplanar(tolerance))
+            {
+                return Newell();
             }
 
             Math.Classes.Matrix matrix = new(3, 3);
@@ -241,75 +248,38 @@ namespace DiGi.Geometry.Spatial
 
             if (invalid)
             {
-                double double_Nx = 0;
-                double double_Ny = 0;
-                double double_Nz = 0;
-                double double_Ox = origin.X;
-                double double_Oy = origin.Y;
-                double double_Oz = origin.Z;
-
-                for (int int_I = 0; int_I < count - 1; int_I++)
+                // The best fit plane does not hold every point within the tolerance - compare it against the area weighted normal of the ring and keep whichever holds the points closer.
+                Vector3D? normal_Newell = Newell();
+                if (normal_Newell is not null)
                 {
-                    Point3D point3D_Current = point3Ds_Local[int_I];
-                    Point3D point3D_Next = point3Ds_Local[int_I + 1];
-                    if (point3D_Current == null || point3D_Next == null)
+                    Plane plane_Newell = new(origin, normal_Newell);
+
+                    double max = double.MinValue;
+                    double max_Newell = double.MinValue;
+                    foreach (Point3D point3D in point3Ds_Local)
                     {
-                        continue;
+                        if (point3D == null)
+                        {
+                            continue;
+                        }
+
+                        double distance = plane.Distance(point3D);
+                        if (distance > max)
+                        {
+                            max = distance;
+                        }
+
+                        distance = plane_Newell.Distance(point3D);
+                        if (distance > max_Newell)
+                        {
+                            max_Newell = distance;
+                        }
                     }
 
-                    double double_Ux = point3D_Current.X - double_Ox;
-                    double double_Uy = point3D_Current.Y - double_Oy;
-                    double double_Uz = point3D_Current.Z - double_Oz;
-
-                    double double_Vx = point3D_Next.X - double_Ox;
-                    double double_Vy = point3D_Next.Y - double_Oy;
-                    double double_Vz = point3D_Next.Z - double_Oz;
-
-                    double_Nx += double_Uy * double_Vz - double_Uz * double_Vy;
-                    double_Ny += double_Uz * double_Vx - double_Ux * double_Vz;
-                    double_Nz += double_Ux * double_Vy - double_Uy * double_Vx;
-                }
-
-                double double_LenSq = double_Nx * double_Nx + double_Ny * double_Ny + double_Nz * double_Nz;
-                if (double_LenSq > 0.0)
-                {
-                    double double_Len = System.Math.Sqrt(double_LenSq);
-                    normal = new(double_Nx / double_Len, double_Ny / double_Len, double_Nz / double_Len);
-                }
-                else
-                {
-                    normal = Constants.Vector3D.Zero;
-                }
-
-                Plane plane_Temp = new(origin, (Vector3D?)Constants.Vector3D.Zero);
-
-                double max = double.MinValue;
-                double max_Temp = double.MinValue;
-                foreach (Point3D point3D in point3Ds_Local)
-                {
-                    if (point3D == null)
+                    if (max_Newell < max)
                     {
-                        continue;
+                        result = normal_Newell;
                     }
-
-                    double distance = double.NaN;
-
-                    distance = plane.Distance(point3D);
-                    if (distance > max)
-                    {
-                        max = distance;
-                    }
-
-                    distance = plane_Temp.Distance(point3D);
-                    if (distance > max_Temp)
-                    {
-                        max_Temp = distance;
-                    }
-                }
-
-                if (max_Temp < max)
-                {
-                    result = (Vector3D?)Constants.Vector3D.Zero;
                 }
             }
 
