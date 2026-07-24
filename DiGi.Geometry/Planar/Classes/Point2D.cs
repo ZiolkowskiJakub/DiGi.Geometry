@@ -1,7 +1,6 @@
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
@@ -53,7 +52,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="object">The tuple containing X and Y coordinates.</param>
         /// <returns>A new Point2D instance.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Point2D((double x, double y) @object)
         {
             return new(@object.x, @object.y);
@@ -65,7 +63,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="point2D">The origin point.</param>
         /// <param name="vector2D">The translation vector.</param>
         /// <returns>A new Point2D shifted by the negative of the vector, or null if either input is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Point2D? operator -(Point2D? point2D, Vector2D? vector2D)
         {
             if (point2D is null || vector2D is null)
@@ -82,7 +79,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="point2D">The origin point.</param>
         /// <param name="vector2D">The translation vector.</param>
         /// <returns>A new Point2D shifted by the vector, or null if either input is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Point2D? operator +(Point2D? point2D, Vector2D? vector2D)
         {
             if (point2D is null || vector2D is null)
@@ -107,7 +103,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="point2D">The other point.</param>
         /// <returns>The distance result, or NaN if the input is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Distance(Point2D? point2D)
         {
             if (point2D == null)
@@ -192,7 +187,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="point2D">The other point.</param>
         /// <returns>A new <see cref="Point2D"/> representing the midpoint, or null if input is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Point2D? Mid(Point2D? point2D)
         {
             if (point2D == null)

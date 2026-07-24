@@ -2,7 +2,6 @@ using DiGi.Core.Classes;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Math.Classes;
 using System;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -121,13 +120,11 @@ namespace DiGi.Geometry.Core.Classes
         [JsonIgnore]
         public double this[int index]
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 return values[index];
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 values[index] = value;
@@ -140,7 +137,6 @@ namespace DiGi.Geometry.Core.Classes
         /// <param name="coordinate_1">The first coordinate to compare.</param>
         /// <param name="coordinate_2">The second coordinate to compare.</param>
         /// <returns><see langword="true"/> if the coordinates are not equal; otherwise, <see langword="false"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Coordinate? coordinate_1, Coordinate? coordinate_2)
         {
             return !(coordinate_1 == coordinate_2);
@@ -212,7 +208,6 @@ namespace DiGi.Geometry.Core.Classes
         /// <summary>
         /// Computes the absolute value for each element in the values array.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Abs()
         {
             double[]? values_Local = values;
@@ -314,7 +309,6 @@ namespace DiGi.Geometry.Core.Classes
         /// </summary>
         /// <param name="object">The <see cref="object"/> to compare with the current instance.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the specified object is equal to the current instance.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override bool Equals(object? @object)
         {
             if (GetType() != @object?.GetType())
@@ -370,7 +364,6 @@ namespace DiGi.Geometry.Core.Classes
         /// Inverts the signs of all elements in the values array.
         /// </summary>
         /// <returns>A <see cref="bool"/> value indicating whether the inversion was successful.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Inverse()
         {
             double[]? values_Local = values;
@@ -407,7 +400,6 @@ namespace DiGi.Geometry.Core.Classes
         /// Rounds each value in the collection using the specified double tolerance.
         /// </summary>
         /// <param name="tolerance">The double value representing the precision used for rounding.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Round(double tolerance)
         {
             double[]? values_Local = values;
@@ -442,7 +434,6 @@ namespace DiGi.Geometry.Core.Classes
         /// Scales all elements of the values array by the specified multiplier.
         /// </summary>
         /// <param name="value">The <see cref="double"/> value to multiply each element by.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Scale(double value)
         {
             double[]? values_Local = values;

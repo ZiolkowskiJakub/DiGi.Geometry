@@ -2,7 +2,6 @@ using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -80,7 +79,6 @@ namespace DiGi.Geometry.Spatial.Classes
         [JsonIgnore]
         public double Length
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 return System.Math.Sqrt(SquaredLength);
@@ -105,7 +103,6 @@ namespace DiGi.Geometry.Spatial.Classes
         [JsonIgnore]
         public double SquaredLength
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 return (values[0] * values[0]) + (values[1] * values[1]) + (values[2] * values[2]);
@@ -133,7 +130,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="point3D">The nullable <see cref="Point3D"/> instance to convert.</param>
         /// <returns>A nullable <see cref="Vector3D"/> representing the coordinates of the point, or null if the provided point is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector3D?(Point3D? point3D)
         {
             if (point3D == null)
@@ -149,7 +145,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="object">The tuple containing the x, y, and z coordinates of the vector.</param>
         /// <returns>A new <see cref="Vector3D"/> instance created from the provided coordinates.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Vector3D((double x, double y, double z) @object)
         {
             return new Vector3D(@object.x, @object.y, @object.z);
@@ -160,7 +155,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="object">The tuple containing the start and end <see cref="Point3D"/> points that define the vector.</param>
         /// <returns>A new <see cref="Vector3D"/> instance representing the displacement from the start point to the end point.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Vector3D((Point3D start, Point3D end) @object)
         {
             return new Vector3D(@object.start, @object.end);
@@ -172,7 +166,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="vector3D_1">The first <see cref="Vector3D"/> vector.</param>
         /// <param name="vector3D_2">The second <see cref="Vector3D"/> vector to subtract from the first.</param>
         /// <returns>A new <see cref="Vector3D"/> representing the difference, or <see langword="null"/> if either operand is <see langword="null"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3D? operator -(Vector3D? vector3D_1, Vector3D? vector3D_2)
         {
             if (vector3D_1 is null || vector3D_2 is null)
@@ -188,7 +181,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="vector3D">The <see cref="Vector3D"/> to negate.</param>
         /// <returns>A new <see cref="Vector3D"/> with negated components, or <see langword="null"/> if the input is <see langword="null"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3D? operator -(Vector3D? vector3D)
         {
             Vector3D result = new(vector3D);
@@ -202,7 +194,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="vector3D_1">The first <see cref="Vector3D"/> to compare.</param>
         /// <param name="vector3D_2">The second <see cref="Vector3D"/> to compare.</param>
         /// <returns><see langword="true"/> if the vectors are not equal; otherwise, <see langword="false"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Vector3D? vector3D_1, Vector3D? vector3D_2)
         {
             return vector3D_1?.values[0] != vector3D_2?.values[0] || vector3D_1?.values[1] != vector3D_2?.values[1] || vector3D_1?.values[2] != vector3D_2?.values[2];
@@ -214,7 +205,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="vector3D_1">The first <see cref="Vector3D"/>.</param>
         /// <param name="vector3D_2">The second <see cref="Vector3D"/>.</param>
         /// <returns>The dot product of the two vectors, or <see cref="double.NaN"/> if either vector is <see langword="null"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double operator *(Vector3D? vector3D_1, Vector3D? vector3D_2)
         {
             if (vector3D_1 is null || vector3D_2 is null)
@@ -231,7 +221,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="vector3D_1">The <see cref="Vector3D"/> to scale.</param>
         /// <param name="factor">The scalar factor to multiply by.</param>
         /// <returns>A new <see cref="Vector3D"/> that is the result of the multiplication, or <see langword="null"/> if the input vector is <see langword="null"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3D? operator *(Vector3D? vector3D_1, double factor)
         {
             if (vector3D_1 is null)
@@ -248,7 +237,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="factor">The scalar factor to multiply by.</param>
         /// <param name="vector3D_1">The <see cref="Vector3D"/> to scale.</param>
         /// <returns>A new <see cref="Vector3D"/> that is the result of the multiplication, or <see langword="null"/> if the input vector is <see langword="null"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3D? operator *(double factor, Vector3D? vector3D_1)
         {
             if (vector3D_1 is null)
@@ -265,7 +253,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="vector3D">The <see cref="Vector3D"/> to divide.</param>
         /// <param name="factor">The scalar factor to divide by.</param>
         /// <returns>A new <see cref="Vector3D"/> that is the result of the division, or <see langword="null"/> if the input vector is <see langword="null"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3D? operator /(Vector3D? vector3D, double factor)
         {
             if (vector3D is null)
@@ -283,7 +270,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="vector3D_1">The first <see cref="Vector3D"/> to add.</param>
         /// <param name="vector3D_2">The second <see cref="Vector3D"/> to add.</param>
         /// <returns>A new <see cref="Vector3D"/> that is the sum of the two vectors, or <see langword="null"/> if either operand is <see langword="null"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3D? operator +(Vector3D? vector3D_1, Vector3D? vector3D_2)
         {
             if (vector3D_1 is null || vector3D_2 is null)
@@ -300,7 +286,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="vector3D_1">The first <see cref="Vector3D"/> to compare.</param>
         /// <param name="vector3D_2">The second <see cref="Vector3D"/> to compare.</param>
         /// <returns><see langword="true"/> if the vectors are equal; otherwise, <see langword="false"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator ==(Vector3D? vector3D_1, Vector3D? vector3D_2)
         {
             if (ReferenceEquals(vector3D_1, vector3D_2))
@@ -366,7 +351,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="vector3D">The <see cref="Vector3D"/> to calculate the cross product with.</param>
         /// <returns>A new <see cref="Vector3D"/> representing the cross product, or <c>null</c> if either vector is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3D? CrossProduct(Vector3D? vector3D)
         {
             if (vector3D == null || values == null)
@@ -382,7 +366,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="vector3D">The <see cref="Vector3D"/> to calculate the dot product with.</param>
         /// <returns>A <see cref="double"/> representing the dot product, or <see cref="double.NaN"/> if either vector is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double DotProduct(Vector3D? vector3D)
         {
             if (vector3D == null || values == null)
@@ -437,7 +420,6 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <summary>
         /// Normalizes the vector to a unit length of 1.0.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Normalize()
         {
             double length = Length;

@@ -2,7 +2,6 @@ using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Enums;
 using DiGi.Geometry.Core.Interfaces;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -76,7 +75,6 @@ namespace DiGi.Geometry.Planar.Classes
         [JsonIgnore]
         public double Length
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 return System.Math.Sqrt(SquaredLength);
@@ -101,7 +99,6 @@ namespace DiGi.Geometry.Planar.Classes
         [JsonIgnore]
         public double SquaredLength
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 return (values[0] * values[0]) + (values[1] * values[1]);
@@ -128,7 +125,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="point2D">The point to convert.</param>
         /// <returns>A new Vector2D with the same coordinates as the point, or null if the point is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector2D?(Point2D? point2D)
         {
             if (point2D == null)
@@ -144,7 +140,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="object">The tuple containing X and Y components.</param>
         /// <returns>A new Vector2D instance.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Vector2D?((double x, double y) @object)
         {
             return new(@object.x, @object.y);
@@ -155,7 +150,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="object">The tuple containing the start and end points.</param>
         /// <returns>A new Vector2D defined by the two points, or null if either point is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Vector2D?((Point2D? start, Point2D? end) @object)
         {
             return new(@object.start, @object.end);
@@ -167,7 +161,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="vector2D_1">The first vector.</param>
         /// <param name="vector2D_2">The second vector to subtract.</param>
         /// <returns>A new Vector2D result, or null if either input is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2D? operator -(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             if (vector2D_1 is null || vector2D_2 is null)
@@ -184,7 +177,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="vector2D_1">The first vector.</param>
         /// <param name="vector2D_2">The second vector.</param>
         /// <returns>True if the vectors are different; otherwise, false.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             return vector2D_1?.values[0] != vector2D_2?.values[0] || vector2D_1?.values[1] != vector2D_2?.values[1];
@@ -196,7 +188,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="vector2D_1">The first vector.</param>
         /// <param name="vector2D_2">The second vector.</param>
         /// <returns>The scalar result of the dot product, or NaN if either input is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double operator *(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             if (vector2D_1 is null || vector2D_2 is null)
@@ -213,7 +204,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="vector2D">The vector to scale.</param>
         /// <param name="factor">The scaling factor.</param>
         /// <returns>A new scaled Vector2D, or null if the vector is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2D? operator *(Vector2D? vector2D, double factor)
         {
             if (vector2D is null)
@@ -230,7 +220,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="factor">The scaling factor.</param>
         /// <param name="vector2D">The vector to scale.</param>
         /// <returns>A new scaled Vector2D, or null if the vector is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2D? operator *(double factor, Vector2D? vector2D)
         {
             if (vector2D is null)
@@ -247,7 +236,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="vector2D">The vector to divide.</param>
         /// <param name="factor">The divisor factor.</param>
         /// <returns>A new scaled Vector2D, or null if the vector is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2D? operator /(Vector2D? vector2D, double factor)
         {
             if (vector2D is null)
@@ -265,7 +253,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="vector2D_1">The first vector.</param>
         /// <param name="vector2D_2">The second vector to add.</param>
         /// <returns>A new Vector2D result, or null if either input is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2D? operator +(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             if (vector2D_1 is null || vector2D_2 is null)
@@ -282,7 +269,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="vector2D_1">The first vector.</param>
         /// <param name="vector2D_2">The second vector.</param>
         /// <returns>True if the vectors are identical; otherwise, false.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator ==(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
             if (ReferenceEquals(vector2D_1, vector2D_2))
@@ -359,7 +345,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="vector2D">The other vector.</param>
         /// <returns>The dot product result, or NaN if the input is null.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double DotProduct(Vector2D? vector2D)
         {
             if (vector2D == null)
@@ -439,7 +424,6 @@ namespace DiGi.Geometry.Planar.Classes
         /// <summary>
         /// Normalizes the current vector to have a length of 1.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Normalize()
         {
             double length = Length;
