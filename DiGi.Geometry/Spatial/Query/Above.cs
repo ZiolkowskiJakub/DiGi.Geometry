@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,24 +16,22 @@ namespace DiGi.Geometry.Spatial
         /// <returns>A <see cref="bool"/> value indicating whether the point is above the plane beyond the specified tolerance; otherwise, false.</returns>
         public static bool Above(this Plane? plane, Point3D? point3D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (point3D == null)
+            if (point3D == null || plane == null)
             {
                 return false;
             }
 
-            Vector3D? normal = plane?.Normal;
-            if (normal == null)
+            double double_A = plane.A;
+            double double_B = plane.B;
+            double double_C = plane.C;
+            double double_D = plane.D;
+
+            if (double.IsNaN(double_A) || double.IsNaN(double_B) || double.IsNaN(double_C) || double.IsNaN(double_D))
             {
                 return false;
             }
 
-            Point3D? origin = plane!.Origin;
-            if (origin == null)
-            {
-                return false;
-            }
-
-            return (normal.X * (point3D.X - origin.X)) + (normal.Y * (point3D.Y - origin.Y)) + (normal.Z * (point3D.Z - origin.Z)) > 0 + tolerance;
+            return (double_A * point3D.X + double_B * point3D.Y + double_C * point3D.Z + double_D) > tolerance;
         }
 
         /// <summary>
@@ -50,7 +48,26 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            return point3Ds.All(x => plane.Above(x, tolerance));
+            double double_A = plane.A;
+            double double_B = plane.B;
+            double double_C = plane.C;
+            double double_D = plane.D;
+
+            if (double.IsNaN(double_A) || double.IsNaN(double_B) || double.IsNaN(double_C) || double.IsNaN(double_D))
+            {
+                return false;
+            }
+
+            for (int int_I = 0; int_I < point3Ds.Count; int_I++)
+            {
+                Point3D point3D_Temp = point3Ds[int_I];
+                if (point3D_Temp == null || (double_A * point3D_Temp.X + double_B * point3D_Temp.Y + double_C * point3D_Temp.Z + double_D) <= tolerance)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

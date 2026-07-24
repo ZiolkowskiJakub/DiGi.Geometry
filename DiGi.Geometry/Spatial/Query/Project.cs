@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using DiGi.Geometry.Spatial.Interfaces;
 using System.Collections.Generic;
 
@@ -31,11 +31,26 @@ namespace DiGi.Geometry.Spatial
         public static Vector3D? Project(this Plane? plane, Vector3D? vector3D)
         {
             if (plane == null || vector3D == null)
+            {
                 return null;
+            }
 
-            Vector3D? normal = plane.Normal;
+            double double_A = plane.A;
+            double double_B = plane.B;
+            double double_C = plane.C;
 
-            return vector3D - vector3D.DotProduct(normal) * normal;
+            if (double.IsNaN(double_A) || double.IsNaN(double_B) || double.IsNaN(double_C))
+            {
+                return null;
+            }
+
+            double double_Vx = vector3D.X;
+            double double_Vy = vector3D.Y;
+            double double_Vz = vector3D.Z;
+
+            double double_Dot = double_Vx * double_A + double_Vy * double_B + double_Vz * double_C;
+
+            return new Vector3D(double_Vx - double_Dot * double_A, double_Vy - double_Dot * double_B, double_Vz - double_Dot * double_C);
         }
 
         /// <summary>

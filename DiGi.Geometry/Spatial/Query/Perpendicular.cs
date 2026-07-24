@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 
 namespace DiGi.Geometry.Spatial
 {
@@ -35,7 +35,27 @@ namespace DiGi.Geometry.Spatial
         /// <returns>A <see cref="bool"/> value indicating whether the two planes are perpendicular.</returns>
         public static bool Perpendicular(this Plane? plane_1, Plane? plane_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            return Perpendicular(plane_1?.Normal, plane_2?.Normal, tolerance);
+            if (plane_1 == plane_2 || plane_1 == null || plane_2 == null)
+            {
+                return false;
+            }
+
+            double double_A1 = plane_1.A;
+            double double_B1 = plane_1.B;
+            double double_C1 = plane_1.C;
+
+            double double_A2 = plane_2.A;
+            double double_B2 = plane_2.B;
+            double double_C2 = plane_2.C;
+
+            if (double.IsNaN(double_A1) || double.IsNaN(double_B1) || double.IsNaN(double_C1) ||
+                double.IsNaN(double_A2) || double.IsNaN(double_B2) || double.IsNaN(double_C2))
+            {
+                return false;
+            }
+
+            double double_Dot = double_A1 * double_A2 + double_B1 * double_B2 + double_C1 * double_C2;
+            return System.Math.Abs(double_Dot) <= tolerance;
         }
     }
 }

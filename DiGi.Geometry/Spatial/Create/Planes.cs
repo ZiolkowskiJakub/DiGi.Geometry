@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Spatial.Classes;
+using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Spatial
@@ -24,7 +24,7 @@ namespace DiGi.Geometry.Spatial
             }
 
             Point3D point3D_Max = boundingBox3D.Max;
-            if (point3D_Min == null)
+            if (point3D_Max == null)
             {
                 return null;
             }

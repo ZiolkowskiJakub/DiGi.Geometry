@@ -65,27 +65,21 @@ namespace DiGi.Geometry.Spatial
             }
 
             Vector3D? vector3D_AxisX = plane.AxisX;
-            if (vector3D_AxisX is null)
-            {
-                return null;
-            }
-
             Vector3D? vector3D_AxisY = plane.AxisY;
-            if (vector3D_AxisY is null)
+            Point3D? point3D_Origin = plane.Origin;
+
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
             {
                 return null;
             }
 
-            Point3D? point3D_Origin = plane.Origin;
-            if (point3D_Origin is null)
-            {
-                return null;
-            }
+            double double_Px = point2D.X;
+            double double_Py = point2D.Y;
 
             return new Point3D(
-                point3D_Origin.X + (vector3D_AxisY.X * point2D.Y) + (vector3D_AxisX.X * point2D.X),
-                point3D_Origin.Y + (vector3D_AxisY.Y * point2D.Y) + (vector3D_AxisX.Y * point2D.X),
-                point3D_Origin.Z + (vector3D_AxisY.Z * point2D.Y) + (vector3D_AxisX.Z * point2D.X)
+                point3D_Origin.X + (vector3D_AxisY.X * double_Py) + (vector3D_AxisX.X * double_Px),
+                point3D_Origin.Y + (vector3D_AxisY.Y * double_Py) + (vector3D_AxisX.Y * double_Px),
+                point3D_Origin.Z + (vector3D_AxisY.Z * double_Py) + (vector3D_AxisX.Z * double_Px)
             );
         }
 
@@ -311,19 +305,10 @@ namespace DiGi.Geometry.Spatial
             }
 
             Vector3D? vector3D_AxisX = plane.AxisX;
-            if (vector3D_AxisX is null)
-            {
-                return null;
-            }
-
             Vector3D? vector3D_AxisY = plane.AxisY;
-            if (vector3D_AxisY is null)
-            {
-                return null;
-            }
-
             Point3D? point3D_Origin = plane.Origin;
-            if (point3D_Origin is null)
+
+            if (vector3D_AxisX is null || vector3D_AxisY is null || point3D_Origin is null)
             {
                 return null;
             }

@@ -66,7 +66,7 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            return System.Math.Abs(double_A * point3D.X + double_B * point3D.Y + double_C * point3D.Z + double_D) < tolerance;
+            return System.Math.Abs(double_A * point3D.X + double_B * point3D.Y + double_C * point3D.Z + double_D) <= tolerance;
         }
 
         /// <summary>
@@ -106,9 +106,20 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
+            double double_A = plane.A;
+            double double_B = plane.B;
+            double double_C = plane.C;
+            double double_D = plane.D;
+
+            if (double.IsNaN(double_A) || double.IsNaN(double_B) || double.IsNaN(double_C) || double.IsNaN(double_D))
+            {
+                return false;
+            }
+
             for (int i = 0; i < point3Ds.Count; i++)
             {
-                if (!plane.On(point3Ds[i], tolerance))
+                Point3D point3D_Temp = point3Ds[i];
+                if (point3D_Temp == null || System.Math.Abs(double_A * point3D_Temp.X + double_B * point3D_Temp.Y + double_C * point3D_Temp.Z + double_D) > tolerance)
                 {
                     return false;
                 }
@@ -142,14 +153,7 @@ namespace DiGi.Geometry.Spatial
 
             double double_Dot = vector3D.X * double_A + vector3D.Y * double_B + vector3D.Z * double_C;
 
-            double double_ProjX = vector3D.X - double_Dot * double_A;
-            double double_ProjY = vector3D.Y - double_Dot * double_B;
-            double double_ProjZ = vector3D.Z - double_Dot * double_C;
-
-            double double_LenOrig = System.Math.Sqrt(vector3D.X * vector3D.X + vector3D.Y * vector3D.Y + vector3D.Z * vector3D.Z);
-            double double_LenProj = System.Math.Sqrt(double_ProjX * double_ProjX + double_ProjY * double_ProjY + double_ProjZ * double_ProjZ);
-
-            return System.Math.Abs(double_LenOrig - double_LenProj) < tolerance;
+            return System.Math.Abs(double_Dot) <= tolerance;
         }
     }
 }

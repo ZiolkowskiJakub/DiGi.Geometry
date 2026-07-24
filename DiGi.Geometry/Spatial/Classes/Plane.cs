@@ -32,6 +32,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="plane">The source <see cref="Plane"/> object to copy data from. If null, the current instance remains uninitialized.</param>
         public Plane(Plane? plane)
+            : base(plane)
         {
             if (plane != null)
             {
@@ -291,10 +292,23 @@ namespace DiGi.Geometry.Spatial.Classes
                 return null;
             }
 
-            double double_PtDot = point3D.X * normal.X + point3D.Y * normal.Y + point3D.Z * normal.Z;
-            double double_K = origin.X * normal.X + origin.Y * normal.Y + origin.Z * normal.Z;
+            double double_Nx = normal.X;
+            double double_Ny = normal.Y;
+            double double_Nz = normal.Z;
+
+            double double_Px = point3D.X;
+            double double_Py = point3D.Y;
+            double double_Pz = point3D.Z;
+
+            double double_Ox = origin.X;
+            double double_Oy = origin.Y;
+            double double_Oz = origin.Z;
+
+            double double_PtDot = double_Px * double_Nx + double_Py * double_Ny + double_Pz * double_Nz;
+            double double_K = double_Ox * double_Nx + double_Oy * double_Ny + double_Oz * double_Nz;
             double double_Factor = double_PtDot - double_K;
-            return new Point3D(point3D.X - (normal.X * double_Factor), point3D.Y - (normal.Y * double_Factor), point3D.Z - (normal.Z * double_Factor));
+
+            return new Point3D(double_Px - (double_Nx * double_Factor), double_Py - (double_Ny * double_Factor), double_Pz - (double_Nz * double_Factor));
         }
 
         /// <summary>
@@ -305,12 +319,31 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns>A <see cref="bool"/> value indicating whether the planes are coplanar.</returns>
         public bool Coplanar(Plane? plane, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
-            if (plane?.normal is null || normal is null)
+            if (plane?.normal is null || normal is null || plane.origin is null || origin is null)
             {
                 return false;
             }
 
-            return normal.AlmostEquals(plane?.normal, tolerance) || normal.AlmostEquals(-plane?.normal, tolerance);
+            double double_N1x = normal.X;
+            double double_N1y = normal.Y;
+            double double_N1z = normal.Z;
+
+            double double_N2x = plane.normal.X;
+            double double_N2y = plane.normal.Y;
+            double double_N2z = plane.normal.Z;
+
+            double double_Dot = double_N1x * double_N2x + double_N1y * double_N2y + double_N1z * double_N2z;
+            if (System.Math.Abs(System.Math.Abs(double_Dot) - 1.0) > tolerance)
+            {
+                return false;
+            }
+
+            double double_Dx = plane.origin.X - origin.X;
+            double double_Dy = plane.origin.Y - origin.Y;
+            double double_Dz = plane.origin.Z - origin.Z;
+            double double_Distance = System.Math.Abs(double_Dx * double_N1x + double_Dy * double_N1y + double_Dz * double_N1z);
+
+            return double_Distance <= tolerance;
         }
 
         /// <summary>
