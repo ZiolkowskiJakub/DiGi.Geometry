@@ -7574,7 +7574,7 @@ A new [BoundingBox2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Class
 
 ## Segment2D\.GetHashCode\(\) Method
 
-Gets the hash code for this segment\.
+Gets the hash code for this segment based on its start point and vector coordinates\.
 
 ```csharp
 public override int GetHashCode();

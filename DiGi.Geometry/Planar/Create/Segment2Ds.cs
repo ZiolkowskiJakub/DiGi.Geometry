@@ -42,12 +42,17 @@ namespace DiGi.Geometry.Planar
                     continue;
                 }
 
-                segment2Ds_Result.Add(new Segment2D(new Point2D(point2D_1), new Point2D(point2D_2)));
+                segment2Ds_Result.Add(new Segment2D(point2D_1, point2D_2));
             }
 
-            if (closed)
+            if (closed && segment2Ds_Result.Count > 0)
             {
-                segment2Ds_Result.Add(new Segment2D(new Point2D(segment2Ds_Result[segment2Ds_Result.Count - 1][1]), new Point2D(segment2Ds_Result[0][0])));
+                Point2D? lastEnd = segment2Ds_Result[segment2Ds_Result.Count - 1].End;
+                Point2D? firstStart = segment2Ds_Result[0].Start;
+                if (lastEnd is not null && firstStart is not null)
+                {
+                    segment2Ds_Result.Add(new Segment2D(lastEnd, firstStart));
+                }
             }
 
             return segment2Ds_Result;

@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 
 namespace DiGi.Geometry.Planar
 {
@@ -19,47 +19,34 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Point2D? start = segment2D.Start;
-            if (start is null)
-            {
-                return null;
-            }
-
-            Point2D? end = segment2D.End;
-            if (end is null)
+            if (!segment2D.TryGetCoordinates(out double x1, out double y1, out double x2, out double y2))
             {
                 return null;
             }
 
             if (!extendStart && !extendEnd)
             {
-                return new(segment2D);
+                return new Segment2D(segment2D);
             }
 
-            Vector2D? direction = segment2D.Direction;
-            if (direction is null)
+            double dx = x2 - x1;
+            double dy = y2 - y1;
+            double length = System.Math.Sqrt(dx * dx + dy * dy);
+
+            if (length == 0.0)
             {
-                return null;
+                return new Segment2D(segment2D);
             }
 
-            Vector2D? vector2D = segment2D.Direction * distance;
-            if (vector2D is null)
-            {
-                return null;
-            }
+            double ux = (dx / length) * distance;
+            double uy = (dy / length) * distance;
 
-            if (extendEnd)
-            {
-                end.Move(vector2D);
-            }
+            double newX1 = extendStart ? x1 - ux : x1;
+            double newY1 = extendStart ? y1 - uy : y1;
+            double newX2 = extendEnd ? x2 + ux : x2;
+            double newY2 = extendEnd ? y2 + uy : y2;
 
-            if (extendStart)
-            {
-                vector2D.Inverse();
-                start.Move(vector2D);
-            }
-
-            return new(start, end);
+            return new Segment2D(newX1, newY1, newX2, newY2);
         }
     }
 }

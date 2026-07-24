@@ -13,7 +13,10 @@ namespace DiGi.Geometry.Planar.Classes
     /// </summary>
     public class Segment2D : Geometry2D, ISegmentable2D, ILinear2D, ISegment<Point2D>
     {
+        [JsonInclude, JsonPropertyName(nameof(Start))]
         private Point2D? start;
+
+        [JsonInclude, JsonPropertyName(nameof(Vector))]
         private Vector2D? vector;
 
         /// <summary>
@@ -25,8 +28,8 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="y_2">The Y coordinate of the end point.</param>
         public Segment2D(double x_1, double y_1, double x_2, double y_2)
         {
-            start = new(x_1, y_1);
-            vector = new(start, new Point2D(x_2, y_2));
+            start = new Point2D(x_1, y_1);
+            vector = new Vector2D(x_2 - x_1, y_2 - y_1);
         }
 
         /// <summary>
@@ -36,8 +39,8 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="vector">The vector defining the direction and length of the segment.</param>
         public Segment2D(Point2D? start, Vector2D? vector)
         {
-            this.start = start?.Clone<Point2D>();
-            this.vector = vector?.Clone<Vector2D>();
+            this.start = start is null ? null : new Point2D(start);
+            this.vector = vector is null ? null : new Vector2D(vector);
         }
 
         /// <summary>
@@ -47,10 +50,10 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="end">The end point of the segment.</param>
         public Segment2D(Point2D? start, Point2D? end)
         {
-            if (start != null && end != null)
+            if (start is not null && end is not null)
             {
-                this.start = start?.Clone<Point2D>();
-                vector = new(start, end);
+                this.start = new Point2D(start);
+                vector = new Vector2D(start, end);
             }
         }
 
@@ -59,8 +62,13 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="segment2D">The source segment to clone.</param>
         public Segment2D(Segment2D? segment2D)
-            : this(segment2D?.start, segment2D?.vector)
+            : base(segment2D)
         {
+            if (segment2D is not null)
+            {
+                start = segment2D.start is null ? null : new Point2D(segment2D.start);
+                vector = segment2D.vector is null ? null : new Vector2D(segment2D.vector);
+            }
         }
 
         /// <summary>
@@ -85,7 +93,16 @@ namespace DiGi.Geometry.Planar.Classes
 
             set
             {
-                vector = value?.Unit * Length;
+                if (value is null || vector is null)
+                {
+                    return;
+                }
+
+                double length = vector.Length;
+                if (!double.IsNaN(length))
+                {
+                    vector = value.Unit * length;
+                }
             }
         }
 
@@ -97,20 +114,17 @@ namespace DiGi.Geometry.Planar.Classes
         {
             get
             {
-                if (vector is null || start == null)
+                if (vector is null || start is null)
                 {
                     return null;
                 }
 
-                Point2D result = new(start);
-                result.Move(vector);
-
-                return result;
+                return new Point2D(start.X + vector.X, start.Y + vector.Y);
             }
 
             set
             {
-                if (value == null || start == null)
+                if (value is null || start is null)
                 {
                     return;
                 }
@@ -137,7 +151,16 @@ namespace DiGi.Geometry.Planar.Classes
 
             set
             {
-                vector = Direction * value;
+                if (vector is null)
+                {
+                    return;
+                }
+
+                Vector2D? unit = vector.Unit;
+                if (unit is not null)
+                {
+                    vector = unit * value;
+                }
             }
         }
 
@@ -161,34 +184,34 @@ namespace DiGi.Geometry.Planar.Classes
         /// <summary>
         /// Gets or sets the start point of the segment.
         /// </summary>
-        [JsonPropertyName("Start")]
+        [JsonIgnore]
         public Point2D? Start
         {
             get
             {
-                return start?.Clone<Point2D>();
+                return start is null ? null : new Point2D(start);
             }
 
             set
             {
-                start = value?.Clone<Point2D>();
+                start = value is null ? null : new Point2D(value);
             }
         }
 
         /// <summary>
         /// Gets or sets the vector defining the segment.
         /// </summary>
-        [JsonPropertyName("Vector")]
+        [JsonIgnore]
         public Vector2D? Vector
         {
             get
             {
-                return vector?.Clone<Vector2D>();
+                return vector is null ? null : new Vector2D(vector);
             }
 
             set
             {
-                vector = value?.Clone<Vector2D>();
+                vector = value is null ? null : new Vector2D(value);
             }
         }
 
@@ -217,7 +240,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>A new Segment2D instance.</returns>
         public static implicit operator Segment2D?(((double x, double y), (double x, double y)) @object)
         {
-            return new Segment2D(new Point2D(@object.Item1.x, @object.Item1.y), new Point2D(@object.Item2.x, @object.Item2.y));
+            return new Segment2D(@object.Item1.x, @object.Item1.y, @object.Item2.x, @object.Item2.y);
         }
 
         /// <summary>
@@ -249,22 +272,17 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the segments have the same start point and vector; otherwise, false.</returns>
         public static bool operator ==(Segment2D? segment2D_1, Segment2D? segment2D_2)
         {
-            if (segment2D_1 is null && segment2D_2 is null)
+            if (ReferenceEquals(segment2D_1, segment2D_2))
             {
                 return true;
             }
 
-            if (segment2D_1?.start is not Point2D start)
+            if (segment2D_1 is null || segment2D_2 is null)
             {
                 return false;
             }
 
-            if (segment2D_1?.vector is not Vector2D vector)
-            {
-                return false;
-            }
-
-            return start.Equals(segment2D_2?.start) && vector.Equals(segment2D_2.vector);
+            return segment2D_1.start == segment2D_2.start && segment2D_1.vector == segment2D_2.vector;
         }
 
         /// <summary>
@@ -294,21 +312,21 @@ namespace DiGi.Geometry.Planar.Classes
             double double_Cx = vector.X;
             double double_Cy = vector.Y;
 
-            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy;
             double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy;
-
-            double double_Parameter = -1;
-            if (double_SquareLength != 0.0)
+            if (double_SquareLength == 0.0)
             {
-                double_Parameter = double_Dot / double_SquareLength;
+                return new Point2D(start.X, start.Y);
             }
 
-            if (double_Parameter < 0.0)
+            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy;
+            double double_Parameter = double_Dot / double_SquareLength;
+
+            if (double_Parameter <= 0.0)
             {
-                return new Point2D(start);
+                return new Point2D(start.X, start.Y);
             }
 
-            if (double_Parameter > 1.0)
+            if (double_Parameter >= 1.0)
             {
                 return new Point2D(start.X + double_Cx, start.Y + double_Cy);
             }
@@ -345,24 +363,24 @@ namespace DiGi.Geometry.Planar.Classes
             double double_Cx = vector.X;
             double double_Cy = vector.Y;
 
-            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy;
             double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy;
-
-            double double_Parameter = -1.0;
-            if (double_SquareLength != 0.0)
+            if (double_SquareLength == 0.0)
             {
-                double_Parameter = double_Dot / double_SquareLength;
+                return System.Math.Sqrt(double_Ax * double_Ax + double_Ay * double_Ay);
             }
+
+            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy;
+            double double_Parameter = double_Dot / double_SquareLength;
 
             double double_Dx;
             double double_Dy;
 
-            if (double_Parameter < 0.0)
+            if (double_Parameter <= 0.0)
             {
                 double_Dx = double_Ax;
                 double_Dy = double_Ay;
             }
-            else if (double_Parameter > 1.0)
+            else if (double_Parameter >= 1.0)
             {
                 double_Dx = point2D.X - (start.X + double_Cx);
                 double_Dy = point2D.Y - (start.Y + double_Cy);
@@ -383,23 +401,17 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the objects are equal; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
-            Segment2D? segment2D = obj as Segment2D;
-            if (segment2D == null)
+            if (obj is not Segment2D segment2D)
             {
                 return false;
             }
 
-            if (segment2D.start is null && start is null && segment2D.vector is null && vector is null)
+            if (ReferenceEquals(this, segment2D))
             {
                 return true;
             }
 
-            if (segment2D.start is null || start is null || segment2D.vector is null || vector is null)
-            {
-                return false;
-            }
-
-            return segment2D.start.Equals(start) && segment2D.vector.Equals(vector);
+            return start == segment2D.start && vector == segment2D.vector;
         }
 
         /// <summary>
@@ -418,19 +430,52 @@ namespace DiGi.Geometry.Planar.Classes
             double x_End = x_Start + vector.X;
             double y_End = y_Start + vector.Y;
 
-            return new BoundingBox2D(x_Start < x_End ? x_Start : x_End, y_Start < y_End ? y_Start : y_End, x_Start < x_End ? x_End : x_Start, y_Start < y_End ? y_End : y_Start, true);
+            double minX, maxX, minY, maxY;
+            if (x_Start < x_End)
+            {
+                minX = x_Start;
+                maxX = x_End;
+            }
+            else
+            {
+                minX = x_End;
+                maxX = x_Start;
+            }
+
+            if (y_Start < y_End)
+            {
+                minY = y_Start;
+                maxY = y_End;
+            }
+            else
+            {
+                minY = y_End;
+                maxY = y_Start;
+            }
+
+            return new BoundingBox2D(minX, minY, maxX, maxY, true);
         }
 
         /// <summary>
-        /// Gets the hash code for this segment.
+        /// Gets the hash code for this segment based on its start point and vector coordinates.
         /// </summary>
         /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode()
         {
-            int hashCode = 1695988409;
-            hashCode = hashCode * -1521134295 + EqualityComparer<Point2D?>.Default.GetHashCode(start);
-            hashCode = hashCode * -1521134295 + EqualityComparer<Vector2D?>.Default.GetHashCode(vector);
-            return hashCode;
+            if (start is null || vector is null)
+            {
+                return 0;
+            }
+
+            unchecked
+            {
+                int hashCode = 1695988409;
+                hashCode = hashCode * -1521134295 + start.X.GetHashCode();
+                hashCode = hashCode * -1521134295 + start.Y.GetHashCode();
+                hashCode = hashCode * -1521134295 + vector.X.GetHashCode();
+                hashCode = hashCode * -1521134295 + vector.Y.GetHashCode();
+                return hashCode;
+            }
         }
 
         /// <summary>
@@ -439,12 +484,12 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>A list of two points, or null if endpoints are missing.</returns>
         public List<Point2D>? GetPoints()
         {
-            if (Start is not Point2D start || End is not Point2D end)
+            if (start is null || vector is null)
             {
                 return null;
             }
 
-            return [start, end];
+            return [new Point2D(start.X, start.Y), new Point2D(start.X + vector.X, start.Y + vector.Y)];
         }
 
         /// <summary>
@@ -453,7 +498,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>A list of one <see cref="Segment2D"/>.</returns>
         public List<Segment2D>? GetSegments()
         {
-            return [new(this)];
+            return [new Segment2D(this)];
         }
 
         /// <summary>
@@ -475,7 +520,7 @@ namespace DiGi.Geometry.Planar.Classes
             double double_Dy34 = segment2D.vector.Y;
 
             double double_Denominator = double_Dy12 * double_Dx34 - double_Dx12 * double_Dy34;
-            if (double.IsNaN(double_Denominator) || System.Math.Abs(double_Denominator) < tolerance)
+            if (double.IsNaN(double_Denominator) || System.Math.Abs(double_Denominator) < 1e-12)
             {
                 return null;
             }
@@ -491,9 +536,9 @@ namespace DiGi.Geometry.Planar.Classes
             double double_T1Temp = DiGi.Core.Query.Round(double_T1, tolerance);
             double double_T2Temp = DiGi.Core.Query.Round(double_T2, tolerance);
 
-            if (((double_T1Temp >= -tolerance) && (double_T1Temp <= 1.0 + tolerance) && (double_T2Temp >= -tolerance) && (double_T2Temp <= 1.0 + tolerance)))
+            if (double_T1Temp >= -tolerance && double_T1Temp <= 1.0 + tolerance && double_T2Temp >= -tolerance && double_T2Temp <= 1.0 + tolerance)
             {
-                return new(start.X + double_Dx12 * double_T1, start.Y + double_Dy12 * double_T1);
+                return new Point2D(start.X + double_Dx12 * double_T1, start.Y + double_Dy12 * double_T1);
             }
 
             return null;
@@ -505,13 +550,13 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if inversion was successful; otherwise, false.</returns>
         public bool Inverse()
         {
-            if (End is not Point2D end || vector is null)
+            if (start is null || vector is null)
             {
                 return false;
             }
 
+            start = new Point2D(start.X + vector.X, start.Y + vector.Y);
             vector.Inverse();
-            start = end;
 
             return true;
         }
@@ -527,7 +572,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            return start.Mid(End);
+            return new Point2D(start.X + 0.5 * vector.X, start.Y + 0.5 * vector.Y);
         }
 
         /// <summary>
@@ -625,15 +670,15 @@ namespace DiGi.Geometry.Planar.Classes
             double double_Cx = vector.X;
             double double_Cy = vector.Y;
 
-            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy;
             double double_SquareLength = double_Cx * double_Cx + double_Cy * double_Cy;
-
             if (double_SquareLength == 0.0)
             {
-                return new Point2D(start);
+                return new Point2D(start.X, start.Y);
             }
 
+            double double_Dot = double_Ax * double_Cx + double_Ay * double_Cy;
             double double_Parameter = double_Dot / double_SquareLength;
+
             return new Point2D(start.X + double_Parameter * double_Cx, start.Y + double_Parameter * double_Cy);
         }
 
@@ -675,13 +720,8 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            double double_StartX = start.X;
-            double double_StartY = start.Y;
-            double double_EndX = start.X + vector.X;
-            double double_EndY = start.Y + vector.Y;
-
-            Point2D point2D_StartClone = new(double_StartX, double_StartY);
-            Point2D point2D_EndClone = new(double_EndX, double_EndY);
+            Point2D point2D_StartClone = new(start.X, start.Y);
+            Point2D point2D_EndClone = new(start.X + vector.X, start.Y + vector.Y);
 
             if (!point2D_StartClone.Transform(transform))
             {

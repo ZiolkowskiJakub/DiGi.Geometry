@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using System;
@@ -59,13 +59,13 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Point2D? point2D_1 = Transform(segment2D[0], func);
+            Point2D? point2D_1 = Transform(segment2D.Start, func);
             if (point2D_1 == null)
             {
                 return null;
             }
 
-            Point2D? point2D_2 = Transform(segment2D[1], func);
+            Point2D? point2D_2 = Transform(segment2D.End, func);
             if (point2D_2 == null)
             {
                 return null;
