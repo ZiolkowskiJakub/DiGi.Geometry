@@ -70,7 +70,7 @@ namespace DiGi.Geometry.Planar
                         }
                     }
                 }
-                else if (geometry_Current is NetTopologySuite.Geometries.Point point)
+                else if (geometry_Current is Point point)
                 {
                     result.Add(point.ToDiGi());
                 }

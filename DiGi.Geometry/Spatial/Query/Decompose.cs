@@ -36,7 +36,7 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            DiGi.Math.Classes.Matrix4D? matrix4D_Rot = Math.Create.Matrix4D.Identity();
+            Math.Classes.Matrix4D? matrix4D_Rot = Math.Create.Matrix4D.Identity();
             if (matrix4D_Rot is null)
             {
                 return false;
