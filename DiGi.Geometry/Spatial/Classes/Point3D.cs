@@ -59,6 +59,79 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
+        /// Indicates whether two <see cref="Point3D"/> instances are not equal.
+        /// </summary>
+        /// <param name="point3D_1">The first <see cref="Point3D"/> to compare.</param>
+        /// <param name="point3D_2">The second <see cref="Point3D"/> to compare.</param>
+        /// <returns><see langword="true"/> if the points are not equal; otherwise, <see langword="false"/>.</returns>
+        public static bool operator !=(Point3D? point3D_1, Point3D? point3D_2)
+        {
+            if (ReferenceEquals(point3D_1, point3D_2))
+            {
+                return false;
+            }
+
+            if (point3D_1 is null || point3D_2 is null)
+            {
+                return true;
+            }
+
+            return point3D_1.values[0] != point3D_2.values[0] || point3D_1.values[1] != point3D_2.values[1] || point3D_1.values[2] != point3D_2.values[2];
+        }
+
+        /// <summary>
+        /// Indicates whether two <see cref="Point3D"/> instances are equal.
+        /// </summary>
+        /// <param name="point3D_1">The first <see cref="Point3D"/> to compare.</param>
+        /// <param name="point3D_2">The second <see cref="Point3D"/> to compare.</param>
+        /// <returns><see langword="true"/> if the points are equal; otherwise, <see langword="false"/>.</returns>
+        public static bool operator ==(Point3D? point3D_1, Point3D? point3D_2)
+        {
+            if (ReferenceEquals(point3D_1, point3D_2))
+            {
+                return true;
+            }
+
+            if (point3D_1 is null || point3D_2 is null)
+            {
+                return false;
+            }
+
+            return point3D_1.values[0] == point3D_2.values[0] && point3D_1.values[1] == point3D_2.values[1] && point3D_1.values[2] == point3D_2.values[2];
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="Point3D"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="object"/> to compare with the current instance.</param>
+        /// <returns><see langword="true"/> if the specified <see cref="object"/> is a <see cref="Point3D"/> with equal component values; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Point3D point3D)
+            {
+                return false;
+            }
+
+            return values[0] == point3D.values[0] && values[1] == point3D.values[1] && values[2] == point3D.values[2];
+        }
+
+        /// <summary>
+        /// Returns a hash code for the current <see cref="Point3D"/>.
+        /// </summary>
+        /// <returns>An <see cref="int"/> hash code.</returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = 19;
+                hashCode = hashCode * 31 + values[0].GetHashCode();
+                hashCode = hashCode * 31 + values[1].GetHashCode();
+                hashCode = hashCode * 31 + values[2].GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
         /// Creates a copy of the current instance.
         /// </summary>
         /// <returns>A new <see cref="ISerializableObject"/> that is a clone of the current instance, or <see langword="null"/>.</returns>

@@ -4940,6 +4940,27 @@ The [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Poi
 [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
 The distance as a [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double'), or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if the provided [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') is null\.
 
+<a name='DiGi.Geometry.Spatial.Classes.Point3D.Equals(object)'></a>
+
+## Point3D\.Equals\(object\) Method
+
+Determines whether the specified [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') is equal to the current [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')\.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.Point3D.Equals(object).obj'></a>
+
+`obj` [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object')
+
+The [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') to compare with the current instance\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') if the specified [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') is a [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') with equal component values; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
 <a name='DiGi.Geometry.Spatial.Classes.Point3D.GetAbs()'></a>
 
 ## Point3D\.GetAbs\(\) Method
@@ -4953,6 +4974,20 @@ public DiGi.Geometry.Spatial.Classes.Point3D GetAbs();
 #### Returns
 [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')  
 A new [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') object with absolute coordinate values\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Point3D.GetHashCode()'></a>
+
+## Point3D\.GetHashCode\(\) Method
+
+Returns a hash code for the current [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')\.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')  
+An [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32') hash code\.
 
 <a name='DiGi.Geometry.Spatial.Classes.Point3D.GetMoved(DiGi.Geometry.Spatial.Classes.Vector3D)'></a>
 
@@ -5056,6 +5091,60 @@ The [Vector3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Ve
 #### Returns
 [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')  
 A new [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') resulting from the addition, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if either input is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null')\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Point3D.op_Equality(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D)'></a>
+
+## Point3D\.operator ==\(Point3D, Point3D\) Operator
+
+Indicates whether two [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') instances are equal\.
+
+```csharp
+public static bool operator ==(DiGi.Geometry.Spatial.Classes.Point3D? point3D_1, DiGi.Geometry.Spatial.Classes.Point3D? point3D_2);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.Point3D.op_Equality(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D).point3D_1'></a>
+
+`point3D_1` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+The first [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') to compare\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Point3D.op_Equality(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D).point3D_2'></a>
+
+`point3D_2` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+The second [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') to compare\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') if the points are equal; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Point3D.op_Inequality(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D)'></a>
+
+## Point3D\.operator \!=\(Point3D, Point3D\) Operator
+
+Indicates whether two [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') instances are not equal\.
+
+```csharp
+public static bool operator !=(DiGi.Geometry.Spatial.Classes.Point3D? point3D_1, DiGi.Geometry.Spatial.Classes.Point3D? point3D_2);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.Point3D.op_Inequality(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D).point3D_1'></a>
+
+`point3D_1` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+The first [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') to compare\.
+
+<a name='DiGi.Geometry.Spatial.Classes.Point3D.op_Inequality(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D).point3D_2'></a>
+
+`point3D_2` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+The second [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D') to compare\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') if the points are not equal; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
 
 <a name='DiGi.Geometry.Spatial.Classes.Point3D.op_Subtraction(DiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D)'></a>
 

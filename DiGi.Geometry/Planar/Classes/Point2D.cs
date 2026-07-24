@@ -58,6 +58,78 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
+        /// Indicates whether two <see cref="Point2D"/> instances are not equal.
+        /// </summary>
+        /// <param name="point2D_1">The first <see cref="Point2D"/> to compare.</param>
+        /// <param name="point2D_2">The second <see cref="Point2D"/> to compare.</param>
+        /// <returns><see langword="true"/> if the points are not equal; otherwise, <see langword="false"/>.</returns>
+        public static bool operator !=(Point2D? point2D_1, Point2D? point2D_2)
+        {
+            if (ReferenceEquals(point2D_1, point2D_2))
+            {
+                return false;
+            }
+
+            if (point2D_1 is null || point2D_2 is null)
+            {
+                return true;
+            }
+
+            return point2D_1.values[0] != point2D_2.values[0] || point2D_1.values[1] != point2D_2.values[1];
+        }
+
+        /// <summary>
+        /// Indicates whether two <see cref="Point2D"/> instances are equal.
+        /// </summary>
+        /// <param name="point2D_1">The first <see cref="Point2D"/> to compare.</param>
+        /// <param name="point2D_2">The second <see cref="Point2D"/> to compare.</param>
+        /// <returns><see langword="true"/> if the points are equal; otherwise, <see langword="false"/>.</returns>
+        public static bool operator ==(Point2D? point2D_1, Point2D? point2D_2)
+        {
+            if (ReferenceEquals(point2D_1, point2D_2))
+            {
+                return true;
+            }
+
+            if (point2D_1 is null || point2D_2 is null)
+            {
+                return false;
+            }
+
+            return point2D_1.values[0] == point2D_2.values[0] && point2D_1.values[1] == point2D_2.values[1];
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="Point2D"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="object"/> to compare with the current instance.</param>
+        /// <returns><see langword="true"/> if the specified <see cref="object"/> is a <see cref="Point2D"/> with equal component values; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Point2D point2D)
+            {
+                return false;
+            }
+
+            return values[0] == point2D.values[0] && values[1] == point2D.values[1];
+        }
+
+        /// <summary>
+        /// Returns a hash code for the current <see cref="Point2D"/>.
+        /// </summary>
+        /// <returns>An <see cref="int"/> hash code.</returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = 19;
+                hashCode = hashCode * 31 + values[0].GetHashCode();
+                hashCode = hashCode * 31 + values[1].GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
         /// Subtracts a vector from a point to produce a new point.
         /// </summary>
         /// <param name="point2D">The origin point.</param>

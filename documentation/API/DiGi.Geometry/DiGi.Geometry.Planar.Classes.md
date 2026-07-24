@@ -4461,6 +4461,27 @@ The other point\.
 [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
 The distance result, or NaN if the input is null\.
 
+<a name='DiGi.Geometry.Planar.Classes.Point2D.Equals(object)'></a>
+
+## Point2D\.Equals\(object\) Method
+
+Determines whether the specified [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') is equal to the current [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')\.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Point2D.Equals(object).obj'></a>
+
+`obj` [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object')
+
+The [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') to compare with the current instance\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') if the specified [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') is a [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') with equal component values; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
 <a name='DiGi.Geometry.Planar.Classes.Point2D.GetAbs()'></a>
 
 ## Point2D\.GetAbs\(\) Method
@@ -4474,6 +4495,20 @@ public DiGi.Geometry.Planar.Classes.Point2D? GetAbs();
 #### Returns
 [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')  
 A new [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') with absolute coordinate values\.
+
+<a name='DiGi.Geometry.Planar.Classes.Point2D.GetHashCode()'></a>
+
+## Point2D\.GetHashCode\(\) Method
+
+Returns a hash code for the current [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')\.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')  
+An [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32') hash code\.
 
 <a name='DiGi.Geometry.Planar.Classes.Point2D.GetMoved(DiGi.Geometry.Planar.Classes.Vector2D)'></a>
 
@@ -4577,6 +4612,60 @@ The translation vector\.
 #### Returns
 [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')  
 A new Point2D shifted by the vector, or null if either input is null\.
+
+<a name='DiGi.Geometry.Planar.Classes.Point2D.op_Equality(DiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D)'></a>
+
+## Point2D\.operator ==\(Point2D, Point2D\) Operator
+
+Indicates whether two [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') instances are equal\.
+
+```csharp
+public static bool operator ==(DiGi.Geometry.Planar.Classes.Point2D? point2D_1, DiGi.Geometry.Planar.Classes.Point2D? point2D_2);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Point2D.op_Equality(DiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D).point2D_1'></a>
+
+`point2D_1` [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The first [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') to compare\.
+
+<a name='DiGi.Geometry.Planar.Classes.Point2D.op_Equality(DiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D).point2D_2'></a>
+
+`point2D_2` [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The second [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') to compare\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') if the points are equal; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
+<a name='DiGi.Geometry.Planar.Classes.Point2D.op_Inequality(DiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D)'></a>
+
+## Point2D\.operator \!=\(Point2D, Point2D\) Operator
+
+Indicates whether two [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') instances are not equal\.
+
+```csharp
+public static bool operator !=(DiGi.Geometry.Planar.Classes.Point2D? point2D_1, DiGi.Geometry.Planar.Classes.Point2D? point2D_2);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Point2D.op_Inequality(DiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D).point2D_1'></a>
+
+`point2D_1` [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The first [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') to compare\.
+
+<a name='DiGi.Geometry.Planar.Classes.Point2D.op_Inequality(DiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D).point2D_2'></a>
+
+`point2D_2` [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The second [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') to compare\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') if the points are not equal; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
 
 <a name='DiGi.Geometry.Planar.Classes.Point2D.op_Subtraction(DiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Vector2D)'></a>
 

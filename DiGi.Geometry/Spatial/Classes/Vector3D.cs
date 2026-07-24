@@ -85,14 +85,16 @@ namespace DiGi.Geometry.Spatial.Classes
             }
             set
             {
-                Vector3D? vector3D = Unit;
-                vector3D?.Scale(value);
-                if (vector3D is not null)
+                double length = Length;
+                if (length == 0 || double.IsNaN(length))
                 {
-                    values[0] = vector3D.values[0];
-                    values[1] = vector3D.values[1];
-                    values[2] = vector3D.values[2];
+                    return;
                 }
+
+                double factor = value / length;
+                values[0] *= factor;
+                values[1] *= factor;
+                values[2] *= factor;
             }
         }
 
@@ -196,7 +198,17 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <returns><see langword="true"/> if the vectors are not equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator !=(Vector3D? vector3D_1, Vector3D? vector3D_2)
         {
-            return vector3D_1?.values[0] != vector3D_2?.values[0] || vector3D_1?.values[1] != vector3D_2?.values[1] || vector3D_1?.values[2] != vector3D_2?.values[2];
+            if (ReferenceEquals(vector3D_1, vector3D_2))
+            {
+                return false;
+            }
+
+            if (vector3D_1 is null || vector3D_2 is null)
+            {
+                return true;
+            }
+
+            return vector3D_1.values[0] != vector3D_2.values[0] || vector3D_1.values[1] != vector3D_2.values[1] || vector3D_1.values[2] != vector3D_2.values[2];
         }
 
         /// <summary>
@@ -422,13 +434,13 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         public void Normalize()
         {
-            double length = Length;
-            if (length == 0 || double.IsNaN(length))
+            double squaredLength = SquaredLength;
+            if (squaredLength == 0 || double.IsNaN(squaredLength))
             {
                 return;
             }
 
-            double invLength = 1.0 / length;
+            double invLength = 1.0 / System.Math.Sqrt(squaredLength);
             values[0] *= invLength;
             values[1] *= invLength;
             values[2] *= invLength;

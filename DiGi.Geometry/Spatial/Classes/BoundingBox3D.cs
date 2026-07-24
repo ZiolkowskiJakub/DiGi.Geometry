@@ -327,30 +327,34 @@ namespace DiGi.Geometry.Spatial.Classes
                 return true;
             }
 
-            if (point3D.X < min.X)
+            double px = point3D.X;
+            double py = point3D.Y;
+            double pz = point3D.Z;
+
+            if (px < min.X)
             {
-                min.X = point3D.X;
+                min.X = px;
             }
-            if (point3D.Y < min.Y)
+            if (py < min.Y)
             {
-                min.Y = point3D.Y;
+                min.Y = py;
             }
-            if (point3D.Z < min.Z)
+            if (pz < min.Z)
             {
-                min.Z = point3D.Z;
+                min.Z = pz;
             }
 
-            if (point3D.X > max.X)
+            if (px > max.X)
             {
-                max.X = point3D.X;
+                max.X = px;
             }
-            if (point3D.Y > max.Y)
+            if (py > max.Y)
             {
-                max.Y = point3D.Y;
+                max.Y = py;
             }
-            if (point3D.Z > max.Z)
+            if (pz > max.Z)
             {
-                max.Z = point3D.Z;
+                max.Z = pz;
             }
 
             return true;

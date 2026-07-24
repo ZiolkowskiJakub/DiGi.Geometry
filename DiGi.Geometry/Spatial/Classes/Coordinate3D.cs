@@ -160,21 +160,19 @@ namespace DiGi.Geometry.Spatial.Classes
 
             if (transform is Transform3D transform3D)
             {
-                Matrix4D? matrix4D = transform3D.Matrix4D;
-                if (matrix4D == null)
+                double m00 = transform3D[0, 0];
+                if (double.IsNaN(m00))
                 {
                     return false;
                 }
 
-                Matrix? matrix = matrix4D * ArgumentedMatrix;
-                if (matrix == null)
-                {
-                    return false;
-                }
+                double x = values[0];
+                double y = values[1];
+                double z = values[2];
 
-                values[0] = matrix[0, 0];
-                values[1] = matrix[1, 0];
-                values[2] = matrix[2, 0];
+                values[0] = m00 * x + transform3D[0, 1] * y + transform3D[0, 2] * z + transform3D[0, 3];
+                values[1] = transform3D[1, 0] * x + transform3D[1, 1] * y + transform3D[1, 2] * z + transform3D[1, 3];
+                values[2] = transform3D[2, 0] * x + transform3D[2, 1] * y + transform3D[2, 2] * z + transform3D[2, 3];
                 return true;
             }
 

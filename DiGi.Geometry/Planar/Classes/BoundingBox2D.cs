@@ -376,22 +376,25 @@ namespace DiGi.Geometry.Planar.Classes
                 return true;
             }
 
-            if (point2D.X < min.X)
+            double px = point2D.X;
+            double py = point2D.Y;
+
+            if (px < min.X)
             {
-                min.X = point2D.X;
+                min.X = px;
             }
-            if (point2D.Y < min.Y)
+            if (py < min.Y)
             {
-                min.Y = point2D.Y;
+                min.Y = py;
             }
 
-            if (point2D.X > max.X)
+            if (px > max.X)
             {
-                max.X = point2D.X;
+                max.X = px;
             }
-            if (point2D.Y > max.Y)
+            if (py > max.Y)
             {
-                max.Y = point2D.Y;
+                max.Y = py;
             }
 
             return true;
@@ -413,7 +416,47 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The closest point on the bounding box boundary.</returns>
         public Point2D? ClosestPoint(Point2D? point2D)
         {
-            return Query.ClosestPoint(point2D, GetSegments());
+            if (point2D == null || min == null || max == null)
+            {
+                return null;
+            }
+
+            double px = point2D.X;
+            double py = point2D.Y;
+
+            double minX = min.X;
+            double minY = min.Y;
+            double maxX = max.X;
+            double maxY = max.Y;
+
+            double cx = px < minX ? minX : px > maxX ? maxX : px;
+            double cy = py < minY ? minY : py > maxY ? maxY : py;
+
+            if (cx != px || cy != py)
+            {
+                return new Point2D(cx, cy);
+            }
+
+            double distLeft = px - minX;
+            double distRight = maxX - px;
+            double distBottom = py - minY;
+            double distTop = maxY - py;
+
+            double minDist = System.Math.Min(System.Math.Min(distLeft, distRight), System.Math.Min(distBottom, distTop));
+
+            if (minDist == distLeft)
+            {
+                return new Point2D(minX, py);
+            }
+            if (minDist == distBottom)
+            {
+                return new Point2D(px, minY);
+            }
+            if (minDist == distRight)
+            {
+                return new Point2D(maxX, py);
+            }
+            return new Point2D(px, maxY);
         }
 
         /// <summary>
@@ -423,7 +466,46 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The shortest distance to the boundary.</returns>
         public double Distance(Point2D? point2D)
         {
-            return Query.Distance(point2D, GetSegments());
+            if (point2D == null || min == null || max == null)
+            {
+                return double.NaN;
+            }
+
+            double px = point2D.X;
+            double py = point2D.Y;
+
+            double minX = min.X;
+            double minY = min.Y;
+            double maxX = max.X;
+            double maxY = max.Y;
+
+            double dx = 0;
+            double dy = 0;
+
+            if (px < minX)
+            {
+                dx = minX - px;
+            }
+            else if (px > maxX)
+            {
+                dx = px - maxX;
+            }
+
+            if (py < minY)
+            {
+                dy = minY - py;
+            }
+            else if (py > maxY)
+            {
+                dy = py - maxY;
+            }
+
+            if (dx == 0 && dy == 0)
+            {
+                return System.Math.Min(System.Math.Min(px - minX, maxX - px), System.Math.Min(py - minY, maxY - py));
+            }
+
+            return System.Math.Sqrt(dx * dx + dy * dy);
         }
 
         /// <summary>

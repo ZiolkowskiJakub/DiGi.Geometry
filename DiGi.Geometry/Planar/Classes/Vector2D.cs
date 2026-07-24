@@ -81,15 +81,15 @@ namespace DiGi.Geometry.Planar.Classes
             }
             set
             {
-                Vector2D? vector2D = Unit;
-                vector2D?.Scale(value);
-                if (vector2D is null)
+                double length = Length;
+                if (length == 0 || double.IsNaN(length))
                 {
                     return;
                 }
 
-                values[0] = vector2D.values[0];
-                values[1] = vector2D.values[1];
+                double factor = value / length;
+                values[0] *= factor;
+                values[1] *= factor;
             }
         }
 
@@ -179,7 +179,17 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>True if the vectors are different; otherwise, false.</returns>
         public static bool operator !=(Vector2D? vector2D_1, Vector2D? vector2D_2)
         {
-            return vector2D_1?.values[0] != vector2D_2?.values[0] || vector2D_1?.values[1] != vector2D_2?.values[1];
+            if (ReferenceEquals(vector2D_1, vector2D_2))
+            {
+                return false;
+            }
+
+            if (vector2D_1 is null || vector2D_2 is null)
+            {
+                return true;
+            }
+
+            return vector2D_1.values[0] != vector2D_2.values[0] || vector2D_1.values[1] != vector2D_2.values[1];
         }
 
         /// <summary>
@@ -292,27 +302,30 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>Angle in radians</returns>
         public double Angle(Vector2D? vector2D)
         {
-            Vector2D? unit = Unit;
-            if (unit is null)
+            if (vector2D is null)
             {
                 return double.NaN;
             }
 
-            //Get the dot product
-            double dotProduct = unit.DotProduct(vector2D?.Unit);
+            double dotProduct = DotProduct(vector2D);
+            double length = System.Math.Sqrt(SquaredLength * vector2D.SquaredLength);
 
-            //Clamp to prevent NaN error. Shouldn't need this in the first place, but there could be a rounding error issue.
-            if (dotProduct < -1)
+            if (length == 0 || double.IsNaN(length))
             {
-                dotProduct = -1;
-            }
-            else if (dotProduct > 1)
-            {
-                dotProduct = 1;
+                return double.NaN;
             }
 
-            //Calculate the angle. The output is in radians
-            return System.Math.Acos(dotProduct);
+            double cosAngle = dotProduct / length;
+            if (cosAngle < -1)
+            {
+                cosAngle = -1;
+            }
+            else if (cosAngle > 1)
+            {
+                cosAngle = 1;
+            }
+
+            return System.Math.Acos(cosAngle);
         }
 
         /// <summary>
@@ -426,13 +439,13 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         public void Normalize()
         {
-            double length = Length;
-            if (length == 0 || double.IsNaN(length))
+            double squaredLength = SquaredLength;
+            if (squaredLength == 0 || double.IsNaN(squaredLength))
             {
                 return;
             }
 
-            double invLength = 1.0 / length;
+            double invLength = 1.0 / System.Math.Sqrt(squaredLength);
             values[0] *= invLength;
             values[1] *= invLength;
         }

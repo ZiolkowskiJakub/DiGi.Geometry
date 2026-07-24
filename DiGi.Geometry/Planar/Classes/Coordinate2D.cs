@@ -122,20 +122,17 @@ namespace DiGi.Geometry.Planar.Classes
 
             if (transform is Transform2D transform2D)
             {
-                Matrix3D? matrix3D = transform2D?.Matrix3D;
-                if (matrix3D == null)
+                double m00 = transform2D[0, 0];
+                if (double.IsNaN(m00))
                 {
                     return false;
                 }
 
-                Matrix? matrix = matrix3D * ArgumentedMatrix;
-                if (matrix == null)
-                {
-                    return false;
-                }
+                double x = values[0];
+                double y = values[1];
 
-                values[0] = matrix[0, 0];
-                values[1] = matrix[1, 0];
+                values[0] = m00 * x + transform2D[0, 1] * y + transform2D[0, 2];
+                values[1] = transform2D[1, 0] * x + transform2D[1, 1] * y + transform2D[1, 2];
                 return true;
             }
 
