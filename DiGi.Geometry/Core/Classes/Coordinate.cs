@@ -1,6 +1,8 @@
 using DiGi.Core.Classes;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Math.Classes;
+using System;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -14,18 +16,25 @@ namespace DiGi.Geometry.Core.Classes
         protected double[] values;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate"/> class with the specified internal values array length.
+        /// </summary>
+        /// <param name="length">The length of the values array.</param>
+        protected Coordinate(int length)
+        {
+            values = new double[length];
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Coordinate"/> class using a variable number of <see cref="double"/> values.
         /// </summary>
         /// <param name="values">An optional array of <see cref="double"/> values to initialize the coordinate.</param>
         public Coordinate(params double[]? values)
         {
-            if (values != null)
+            if (values != null && values.Length > 0)
             {
-                this.values = new double[values.Length];
-                for (int i = 0; i < values.Length; i++)
-                {
-                    this.values[i] = values[i];
-                }
+                int length = values.Length;
+                this.values = new double[length];
+                Array.Copy(values, this.values, length);
             }
             else
             {
@@ -50,8 +59,18 @@ namespace DiGi.Geometry.Core.Classes
         /// </summary>
         /// <param name="coordinate">The <see cref="Coordinate"/> instance to copy values from. This parameter can be null.</param>
         public Coordinate(Coordinate? coordinate)
-            : this(coordinate?.values)
         {
+            double[]? values_Source = coordinate?.values;
+            if (values_Source != null && values_Source.Length > 0)
+            {
+                int length = values_Source.Length;
+                values = new double[length];
+                Array.Copy(values_Source, values, length);
+            }
+            else
+            {
+                values = [];
+            }
         }
 
         /// <summary>
@@ -65,24 +84,32 @@ namespace DiGi.Geometry.Core.Classes
         {
             get
             {
-                if (values == null)
+                double[]? values_Local = values;
+                if (values_Local == null)
                 {
                     return null;
                 }
 
-                int length = values.Length;
+                int length = values_Local.Length;
+                if (length == 2)
+                {
+                    return new Matrix(new double[3, 1] { { values_Local[0] }, { values_Local[1] }, { 1 } });
+                }
+
+                if (length == 3)
+                {
+                    return new Matrix(new double[4, 1] { { values_Local[0] }, { values_Local[1] }, { values_Local[2] }, { 1 } });
+                }
 
                 double[,] values_Temp = new double[length + 1, 1];
                 for (int i = 0; i < length; i++)
                 {
-                    values_Temp[i, 0] = values[i];
+                    values_Temp[i, 0] = values_Local[i];
                 }
 
                 values_Temp[length, 0] = 1;
 
                 return new Matrix(values_Temp);
-
-                //return new Matrix(new double[,] { { coordinates[0] }, { coordinates[1] }, { coordinates[2] }, { 1 } });
             }
         }
 
@@ -94,11 +121,13 @@ namespace DiGi.Geometry.Core.Classes
         [JsonIgnore]
         public double this[int index]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 return values[index];
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 values[index] = value;
@@ -111,6 +140,7 @@ namespace DiGi.Geometry.Core.Classes
         /// <param name="coordinate_1">The first coordinate to compare.</param>
         /// <param name="coordinate_2">The second coordinate to compare.</param>
         /// <returns><see langword="true"/> if the coordinates are not equal; otherwise, <see langword="false"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Coordinate? coordinate_1, Coordinate? coordinate_2)
         {
             return !(coordinate_1 == coordinate_2);
@@ -124,15 +154,25 @@ namespace DiGi.Geometry.Core.Classes
         /// <returns><see langword="true"/> if the coordinates are equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator ==(Coordinate? coordinate_1, Coordinate? coordinate_2)
         {
-            if (coordinate_1?.GetType() != coordinate_2?.GetType())
+            if (ReferenceEquals(coordinate_1, coordinate_2))
+            {
+                return true;
+            }
+
+            if (coordinate_1 is null || coordinate_2 is null)
             {
                 return false;
             }
 
-            double[]? values_1 = coordinate_1?.values;
-            double[]? values_2 = coordinate_2?.values;
+            if (coordinate_1.GetType() != coordinate_2.GetType())
+            {
+                return false;
+            }
 
-            if (values_1 == values_2)
+            double[]? values_1 = coordinate_1.values;
+            double[]? values_2 = coordinate_2.values;
+
+            if (ReferenceEquals(values_1, values_2))
             {
                 return true;
             }
@@ -142,12 +182,23 @@ namespace DiGi.Geometry.Core.Classes
                 return false;
             }
 
-            if (values_1.Length != values_2.Length)
+            int length = values_1.Length;
+            if (length != values_2.Length)
             {
                 return false;
             }
 
-            for (int i = 0; i < values_1.Length; i++)
+            if (length == 2)
+            {
+                return values_1[0] == values_2[0] && values_1[1] == values_2[1];
+            }
+
+            if (length == 3)
+            {
+                return values_1[0] == values_2[0] && values_1[1] == values_2[1] && values_1[2] == values_2[2];
+            }
+
+            for (int i = 0; i < length; i++)
             {
                 if (values_1[i] != values_2[i])
                 {
@@ -161,11 +212,34 @@ namespace DiGi.Geometry.Core.Classes
         /// <summary>
         /// Computes the absolute value for each element in the values array.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Abs()
         {
-            for (int i = 0; i < values.Length; i++)
+            double[]? values_Local = values;
+            if (values_Local == null)
             {
-                values[i] = System.Math.Abs(values[i]);
+                return;
+            }
+
+            int length = values_Local.Length;
+            if (length == 2)
+            {
+                values_Local[0] = System.Math.Abs(values_Local[0]);
+                values_Local[1] = System.Math.Abs(values_Local[1]);
+                return;
+            }
+
+            if (length == 3)
+            {
+                values_Local[0] = System.Math.Abs(values_Local[0]);
+                values_Local[1] = System.Math.Abs(values_Local[1]);
+                values_Local[2] = System.Math.Abs(values_Local[2]);
+                return;
+            }
+
+            for (int i = 0; i < length; i++)
+            {
+                values_Local[i] = System.Math.Abs(values_Local[i]);
             }
         }
 
@@ -177,14 +251,14 @@ namespace DiGi.Geometry.Core.Classes
         /// <returns>A <see cref="bool"/> value indicating whether the coordinates are almost equal based on the specified tolerance.</returns>
         public bool AlmostEquals(Coordinate? coordinate, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
+            if (ReferenceEquals(this, coordinate))
+            {
+                return true;
+            }
+
             if (coordinate is null)
             {
                 return false;
-            }
-
-            if (this == coordinate)
-            {
-                return true;
             }
 
             if (coordinate.GetType() != GetType())
@@ -192,20 +266,41 @@ namespace DiGi.Geometry.Core.Classes
                 return false;
             }
 
-            double[]? values = coordinate.values;
-            if (this.values == values)
+            double[]? values_Other = coordinate.values;
+            double[]? values_Self = values;
+
+            if (ReferenceEquals(values_Self, values_Other))
             {
                 return true;
             }
 
-            if (values == null)
+            if (values_Self == null || values_Other == null)
             {
                 return false;
             }
 
-            for (int i = 0; i < values.Length; i++)
+            int length = values_Self.Length;
+            if (length != values_Other.Length)
             {
-                if (!DiGi.Core.Query.AlmostEquals(this.values[i], values[i], tolerance))
+                return false;
+            }
+
+            if (length == 2)
+            {
+                return DiGi.Core.Query.AlmostEquals(values_Self[0], values_Other[0], tolerance) &&
+                       DiGi.Core.Query.AlmostEquals(values_Self[1], values_Other[1], tolerance);
+            }
+
+            if (length == 3)
+            {
+                return DiGi.Core.Query.AlmostEquals(values_Self[0], values_Other[0], tolerance) &&
+                       DiGi.Core.Query.AlmostEquals(values_Self[1], values_Other[1], tolerance) &&
+                       DiGi.Core.Query.AlmostEquals(values_Self[2], values_Other[2], tolerance);
+            }
+
+            for (int i = 0; i < length; i++)
+            {
+                if (!DiGi.Core.Query.AlmostEquals(values_Self[i], values_Other[i], tolerance))
                 {
                     return false;
                 }
@@ -219,6 +314,7 @@ namespace DiGi.Geometry.Core.Classes
         /// </summary>
         /// <param name="object">The <see cref="object"/> to compare with the current instance.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the specified object is equal to the current instance.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override bool Equals(object? @object)
         {
             if (GetType() != @object?.GetType())
@@ -235,17 +331,36 @@ namespace DiGi.Geometry.Core.Classes
         /// <returns>An int representing the hash code of the current object.</returns>
         public override int GetHashCode()
         {
+            double[]? values_Local = values;
+            if (values_Local == null)
+            {
+                return -1;
+            }
+
+            int length = values_Local.Length;
             unchecked
             {
-                if (values == null)
+                if (length == 2)
                 {
-                    return -1;
+                    int result_2D = 19;
+                    result_2D = result_2D * 31 + values_Local[0].GetHashCode();
+                    result_2D = result_2D * 31 + values_Local[1].GetHashCode();
+                    return result_2D;
+                }
+
+                if (length == 3)
+                {
+                    int result_3D = 19;
+                    result_3D = result_3D * 31 + values_Local[0].GetHashCode();
+                    result_3D = result_3D * 31 + values_Local[1].GetHashCode();
+                    result_3D = result_3D * 31 + values_Local[2].GetHashCode();
+                    return result_3D;
                 }
 
                 int result = 19;
-                for (int i = 0; i < values.Length; i++)
+                for (int i = 0; i < length; i++)
                 {
-                    result = result * 31 + values[i].GetHashCode();
+                    result = result * 31 + values_Local[i].GetHashCode();
                 }
                 return result;
             }
@@ -255,16 +370,34 @@ namespace DiGi.Geometry.Core.Classes
         /// Inverts the signs of all elements in the values array.
         /// </summary>
         /// <returns>A <see cref="bool"/> value indicating whether the inversion was successful.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Inverse()
         {
-            if (values == null)
+            double[]? values_Local = values;
+            if (values_Local == null)
             {
                 return false;
             }
 
-            for (int i = 0; i < values.Length; i++)
+            int length = values_Local.Length;
+            if (length == 2)
             {
-                values[i] = -values[i];
+                values_Local[0] = -values_Local[0];
+                values_Local[1] = -values_Local[1];
+                return true;
+            }
+
+            if (length == 3)
+            {
+                values_Local[0] = -values_Local[0];
+                values_Local[1] = -values_Local[1];
+                values_Local[2] = -values_Local[2];
+                return true;
+            }
+
+            for (int i = 0; i < length; i++)
+            {
+                values_Local[i] = -values_Local[i];
             }
 
             return true;
@@ -274,16 +407,34 @@ namespace DiGi.Geometry.Core.Classes
         /// Rounds each value in the collection using the specified double tolerance.
         /// </summary>
         /// <param name="tolerance">The double value representing the precision used for rounding.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Round(double tolerance)
         {
-            if (values == null)
+            double[]? values_Local = values;
+            if (values_Local == null)
             {
                 return;
             }
 
-            for (int i = 0; i < values.Length; i++)
+            int length = values_Local.Length;
+            if (length == 2)
             {
-                values[i] = DiGi.Core.Query.Round(values[i], tolerance);
+                values_Local[0] = DiGi.Core.Query.Round(values_Local[0], tolerance);
+                values_Local[1] = DiGi.Core.Query.Round(values_Local[1], tolerance);
+                return;
+            }
+
+            if (length == 3)
+            {
+                values_Local[0] = DiGi.Core.Query.Round(values_Local[0], tolerance);
+                values_Local[1] = DiGi.Core.Query.Round(values_Local[1], tolerance);
+                values_Local[2] = DiGi.Core.Query.Round(values_Local[2], tolerance);
+                return;
+            }
+
+            for (int i = 0; i < length; i++)
+            {
+                values_Local[i] = DiGi.Core.Query.Round(values_Local[i], tolerance);
             }
         }
 
@@ -291,16 +442,34 @@ namespace DiGi.Geometry.Core.Classes
         /// Scales all elements of the values array by the specified multiplier.
         /// </summary>
         /// <param name="value">The <see cref="double"/> value to multiply each element by.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Scale(double value)
         {
-            if (double.IsNaN(value) || values == null)
+            double[]? values_Local = values;
+            if (double.IsNaN(value) || values_Local == null)
             {
                 return;
             }
 
-            for (int i = 0; i < values.Length; i++)
+            int length = values_Local.Length;
+            if (length == 2)
             {
-                values[i] *= value;
+                values_Local[0] *= value;
+                values_Local[1] *= value;
+                return;
+            }
+
+            if (length == 3)
+            {
+                values_Local[0] *= value;
+                values_Local[1] *= value;
+                values_Local[2] *= value;
+                return;
+            }
+
+            for (int i = 0; i < length; i++)
+            {
+                values_Local[i] *= value;
             }
         }
 
@@ -310,12 +479,13 @@ namespace DiGi.Geometry.Core.Classes
         /// <returns>A string containing the formatted values, or an empty string if the values are null.</returns>
         public override string ToString()
         {
-            if (values == null)
+            double[]? values_Local = values;
+            if (values_Local == null)
             {
                 return string.Empty;
             }
 
-            return string.Format("[{0}]", string.Join(";", values));
+            return string.Format("[{0}]", string.Join(";", values_Local));
         }
     }
 }

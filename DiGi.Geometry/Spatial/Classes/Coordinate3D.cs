@@ -11,6 +11,15 @@ namespace DiGi.Geometry.Spatial.Classes
     public abstract class Coordinate3D : Coordinate, IGeometry3D, ITransformable3D
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate3D"/> class with the specified internal values array length.
+        /// </summary>
+        /// <param name="length">The length of the values array.</param>
+        protected Coordinate3D(int length)
+            : base(length)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Coordinate3D"/> class using the specified <see cref="JsonObject"/>.
         /// </summary>
         /// <param name="jsonObject">The <see cref="JsonObject"/> used to initialize the coordinate. This value can be null.</param>
@@ -26,15 +35,18 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="y">The Y coordinate as a double value.</param>
         /// <param name="z">The Z coordinate as a double value.</param>
         public Coordinate3D(double x, double y, double z)
-            : base(x, y, z)
+            : base(3)
         {
+            values[0] = x;
+            values[1] = y;
+            values[2] = z;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Coordinate3D"/> class.
         /// </summary>
         public Coordinate3D()
-            : base()
+            : base(3)
         {
         }
 
@@ -52,9 +64,8 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="values">An optional array of double values. If the array is null or contains fewer than three elements, all coordinates are initialized to <see cref="double.NaN"/>.</param>
         public Coordinate3D(double[]? values)
-            : base()
+            : base(3)
         {
-            this.values = new double[3];
             if (values == null || values.Length < 3)
             {
                 this.values[0] = double.NaN;

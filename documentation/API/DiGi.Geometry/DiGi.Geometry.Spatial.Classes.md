@@ -1432,6 +1432,23 @@ public Coordinate3D(double[]? values);
 
 An optional array of double values\. If the array is null or contains fewer than three elements, all coordinates are initialized to [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN')\.
 
+<a name='DiGi.Geometry.Spatial.Classes.Coordinate3D.Coordinate3D(int)'></a>
+
+## Coordinate3D\(int\) Constructor
+
+Initializes a new instance of the [Coordinate3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Coordinate3D 'DiGi\.Geometry\.Spatial\.Classes\.Coordinate3D') class with the specified internal values array length\.
+
+```csharp
+protected Coordinate3D(int length);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Classes.Coordinate3D.Coordinate3D(int).length'></a>
+
+`length` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The length of the values array\.
+
 <a name='DiGi.Geometry.Spatial.Classes.Coordinate3D.Coordinate3D(System.Text.Json.Nodes.JsonObject)'></a>
 
 ## Coordinate3D\(JsonObject\) Constructor

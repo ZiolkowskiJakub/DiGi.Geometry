@@ -1,6 +1,7 @@
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Planar.Classes
@@ -52,6 +53,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="object">The tuple containing X and Y coordinates.</param>
         /// <returns>A new Point2D instance.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Point2D((double x, double y) @object)
         {
             return new(@object.x, @object.y);
@@ -63,6 +65,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="point2D">The origin point.</param>
         /// <param name="vector2D">The translation vector.</param>
         /// <returns>A new Point2D shifted by the negative of the vector, or null if either input is null.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Point2D? operator -(Point2D? point2D, Vector2D? vector2D)
         {
             if (point2D is null || vector2D is null)
@@ -79,6 +82,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="point2D">The origin point.</param>
         /// <param name="vector2D">The translation vector.</param>
         /// <returns>A new Point2D shifted by the vector, or null if either input is null.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Point2D? operator +(Point2D? point2D, Vector2D? vector2D)
         {
             if (point2D is null || vector2D is null)
@@ -103,6 +107,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="point2D">The other point.</param>
         /// <returns>The distance result, or NaN if the input is null.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Distance(Point2D? point2D)
         {
             if (point2D == null)
@@ -110,8 +115,8 @@ namespace DiGi.Geometry.Planar.Classes
                 return double.NaN;
             }
 
-            double dx = X - point2D.X;
-            double dy = Y - point2D.Y;
+            double dx = values[0] - point2D.values[0];
+            double dy = values[1] - point2D.values[1];
             return System.Math.Sqrt((dx * dx) + (dy * dy));
         }
 
@@ -160,17 +165,26 @@ namespace DiGi.Geometry.Planar.Classes
                 return false;
             }
 
-            if (System.Math.Abs(X - point2D.X) > distance + tolerance)
+            double dx = values[0] - point2D.values[0];
+            double maxDist = distance + tolerance;
+            if (System.Math.Abs(dx) > maxDist)
             {
                 return false;
             }
 
-            if (System.Math.Abs(Y - point2D.Y) > distance + tolerance)
+            double dy = values[1] - point2D.values[1];
+            if (System.Math.Abs(dy) > maxDist)
             {
                 return false;
             }
 
-            return Distance(point2D) < distance - tolerance;
+            double threshold = distance - tolerance;
+            if (threshold < 0)
+            {
+                return false;
+            }
+
+            return (dx * dx + dy * dy) < (threshold * threshold);
         }
 
         /// <summary>
@@ -178,6 +192,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="point2D">The other point.</param>
         /// <returns>A new <see cref="Point2D"/> representing the midpoint, or null if input is null.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Point2D? Mid(Point2D? point2D)
         {
             if (point2D == null)
@@ -185,7 +200,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
-            return new Point2D((point2D[0] + values[0]) / 2, (point2D[1] + values[1]) / 2);
+            return new Point2D((point2D.values[0] + values[0]) * 0.5, (point2D.values[1] + values[1]) * 0.5);
         }
     }
 }

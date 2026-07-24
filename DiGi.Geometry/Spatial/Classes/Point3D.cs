@@ -1,6 +1,7 @@
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Spatial.Interfaces;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Geometry.Spatial.Classes
@@ -53,6 +54,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="object">The tuple containing the X, Y, and Z coordinate values.</param>
         /// <returns>A new <see cref="Point3D"/> instance created from the provided coordinates.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Point3D?((double x, double y, double z) @object)
         {
             return new Point3D(@object.x, @object.y, @object.z);
@@ -72,6 +74,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="point3D">The <see cref="Point3D"/> to calculate the distance to.</param>
         /// <returns>The distance as a <see cref="double"/>, or <see cref="double.NaN"/> if the provided <see cref="Point3D"/> is null.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Distance(Point3D? point3D)
         {
             if (point3D == null)
@@ -79,9 +82,9 @@ namespace DiGi.Geometry.Spatial.Classes
                 return double.NaN;
             }
 
-            double dx = X - point3D.X;
-            double dy = Y - point3D.Y;
-            double dz = Z - point3D.Z;
+            double dx = values[0] - point3D.values[0];
+            double dy = values[1] - point3D.values[1];
+            double dz = values[2] - point3D.values[2];
             return System.Math.Sqrt(dx * dx + dy * dy + dz * dz);
         }
 
@@ -130,22 +133,32 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            if (System.Math.Abs(X - point3D.X) > distance + tolerance)
+            double dx = values[0] - point3D.values[0];
+            double maxDist = distance + tolerance;
+            if (System.Math.Abs(dx) > maxDist)
             {
                 return false;
             }
 
-            if (System.Math.Abs(Y - point3D.Y) > distance + tolerance)
+            double dy = values[1] - point3D.values[1];
+            if (System.Math.Abs(dy) > maxDist)
             {
                 return false;
             }
 
-            if (System.Math.Abs(Z - point3D.Z) > distance + tolerance)
+            double dz = values[2] - point3D.values[2];
+            if (System.Math.Abs(dz) > maxDist)
             {
                 return false;
             }
 
-            return Distance(point3D) < distance - tolerance;
+            double threshold = distance - tolerance;
+            if (threshold < 0)
+            {
+                return false;
+            }
+
+            return (dx * dx + dy * dy + dz * dz) < (threshold * threshold);
         }
 
         /// <summary>
@@ -153,6 +166,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// </summary>
         /// <param name="point3D">The other <see cref="Point3D"/> to calculate the midpoint with.</param>
         /// <returns>A <see cref="Point3D"/> representing the midpoint, or <see langword="null"/> if the provided <see cref="Point3D"/> is <see langword="null"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Point3D? Mid(Point3D? point3D)
         {
             if (point3D == null)
@@ -160,13 +174,14 @@ namespace DiGi.Geometry.Spatial.Classes
                 return null;
             }
 
-            return new Point3D((point3D[0] + values[0]) / 2, (point3D[1] + values[1]) / 2, (point3D[2] + values[2]) / 2);
+            return new Point3D((point3D.values[0] + values[0]) * 0.5, (point3D.values[1] + values[1]) * 0.5, (point3D.values[2] + values[2]) * 0.5);
         }
 
         /// <summary>Subtracts a <see cref="Vector3D"/> from a <see cref="Point3D"/> to produce a new point.</summary>
         /// <param name="point3D">The starting <see cref="Point3D"/>.</param>
         /// <param name="vector3D">The <see cref="Vector3D"/> to subtract from the point.</param>
         /// <returns>A new <see cref="Point3D"/> resulting from the subtraction, or <see langword="null"/> if either input is <see langword="null"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Point3D? operator -(Point3D? point3D, Vector3D? vector3D)
         {
             if (point3D is null || vector3D is null)
@@ -181,6 +196,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="point3D_1">The first <see cref="Point3D"/>.</param>
         /// <param name="point3D_2">The second <see cref="Point3D"/>.</param>
         /// <returns>A new <see cref="Vector3D"/> resulting from the subtraction, or <see langword="null"/> if either input is <see langword="null"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3D? operator -(Point3D? point3D_1, Point3D? point3D_2)
         {
             if (point3D_1 is null || point3D_2 is null)
@@ -195,6 +211,7 @@ namespace DiGi.Geometry.Spatial.Classes
         /// <param name="point3D">The starting <see cref="Point3D"/>.</param>
         /// <param name="vector3D">The <see cref="Vector3D"/> to add to the point.</param>
         /// <returns>A new <see cref="Point3D"/> resulting from the addition, or <see langword="null"/> if either input is <see langword="null"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Point3D? operator +(Point3D? point3D, Vector3D? vector3D)
         {
             if (point3D is null || vector3D is null)

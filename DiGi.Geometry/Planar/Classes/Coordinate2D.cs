@@ -11,6 +11,15 @@ namespace DiGi.Geometry.Planar.Classes
     public abstract class Coordinate2D : Coordinate, ICollectable2D, ITransformable2D
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Coordinate2D"/> class with the specified internal values array length.
+        /// </summary>
+        /// <param name="length">The length of the values array.</param>
+        protected Coordinate2D(int length)
+            : base(length)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Coordinate2D"/> class from a JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object containing coordinate data.</param>
@@ -25,8 +34,10 @@ namespace DiGi.Geometry.Planar.Classes
         /// <param name="x">The X coordinate.</param>
         /// <param name="y">The Y coordinate.</param>
         public Coordinate2D(double x, double y)
-            : base(x, y)
+            : base(2)
         {
+            values[0] = x;
+            values[1] = y;
         }
 
         /// <summary>
@@ -34,9 +45,8 @@ namespace DiGi.Geometry.Planar.Classes
         /// </summary>
         /// <param name="values">The coordinate values.</param>
         public Coordinate2D(double[]? values)
-            : base()
+            : base(2)
         {
-            this.values = new double[2];
             if (values == null || values.Length < 2)
             {
                 this.values[0] = double.NaN;
@@ -62,7 +72,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// Initializes a new instance of the <see cref="Coordinate2D"/> class.
         /// </summary>
         public Coordinate2D()
-            : base(0, 0)
+            : base(2)
         {
         }
 

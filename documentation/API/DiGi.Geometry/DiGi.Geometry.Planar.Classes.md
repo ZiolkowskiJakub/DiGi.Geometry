@@ -1705,6 +1705,23 @@ public Coordinate2D(double[]? values);
 
 The coordinate values\.
 
+<a name='DiGi.Geometry.Planar.Classes.Coordinate2D.Coordinate2D(int)'></a>
+
+## Coordinate2D\(int\) Constructor
+
+Initializes a new instance of the [Coordinate2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Coordinate2D 'DiGi\.Geometry\.Planar\.Classes\.Coordinate2D') class with the specified internal values array length\.
+
+```csharp
+protected Coordinate2D(int length);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Coordinate2D.Coordinate2D(int).length'></a>
+
+`length` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The length of the values array\.
+
 <a name='DiGi.Geometry.Planar.Classes.Coordinate2D.Coordinate2D(System.Text.Json.Nodes.JsonObject)'></a>
 
 ## Coordinate2D\(JsonObject\) Constructor

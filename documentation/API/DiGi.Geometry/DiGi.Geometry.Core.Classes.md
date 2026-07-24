@@ -56,6 +56,23 @@ public Coordinate(params double[]? values);
 
 An optional array of [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') values to initialize the coordinate\.
 
+<a name='DiGi.Geometry.Core.Classes.Coordinate.Coordinate(int)'></a>
+
+## Coordinate\(int\) Constructor
+
+Initializes a new instance of the [Coordinate](DiGi.Geometry.Core.Classes.md#DiGi.Geometry.Core.Classes.Coordinate 'DiGi\.Geometry\.Core\.Classes\.Coordinate') class with the specified internal values array length\.
+
+```csharp
+protected Coordinate(int length);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Core.Classes.Coordinate.Coordinate(int).length'></a>
+
+`length` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The length of the values array\.
+
 <a name='DiGi.Geometry.Core.Classes.Coordinate.Coordinate(System.Text.Json.Nodes.JsonObject,int)'></a>
 
 ## Coordinate\(JsonObject, int\) Constructor
