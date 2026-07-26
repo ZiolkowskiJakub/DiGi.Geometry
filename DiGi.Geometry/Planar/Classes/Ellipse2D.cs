@@ -232,7 +232,7 @@ namespace DiGi.Geometry.Planar.Classes
         /// <returns>The minimum distance to the boundary.</returns>
         public double Distance(Point2D? point2D)
         {
-            Point2D? point2D_Project = Project(point2D);
+            Point2D? point2D_Project = Project(point2D, DiGi.Core.Constants.Tolerance.Distance);
             if (point2D_Project == null)
             {
                 return double.NaN;
@@ -297,9 +297,9 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
-        /// Calculates the distance between the foci of the ellipse.
+        /// Calculates the distance between the two foci of the ellipse.
         /// </summary>
-        /// <returns>The focal length.</returns>
+        /// <returns>The distance between the foci (2C), or NaN if it cannot be determined.</returns>
         public double GetFocalLength()
         {
             double c = C;
@@ -308,7 +308,7 @@ namespace DiGi.Geometry.Planar.Classes
                 return double.NaN;
             }
 
-            return c * c;
+            return c * 2.0;
         }
 
         /// <summary>
@@ -530,10 +530,10 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
-        /// Projects a point onto the ellipse boundary using an iterative approach.
+        /// Projects a point onto the ellipse boundary along the ray from the centre through the point (a fast radial approximation, not the closest boundary point). Use the tolerance overload for the true nearest point.
         /// </summary>
         /// <param name="point2D">The target point.</param>
-        /// <returns>The projected point on the ellipse boundary.</returns>
+        /// <returns>The boundary point along the centre-to-point direction.</returns>
         public Point2D? Project(Point2D? point2D)
         {
             if (point2D == null || center == null || directionA == null)
@@ -571,68 +571,70 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
-        /// Projects a point onto the ellipse boundary with a specified tolerance for convergence.
+        /// Projects a point onto the ellipse boundary, returning the closest boundary point via Newton iteration on the parametric angle.
         /// </summary>
         /// <param name="point2D">The target point.</param>
-        /// <param name="tolerance">The convergence tolerance.</param>
-        /// <returns>The projected point on the ellipse boundary.</returns>
+        /// <param name="tolerance">The angular convergence tolerance, in radians.</param>
+        /// <returns>The closest point on the ellipse boundary, or null if it cannot be determined.</returns>
         public Point2D? Project(Point2D? point2D, double tolerance)
         {
-            if (point2D is null || center is null || directionA is null)
+            if (point2D is null || center is null || directionA is null || double.IsNaN(a) || double.IsNaN(b) || a <= 0.0 || b <= 0.0)
             {
                 return null;
             }
 
-            // Translate point to ellipse-centered coordinates
-            double px = point2D.X - center.X;
-            double py = point2D.Y - center.Y;
-
-            // Build orthonormal basis: major (u) and minor (v) axes
+            // Build orthonormal basis: major (u) and minor (v) axes.
             double ux = directionA.X;
             double uy = directionA.Y;
             double vx = -uy;
             double vy = ux;
 
-            // Rotate point into ellipse-aligned space
-            double xr = px * ux + py * uy; // coordinate in major axis direction
-            double yr = px * vx + py * vy; // coordinate in minor axis direction
+            // Rotate the point into ellipse-aligned space (qx along semi-axis a, qy along semi-axis b).
+            double px = point2D.X - center.X;
+            double py = point2D.Y - center.Y;
+            double qx = px * ux + py * uy;
+            double qy = px * vx + py * vy;
 
-            // Newton-Raphson to find projection on ellipse
-            double tx = xr;
-            double ty = yr;
-
-            double deltaTx = double.MaxValue;
-            double deltaTy = double.MaxValue;
-
-            while (System.Math.Min(deltaTx, deltaTy) > tolerance)
+            // Closest boundary point is (a cos t, b sin t); minimise (a cos t - qx)^2 + (b sin t - qy)^2 over t.
+            // Stationary condition F(t) = (b^2 - a^2) sin t cos t + a qx sin t - b qy cos t = 0.
+            double t;
+            if (System.Math.Abs(qx) < tolerance && System.Math.Abs(qy) < tolerance)
             {
-                double ex = a * tx / System.Math.Sqrt(tx * tx + (b * b / (a * a)) * ty * ty);
-                double ey = b * ty / System.Math.Sqrt((a * a / (b * b)) * tx * tx + ty * ty);
+                // Query point at the centre: the closest boundary point lies on the shorter semi-axis.
+                t = a <= b ? 0.0 : System.Math.PI / 2.0;
+            }
+            else
+            {
+                t = System.Math.Atan2(a * qy, b * qx);
 
-                double norm = System.Math.Sqrt(ex * ex + ey * ey);
-                if (DiGi.Core.Query.AlmostEquals(norm, 0, tolerance))
+                for (int int_Iteration = 0; int_Iteration < 64; int_Iteration++)
                 {
-                    break;
+                    double cos = System.Math.Cos(t);
+                    double sin = System.Math.Sin(t);
+
+                    double double_F = (b * b - a * a) * sin * cos + a * qx * sin - b * qy * cos;
+                    double double_FDerivative = (b * b - a * a) * (cos * cos - sin * sin) + a * qx * cos + b * qy * sin;
+                    if (double_FDerivative == 0.0)
+                    {
+                        break;
+                    }
+
+                    double double_Delta = double_F / double_FDerivative;
+                    t -= double_Delta;
+
+                    if (System.Math.Abs(double_Delta) <= tolerance)
+                    {
+                        break;
+                    }
                 }
-
-                double x = xr * ex / norm;
-                double y = yr * ey / norm;
-
-                deltaTx = System.Math.Abs(tx - x);
-                deltaTy = System.Math.Abs(ty - y);
-
-                tx = x;
-                ty = y;
             }
 
-            // Scale ellipse to get unit circle projection
-            double normProj = System.Math.Sqrt((xr * xr) / (a * a) + (yr * yr) / (b * b));
-            double prx = xr / normProj;
-            double pry = yr / normProj;
+            double xr = a * System.Math.Cos(t);
+            double yr = b * System.Math.Sin(t);
 
-            // Map back to global coordinates
-            double gx = prx * ux + pry * vx + center.X;
-            double gy = prx * uy + pry * vy + center.Y;
+            // Map back to global coordinates.
+            double gx = xr * ux + yr * vx + center.X;
+            double gy = xr * uy + yr * vy + center.Y;
 
             return new Point2D(gx, gy);
         }

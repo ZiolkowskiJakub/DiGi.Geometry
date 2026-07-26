@@ -2500,7 +2500,7 @@ The bounding box encompassing the ellipse\.
 
 ## Ellipse2D\.GetFocalLength\(\) Method
 
-Calculates the distance between the foci of the ellipse\.
+Calculates the distance between the two foci of the ellipse\.
 
 ```csharp
 public double GetFocalLength();
@@ -2508,7 +2508,7 @@ public double GetFocalLength();
 
 #### Returns
 [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
-The focal length\.
+The distance between the foci \(2C\), or NaN if it cannot be determined\.
 
 <a name='DiGi.Geometry.Planar.Classes.Ellipse2D.GetFocalPoints()'></a>
 
@@ -2718,7 +2718,7 @@ True if the point is on the boundary\.
 
 ## Ellipse2D\.Project\(Point2D\) Method
 
-Projects a point onto the ellipse boundary using an iterative approach\.
+Projects a point onto the ellipse boundary along the ray from the centre through the point \(a fast radial approximation, not the closest boundary point\)\. Use the tolerance overload for the true nearest point\.
 
 ```csharp
 public DiGi.Geometry.Planar.Classes.Point2D? Project(DiGi.Geometry.Planar.Classes.Point2D? point2D);
@@ -2733,13 +2733,13 @@ The target point\.
 
 #### Returns
 [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')  
-The projected point on the ellipse boundary\.
+The boundary point along the centre\-to\-point direction\.
 
 <a name='DiGi.Geometry.Planar.Classes.Ellipse2D.Project(DiGi.Geometry.Planar.Classes.Point2D,double)'></a>
 
 ## Ellipse2D\.Project\(Point2D, double\) Method
 
-Projects a point onto the ellipse boundary with a specified tolerance for convergence\.
+Projects a point onto the ellipse boundary, returning the closest boundary point via Newton iteration on the parametric angle\.
 
 ```csharp
 public DiGi.Geometry.Planar.Classes.Point2D? Project(DiGi.Geometry.Planar.Classes.Point2D? point2D, double tolerance);
@@ -2756,11 +2756,11 @@ The target point\.
 
 `tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
 
-The convergence tolerance\.
+The angular convergence tolerance, in radians\.
 
 #### Returns
 [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')  
-The projected point on the ellipse boundary\.
+The closest point on the ellipse boundary, or null if it cannot be determined\.
 
 <a name='DiGi.Geometry.Planar.Classes.Ellipse2D.Transform(DiGi.Geometry.Planar.Interfaces.ITransform2D)'></a>
 
