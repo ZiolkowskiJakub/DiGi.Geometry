@@ -6791,6 +6791,90 @@ The [IPolygonal2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Inter
 [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
 The calculated isoperimetric ratio as a [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double'), or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if the [IPolygonal2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonal2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D') object is null or if its area or perimeter is [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN')\.
 
+<a name='DiGi.Geometry.Planar.Query.IsValid(thisCoordinate)'></a>
+
+## Query\.IsValid\(this Coordinate\) Method
+
+Checks that a coordinate is non\-null and carries finite X and Y values\.
+
+```csharp
+public static bool IsValid(this Coordinate? coordinate);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Query.IsValid(thisCoordinate).coordinate'></a>
+
+`coordinate` [NetTopologySuite\.Geometries\.Coordinate](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.coordinate 'NetTopologySuite\.Geometries\.Coordinate')
+
+The coordinate to check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') when the coordinate is non\-null and finite; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
+<a name='DiGi.Geometry.Planar.Query.IsValid(thisDiGi.Geometry.Planar.Classes.Point2D)'></a>
+
+## Query\.IsValid\(this Point2D\) Method
+
+Checks that a point is non\-null and carries finite X and Y values\.
+
+```csharp
+public static bool IsValid(this DiGi.Geometry.Planar.Classes.Point2D? point2D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Query.IsValid(thisDiGi.Geometry.Planar.Classes.Point2D).point2D'></a>
+
+`point2D` [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The point to check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') when the point is non\-null and finite; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
+<a name='DiGi.Geometry.Planar.Query.IsValid(thisSystem.Collections.Generic.IEnumerable_Coordinate_)'></a>
+
+## Query\.IsValid\(this IEnumerable\<Coordinate\>\) Method
+
+Checks that every coordinate in the collection is non\-null and carries finite X and Y values\.
+
+```csharp
+public static bool IsValid(this System.Collections.Generic.IEnumerable<Coordinate>? coordinates);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Query.IsValid(thisSystem.Collections.Generic.IEnumerable_Coordinate_).coordinates'></a>
+
+`coordinates` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[NetTopologySuite\.Geometries\.Coordinate](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.coordinate 'NetTopologySuite\.Geometries\.Coordinate')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The coordinates to be checked\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') when all coordinates are valid; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
+<a name='DiGi.Geometry.Planar.Query.IsValid(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_)'></a>
+
+## Query\.IsValid\(this IEnumerable\<Point2D\>\) Method
+
+Checks that every point in the collection is non\-null and carries finite X and Y values\.
+
+```csharp
+public static bool IsValid(this System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Classes.Point2D>? point2Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Query.IsValid(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_).point2Ds'></a>
+
+`point2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The collection of points to check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') when all points are valid; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
 <a name='DiGi.Geometry.Planar.Query.LongestPath(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.ISegmentable2D_,DiGi.Geometry.Planar.Classes.Point2D,double)'></a>
 
 ## Query\.LongestPath\(this IEnumerable\<ISegmentable2D\>, Point2D, double\) Method

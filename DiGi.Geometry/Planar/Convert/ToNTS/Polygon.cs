@@ -50,7 +50,13 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            return new Polygon(polygonal2D.ToNTS());
+            LinearRing? linearRing = polygonal2D.ToNTS();
+            if (linearRing == null)
+            {
+                return null;
+            }
+
+            return new Polygon(linearRing);
         }
     }
 }

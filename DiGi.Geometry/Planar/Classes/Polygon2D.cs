@@ -275,6 +275,14 @@ namespace DiGi.Geometry.Planar.Classes
                 return null;
             }
 
+            // A polygon carrying a not-a-number coordinate cannot describe an area. The conversion to
+            // NetTopologySuite reports that on its own, but the three and four point cases below never go
+            // through it, so without this check they hand out triangles built from NaN points instead.
+            if (!points.IsValid())
+            {
+                return null;
+            }
+
             if (points.Count == 3)
             {
                 return [new(new Point2D(points[0]), new Point2D(points[1]), new Point2D(points[2]))];

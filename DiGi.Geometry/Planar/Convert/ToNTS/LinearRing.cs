@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
@@ -21,13 +21,21 @@ namespace DiGi.Geometry.Planar
 
             if (polygonal2D is Segmentable2D segmentable2D)
             {
-                Coordinate[]? coordinates = segmentable2D.ToNTS_Coordinates(true);
-                if (coordinates == null || coordinates.Length < 4)
+                Coordinate[]? coordinates_Segmentable2D = segmentable2D.ToNTS_Coordinates(true);
+                if (coordinates_Segmentable2D == null || coordinates_Segmentable2D.Length < 4)
                 {
                     return null;
                 }
 
-                return new LinearRing(coordinates);
+                // A ring closed with a not-a-number coordinate is still rejected by NetTopologySuite, because
+                // its closed test compares the first and the last coordinate and NaN never equals NaN. Such a
+                // ring cannot describe an area, so it is reported as not convertible rather than thrown on.
+                if (!coordinates_Segmentable2D.IsValid())
+                {
+                    return null;
+                }
+
+                return new LinearRing(coordinates_Segmentable2D);
             }
 
             List<Point2D>? point2Ds = polygonal2D.GetPoints();
@@ -36,15 +44,20 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            List<Coordinate>? cooridnates = point2Ds.ToNTS();
-            if (cooridnates == null)
+            List<Coordinate>? coordinates = point2Ds.ToNTS();
+            if (coordinates == null)
             {
                 return null;
             }
 
-            cooridnates.Add(cooridnates[0]);
+            coordinates.Add(coordinates[0]);
 
-            return new LinearRing([.. cooridnates]);
+            if (!coordinates.IsValid())
+            {
+                return null;
+            }
+
+            return new LinearRing([.. coordinates]);
         }
     }
 }
