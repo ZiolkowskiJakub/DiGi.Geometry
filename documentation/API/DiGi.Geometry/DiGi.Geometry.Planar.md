@@ -1805,6 +1805,64 @@ The number of points to generate; \-1 returns null\.
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A list of random Point2D objects, or null if parameters are invalid\.
 
+<a name='DiGi.Geometry.Planar.Create.Polygon2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonal2D,double)'></a>
+
+## Create\.Polygon2D\(this IPolygonal2D, double\) Method
+
+Creates a [Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D') from another polygonal geometry, dropping any point which repeats the one before it\.
+
+```csharp
+public static DiGi.Geometry.Planar.Classes.Polygon2D? Polygon2D(this DiGi.Geometry.Planar.Interfaces.IPolygonal2D? polygonal2D, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.Polygon2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonal2D,double).polygonal2D'></a>
+
+`polygonal2D` [IPolygonal2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonal2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D')
+
+The [IPolygonal2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonal2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D') whose points define the polygon\.
+
+<a name='DiGi.Geometry.Planar.Create.Polygon2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonal2D,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') distance within which two points are treated as one\.
+
+#### Returns
+[Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D')  
+A [Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D') object if a valid polygon can be created; otherwise, null\.
+
+<a name='DiGi.Geometry.Planar.Create.Polygon2D(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_,double)'></a>
+
+## Create\.Polygon2D\(this IEnumerable\<Point2D\>, double\) Method
+
+Creates a [Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D') from a collection of [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') objects, dropping any point which repeats the one before it\.
+
+Use this rather than the constructor whenever the points come from outside the library - a file, a service, a user - and are not already known to form an open ring. A polygon holds its ring open, because [GetSegments\(\)](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D.GetSegments() 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D\.GetSegments\(\)') adds the closing segment itself, so a ring which repeats its first point as its last would otherwise carry a segment of no length. Such a segment has no direction, makes the ring report as self intersecting, and pushes a triangle onto the four point branch of triangulation where it produces a second, degenerate triangle.
+
+The constructor stays a plain assignment and does none of this, so a caller who already holds clean points pays nothing.
+
+```csharp
+public static DiGi.Geometry.Planar.Classes.Polygon2D? Polygon2D(this System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Classes.Point2D?>? point2Ds, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.Polygon2D(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_,double).point2Ds'></a>
+
+`point2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The [System\.Collections\.Generic\.IEnumerable&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1') of [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') objects used to define the polygon\.
+
+<a name='DiGi.Geometry.Planar.Create.Polygon2D(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') distance within which two points are treated as one\.
+
+#### Returns
+[Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D')  
+A [Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D') object if a valid polygon can be created; otherwise, null\.
+
 <a name='DiGi.Geometry.Planar.Create.Polygon2Ds(thisDiGi.Geometry.Planar.Interfaces.ISegmentable2D,double)'></a>
 
 ## Create\.Polygon2Ds\(this ISegmentable2D, double\) Method
@@ -3300,6 +3358,45 @@ A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the polygonal object was inverted to match the target orientation\.
+
+<a name='DiGi.Geometry.Planar.Modify.RemoveDuplicates(thisSystem.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool,double)'></a>
+
+## Modify\.RemoveDuplicates\(this List\<Point2D\>, bool, double\) Method
+
+Removes every point which coincides with the point before it, so the geometry holds no zero length segment\.
+
+A repeated point contributes a segment of no length, which has no direction and no meaning - it makes a ring report as self intersecting, pushes a triangle onto the four point branch of triangulation, and produces an invalid ring once the geometry is handed to NetTopologySuite.
+
+Set [closed](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Modify.RemoveDuplicates(thisSystem.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool,double).closed 'DiGi\.Geometry\.Planar\.Modify\.RemoveDuplicates\(this System\.Collections\.Generic\.List\<DiGi\.Geometry\.Planar\.Classes\.Point2D\>, bool, double\)\.closed') for a ring, where the last point is the predecessor of the first. That is what strips the repeated closing position a gml:LinearRing carries.
+
+No floor is applied to how many points survive, so a ring which is nothing but repeats of one corner collapses to that single point. That is deliberate - the caller checks the count afterwards, and leaving a degenerate ring padded out to three points would let it pass a check for three corners while holding fewer.
+
+```csharp
+public static bool RemoveDuplicates(this System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Point2D>? point2Ds, bool closed, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Modify.RemoveDuplicates(thisSystem.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool,double).point2Ds'></a>
+
+`point2Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') to clean up in place\.
+
+<a name='DiGi.Geometry.Planar.Modify.RemoveDuplicates(thisSystem.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool,double).closed'></a>
+
+`closed` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the points form a closed ring, in which case the last point is compared against the first\.
+
+<a name='DiGi.Geometry.Planar.Modify.RemoveDuplicates(thisSystem.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') distance within which two points are treated as one\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether any point was removed\.
 
 <a name='DiGi.Geometry.Planar.Modify.PointIndex2D'></a>
 

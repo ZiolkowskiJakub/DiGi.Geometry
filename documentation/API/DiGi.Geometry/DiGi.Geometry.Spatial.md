@@ -3585,6 +3585,45 @@ A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the orientation of the [DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonal3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolygonal3d 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolygonal3D') was changed\.
 
+<a name='DiGi.Geometry.Spatial.Modify.RemoveDuplicates(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Point3D_,bool,double)'></a>
+
+## Modify\.RemoveDuplicates\(this List\<Point3D\>, bool, double\) Method
+
+Removes every point which coincides with the point before it, so the geometry holds no zero length segment\.
+
+Spatial counterpart of [RemoveDuplicates\(this List&lt;Point2D&gt;, bool, double\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Modify.RemoveDuplicates(thisSystem.Collections.Generic.List_DiGi.Geometry.Planar.Classes.Point2D_,bool,double) 'DiGi\.Geometry\.Planar\.Modify\.RemoveDuplicates\(this System\.Collections\.Generic\.List\<DiGi\.Geometry\.Planar\.Classes\.Point2D\>, bool, double\)'). Trimming a ring before a plane is fitted to it also matters in its own right, because the plane takes the average of the points as its origin and a repeated point pulls that origin towards the corner it repeats.
+
+Set [closed](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Modify.RemoveDuplicates(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Point3D_,bool,double).closed 'DiGi\.Geometry\.Spatial\.Modify\.RemoveDuplicates\(this System\.Collections\.Generic\.List\<DiGi\.Geometry\.Spatial\.Classes\.Point3D\>, bool, double\)\.closed') for a ring, where the last point is the predecessor of the first. That is what strips the repeated closing position a gml:LinearRing carries.
+
+No floor is applied to how many points survive, so a ring which is nothing but repeats of one corner collapses to that single point. That is deliberate - the caller checks the count afterwards, and leaving a degenerate ring padded out to three points would let it pass a check for three corners while holding fewer.
+
+```csharp
+public static bool RemoveDuplicates(this System.Collections.Generic.List<DiGi.Geometry.Spatial.Classes.Point3D>? point3Ds, bool closed, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Modify.RemoveDuplicates(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Point3D_,bool,double).point3Ds'></a>
+
+`point3Ds` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') to clean up in place\.
+
+<a name='DiGi.Geometry.Spatial.Modify.RemoveDuplicates(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Point3D_,bool,double).closed'></a>
+
+`closed` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the points form a closed ring, in which case the last point is compared against the first\.
+
+<a name='DiGi.Geometry.Spatial.Modify.RemoveDuplicates(thisSystem.Collections.Generic.List_DiGi.Geometry.Spatial.Classes.Point3D_,bool,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') distance within which two points are treated as one\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether any point was removed\.
+
 <a name='DiGi.Geometry.Spatial.Query'></a>
 
 ## Query Class

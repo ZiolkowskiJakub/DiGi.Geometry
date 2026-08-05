@@ -30,6 +30,12 @@ namespace DiGi.Geometry.Spatial
                 }
             }
 
+            // Before the plane is fitted, not after: the plane takes the average of the points as its origin, so a
+            // repeated corner pulls the origin towards itself and every point then projects onto a plane which sits
+            // slightly off the ring. The count is checked afterwards, so a ring which is only long enough because it
+            // repeats a corner is rejected rather than turned into a polygon of two distinct points.
+            point3Ds_Temp.RemoveDuplicates(true, tolerace);
+
             if (point3Ds_Temp.Count < 3)
             {
                 return null;
@@ -69,22 +75,27 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            Point3D?[] point3Ds_Materialized = point3Ds as Point3D?[] ?? [.. point3Ds];
-            if (point3Ds_Materialized.Length < 3)
+            List<Point3D> point3Ds_Temp = [];
+            foreach (Point3D? point3D in point3Ds)
+            {
+                if (point3D != null)
+                {
+                    point3Ds_Temp.Add(point3D);
+                }
+            }
+
+            // A repeated corner contributes a segment of no length, so it goes before the count is checked.
+            point3Ds_Temp.RemoveDuplicates(true);
+
+            if (point3Ds_Temp.Count < 3)
             {
                 return null;
             }
 
-            Point3D? point3D_First = point3Ds_Materialized[0];
-            if (point3D_First == null)
-            {
-                return null;
-            }
-
-            Plane plane = new(point3D_First, normal);
+            Plane plane = new(point3Ds_Temp[0], normal);
 
             List<Point2D> point2Ds = [];
-            foreach (Point3D? point3D in point3Ds_Materialized)
+            foreach (Point3D point3D in point3Ds_Temp)
             {
                 Point2D? point2D = Query.Convert(plane, plane.Project(point3D));
                 if (point2D is not null)

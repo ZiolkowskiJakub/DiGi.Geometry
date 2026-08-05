@@ -38,6 +38,7 @@ namespace DiGi.Geometry.Planar.Classes
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Polygon2D"/> class defined by a collection of points.
+        /// <para>The points are stored as given. A polygon holds its ring open, because <see cref="GetSegments"/> adds the closing segment itself, so a caller handing over a ring which repeats its first point as its last should build it through <see cref="Create.Polygon2D(IEnumerable{Point2D?}?, double)"/> instead - that is where the repeat is removed.</para>
         /// </summary>
         /// <param name="point2Ds">The vertices of the polygon.</param>
         public Polygon2D(IEnumerable<Point2D>? point2Ds)

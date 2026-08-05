@@ -4762,6 +4762,8 @@ The source polygonal geometry\.
 
 Initializes a new instance of the [Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D') class defined by a collection of points\.
 
+The points are stored as given. A polygon holds its ring open, because [GetSegments\(\)](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D.GetSegments() 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D\.GetSegments\(\)') adds the closing segment itself, so a caller handing over a ring which repeats its first point as its last should build it through [Polygon2D\(this IEnumerable&lt;Point2D&gt;, double\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Polygon2D(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_,double) 'DiGi\.Geometry\.Planar\.Create\.Polygon2D\(this System\.Collections\.Generic\.IEnumerable\<DiGi\.Geometry\.Planar\.Classes\.Point2D\>, double\)') instead - that is where the repeat is removed.
+
 ```csharp
 public Polygon2D(System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Classes.Point2D>? point2Ds);
 ```
