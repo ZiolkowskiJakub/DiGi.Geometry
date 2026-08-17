@@ -1778,6 +1778,47 @@ An array of X and Y coordinates \(must have an even length\)\.
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A list of Point2D objects, or null if the input is null or has an invalid length\.
 
+<a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,double,double,double)'></a>
+
+## Create\.Point2Ds\(this BoundingBox2D, double, double, double\) Method
+
+Generates a regular grid of points covering the specified bounding box\.
+
+The first point sits on the minimum corner of the bounding box and the grid steps by [gridSize\_X](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,double,double,double).gridSize_X 'DiGi\.Geometry\.Planar\.Create\.Point2Ds\(this DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D, double, double, double\)\.gridSize\_X') and [gridSize\_Y](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,double,double,double).gridSize_Y 'DiGi\.Geometry\.Planar\.Create\.Point2Ds\(this DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D, double, double, double\)\.gridSize\_Y') towards the maximum corner. A row or column landing on the maximum corner within [tolerance](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,double,double,double).tolerance 'DiGi\.Geometry\.Planar\.Create\.Point2Ds\(this DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D, double, double, double\)\.tolerance') is still included, so a bounding box whose extents are exact multiples of the grid size yields points on both corners.
+
+```csharp
+public static System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Point2D>? Point2Ds(this DiGi.Geometry.Planar.Classes.BoundingBox2D? boundingBox2D, double gridSize_X, double gridSize_Y, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,double,double,double).boundingBox2D'></a>
+
+`boundingBox2D` [BoundingBox2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BoundingBox2D 'DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D')
+
+The bounding box defining the area\.
+
+<a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,double,double,double).gridSize_X'></a>
+
+`gridSize_X` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The grid spacing along the X axis; has to be greater than zero\.
+
+<a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,double,double,double).gridSize_Y'></a>
+
+`gridSize_Y` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The grid spacing along the Y axis; has to be greater than zero\.
+
+<a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,double,double,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance used when deciding whether the last row or column still fits within the bounding box\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A list of Point2D objects ordered column by column, or null if the parameters are invalid or the grid does not fit in a single list\.
+
 <a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int)'></a>
 
 ## Create\.Point2Ds\(this BoundingBox2D, int\) Method

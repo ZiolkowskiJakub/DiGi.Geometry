@@ -52,6 +52,55 @@ namespace DiGi.Geometry.Planar
         }
 
         /// <summary>
+        /// Generates a regular grid of points covering the specified bounding box.
+        /// <para>The first point sits on the minimum corner of the bounding box and the grid steps by <paramref name="gridSize_X"/> and <paramref name="gridSize_Y"/> towards the maximum corner. A row or column landing on the maximum corner within <paramref name="tolerance"/> is still included, so a bounding box whose extents are exact multiples of the grid size yields points on both corners.</para>
+        /// </summary>
+        /// <param name="boundingBox2D">The bounding box defining the area.</param>
+        /// <param name="gridSize_X">The grid spacing along the X axis; has to be greater than zero.</param>
+        /// <param name="gridSize_Y">The grid spacing along the Y axis; has to be greater than zero.</param>
+        /// <param name="tolerance">The distance tolerance used when deciding whether the last row or column still fits within the bounding box.</param>
+        /// <returns>A list of Point2D objects ordered column by column, or null if the parameters are invalid or the grid does not fit in a single list.</returns>
+        public static List<Point2D>? Point2Ds(this BoundingBox2D? boundingBox2D, double gridSize_X, double gridSize_Y, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        {
+            if (boundingBox2D is null || double.IsNaN(gridSize_X) || double.IsNaN(gridSize_Y) || gridSize_X <= 0 || gridSize_Y <= 0)
+            {
+                return null;
+            }
+
+            double width = boundingBox2D.Width;
+            double height = boundingBox2D.Height;
+            if (double.IsNaN(width) || double.IsNaN(height))
+            {
+                return null;
+            }
+
+            // Kept in double for the range check - a large bounding box combined with a small grid size overflows int long before the list itself could be allocated.
+            double count_X_Double = System.Math.Floor((width + tolerance) / gridSize_X) + 1;
+            double count_Y_Double = System.Math.Floor((height + tolerance) / gridSize_Y) + 1;
+            if (count_X_Double * count_Y_Double > int.MaxValue)
+            {
+                return null;
+            }
+
+            int count_X = System.Convert.ToInt32(count_X_Double);
+            int count_Y = System.Convert.ToInt32(count_Y_Double);
+
+            Point2D point2D_Min = boundingBox2D.Min;
+
+            List<Point2D> result = new(count_X * count_Y);
+            for (int i = 0; i < count_X; i++)
+            {
+                double x = point2D_Min.X + (i * gridSize_X);
+                for (int j = 0; j < count_Y; j++)
+                {
+                    result.Add(new Point2D(x, point2D_Min.Y + (j * gridSize_Y)));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Creates a list of points from an array of coordinates.
         /// </summary>
         /// <param name="values">An array of X and Y coordinates (must have an even length).</param>
