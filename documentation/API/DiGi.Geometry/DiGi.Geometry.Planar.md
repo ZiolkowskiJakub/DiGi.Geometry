@@ -1778,6 +1778,55 @@ An array of X and Y coordinates \(must have an even length\)\.
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A list of Point2D objects, or null if the input is null or has an invalid length\.
 
+<a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,double)'></a>
+
+## Create\.Point2Ds\(this BoundingBox2D, Point2D, double, double, double\) Method
+
+Generates the nodes of a grid anchored at [origin](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,double).origin 'DiGi\.Geometry\.Planar\.Create\.Point2Ds\(this DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D, DiGi\.Geometry\.Planar\.Classes\.Point2D, double, double, double\)\.origin') that fall within the specified bounding box\.
+
+Unlike [Point2Ds\(this BoundingBox2D, double, double, double\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,double,double,double) 'DiGi\.Geometry\.Planar\.Create\.Point2Ds\(this DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D, double, double, double\)'), which starts at the minimum corner of the box, this places every node at [origin](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,double).origin 'DiGi\.Geometry\.Planar\.Create\.Point2Ds\(this DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D, DiGi\.Geometry\.Planar\.Classes\.Point2D, double, double, double\)\.origin') plus a whole number of steps. Boxes that are not aligned to each other therefore still yield nodes of one shared lattice, which is what lets separately generated areas be joined without a seam and lets the same area be regenerated without shifting.
+
+An [origin](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,double).origin 'DiGi\.Geometry\.Planar\.Create\.Point2Ds\(this DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D, DiGi\.Geometry\.Planar\.Classes\.Point2D, double, double, double\)\.origin') of (0, 0) with a whole-number grid size puts every coordinate at a whole multiple of that size, which is exact in binary floating point over any coordinate range in practical use - two areas generated separately produce identical values for a shared node rather than merely close ones.
+
+```csharp
+public static System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Point2D>? Point2Ds(this DiGi.Geometry.Planar.Classes.BoundingBox2D? boundingBox2D, DiGi.Geometry.Planar.Classes.Point2D? origin, double gridSize_X, double gridSize_Y, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,double).boundingBox2D'></a>
+
+`boundingBox2D` [BoundingBox2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.BoundingBox2D 'DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D')
+
+The bounding box the nodes have to fall within\.
+
+<a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,double).origin'></a>
+
+`origin` [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The point the lattice is anchored at\. Null falls back to anchoring at the minimum corner of the bounding box\.
+
+<a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,double).gridSize_X'></a>
+
+`gridSize_X` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The grid spacing along the X axis; has to be greater than zero\.
+
+<a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,double).gridSize_Y'></a>
+
+`gridSize_Y` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The grid spacing along the Y axis; has to be greater than zero\.
+
+<a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance used when deciding whether a node lying on the boundary of the bounding box still falls within it\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A list of Point2D objects ordered column by column, empty when the bounding box holds no node of the lattice, or null if the parameters are invalid or the grid does not fit in a single list\.
+
 <a name='DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,double,double,double)'></a>
 
 ## Create\.Point2Ds\(this BoundingBox2D, double, double, double\) Method
@@ -8963,6 +9012,67 @@ The distance tolerance used during conversion\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 `true` if the conversion was successful; otherwise, `false`\.
+
+<a name='DiGi.Geometry.Planar.Query.TryGetGridIndex(thisDiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,int,int,double)'></a>
+
+## Query\.TryGetGridIndex\(this Point2D, Point2D, double, double, int, int, double\) Method
+
+Determines whether a point is a node of the grid anchored at [origin](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Query.TryGetGridIndex(thisDiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,int,int,double).origin 'DiGi\.Geometry\.Planar\.Query\.TryGetGridIndex\(this DiGi\.Geometry\.Planar\.Classes\.Point2D, DiGi\.Geometry\.Planar\.Classes\.Point2D, double, double, int, int, double\)\.origin'), and if it is, which node\.
+
+This is the counterpart of [Point2Ds\(this BoundingBox2D, Point2D, double, double, double\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Point2Ds(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,double) 'DiGi\.Geometry\.Planar\.Create\.Point2Ds\(this DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D, DiGi\.Geometry\.Planar\.Classes\.Point2D, double, double, double\)'): every point that method produces is recognised here, and [origin](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Query.TryGetGridIndex(thisDiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,int,int,double).origin 'DiGi\.Geometry\.Planar\.Query\.TryGetGridIndex\(this DiGi\.Geometry\.Planar\.Classes\.Point2D, DiGi\.Geometry\.Planar\.Classes\.Point2D, double, double, int, int, double\)\.origin') plus the returned indexes times the grid size gives that point back.
+
+A point that is merely near a node is rejected rather than snapped to it. That distinction matters wherever grid nodes share a store with points of other origins - rounding without the check would report an arbitrary point as a node that was never generated, and a point of a coarser or finer grid as a node of this one.
+
+```csharp
+public static bool TryGetGridIndex(this DiGi.Geometry.Planar.Classes.Point2D? point2D, DiGi.Geometry.Planar.Classes.Point2D? origin, double gridSize_X, double gridSize_Y, out int index_X, out int index_Y, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Query.TryGetGridIndex(thisDiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,int,int,double).point2D'></a>
+
+`point2D` [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The point to classify\.
+
+<a name='DiGi.Geometry.Planar.Query.TryGetGridIndex(thisDiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,int,int,double).origin'></a>
+
+`origin` [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The point the lattice is anchored at\.
+
+<a name='DiGi.Geometry.Planar.Query.TryGetGridIndex(thisDiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,int,int,double).gridSize_X'></a>
+
+`gridSize_X` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The grid spacing along the X axis; has to be greater than zero\.
+
+<a name='DiGi.Geometry.Planar.Query.TryGetGridIndex(thisDiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,int,int,double).gridSize_Y'></a>
+
+`gridSize_Y` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The grid spacing along the Y axis; has to be greater than zero\.
+
+<a name='DiGi.Geometry.Planar.Query.TryGetGridIndex(thisDiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,int,int,double).index_X'></a>
+
+`index_X` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The number of steps along the X axis from the origin to the point; zero when the point is not a node\.
+
+<a name='DiGi.Geometry.Planar.Query.TryGetGridIndex(thisDiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,int,int,double).index_Y'></a>
+
+`index_Y` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The number of steps along the Y axis from the origin to the point; zero when the point is not a node\.
+
+<a name='DiGi.Geometry.Planar.Query.TryGetGridIndex(thisDiGi.Geometry.Planar.Classes.Point2D,DiGi.Geometry.Planar.Classes.Point2D,double,double,int,int,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance the point may lie from a node and still be counted as that node\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True when the point lies on a node of the lattice within the tolerance; otherwise false\.
 
 <a name='DiGi.Geometry.Planar.Query.Union(thisDiGi.Geometry.Planar.Classes.Polygon2D,DiGi.Geometry.Planar.Classes.Polygon2D)'></a>
 
