@@ -19,8 +19,8 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            Point2D[] point2Ds_Local = point2Ds as Point2D[] ?? point2Ds.ToArray();
-            int count = point2Ds_Local.Length;
+            IReadOnlyList<Point2D> point2Ds_List = point2Ds as IReadOnlyList<Point2D> ?? [.. point2Ds];
+            int count = point2Ds_List.Count;
 
             if (count == 0)
             {
@@ -29,13 +29,13 @@ namespace DiGi.Geometry.Planar
 
             if (count == 1)
             {
-                return point2Ds_Local[0];
+                return point2Ds_List[0];
             }
 
             if (count == 2)
             {
-                Point2D point2D_First = point2Ds_Local[0];
-                return point2D_First?.Mid(point2Ds_Local[1]);
+                Point2D point2D_First = point2Ds_List[0];
+                return point2D_First?.Mid(point2Ds_List[1]);
             }
 
             double area = 0;
@@ -44,8 +44,8 @@ namespace DiGi.Geometry.Planar
 
             for (int i = 0, j = count - 1; i < count; j = i++)
             {
-                Point2D point2D_1 = point2Ds_Local[i];
-                Point2D point2D_2 = point2Ds_Local[j];
+                Point2D point2D_1 = point2Ds_List[i];
+                Point2D point2D_2 = point2Ds_List[j];
                 if (point2D_1 == null || point2D_2 == null)
                 {
                     continue;

@@ -17,6 +17,39 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
+            if (point2Ds is IReadOnlyList<Point2D> point2Ds_List)
+            {
+                int count_List = point2Ds_List.Count;
+                if (count_List == 0)
+                {
+                    return null;
+                }
+
+                int count_Valid = 0;
+                double x_Sum = 0;
+                double y_Sum = 0;
+
+                for (int i = 0; i < count_List; i++)
+                {
+                    Point2D point2D = point2Ds_List[i];
+                    if (point2D == null)
+                    {
+                        continue;
+                    }
+
+                    count_Valid++;
+                    x_Sum += point2D.X;
+                    y_Sum += point2D.Y;
+                }
+
+                if (count_Valid == 0)
+                {
+                    return null;
+                }
+
+                return new(x_Sum / count_Valid, y_Sum / count_Valid);
+            }
+
             int count = 0;
             double x = 0;
             double y = 0;
@@ -37,7 +70,7 @@ namespace DiGi.Geometry.Planar
                 return null;
             }
 
-            return new Point2D(x / count, y / count);
+            return new(x / count, y / count);
         }
     }
 }

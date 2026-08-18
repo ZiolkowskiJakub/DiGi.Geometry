@@ -17,6 +17,41 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
+            if (point3Ds is IReadOnlyList<Point3D> point3Ds_List)
+            {
+                int count_List = point3Ds_List.Count;
+                if (count_List == 0)
+                {
+                    return null;
+                }
+
+                int count_Valid = 0;
+                double x_Sum = 0;
+                double y_Sum = 0;
+                double z_Sum = 0;
+
+                for (int i = 0; i < count_List; i++)
+                {
+                    Point3D point3D = point3Ds_List[i];
+                    if (point3D == null)
+                    {
+                        continue;
+                    }
+
+                    count_Valid++;
+                    x_Sum += point3D.X;
+                    y_Sum += point3D.Y;
+                    z_Sum += point3D.Z;
+                }
+
+                if (count_Valid == 0)
+                {
+                    return null;
+                }
+
+                return new(x_Sum / count_Valid, y_Sum / count_Valid, z_Sum / count_Valid);
+            }
+
             double x = 0;
             double y = 0;
             double z = 0;
@@ -39,7 +74,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new Point3D(x / count, y / count, z / count);
+            return new(x / count, y / count, z / count);
         }
 
         /// <summary>
@@ -52,6 +87,41 @@ namespace DiGi.Geometry.Spatial
             if (vector3Ds == null)
             {
                 return null;
+            }
+
+            if (vector3Ds is IReadOnlyList<Vector3D> vector3Ds_List)
+            {
+                int count_List = vector3Ds_List.Count;
+                if (count_List == 0)
+                {
+                    return null;
+                }
+
+                int count_Valid = 0;
+                double x_Sum = 0;
+                double y_Sum = 0;
+                double z_Sum = 0;
+
+                for (int i = 0; i < count_List; i++)
+                {
+                    Vector3D vector3D = vector3Ds_List[i];
+                    if (vector3D == null)
+                    {
+                        continue;
+                    }
+
+                    count_Valid++;
+                    x_Sum += vector3D.X;
+                    y_Sum += vector3D.Y;
+                    z_Sum += vector3D.Z;
+                }
+
+                if (count_Valid == 0)
+                {
+                    return null;
+                }
+
+                return new(x_Sum / count_Valid, y_Sum / count_Valid, z_Sum / count_Valid);
             }
 
             double x = 0;
@@ -76,7 +146,7 @@ namespace DiGi.Geometry.Spatial
                 return null;
             }
 
-            return new Vector3D(x / count, y / count, z / count);
+            return new(x / count, y / count, z / count);
         }
     }
 }
