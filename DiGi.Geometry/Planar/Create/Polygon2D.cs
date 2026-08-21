@@ -8,7 +8,7 @@ namespace DiGi.Geometry.Planar
     {
         /// <summary>
         /// Creates a <see cref="Classes.Polygon2D"/> from a collection of <see cref="Point2D"/> objects, dropping any point which repeats the one before it.
-        /// <para>Use this rather than the constructor whenever the points come from outside the library - a file, a service, a user - and are not already known to form an open ring. A polygon holds its ring open, because <see cref="Classes.Polygon2D.GetSegments"/> adds the closing segment itself, so a ring which repeats its first point as its last would otherwise carry a segment of no length. Such a segment has no direction, makes the ring report as self intersecting, and pushes a triangle onto the four point branch of triangulation where it produces a second, degenerate triangle.</para>
+        /// <para>Use this rather than the constructor whenever the points come from outside the library - a file, a service, a user - and are not already known to form an open ring. A polygon holds its ring open, because <see cref="Polygon2D.GetSegments"/> adds the closing segment itself, so a ring which repeats its first point as its last would otherwise carry a segment of no length. Such a segment has no direction, makes the ring report as self intersecting, and pushes a triangle onto the four point branch of triangulation where it produces a second, degenerate triangle.</para>
         /// <para>The constructor stays a plain assignment and does none of this, so a caller who already holds clean points pays nothing.</para>
         /// </summary>
         /// <param name="point2Ds">The <see cref="IEnumerable{T}"/> of <see cref="Point2D"/> objects used to define the polygon.</param>
