@@ -1,4 +1,4 @@
-﻿using NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Prepared;
 using NetTopologySuite.Triangulate;
 using System.Collections.Generic;
@@ -121,7 +121,27 @@ namespace DiGi.Geometry.Planar
             List<Polygon> result = [];
             foreach (Polygon polygon_Temp in polygons)
             {
-                NetTopologySuite.Geometries.Geometry geometry_Intersection = polygon.Intersection(polygon_Temp);
+                NetTopologySuite.Geometries.Geometry? geometry_Intersection = null;
+                try
+                {
+                    geometry_Intersection = polygon.Intersection(polygon_Temp);
+                }
+                catch (NetTopologySuite.Geometries.TopologyException)
+                {
+                    try
+                    {
+                        geometry_Intersection = NetTopologySuite.Precision.EnhancedPrecisionOp.Intersection(polygon, polygon_Temp);
+                    }
+                    catch (NetTopologySuite.Geometries.TopologyException)
+                    {
+                        geometry_Intersection = null;
+                    }
+                }
+
+                if (geometry_Intersection == null)
+                {
+                    continue;
+                }
 
                 List<Polygon> polygons_Intersection = [];
                 if (geometry_Intersection is Polygon polygon_Temp_Temp)
