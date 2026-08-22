@@ -7631,6 +7631,93 @@ The double value representing the offset distance\.
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[IPolygonal2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonal2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the resulting offset polygonal shapes, or null if the input is null or no result is produced\.
 
+<a name='DiGi.Geometry.Planar.Query.Offset(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,double)'></a>
+
+## Query\.Offset\(this IPolygonalFace2D, double\) Method
+
+Offsets the specified [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D') by a given distance\.
+
+```csharp
+public static System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.PolygonalFace2D>? Offset(this DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D? polygonalFace2D, double offset);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Query.Offset(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,double).polygonalFace2D'></a>
+
+`polygonalFace2D` [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')
+
+The [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D') to offset\. Can be null\.
+
+<a name='DiGi.Geometry.Planar.Query.Offset(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,double).offset'></a>
+
+`offset` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The double value representing the offset distance\. Positive values expand the face, while negative values shrink it\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the resulting offset faces, or null if the input [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D') is null\.
+
+<a name='DiGi.Geometry.Planar.Query.Offset(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,double,BufferParameters)'></a>
+
+## Query\.Offset\(this IPolygonalFace2D, double, BufferParameters\) Method
+
+Offsets the specified [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D') by a given distance using the provided buffer parameters\.
+
+```csharp
+public static System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.PolygonalFace2D>? Offset(this DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D? polygonalFace2D, double offset, BufferParameters bufferParameters);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Query.Offset(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,double,BufferParameters).polygonalFace2D'></a>
+
+`polygonalFace2D` [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')
+
+The [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D') to offset\.
+
+<a name='DiGi.Geometry.Planar.Query.Offset(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,double,BufferParameters).offset'></a>
+
+`offset` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance by which to offset the polygonal face\. A positive [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') value expands the face, while a negative [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') value contracts it\.
+
+<a name='DiGi.Geometry.Planar.Query.Offset(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,double,BufferParameters).bufferParameters'></a>
+
+`bufferParameters` [NetTopologySuite\.Operation\.Buffer\.BufferParameters](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.operation.buffer.bufferparameters 'NetTopologySuite\.Operation\.Buffer\.BufferParameters')
+
+The [NetTopologySuite\.Operation\.Buffer\.BufferParameters](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.operation.buffer.bufferparameters 'NetTopologySuite\.Operation\.Buffer\.BufferParameters') used to configure the buffering operation\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the resulting offset faces, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if the input [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D') is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') or the [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') offset value is [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN')\.
+
+<a name='DiGi.Geometry.Planar.Query.Offset(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double)'></a>
+
+## Query\.Offset\(this IEnumerable\<IPolygonalFace2D\>, double\) Method
+
+Offsets each [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D') in the collection by the specified distance\.
+
+```csharp
+public static System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.PolygonalFace2D>? Offset(this System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D>? polygonalFace2Ds, double offset);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Query.Offset(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double).polygonalFace2Ds'></a>
+
+`polygonalFace2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The collection of [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D') objects to offset\. Can be null\.
+
+<a name='DiGi.Geometry.Planar.Query.Offset(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double).offset'></a>
+
+`offset` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The double value representing the offset distance\. Positive values expand each face, while negative values shrink it\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the offset faces, or null if the collection is null\.
+
 <a name='DiGi.Geometry.Planar.Query.On(thisDiGi.Geometry.Planar.Interfaces.ISegmentable2D,DiGi.Geometry.Planar.Classes.Point2D,double)'></a>
 
 ## Query\.On\(this ISegmentable2D, Point2D, double\) Method

@@ -176,6 +176,19 @@ namespace DiGi.Geometry.Planar
                         continue;
                     }
 
+                    // A clipped piece that is no smaller than the polygon it was cut from means the
+                    // triangulation made no progress on it, and recursing on it never terminates. This is
+                    // not hypothetical: a ring carrying corners closer together than the precision the
+                    // triangulation snaps to (1 / tolerance) comes back out of the overlay unchanged, and
+                    // the recursion then took the whole process down with a stack overflow, which is not
+                    // catchable, rather than raising anything a caller could handle. Such a piece is
+                    // dropped instead. Callers that must not lose it are the ones that have to hand over a
+                    // ring with no sub-tolerance corners in the first place.
+                    if (polygon_Intersection.Area >= polygon.Area - tolerance)
+                    {
+                        continue;
+                    }
+
                     List<Polygon>? polygons_Temp_Temp = Triangulate(polygon_Intersection, tolerance);
                     if (polygons_Temp_Temp == null || polygons_Temp_Temp.Count == 0)
                     {

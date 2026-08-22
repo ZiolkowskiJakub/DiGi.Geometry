@@ -5252,6 +5252,124 @@ The third [Vector3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Clas
 [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
 A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') representing the determinant, or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if any of the input vectors are null\.
 
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonal2D_,double)'></a>
+
+## Query\.Difference\(this Mesh3D, IEnumerable\<IPolygonal2D\>, double\) Method
+
+Cuts plan view openings out of a mesh, subtracting the area enclosed by each polygonal curve from the mesh as seen from above while keeping the elevations of the mesh\.
+
+```csharp
+public static DiGi.Geometry.Spatial.Classes.Mesh3D? Difference(this DiGi.Geometry.Spatial.Classes.Mesh3D? mesh3D, System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Interfaces.IPolygonal2D>? polygonal2Ds, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonal2D_,double).mesh3D'></a>
+
+`mesh3D` [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')
+
+The mesh to cut\. This value can be null\.
+
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonal2D_,double).polygonal2Ds'></a>
+
+`polygonal2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[IPolygonal2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonal2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The polygonal curves to cut out, in the plan view \(X, Y\) coordinates of the mesh\. This value can be null\.
+
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonal2D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance used for the plan view subtraction, for the triangulation of what remains and for the welding of the resulting mesh\.
+
+#### Returns
+[Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')  
+A new [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') holding the mesh with the areas cut out, a clone of the mesh when there is nothing to cut, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') when the mesh is null or nothing of it remains\.
+
+### Remarks
+A polygonal curve encloses one area and cannot describe an opening within it\. Use [Difference\(this Mesh3D, IEnumerable&lt;IPolygonalFace2D&gt;, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double) 'DiGi\.Geometry\.Spatial\.Query\.Difference\(this DiGi\.Geometry\.Spatial\.Classes\.Mesh3D, System\.Collections\.Generic\.IEnumerable\<DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D\>, double\)') when the shapes to cut out have openings of their own, such as courtyards\.
+
+See [Difference\(this Mesh3D, IEnumerable&lt;Polygon&gt;, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_Polygon_,double) 'DiGi\.Geometry\.Spatial\.Query\.Difference\(this DiGi\.Geometry\.Spatial\.Classes\.Mesh3D, System\.Collections\.Generic\.IEnumerable\<Polygon\>, double\)') for what the subtraction does with degenerate input.
+
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double)'></a>
+
+## Query\.Difference\(this Mesh3D, IEnumerable\<IPolygonalFace2D\>, double\) Method
+
+Cuts plan view openings out of a mesh, subtracting each polygonal face from the mesh as seen from above while keeping the elevations of the mesh\.
+
+The internal edges of a face are kept, so the mesh survives inside them: the courtyard of a building keeps its ground.
+
+```csharp
+public static DiGi.Geometry.Spatial.Classes.Mesh3D? Difference(this DiGi.Geometry.Spatial.Classes.Mesh3D? mesh3D, System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D>? polygonalFace2Ds, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double).mesh3D'></a>
+
+`mesh3D` [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')
+
+The mesh to cut\. This value can be null\.
+
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double).polygonalFace2Ds'></a>
+
+`polygonalFace2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The faces to cut out, in the plan view \(X, Y\) coordinates of the mesh\. This value can be null\.
+
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance used for the plan view subtraction, for the triangulation of what remains and for the welding of the resulting mesh\.
+
+#### Returns
+[Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')  
+A new [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') holding the mesh with the faces cut out, a clone of the mesh when there is nothing to cut, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') when the mesh is null or nothing of it remains\.
+
+### Remarks
+See [Difference\(this Mesh3D, IEnumerable&lt;Polygon&gt;, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_Polygon_,double) 'DiGi\.Geometry\.Spatial\.Query\.Difference\(this DiGi\.Geometry\.Spatial\.Classes\.Mesh3D, System\.Collections\.Generic\.IEnumerable\<Polygon\>, double\)') for what the subtraction does with degenerate input\.
+
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_Polygon_,double)'></a>
+
+## Query\.Difference\(this Mesh3D, IEnumerable\<Polygon\>, double\) Method
+
+Cuts plan view openings out of a mesh, subtracting each polygon from the mesh as seen from above while keeping the elevations of the mesh\.
+
+The subtraction is 2.5D, not a solid boolean: every triangle is clipped in plan and the corners of what remains are put back onto the plane of the triangle they were cut from, so a surface stays a surface and keeps its shape. This is what cuts building footprints out of a terrain surface.
+
+```csharp
+public static DiGi.Geometry.Spatial.Classes.Mesh3D? Difference(this DiGi.Geometry.Spatial.Classes.Mesh3D? mesh3D, System.Collections.Generic.IEnumerable<Polygon>? polygons, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_Polygon_,double).mesh3D'></a>
+
+`mesh3D` [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')
+
+The mesh to cut\. This value can be null\.
+
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_Polygon_,double).polygons'></a>
+
+`polygons` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[NetTopologySuite\.Geometries\.Polygon](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.polygon 'NetTopologySuite\.Geometries\.Polygon')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The polygons to cut out, in the plan view \(X, Y\) coordinates of the mesh\. This value can be null\.
+
+<a name='DiGi.Geometry.Spatial.Query.Difference(thisDiGi.Geometry.Spatial.Classes.Mesh3D,System.Collections.Generic.IEnumerable_Polygon_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance used for the plan view subtraction, for the triangulation of what remains and for the welding of the resulting mesh\.
+
+#### Returns
+[Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D')  
+A new [Mesh3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Mesh3D 'DiGi\.Geometry\.Spatial\.Classes\.Mesh3D') holding the mesh with the polygons cut out, a clone of the mesh when there is nothing to cut, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') when the mesh is null or nothing of it remains\.
+
+### Remarks
+The operation is deliberately defensive, because it runs on measured data feeding a 3D view\.
+
+A triangle carrying a not-a-number corner is dropped, an invalid or self-intersecting cutting polygon is repaired ([NetTopologySuite\.Geometries\.Utilities\.GeometryFixer](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.utilities.geometryfixer 'NetTopologySuite\.Geometries\.Utilities\.GeometryFixer')) rather than rejected, and a cutting polygon smaller than the tolerance is ignored.
+
+A triangle with no plan area (a vertical one) is passed on exactly as it came in: no plan view polygon can take anything away from it and no elevation can be interpolated across it, so dropping it would leave a gap for no reason. A triangle whose subtraction fails on a topology error is passed on for the same reason - a stray triangle inside one building is a far smaller defect than a hole in the ground around it.
+
 <a name='DiGi.Geometry.Spatial.Query.Difference_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double)'></a>
 
 ## Query\.Difference\<TPolygonalFace3D\>\(this Polyhedron\<TPolygonalFace3D\>, Polyhedron\<TPolygonalFace3D\>, double\) Method
@@ -5977,6 +6095,48 @@ The [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') value indicating whether the polyhedron is fully closed\.
+
+<a name='DiGi.Geometry.Spatial.Query.IsValid(thisDiGi.Geometry.Spatial.Classes.Point3D)'></a>
+
+## Query\.IsValid\(this Point3D\) Method
+
+Checks that a point is non\-null and carries finite X, Y and Z values\.
+
+```csharp
+public static bool IsValid(this DiGi.Geometry.Spatial.Classes.Point3D? point3D);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Query.IsValid(thisDiGi.Geometry.Spatial.Classes.Point3D).point3D'></a>
+
+`point3D` [Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')
+
+The point to check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') when the point is non\-null and finite; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
+<a name='DiGi.Geometry.Spatial.Query.IsValid(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Spatial.Classes.Point3D_)'></a>
+
+## Query\.IsValid\(this IEnumerable\<Point3D\>\) Method
+
+Checks that every point in the collection is non\-null and carries finite X, Y and Z values\.
+
+```csharp
+public static bool IsValid(this System.Collections.Generic.IEnumerable<DiGi.Geometry.Spatial.Classes.Point3D>? point3Ds);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Query.IsValid(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Spatial.Classes.Point3D_).point3Ds'></a>
+
+`point3Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[Point3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Point3D 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The collection of points to check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') when all points are valid; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
 
 <a name='DiGi.Geometry.Spatial.Query.Max(thisDiGi.Geometry.Spatial.Classes.Point3D,DiGi.Geometry.Spatial.Classes.Point3D)'></a>
 

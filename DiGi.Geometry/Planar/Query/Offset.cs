@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
@@ -222,6 +222,103 @@ namespace DiGi.Geometry.Planar
                     {
                         result.AddRange(polygon2Ds);
                     }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Offsets the specified <see cref="IPolygonalFace2D"/> by a given distance.
+        /// </summary>
+        /// <param name="polygonalFace2D">The <see cref="IPolygonalFace2D"/> to offset. Can be null.</param>
+        /// <param name="offset">The double value representing the offset distance. Positive values expand the face, while negative values shrink it.</param>
+        /// <returns>A <see cref="List{PolygonalFace2D}"/> containing the resulting offset faces, or null if the input <see cref="IPolygonalFace2D"/> is null.</returns>
+        public static List<PolygonalFace2D>? Offset(this IPolygonalFace2D? polygonalFace2D, double offset)
+        {
+            if (polygonalFace2D == null)
+            {
+                return null;
+            }
+
+            NetTopologySuite.Operation.Buffer.BufferParameters bufferParameters = new()
+            {
+                JoinStyle = NetTopologySuite.Operation.Buffer.JoinStyle.Mitre,
+                EndCapStyle = NetTopologySuite.Operation.Buffer.EndCapStyle.Square,
+            };
+
+            return polygonalFace2D.Offset(offset, bufferParameters);
+        }
+
+        /// <summary>
+        /// Offsets the specified <see cref="IPolygonalFace2D"/> by a given distance using the provided buffer parameters.
+        /// </summary>
+        /// <param name="polygonalFace2D">The <see cref="IPolygonalFace2D"/> to offset.</param>
+        /// <param name="offset">The distance by which to offset the polygonal face. A positive <see cref="double"/> value expands the face, while a negative <see cref="double"/> value contracts it.</param>
+        /// <param name="bufferParameters">The <see cref="NetTopologySuite.Operation.Buffer.BufferParameters"/> used to configure the buffering operation.</param>
+        /// <returns>A <see cref="List{PolygonalFace2D}"/> containing the resulting offset faces, or <see langword="null"/> if the input <see cref="IPolygonalFace2D"/> is <see langword="null"/> or the <see cref="double"/> offset value is <see cref="double.NaN"/>.</returns>
+        public static List<PolygonalFace2D>? Offset(this IPolygonalFace2D? polygonalFace2D, double offset, NetTopologySuite.Operation.Buffer.BufferParameters bufferParameters)
+        {
+            if (polygonalFace2D == null || double.IsNaN(offset))
+            {
+                return null;
+            }
+
+            if (offset == 0)
+            {
+                if (DiGi.Core.Query.Clone(polygonalFace2D) is PolygonalFace2D polygonalFace2D_Clone)
+                {
+                    return [polygonalFace2D_Clone];
+                }
+
+                return null;
+            }
+
+            Polygon? polygon = polygonalFace2D.ToNTS();
+            if (polygon == null)
+            {
+                return null;
+            }
+
+            NetTopologySuite.Geometries.Geometry? geometry = polygon.Buffer(offset, bufferParameters);
+            if (geometry == null)
+            {
+                return null;
+            }
+
+            if (geometry is Polygon polygon_Result)
+            {
+                PolygonalFace2D? polygonalFace2D_Result = polygon_Result.ToDiGi();
+                return polygonalFace2D_Result != null ? [polygonalFace2D_Result] : null;
+            }
+            else if (geometry is MultiPolygon multiPolygon)
+            {
+                return multiPolygon.ToDiGi_PolygonalFace2Ds();
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Offsets each <see cref="IPolygonalFace2D"/> in the collection by the specified distance.
+        /// </summary>
+        /// <param name="polygonalFace2Ds">The collection of <see cref="IPolygonalFace2D"/> objects to offset. Can be null.</param>
+        /// <param name="offset">The double value representing the offset distance. Positive values expand each face, while negative values shrink it.</param>
+        /// <returns>A <see cref="List{PolygonalFace2D}"/> containing the offset faces, or null if the collection is null.</returns>
+        public static List<PolygonalFace2D>? Offset(this IEnumerable<IPolygonalFace2D>? polygonalFace2Ds, double offset)
+        {
+            if (polygonalFace2Ds == null)
+            {
+                return null;
+            }
+
+            List<PolygonalFace2D> result = [];
+            foreach (IPolygonalFace2D polygonalFace2D in polygonalFace2Ds)
+            {
+                List<PolygonalFace2D>? polygonalFace2Ds_Offset = polygonalFace2D.Offset(offset);
+                if (polygonalFace2Ds_Offset != null)
+                {
+                    result.AddRange(polygonalFace2Ds_Offset);
                 }
             }
 
