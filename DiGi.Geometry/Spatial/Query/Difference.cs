@@ -45,7 +45,7 @@ namespace DiGi.Geometry.Spatial
         /// <remarks>
         /// The operation is deliberately defensive, because it runs on measured data feeding a 3D view.
         /// <para>A triangle carrying a not-a-number corner is dropped, an invalid or self-intersecting cutting polygon is repaired (<see cref="GeometryFixer"/>) rather than rejected, and a cutting polygon smaller than the tolerance is ignored.</para>
-        /// <para>A triangle with no plan area (a vertical one) is passed on exactly as it came in: no plan view polygon can take anything away from it and no elevation can be interpolated across it, so dropping it would leave a gap for no reason. A triangle whose subtraction fails on a topology error is passed on for the same reason - a stray triangle inside one building is a far smaller defect than a hole in the ground around it.</para>
+        /// <para>A triangle with no plan area (a vertical one) is passed on exactly as it came in: no plan view polygon can take anything away from it and no elevation can be interpolated across it, so dropping it would leave a gap for no reason. A triangle whose subtraction fails on a topology error, or whose remainder cannot be triangulated, is passed on for the same reason - a stray triangle inside one building is a far smaller defect than a hole in the ground around it. Either way the failure costs that one triangle and never the surface around it.</para>
         /// </remarks>
         /// <param name="mesh3D">The mesh to cut. This value can be null.</param>
         /// <param name="polygons">The polygons to cut out, in the plan view (X, Y) coordinates of the mesh. This value can be null.</param>
@@ -357,6 +357,12 @@ namespace DiGi.Geometry.Spatial
                     continue;
                 }
 
+                // What is left of the triangle is collected in full before any of it is kept, so a failure
+                // part way through can put the triangle back as it came in rather than leaving the ground
+                // half cut.
+                List<Triangle3D> triangle3Ds_Remainder = [];
+
+                bool failed_Triangulation = false;
                 for (int i = 0; i < geometry_Remainder.NumGeometries; i++)
                 {
                     if (geometry_Remainder.GetGeometryN(i) is not Polygon polygon_Dirty || polygon_Dirty.IsEmpty || polygon_Dirty.Area < tolerance)
@@ -375,7 +381,17 @@ namespace DiGi.Geometry.Spatial
                     {
                         // The tolerance is handed over rather than left to its default, so the precision the
                         // triangulator snaps to is the one this whole operation works at.
-                        List<Polygon>? polygons_Triangulated = Planar.Query.Triangulate(polygon_Remainder, tolerance);
+                        List<Polygon>? polygons_Triangulated;
+                        try
+                        {
+                            polygons_Triangulated = Planar.Query.Triangulate(polygon_Remainder, tolerance);
+                        }
+                        catch (System.Exception)
+                        {
+                            failed_Triangulation = true;
+                            break;
+                        }
+
                         if (polygons_Triangulated == null)
                         {
                             continue;
@@ -425,9 +441,17 @@ namespace DiGi.Geometry.Spatial
                             continue;
                         }
 
-                        triangle3Ds.Add(new Triangle3D(point3Ds_Remainder[0], point3Ds_Remainder[1], point3Ds_Remainder[2]));
+                        triangle3Ds_Remainder.Add(new Triangle3D(point3Ds_Remainder[0], point3Ds_Remainder[1], point3Ds_Remainder[2]));
                     }
                 }
+
+                if (failed_Triangulation)
+                {
+                    triangle3Ds.Add(new Triangle3D(point3D_1, point3D_2, point3D_3));
+                    continue;
+                }
+
+                triangle3Ds.AddRange(triangle3Ds_Remainder);
             }
 
             if (triangle3Ds.Count == 0)

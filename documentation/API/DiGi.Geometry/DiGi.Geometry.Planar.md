@@ -9059,6 +9059,11 @@ The distance tolerance used for precision during the triangulation process\.
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[NetTopologySuite\.Geometries\.Polygon](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.polygon 'NetTopologySuite\.Geometries\.Polygon')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A list of triangles that represent the original polygon, or null if the input polygon is null or the triangulation fails\.
 
+### Remarks
+The triangles are cut from the corners the polygon already has, by ear clipping, so no corner is invented and none of the ones that were there is moved\. That is what lets a triangulated shape stay flush with whatever it was cut from, and it is why a conforming Delaunay triangulation is not used here: that one inserts corners of its own, and enforcing the constraints it needs to do so does not converge on a shape carrying narrow slivers, which is exactly what subtracting the outlines of neighbouring buildings from one surface leaves behind\.
+
+An invalid or self-intersecting polygon is repaired ([NetTopologySuite\.Geometries\.Utilities\.GeometryFixer](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.utilities.geometryfixer 'NetTopologySuite\.Geometries\.Utilities\.GeometryFixer')) rather than rejected, and each lobe of the repaired shape is triangulated on its own, so a failure on one of them costs only that lobe. Holes are supported: they are joined onto the shell before the ring is cut up.
+
 <a name='DiGi.Geometry.Planar.Query.TryConvert_TPolygonal2D_(thisDiGi.Geometry.Planar.Interfaces.IPolygonal2D,System.Collections.Generic.List_TPolygonal2D_,double)'></a>
 
 ## Query\.TryConvert\<TPolygonal2D\>\(this IPolygonal2D, List\<TPolygonal2D\>, double\) Method

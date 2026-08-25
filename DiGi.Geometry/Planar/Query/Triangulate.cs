@@ -1,6 +1,5 @@
 using NetTopologySuite.Geometries;
-using NetTopologySuite.Geometries.Prepared;
-using NetTopologySuite.Triangulate;
+using NetTopologySuite.Geometries.Utilities;
 using System.Collections.Generic;
 
 namespace DiGi.Geometry.Planar
@@ -10,192 +9,114 @@ namespace DiGi.Geometry.Planar
         /// <summary>
         /// Triangulates the specified polygon into a set of smaller triangle polygons.
         /// </summary>
+        /// <remarks>
+        /// The triangles are cut from the corners the polygon already has, by ear clipping, so no corner is invented and none of the ones that were there is moved. That is what lets a triangulated shape stay flush with whatever it was cut from, and it is why a conforming Delaunay triangulation is not used here: that one inserts corners of its own, and enforcing the constraints it needs to do so does not converge on a shape carrying narrow slivers, which is exactly what subtracting the outlines of neighbouring buildings from one surface leaves behind.
+        /// <para>An invalid or self-intersecting polygon is repaired (<see cref="GeometryFixer"/>) rather than rejected, and each lobe of the repaired shape is triangulated on its own, so a failure on one of them costs only that lobe. Holes are supported: they are joined onto the shell before the ring is cut up.</para>
+        /// </remarks>
         /// <param name="polygon">The polygon to be triangulated.</param>
         /// <param name="tolerance">The distance tolerance used for precision during the triangulation process.</param>
         /// <returns>A list of triangles that represent the original polygon, or null if the input polygon is null or the triangulation fails.</returns>
         public static List<Polygon>? Triangulate(this Polygon? polygon, double tolerance = DiGi.Core.Constants.Tolerance.MicroDistance)
         {
-            if (polygon == null)
+            if (polygon == null || polygon.IsEmpty)
             {
                 return null;
             }
 
-            GeometryFactory geometryFactory = new(new PrecisionModel(1 / tolerance));
-
-            GeometryCollection? geometryCollection;
-
-            if (polygon.Holes != null && polygon.Holes.Length != 0)
+            Coordinate[]? coordinates = polygon.Coordinates;
+            if (coordinates == null || coordinates.Length < 3)
             {
-                Envelope envelope = polygon.Boundary.EnvelopeInternal;
+                return null;
+            }
 
-                double buffer = 0.5 * envelope.MaxExtent;
+            // A closed ring of three distinct corners has four coordinates: the polygon already is the
+            // triangle being asked for, and nothing is gained by taking it apart and putting it back.
+            if (polygon.NumInteriorRings == 0 && coordinates.Length == 4)
+            {
+                return [polygon];
+            }
 
-                envelope = new Envelope(envelope.MinX - buffer, envelope.MaxX + buffer, envelope.MinY - buffer, envelope.MaxY + buffer);
-
-                NetTopologySuite.Geometries.Geometry geometry = (NetTopologySuite.Geometries.Geometry?)geometryFactory.CreateGeometryCollection([polygon, geometryFactory.ToGeometry(envelope)]) ?? polygon;
-                if (geometry == null)
+            // Ear clipping works on the corners of the ring as they stand, so it has no constraints to
+            // enforce and nothing to fail to converge on. Holes are joined onto the shell first, which
+            // leaves a ring touching itself - invalid as a polygon, but exactly what the ear clipper takes.
+            List<Polygon>? EarClip(Polygon polygon_Input)
+            {
+                NetTopologySuite.Geometries.Geometry? geometry_Triangles;
+                try
+                {
+                    geometry_Triangles = NetTopologySuite.Triangulate.Polygon.PolygonTriangulator.Triangulate(polygon_Input);
+                }
+                catch (System.Exception)
                 {
                     return null;
                 }
 
-                ConformingDelaunayTriangulationBuilder conformingDelaunayTriangulationBuilder = new();
-
-                conformingDelaunayTriangulationBuilder.SetSites(geometry);
-                conformingDelaunayTriangulationBuilder.Constraints = geometry;
-
-                geometryCollection = conformingDelaunayTriangulationBuilder.GetTriangles(geometryFactory);
-                if (geometryCollection == null)
+                if (geometry_Triangles == null || geometry_Triangles.IsEmpty)
                 {
                     return null;
                 }
 
-                List<NetTopologySuite.Geometries.Geometry> geometries_Temp = [];
+                double area = 0;
 
-                // The conforming Delaunay triangulation covers the whole convex domain, so it also
-                // produces triangles inside the holes and inside the envelope padding that was added
-                // only to bound the triangulation. Those must be discarded, keeping just the triangles
-                // that fall inside the face (outside every hole).
-                //
-                // The keep test uses each triangle's representative interior point against the polygon,
-                // NOT a whole-triangle NetTopologySuite.Geometries.Geometry.Contains(triangle):
-                //   * The Delaunay vertices are snapped to the triangulation precision grid, which does
-                //     not coincide exactly with the polygon boundary. A triangle that genuinely lies
-                //     inside the face but shares an edge/vertex with the boundary then fails the strict
-                //     whole-triangle containment test and is dropped, punching holes in the mesh (for a
-                //     courtyard footprint this discarded roughly a third of the cap area).
-                //   * The interior point is guaranteed strictly inside the triangle, so it is immune to
-                //     that boundary snapping. Triangles that slightly overshoot the boundary or a hole
-                //     are still clipped back to the exact face by the intersection pass below.
-                // The predicate is prepared over the polygon alone, not the [polygon, envelope]
-                // collection used as the triangulation domain, so the hole and the padding are excluded.
-                IPreparedGeometry preparedGeometry = PreparedGeometryFactory.Prepare(polygon);
-
-                foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in geometryCollection)
+                List<Polygon> polygons_Triangles = [];
+                for (int i = 0; i < geometry_Triangles.NumGeometries; i++)
                 {
-                    if (preparedGeometry.Contains(geometry_Temp.InteriorPoint))
+                    if (geometry_Triangles.GetGeometryN(i) is not Polygon polygon_Triangle || polygon_Triangle.IsEmpty)
                     {
-                        geometries_Temp.Add(geometry_Temp);
+                        continue;
                     }
+
+                    // This method contracts to return triangles only, and its callers keep just the four
+                    // coordinates of a closed three corner ring. A sliver covering less than the tolerance
+                    // is dropped rather than handed on.
+                    if (polygon_Triangle.NumInteriorRings != 0 || polygon_Triangle.Coordinates.Length != 4 || polygon_Triangle.Area < tolerance)
+                    {
+                        continue;
+                    }
+
+                    area += polygon_Triangle.Area;
+                    polygons_Triangles.Add(polygon_Triangle);
                 }
 
-                geometry = geometryFactory.BuildGeometry(geometries_Temp);
-
-                geometryCollection = geometry is GeometryCollection geometryCollection_Temp ? geometryCollection_Temp : new GeometryCollection([geometry], geometryFactory);
-            }
-            else
-            {
-                Coordinate[] coordinates = polygon.Coordinates;
-                if (coordinates == null || coordinates.Length < 3)
+                if (polygons_Triangles.Count == 0)
                 {
                     return null;
                 }
 
-                if (coordinates.Length == 3)
+                // The triangles have to tile the whole lobe, and a ring that still crosses itself after
+                // the repair is cut up into something covering the wrong area rather than into nothing at
+                // all. Such a lobe is dropped: handing on triangles that do not describe the shape they came
+                // from puts a visibly wrong surface in front of whoever is looking at it, which is worse
+                // than losing the lobe.
+                if (System.Math.Abs(area - polygon_Input.Area) > System.Math.Max(polygon_Input.Area * 1e-6, tolerance))
                 {
-                    return [polygon];
+                    return null;
                 }
 
-                DelaunayTriangulationBuilder delaunayTriangulationBuilder = new();
-                delaunayTriangulationBuilder.SetSites(polygon);
-
-                geometryCollection = delaunayTriangulationBuilder.GetTriangles(geometryFactory);
+                return polygons_Triangles;
             }
 
-            if (geometryCollection == null)
+            // The repair is what the ear clipper needs: it copes with a ring touching itself, but not with
+            // one crossing itself. A repaired self-intersecting ring comes back as its lobes, and each of
+            // them is cut up on its own so none of them is lost.
+            NetTopologySuite.Geometries.Geometry? geometry_Repaired = polygon.IsValid ? polygon : GeometryFixer.Fix(polygon);
+            if (geometry_Repaired == null || geometry_Repaired.IsEmpty)
             {
                 return null;
-            }
-
-            List<Polygon> polygons = [];
-            foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in geometryCollection.Geometries)
-            {
-                Polygon? polygon_Temp = geometry_Temp as Polygon;
-                if (polygon_Temp == null)
-                {
-                    continue;
-                }
-
-                polygons.Add(polygon_Temp);
             }
 
             List<Polygon> result = [];
-            foreach (Polygon polygon_Temp in polygons)
+            for (int i = 0; i < geometry_Repaired.NumGeometries; i++)
             {
-                NetTopologySuite.Geometries.Geometry? geometry_Intersection = null;
-                try
-                {
-                    geometry_Intersection = polygon.Intersection(polygon_Temp);
-                }
-                catch (NetTopologySuite.Geometries.TopologyException)
-                {
-                    try
-                    {
-                        geometry_Intersection = NetTopologySuite.Precision.EnhancedPrecisionOp.Intersection(polygon, polygon_Temp);
-                    }
-                    catch (NetTopologySuite.Geometries.TopologyException)
-                    {
-                        geometry_Intersection = null;
-                    }
-                }
-
-                if (geometry_Intersection == null)
+                if (geometry_Repaired.GetGeometryN(i) is not Polygon polygon_Component || polygon_Component.IsEmpty || polygon_Component.Area < tolerance)
                 {
                     continue;
                 }
 
-                List<Polygon> polygons_Intersection = [];
-                if (geometry_Intersection is Polygon polygon_Temp_Temp)
+                List<Polygon>? polygons_Component = EarClip(polygon_Component);
+                if (polygons_Component != null)
                 {
-                    polygons_Intersection.Add(polygon_Temp_Temp);
-                }
-                else if (geometry_Intersection is GeometryCollection geometryCollection_Temp)
-                {
-                    foreach (NetTopologySuite.Geometries.Geometry geometry_Temp in geometryCollection_Temp)
-                    {
-                        if (geometry_Temp is Polygon polygon_Temp_Temp_Temp)
-                        {
-                            polygons_Intersection.Add(polygon_Temp_Temp_Temp);
-                        }
-                    }
-                }
-
-                foreach (Polygon polygon_Intersection in polygons_Intersection)
-                {
-                    // Accept the clipped piece as-is only when it is already a triangle (a closed ring
-                    // of three distinct vertices has four coordinates) and its area still matches the
-                    // source triangle, i.e. the triangle sat inside the face and was not really clipped.
-                    // The coordinate-count guard is essential: a triangle that overshoots the boundary
-                    // by a negligible area is clipped to a quadrilateral whose area still matches, and
-                    // without the guard that quadrilateral would be returned even though this method
-                    // contracts to return triangles only. Callers such as PolygonalFace2D.Triangulate
-                    // keep only four-coordinate triangles, so a returned quadrilateral would be dropped
-                    // and leave a hole in the mesh.
-                    if (polygon_Intersection.Coordinates.Length == 4 && DiGi.Core.Query.AlmostEquals(polygon_Temp.Area, polygon_Intersection.Area, tolerance))
-                    {
-                        result.Add(polygon_Intersection);
-                        continue;
-                    }
-
-                    // A clipped piece that is no smaller than the polygon it was cut from means the
-                    // triangulation made no progress on it, and recursing on it never terminates. This is
-                    // not hypothetical: a ring carrying corners closer together than the precision the
-                    // triangulation snaps to (1 / tolerance) comes back out of the overlay unchanged, and
-                    // the recursion then took the whole process down with a stack overflow, which is not
-                    // catchable, rather than raising anything a caller could handle. Such a piece is
-                    // dropped instead. Callers that must not lose it are the ones that have to hand over a
-                    // ring with no sub-tolerance corners in the first place.
-                    if (polygon_Intersection.Area >= polygon.Area - tolerance)
-                    {
-                        continue;
-                    }
-
-                    List<Polygon>? polygons_Temp_Temp = Triangulate(polygon_Intersection, tolerance);
-                    if (polygons_Temp_Temp == null || polygons_Temp_Temp.Count == 0)
-                    {
-                        continue;
-                    }
-
-                    result.AddRange(polygons_Temp_Temp);
+                    result.AddRange(polygons_Component);
                 }
             }
 
