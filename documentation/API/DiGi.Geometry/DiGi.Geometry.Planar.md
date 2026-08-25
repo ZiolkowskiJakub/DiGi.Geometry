@@ -8632,6 +8632,8 @@ A list of the resulting split segments\.
 
 Splits a collection of segments into smaller segments based on their intersections\.
 
+Every end of every segment is welded onto one shared position with the ends lying within [tolerance](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Query.Split(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Segment2D_,double).tolerance 'DiGi\.Geometry\.Planar\.Query\.Split\(this System\.Collections\.Generic\.IEnumerable\<DiGi\.Geometry\.Planar\.Classes\.Segment2D\>, double\)\.tolerance') of it, so two segments meeting at a corner come back carrying identical coordinates rather than the two readings the source recorded for that corner. A ring assembled from the result therefore closes exactly, and [PolygonalFace2Ds\(this IEnumerable&lt;Segment2D&gt;, double\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.PolygonalFace2Ds(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Segment2D_,double) 'DiGi\.Geometry\.Planar\.Create\.PolygonalFace2Ds\(this System\.Collections\.Generic\.IEnumerable\<DiGi\.Geometry\.Planar\.Classes\.Segment2D\>, double\)') can polygonize it on any precision rather than having to be told to snap the corners together itself. A segment whose two ends land on the same position is dropped - that happens to a segment shorter than twice the tolerance, which the length gate on the way in does not catch.
+
 ```csharp
 public static System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Segment2D>? Split(this System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Classes.Segment2D>? segment2Ds, double tolerance=1E-06);
 ```
@@ -8647,7 +8649,7 @@ The collection of segments to split\.
 
 `tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
 
-The distance tolerance for intersection detection\.
+The distance tolerance for intersection detection and for welding the ends of the segments together\.
 
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Segment2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Segment2D 'DiGi\.Geometry\.Planar\.Classes\.Segment2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  

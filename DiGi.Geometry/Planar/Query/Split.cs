@@ -43,9 +43,10 @@ namespace DiGi.Geometry.Planar
 
         /// <summary>
         /// Splits a collection of segments into smaller segments based on their intersections.
+        /// <para>Every end of every segment is welded onto one shared position with the ends lying within <paramref name="tolerance"/> of it, so two segments meeting at a corner come back carrying identical coordinates rather than the two readings the source recorded for that corner. A ring assembled from the result therefore closes exactly, and <see cref="Create.PolygonalFace2Ds(System.Collections.Generic.IEnumerable{Classes.Segment2D}, double)"/> can polygonize it on any precision rather than having to be told to snap the corners together itself. A segment whose two ends land on the same position is dropped - that happens to a segment shorter than twice the tolerance, which the length gate on the way in does not catch.</para>
         /// </summary>
         /// <param name="segment2Ds">The collection of segments to split.</param>
-        /// <param name="tolerance">The distance tolerance for intersection detection.</param>
+        /// <param name="tolerance">The distance tolerance for intersection detection and for welding the ends of the segments together.</param>
         /// <returns>A list of the resulting split segments.</returns>
         public static List<Segment2D>? Split(this IEnumerable<Segment2D>? segment2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
@@ -315,7 +316,23 @@ namespace DiGi.Geometry.Planar
             for (int i = 0; i < count; i++)
             {
                 Segment2D segment2D_Temp = originalSegments[i];
-                if (ContainsSimilarSegment(segment2D_Temp))
+
+                // Both ends are taken from the registry rather than from the segment, so two segments meeting at a
+                // corner leave with the very same coordinates instead of the two readings the source recorded for it.
+                // A ring assembled from the result then closes exactly, and no longer depends on whatever grid the
+                // polygonizer downstream happens to snap to.
+                Point2D point2D_Start = AddUniquePoint(segment2D_Temp[0]!);
+                Point2D point2D_End = AddUniquePoint(segment2D_Temp[1]!);
+
+                // Two ends up to twice the tolerance apart can be drawn onto one representative, which the length
+                // gate on the way in cannot catch, so the collapsed segment is dropped here.
+                if (point2D_Start.Distance(point2D_End) <= tolerance)
+                {
+                    continue;
+                }
+
+                Segment2D segment2D_Welded = new(point2D_Start, point2D_End);
+                if (ContainsSimilarSegment(segment2D_Welded))
                 {
                     continue;
                 }
@@ -323,16 +340,15 @@ namespace DiGi.Geometry.Planar
                 List<Point2D>? point2Ds_Temp = point2Ds_BySegment[i];
                 if (point2Ds_Temp == null || point2Ds_Temp.Count == 0)
                 {
-                    RegisterSegment(segment2Ds_Result.Count, segment2D_Temp);
-                    segment2Ds_Result.Add(segment2D_Temp);
+                    RegisterSegment(segment2Ds_Result.Count, segment2D_Welded);
+                    segment2Ds_Result.Add(segment2D_Welded);
                     continue;
                 }
 
-                AddPointToSegment(i, segment2D_Temp[0]!);
-                AddPointToSegment(i, segment2D_Temp[1]!);
+                AddPointToSegment(i, point2D_Start);
+                AddPointToSegment(i, point2D_End);
 
-                Point2D point2D_Start = segment2D_Temp.Start!;
-                Vector2D vector2D_Dir = segment2D_Temp.Vector!;
+                Vector2D vector2D_Dir = segment2D_Welded.Vector!;
 
                 point2Ds_Temp.Sort(new PointAlongSegmentComparer(point2D_Start, vector2D_Dir));
 
