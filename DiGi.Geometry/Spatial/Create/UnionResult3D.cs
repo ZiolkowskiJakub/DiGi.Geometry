@@ -29,10 +29,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polyhedron_2">The second polyhedron.</param>
         /// <param name="tolerance">The distance tolerance for boolean union computations.</param>
         /// <returns>A <see cref="Classes.UnionResult3D"/> containing the union geometry (either a Polyhedron, multiple disjoint Polyhedrons, or individual face/segment elements), or null if both inputs are null.</returns>
-        public static UnionResult3D? UnionResult3D<TPolygonalFace3D>(
-            this Polyhedron<TPolygonalFace3D>? polyhedron_1,
-            Polyhedron<TPolygonalFace3D>? polyhedron_2,
-            double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static UnionResult3D? UnionResult3D<TPolygonalFace3D>(this Polyhedron<TPolygonalFace3D>? polyhedron_1, Polyhedron<TPolygonalFace3D>? polyhedron_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
             where TPolygonalFace3D : IPolygonalFace3D
         {
             if (polyhedron_1 == null && polyhedron_2 == null)

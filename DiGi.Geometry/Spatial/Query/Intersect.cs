@@ -118,14 +118,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="halfZ">The half-extent of the box along the Z axis, already expanded by any tolerance.</param>
         /// <param name="triangle3D">The <see cref="Triangle3D"/> to test for overlap.</param>
         /// <returns>A <see cref="bool"/> value indicating <c>true</c> when no separating axis exists (the triangle overlaps the box); otherwise, <c>false</c>.</returns>
-        public static bool Intersect(
-            double centerX,
-            double centerY,
-            double centerZ,
-            double halfX,
-            double halfY,
-            double halfZ,
-            Triangle3D? triangle3D)
+        public static bool Intersect(double centerX, double centerY, double centerZ, double halfX, double halfY, double halfZ, Triangle3D? triangle3D)
         {
             if (triangle3D == null)
             {

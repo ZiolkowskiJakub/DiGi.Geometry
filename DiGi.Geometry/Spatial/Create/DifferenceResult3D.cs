@@ -30,10 +30,7 @@ namespace DiGi.Geometry.Spatial
         /// <param name="polyhedron_2">The second polyhedron (to subtract).</param>
         /// <param name="tolerance">The distance tolerance for boolean difference computations.</param>
         /// <returns>A <see cref="Classes.DifferenceResult3D"/> containing the difference geometry (either a Polyhedron or individual face/segment elements), or null if polyhedron_1 is null.</returns>
-        public static DifferenceResult3D? DifferenceResult3D<TPolygonalFace3D>(
-            this Polyhedron<TPolygonalFace3D>? polyhedron_1,
-            Polyhedron<TPolygonalFace3D>? polyhedron_2,
-            double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static DifferenceResult3D? DifferenceResult3D<TPolygonalFace3D>(this Polyhedron<TPolygonalFace3D>? polyhedron_1, Polyhedron<TPolygonalFace3D>? polyhedron_2, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
             where TPolygonalFace3D : IPolygonalFace3D
         {
             if (polyhedron_1 == null)

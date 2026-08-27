@@ -17,14 +17,7 @@ namespace DiGi.Geometry.Planar
         /// <param name="index_Y">The number of steps along the Y axis from the origin to the point; zero when the point is not a node.</param>
         /// <param name="tolerance">The distance the point may lie from a node and still be counted as that node.</param>
         /// <returns>True when the point lies on a node of the lattice within the tolerance; otherwise false.</returns>
-        public static bool TryGetGridIndex(
-            this Point2D? point2D,
-            Point2D? origin,
-            double gridSize_X,
-            double gridSize_Y,
-            out int index_X,
-            out int index_Y,
-            double tolerance = DiGi.Core.Constants.Tolerance.Distance)
+        public static bool TryGetGridIndex(this Point2D? point2D, Point2D? origin, double gridSize_X, double gridSize_Y, out int index_X, out int index_Y, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             index_X = 0;
             index_Y = 0;
