@@ -48,18 +48,20 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the collection of <see cref="ITransform3D"/> objects.
+        /// Returns an enumerator that iterates over the stored <see cref="ITransform3D"/> transforms in order.
         /// </summary>
-        /// <returns>An <see cref="IEnumerator{T}"/> for the <see cref="ITransform3D"/> collection.</returns>
+        /// <returns>
+        /// An <see cref="IEnumerator{T}"/> for the stored <see cref="ITransform3D"/> collection.
+        /// Enumeration is a read-only pass over the stored instances and does not clone them; the defensive clone happens once, at construction.
+        /// </returns>
         public IEnumerator<ITransform3D> GetEnumerator()
         {
-            List<ITransform3D>? transform3Ds_Temp = DiGi.Core.Query.Clone(transform3Ds).FilterNulls();
-            if (transform3Ds_Temp is null)
+            if (transform3Ds == null)
             {
                 return Enumerable.Empty<ITransform3D>().GetEnumerator();
             }
 
-            return transform3Ds_Temp.GetEnumerator();
+            return transform3Ds.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

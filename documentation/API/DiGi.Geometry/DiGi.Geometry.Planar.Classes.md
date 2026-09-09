@@ -8694,7 +8694,7 @@ The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/do
 
 ## TransformGroup2D\.GetEnumerator\(\) Method
 
-Returns an enumerator that iterates through the collection of [DiGi\.Geometry\.Planar\.Interfaces\.ITransform2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.itransform2d 'DiGi\.Geometry\.Planar\.Interfaces\.ITransform2D') objects\.
+Returns an enumerator that iterates over the stored [DiGi\.Geometry\.Planar\.Interfaces\.ITransform2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.itransform2d 'DiGi\.Geometry\.Planar\.Interfaces\.ITransform2D') transforms in order\.
 
 ```csharp
 public System.Collections.Generic.IEnumerator<DiGi.Geometry.Planar.Interfaces.ITransform2D> GetEnumerator();
@@ -8704,7 +8704,8 @@ Implements [GetEnumerator\(\)](https://learn.microsoft.com/en-us/dotnet/api/syst
 
 #### Returns
 [System\.Collections\.Generic\.IEnumerator&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')[DiGi\.Geometry\.Planar\.Interfaces\.ITransform2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.itransform2d 'DiGi\.Geometry\.Planar\.Interfaces\.ITransform2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')  
-An [System\.Collections\.Generic\.IEnumerator&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1') for the [DiGi\.Geometry\.Planar\.Interfaces\.ITransform2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.itransform2d 'DiGi\.Geometry\.Planar\.Interfaces\.ITransform2D') collection\.
+An [System\.Collections\.Generic\.IEnumerator&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1') for the stored [DiGi\.Geometry\.Planar\.Interfaces\.ITransform2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.interfaces.itransform2d 'DiGi\.Geometry\.Planar\.Interfaces\.ITransform2D') collection\.
+Enumeration is a read\-only pass over the stored instances and does not clone them; the defensive clone happens once, at construction\.
 
 <a name='DiGi.Geometry.Planar.Classes.Triangle2D'></a>
 

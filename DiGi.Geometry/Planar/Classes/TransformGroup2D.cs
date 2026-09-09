@@ -48,18 +48,20 @@ namespace DiGi.Geometry.Planar.Classes
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the collection of <see cref="ITransform2D"/> objects.
+        /// Returns an enumerator that iterates over the stored <see cref="ITransform2D"/> transforms in order.
         /// </summary>
-        /// <returns>An <see cref="IEnumerator{T}"/> for the <see cref="ITransform2D"/> collection.</returns>
+        /// <returns>
+        /// An <see cref="IEnumerator{T}"/> for the stored <see cref="ITransform2D"/> collection.
+        /// Enumeration is a read-only pass over the stored instances and does not clone them; the defensive clone happens once, at construction.
+        /// </returns>
         public IEnumerator<ITransform2D> GetEnumerator()
         {
-            List<ITransform2D>? transform2Ds_Temp = DiGi.Core.Query.Clone(transform2Ds)?.FilterNulls();
-            if (transform2Ds_Temp == null)
+            if (transform2Ds == null)
             {
                 return Enumerable.Empty<ITransform2D>().GetEnumerator();
             }
 
-            return transform2Ds_Temp.GetEnumerator();
+            return transform2Ds.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

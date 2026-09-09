@@ -10594,7 +10594,7 @@ The [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/do
 
 ## TransformGroup3D\.GetEnumerator\(\) Method
 
-Returns an enumerator that iterates through the collection of [DiGi\.Geometry\.Spatial\.Interfaces\.ITransform3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.itransform3d 'DiGi\.Geometry\.Spatial\.Interfaces\.ITransform3D') objects\.
+Returns an enumerator that iterates over the stored [DiGi\.Geometry\.Spatial\.Interfaces\.ITransform3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.itransform3d 'DiGi\.Geometry\.Spatial\.Interfaces\.ITransform3D') transforms in order\.
 
 ```csharp
 public System.Collections.Generic.IEnumerator<DiGi.Geometry.Spatial.Interfaces.ITransform3D> GetEnumerator();
@@ -10604,7 +10604,8 @@ Implements [GetEnumerator\(\)](https://learn.microsoft.com/en-us/dotnet/api/syst
 
 #### Returns
 [System\.Collections\.Generic\.IEnumerator&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')[DiGi\.Geometry\.Spatial\.Interfaces\.ITransform3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.itransform3d 'DiGi\.Geometry\.Spatial\.Interfaces\.ITransform3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')  
-An [System\.Collections\.Generic\.IEnumerator&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1') for the [DiGi\.Geometry\.Spatial\.Interfaces\.ITransform3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.itransform3d 'DiGi\.Geometry\.Spatial\.Interfaces\.ITransform3D') collection\.
+An [System\.Collections\.Generic\.IEnumerator&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1') for the stored [DiGi\.Geometry\.Spatial\.Interfaces\.ITransform3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.itransform3d 'DiGi\.Geometry\.Spatial\.Interfaces\.ITransform3D') collection\.
+Enumeration is a read\-only pass over the stored instances and does not clone them; the defensive clone happens once, at construction\.
 
 <a name='DiGi.Geometry.Spatial.Classes.Triangle3D'></a>
 
