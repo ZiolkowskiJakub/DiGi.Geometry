@@ -173,7 +173,7 @@ Specifies that the connection between points is established using a projection m
 
 ## PointRelation Enum
 
-Represents the spatial relation of a point to the boundary of a closed 3D volume\.
+Represents the spatial relation of a point to the boundary of a closed region \- a polygonal face in the plane or a volume in space\.
 
 ```csharp
 public enum PointRelation
@@ -190,19 +190,19 @@ The relation could not be determined\.
 
 `Outside` 1
 
-The point lies outside the volume\.
+The point lies outside the region\.
 
 <a name='DiGi.Geometry.Core.Enums.PointRelation.On'></a>
 
 `On` 2
 
-The point lies on the boundary surface \(within tolerance\)\.
+The point lies on the boundary \(within tolerance\)\.
 
 <a name='DiGi.Geometry.Core.Enums.PointRelation.Inside'></a>
 
 `Inside` 3
 
-The point lies strictly inside the volume\.
+The point lies strictly inside the region\.
 
 <a name='DiGi.Geometry.Core.Enums.Side'></a>
 

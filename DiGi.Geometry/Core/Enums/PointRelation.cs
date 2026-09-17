@@ -1,7 +1,7 @@
 namespace DiGi.Geometry.Core.Enums
 {
     /// <summary>
-    /// Represents the spatial relation of a point to the boundary of a closed 3D volume.
+    /// Represents the spatial relation of a point to the boundary of a closed region - a polygonal face in the plane or a volume in space.
     /// </summary>
     public enum PointRelation
     {
@@ -11,17 +11,17 @@ namespace DiGi.Geometry.Core.Enums
         Undefined,
 
         /// <summary>
-        /// The point lies outside the volume.
+        /// The point lies outside the region.
         /// </summary>
         Outside,
 
         /// <summary>
-        /// The point lies on the boundary surface (within tolerance).
+        /// The point lies on the boundary (within tolerance).
         /// </summary>
         On,
 
         /// <summary>
-        /// The point lies strictly inside the volume.
+        /// The point lies strictly inside the region.
         /// </summary>
         Inside
     }

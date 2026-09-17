@@ -1,3 +1,4 @@
+using DiGi.Geometry.Core.Interfaces;
 using DiGi.Geometry.Planar.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -267,6 +268,19 @@ namespace DiGi.Geometry.Planar.Classes
         public bool On(Point2D? point2D, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             return Query.On(this, point2D, tolerance);
+        }
+
+        /// <summary>
+        /// Checks if the point given by its coordinates lies on the geometry within the specified tolerance, without allocating.
+        /// <para>Walks the stored points pairwise instead of building the segments; a geometry that is an <see cref="IClosedCurve"/> also tests the closing segment.</para>
+        /// </summary>
+        /// <param name="x">The X coordinate of the point to check.</param>
+        /// <param name="y">The Y coordinate of the point to check.</param>
+        /// <param name="tolerance">The distance tolerance for the check.</param>
+        /// <returns>True if the point is on the geometry; otherwise, false.</returns>
+        internal bool On(double x, double y, double tolerance)
+        {
+            return Query.On(points, x, y, this is IClosedCurve, tolerance);
         }
 
         /// <summary>

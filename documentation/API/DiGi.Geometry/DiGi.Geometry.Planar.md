@@ -7718,6 +7718,53 @@ The double value representing the offset distance\. Positive values expand each 
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') containing the offset faces, or null if the collection is null\.
 
+<a name='DiGi.Geometry.Planar.Query.On(System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,double,double,bool,double)'></a>
+
+## Query\.On\(IReadOnlyList\<Point2D\>, double, double, bool, double\) Method
+
+Checks if the point given by its coordinates lies on the chain of segments running through the given points within a given tolerance, without allocating\.
+
+Answers what [On\(this IEnumerable&lt;Segment2D&gt;, Point2D, double\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Query.On(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Segment2D_,DiGi.Geometry.Planar.Classes.Point2D,double) 'DiGi\.Geometry\.Planar\.Query\.On\(this System\.Collections\.Generic\.IEnumerable\<DiGi\.Geometry\.Planar\.Classes\.Segment2D\>, DiGi\.Geometry\.Planar\.Classes\.Point2D, double\)') answers over [Segment2Ds\(this IEnumerable&lt;Point2D&gt;, bool\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.Segment2Ds(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_,bool) 'DiGi\.Geometry\.Planar\.Create\.Segment2Ds\(this System\.Collections\.Generic\.IEnumerable\<DiGi\.Geometry\.Planar\.Classes\.Point2D\>, bool\)') of the same points: a null vertex breaks the chain on both sides, and a point is on a segment when its distance to it is strictly below the tolerance.
+
+```csharp
+internal static bool On(System.Collections.Generic.IReadOnlyList<DiGi.Geometry.Planar.Classes.Point2D>? point2Ds, double x, double y, bool closed, double tolerance);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Query.On(System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,double,double,bool,double).point2Ds'></a>
+
+`point2Ds` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The vertices of the chain, in order\.
+
+<a name='DiGi.Geometry.Planar.Query.On(System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,double,double,bool,double).x'></a>
+
+`x` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The X coordinate of the target point\.
+
+<a name='DiGi.Geometry.Planar.Query.On(System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,double,double,bool,double).y'></a>
+
+`y` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The Y coordinate of the target point\.
+
+<a name='DiGi.Geometry.Planar.Query.On(System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,double,double,bool,double).closed'></a>
+
+`closed` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+A value indicating whether the chain closes from the last vertex back to the first, as a polygon does\.
+
+<a name='DiGi.Geometry.Planar.Query.On(System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,double,double,bool,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance for the check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the point is within the tolerance of any segment of the chain; otherwise, false\.
+
 <a name='DiGi.Geometry.Planar.Query.On(thisDiGi.Geometry.Planar.Interfaces.ISegmentable2D,DiGi.Geometry.Planar.Classes.Point2D,double)'></a>
 
 ## Query\.On\(this ISegmentable2D, Point2D, double\) Method
@@ -7783,6 +7830,45 @@ The distance tolerance for the check\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the point is on any segment, otherwise false\.
+
+<a name='DiGi.Geometry.Planar.Query.On(thisSystem.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,DiGi.Geometry.Planar.Classes.Point2D,bool,double)'></a>
+
+## Query\.On\(this IReadOnlyList\<Point2D\>, Point2D, bool, double\) Method
+
+Checks if a point lies on the chain of segments running through the given points within a given tolerance, without building the segments\.
+
+```csharp
+public static bool On(this System.Collections.Generic.IReadOnlyList<DiGi.Geometry.Planar.Classes.Point2D>? point2Ds, DiGi.Geometry.Planar.Classes.Point2D? point2D, bool closed=false, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Query.On(thisSystem.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,DiGi.Geometry.Planar.Classes.Point2D,bool,double).point2Ds'></a>
+
+`point2Ds` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The vertices of the chain, in order\.
+
+<a name='DiGi.Geometry.Planar.Query.On(thisSystem.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,DiGi.Geometry.Planar.Classes.Point2D,bool,double).point2D'></a>
+
+`point2D` [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The target point\.
+
+<a name='DiGi.Geometry.Planar.Query.On(thisSystem.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,DiGi.Geometry.Planar.Classes.Point2D,bool,double).closed'></a>
+
+`closed` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+A value indicating whether the chain closes from the last vertex back to the first, as a polygon does\.
+
+<a name='DiGi.Geometry.Planar.Query.On(thisSystem.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,DiGi.Geometry.Planar.Classes.Point2D,bool,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance for the check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the point is within the tolerance of any segment of the chain; otherwise, false\.
 
 <a name='DiGi.Geometry.Planar.Query.On_T_(thisSystem.Collections.Generic.IEnumerable_T_,DiGi.Geometry.Planar.Classes.Point2D,double)'></a>
 

@@ -5888,6 +5888,109 @@ Implements [Update\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.i
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 A [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean') indicating whether the update was successful; returns `false` if the value is null\.
 
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver'></a>
+
+## PolygonalFace2DPointRelationSolver Class
+
+Classifies points against a polygonal face as [Inside](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.Inside 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.Inside'), [On](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.On 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.On') or [Outside](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.Outside 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.Outside') from an index built once over the face's rings\.
+
+Built once per face and reused for many point queries: set [Input](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.Input 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2DPointRelationSolver\.Input') to the query point, call [Solve\(\)](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.Solve() 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2DPointRelationSolver\.Solve\(\)'), then read [Output](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.Output 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2DPointRelationSolver\.Output'). It answers what [Inside\(Point2D, double\)](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D.Inside(DiGi.Geometry.Planar.Classes.Point2D,double) 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D\.Inside\(DiGi\.Geometry\.Planar\.Classes\.Point2D, double\)') and [InRange\(Point2D, double\)](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D.InRange(DiGi.Geometry.Planar.Classes.Point2D,double) 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D\.InRange\(DiGi\.Geometry\.Planar\.Classes\.Point2D, double\)') answer - a point within the tolerance of any ring is [On](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.On 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.On'), a point strictly inside the external ring and outside every hole is [Inside](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.Inside 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.Inside') - but reads the ring coordinates from flat arrays and visits only the edges whose vertical span covers the query point, instead of walking every vertex of every ring through its [Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D') on each call. On a 4 000-vertex outline that is the difference between a 150 000-point sweep taking a minute and taking well under a second (ZiolkowskiJakub/DiGi.Geometry#5).
+
+Not thread-safe: instances keep the query state and a per-ring scratch buffer, so one instance serves one sweep at a time.
+
+```csharp
+public class PolygonalFace2DPointRelationSolver : DiGi.Core.Interfaces.IOneToOneSolver<DiGi.Geometry.Planar.Classes.Point2D, DiGi.Geometry.Core.Enums.PointRelation>, DiGi.Core.Interfaces.ISolver, DiGi.Core.Interfaces.IEvaluator
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → PolygonalFace2DPointRelationSolver
+
+Implements [DiGi\.Core\.Interfaces\.IOneToOneSolver&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ionetoonesolver-2 'DiGi\.Core\.Interfaces\.IOneToOneSolver\`2')[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[,](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ionetoonesolver-2 'DiGi\.Core\.Interfaces\.IOneToOneSolver\`2')[PointRelation](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation 'DiGi\.Geometry\.Core\.Enums\.PointRelation')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ionetoonesolver-2 'DiGi\.Core\.Interfaces\.IOneToOneSolver\`2'), [DiGi\.Core\.Interfaces\.ISolver](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.isolver 'DiGi\.Core\.Interfaces\.ISolver'), [DiGi\.Core\.Interfaces\.IEvaluator](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ievaluator 'DiGi\.Core\.Interfaces\.IEvaluator')
+### Constructors
+
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.PolygonalFace2DPointRelationSolver(DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,double)'></a>
+
+## PolygonalFace2DPointRelationSolver\(IPolygonalFace2D, double\) Constructor
+
+Initializes a new instance of the [PolygonalFace2DPointRelationSolver](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2DPointRelationSolver') class over the rings of the given face\.
+
+```csharp
+public PolygonalFace2DPointRelationSolver(DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D? polygonalFace2D, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.PolygonalFace2DPointRelationSolver(DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,double).polygonalFace2D'></a>
+
+`polygonalFace2D` [IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')
+
+The face to classify points against\. Its rings are read once; later changes to the face are not seen\.
+
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.PolygonalFace2DPointRelationSolver(DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance within which a point counts as on the boundary\.
+### Properties
+
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.EdgeCount'></a>
+
+## PolygonalFace2DPointRelationSolver\.EdgeCount Property
+
+Gets the number of edges the index holds, over all rings of the face\.
+
+```csharp
+public int EdgeCount { get; }
+```
+
+#### Property Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.Input'></a>
+
+## PolygonalFace2DPointRelationSolver\.Input Property
+
+Sets the point to classify on the next [Solve\(\)](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.Solve() 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2DPointRelationSolver\.Solve\(\)') call\.
+
+```csharp
+public DiGi.Geometry.Planar.Classes.Point2D? Input { set; }
+```
+
+Implements [Input](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ionetoonesolver-2.input 'DiGi\.Core\.Interfaces\.IOneToOneSolver\`2\.Input')
+
+#### Property Value
+[Point2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Point2D 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.Output'></a>
+
+## PolygonalFace2DPointRelationSolver\.Output Property
+
+Gets the relation of the last solved point to the face: [Undefined](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation.Undefined 'DiGi\.Geometry\.Core\.Enums\.PointRelation\.Undefined') before the first successful [Solve\(\)](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.Solve() 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2DPointRelationSolver\.Solve\(\)') or when the face had no usable ring\.
+
+```csharp
+public DiGi.Geometry.Core.Enums.PointRelation Output { get; }
+```
+
+Implements [Output](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ionetoonesolver-2.output 'DiGi\.Core\.Interfaces\.IOneToOneSolver\`2\.Output')
+
+#### Property Value
+[PointRelation](DiGi.Geometry.Core.Enums.md#DiGi.Geometry.Core.Enums.PointRelation 'DiGi\.Geometry\.Core\.Enums\.PointRelation')
+### Methods
+
+<a name='DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.Solve()'></a>
+
+## PolygonalFace2DPointRelationSolver\.Solve\(\) Method
+
+Classifies [Input](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.Input 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2DPointRelationSolver\.Input') against the face and stores the result in [Output](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.Output 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2DPointRelationSolver\.Output')\.
+
+```csharp
+public bool Solve();
+```
+
+Implements [Solve\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.isolver.solve 'DiGi\.Core\.Interfaces\.ISolver\.Solve')
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the point was classified; false if [Input](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2DPointRelationSolver.Input 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2DPointRelationSolver\.Input') is null or the face had no usable ring\.
+
 <a name='DiGi.Geometry.Planar.Classes.Polyline2D'></a>
 
 ## Polyline2D Class
@@ -8182,6 +8285,41 @@ public bool On(DiGi.Geometry.Planar.Classes.Point2D? point2D, double tolerance=1
 The point to check\.
 
 <a name='DiGi.Geometry.Planar.Classes.Segmentable2D.On(DiGi.Geometry.Planar.Classes.Point2D,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The distance tolerance for the check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the point is on the geometry; otherwise, false\.
+
+<a name='DiGi.Geometry.Planar.Classes.Segmentable2D.On(double,double,double)'></a>
+
+## Segmentable2D\.On\(double, double, double\) Method
+
+Checks if the point given by its coordinates lies on the geometry within the specified tolerance, without allocating\.
+
+Walks the stored points pairwise instead of building the segments; a geometry that is an [DiGi\.Geometry\.Core\.Interfaces\.IClosedCurve](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.core.interfaces.iclosedcurve 'DiGi\.Geometry\.Core\.Interfaces\.IClosedCurve') also tests the closing segment.
+
+```csharp
+internal bool On(double x, double y, double tolerance);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Planar.Classes.Segmentable2D.On(double,double,double).x'></a>
+
+`x` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The X coordinate of the point to check\.
+
+<a name='DiGi.Geometry.Planar.Classes.Segmentable2D.On(double,double,double).y'></a>
+
+`y` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The Y coordinate of the point to check\.
+
+<a name='DiGi.Geometry.Planar.Classes.Segmentable2D.On(double,double,double).tolerance'></a>
 
 `tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
 

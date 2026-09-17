@@ -324,10 +324,17 @@ namespace DiGi.Geometry.Planar.Classes
                 return true;
             }
 
-            bool result = externalEdge.On(point2D, tolerance);
+            // On the external ring is in range whether or not the face has holes - the hole loop below used to
+            // replace this answer with its own, so a point on the outline of a face with a hole was reported out
+            // of range (ZiolkowskiJakub/DiGi.Geometry#5).
+            if (externalEdge.On(point2D, tolerance))
+            {
+                return true;
+            }
+
             if (internalEdges == null || internalEdges.Count == 0)
             {
-                return result;
+                return false;
             }
 
             for (int i = 0; i < internalEdges.Count; i++)
