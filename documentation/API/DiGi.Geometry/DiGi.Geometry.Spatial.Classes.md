@@ -3960,7 +3960,9 @@ A [Plane](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Planar_
 
 ## Planar\<T\>\.Flip\(SpatialAxis, SpatialAxis\) Method
 
-Flips the orientation of the plane based on the specified primary and secondary axes\.
+Flips the orientation of the plane based on the specified primary and secondary axes, keeping the geometry where it is\.
+
+The 2D geometry is held in the plane's own axes, so flipping the plane alone would mirror or turn the geometry in space. The geometry is therefore re-expressed in the flipped axes, which reverses its winding as seen from the new normal, so that every 3D point stays where it was: a face flipped twice is the face it started as.
 
 ```csharp
 public bool Flip(DiGi.Geometry.Spatial.Enums.SpatialAxis prmiaryAxis=DiGi.Geometry.Spatial.Enums.SpatialAxis.Z, DiGi.Geometry.Spatial.Enums.SpatialAxis secondaryAxis=DiGi.Geometry.Spatial.Enums.SpatialAxis.X);

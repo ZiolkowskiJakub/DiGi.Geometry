@@ -1,6 +1,8 @@
+using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.Geometry.Spatial.Enums;
 using DiGi.Geometry.Spatial.Interfaces;
+using DiGi.Math.Classes;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -110,7 +112,8 @@ namespace DiGi.Geometry.Spatial.Classes
         }
 
         /// <summary>
-        /// Flips the orientation of the plane based on the specified primary and secondary axes.
+        /// Flips the orientation of the plane based on the specified primary and secondary axes, keeping the geometry where it is.
+        /// <para>The 2D geometry is held in the plane's own axes, so flipping the plane alone would mirror or turn the geometry in space. The geometry is therefore re-expressed in the flipped axes, which reverses its winding as seen from the new normal, so that every 3D point stays where it was: a face flipped twice is the face it started as.</para>
         /// </summary>
         /// <param name="prmiaryAxis">The <see cref="SpatialAxis"/> representing the primary axis for the flip operation.</param>
         /// <param name="secondaryAxis">The <see cref="SpatialAxis"/> representing the secondary axis for the flip operation.</param>
@@ -122,13 +125,34 @@ namespace DiGi.Geometry.Spatial.Classes
                 return false;
             }
 
-            bool result = plane.Flip(prmiaryAxis, secondaryAxis);
+            Vector3D? axisX_Before = plane.AxisX;
+            Vector3D? axisY_Before = plane.AxisY;
 
-            if (result)
+            if (!plane.Flip(prmiaryAxis, secondaryAxis))
             {
+                return false;
             }
 
-            return result;
+            if (geometry2D is null || axisX_Before is null || axisY_Before is null)
+            {
+                return true;
+            }
+
+            Vector3D? axisX_After = plane.AxisX;
+            Vector3D? axisY_After = plane.AxisY;
+            if (axisX_After is null || axisY_After is null)
+            {
+                return true;
+            }
+
+            // The origin does not move, so the new 2D coordinates of a point are its old ones projected onto the new axes.
+            Matrix3D matrix3D = Math.Create.Matrix3D.Identity();
+            matrix3D[0, 0] = axisX_Before * axisX_After;
+            matrix3D[0, 1] = axisY_Before * axisX_After;
+            matrix3D[1, 0] = axisX_Before * axisY_After;
+            matrix3D[1, 1] = axisY_Before * axisY_After;
+
+            return geometry2D.Transform(new Transform2D(matrix3D));
         }
 
         /// <summary>
