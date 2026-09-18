@@ -2054,6 +2054,45 @@ The [Planar&lt;T&gt;](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Cla
 [PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D')  
 A [PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D') if the conversion is successful; otherwise, null\.
 
+<a name='DiGi.Geometry.Spatial.Create.PolygonalFace3Ds(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Interfaces.IPolyhedron,double)'></a>
+
+## Create\.PolygonalFace3Ds\(this Plane, IPolyhedron, double\) Method
+
+Creates the cross\-section faces of a polyhedron on a plane \- the faces of the solid lying on the plane, with the ring nesting of the section preserved\.
+
+The section loops are assembled into [PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D') instances so that a loop enclosed by another loop becomes a hole of the enclosing face rather than a solid face of its own. Converting each loop of [PlanarIntersectionResult\(this Plane, IPolyhedron, double\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Create.PlanarIntersectionResult(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Interfaces.IPolyhedron,double) 'DiGi\.Geometry\.Spatial\.Create\.PlanarIntersectionResult\(this DiGi\.Geometry\.Spatial\.Classes\.Plane, DiGi\.Geometry\.Spatial\.Interfaces\.IPolyhedron, double\)') separately ([Convert&lt;TGeometry3D&gt;\(IGeometry3D\)](DiGi.Geometry.Spatial.md#DiGi.Geometry.Spatial.Query.Convert_TGeometry3D_(DiGi.Geometry.Spatial.Interfaces.IGeometry3D) 'DiGi\.Geometry\.Spatial\.Query\.Convert\<TGeometry3D\>\(DiGi\.Geometry\.Spatial\.Interfaces\.IGeometry3D\)')) fills such holes: the section of a courtyard building on a storey plane came back as a solid outer face plus a solid courtyard face, and every consumer downstream lost the courtyard.
+
+Which loops bound the solid is decided by nesting parity: a loop enclosed by an even number of other loops is the external edge of a face, its holes are the loops enclosed by it one level deeper, and a loop enclosed by an odd number of other loops is a hole only. A plane cutting a closed surface transversally leaves and enters the solid at every section loop, so the courtyard loop (enclosed once) is a hole while a solid nested in a void (enclosed twice) is a face of its own. The rule is purely planar - it holds for a shell that is not closed as well, where a point-in-polyhedron test would not.
+
+The loops are rebuilt from every segment of the section together with the edges of the faces of the polyhedron lying on the plane. Such a coplanar face interrupts the section loop running through it - the intersection reports the loop as open polylines on either side of the face - and closing the loop through the edges of the face is what keeps the section whole on a plane that touches a lower roof. The region of a coplanar face is never a section face: it is bounded by the face itself, which the polyhedron already carries, so its loop is left out of the faces and only serves as a hole where the face lies inside the section. A section without nested loops and without coplanar faces yields one solid face per loop, exactly as the separate conversion did.
+
+```csharp
+public static System.Collections.Generic.List<DiGi.Geometry.Spatial.Classes.PolygonalFace3D>? PolygonalFace3Ds(this DiGi.Geometry.Spatial.Classes.Plane? plane, DiGi.Geometry.Spatial.Interfaces.IPolyhedron? polyhedron, double tolerance=1E-06);
+```
+#### Parameters
+
+<a name='DiGi.Geometry.Spatial.Create.PolygonalFace3Ds(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Interfaces.IPolyhedron,double).plane'></a>
+
+`plane` [Plane](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Plane 'DiGi\.Geometry\.Spatial\.Classes\.Plane')
+
+The [Plane](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.Plane 'DiGi\.Geometry\.Spatial\.Classes\.Plane') cutting the polyhedron\.
+
+<a name='DiGi.Geometry.Spatial.Create.PolygonalFace3Ds(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Interfaces.IPolyhedron,double).polyhedron'></a>
+
+`polyhedron` [DiGi\.Geometry\.Spatial\.Interfaces\.IPolyhedron](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolyhedron 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolyhedron')
+
+The [DiGi\.Geometry\.Spatial\.Interfaces\.IPolyhedron](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.interfaces.ipolyhedron 'DiGi\.Geometry\.Spatial\.Interfaces\.IPolyhedron') to be cut\.
+
+<a name='DiGi.Geometry.Spatial.Create.PolygonalFace3Ds(thisDiGi.Geometry.Spatial.Classes.Plane,DiGi.Geometry.Spatial.Interfaces.IPolyhedron,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+A [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double') value representing the distance tolerance for intersection calculations\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A [System\.Collections\.Generic\.List&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1') of [PolygonalFace3D](DiGi.Geometry.Spatial.Classes.md#DiGi.Geometry.Spatial.Classes.PolygonalFace3D 'DiGi\.Geometry\.Spatial\.Classes\.PolygonalFace3D') section faces, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if either input is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') or the plane does not cut the polyhedron\.
+
 <a name='DiGi.Geometry.Spatial.Create.PolygonalFace3Ds_TPolygonalFace3D_(DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_)'></a>
 
 ## Create\.PolygonalFace3Ds\<TPolygonalFace3D\>\(Polyhedron\<TPolygonalFace3D\>\) Method

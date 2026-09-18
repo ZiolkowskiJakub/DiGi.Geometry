@@ -291,11 +291,13 @@ namespace DiGi.Geometry.Spatial
                 return false;
             }
 
-            PlanarIntersectionResult? planarIntersectionResult = Create.PlanarIntersectionResult(plane, polyhedron, tolerance);
-            if (planarIntersectionResult is null || !planarIntersectionResult.Any() || planarIntersectionResult.GetGeometry3Ds<IPolygonalFace3D>() is not List<IPolygonalFace3D> polygonalFace3Ds_Plane || polygonalFace3Ds_Plane.Count == 0)
+            // Section faces keep the ring nesting of the cut, so a loop enclosed by another loop (a courtyard, a void) becomes a hole of the cap rather than a solid cap of its own
+            if (Create.PolygonalFace3Ds(plane, polyhedron, tolerance) is not List<PolygonalFace3D> polygonalFace3Ds_Section || polygonalFace3Ds_Section.Count == 0)
             {
                 return false;
             }
+
+            List<IPolygonalFace3D> polygonalFace3Ds_Plane = [.. polygonalFace3Ds_Section];
 
             List<IPolygonalFace3D> polygonalFace3Ds = [];
 
