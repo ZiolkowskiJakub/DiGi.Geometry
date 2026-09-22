@@ -46,6 +46,7 @@ namespace DiGi.Geometry.Spatial
         /// The operation is deliberately defensive, because it runs on measured data feeding a 3D view.
         /// <para>A triangle carrying a not-a-number corner is dropped, an invalid or self-intersecting cutting polygon is repaired (<see cref="GeometryFixer"/>) rather than rejected, and a cutting polygon smaller than the tolerance is ignored.</para>
         /// <para>A triangle with no plan area (a vertical one) is passed on exactly as it came in: no plan view polygon can take anything away from it and no elevation can be interpolated across it, so dropping it would leave a gap for no reason. A triangle whose subtraction fails on a topology error, or whose remainder cannot be triangulated, is passed on for the same reason - a stray triangle inside one building is a far smaller defect than a hole in the ground around it. Either way the failure costs that one triangle and never the surface around it.</para>
+        /// <para>The resulting triangles are normalised to positive Z winding, so a surface that was consistently up-facing stays up-facing after the cut. The triangulation of the clipped remainder does not preserve the winding of the triangle it was cut from, and without the normalisation a height field would come back with some triangles facing down.</para>
         /// </remarks>
         /// <param name="mesh3D">The mesh to cut. This value can be null.</param>
         /// <param name="polygons">The polygons to cut out, in the plan view (X, Y) coordinates of the mesh. This value can be null.</param>
@@ -457,6 +458,26 @@ namespace DiGi.Geometry.Spatial
             if (triangle3Ds.Count == 0)
             {
                 return null;
+            }
+
+            // The triangulation of the clipped remainder does not preserve the winding of the triangle
+            // it was cut from, so a surface that was consistently up-facing comes back with some triangles
+            // facing down. Normalising the winding to positive Z restores the convention the surface was
+            // built with, which is what the 3D view expects of a terrain surface.
+            foreach (Triangle3D triangle3D in triangle3Ds)
+            {
+                List<Point3D>? points = triangle3D.GetPoints();
+                if (points is null || points.Count != 3)
+                {
+                    continue;
+                }
+
+                Point3D p0 = points[0], p1 = points[1], p2 = points[2];
+                double nz = (p1.X - p0.X) * (p2.Y - p0.Y) - (p1.Y - p0.Y) * (p2.X - p0.X);
+                if (nz < 0)
+                {
+                    triangle3D.Inverse();
+                }
             }
 
             return Create.Mesh3D(triangle3Ds, tolerance);

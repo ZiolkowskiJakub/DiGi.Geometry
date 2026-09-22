@@ -5456,6 +5456,8 @@ A triangle carrying a not-a-number corner is dropped, an invalid or self-interse
 
 A triangle with no plan area (a vertical one) is passed on exactly as it came in: no plan view polygon can take anything away from it and no elevation can be interpolated across it, so dropping it would leave a gap for no reason. A triangle whose subtraction fails on a topology error, or whose remainder cannot be triangulated, is passed on for the same reason - a stray triangle inside one building is a far smaller defect than a hole in the ground around it. Either way the failure costs that one triangle and never the surface around it.
 
+The resulting triangles are normalised to positive Z winding, so a surface that was consistently up-facing stays up-facing after the cut. The triangulation of the clipped remainder does not preserve the winding of the triangle it was cut from, and without the normalisation a height field would come back with some triangles facing down.
+
 <a name='DiGi.Geometry.Spatial.Query.Difference_TPolygonalFace3D_(thisDiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,DiGi.Geometry.Spatial.Classes.Polyhedron_TPolygonalFace3D_,double)'></a>
 
 ## Query\.Difference\<TPolygonalFace3D\>\(this Polyhedron\<TPolygonalFace3D\>, Polyhedron\<TPolygonalFace3D\>, double\) Method
