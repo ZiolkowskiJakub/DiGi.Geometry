@@ -11,10 +11,12 @@ namespace DiGi.Geometry.Planar
     {
         /// <summary>
         /// Computes the geometric union of a collection of 2D polygonal faces.
+        /// <para>When NetTopologySuite throws a <c>TopologyException</c> during the union, the operation is retried with snap-rounding at a grid size given by <paramref name="tolerance"/> (vertices move by at most the grid size); <c>null</c> is returned only when that fallback fails as well. Any other exception propagates to the caller.</para>
         /// </summary>
         /// <param name="polygonalFace2Ds">The collection of polygonal faces to be unioned.</param>
+        /// <param name="tolerance">The snap-rounding grid size applied when the default full-precision union fails with a <c>TopologyException</c>.</param>
         /// <returns>A list containing the resulting unioned polygonal faces, or <c>null</c> if the input is null or no result could be produced.</returns>
-        public static List<PolygonalFace2D>? Union(this IEnumerable<IPolygonalFace2D>? polygonalFace2Ds)
+        public static List<PolygonalFace2D>? Union(this IEnumerable<IPolygonalFace2D>? polygonalFace2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygonalFace2Ds == null)
             {
@@ -33,7 +35,7 @@ namespace DiGi.Geometry.Planar
                 polygons.Add(polygon);
             }
 
-            polygons = Union(polygons);
+            polygons = Union(polygons, tolerance);
 
             if (polygons == null)
             {
@@ -82,10 +84,12 @@ namespace DiGi.Geometry.Planar
 
         /// <summary>
         /// Calculates the geometric union of a collection of polygons.
+        /// <para>When <c>UnaryUnionOp</c> throws a <c>TopologyException</c>, the union is retried with snap-rounding (<c>OverlayNG</c> at a fixed precision derived from <paramref name="tolerance"/>, moving vertices by at most the grid size); <c>null</c> is returned only when that fallback fails as well. Any other exception propagates to the caller.</para>
         /// </summary>
         /// <param name="polygons">The collection of <see cref="Polygon"/> objects to unify.</param>
-        /// <returns>A list of <see cref="Polygon"/> objects representing the resulting union, or <c>null</c> if the input is null or an error occurs during processing.</returns>
-        public static List<Polygon>? Union(this IEnumerable<Polygon>? polygons)
+        /// <param name="tolerance">The snap-rounding grid size applied when the default full-precision union fails with a <c>TopologyException</c>.</param>
+        /// <returns>A list of <see cref="Polygon"/> objects representing the resulting union, or <c>null</c> if the input is null or the union could not be computed.</returns>
+        public static List<Polygon>? Union(this IEnumerable<Polygon>? polygons, double tolerance = DiGi.Core.Constants.Tolerance.Distance)
         {
             if (polygons == null)
                 return null;
@@ -156,9 +160,18 @@ namespace DiGi.Geometry.Planar
             {
                 geometry = NetTopologySuite.Operation.Union.UnaryUnionOp.Union(validPolygons);
             }
-            catch
+            catch (TopologyException)
             {
-                return null;
+                // Snap-rounding fallback: a fixed-precision OverlayNG union retries the operation on a
+                // grid of size tolerance (vertices move by at most the grid size), which resolves the robustness error.
+                try
+                {
+                    geometry = NetTopologySuite.Operation.OverlayNG.UnaryUnionNG.Union(validPolygons, new PrecisionModel(1.0 / tolerance));
+                }
+                catch (TopologyException)
+                {
+                    return null;
+                }
             }
 
             if (geometry == null || geometry.IsEmpty)
@@ -198,11 +211,13 @@ namespace DiGi.Geometry.Planar
 
         /// <summary>
         /// Calculates the union of a collection of polygonal geometries.
+        /// <para>When NetTopologySuite throws a <c>TopologyException</c> during the union, the operation is retried with snap-rounding at a grid size given by <paramref name="tolerance"/> (vertices move by at most the grid size); <c>null</c> is returned only when that fallback fails as well. Any other exception propagates to the caller.</para>
         /// </summary>
         /// <typeparam name="TPolygonal2D">The type of polygonal geometry, which must implement <see cref="IPolygonal2D"/>.</typeparam>
         /// <param name="polygonal2Ds">A collection of polygonal geometries to be united.</param>
-        /// <returns>A list of <see cref="Polygon2D"/> objects representing the unioned result, or <see langword="null"/> if the input collection is null.</returns>
-        public static List<Polygon2D>? Union<TPolygonal2D>(this IEnumerable<TPolygonal2D>? polygonal2Ds) where TPolygonal2D : IPolygonal2D
+        /// <param name="tolerance">The snap-rounding grid size applied when the default full-precision union fails with a <c>TopologyException</c>.</param>
+        /// <returns>A list of <see cref="Polygon2D"/> objects representing the unioned result, or <see langword="null"/> if the input collection is null or the union could not be computed.</returns>
+        public static List<Polygon2D>? Union<TPolygonal2D>(this IEnumerable<TPolygonal2D>? polygonal2Ds, double tolerance = DiGi.Core.Constants.Tolerance.Distance) where TPolygonal2D : IPolygonal2D
         {
             if (polygonal2Ds == null)
             {
@@ -236,7 +251,7 @@ namespace DiGi.Geometry.Planar
                 polygons.Add(polygon);
             }
 
-            polygons = Union(polygons);
+            polygons = Union(polygons, tolerance);
             if (polygons == null)
             {
                 return null;

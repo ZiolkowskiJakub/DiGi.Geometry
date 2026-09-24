@@ -9311,76 +9311,100 @@ A list of [PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar
 ### Remarks
 The computation is delegated to [UnionResult2D\(this IPolygonalFace2D, IPolygonalFace2D\)](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Create.UnionResult2D(thisDiGi.Geometry.Planar.Interfaces.IPolygonalFace2D,DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D) 'DiGi\.Geometry\.Planar\.Create\.UnionResult2D\(this DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D, DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D\)'); the polygonal faces of the result are returned\.
 
-<a name='DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_)'></a>
+<a name='DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double)'></a>
 
-## Query\.Union\(this IEnumerable\<IPolygonalFace2D\>\) Method
+## Query\.Union\(this IEnumerable\<IPolygonalFace2D\>, double\) Method
 
 Computes the geometric union of a collection of 2D polygonal faces\.
 
+When NetTopologySuite throws a `TopologyException` during the union, the operation is retried with snap-rounding at a grid size given by [tolerance](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double).tolerance 'DiGi\.Geometry\.Planar\.Query\.Union\(this System\.Collections\.Generic\.IEnumerable\<DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D\>, double\)\.tolerance') (vertices move by at most the grid size); `null` is returned only when that fallback fails as well. Any other exception propagates to the caller.
+
 ```csharp
-public static System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.PolygonalFace2D>? Union(this System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D>? polygonalFace2Ds);
+public static System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.PolygonalFace2D>? Union(this System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D>? polygonalFace2Ds, double tolerance=1E-06);
 ```
 #### Parameters
 
-<a name='DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_).polygonalFace2Ds'></a>
+<a name='DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double).polygonalFace2Ds'></a>
 
 `polygonalFace2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[IPolygonalFace2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonalFace2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
 
 The collection of polygonal faces to be unioned\.
 
+<a name='DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Interfaces.IPolygonalFace2D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The snap\-rounding grid size applied when the default full\-precision union fails with a `TopologyException`\.
+
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A list containing the resulting unioned polygonal faces, or `null` if the input is null or no result could be produced\.
 
-<a name='DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_Polygon_)'></a>
+<a name='DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_Polygon_,double)'></a>
 
-## Query\.Union\(this IEnumerable\<Polygon\>\) Method
+## Query\.Union\(this IEnumerable\<Polygon\>, double\) Method
 
 Calculates the geometric union of a collection of polygons\.
 
+When `UnaryUnionOp` throws a `TopologyException`, the union is retried with snap-rounding (`OverlayNG` at a fixed precision derived from [tolerance](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_Polygon_,double).tolerance 'DiGi\.Geometry\.Planar\.Query\.Union\(this System\.Collections\.Generic\.IEnumerable\<Polygon\>, double\)\.tolerance'), moving vertices by at most the grid size); `null` is returned only when that fallback fails as well. Any other exception propagates to the caller.
+
 ```csharp
-public static System.Collections.Generic.List<Polygon>? Union(this System.Collections.Generic.IEnumerable<Polygon>? polygons);
+public static System.Collections.Generic.List<Polygon>? Union(this System.Collections.Generic.IEnumerable<Polygon>? polygons, double tolerance=1E-06);
 ```
 #### Parameters
 
-<a name='DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_Polygon_).polygons'></a>
+<a name='DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_Polygon_,double).polygons'></a>
 
 `polygons` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[NetTopologySuite\.Geometries\.Polygon](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.polygon 'NetTopologySuite\.Geometries\.Polygon')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
 
 The collection of [NetTopologySuite\.Geometries\.Polygon](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.polygon 'NetTopologySuite\.Geometries\.Polygon') objects to unify\.
 
+<a name='DiGi.Geometry.Planar.Query.Union(thisSystem.Collections.Generic.IEnumerable_Polygon_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The snap\-rounding grid size applied when the default full\-precision union fails with a `TopologyException`\.
+
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[NetTopologySuite\.Geometries\.Polygon](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.polygon 'NetTopologySuite\.Geometries\.Polygon')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
-A list of [NetTopologySuite\.Geometries\.Polygon](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.polygon 'NetTopologySuite\.Geometries\.Polygon') objects representing the resulting union, or `null` if the input is null or an error occurs during processing\.
+A list of [NetTopologySuite\.Geometries\.Polygon](https://learn.microsoft.com/en-us/dotnet/api/nettopologysuite.geometries.polygon 'NetTopologySuite\.Geometries\.Polygon') objects representing the resulting union, or `null` if the input is null or the union could not be computed\.
 
-<a name='DiGi.Geometry.Planar.Query.Union_TPolygonal2D_(thisSystem.Collections.Generic.IEnumerable_TPolygonal2D_)'></a>
+<a name='DiGi.Geometry.Planar.Query.Union_TPolygonal2D_(thisSystem.Collections.Generic.IEnumerable_TPolygonal2D_,double)'></a>
 
-## Query\.Union\<TPolygonal2D\>\(this IEnumerable\<TPolygonal2D\>\) Method
+## Query\.Union\<TPolygonal2D\>\(this IEnumerable\<TPolygonal2D\>, double\) Method
 
 Calculates the union of a collection of polygonal geometries\.
 
+When NetTopologySuite throws a `TopologyException` during the union, the operation is retried with snap-rounding at a grid size given by [tolerance](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Query.Union_TPolygonal2D_(thisSystem.Collections.Generic.IEnumerable_TPolygonal2D_,double).tolerance 'DiGi\.Geometry\.Planar\.Query\.Union\<TPolygonal2D\>\(this System\.Collections\.Generic\.IEnumerable\<TPolygonal2D\>, double\)\.tolerance') (vertices move by at most the grid size); `null` is returned only when that fallback fails as well. Any other exception propagates to the caller.
+
 ```csharp
-public static System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Polygon2D>? Union<TPolygonal2D>(this System.Collections.Generic.IEnumerable<TPolygonal2D>? polygonal2Ds)
+public static System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.Polygon2D>? Union<TPolygonal2D>(this System.Collections.Generic.IEnumerable<TPolygonal2D>? polygonal2Ds, double tolerance=1E-06)
     where TPolygonal2D : DiGi.Geometry.Planar.Interfaces.IPolygonal2D;
 ```
 #### Type parameters
 
-<a name='DiGi.Geometry.Planar.Query.Union_TPolygonal2D_(thisSystem.Collections.Generic.IEnumerable_TPolygonal2D_).TPolygonal2D'></a>
+<a name='DiGi.Geometry.Planar.Query.Union_TPolygonal2D_(thisSystem.Collections.Generic.IEnumerable_TPolygonal2D_,double).TPolygonal2D'></a>
 
 `TPolygonal2D`
 
 The type of polygonal geometry, which must implement [IPolygonal2D](DiGi.Geometry.Planar.Interfaces.md#DiGi.Geometry.Planar.Interfaces.IPolygonal2D 'DiGi\.Geometry\.Planar\.Interfaces\.IPolygonal2D')\.
 #### Parameters
 
-<a name='DiGi.Geometry.Planar.Query.Union_TPolygonal2D_(thisSystem.Collections.Generic.IEnumerable_TPolygonal2D_).polygonal2Ds'></a>
+<a name='DiGi.Geometry.Planar.Query.Union_TPolygonal2D_(thisSystem.Collections.Generic.IEnumerable_TPolygonal2D_,double).polygonal2Ds'></a>
 
-`polygonal2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[TPolygonal2D](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Query.Union_TPolygonal2D_(thisSystem.Collections.Generic.IEnumerable_TPolygonal2D_).TPolygonal2D 'DiGi\.Geometry\.Planar\.Query\.Union\<TPolygonal2D\>\(this System\.Collections\.Generic\.IEnumerable\<TPolygonal2D\>\)\.TPolygonal2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+`polygonal2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[TPolygonal2D](DiGi.Geometry.Planar.md#DiGi.Geometry.Planar.Query.Union_TPolygonal2D_(thisSystem.Collections.Generic.IEnumerable_TPolygonal2D_,double).TPolygonal2D 'DiGi\.Geometry\.Planar\.Query\.Union\<TPolygonal2D\>\(this System\.Collections\.Generic\.IEnumerable\<TPolygonal2D\>, double\)\.TPolygonal2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
 
 A collection of polygonal geometries to be united\.
 
+<a name='DiGi.Geometry.Planar.Query.Union_TPolygonal2D_(thisSystem.Collections.Generic.IEnumerable_TPolygonal2D_,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The snap\-rounding grid size applied when the default full\-precision union fails with a `TopologyException`\.
+
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
-A list of [Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D') objects representing the unioned result, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if the input collection is null\.
+A list of [Polygon2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.Polygon2D 'DiGi\.Geometry\.Planar\.Classes\.Polygon2D') objects representing the unioned result, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if the input collection is null or the union could not be computed\.
 
 <a name='DiGi.Geometry.Planar.Query.VerticalPosition(thisDiGi.Geometry.Planar.Classes.Segment2D,DiGi.Geometry.Planar.Classes.Point2D,double)'></a>
 
