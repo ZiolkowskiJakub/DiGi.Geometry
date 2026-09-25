@@ -11,10 +11,11 @@ namespace DiGi.Geometry.Planar
     {
         /// <summary>
         /// Calculates the intersection of two polygonal faces in 2D space.
+        /// <para>When the overlay throws a <c>TopologyException</c> - valid inputs can still fail it, e.g. a face with zero-area sliver holes left by a union ("found non-noded intersection") - the intersection is retried with <c>OverlayNGRobust</c>, which falls back from floating point through snapping to snap-rounding; <c>null</c> is returned only when that retry fails as well (ZiolkowskiJakub/DiGi.Geometry#9).</para>
         /// </summary>
         /// <param name="polygonalFace2D_1">The first polygonal face to intersect.</param>
         /// <param name="polygonalFace2D_2">The second polygonal face to intersect.</param>
-        /// <returns>A list of <see cref="PolygonalFace2D"/> objects representing the intersection area, or <c>null</c> if either input is null or cannot be converted for processing.</returns>
+        /// <returns>A list of <see cref="PolygonalFace2D"/> objects representing the intersection area, or <c>null</c> if either input is null, cannot be converted for processing, or the overlay fails even with the robust retry.</returns>
         public static List<PolygonalFace2D>? Intersection(this PolygonalFace2D? polygonalFace2D_1, PolygonalFace2D? polygonalFace2D_2)
         {
             if (polygonalFace2D_1 == null || polygonalFace2D_2 == null)
@@ -70,6 +71,17 @@ namespace DiGi.Geometry.Planar
             try
             {
                 geometry = geometry_1.Intersection(geometry_2);
+            }
+            catch (TopologyException)
+            {
+                try
+                {
+                    geometry = NetTopologySuite.Operation.OverlayNG.OverlayNGRobust.Overlay(geometry_1, geometry_2, NetTopologySuite.Operation.Overlay.SpatialFunction.Intersection);
+                }
+                catch
+                {
+                    return null;
+                }
             }
             catch
             {

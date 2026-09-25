@@ -6013,6 +6013,8 @@ A list containing the resulting intersection polygons, or null if no intersectio
 
 Calculates the intersection of two polygonal faces in 2D space\.
 
+When the overlay throws a `TopologyException` - valid inputs can still fail it, e.g. a face with zero-area sliver holes left by a union ("found non-noded intersection") - the intersection is retried with `OverlayNGRobust`, which falls back from floating point through snapping to snap-rounding; `null` is returned only when that retry fails as well (ZiolkowskiJakub/DiGi.Geometry#9).
+
 ```csharp
 public static System.Collections.Generic.List<DiGi.Geometry.Planar.Classes.PolygonalFace2D>? Intersection(this DiGi.Geometry.Planar.Classes.PolygonalFace2D? polygonalFace2D_1, DiGi.Geometry.Planar.Classes.PolygonalFace2D? polygonalFace2D_2);
 ```
@@ -6032,7 +6034,7 @@ The second polygonal face to intersect\.
 
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
-A list of [PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D') objects representing the intersection area, or `null` if either input is null or cannot be converted for processing\.
+A list of [PolygonalFace2D](DiGi.Geometry.Planar.Classes.md#DiGi.Geometry.Planar.Classes.PolygonalFace2D 'DiGi\.Geometry\.Planar\.Classes\.PolygonalFace2D') objects representing the intersection area, or `null` if either input is null, cannot be converted for processing, or the overlay fails even with the robust retry\.
 
 <a name='DiGi.Geometry.Planar.Query.Intersection(thisSystem.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Polygon2D_,double)'></a>
 
